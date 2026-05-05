@@ -1,0 +1,13 @@
+# Python
+__pycache__/
+*.pyc
+
+# 虚拟环境
+AutoAugumentProject/
+venv/
+
+# PyCharm
+.idea/
+
+# 其他
+*.log

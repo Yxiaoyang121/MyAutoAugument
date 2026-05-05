@@ -8,7 +8,7 @@ from AugumentMethods import apply_mechanical_deviation
 # OpenCV 默认 BGR，Matplotlib 绘图需要 RGB
 img_bgr = cv2.imread('../ImageSourceTest/boli.bmp')
 if img_bgr is None:
-    print("未找到图片！")
+    print("未找到图片！！！")
 else:
     img_rgb = cv2.cvtColor(img_bgr, cv2.COLOR_BGR2RGB)
 

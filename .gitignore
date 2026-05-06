@@ -1,4 +1,4 @@
-# Python
+# 缓存文件
 __pycache__/
 *.pyc
 
@@ -6,8 +6,9 @@ __pycache__/
 AutoAugumentProject/
 venv/
 
-# PyCharm
+# 编辑器配置
 .idea/
 
-# 其他
+# 运行输出
 *.log
+outputs/

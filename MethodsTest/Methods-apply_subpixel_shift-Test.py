@@ -1,64 +1,47 @@
+from __future__ import annotations
+
+import argparse
+import sys
+from pathlib import Path
+
 import cv2
-import matplotlib.pyplot as plt
 import numpy as np
 
-from AugumentMethods import apply_mechanical_deviation
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
 
-# 1. 加载图像并转换颜色空间
-# OpenCV 默认 BGR，Matplotlib 绘图需要 RGB
-img_bgr = cv2.imread('../ImageSourceTest/boli.bmp')
-if img_bgr is None:
-    print("未找到图片！！！！！")
-else:
-    img_rgb = cv2.cvtColor(img_bgr, cv2.COLOR_BGR2RGB)
+from src.AugumentMethods import apply_mechanical_deviation
+from src.utils.demo_data import create_demo_image
+from src.utils.paths import resolve_project_path
 
-    # 2. 应用你的亚像素位移方法
-    # 模拟一个微小的位移，比如 0.4 像素
-    # 这样计算 absdiff 时就不会有颜色空间冲突
-    augmented_bgr = apply_mechanical_deviation(img_bgr, 0.5, 0.5,0)
 
-    # 2. 为了 Matplotlib 显示，转换两个 RGB 副本
-    img_show_original = cv2.cvtColor(img_bgr, cv2.COLOR_BGR2RGB)
-    img_show_augmented = cv2.cvtColor(augmented_bgr, cv2.COLOR_BGR2RGB)
+def parse_args() -> argparse.Namespace:
+    """解析亚像素位移测试参数。"""
+    parser = argparse.ArgumentParser(description="亚像素位移增强测试")
+    parser.add_argument("--image", type=str, default=None, help="项目根目录下的输入图片相对路径")
+    parser.add_argument("--output", type=str, default=None, help="项目根目录下的输出图片相对路径")
+    parser.add_argument("--dx", type=float, default=0.5, help="水平方向位移")
+    parser.add_argument("--dy", type=float, default=0.5, help="垂直方向位移")
+    parser.add_argument("--angle", type=float, default=0.0, help="旋转角度")
+    parser.add_argument("--seed", type=int, default=42, help="合成示例图随机种子")
+    return parser.parse_args()
 
-    # 3. 使用 Matplotlib 创建对比窗口
-    fig, axes = plt.subplots(1, 2, figsize=(12, 6))
 
-    # 左侧：原始图
-    axes[0].imshow(img_show_original)
-    axes[0].set_title("Original (Integer Grid)")
-    axes[0].axis('on') # 显示坐标轴，方便看像素位置
+def main() -> None:
+    """运行亚像素位移增强测试。"""
+    args = parse_args()
+    image = cv2.imread(str(resolve_project_path(args.image)), cv2.IMREAD_COLOR) if args.image else create_demo_image(seed=args.seed)
+    if image is None:
+        raise FileNotFoundError(f"无法读取图像: {args.image}")
+    augmented = apply_mechanical_deviation(image, args.dx, args.dy, args.angle)
+    difference = cv2.absdiff(image, augmented)
+    if args.output:
+        output_path = resolve_project_path(args.output)
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        cv2.imwrite(str(output_path), augmented)
+    print(f"增强完成，平均灰度差异: {float(np.mean(difference)):.4f}")
 
-    # 右侧：增强图
-    axes[1].imshow(img_show_augmented)
-    axes[1].set_title("Sub-pixel Shifted (0.4 px)")
-    axes[1].axis('on')
 
-    # 启用交互功能
-    plt.tight_layout()
-    print("提示：点击窗口工具栏的『放大镜』图标，然后在图中拉框，可以查看边缘的插值灰度过渡。")
-    plt.show()
-
-    diff = cv2.absdiff(img_bgr, augmented_bgr)
-
-    mean_diff = np.mean(diff)
-    print(f"位移像素时，平均灰度改变了: {mean_diff:.4f}")
-
-    # 为了让肉眼看清，把差异放大 10 倍
-    cv2.namedWindow("Difference (x10 Enhanced)", cv2.WINDOW_NORMAL)
-    cv2.resizeWindow("Difference (x10 Enhanced)", 800, 300)
-    diff_enhanced = cv2.multiply(diff, 10)
-    # cv2.imshow("Difference (x10 Enhanced)", diff_enhanced)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
-
-    # 保存增强后的图像
-    # 第一个参数是文件名，第二个参数是 BGR 格式的图像矩阵
-    # cv2.imwrite('original_save.bmp', img_bgr)
-    cv2.imwrite('augmented_save.bmp', augmented_bgr)
-
-    # 如果想保存差异图（查看增强效果）
-    diff = cv2.absdiff(img_bgr, augmented_bgr)
-    # cv2.imwrite('difference_save.bmp', cv2.multiply(diff, 10))  # 放大10倍保存
-
-    print("图像已通过 OpenCV 成功保存。")
+if __name__ == "__main__":
+    main()

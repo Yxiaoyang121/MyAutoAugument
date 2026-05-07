@@ -1,83 +1,97 @@
-# MyAutoAugument
+# AutoAugment for Industrial Object Detection
 
-MyAutoAugument 是一个面向工业图像数据集的自动增强框架，支持模块化增强算子、策略组合、轻量模型评估和基于反馈的进化搜索。
+这是一个面向工业视觉目标检测的数据增强框架，统一支持 YOLO / COCO / VOC 标注格式，并以 `sample -> sample` 作为唯一增强接口。
 
-## 架构摘要
-
-```text
-src/
-  augmentations/   核心增强算子与注册表
-  policies/        增强策略定义、随机采样、交叉与变异
-  models/          轻量评估模型与策略评分器
-  search/          进化搜索与反馈优化闭环
-  utils/           图像校验、随机种子、数据集、路径和演示数据工具
-```
-
-## 核心能力
-
-- 统一增强接口：`apply(image, params)`
-- 11 个标准增强算子：亮度、对比度、模糊、高斯噪声、旋转、翻转、平移、透视变换、伽马校正、饱和度、反光/光照变化
-- 策略表达：每个策略由多个增强步骤组成，每步包含算子名、执行概率、强度和附加参数
-- 策略搜索：内置简单进化搜索，支持种群初始化、精英保留、交叉、变异和固定种子
-- 反馈闭环：策略 → 增强训练集 → 轻量模型训练 → 验证准确率 → 更新策略
-- 兼容旧接口：`src/AugumentMethods.py` 保留旧函数名，便于已有脚本迁移
-
-## 快速开始
-
-安装依赖：
-
-```bash
-pip install -r requirements.txt
-```
-
-运行增强示例：
-
-```bash
-python examples/AugumentMethodsTest.py
-```
-
-运行策略搜索闭环：
-
-```bash
-python examples/run_policy_search.py --generations 3 --population-size 6 --seed 42
-```
-
-运行测试：
-
-```bash
-pytest
-```
-
-## 策略示例
+## 核心数据结构
 
 ```python
-from src.policies.policy import AugmentationStep, Policy
-
-policy = Policy(
-    [
-        AugmentationStep("brightness", probability=0.5, strength=0.8),
-        AugmentationStep("blur", probability=0.3, strength=0.2),
-    ]
-)
+sample = {
+    "image": image,
+    "bboxes": bboxes,
+    "labels": labels,
+}
 ```
 
-## 优化闭环
+- `image`: `numpy.ndarray(H, W, C)`
+- `bboxes`: `numpy.ndarray(N, 4)`，统一使用 `xyxy` 格式
+- `labels`: `numpy.ndarray(N)`
 
-1. `policies` 随机生成或接收初始增强策略。
-2. `augmentations` 根据策略概率和强度处理训练图像。
-3. `models` 使用增强后的训练集训练轻量最近质心分类器。
-4. 验证集准确率作为当前策略奖励分数。
-5. `search` 保留高分策略，并通过交叉、变异生成下一代策略。
-6. 多轮迭代后输出最佳策略和搜索历史。
-
-## 数据集格式
-
-真实数据可按类别分目录组织，并通过 `src.utils.dataset.load_image_folder` 读取。传入路径应使用相对项目根目录的路径。
+## 项目结构
 
 ```text
-dataset/
-  class_a/
-    image_001.png
-  class_b/
-    image_002.png
+AutoAugment/
+  transforms/
+    geometric/      水平翻转、垂直翻转、旋转、平移、缩放、随机裁剪
+    color/          颜色增强预留模块
+    blur/           模糊增强预留模块
+    noise/          噪声增强预留模块
+  bbox/
+    affine.py       bbox 四角点仿射变换
+    clip.py         bbox 越界裁剪与合法性过滤
+    convert.py      YOLO / COCO / VOC 与 xyxy 转换
+    iou.py          bbox IoU
+  formats/
+    yolo.py         YOLO txt 读写
+    coco.py         COCO annotation 与 sample 转换
+    voc.py          VOC XML 读取
+  pipelines/
+    compose.py      检测增强流水线
+  visualize/
+    draw_bbox.py    bbox 可视化
+  datasets/
+    yolo_dataset.py YOLO 检测数据集读取
+    coco_dataset.py COCO 检测数据集读取
+```
+
+## 已实现增强
+
+- `HorizontalFlip`
+- `VerticalFlip`
+- `Rotate`
+- `Translate`
+- `Scale`
+- `RandomCrop`
+
+这些增强都会同步变换 bbox，并在增强后执行越界裁剪和合法性检查，过滤宽高或面积无效的 bbox。
+
+## 使用示例
+
+```python
+import numpy as np
+
+from AutoAugment.pipelines import Compose
+from AutoAugment.transforms.geometric import HorizontalFlip, Rotate, Translate
+
+sample = {
+    "image": np.zeros((640, 640, 3), dtype=np.uint8),
+    "bboxes": np.asarray([[100, 120, 240, 260]], dtype=np.float32),
+    "labels": np.asarray([1], dtype=np.int64),
+}
+
+pipeline = Compose(
+    [
+        HorizontalFlip(probability=0.5),
+        Rotate(angle_range=(-5, 5), probability=0.5),
+        Translate(dx_range=(-0.05, 0.05), dy_range=(-0.05, 0.05), probability=0.5),
+    ],
+    seed=42,
+)
+
+augmented = pipeline(sample)
+```
+
+## 设计原则
+
+- 不包含分类训练流程
+- 不使用 ImageFolder
+- 不使用 `(image, class_id)` 单标签结构
+- 所有增强输入输出均为目标检测 `sample`
+- 所有 bbox 均为 `xyxy`
+- 数据集路径必须是相对项目根目录的路径
+- 随机增强支持固定 seed，便于复现
+
+## 验证
+
+```bash
+pytest -q
 ```

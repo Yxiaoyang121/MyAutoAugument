@@ -80,6 +80,45 @@ pipeline = Compose(
 augmented = pipeline(sample)
 ```
 
+## 单图调试
+
+`demo/` 目录用于单张图像增强调试，支持读取 YOLO labels、保存增强图、保存增强后的 YOLO labels，并输出 bbox 可视化图。
+
+不传参数时会使用内置检测样本直接运行：
+
+```bash
+python demo/single_image_augment.py
+```
+
+读取真实 YOLO 图像和标签：
+
+```bash
+python demo/single_image_augment.py --image path/to/image.jpg --label path/to/image.txt --show
+```
+
+## 批量增强 YOLO 数据集
+
+`tools/` 目录用于批量增强 YOLO 数据集，内部使用 `Compose` pipeline。输出目录结构为：
+
+```text
+outputs/yolo_augmented/
+  images/
+  labels/
+  visualize/
+```
+
+不传参数时会创建一个最小 YOLO 示例数据集并直接增强：
+
+```bash
+python tools/augment_yolo_dataset.py --visualize
+```
+
+增强真实 YOLO 数据集：
+
+```bash
+python tools/augment_yolo_dataset.py --images-dir dataset/images --labels-dir dataset/labels --output-dir outputs/my_augmented --repeat 2 --visualize
+```
+
 ## 设计原则
 
 - 不包含分类训练流程

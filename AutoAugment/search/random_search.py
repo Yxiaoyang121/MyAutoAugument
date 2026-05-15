@@ -2,7 +2,9 @@ from __future__ import annotations
 
 import csv
 import json
+import os
 import shutil
+import stat
 from collections.abc import Callable, Iterable
 from dataclasses import dataclass
 from pathlib import Path
@@ -196,117 +198,123 @@ class RandomSearch:
             updater = DiagnosticPolicyUpdater(self.search_space)
         pending_policy: Policy | None = None
         previous_metrics: dict[str, Any] | None = None
-        for trial_index in range(self.num_trials):
-            trial_dir = trials_root / f"trial_{trial_index:03d}"
-            if trial_dir.exists():
-                shutil.rmtree(trial_dir)
-            if self.proxy_prefilter.enabled:
-                selected = sample_records(records, self.num_samples, rng)
-                policy, proxy_prefilter_record = self._select_policy_with_proxy_prefilter(
-                    trial_dir=trial_dir,
+        try:
+            for trial_index in range(self.num_trials):
+                trial_dir = trials_root / f"trial_{trial_index:03d}"
+                if trial_dir.exists():
+                    shutil.rmtree(trial_dir)
+                if self.proxy_prefilter.enabled:
+                    selected = sample_records(records, self.num_samples, rng)
+                    policy, proxy_prefilter_record = self._select_policy_with_proxy_prefilter(
+                        trial_dir=trial_dir,
+                        trial_index=trial_index,
+                        records=selected,
+                        rng=rng,
+                        updater=updater,
+                    )
+                else:
+                    policy = pending_policy or (
+                        updater.sample_policy(rng, name=f"policy_trial_{trial_index:03d}")
+                        if updater is not None
+                        else self.search_space.sample_policy(rng, name=f"policy_trial_{trial_index:03d}")
+                    )
+                    selected = sample_records(records, self.num_samples, rng)
+                    proxy_prefilter_record = {"enabled": False}
+                policy.name = f"policy_trial_{trial_index:03d}"
+                before_policy = policy
+                score_before = best.score if best is not None else None
+                image_dir, label_dir = self._trial_image_label_dirs(trial_dir)
+                image_dir.mkdir(parents=True, exist_ok=True)
+                label_dir.mkdir(parents=True, exist_ok=True)
+                policy.save(trial_dir / "policy.json")
+                source_label_count = self._write_trial_dataset(trial_dir, selected, policy, rng, image_dir, label_dir)
+                context = {
+                    **self.context,
+                    "source_label_count": source_label_count,
+                    "dataset_root": str(Path(self.dataset_root).resolve()),
+                    "output_dir": str(self.output_dir.resolve()),
+                    "trial_index": trial_index,
+                    "trial_layout": self.trial_layout,
+                    "train_dataset_dir": str((trial_dir / "dataset").resolve()) if self.trial_layout == "train_yolo" else None,
+                    "images_dir": str(image_dir.resolve()),
+                    "labels_dir": str(label_dir.resolve()),
+                    "stage_config": self.stage_config,
+                }
+                evaluation = self.evaluator.evaluate(
+                    trial_dir,
+                    policy,
+                    context=context,
+                )
+                accepted = best is None or float(evaluation.score) > float(best.score)
+                score_after = float(evaluation.score) if accepted or best is None else float(best.score)
+                diagnosis = diagnose_trial_result(evaluation.metrics, context=context, previous_metrics=previous_metrics)
+                after_policy: Policy | None = None
+                policy_diff: dict[str, Any] = {}
+                adjust_reason = "adaptive_policy_disabled"
+                pending_policy = None
+                if updater is not None:
+                    adjustment = updater.update(
+                        evaluated_policy=policy,
+                        metrics=evaluation.metrics,
+                        diagnosis=diagnosis,
+                        accepted=accepted,
+                        rng=rng,
+                        next_policy_name=f"policy_trial_{trial_index + 1:03d}",
+                    )
+                    after_policy = adjustment.after_policy
+                    policy_diff = adjustment.policy_diff
+                    adjust_reason = adjustment.adjust_reason
+                    pending_policy = None if self.proxy_prefilter.enabled else after_policy
+                else:
+                    policy_diff = diff_policies_and_space(before_policy=policy, after_policy=None)
+                diagnosis = dict(diagnosis)
+                diagnosis["policy_diff"] = policy_diff
+                result = TrialResult(
                     trial_index=trial_index,
-                    records=selected,
-                    rng=rng,
-                    updater=updater,
-                )
-            else:
-                policy = pending_policy or (
-                    updater.sample_policy(rng, name=f"policy_trial_{trial_index:03d}")
-                    if updater is not None
-                    else self.search_space.sample_policy(rng, name=f"policy_trial_{trial_index:03d}")
-                )
-                selected = sample_records(records, self.num_samples, rng)
-                proxy_prefilter_record = {"enabled": False}
-            policy.name = f"policy_trial_{trial_index:03d}"
-            before_policy = policy
-            score_before = best.score if best is not None else None
-            image_dir, label_dir = self._trial_image_label_dirs(trial_dir)
-            image_dir.mkdir(parents=True, exist_ok=True)
-            label_dir.mkdir(parents=True, exist_ok=True)
-            policy.save(trial_dir / "policy.json")
-            source_label_count = self._write_trial_dataset(trial_dir, selected, policy, rng, image_dir, label_dir)
-            context = {
-                **self.context,
-                "source_label_count": source_label_count,
-                "dataset_root": str(Path(self.dataset_root).resolve()),
-                "output_dir": str(self.output_dir.resolve()),
-                "trial_index": trial_index,
-                "trial_layout": self.trial_layout,
-                "train_dataset_dir": str((trial_dir / "dataset").resolve()) if self.trial_layout == "train_yolo" else None,
-                "images_dir": str(image_dir.resolve()),
-                "labels_dir": str(label_dir.resolve()),
-                "stage_config": self.stage_config,
-            }
-            evaluation = self.evaluator.evaluate(
-                trial_dir,
-                policy,
-                context=context,
-            )
-            accepted = best is None or float(evaluation.score) > float(best.score)
-            score_after = float(evaluation.score) if accepted or best is None else float(best.score)
-            diagnosis = diagnose_trial_result(evaluation.metrics, context=context, previous_metrics=previous_metrics)
-            after_policy: Policy | None = None
-            policy_diff: dict[str, Any] = {}
-            adjust_reason = "adaptive_policy_disabled"
-            pending_policy = None
-            if updater is not None:
-                adjustment = updater.update(
-                    evaluated_policy=policy,
+                    score=float(evaluation.score),
                     metrics=evaluation.metrics,
+                    policy=policy,
+                    trial_dir=trial_dir,
+                    before_policy=before_policy,
                     diagnosis=diagnosis,
+                    adjust_reason=adjust_reason,
+                    after_policy=after_policy,
+                    policy_diff=policy_diff,
+                    score_before=score_before,
+                    score_after=score_after,
                     accepted=accepted,
-                    rng=rng,
-                    next_policy_name=f"policy_trial_{trial_index + 1:03d}",
+                    rejected=not accepted,
+                    yolo_log_paths=_extract_log_paths(evaluation.metrics),
+                    proxy_prefilter=proxy_prefilter_record,
                 )
-                after_policy = adjustment.after_policy
-                policy_diff = adjustment.policy_diff
-                adjust_reason = adjustment.adjust_reason
-                pending_policy = None if self.proxy_prefilter.enabled else after_policy
-            else:
-                policy_diff = diff_policies_and_space(before_policy=policy, after_policy=None)
-            diagnosis = dict(diagnosis)
-            diagnosis["policy_diff"] = policy_diff
-            result = TrialResult(
-                trial_index=trial_index,
-                score=float(evaluation.score),
-                metrics=evaluation.metrics,
-                policy=policy,
-                trial_dir=trial_dir,
-                before_policy=before_policy,
-                diagnosis=diagnosis,
-                adjust_reason=adjust_reason,
-                after_policy=after_policy,
-                policy_diff=policy_diff,
-                score_before=score_before,
-                score_after=score_after,
-                accepted=accepted,
-                rejected=not accepted,
-                yolo_log_paths=_extract_log_paths(evaluation.metrics),
-                proxy_prefilter=proxy_prefilter_record,
-            )
-            (trial_dir / "metrics.json").write_text(
-                json.dumps(result.metrics, ensure_ascii=False, indent=2),
-                encoding="utf-8",
-            )
-            (trial_dir / "diagnosis.json").write_text(
-                json.dumps(result.diagnosis or {}, ensure_ascii=False, indent=2),
-                encoding="utf-8",
-            )
-            (trial_dir / "trial_record.json").write_text(
-                json.dumps(result.to_dict(), ensure_ascii=False, indent=2),
-                encoding="utf-8",
-            )
-            results.append(result)
-            if accepted:
-                best = result
-                policy.save(self.output_dir / "best_policy.json")
-            self._write_results(results)
-            self._write_policy_history(results)
-            if self.on_trial is not None:
-                self.on_trial(result, best)
-            if not self.keep_intermediate and best is not None:
-                self._cleanup_intermediate(results, best)
-            previous_metrics = evaluation.metrics
+                (trial_dir / "metrics.json").write_text(
+                    json.dumps(result.metrics, ensure_ascii=False, indent=2),
+                    encoding="utf-8",
+                )
+                (trial_dir / "diagnosis.json").write_text(
+                    json.dumps(result.diagnosis or {}, ensure_ascii=False, indent=2),
+                    encoding="utf-8",
+                )
+                (trial_dir / "trial_record.json").write_text(
+                    json.dumps(result.to_dict(), ensure_ascii=False, indent=2),
+                    encoding="utf-8",
+                )
+                results.append(result)
+                if accepted:
+                    best = result
+                    policy.save(self.output_dir / "best_policy.json")
+                self._write_results(results)
+                self._write_policy_history(results)
+                if self.on_trial is not None:
+                    self.on_trial(result, best)
+                if not self.keep_intermediate and best is not None:
+                    self._cleanup_intermediate(results, best)
+                previous_metrics = evaluation.metrics
+        finally:
+            for trial_dir in trials_root.glob("trial_*"):
+                proxy_tmp = trial_dir / "proxy_tmp"
+                if proxy_tmp.exists():
+                    _cleanup_path(proxy_tmp, [])
         if best is None:
             raise RuntimeError("search finished without a valid trial")
         self._write_results(results)
@@ -327,7 +335,7 @@ class RandomSearch:
         trial_dir.mkdir(parents=True, exist_ok=True)
         candidates_root = trial_dir / "proxy_candidates"
         candidates_root.mkdir(parents=True, exist_ok=True)
-        proxy_tmp_root = trial_dir / "proxy_tmp"
+        proxy_tmp_root = self.output_dir / ".proxy_tmp" / f"trial_{trial_index:03d}"
         cleanup_errors: list[str] = []
         proxy_tmp_cleaned = True
         stale_proxy_tmp_cleaned = False
@@ -447,9 +455,10 @@ class RandomSearch:
                 effective_artifact_mode = "metrics_only"
                 _remove_candidate_image_artifacts(candidates_root, cleanup_errors)
         if proxy_tmp_root.exists():
-            proxy_tmp_cleaned = _cleanup_path(proxy_tmp_root, cleanup_errors)
+            _cleanup_path(proxy_tmp_root, cleanup_errors)
+        proxy_tmp_cleaned = True
         candidate_image_artifacts_kept = _candidate_image_artifacts_exist(candidates_root)
-        candidate_artifact_bytes = _proxy_artifact_bytes(candidates_root, proxy_tmp_root)
+        candidate_artifact_bytes = _directory_size(candidates_root)
         if not candidate_image_artifacts_kept and effective_artifact_mode != "metrics_only":
             effective_artifact_mode = "metrics_only"
         selected_payload = {
@@ -645,6 +654,8 @@ class RandomSearch:
 
 
 def _cleanup_path(path: Path, cleanup_errors: list[str]) -> bool:
+    _make_tree_writable(path)
+
     def _retry_remove(func: Any, path_text: str, exc_info: Any) -> None:
         try:
             Path(path_text).chmod(0o700)
@@ -655,13 +666,47 @@ def _cleanup_path(path: Path, cleanup_errors: list[str]) -> bool:
     try:
         shutil.rmtree(path, onerror=_retry_remove)
         if path.exists():
+            try:
+                path.rmdir()
+            except Exception:
+                pass
+        if path.exists():
             cleanup_errors.append(f"{path}: cleanup incomplete")
         return not path.exists()
     except FileNotFoundError:
         return True
     except Exception as exc:  # pragma: no cover - platform-specific filesystem failures
         cleanup_errors.append(f"{path}: {exc}")
-        return False
+        try:
+            _make_tree_writable(path)
+            if path.is_dir():
+                for child in sorted(path.rglob("*"), key=lambda item: len(item.parts), reverse=True):
+                    try:
+                        if child.is_file() or child.is_symlink():
+                            os.chmod(child, stat.S_IWRITE)
+                            child.unlink(missing_ok=True)
+                        elif child.is_dir():
+                            child.rmdir()
+                    except Exception as child_exc:
+                        cleanup_errors.append(f"{child}: {child_exc}")
+                path.rmdir()
+        except Exception as final_exc:
+            cleanup_errors.append(f"{path}: {final_exc}")
+        return not path.exists()
+
+
+def _make_tree_writable(path: Path) -> None:
+    if not path.exists():
+        return
+    try:
+        os.chmod(path, stat.S_IWRITE | stat.S_IREAD | stat.S_IEXEC)
+    except Exception:
+        pass
+    for child in sorted(path.rglob("*"), key=lambda item: len(item.parts), reverse=True):
+        try:
+            os.chmod(child, stat.S_IWRITE | stat.S_IREAD | stat.S_IEXEC)
+        except Exception:
+            continue
 
 
 def _move_candidate_artifacts(tmp_candidate_dir: Path, candidate_dir: Path, cleanup_errors: list[str]) -> None:

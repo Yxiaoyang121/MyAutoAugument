@@ -12,6 +12,8 @@ if str(PROJECT_ROOT) not in sys.path:
 from AutoAugment.diagnostic_pipeline import (
     build_final_augmented_dataset,
     generate_candidate_policies,
+    append_strategy_memory,
+    memory_guided_rerank,
     run_baseline_training,
     run_error_diagnosis,
     run_final_training,
@@ -20,6 +22,7 @@ from AutoAugment.diagnostic_pipeline import (
     run_validation_prediction,
     write_dry_run_diagnosis,
     write_experiment_report,
+    write_metric_consistency_audit,
 )
 from AutoAugment.diagnostic_pipeline.common import write_json, write_markdown
 from AutoAugment.diagnostics.yolo_error_analysis import load_class_names_from_data_yaml
@@ -127,6 +130,15 @@ def main() -> None:
             class_names=class_names,
             match_iou=args.match_iou if args.match_iou is not None else args.iou,
         )
+    metric_audit = write_metric_consistency_audit(
+        output_dir=output / "metric_consistency",
+        baseline_record=baseline_record,
+        prediction_record=prediction_record,
+        diagnosis=diagnosis,
+        conf=args.conf,
+        iou=args.iou,
+        match_iou=args.match_iou if args.match_iou is not None else args.iou,
+    )
 
     policies_payload = generate_candidate_policies(
         diagnosis,
@@ -140,6 +152,12 @@ def main() -> None:
         seed=args.seed,
         proxy_samples=args.proxy_samples,
         dry_run=args.dry_run,
+        class_names=class_names,
+    )
+    proxy_payload = memory_guided_rerank(
+        diagnosis=diagnosis,
+        proxy_payload=proxy_payload,
+        output_dir=output / "strategy_memory",
     )
     short_payload = run_short_training_selector(
         proxy_payload=proxy_payload,
@@ -159,6 +177,14 @@ def main() -> None:
         dry_run=args.dry_run,
         skip_training=args.skip_short_train,
         timeout=args.timeout,
+    )
+    strategy_memory_record = append_strategy_memory(
+        diagnosis=diagnosis,
+        policies_payload=policies_payload,
+        proxy_payload=proxy_payload,
+        short_payload=short_payload,
+        output_dir=output / "strategy_memory",
+        dry_run=args.dry_run,
     )
     dataset_report = build_final_augmented_dataset(
         selected_policy=short_payload["selected_policy"],
@@ -191,7 +217,21 @@ def main() -> None:
         short_training_payload=short_payload,
         final_training_payload=final_payload,
     )
-    write_pipeline_summary(output, args, baseline_record, prediction_record, diagnosis, policies_payload, proxy_payload, short_payload, dataset_report, final_payload, report)
+    write_pipeline_summary(
+        output,
+        args,
+        baseline_record,
+        prediction_record,
+        diagnosis,
+        policies_payload,
+        proxy_payload,
+        short_payload,
+        dataset_report,
+        final_payload,
+        report,
+        metric_audit,
+        strategy_memory_record,
+    )
     print_plan(output, args)
 
 
@@ -271,6 +311,8 @@ def write_pipeline_summary(
     dataset_report: dict[str, Any],
     final_payload: dict[str, Any],
     report: dict[str, Any],
+    metric_audit: dict[str, Any],
+    strategy_memory_record: dict[str, Any],
 ) -> None:
     summary = {
         "dry_run": args.dry_run,
@@ -278,8 +320,10 @@ def write_pipeline_summary(
             "baseline": baseline_record.get("status"),
             "validation_prediction": prediction_record.get("status"),
             "diagnosis": diagnosis.get("status"),
+            "metric_consistency_audit": metric_audit.get("status"),
             "policy_mapping": policies_payload.get("status"),
             "proxy": proxy_payload.get("status"),
+            "strategy_memory": strategy_memory_record.get("status"),
             "short_training": short_payload.get("status"),
             "dataset_builder": dataset_report.get("status"),
             "final_training": final_payload.get("status"),
@@ -287,9 +331,14 @@ def write_pipeline_summary(
         },
         "key_outputs": {
             "diagnosis": str((output / "diagnosis" / "diagnosis.json").resolve()),
+            "metric_consistency_audit": str((output / "metric_consistency" / "metric_consistency_audit.md").resolve()),
             "candidate_policies": str((output / "policies" / "candidate_policies.json").resolve()),
+            "policy_update_report": str((output / "policies" / "policy_update_report.md").resolve()),
             "proxy_metrics": str((output / "proxy" / "proxy_metrics.json").resolve()),
             "proxy_ranking": str((output / "proxy" / "proxy_ranking.json").resolve()),
+            "copy_paste_filter_audit": str((output / "proxy" / "copy_paste_filter_audit.md").resolve()),
+            "memory_guided_ranking": str((output / "strategy_memory" / "memory_guided_ranking.json").resolve()),
+            "strategy_memory_report": str((output / "strategy_memory" / "strategy_memory_report.md").resolve()),
             "selected_policy": str((output / "short_training" / "selected_policy.json").resolve()),
             "dataset_build_report": str((output / "dataset_builder" / "dataset_build_report.json").resolve()),
             "experiment_summary": str((output / "report" / "experiment_summary.md").resolve()),
@@ -308,8 +357,12 @@ def write_pipeline_summary(
             "",
             "Key outputs:",
             f"- diagnosis.json: {summary['key_outputs']['diagnosis']}",
+            f"- metric_consistency_audit.md: {summary['key_outputs']['metric_consistency_audit']}",
             f"- candidate_policies.json: {summary['key_outputs']['candidate_policies']}",
+            f"- policy_update_report.md: {summary['key_outputs']['policy_update_report']}",
             f"- proxy_metrics.json: {summary['key_outputs']['proxy_metrics']}",
+            f"- copy_paste_filter_audit.md: {summary['key_outputs']['copy_paste_filter_audit']}",
+            f"- memory_guided_ranking.json: {summary['key_outputs']['memory_guided_ranking']}",
             f"- selected_policy.json: {summary['key_outputs']['selected_policy']}",
             f"- experiment_summary.md: {summary['key_outputs']['experiment_summary']}",
         ],

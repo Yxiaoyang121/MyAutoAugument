@@ -17,6 +17,8 @@ from AutoAugment.search.proxy_metrics import (
     apply_proxy_hard_filter,
     bbox_retention_raw,
     compute_proxy_score,
+    compute_safety_score,
+    safety_soft_penalty_reasons,
     select_proxy_candidate,
     yolo_bbox_safe_mask,
 )
@@ -38,6 +40,8 @@ __all__ = [
     "apply_proxy_hard_filter",
     "bbox_retention_raw",
     "compute_proxy_score",
+    "compute_safety_score",
+    "safety_soft_penalty_reasons",
     "select_proxy_candidate",
     "yolo_bbox_safe_mask",
     "ProxyPrefilterConfig",

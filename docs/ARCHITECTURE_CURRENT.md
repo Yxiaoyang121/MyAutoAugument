@@ -2,53 +2,70 @@
 
 ## Overall Shape
 
-The repository is organized around two layers:
+The repository has two layers:
 
-1. reusable augmentation and YOLO utilities
-2. a diagnosis-driven augmentation pipeline for defect detection
+1. reusable augmentation, bbox, YOLO dataset, and evaluator utilities
+2. a diagnosis-driven augmentation pipeline for industrial defect detection
 
-The codebase is not a YOLO architecture modification project. The YOLO backbone, neck, and head remain unchanged.
+The project does not modify YOLO backbone, neck, or head architecture.
 
 ## Reusable Layer
 
-- `AutoAugment/augmentations/` registers and applies image augmentations
-- `AutoAugment/bbox/` handles bbox conversion, clipping, affine transforms, and IoU
-- `AutoAugment/datasets/` and `AutoAugment/utils/yolo_dataset.py` load and write YOLO-format datasets
-- `AutoAugment/policies/` defines `Policy`, `OperationSpec`, and search spaces
-- `AutoAugment/search/` keeps the existing search/evaluator/proxy machinery
-- `AutoAugment/diagnostics/` contains validation error analysis and heuristic advice
+- `AutoAugment/augmentations/` registers image and bbox-aware augmentations.
+- `AutoAugment/augmentations/ops.py` includes same-image bbox-level `copy_paste`.
+- `AutoAugment/bbox/` handles bbox conversion, clipping, affine transforms, and IoU.
+- `AutoAugment/formats/` and `AutoAugment/utils/yolo_dataset.py` load and write YOLO-format datasets.
+- `AutoAugment/policies/` defines `Policy` and `OperationSpec`.
+- `AutoAugment/search/` keeps proxy metrics, evaluator adapters, and legacy random-search behavior.
+- `AutoAugment/diagnostics/` performs validation error analysis and heuristic advice generation.
 
-## Diagnosis-Driven Pipeline Layer
+## Dataset Construction
 
-New modules live in `AutoAugment/diagnostic_pipeline/`:
+- `scripts/build_yolo_tiled_dataset.py` creates tiled YOLO datasets for large images.
+- Defaults are `tile_size=1024`, `overlap=0.2`, `min_visibility=0.3`, and `keep_empty_ratio=0.1`.
+- Outputs include tiled `images/train`, `images/val`, `labels/train`, `labels/val`, `data.yaml`, `tiled_dataset_report.md/json`, and `debug_tiling/` visualizations.
 
-- `baseline.py`: baseline YOLO training and validation command audit
-- `prediction.py`: validation prediction capture and per-image records
-- `diagnosis.py`: error diagnosis and stable `diagnosis.json`
-- `policy_mapping.py`: diagnosis-to-policy mapping
-- `proxy_evaluation.py`: no-training proxy metrics and ranking
-- `short_training.py`: Top-K short training selector
-- `dataset_builder.py`: final augmented dataset construction
-- `final_training.py`: final YOLO train/val and report
-- `reporting.py`: experiment summary and paper tables
-- `common.py`: logging, JSON, markdown, and command helpers
+## Diagnosis-Driven Pipeline
 
-## Entry Points
+Modules under `AutoAugment/diagnostic_pipeline/`:
 
-- `scripts/run_diagnostic_augmentation_pipeline.py`
-- existing legacy search entrypoints remain in `examples/` and `tools/`
+- `baseline.py`: baseline YOLO train/val command capture.
+- `prediction.py`: validation prediction capture.
+- `diagnosis.py`: error diagnosis plus normalized `diagnosis_vector`.
+- `policy_mapping.py`: severity-score dynamic policy generation with runtime op validation.
+- `proxy_evaluation.py`: proxy scoring, safety scoring, copy-paste audit, and ranking.
+- `strategy_memory.py`: JSONL strategy memory and cosine-similarity reranking.
+- `short_training.py`: top-k short training selector.
+- `dataset_builder.py`: final augmented dataset construction.
+- `final_training.py`: final train/val stage.
+- `metric_audit.py`: YOLO val metric versus diagnosis TP/FP/FN consistency audit.
+- `reporting.py`: experiment summaries.
+- `common.py`: JSON, Markdown, command, and log helpers.
+
+## Ranking Flow
+
+1. Baseline YOLO training and validation produce model metrics.
+2. Validation prediction labels are analyzed into TP/FP/FN, quality, size, class, and position summaries.
+3. `diagnosis_vector` converts dominant failure modes into normalized severity scores.
+4. `policy_mapping.py` converts severities into operator probability and strength formulas.
+5. Proxy evaluation computes `proxy_score` and `SafetyScore`.
+6. Hard reject is reserved for severe bbox/class/exposure errors; ordinary risk is recorded as `safety_soft_penalty_reasons`.
+7. Strategy memory optionally boosts candidates similar to historically successful diagnosis cases.
+8. Top-k policies run short training and the best candidate builds the final augmented dataset.
 
 ## Output Conventions
 
-Every stage writes auditable artifacts under the chosen output directory:
+Each stage writes auditable artifacts under the selected output directory:
 
 - command text
 - stdout and stderr logs
-- stage JSON payloads
-- Markdown summaries where applicable
+- JSON payloads
+- Markdown summaries
+- debug visualizations for tiling and copy-paste where applicable
 
-## Known Operational Constraints
+## Operational Constraints
 
-- YOLO commands default to `workers=0` on Windows
-- dry-run mode must not trigger full training
-- final benchmark results are not yet produced in this snapshot
+- YOLO commands should default to `workers=0` on Windows.
+- Dry-run mode must not start training.
+- This environment may require `KMP_DUPLICATE_LIB_OK=TRUE` for CPU YOLO runs due duplicate OpenMP runtime initialization.
+- Smoke outputs are not benchmark claims.

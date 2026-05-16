@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from pathlib import Path
 from typing import Any
 
 import cv2
@@ -7,6 +8,7 @@ import numpy as np
 
 from AutoAugment.bbox.affine import apply_affine_to_bboxes
 from AutoAugment.bbox.clip import clip_filter_bboxes
+from AutoAugment.bbox.iou import bbox_iou
 from AutoAugment.transforms.base import build_sample
 from AutoAugment.transforms.geometric import HorizontalFlip, RandomCrop, Rotate, Scale, Translate, VerticalFlip
 
@@ -108,6 +110,124 @@ def _warp_affine(
     transformed = apply_affine_to_bboxes(bboxes, matrix)
     clipped, filtered_labels = clip_filter_bboxes(transformed, labels, width, height)
     return warped, filtered_labels, clipped
+
+
+def _copy_paste_weights(
+    labels: np.ndarray,
+    bboxes: np.ndarray,
+    width: int,
+    height: int,
+    params: dict[str, Any],
+) -> np.ndarray:
+    """Return source-box sampling weights for same-image copy-paste."""
+
+    weights = np.ones((len(labels),), dtype=np.float64)
+    target_classes = params.get("target_classes", None)
+    if target_classes is not None:
+        allowed = {int(value) for value in target_classes}
+        weights *= np.asarray([1.0 if int(label) in allowed else 0.0 for label in labels], dtype=np.float64)
+
+    if bool(params.get("prefer_small", True)):
+        areas = np.maximum(1.0, (bboxes[:, 2] - bboxes[:, 0]) * (bboxes[:, 3] - bboxes[:, 1]))
+        image_area = max(1.0, float(width * height))
+        weights *= 1.0 / np.sqrt(np.maximum(areas / image_area, 1e-6))
+
+    if bool(params.get("class_balanced", False)):
+        class_counts_param = params.get("class_counts") or params.get("dataset_class_counts")
+        if isinstance(class_counts_param, dict) and class_counts_param:
+            counts = []
+            for label in labels:
+                key = int(label)
+                counts.append(float(class_counts_param.get(key, class_counts_param.get(str(key), 1.0))))
+            class_counts = np.asarray(counts, dtype=np.float64)
+        else:
+            unique, counts = np.unique(labels, return_counts=True)
+            local_counts = {int(label): float(count) for label, count in zip(unique, counts)}
+            class_counts = np.asarray([local_counts[int(label)] for label in labels], dtype=np.float64)
+        weights *= 1.0 / np.maximum(class_counts, 1.0)
+
+    return weights
+
+
+def _sample_copy_paste_source(
+    labels: np.ndarray,
+    bboxes: np.ndarray,
+    width: int,
+    height: int,
+    params: dict[str, Any],
+    rng: np.random.Generator,
+) -> int | None:
+    """Sample one source bbox index, prioritizing small and minority-class defects when requested."""
+
+    if len(labels) == 0:
+        return None
+    weights = _copy_paste_weights(labels, bboxes, width, height, params)
+    total = float(np.sum(weights))
+    if total <= 0.0 or not np.isfinite(total):
+        return None
+    probabilities = weights / total
+    return int(rng.choice(np.arange(len(labels)), p=probabilities))
+
+
+def _find_copy_paste_location(
+    patch_width: int,
+    patch_height: int,
+    width: int,
+    height: int,
+    existing_bboxes: np.ndarray,
+    params: dict[str, Any],
+    rng: np.random.Generator,
+) -> np.ndarray | None:
+    """Find a low-overlap destination box for a copied defect patch."""
+
+    if patch_width <= 0 or patch_height <= 0 or patch_width > width or patch_height > height:
+        return None
+    max_overlap = float(params.get("max_overlap", params.get("max_iou", 0.20)))
+    fallback_overlap = float(params.get("fallback_max_overlap", 0.50))
+    max_attempts = max(1, int(params.get("max_attempts", 40)))
+    best_box: np.ndarray | None = None
+    best_overlap = float("inf")
+    max_x = max(0, width - patch_width)
+    max_y = max(0, height - patch_height)
+    for _ in range(max_attempts):
+        x1 = int(rng.integers(0, max_x + 1)) if max_x > 0 else 0
+        y1 = int(rng.integers(0, max_y + 1)) if max_y > 0 else 0
+        candidate = np.asarray([x1, y1, x1 + patch_width, y1 + patch_height], dtype=np.float32)
+        overlap = 0.0
+        if existing_bboxes.size:
+            overlap = float(np.max(bbox_iou(candidate.reshape(1, 4), existing_bboxes)))
+        if overlap <= max_overlap:
+            return candidate
+        if overlap < best_overlap:
+            best_overlap = overlap
+            best_box = candidate
+    if best_box is not None and best_overlap <= fallback_overlap:
+        return best_box
+    return None
+
+
+def _write_copy_paste_debug(
+    image: np.ndarray,
+    original_bboxes: np.ndarray,
+    pasted_bboxes: list[np.ndarray],
+    debug_dir: str | Path,
+    params: dict[str, Any],
+    rng: np.random.Generator,
+) -> None:
+    """Write a lightweight debug visualization for copy-paste results."""
+
+    path = Path(debug_dir)
+    path.mkdir(parents=True, exist_ok=True)
+    canvas = _uint8_for_cv(image).copy()
+    for box in original_bboxes:
+        x1, y1, x2, y2 = [int(round(value)) for value in box]
+        cv2.rectangle(canvas, (x1, y1), (x2, y2), (0, 180, 0), 1)
+    for box in pasted_bboxes:
+        x1, y1, x2, y2 = [int(round(float(value))) for value in box]
+        cv2.rectangle(canvas, (x1, y1), (x2, y2), (0, 128, 255), 2)
+    prefix = str(params.get("debug_prefix", "copy_paste"))
+    filename = f"{prefix}_{int(rng.integers(0, 1_000_000)):06d}.jpg"
+    cv2.imwrite(str(path / filename), canvas)
 
 
 @register_augmentation("brightness", changes_bboxes=False)
@@ -371,6 +491,82 @@ def cutout(
             value = fill_value
         out[y1:y2, x1:x2] = value
     return out, labels_out, bboxes_out
+
+
+@register_augmentation("copy_paste", changes_bboxes=True)
+def copy_paste(
+    image: np.ndarray,
+    labels: np.ndarray | None = None,
+    bboxes: np.ndarray | None = None,
+    params: dict[str, Any] | None = None,
+    strength: float = 1.0,
+    rng: np.random.Generator | None = None,
+) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+    """Copy bbox-level defect patches within one YOLO detection sample.
+
+    This is the minimal executable variant used by the diagnostic pipeline. It
+    duplicates existing object crops from the same image, pastes them into a
+    low-overlap location, appends the corresponding label and clips all boxes
+    to the image boundary.
+    """
+
+    image, labels_arr, bboxes_arr = _inputs(image, labels, bboxes)
+    params = params or {}
+    s = _strength(strength)
+    if s <= 0.0 or len(labels_arr) == 0:
+        return image.copy(), labels_arr.copy(), bboxes_arr.astype(np.float32, copy=True)
+
+    generator = _rng(rng)
+    height, width = image.shape[:2]
+    max_paste_count = max(1, int(params.get("max_paste_count", 1)))
+    paste_count = max(1, int(round(max_paste_count * max(s, 0.2))))
+    paste_count = min(max_paste_count, paste_count)
+    min_patch_size = max(1, int(params.get("min_patch_size", 2)))
+
+    out = image.copy()
+    labels_out = labels_arr.copy()
+    bboxes_out = bboxes_arr.astype(np.float32, copy=True)
+    pasted_boxes: list[np.ndarray] = []
+
+    for _ in range(paste_count):
+        source_index = _sample_copy_paste_source(labels_arr, bboxes_arr, width, height, params, generator)
+        if source_index is None:
+            break
+        source_box = bboxes_arr[source_index]
+        x1 = max(0, int(np.floor(source_box[0])))
+        y1 = max(0, int(np.floor(source_box[1])))
+        x2 = min(width, int(np.ceil(source_box[2])))
+        y2 = min(height, int(np.ceil(source_box[3])))
+        patch_width = x2 - x1
+        patch_height = y2 - y1
+        if patch_width < min_patch_size or patch_height < min_patch_size:
+            continue
+
+        destination = _find_copy_paste_location(
+            patch_width,
+            patch_height,
+            width,
+            height,
+            bboxes_out,
+            params,
+            generator,
+        )
+        if destination is None:
+            continue
+
+        dx1, dy1, dx2, dy2 = [int(round(float(value))) for value in destination]
+        patch = image[y1:y2, x1:x2].copy()
+        if patch.shape[0] != dy2 - dy1 or patch.shape[1] != dx2 - dx1:
+            patch = cv2.resize(patch, (dx2 - dx1, dy2 - dy1), interpolation=cv2.INTER_LINEAR)
+        out[dy1:dy2, dx1:dx2] = patch
+        labels_out = np.concatenate([labels_out, np.asarray([labels_arr[source_index]], dtype=np.int64)])
+        bboxes_out = np.vstack([bboxes_out, destination.astype(np.float32)])
+        pasted_boxes.append(destination.astype(np.float32))
+
+    clipped, filtered_labels = clip_filter_bboxes(bboxes_out, labels_out, width, height)
+    if params.get("debug_dir") and pasted_boxes:
+        _write_copy_paste_debug(out, bboxes_arr, pasted_boxes, params["debug_dir"], params, generator)
+    return out, filtered_labels.astype(np.int64, copy=False), clipped.astype(np.float32, copy=False)
 
 
 @register_augmentation("random_erasing", changes_bboxes=False)

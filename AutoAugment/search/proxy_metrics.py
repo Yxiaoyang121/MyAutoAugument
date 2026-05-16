@@ -12,14 +12,25 @@ DEFAULT_EDGE_MARGIN = 0.05
 DEFAULT_RARE_CLASS_COUNT_THRESHOLD = 5
 
 DATASET2_V1_HARD_FILTERS = {
-    "bbox_safe_rate": 0.995,
-    "bbox_valid_rate": 0.995,
-    "bbox_retention_raw": 0.970,
-    "small_target_retention": 0.950,
+    "total_bbox_valid_rate": 0.850,
+    "original_bbox_retention": 0.650,
+    "new_bbox_valid_rate": 0.750,
+    "small_object_retention": 0.600,
+    "class_coverage_after": 0.500,
+    "exposure_score": 0.150,
+    "strength_penalty": 0.900,
+}
+
+DATASET2_V1_SOFT_TARGETS = {
+    "total_bbox_valid_rate": 0.995,
+    "original_bbox_retention": 0.970,
+    "new_bbox_valid_rate": 0.980,
+    "small_object_retention": 0.950,
     "tiny_target_retention": 0.930,
     "edge_target_retention": 0.950,
     "class_coverage_after": 0.900,
     "rare_class_retention": 0.900,
+    "exposure_score": 0.650,
     "strength_penalty": 0.450,
 }
 
@@ -105,8 +116,11 @@ def compute_proxy_score(metrics: dict[str, Any], *, version: str = "dataset2_v1"
     required = [
         "bbox_safe_rate",
         "bbox_valid_rate",
+        "total_bbox_valid_rate",
         "bbox_retention_raw",
+        "original_bbox_retention",
         "small_target_retention",
+        "small_object_retention",
         "tiny_target_retention",
         "class_coverage_after",
         "rare_class_retention",
@@ -114,16 +128,32 @@ def compute_proxy_score(metrics: dict[str, Any], *, version: str = "dataset2_v1"
         "exposure_diversity_score",
         "strength_penalty",
     ]
-    missing = [key for key in required if not _is_number(metrics.get(key))]
+    fallback_keys = {
+        "total_bbox_valid_rate": "bbox_valid_rate",
+        "original_bbox_retention": "bbox_retention_raw",
+        "small_object_retention": "small_target_retention",
+    }
+    missing = [
+        key
+        for key in required
+        if not _is_number(metrics.get(key)) and not _is_number(metrics.get(fallback_keys.get(key, "")))
+    ]
 
     def value(key: str) -> float:
         if key in missing:
             return 0.0
-        return float(np.clip(float(metrics[key]), 0.0, 1.0))
+        raw = _float_or_none(metrics.get(key))
+        if raw is None and key in fallback_keys:
+            raw = _float_or_none(metrics.get(fallback_keys[key]))
+        if raw is None:
+            return 0.0
+        return float(np.clip(raw, 0.0, 1.0))
 
-    bbox_safety_score = min(value("bbox_safe_rate"), value("bbox_valid_rate"))
-    bbox_retention_score = value("bbox_retention_raw")
-    small_target_retention_score = 0.6 * value("small_target_retention") + 0.4 * value("tiny_target_retention")
+    bbox_safety_score = min(value("bbox_safe_rate"), value("bbox_valid_rate"), value("total_bbox_valid_rate"))
+    bbox_retention_score = value("original_bbox_retention") if "original_bbox_retention" not in missing else value("bbox_retention_raw")
+    small_target_retention_score = value("small_object_retention") if "small_object_retention" not in missing else (
+        0.6 * value("small_target_retention") + 0.4 * value("tiny_target_retention")
+    )
     class_coverage_score = 0.7 * value("class_coverage_after") + 0.3 * value("rare_class_retention")
     edge_target_retention_score = value("edge_target_retention")
     exposure_diversity_score = value("exposure_diversity_score")
@@ -150,34 +180,87 @@ def compute_proxy_score(metrics: dict[str, Any], *, version: str = "dataset2_v1"
     return float(np.clip(score, 0.0, 1.0)), components, missing
 
 
+def compute_safety_score(metrics: dict[str, Any], *, version: str = "dataset2_v1") -> tuple[float, dict[str, float], list[str]]:
+    """Compute the soft safety score used for proxy reranking.
+
+    SafetyScore follows the project contract:
+    total bbox validity * original bbox retention * small-object retention * exposure score.
+    Missing values are treated as zero and reported in the missing list.
+    """
+
+    if version != "dataset2_v1":
+        raise ValueError(f"unknown safety score version: {version}")
+    keys = ["total_bbox_valid_rate", "original_bbox_retention", "small_object_retention", "exposure_score"]
+    fallback = {
+        "total_bbox_valid_rate": "bbox_valid_rate",
+        "original_bbox_retention": "bbox_retention_raw",
+        "small_object_retention": "small_target_retention",
+    }
+    missing: list[str] = []
+    components: dict[str, float] = {}
+    for key in keys:
+        value = _float_or_none(metrics.get(key))
+        if value is None and key in fallback:
+            value = _float_or_none(metrics.get(fallback[key]))
+        if value is None:
+            missing.append(key)
+            components[key] = 0.0
+        else:
+            components[key] = float(np.clip(value, 0.0, 1.0))
+    score = 1.0
+    for key in keys:
+        score *= components[key]
+    return float(np.clip(score, 0.0, 1.0)), components, missing
+
+
+def safety_soft_penalty_reasons(metrics: dict[str, Any], *, profile: str = "dataset2_v1") -> list[str]:
+    """Return non-fatal safety risks below target thresholds."""
+
+    if profile != "dataset2_v1":
+        raise ValueError(f"unknown proxy hard filter profile: {profile}")
+    reasons: list[str] = []
+    for key, threshold in DATASET2_V1_SOFT_TARGETS.items():
+        if key == "rare_class_retention" and not bool(metrics.get("rare_class_present", False)):
+            continue
+        if key == "new_bbox_valid_rate" and int(metrics.get("new_bbox_count", 0) or 0) <= 0:
+            continue
+        value = _float_or_none(metrics.get(key))
+        if value is None:
+            reasons.append(f"{key} missing")
+        elif key == "strength_penalty":
+            if value > threshold:
+                reasons.append(f"{key} {value:.6g} > soft target {threshold:.6g}")
+        elif value < threshold:
+            reasons.append(f"{key} {value:.6g} < soft target {threshold:.6g}")
+    return reasons
+
+
 def apply_proxy_hard_filter(metrics: dict[str, Any], *, profile: str = "dataset2_v1") -> tuple[bool, list[str]]:
     if profile != "dataset2_v1":
         raise ValueError(f"unknown proxy hard filter profile: {profile}")
     reasons: list[str] = []
-    for key in [
-        "bbox_safe_rate",
-        "bbox_valid_rate",
-        "bbox_retention_raw",
-        "small_target_retention",
-        "tiny_target_retention",
-        "edge_target_retention",
-        "class_coverage_after",
-    ]:
+    for key in ["total_bbox_valid_rate", "original_bbox_retention", "small_object_retention", "class_coverage_after", "exposure_score"]:
         threshold = DATASET2_V1_HARD_FILTERS[key]
-        value = _float_or_none(metrics.get(key))
+        value = _metric_with_fallback(metrics, key)
         if value is None:
             reasons.append(f"{key} missing")
         elif value < threshold:
             reasons.append(f"{key} {value:.6g} < {threshold:.6g}")
 
-    rare_present = bool(metrics.get("rare_class_present", False))
-    if rare_present:
-        threshold = DATASET2_V1_HARD_FILTERS["rare_class_retention"]
-        value = _float_or_none(metrics.get("rare_class_retention"))
+    if int(metrics.get("new_bbox_count", 0) or 0) > 0:
+        threshold = DATASET2_V1_HARD_FILTERS["new_bbox_valid_rate"]
+        value = _metric_with_fallback(metrics, "new_bbox_valid_rate")
         if value is None:
-            reasons.append("rare_class_retention missing")
+            reasons.append("new_bbox_valid_rate missing")
         elif value < threshold:
-            reasons.append(f"rare_class_retention {value:.6g} < {threshold:.6g}")
+            reasons.append(f"new_bbox_valid_rate {value:.6g} < {threshold:.6g}")
+
+    class_oob = int(metrics.get("class_out_of_range_count", 0) or 0)
+    invalid_boxes = int(metrics.get("invalid_bbox_count", 0) or 0)
+    if class_oob > 0:
+        reasons.append(f"class_out_of_range_count {class_oob} > 0")
+    if invalid_boxes > 0:
+        reasons.append(f"invalid_bbox_count {invalid_boxes} > 0")
 
     strength_threshold = DATASET2_V1_HARD_FILTERS["strength_penalty"]
     strength_value = _float_or_none(metrics.get("strength_penalty"))
@@ -193,13 +276,16 @@ def select_proxy_candidate(candidates: list[dict[str, Any]]) -> ProxyCandidateSe
         raise ValueError("candidates must not be empty")
     passed = [candidate for candidate in candidates if bool(candidate.get("hard_filter_pass"))]
     if passed:
-        selected = max(passed, key=lambda item: float(item.get("proxy_score", 0.0)))
+        selected = max(
+            passed,
+            key=lambda item: float(item.get("combined_proxy_safety_score", item.get("proxy_score", 0.0)) or 0.0),
+        )
         return ProxyCandidateSelection(int(selected["candidate_index"]), False, None)
     selected = min(
         candidates,
         key=lambda item: (
             len(item.get("hard_filter_reasons") or []),
-            -float(item.get("proxy_score", 0.0)),
+            -float(item.get("combined_proxy_safety_score", item.get("proxy_score", 0.0)) or 0.0),
         ),
     )
     return ProxyCandidateSelection(int(selected["candidate_index"]), True, "no_candidate_passed_hard_filter")
@@ -212,6 +298,18 @@ def _float_or_none(value: Any) -> float | None:
         return float(value)
     except (TypeError, ValueError):
         return None
+
+
+def _metric_with_fallback(metrics: dict[str, Any], key: str) -> float | None:
+    fallback = {
+        "total_bbox_valid_rate": "bbox_valid_rate",
+        "original_bbox_retention": "bbox_retention_raw",
+        "small_object_retention": "small_target_retention",
+    }
+    value = _float_or_none(metrics.get(key))
+    if value is None and key in fallback:
+        value = _float_or_none(metrics.get(fallback[key]))
+    return value
 
 
 def _is_number(value: Any) -> bool:

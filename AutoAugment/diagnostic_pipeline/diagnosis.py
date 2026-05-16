@@ -75,6 +75,7 @@ def write_dry_run_diagnosis(output_dir: str | Path) -> dict[str, Any]:
         "status": "planned",
         "dry_run": True,
         "global": {"tp": 0, "fp": 0, "fn": 0, "precision": 0.0, "recall": 0.0, "localization_weak": 0},
+        "diagnosis_vector": _empty_diagnosis_vector("dry_run_without_predictions"),
         "issues": [
             {
                 "type": "stable_validation_keep_light_policy",
@@ -114,7 +115,7 @@ def build_diagnosis_schema(*, analysis: dict[str, Any], advice: dict[str, Any]) 
         }
         for item in summary.get("by_class", [])
     }
-    return {
+    payload = {
         "stage": "error_diagnosis",
         "status": "completed",
         "dry_run": False,
@@ -134,6 +135,8 @@ def build_diagnosis_schema(*, analysis: dict[str, Any], advice: dict[str, Any]) 
         "quality": summary.get("quality", {}),
         "position": summary.get("by_position", {}),
     }
+    payload["diagnosis_vector"] = build_diagnosis_vector(summary=summary, global_metrics=payload["global"])
+    return payload
 
 
 def write_diagnosis_summary(path: str | Path, diagnosis: dict[str, Any]) -> None:
@@ -149,9 +152,20 @@ def write_diagnosis_summary(path: str | Path, diagnosis: dict[str, Any]) -> None
         f"- FN: {global_metrics.get('fn', 0)}",
         f"- Precision: {float(global_metrics.get('precision', 0.0)):.4f}",
         f"- Recall: {float(global_metrics.get('recall', 0.0)):.4f}",
-        "",
-        "## Issues",
     ]
+    vector = diagnosis.get("diagnosis_vector", {})
+    if vector:
+        lines.extend(["", "## Diagnosis Vector"])
+        for key in [
+            "small_object_score",
+            "low_contrast_score",
+            "class_imbalance_score",
+            "localization_score",
+            "false_positive_score",
+        ]:
+            item = vector.get(key, {})
+            lines.append(f"- {key}: {float(item.get('score', 0.0)):.4f}")
+    lines.extend(["", "## Issues"])
     for issue in diagnosis.get("issues", []):
         lines.append(f"- {issue.get('type')} severity={issue.get('severity')} suggestions={', '.join(issue.get('suggested_augmentations', []))}")
     lines.extend(["", "## Per-Class Summary"])
@@ -204,3 +218,103 @@ def _extra_structural_issues(summary: dict[str, Any], *, existing_types: set[str
             }
         )
     return extras
+
+
+def build_diagnosis_vector(*, summary: dict[str, Any], global_metrics: dict[str, Any]) -> dict[str, Any]:
+    """Build normalized diagnosis severities in [0, 1] with explicit evidence."""
+
+    by_size = summary.get("by_size", {})
+    tiny = by_size.get("tiny", {})
+    small = by_size.get("small", {})
+    tiny_gt = int(tiny.get("gt_count", 0) or 0)
+    small_gt = int(small.get("gt_count", 0) or 0)
+    small_total_gt = tiny_gt + small_gt
+    small_tp = int(tiny.get("tp_count", 0) or 0) + int(small.get("tp_count", 0) or 0)
+    small_recall = small_tp / max(1, small_total_gt)
+    small_object_score = 0.0 if small_total_gt == 0 else 1.0 - small_recall
+
+    quality = summary.get("quality", {})
+    fn_quality = quality.get("false_negatives", {})
+    low_contrast_rate = float(fn_quality.get("low_contrast_rate", 0.0) or 0.0)
+    dark_rate = float(fn_quality.get("dark_rate", 0.0) or 0.0)
+    bright_rate = float(fn_quality.get("bright_rate", 0.0) or 0.0)
+    low_contrast_score = _clip01(0.65 * low_contrast_rate + 0.25 * dark_rate + 0.10 * bright_rate)
+
+    by_class = list(summary.get("by_class", []) or [])
+    gt_counts = [int(item.get("gt_count", 0) or 0) for item in by_class if int(item.get("gt_count", 0) or 0) > 0]
+    recalls = [float(item.get("recall", 0.0) or 0.0) for item in by_class if int(item.get("gt_count", 0) or 0) > 0]
+    count_imbalance = 0.0
+    if gt_counts:
+        count_imbalance = (max(gt_counts) - min(gt_counts)) / max(1, max(gt_counts))
+    recall_spread = max(recalls) - min(recalls) if recalls else 0.0
+    class_imbalance_score = _clip01(0.65 * count_imbalance + 0.35 * recall_spread)
+
+    gt = int(global_metrics.get("gt", 0) or summary.get("overall", {}).get("gt_count", 0) or 0)
+    localization_weak = int(global_metrics.get("localization_weak", 0) or summary.get("overall", {}).get("localization_weak_count", 0) or 0)
+    localization_score = _clip01(localization_weak / max(1, gt))
+
+    tp = int(global_metrics.get("tp", 0) or 0)
+    fp = int(global_metrics.get("fp", 0) or 0)
+    false_positive_score = _clip01(fp / max(1, tp + fp))
+
+    return {
+        "small_object_score": {
+            "score": _clip01(small_object_score),
+            "basis": {
+                "tiny_gt": tiny_gt,
+                "small_gt": small_gt,
+                "small_total_gt": small_total_gt,
+                "small_total_tp": small_tp,
+                "small_recall": small_recall,
+            },
+        },
+        "low_contrast_score": {
+            "score": low_contrast_score,
+            "basis": {
+                "fn_low_contrast_rate": low_contrast_rate,
+                "fn_dark_rate": dark_rate,
+                "fn_bright_rate": bright_rate,
+            },
+        },
+        "class_imbalance_score": {
+            "score": class_imbalance_score,
+            "basis": {
+                "gt_counts": gt_counts,
+                "recalls": recalls,
+                "count_imbalance": count_imbalance,
+                "recall_spread": recall_spread,
+            },
+        },
+        "localization_score": {
+            "score": localization_score,
+            "basis": {
+                "gt": gt,
+                "localization_weak": localization_weak,
+            },
+        },
+        "false_positive_score": {
+            "score": false_positive_score,
+            "basis": {
+                "tp": tp,
+                "fp": fp,
+                "precision": float(global_metrics.get("precision", 0.0) or 0.0),
+            },
+        },
+    }
+
+
+def _empty_diagnosis_vector(reason: str) -> dict[str, Any]:
+    return {
+        key: {"score": 0.0, "basis": {"reason": reason}}
+        for key in [
+            "small_object_score",
+            "low_contrast_score",
+            "class_imbalance_score",
+            "localization_score",
+            "false_positive_score",
+        ]
+    }
+
+
+def _clip01(value: float) -> float:
+    return max(0.0, min(1.0, float(value)))

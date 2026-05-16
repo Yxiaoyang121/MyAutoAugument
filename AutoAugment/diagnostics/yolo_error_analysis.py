@@ -484,6 +484,8 @@ def load_class_names_from_data_yaml(path: str | Path) -> dict[int, str]:
             match = re.match(r"(\d+)\s*:\s*['\"]?(.+?)['\"]?$", stripped)
             if match:
                 names[int(match.group(1))] = match.group(2).strip().strip("'\"")
+            elif stripped.startswith("-"):
+                names[len(names)] = stripped[1:].strip().strip("'\"")
             elif not line.startswith(" "):
                 break
     return names

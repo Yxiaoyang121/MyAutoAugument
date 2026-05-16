@@ -31,8 +31,13 @@ def build_snapshot() -> str:
         "docs/ARCHITECTURE_CURRENT.md",
         "docs/diagnostic_augmentation_framework.md",
         "docs/experiment_protocol.md",
+        "scripts/build_yolo_tiled_dataset.py",
         "scripts/run_diagnostic_augmentation_pipeline.py",
         "AutoAugment/diagnostic_pipeline/__init__.py",
+        "AutoAugment/diagnostic_pipeline/strategy_memory.py",
+        "AutoAugment/diagnostic_pipeline/metric_audit.py",
+        "AutoAugment/diagnostic_pipeline/proxy_evaluation.py",
+        "AutoAugment/diagnostic_pipeline/policy_mapping.py",
     ]
     now = datetime.now().isoformat(timespec="seconds")
     lines = [

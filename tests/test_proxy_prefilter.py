@@ -16,6 +16,8 @@ from AutoAugment.search.proxy_metrics import (
     apply_proxy_hard_filter,
     bbox_retention_raw,
     compute_proxy_score,
+    compute_safety_score,
+    safety_soft_penalty_reasons,
     select_proxy_candidate,
     yolo_bbox_safe_mask,
 )
@@ -56,15 +58,23 @@ def base_metrics(**overrides):
     metrics = {
         "bbox_safe_rate": 1.0,
         "bbox_valid_rate": 1.0,
+        "total_bbox_valid_rate": 1.0,
         "bbox_retention_raw": 1.0,
+        "original_bbox_retention": 1.0,
+        "new_bbox_count": 0,
+        "new_bbox_valid_rate": 1.0,
         "small_target_retention": 1.0,
+        "small_object_retention": 1.0,
         "tiny_target_retention": 1.0,
         "edge_target_retention": 1.0,
         "class_coverage_after": 1.0,
         "rare_class_present": True,
         "rare_class_retention": 1.0,
         "exposure_diversity_score": 1.0,
+        "exposure_score": 1.0,
         "strength_penalty": 0.1,
+        "invalid_bbox_count": 0,
+        "class_out_of_range_count": 0,
     }
     metrics.update(overrides)
     return metrics
@@ -89,14 +99,19 @@ def test_bbox_safe_rate_mask_rejects_boxes_crossing_image_boundary() -> None:
     assert float(mask.mean()) == 0.5
 
 
-def test_hard_filter_rejects_low_retention_and_tiny_retention() -> None:
-    ok, reasons = apply_proxy_hard_filter(base_metrics(bbox_retention_raw=0.91))
-    assert ok is False
-    assert any("bbox_retention_raw" in reason for reason in reasons)
+def test_hard_filter_rejects_only_severe_retention_loss() -> None:
+    ok, reasons = apply_proxy_hard_filter(base_metrics(original_bbox_retention=0.91))
+    assert ok is True
+    assert reasons == []
+    assert any("original_bbox_retention" in reason for reason in safety_soft_penalty_reasons(base_metrics(original_bbox_retention=0.91)))
 
-    ok, reasons = apply_proxy_hard_filter(base_metrics(tiny_target_retention=0.80))
+    ok, reasons = apply_proxy_hard_filter(base_metrics(original_bbox_retention=0.40))
     assert ok is False
-    assert any("tiny_target_retention" in reason for reason in reasons)
+    assert any("original_bbox_retention" in reason for reason in reasons)
+
+    ok, reasons = apply_proxy_hard_filter(base_metrics(small_object_retention=0.30))
+    assert ok is False
+    assert any("small_object_retention" in reason for reason in reasons)
 
 
 def test_hard_filter_ignores_rare_class_retention_when_no_rare_class_present() -> None:
@@ -113,6 +128,20 @@ def test_proxy_score_decreases_when_strength_penalty_increases() -> None:
     assert missing == []
     assert missing_low == []
     assert 0.0 <= low_score < high_score <= 1.0
+
+
+def test_safety_score_uses_requested_product_formula() -> None:
+    score, components, missing = compute_safety_score(
+        base_metrics(
+            total_bbox_valid_rate=0.9,
+            original_bbox_retention=0.8,
+            small_object_retention=0.7,
+            exposure_score=0.6,
+        )
+    )
+    assert missing == []
+    assert components["total_bbox_valid_rate"] == pytest.approx(0.9)
+    assert score == pytest.approx(0.9 * 0.8 * 0.7 * 0.6)
 
 
 def test_select_proxy_candidate_prefers_passing_highest_score() -> None:

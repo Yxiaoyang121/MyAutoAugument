@@ -74,6 +74,13 @@ class ProxyEvaluator(BaseEvaluator):
         total_boxes = 0
         valid_boxes = 0
         safe_boxes = 0
+        invalid_bbox_count = 0
+        out_of_bounds_bbox_count = 0
+        original_bbox_slots = 0
+        original_bbox_valid_count = 0
+        new_bbox_count = 0
+        new_bbox_valid_count = 0
+        class_out_of_range_count = 0
         after_tiny_boxes = 0
         after_small_boxes = 0
         after_edge_boxes = 0
@@ -87,6 +94,12 @@ class ProxyEvaluator(BaseEvaluator):
         small_area_threshold = float(context.get("small_area_threshold", DEFAULT_SMALL_AREA_THRESHOLD))
         edge_margin = float(context.get("edge_margin", DEFAULT_EDGE_MARGIN))
         rare_class_count_threshold = int(context.get("rare_class_count_threshold", DEFAULT_RARE_CLASS_COUNT_THRESHOLD))
+        source_box_counts_by_output_name = {
+            str(key): int(value)
+            for key, value in (context.get("source_box_counts_by_output_name") or {}).items()
+            if _is_number(value)
+        }
+        class_count = int(context.get("class_count", 0) or 0)
         for image_path in image_paths:
             image = cv2.imread(str(image_path), cv2.IMREAD_COLOR)
             if image is None or image.size == 0:
@@ -104,11 +117,30 @@ class ProxyEvaluator(BaseEvaluator):
                 relative = Path(image_path.name)
             label_path = labels_root / relative.with_suffix(".txt")
             labels, boxes = _read_yolo_labels_and_boxes(label_path)
+            source_count = int(source_box_counts_by_output_name.get(image_path.name, 0))
             if boxes.size == 0:
+                original_bbox_slots += source_count
                 continue
+            valid_mask = _valid_yolo_mask(boxes)
+            safe_mask = yolo_bbox_safe_mask(boxes)
             total_boxes += len(boxes)
-            valid_boxes += int(_valid_yolo_mask(boxes).sum())
-            safe_boxes += int(yolo_bbox_safe_mask(boxes).sum())
+            valid_boxes += int(valid_mask.sum())
+            safe_boxes += int(safe_mask.sum())
+            invalid_bbox_count += int((~valid_mask).sum())
+            out_of_bounds_bbox_count += int((~safe_mask).sum())
+            if source_count > 0:
+                original_slice = safe_mask[: min(source_count, len(safe_mask))]
+                original_bbox_slots += source_count
+                original_bbox_valid_count += int(original_slice.sum())
+                if len(safe_mask) > source_count:
+                    new_slice = safe_mask[source_count:]
+                    new_bbox_count += len(new_slice)
+                    new_bbox_valid_count += int(new_slice.sum())
+            else:
+                new_bbox_count += len(safe_mask)
+                new_bbox_valid_count += int(safe_mask.sum())
+            if class_count > 0 and len(labels):
+                class_out_of_range_count += int(((labels < 0) | (labels >= class_count)).sum())
             areas = boxes[:, 2] * boxes[:, 3]
             after_tiny_boxes += int((areas <= tiny_area_threshold).sum())
             after_small_boxes += int((areas <= small_area_threshold).sum())
@@ -120,6 +152,9 @@ class ProxyEvaluator(BaseEvaluator):
         image_valid_rate = valid_images / max(1, len(image_paths))
         bbox_valid_rate = valid_boxes / total_boxes if total_boxes > 0 else 1.0
         bbox_safe_rate = safe_boxes / total_boxes if total_boxes > 0 else 1.0
+        total_bbox_valid_rate = bbox_safe_rate
+        original_bbox_retention = original_bbox_valid_count / original_bbox_slots if original_bbox_slots > 0 else 1.0
+        new_bbox_valid_rate = new_bbox_valid_count / new_bbox_count if new_bbox_count > 0 else 1.0
         source_label_count = int(context.get("source_label_count", total_boxes))
         if source_label_count > 0:
             bbox_retention = min(1.2, total_boxes / source_label_count) / 1.2
@@ -177,6 +212,17 @@ class ProxyEvaluator(BaseEvaluator):
             "bbox_valid_rate": bbox_valid_rate,
             "safe_boxes": safe_boxes,
             "bbox_safe_rate": bbox_safe_rate,
+            "total_bbox_valid_rate": total_bbox_valid_rate,
+            "original_bbox_slots": original_bbox_slots,
+            "original_bbox_valid_count": original_bbox_valid_count,
+            "original_bbox_retention": original_bbox_retention,
+            "new_bbox_count": new_bbox_count,
+            "new_bbox_valid_count": new_bbox_valid_count,
+            "new_bbox_valid_rate": new_bbox_valid_rate,
+            "invalid_bbox_count": invalid_bbox_count,
+            "out_of_bounds_bbox_count": out_of_bounds_bbox_count,
+            "class_out_of_range_count": class_out_of_range_count,
+            "class_count_for_bounds": class_count,
             "bbox_retention": bbox_retention,
             "bbox_retention_raw": true_bbox_retention,
             "source_tiny_box_count": source_tiny_boxes,
@@ -185,6 +231,7 @@ class ProxyEvaluator(BaseEvaluator):
             "source_small_box_count": source_small_boxes,
             "after_small_box_count": after_small_boxes,
             "small_target_retention": small_target_retention,
+            "small_object_retention": small_target_retention,
             "source_edge_box_count": source_edge_boxes,
             "after_edge_box_count": after_edge_boxes,
             "edge_target_retention": edge_target_retention,

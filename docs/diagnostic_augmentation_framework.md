@@ -67,7 +67,7 @@ Baseline 模块只使用原始训练集训练 YOLO。它记录训练命令、`da
 - 类别不均衡：使用 class-aware sampling 或 targeted augmentation；
 - 背景干扰强：增加背景多样性、轻量噪声和光照扰动。
 
-当前代码只把已实现且 bbox 同步安全的算子写入可执行 policy；tiling、copy-paste、class-aware sampling 作为数据级建议记录在解释和元数据中。
+当前代码只把已实现且 bbox 同步安全的算子写入可执行 policy；`copy_paste` 已实现为同图 bbox-level 缺陷复制粘贴算子，可用于小目标召回不足和类别不均衡策略。tiling 与更完整的跨图 class-aware sampling 仍作为后续数据级扩展记录。
 
 ## 7. 代理指标筛选
 

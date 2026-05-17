@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import sys
+from datetime import datetime
 from pathlib import Path
 from typing import Any
 
@@ -35,7 +36,8 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument("--dataset-root", required=True, help="YOLO dataset root.")
     parser.add_argument("--data-yaml", required=True, help="YOLO data.yaml path.")
-    parser.add_argument("--output-dir", default="outputs/diagnostic_aug_pipeline_smoke")
+    parser.add_argument("--run-id", default=None, help="Experiment run id used under outputs/experiments when --output-dir is omitted.")
+    parser.add_argument("--output-dir", default=None)
     parser.add_argument("--model", default="yolov8n.pt")
     parser.add_argument("--imgsz", type=int, default=640)
     parser.add_argument("--batch", type=int, default=4)
@@ -66,22 +68,37 @@ def main() -> None:
     validate_args(args)
     dataset_root = Path(args.dataset_root)
     data_yaml = Path(args.data_yaml)
-    output = Path(args.output_dir)
+    run_id = args.run_id or datetime.now().strftime("%Y%m%d_%H%M%S_diagnostic_aug")
+    output = Path(args.output_dir) if args.output_dir else PROJECT_ROOT / "outputs" / "experiments" / run_id
     output.mkdir(parents=True, exist_ok=True)
 
     class_names = load_class_names_from_data_yaml(data_yaml) if data_yaml.exists() else {}
     split = resolve_or_plan_split(dataset_root, args.seed, dry_run=args.dry_run)
     run_config = {
         "script": "scripts/run_diagnostic_augmentation_pipeline.py",
+        "run_id": run_id,
         "args": vars(args),
         "dataset_root": str(dataset_root.resolve()),
         "data_yaml": str(data_yaml.resolve()),
+        "dataset_path": str(dataset_root.resolve()),
         "output_dir": str(output.resolve()),
+        "result_path": str(output.resolve()),
         "class_names": class_names,
         "train_count": len(split["train_records"]),
         "val_count": len(split["val_records"]),
         "framework_positioning": "validation_error_diagnostic_driven_augmentation",
         "not_yolo_network_structure_modification": True,
+        "environment": {
+            "python_executable": sys.executable,
+        },
+        "yolo_builtin_aug_config": {
+            "note": "Pipeline commands should explicitly set project paths; YOLO builtin augmentation values are stage-specific unless passed through stage helpers.",
+        },
+        "external_aug_config": {
+            "diagnosis_driven_augmentation": True,
+            "augment_repeat": args.augment_repeat,
+            "proxy_samples": args.proxy_samples,
+        },
     }
     write_json(output / "run_config.json", run_config)
 
@@ -315,7 +332,11 @@ def write_pipeline_summary(
     strategy_memory_record: dict[str, Any],
 ) -> None:
     summary = {
+        "run_id": args.run_id or output.name,
         "dry_run": args.dry_run,
+        "dataset_path": str(Path(args.dataset_root).resolve()),
+        "data_yaml": str(Path(args.data_yaml).resolve()),
+        "result_path": str(output.resolve()),
         "stages": {
             "baseline": baseline_record.get("status"),
             "validation_prediction": prediction_record.get("status"),
@@ -342,6 +363,19 @@ def write_pipeline_summary(
             "selected_policy": str((output / "short_training" / "selected_policy.json").resolve()),
             "dataset_build_report": str((output / "dataset_builder" / "dataset_build_report.json").resolve()),
             "experiment_summary": str((output / "report" / "experiment_summary.md").resolve()),
+            "run_config": str((output / "run_config.json").resolve()),
+        },
+        "required_records": {
+            "train_command": "recorded inside each training stage directory",
+            "val_command": "recorded inside validation/prediction stage directories",
+            "best_pt_path": final_payload.get("best_pt") or baseline_record.get("best_pt"),
+            "last_pt_path": final_payload.get("last_pt") or baseline_record.get("last_pt"),
+            "environment": {"python_executable": sys.executable},
+            "yolo_builtin_aug_config": "stage command arguments",
+            "external_aug_config": {
+                "diagnosis_driven_augmentation": True,
+                "augment_repeat": args.augment_repeat,
+            },
         },
     }
     write_json(output / "pipeline_summary.json", summary)

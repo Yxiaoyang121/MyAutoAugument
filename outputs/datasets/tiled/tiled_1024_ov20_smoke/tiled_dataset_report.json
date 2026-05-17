@@ -1,0 +1,2941 @@
+﻿{
+    "stage":  "build_yolo_tiled_dataset",
+    "status":  "completed",
+    "config":  {
+                   "tile_size":  1024,
+                   "overlap":  0.2,
+                   "min_visibility":  0.3,
+                   "keep_empty_ratio":  0.1,
+                   "min_box_area":  4.0,
+                   "seed":  42
+               },
+    "summary":  {
+                    "source_dataset":  "E:\\TJGY\\DataSet2_fixed",
+                    "output_dataset":  "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_smoke",
+                    "data_yaml":  "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_smoke\\data.yaml",
+                    "debug_tiling_dir":  "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_smoke\\debug_tiling",
+                    "tile_size":  1024,
+                    "overlap":  0.2,
+                    "min_visibility":  0.3,
+                    "keep_empty_ratio":  0.1,
+                    "source_image_count":  16,
+                    "output_tile_count":  193,
+                    "empty_tile_count":  18,
+                    "bbox_count":  375,
+                    "dropped_bbox_count":  1525,
+                    "class_count":  15
+                },
+    "per_split":  {
+                      "train":  {
+                                    "source_image_count":  8,
+                                    "tile_count":  107,
+                                    "empty_tile_count":  10,
+                                    "bbox_count":  232,
+                                    "dropped_bbox_count":  1021
+                                },
+                      "val":  {
+                                  "source_image_count":  8,
+                                  "tile_count":  86,
+                                  "empty_tile_count":  8,
+                                  "bbox_count":  143,
+                                  "dropped_bbox_count":  504
+                              }
+                  },
+    "tiles":  [
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\0f434e2b-2025-05-08-15-50-09ps5.png",
+                      "relative_path":  "0f434e2b-2025-05-08-15-50-09ps5.png",
+                      "tile_index":  0,
+                      "tile":  [
+                                   0,
+                                   0,
+                                   1024,
+                                   1024
+                               ],
+                      "bbox_count":  3,
+                      "dropped_bbox_count":  22,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\0f434e2b-2025-05-08-15-50-09ps5.png",
+                      "relative_path":  "0f434e2b-2025-05-08-15-50-09ps5.png",
+                      "tile_index":  1,
+                      "tile":  [
+                                   819,
+                                   0,
+                                   1843,
+                                   1024
+                               ],
+                      "bbox_count":  4,
+                      "dropped_bbox_count":  21,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\0f434e2b-2025-05-08-15-50-09ps5.png",
+                      "relative_path":  "0f434e2b-2025-05-08-15-50-09ps5.png",
+                      "tile_index":  2,
+                      "tile":  [
+                                   1638,
+                                   0,
+                                   2662,
+                                   1024
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  24,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\0f434e2b-2025-05-08-15-50-09ps5.png",
+                      "relative_path":  "0f434e2b-2025-05-08-15-50-09ps5.png",
+                      "tile_index":  4,
+                      "tile":  [
+                                   2572,
+                                   0,
+                                   3596,
+                                   1024
+                               ],
+                      "bbox_count":  0,
+                      "dropped_bbox_count":  25,
+                      "empty":  true
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\0f434e2b-2025-05-08-15-50-09ps5.png",
+                      "relative_path":  "0f434e2b-2025-05-08-15-50-09ps5.png",
+                      "tile_index":  5,
+                      "tile":  [
+                                   0,
+                                   819,
+                                   1024,
+                                   1843
+                               ],
+                      "bbox_count":  12,
+                      "dropped_bbox_count":  13,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\0f434e2b-2025-05-08-15-50-09ps5.png",
+                      "relative_path":  "0f434e2b-2025-05-08-15-50-09ps5.png",
+                      "tile_index":  6,
+                      "tile":  [
+                                   819,
+                                   819,
+                                   1843,
+                                   1843
+                               ],
+                      "bbox_count":  11,
+                      "dropped_bbox_count":  14,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\0f434e2b-2025-05-08-15-50-09ps5.png",
+                      "relative_path":  "0f434e2b-2025-05-08-15-50-09ps5.png",
+                      "tile_index":  7,
+                      "tile":  [
+                                   1638,
+                                   819,
+                                   2662,
+                                   1843
+                               ],
+                      "bbox_count":  6,
+                      "dropped_bbox_count":  19,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\0f434e2b-2025-05-08-15-50-09ps5.png",
+                      "relative_path":  "0f434e2b-2025-05-08-15-50-09ps5.png",
+                      "tile_index":  8,
+                      "tile":  [
+                                   2457,
+                                   819,
+                                   3481,
+                                   1843
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  24,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\0f434e2b-2025-05-08-15-50-09ps5.png",
+                      "relative_path":  "0f434e2b-2025-05-08-15-50-09ps5.png",
+                      "tile_index":  9,
+                      "tile":  [
+                                   2572,
+                                   819,
+                                   3596,
+                                   1843
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  24,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\0f434e2b-2025-05-08-15-50-09ps5.png",
+                      "relative_path":  "0f434e2b-2025-05-08-15-50-09ps5.png",
+                      "tile_index":  10,
+                      "tile":  [
+                                   0,
+                                   878,
+                                   1024,
+                                   1902
+                               ],
+                      "bbox_count":  11,
+                      "dropped_bbox_count":  14,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\0f434e2b-2025-05-08-15-50-09ps5.png",
+                      "relative_path":  "0f434e2b-2025-05-08-15-50-09ps5.png",
+                      "tile_index":  11,
+                      "tile":  [
+                                   819,
+                                   878,
+                                   1843,
+                                   1902
+                               ],
+                      "bbox_count":  11,
+                      "dropped_bbox_count":  14,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\0f434e2b-2025-05-08-15-50-09ps5.png",
+                      "relative_path":  "0f434e2b-2025-05-08-15-50-09ps5.png",
+                      "tile_index":  12,
+                      "tile":  [
+                                   1638,
+                                   878,
+                                   2662,
+                                   1902
+                               ],
+                      "bbox_count":  6,
+                      "dropped_bbox_count":  19,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\0f434e2b-2025-05-08-15-50-09ps5.png",
+                      "relative_path":  "0f434e2b-2025-05-08-15-50-09ps5.png",
+                      "tile_index":  13,
+                      "tile":  [
+                                   2457,
+                                   878,
+                                   3481,
+                                   1902
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  24,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\0f434e2b-2025-05-08-15-50-09ps5.png",
+                      "relative_path":  "0f434e2b-2025-05-08-15-50-09ps5.png",
+                      "tile_index":  14,
+                      "tile":  [
+                                   2572,
+                                   878,
+                                   3596,
+                                   1902
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  24,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\15be935c-2025-05-09-18-28-20ps5.png",
+                      "relative_path":  "15be935c-2025-05-09-18-28-20ps5.png",
+                      "tile_index":  0,
+                      "tile":  [
+                                   0,
+                                   0,
+                                   1024,
+                                   1024
+                               ],
+                      "bbox_count":  0,
+                      "dropped_bbox_count":  5,
+                      "empty":  true
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\15be935c-2025-05-09-18-28-20ps5.png",
+                      "relative_path":  "15be935c-2025-05-09-18-28-20ps5.png",
+                      "tile_index":  1,
+                      "tile":  [
+                                   819,
+                                   0,
+                                   1843,
+                                   1024
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  4,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\15be935c-2025-05-09-18-28-20ps5.png",
+                      "relative_path":  "15be935c-2025-05-09-18-28-20ps5.png",
+                      "tile_index":  2,
+                      "tile":  [
+                                   1638,
+                                   0,
+                                   2662,
+                                   1024
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  4,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\15be935c-2025-05-09-18-28-20ps5.png",
+                      "relative_path":  "15be935c-2025-05-09-18-28-20ps5.png",
+                      "tile_index":  4,
+                      "tile":  [
+                                   2572,
+                                   0,
+                                   3596,
+                                   1024
+                               ],
+                      "bbox_count":  0,
+                      "dropped_bbox_count":  5,
+                      "empty":  true
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\15be935c-2025-05-09-18-28-20ps5.png",
+                      "relative_path":  "15be935c-2025-05-09-18-28-20ps5.png",
+                      "tile_index":  6,
+                      "tile":  [
+                                   819,
+                                   819,
+                                   1843,
+                                   1843
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  4,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\15be935c-2025-05-09-18-28-20ps5.png",
+                      "relative_path":  "15be935c-2025-05-09-18-28-20ps5.png",
+                      "tile_index":  7,
+                      "tile":  [
+                                   1638,
+                                   819,
+                                   2662,
+                                   1843
+                               ],
+                      "bbox_count":  3,
+                      "dropped_bbox_count":  2,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\15be935c-2025-05-09-18-28-20ps5.png",
+                      "relative_path":  "15be935c-2025-05-09-18-28-20ps5.png",
+                      "tile_index":  8,
+                      "tile":  [
+                                   2457,
+                                   819,
+                                   3481,
+                                   1843
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  4,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\15be935c-2025-05-09-18-28-20ps5.png",
+                      "relative_path":  "15be935c-2025-05-09-18-28-20ps5.png",
+                      "tile_index":  9,
+                      "tile":  [
+                                   2572,
+                                   819,
+                                   3596,
+                                   1843
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  4,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\15be935c-2025-05-09-18-28-20ps5.png",
+                      "relative_path":  "15be935c-2025-05-09-18-28-20ps5.png",
+                      "tile_index":  11,
+                      "tile":  [
+                                   819,
+                                   878,
+                                   1843,
+                                   1902
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  4,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\15be935c-2025-05-09-18-28-20ps5.png",
+                      "relative_path":  "15be935c-2025-05-09-18-28-20ps5.png",
+                      "tile_index":  12,
+                      "tile":  [
+                                   1638,
+                                   878,
+                                   2662,
+                                   1902
+                               ],
+                      "bbox_count":  3,
+                      "dropped_bbox_count":  2,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\15be935c-2025-05-09-18-28-20ps5.png",
+                      "relative_path":  "15be935c-2025-05-09-18-28-20ps5.png",
+                      "tile_index":  13,
+                      "tile":  [
+                                   2457,
+                                   878,
+                                   3481,
+                                   1902
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  4,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\15be935c-2025-05-09-18-28-20ps5.png",
+                      "relative_path":  "15be935c-2025-05-09-18-28-20ps5.png",
+                      "tile_index":  14,
+                      "tile":  [
+                                   2572,
+                                   878,
+                                   3596,
+                                   1902
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  4,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-36-15ps5.png",
+                      "relative_path":  "2025-05-10-15-36-15ps5.png",
+                      "tile_index":  0,
+                      "tile":  [
+                                   0,
+                                   0,
+                                   1024,
+                                   1024
+                               ],
+                      "bbox_count":  3,
+                      "dropped_bbox_count":  15,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-36-15ps5.png",
+                      "relative_path":  "2025-05-10-15-36-15ps5.png",
+                      "tile_index":  1,
+                      "tile":  [
+                                   819,
+                                   0,
+                                   1843,
+                                   1024
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  17,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-36-15ps5.png",
+                      "relative_path":  "2025-05-10-15-36-15ps5.png",
+                      "tile_index":  2,
+                      "tile":  [
+                                   1638,
+                                   0,
+                                   2662,
+                                   1024
+                               ],
+                      "bbox_count":  3,
+                      "dropped_bbox_count":  15,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-36-15ps5.png",
+                      "relative_path":  "2025-05-10-15-36-15ps5.png",
+                      "tile_index":  3,
+                      "tile":  [
+                                   2457,
+                                   0,
+                                   3481,
+                                   1024
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  17,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-36-15ps5.png",
+                      "relative_path":  "2025-05-10-15-36-15ps5.png",
+                      "tile_index":  4,
+                      "tile":  [
+                                   2572,
+                                   0,
+                                   3596,
+                                   1024
+                               ],
+                      "bbox_count":  0,
+                      "dropped_bbox_count":  18,
+                      "empty":  true
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-36-15ps5.png",
+                      "relative_path":  "2025-05-10-15-36-15ps5.png",
+                      "tile_index":  5,
+                      "tile":  [
+                                   0,
+                                   819,
+                                   1024,
+                                   1843
+                               ],
+                      "bbox_count":  6,
+                      "dropped_bbox_count":  12,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-36-15ps5.png",
+                      "relative_path":  "2025-05-10-15-36-15ps5.png",
+                      "tile_index":  6,
+                      "tile":  [
+                                   819,
+                                   819,
+                                   1843,
+                                   1843
+                               ],
+                      "bbox_count":  3,
+                      "dropped_bbox_count":  15,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-36-15ps5.png",
+                      "relative_path":  "2025-05-10-15-36-15ps5.png",
+                      "tile_index":  7,
+                      "tile":  [
+                                   1638,
+                                   819,
+                                   2662,
+                                   1843
+                               ],
+                      "bbox_count":  6,
+                      "dropped_bbox_count":  12,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-36-15ps5.png",
+                      "relative_path":  "2025-05-10-15-36-15ps5.png",
+                      "tile_index":  8,
+                      "tile":  [
+                                   2457,
+                                   819,
+                                   3481,
+                                   1843
+                               ],
+                      "bbox_count":  2,
+                      "dropped_bbox_count":  16,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-36-15ps5.png",
+                      "relative_path":  "2025-05-10-15-36-15ps5.png",
+                      "tile_index":  9,
+                      "tile":  [
+                                   2572,
+                                   819,
+                                   3596,
+                                   1843
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  17,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-36-15ps5.png",
+                      "relative_path":  "2025-05-10-15-36-15ps5.png",
+                      "tile_index":  10,
+                      "tile":  [
+                                   0,
+                                   878,
+                                   1024,
+                                   1902
+                               ],
+                      "bbox_count":  6,
+                      "dropped_bbox_count":  12,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-36-15ps5.png",
+                      "relative_path":  "2025-05-10-15-36-15ps5.png",
+                      "tile_index":  11,
+                      "tile":  [
+                                   819,
+                                   878,
+                                   1843,
+                                   1902
+                               ],
+                      "bbox_count":  3,
+                      "dropped_bbox_count":  15,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-36-15ps5.png",
+                      "relative_path":  "2025-05-10-15-36-15ps5.png",
+                      "tile_index":  12,
+                      "tile":  [
+                                   1638,
+                                   878,
+                                   2662,
+                                   1902
+                               ],
+                      "bbox_count":  6,
+                      "dropped_bbox_count":  12,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-36-15ps5.png",
+                      "relative_path":  "2025-05-10-15-36-15ps5.png",
+                      "tile_index":  13,
+                      "tile":  [
+                                   2457,
+                                   878,
+                                   3481,
+                                   1902
+                               ],
+                      "bbox_count":  2,
+                      "dropped_bbox_count":  16,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-36-15ps5.png",
+                      "relative_path":  "2025-05-10-15-36-15ps5.png",
+                      "tile_index":  14,
+                      "tile":  [
+                                   2572,
+                                   878,
+                                   3596,
+                                   1902
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  17,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-36-42ps5.png",
+                      "relative_path":  "2025-05-10-15-36-42ps5.png",
+                      "tile_index":  1,
+                      "tile":  [
+                                   819,
+                                   0,
+                                   1843,
+                                   1024
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  7,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-36-42ps5.png",
+                      "relative_path":  "2025-05-10-15-36-42ps5.png",
+                      "tile_index":  2,
+                      "tile":  [
+                                   1638,
+                                   0,
+                                   2662,
+                                   1024
+                               ],
+                      "bbox_count":  3,
+                      "dropped_bbox_count":  5,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-36-42ps5.png",
+                      "relative_path":  "2025-05-10-15-36-42ps5.png",
+                      "tile_index":  4,
+                      "tile":  [
+                                   2572,
+                                   0,
+                                   3596,
+                                   1024
+                               ],
+                      "bbox_count":  0,
+                      "dropped_bbox_count":  8,
+                      "empty":  true
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-36-42ps5.png",
+                      "relative_path":  "2025-05-10-15-36-42ps5.png",
+                      "tile_index":  5,
+                      "tile":  [
+                                   0,
+                                   819,
+                                   1024,
+                                   1843
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  7,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-36-42ps5.png",
+                      "relative_path":  "2025-05-10-15-36-42ps5.png",
+                      "tile_index":  6,
+                      "tile":  [
+                                   819,
+                                   819,
+                                   1843,
+                                   1843
+                               ],
+                      "bbox_count":  2,
+                      "dropped_bbox_count":  6,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-36-42ps5.png",
+                      "relative_path":  "2025-05-10-15-36-42ps5.png",
+                      "tile_index":  7,
+                      "tile":  [
+                                   1638,
+                                   819,
+                                   2662,
+                                   1843
+                               ],
+                      "bbox_count":  3,
+                      "dropped_bbox_count":  5,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-36-42ps5.png",
+                      "relative_path":  "2025-05-10-15-36-42ps5.png",
+                      "tile_index":  8,
+                      "tile":  [
+                                   2457,
+                                   819,
+                                   3481,
+                                   1843
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  7,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-36-42ps5.png",
+                      "relative_path":  "2025-05-10-15-36-42ps5.png",
+                      "tile_index":  9,
+                      "tile":  [
+                                   2572,
+                                   819,
+                                   3596,
+                                   1843
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  7,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-36-42ps5.png",
+                      "relative_path":  "2025-05-10-15-36-42ps5.png",
+                      "tile_index":  10,
+                      "tile":  [
+                                   0,
+                                   878,
+                                   1024,
+                                   1902
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  7,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-36-42ps5.png",
+                      "relative_path":  "2025-05-10-15-36-42ps5.png",
+                      "tile_index":  11,
+                      "tile":  [
+                                   819,
+                                   878,
+                                   1843,
+                                   1902
+                               ],
+                      "bbox_count":  2,
+                      "dropped_bbox_count":  6,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-36-42ps5.png",
+                      "relative_path":  "2025-05-10-15-36-42ps5.png",
+                      "tile_index":  12,
+                      "tile":  [
+                                   1638,
+                                   878,
+                                   2662,
+                                   1902
+                               ],
+                      "bbox_count":  3,
+                      "dropped_bbox_count":  5,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-36-42ps5.png",
+                      "relative_path":  "2025-05-10-15-36-42ps5.png",
+                      "tile_index":  13,
+                      "tile":  [
+                                   2457,
+                                   878,
+                                   3481,
+                                   1902
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  7,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-36-42ps5.png",
+                      "relative_path":  "2025-05-10-15-36-42ps5.png",
+                      "tile_index":  14,
+                      "tile":  [
+                                   2572,
+                                   878,
+                                   3596,
+                                   1902
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  7,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-36-55ps5.png",
+                      "relative_path":  "2025-05-10-15-36-55ps5.png",
+                      "tile_index":  0,
+                      "tile":  [
+                                   0,
+                                   0,
+                                   1024,
+                                   1024
+                               ],
+                      "bbox_count":  2,
+                      "dropped_bbox_count":  12,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-36-55ps5.png",
+                      "relative_path":  "2025-05-10-15-36-55ps5.png",
+                      "tile_index":  1,
+                      "tile":  [
+                                   819,
+                                   0,
+                                   1843,
+                                   1024
+                               ],
+                      "bbox_count":  2,
+                      "dropped_bbox_count":  12,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-36-55ps5.png",
+                      "relative_path":  "2025-05-10-15-36-55ps5.png",
+                      "tile_index":  2,
+                      "tile":  [
+                                   1638,
+                                   0,
+                                   2662,
+                                   1024
+                               ],
+                      "bbox_count":  4,
+                      "dropped_bbox_count":  10,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-36-55ps5.png",
+                      "relative_path":  "2025-05-10-15-36-55ps5.png",
+                      "tile_index":  3,
+                      "tile":  [
+                                   2457,
+                                   0,
+                                   3481,
+                                   1024
+                               ],
+                      "bbox_count":  0,
+                      "dropped_bbox_count":  14,
+                      "empty":  true
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-36-55ps5.png",
+                      "relative_path":  "2025-05-10-15-36-55ps5.png",
+                      "tile_index":  5,
+                      "tile":  [
+                                   0,
+                                   819,
+                                   1024,
+                                   1843
+                               ],
+                      "bbox_count":  2,
+                      "dropped_bbox_count":  12,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-36-55ps5.png",
+                      "relative_path":  "2025-05-10-15-36-55ps5.png",
+                      "tile_index":  6,
+                      "tile":  [
+                                   819,
+                                   819,
+                                   1843,
+                                   1843
+                               ],
+                      "bbox_count":  2,
+                      "dropped_bbox_count":  12,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-36-55ps5.png",
+                      "relative_path":  "2025-05-10-15-36-55ps5.png",
+                      "tile_index":  7,
+                      "tile":  [
+                                   1638,
+                                   819,
+                                   2662,
+                                   1843
+                               ],
+                      "bbox_count":  3,
+                      "dropped_bbox_count":  11,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-36-55ps5.png",
+                      "relative_path":  "2025-05-10-15-36-55ps5.png",
+                      "tile_index":  8,
+                      "tile":  [
+                                   2457,
+                                   819,
+                                   3481,
+                                   1843
+                               ],
+                      "bbox_count":  3,
+                      "dropped_bbox_count":  11,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-36-55ps5.png",
+                      "relative_path":  "2025-05-10-15-36-55ps5.png",
+                      "tile_index":  9,
+                      "tile":  [
+                                   2572,
+                                   819,
+                                   3596,
+                                   1843
+                               ],
+                      "bbox_count":  3,
+                      "dropped_bbox_count":  11,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-36-55ps5.png",
+                      "relative_path":  "2025-05-10-15-36-55ps5.png",
+                      "tile_index":  10,
+                      "tile":  [
+                                   0,
+                                   878,
+                                   1024,
+                                   1902
+                               ],
+                      "bbox_count":  2,
+                      "dropped_bbox_count":  12,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-36-55ps5.png",
+                      "relative_path":  "2025-05-10-15-36-55ps5.png",
+                      "tile_index":  11,
+                      "tile":  [
+                                   819,
+                                   878,
+                                   1843,
+                                   1902
+                               ],
+                      "bbox_count":  2,
+                      "dropped_bbox_count":  12,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-36-55ps5.png",
+                      "relative_path":  "2025-05-10-15-36-55ps5.png",
+                      "tile_index":  12,
+                      "tile":  [
+                                   1638,
+                                   878,
+                                   2662,
+                                   1902
+                               ],
+                      "bbox_count":  3,
+                      "dropped_bbox_count":  11,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-36-55ps5.png",
+                      "relative_path":  "2025-05-10-15-36-55ps5.png",
+                      "tile_index":  13,
+                      "tile":  [
+                                   2457,
+                                   878,
+                                   3481,
+                                   1902
+                               ],
+                      "bbox_count":  3,
+                      "dropped_bbox_count":  11,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-36-55ps5.png",
+                      "relative_path":  "2025-05-10-15-36-55ps5.png",
+                      "tile_index":  14,
+                      "tile":  [
+                                   2572,
+                                   878,
+                                   3596,
+                                   1902
+                               ],
+                      "bbox_count":  3,
+                      "dropped_bbox_count":  11,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-37-06ps5.png",
+                      "relative_path":  "2025-05-10-15-37-06ps5.png",
+                      "tile_index":  1,
+                      "tile":  [
+                                   819,
+                                   0,
+                                   1843,
+                                   1024
+                               ],
+                      "bbox_count":  2,
+                      "dropped_bbox_count":  4,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-37-06ps5.png",
+                      "relative_path":  "2025-05-10-15-37-06ps5.png",
+                      "tile_index":  2,
+                      "tile":  [
+                                   1638,
+                                   0,
+                                   2662,
+                                   1024
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  5,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-37-06ps5.png",
+                      "relative_path":  "2025-05-10-15-37-06ps5.png",
+                      "tile_index":  3,
+                      "tile":  [
+                                   2457,
+                                   0,
+                                   3481,
+                                   1024
+                               ],
+                      "bbox_count":  0,
+                      "dropped_bbox_count":  6,
+                      "empty":  true
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-37-06ps5.png",
+                      "relative_path":  "2025-05-10-15-37-06ps5.png",
+                      "tile_index":  5,
+                      "tile":  [
+                                   0,
+                                   819,
+                                   1024,
+                                   1843
+                               ],
+                      "bbox_count":  0,
+                      "dropped_bbox_count":  6,
+                      "empty":  true
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-37-06ps5.png",
+                      "relative_path":  "2025-05-10-15-37-06ps5.png",
+                      "tile_index":  6,
+                      "tile":  [
+                                   819,
+                                   819,
+                                   1843,
+                                   1843
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  5,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-37-06ps5.png",
+                      "relative_path":  "2025-05-10-15-37-06ps5.png",
+                      "tile_index":  7,
+                      "tile":  [
+                                   1638,
+                                   819,
+                                   2662,
+                                   1843
+                               ],
+                      "bbox_count":  3,
+                      "dropped_bbox_count":  3,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-37-06ps5.png",
+                      "relative_path":  "2025-05-10-15-37-06ps5.png",
+                      "tile_index":  8,
+                      "tile":  [
+                                   2457,
+                                   819,
+                                   3481,
+                                   1843
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  5,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-37-06ps5.png",
+                      "relative_path":  "2025-05-10-15-37-06ps5.png",
+                      "tile_index":  9,
+                      "tile":  [
+                                   2572,
+                                   819,
+                                   3596,
+                                   1843
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  5,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-37-06ps5.png",
+                      "relative_path":  "2025-05-10-15-37-06ps5.png",
+                      "tile_index":  10,
+                      "tile":  [
+                                   0,
+                                   878,
+                                   1024,
+                                   1902
+                               ],
+                      "bbox_count":  0,
+                      "dropped_bbox_count":  6,
+                      "empty":  true
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-37-06ps5.png",
+                      "relative_path":  "2025-05-10-15-37-06ps5.png",
+                      "tile_index":  11,
+                      "tile":  [
+                                   819,
+                                   878,
+                                   1843,
+                                   1902
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  5,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-37-06ps5.png",
+                      "relative_path":  "2025-05-10-15-37-06ps5.png",
+                      "tile_index":  12,
+                      "tile":  [
+                                   1638,
+                                   878,
+                                   2662,
+                                   1902
+                               ],
+                      "bbox_count":  3,
+                      "dropped_bbox_count":  3,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-37-06ps5.png",
+                      "relative_path":  "2025-05-10-15-37-06ps5.png",
+                      "tile_index":  13,
+                      "tile":  [
+                                   2457,
+                                   878,
+                                   3481,
+                                   1902
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  5,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-37-06ps5.png",
+                      "relative_path":  "2025-05-10-15-37-06ps5.png",
+                      "tile_index":  14,
+                      "tile":  [
+                                   2572,
+                                   878,
+                                   3596,
+                                   1902
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  5,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-38-13ps5.png",
+                      "relative_path":  "2025-05-10-15-38-13ps5.png",
+                      "tile_index":  1,
+                      "tile":  [
+                                   819,
+                                   0,
+                                   1843,
+                                   1024
+                               ],
+                      "bbox_count":  2,
+                      "dropped_bbox_count":  7,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-38-13ps5.png",
+                      "relative_path":  "2025-05-10-15-38-13ps5.png",
+                      "tile_index":  2,
+                      "tile":  [
+                                   1638,
+                                   0,
+                                   2662,
+                                   1024
+                               ],
+                      "bbox_count":  2,
+                      "dropped_bbox_count":  7,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-38-13ps5.png",
+                      "relative_path":  "2025-05-10-15-38-13ps5.png",
+                      "tile_index":  3,
+                      "tile":  [
+                                   2457,
+                                   0,
+                                   3481,
+                                   1024
+                               ],
+                      "bbox_count":  0,
+                      "dropped_bbox_count":  9,
+                      "empty":  true
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-38-13ps5.png",
+                      "relative_path":  "2025-05-10-15-38-13ps5.png",
+                      "tile_index":  5,
+                      "tile":  [
+                                   0,
+                                   819,
+                                   1024,
+                                   1843
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  8,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-38-13ps5.png",
+                      "relative_path":  "2025-05-10-15-38-13ps5.png",
+                      "tile_index":  6,
+                      "tile":  [
+                                   819,
+                                   819,
+                                   1843,
+                                   1843
+                               ],
+                      "bbox_count":  3,
+                      "dropped_bbox_count":  6,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-38-13ps5.png",
+                      "relative_path":  "2025-05-10-15-38-13ps5.png",
+                      "tile_index":  7,
+                      "tile":  [
+                                   1638,
+                                   819,
+                                   2662,
+                                   1843
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  8,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-38-13ps5.png",
+                      "relative_path":  "2025-05-10-15-38-13ps5.png",
+                      "tile_index":  8,
+                      "tile":  [
+                                   2457,
+                                   819,
+                                   3481,
+                                   1843
+                               ],
+                      "bbox_count":  2,
+                      "dropped_bbox_count":  7,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-38-13ps5.png",
+                      "relative_path":  "2025-05-10-15-38-13ps5.png",
+                      "tile_index":  9,
+                      "tile":  [
+                                   2572,
+                                   819,
+                                   3596,
+                                   1843
+                               ],
+                      "bbox_count":  2,
+                      "dropped_bbox_count":  7,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-38-13ps5.png",
+                      "relative_path":  "2025-05-10-15-38-13ps5.png",
+                      "tile_index":  10,
+                      "tile":  [
+                                   0,
+                                   878,
+                                   1024,
+                                   1902
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  8,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-38-13ps5.png",
+                      "relative_path":  "2025-05-10-15-38-13ps5.png",
+                      "tile_index":  11,
+                      "tile":  [
+                                   819,
+                                   878,
+                                   1843,
+                                   1902
+                               ],
+                      "bbox_count":  3,
+                      "dropped_bbox_count":  6,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-38-13ps5.png",
+                      "relative_path":  "2025-05-10-15-38-13ps5.png",
+                      "tile_index":  12,
+                      "tile":  [
+                                   1638,
+                                   878,
+                                   2662,
+                                   1902
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  8,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-38-13ps5.png",
+                      "relative_path":  "2025-05-10-15-38-13ps5.png",
+                      "tile_index":  13,
+                      "tile":  [
+                                   2457,
+                                   878,
+                                   3481,
+                                   1902
+                               ],
+                      "bbox_count":  2,
+                      "dropped_bbox_count":  7,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-38-13ps5.png",
+                      "relative_path":  "2025-05-10-15-38-13ps5.png",
+                      "tile_index":  14,
+                      "tile":  [
+                                   2572,
+                                   878,
+                                   3596,
+                                   1902
+                               ],
+                      "bbox_count":  2,
+                      "dropped_bbox_count":  7,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-38-23ps5.png",
+                      "relative_path":  "2025-05-10-15-38-23ps5.png",
+                      "tile_index":  0,
+                      "tile":  [
+                                   0,
+                                   0,
+                                   1024,
+                                   1024
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  5,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-38-23ps5.png",
+                      "relative_path":  "2025-05-10-15-38-23ps5.png",
+                      "tile_index":  1,
+                      "tile":  [
+                                   819,
+                                   0,
+                                   1843,
+                                   1024
+                               ],
+                      "bbox_count":  2,
+                      "dropped_bbox_count":  4,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-38-23ps5.png",
+                      "relative_path":  "2025-05-10-15-38-23ps5.png",
+                      "tile_index":  2,
+                      "tile":  [
+                                   1638,
+                                   0,
+                                   2662,
+                                   1024
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  5,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-38-23ps5.png",
+                      "relative_path":  "2025-05-10-15-38-23ps5.png",
+                      "tile_index":  5,
+                      "tile":  [
+                                   0,
+                                   819,
+                                   1024,
+                                   1843
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  5,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-38-23ps5.png",
+                      "relative_path":  "2025-05-10-15-38-23ps5.png",
+                      "tile_index":  6,
+                      "tile":  [
+                                   819,
+                                   819,
+                                   1843,
+                                   1843
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  5,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-38-23ps5.png",
+                      "relative_path":  "2025-05-10-15-38-23ps5.png",
+                      "tile_index":  7,
+                      "tile":  [
+                                   1638,
+                                   819,
+                                   2662,
+                                   1843
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  5,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-38-23ps5.png",
+                      "relative_path":  "2025-05-10-15-38-23ps5.png",
+                      "tile_index":  8,
+                      "tile":  [
+                                   2457,
+                                   819,
+                                   3481,
+                                   1843
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  5,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-38-23ps5.png",
+                      "relative_path":  "2025-05-10-15-38-23ps5.png",
+                      "tile_index":  9,
+                      "tile":  [
+                                   2572,
+                                   819,
+                                   3596,
+                                   1843
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  5,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-38-23ps5.png",
+                      "relative_path":  "2025-05-10-15-38-23ps5.png",
+                      "tile_index":  10,
+                      "tile":  [
+                                   0,
+                                   878,
+                                   1024,
+                                   1902
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  5,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-38-23ps5.png",
+                      "relative_path":  "2025-05-10-15-38-23ps5.png",
+                      "tile_index":  11,
+                      "tile":  [
+                                   819,
+                                   878,
+                                   1843,
+                                   1902
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  5,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-38-23ps5.png",
+                      "relative_path":  "2025-05-10-15-38-23ps5.png",
+                      "tile_index":  12,
+                      "tile":  [
+                                   1638,
+                                   878,
+                                   2662,
+                                   1902
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  5,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-38-23ps5.png",
+                      "relative_path":  "2025-05-10-15-38-23ps5.png",
+                      "tile_index":  13,
+                      "tile":  [
+                                   2457,
+                                   878,
+                                   3481,
+                                   1902
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  5,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "train",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\train\\2025-05-10-15-38-23ps5.png",
+                      "relative_path":  "2025-05-10-15-38-23ps5.png",
+                      "tile_index":  14,
+                      "tile":  [
+                                   2572,
+                                   878,
+                                   3596,
+                                   1902
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  5,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\105acebc-2025-05-09-18-24-19ps5.png",
+                      "relative_path":  "105acebc-2025-05-09-18-24-19ps5.png",
+                      "tile_index":  0,
+                      "tile":  [
+                                   0,
+                                   0,
+                                   1024,
+                                   1024
+                               ],
+                      "bbox_count":  2,
+                      "dropped_bbox_count":  6,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\105acebc-2025-05-09-18-24-19ps5.png",
+                      "relative_path":  "105acebc-2025-05-09-18-24-19ps5.png",
+                      "tile_index":  1,
+                      "tile":  [
+                                   819,
+                                   0,
+                                   1843,
+                                   1024
+                               ],
+                      "bbox_count":  3,
+                      "dropped_bbox_count":  5,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\105acebc-2025-05-09-18-24-19ps5.png",
+                      "relative_path":  "105acebc-2025-05-09-18-24-19ps5.png",
+                      "tile_index":  2,
+                      "tile":  [
+                                   1638,
+                                   0,
+                                   2662,
+                                   1024
+                               ],
+                      "bbox_count":  2,
+                      "dropped_bbox_count":  6,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\105acebc-2025-05-09-18-24-19ps5.png",
+                      "relative_path":  "105acebc-2025-05-09-18-24-19ps5.png",
+                      "tile_index":  6,
+                      "tile":  [
+                                   819,
+                                   819,
+                                   1843,
+                                   1843
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  7,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\105acebc-2025-05-09-18-24-19ps5.png",
+                      "relative_path":  "105acebc-2025-05-09-18-24-19ps5.png",
+                      "tile_index":  7,
+                      "tile":  [
+                                   1638,
+                                   819,
+                                   2662,
+                                   1843
+                               ],
+                      "bbox_count":  4,
+                      "dropped_bbox_count":  4,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\105acebc-2025-05-09-18-24-19ps5.png",
+                      "relative_path":  "105acebc-2025-05-09-18-24-19ps5.png",
+                      "tile_index":  8,
+                      "tile":  [
+                                   2457,
+                                   819,
+                                   3481,
+                                   1843
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  7,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\105acebc-2025-05-09-18-24-19ps5.png",
+                      "relative_path":  "105acebc-2025-05-09-18-24-19ps5.png",
+                      "tile_index":  9,
+                      "tile":  [
+                                   2572,
+                                   819,
+                                   3596,
+                                   1843
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  7,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\105acebc-2025-05-09-18-24-19ps5.png",
+                      "relative_path":  "105acebc-2025-05-09-18-24-19ps5.png",
+                      "tile_index":  11,
+                      "tile":  [
+                                   819,
+                                   878,
+                                   1843,
+                                   1902
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  7,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\105acebc-2025-05-09-18-24-19ps5.png",
+                      "relative_path":  "105acebc-2025-05-09-18-24-19ps5.png",
+                      "tile_index":  12,
+                      "tile":  [
+                                   1638,
+                                   878,
+                                   2662,
+                                   1902
+                               ],
+                      "bbox_count":  4,
+                      "dropped_bbox_count":  4,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\105acebc-2025-05-09-18-24-19ps5.png",
+                      "relative_path":  "105acebc-2025-05-09-18-24-19ps5.png",
+                      "tile_index":  13,
+                      "tile":  [
+                                   2457,
+                                   878,
+                                   3481,
+                                   1902
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  7,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\105acebc-2025-05-09-18-24-19ps5.png",
+                      "relative_path":  "105acebc-2025-05-09-18-24-19ps5.png",
+                      "tile_index":  14,
+                      "tile":  [
+                                   2572,
+                                   878,
+                                   3596,
+                                   1902
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  7,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\13d91ebd-2025-04-13-11-32-17ps5.png",
+                      "relative_path":  "13d91ebd-2025-04-13-11-32-17ps5.png",
+                      "tile_index":  0,
+                      "tile":  [
+                                   0,
+                                   0,
+                                   1024,
+                                   1024
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  8,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\13d91ebd-2025-04-13-11-32-17ps5.png",
+                      "relative_path":  "13d91ebd-2025-04-13-11-32-17ps5.png",
+                      "tile_index":  1,
+                      "tile":  [
+                                   819,
+                                   0,
+                                   1843,
+                                   1024
+                               ],
+                      "bbox_count":  3,
+                      "dropped_bbox_count":  6,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\13d91ebd-2025-04-13-11-32-17ps5.png",
+                      "relative_path":  "13d91ebd-2025-04-13-11-32-17ps5.png",
+                      "tile_index":  2,
+                      "tile":  [
+                                   1638,
+                                   0,
+                                   2662,
+                                   1024
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  8,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\13d91ebd-2025-04-13-11-32-17ps5.png",
+                      "relative_path":  "13d91ebd-2025-04-13-11-32-17ps5.png",
+                      "tile_index":  5,
+                      "tile":  [
+                                   0,
+                                   819,
+                                   1024,
+                                   1843
+                               ],
+                      "bbox_count":  2,
+                      "dropped_bbox_count":  7,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\13d91ebd-2025-04-13-11-32-17ps5.png",
+                      "relative_path":  "13d91ebd-2025-04-13-11-32-17ps5.png",
+                      "tile_index":  6,
+                      "tile":  [
+                                   819,
+                                   819,
+                                   1843,
+                                   1843
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  8,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\13d91ebd-2025-04-13-11-32-17ps5.png",
+                      "relative_path":  "13d91ebd-2025-04-13-11-32-17ps5.png",
+                      "tile_index":  7,
+                      "tile":  [
+                                   1638,
+                                   819,
+                                   2662,
+                                   1843
+                               ],
+                      "bbox_count":  3,
+                      "dropped_bbox_count":  6,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\13d91ebd-2025-04-13-11-32-17ps5.png",
+                      "relative_path":  "13d91ebd-2025-04-13-11-32-17ps5.png",
+                      "tile_index":  8,
+                      "tile":  [
+                                   2457,
+                                   819,
+                                   3481,
+                                   1843
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  8,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\13d91ebd-2025-04-13-11-32-17ps5.png",
+                      "relative_path":  "13d91ebd-2025-04-13-11-32-17ps5.png",
+                      "tile_index":  9,
+                      "tile":  [
+                                   2572,
+                                   819,
+                                   3596,
+                                   1843
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  8,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\13d91ebd-2025-04-13-11-32-17ps5.png",
+                      "relative_path":  "13d91ebd-2025-04-13-11-32-17ps5.png",
+                      "tile_index":  10,
+                      "tile":  [
+                                   0,
+                                   878,
+                                   1024,
+                                   1902
+                               ],
+                      "bbox_count":  2,
+                      "dropped_bbox_count":  7,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\13d91ebd-2025-04-13-11-32-17ps5.png",
+                      "relative_path":  "13d91ebd-2025-04-13-11-32-17ps5.png",
+                      "tile_index":  11,
+                      "tile":  [
+                                   819,
+                                   878,
+                                   1843,
+                                   1902
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  8,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\13d91ebd-2025-04-13-11-32-17ps5.png",
+                      "relative_path":  "13d91ebd-2025-04-13-11-32-17ps5.png",
+                      "tile_index":  12,
+                      "tile":  [
+                                   1638,
+                                   878,
+                                   2662,
+                                   1902
+                               ],
+                      "bbox_count":  3,
+                      "dropped_bbox_count":  6,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\13d91ebd-2025-04-13-11-32-17ps5.png",
+                      "relative_path":  "13d91ebd-2025-04-13-11-32-17ps5.png",
+                      "tile_index":  13,
+                      "tile":  [
+                                   2457,
+                                   878,
+                                   3481,
+                                   1902
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  8,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\13d91ebd-2025-04-13-11-32-17ps5.png",
+                      "relative_path":  "13d91ebd-2025-04-13-11-32-17ps5.png",
+                      "tile_index":  14,
+                      "tile":  [
+                                   2572,
+                                   878,
+                                   3596,
+                                   1902
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  8,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\182e7d02-2025-04-22-16-40-10ps5_NGyuan.png",
+                      "relative_path":  "182e7d02-2025-04-22-16-40-10ps5_NGyuan.png",
+                      "tile_index":  0,
+                      "tile":  [
+                                   0,
+                                   0,
+                                   1024,
+                                   1024
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  7,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\182e7d02-2025-04-22-16-40-10ps5_NGyuan.png",
+                      "relative_path":  "182e7d02-2025-04-22-16-40-10ps5_NGyuan.png",
+                      "tile_index":  1,
+                      "tile":  [
+                                   819,
+                                   0,
+                                   1843,
+                                   1024
+                               ],
+                      "bbox_count":  5,
+                      "dropped_bbox_count":  3,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\182e7d02-2025-04-22-16-40-10ps5_NGyuan.png",
+                      "relative_path":  "182e7d02-2025-04-22-16-40-10ps5_NGyuan.png",
+                      "tile_index":  2,
+                      "tile":  [
+                                   1638,
+                                   0,
+                                   2662,
+                                   1024
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  7,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\182e7d02-2025-04-22-16-40-10ps5_NGyuan.png",
+                      "relative_path":  "182e7d02-2025-04-22-16-40-10ps5_NGyuan.png",
+                      "tile_index":  3,
+                      "tile":  [
+                                   2457,
+                                   0,
+                                   3481,
+                                   1024
+                               ],
+                      "bbox_count":  0,
+                      "dropped_bbox_count":  8,
+                      "empty":  true
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\182e7d02-2025-04-22-16-40-10ps5_NGyuan.png",
+                      "relative_path":  "182e7d02-2025-04-22-16-40-10ps5_NGyuan.png",
+                      "tile_index":  6,
+                      "tile":  [
+                                   819,
+                                   819,
+                                   1843,
+                                   1843
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  7,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\182e7d02-2025-04-22-16-40-10ps5_NGyuan.png",
+                      "relative_path":  "182e7d02-2025-04-22-16-40-10ps5_NGyuan.png",
+                      "tile_index":  7,
+                      "tile":  [
+                                   1638,
+                                   819,
+                                   2662,
+                                   1843
+                               ],
+                      "bbox_count":  2,
+                      "dropped_bbox_count":  6,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\182e7d02-2025-04-22-16-40-10ps5_NGyuan.png",
+                      "relative_path":  "182e7d02-2025-04-22-16-40-10ps5_NGyuan.png",
+                      "tile_index":  8,
+                      "tile":  [
+                                   2457,
+                                   819,
+                                   3481,
+                                   1843
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  7,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\182e7d02-2025-04-22-16-40-10ps5_NGyuan.png",
+                      "relative_path":  "182e7d02-2025-04-22-16-40-10ps5_NGyuan.png",
+                      "tile_index":  11,
+                      "tile":  [
+                                   819,
+                                   878,
+                                   1843,
+                                   1902
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  7,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\182e7d02-2025-04-22-16-40-10ps5_NGyuan.png",
+                      "relative_path":  "182e7d02-2025-04-22-16-40-10ps5_NGyuan.png",
+                      "tile_index":  12,
+                      "tile":  [
+                                   1638,
+                                   878,
+                                   2662,
+                                   1902
+                               ],
+                      "bbox_count":  2,
+                      "dropped_bbox_count":  6,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\182e7d02-2025-04-22-16-40-10ps5_NGyuan.png",
+                      "relative_path":  "182e7d02-2025-04-22-16-40-10ps5_NGyuan.png",
+                      "tile_index":  13,
+                      "tile":  [
+                                   2457,
+                                   878,
+                                   3481,
+                                   1902
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  7,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\2025-05-10-15-39-23ps5.png",
+                      "relative_path":  "2025-05-10-15-39-23ps5.png",
+                      "tile_index":  1,
+                      "tile":  [
+                                   819,
+                                   0,
+                                   1843,
+                                   1024
+                               ],
+                      "bbox_count":  0,
+                      "dropped_bbox_count":  6,
+                      "empty":  true
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\2025-05-10-15-39-23ps5.png",
+                      "relative_path":  "2025-05-10-15-39-23ps5.png",
+                      "tile_index":  3,
+                      "tile":  [
+                                   2457,
+                                   0,
+                                   3481,
+                                   1024
+                               ],
+                      "bbox_count":  0,
+                      "dropped_bbox_count":  6,
+                      "empty":  true
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\2025-05-10-15-39-23ps5.png",
+                      "relative_path":  "2025-05-10-15-39-23ps5.png",
+                      "tile_index":  4,
+                      "tile":  [
+                                   2572,
+                                   0,
+                                   3596,
+                                   1024
+                               ],
+                      "bbox_count":  0,
+                      "dropped_bbox_count":  6,
+                      "empty":  true
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\2025-05-10-15-39-23ps5.png",
+                      "relative_path":  "2025-05-10-15-39-23ps5.png",
+                      "tile_index":  6,
+                      "tile":  [
+                                   819,
+                                   819,
+                                   1843,
+                                   1843
+                               ],
+                      "bbox_count":  2,
+                      "dropped_bbox_count":  4,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\2025-05-10-15-39-23ps5.png",
+                      "relative_path":  "2025-05-10-15-39-23ps5.png",
+                      "tile_index":  7,
+                      "tile":  [
+                                   1638,
+                                   819,
+                                   2662,
+                                   1843
+                               ],
+                      "bbox_count":  4,
+                      "dropped_bbox_count":  2,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\2025-05-10-15-39-23ps5.png",
+                      "relative_path":  "2025-05-10-15-39-23ps5.png",
+                      "tile_index":  8,
+                      "tile":  [
+                                   2457,
+                                   819,
+                                   3481,
+                                   1843
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  5,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\2025-05-10-15-39-23ps5.png",
+                      "relative_path":  "2025-05-10-15-39-23ps5.png",
+                      "tile_index":  9,
+                      "tile":  [
+                                   2572,
+                                   819,
+                                   3596,
+                                   1843
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  5,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\2025-05-10-15-39-23ps5.png",
+                      "relative_path":  "2025-05-10-15-39-23ps5.png",
+                      "tile_index":  10,
+                      "tile":  [
+                                   0,
+                                   878,
+                                   1024,
+                                   1902
+                               ],
+                      "bbox_count":  0,
+                      "dropped_bbox_count":  6,
+                      "empty":  true
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\2025-05-10-15-39-23ps5.png",
+                      "relative_path":  "2025-05-10-15-39-23ps5.png",
+                      "tile_index":  11,
+                      "tile":  [
+                                   819,
+                                   878,
+                                   1843,
+                                   1902
+                               ],
+                      "bbox_count":  2,
+                      "dropped_bbox_count":  4,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\2025-05-10-15-39-23ps5.png",
+                      "relative_path":  "2025-05-10-15-39-23ps5.png",
+                      "tile_index":  12,
+                      "tile":  [
+                                   1638,
+                                   878,
+                                   2662,
+                                   1902
+                               ],
+                      "bbox_count":  4,
+                      "dropped_bbox_count":  2,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\2025-05-10-15-39-23ps5.png",
+                      "relative_path":  "2025-05-10-15-39-23ps5.png",
+                      "tile_index":  13,
+                      "tile":  [
+                                   2457,
+                                   878,
+                                   3481,
+                                   1902
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  5,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\2025-05-10-15-39-23ps5.png",
+                      "relative_path":  "2025-05-10-15-39-23ps5.png",
+                      "tile_index":  14,
+                      "tile":  [
+                                   2572,
+                                   878,
+                                   3596,
+                                   1902
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  5,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\2025-05-10-15-40-40ps5.png",
+                      "relative_path":  "2025-05-10-15-40-40ps5.png",
+                      "tile_index":  1,
+                      "tile":  [
+                                   819,
+                                   0,
+                                   1843,
+                                   1024
+                               ],
+                      "bbox_count":  2,
+                      "dropped_bbox_count":  8,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\2025-05-10-15-40-40ps5.png",
+                      "relative_path":  "2025-05-10-15-40-40ps5.png",
+                      "tile_index":  2,
+                      "tile":  [
+                                   1638,
+                                   0,
+                                   2662,
+                                   1024
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  9,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\2025-05-10-15-40-40ps5.png",
+                      "relative_path":  "2025-05-10-15-40-40ps5.png",
+                      "tile_index":  5,
+                      "tile":  [
+                                   0,
+                                   819,
+                                   1024,
+                                   1843
+                               ],
+                      "bbox_count":  3,
+                      "dropped_bbox_count":  7,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\2025-05-10-15-40-40ps5.png",
+                      "relative_path":  "2025-05-10-15-40-40ps5.png",
+                      "tile_index":  6,
+                      "tile":  [
+                                   819,
+                                   819,
+                                   1843,
+                                   1843
+                               ],
+                      "bbox_count":  3,
+                      "dropped_bbox_count":  7,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\2025-05-10-15-40-40ps5.png",
+                      "relative_path":  "2025-05-10-15-40-40ps5.png",
+                      "tile_index":  7,
+                      "tile":  [
+                                   1638,
+                                   819,
+                                   2662,
+                                   1843
+                               ],
+                      "bbox_count":  3,
+                      "dropped_bbox_count":  7,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\2025-05-10-15-40-40ps5.png",
+                      "relative_path":  "2025-05-10-15-40-40ps5.png",
+                      "tile_index":  8,
+                      "tile":  [
+                                   2457,
+                                   819,
+                                   3481,
+                                   1843
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  9,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\2025-05-10-15-40-40ps5.png",
+                      "relative_path":  "2025-05-10-15-40-40ps5.png",
+                      "tile_index":  9,
+                      "tile":  [
+                                   2572,
+                                   819,
+                                   3596,
+                                   1843
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  9,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\2025-05-10-15-40-40ps5.png",
+                      "relative_path":  "2025-05-10-15-40-40ps5.png",
+                      "tile_index":  10,
+                      "tile":  [
+                                   0,
+                                   878,
+                                   1024,
+                                   1902
+                               ],
+                      "bbox_count":  3,
+                      "dropped_bbox_count":  7,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\2025-05-10-15-40-40ps5.png",
+                      "relative_path":  "2025-05-10-15-40-40ps5.png",
+                      "tile_index":  11,
+                      "tile":  [
+                                   819,
+                                   878,
+                                   1843,
+                                   1902
+                               ],
+                      "bbox_count":  3,
+                      "dropped_bbox_count":  7,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\2025-05-10-15-40-40ps5.png",
+                      "relative_path":  "2025-05-10-15-40-40ps5.png",
+                      "tile_index":  12,
+                      "tile":  [
+                                   1638,
+                                   878,
+                                   2662,
+                                   1902
+                               ],
+                      "bbox_count":  3,
+                      "dropped_bbox_count":  7,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\2025-05-10-15-40-40ps5.png",
+                      "relative_path":  "2025-05-10-15-40-40ps5.png",
+                      "tile_index":  13,
+                      "tile":  [
+                                   2457,
+                                   878,
+                                   3481,
+                                   1902
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  9,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\2025-05-10-15-40-40ps5.png",
+                      "relative_path":  "2025-05-10-15-40-40ps5.png",
+                      "tile_index":  14,
+                      "tile":  [
+                                   2572,
+                                   878,
+                                   3596,
+                                   1902
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  9,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\2025-05-16-16-13-18ps5.png",
+                      "relative_path":  "2025-05-16-16-13-18ps5.png",
+                      "tile_index":  1,
+                      "tile":  [
+                                   819,
+                                   0,
+                                   1843,
+                                   1024
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  5,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\2025-05-16-16-13-18ps5.png",
+                      "relative_path":  "2025-05-16-16-13-18ps5.png",
+                      "tile_index":  5,
+                      "tile":  [
+                                   0,
+                                   819,
+                                   1024,
+                                   1843
+                               ],
+                      "bbox_count":  0,
+                      "dropped_bbox_count":  6,
+                      "empty":  true
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\2025-05-16-16-13-18ps5.png",
+                      "relative_path":  "2025-05-16-16-13-18ps5.png",
+                      "tile_index":  6,
+                      "tile":  [
+                                   819,
+                                   819,
+                                   1843,
+                                   1843
+                               ],
+                      "bbox_count":  3,
+                      "dropped_bbox_count":  3,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\2025-05-16-16-13-18ps5.png",
+                      "relative_path":  "2025-05-16-16-13-18ps5.png",
+                      "tile_index":  7,
+                      "tile":  [
+                                   1638,
+                                   819,
+                                   2662,
+                                   1843
+                               ],
+                      "bbox_count":  2,
+                      "dropped_bbox_count":  4,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\2025-05-16-16-13-18ps5.png",
+                      "relative_path":  "2025-05-16-16-13-18ps5.png",
+                      "tile_index":  8,
+                      "tile":  [
+                                   2457,
+                                   819,
+                                   3481,
+                                   1843
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  5,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\2025-05-16-16-13-18ps5.png",
+                      "relative_path":  "2025-05-16-16-13-18ps5.png",
+                      "tile_index":  9,
+                      "tile":  [
+                                   2572,
+                                   819,
+                                   3596,
+                                   1843
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  5,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\2025-05-16-16-13-18ps5.png",
+                      "relative_path":  "2025-05-16-16-13-18ps5.png",
+                      "tile_index":  11,
+                      "tile":  [
+                                   819,
+                                   878,
+                                   1843,
+                                   1902
+                               ],
+                      "bbox_count":  3,
+                      "dropped_bbox_count":  3,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\2025-05-16-16-13-18ps5.png",
+                      "relative_path":  "2025-05-16-16-13-18ps5.png",
+                      "tile_index":  12,
+                      "tile":  [
+                                   1638,
+                                   878,
+                                   2662,
+                                   1902
+                               ],
+                      "bbox_count":  2,
+                      "dropped_bbox_count":  4,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\2025-05-16-16-13-18ps5.png",
+                      "relative_path":  "2025-05-16-16-13-18ps5.png",
+                      "tile_index":  13,
+                      "tile":  [
+                                   2457,
+                                   878,
+                                   3481,
+                                   1902
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  5,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\2025-05-16-16-13-18ps5.png",
+                      "relative_path":  "2025-05-16-16-13-18ps5.png",
+                      "tile_index":  14,
+                      "tile":  [
+                                   2572,
+                                   878,
+                                   3596,
+                                   1902
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  5,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\2025-05-16-16-16-55ps5.png",
+                      "relative_path":  "2025-05-16-16-16-55ps5.png",
+                      "tile_index":  1,
+                      "tile":  [
+                                   819,
+                                   0,
+                                   1843,
+                                   1024
+                               ],
+                      "bbox_count":  2,
+                      "dropped_bbox_count":  3,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\2025-05-16-16-16-55ps5.png",
+                      "relative_path":  "2025-05-16-16-16-55ps5.png",
+                      "tile_index":  4,
+                      "tile":  [
+                                   2572,
+                                   0,
+                                   3596,
+                                   1024
+                               ],
+                      "bbox_count":  0,
+                      "dropped_bbox_count":  5,
+                      "empty":  true
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\2025-05-16-16-16-55ps5.png",
+                      "relative_path":  "2025-05-16-16-16-55ps5.png",
+                      "tile_index":  6,
+                      "tile":  [
+                                   819,
+                                   819,
+                                   1843,
+                                   1843
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  4,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\2025-05-16-16-16-55ps5.png",
+                      "relative_path":  "2025-05-16-16-16-55ps5.png",
+                      "tile_index":  8,
+                      "tile":  [
+                                   2457,
+                                   819,
+                                   3481,
+                                   1843
+                               ],
+                      "bbox_count":  2,
+                      "dropped_bbox_count":  3,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\2025-05-16-16-16-55ps5.png",
+                      "relative_path":  "2025-05-16-16-16-55ps5.png",
+                      "tile_index":  9,
+                      "tile":  [
+                                   2572,
+                                   819,
+                                   3596,
+                                   1843
+                               ],
+                      "bbox_count":  2,
+                      "dropped_bbox_count":  3,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\2025-05-16-16-16-55ps5.png",
+                      "relative_path":  "2025-05-16-16-16-55ps5.png",
+                      "tile_index":  11,
+                      "tile":  [
+                                   819,
+                                   878,
+                                   1843,
+                                   1902
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  4,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\2025-05-16-16-16-55ps5.png",
+                      "relative_path":  "2025-05-16-16-16-55ps5.png",
+                      "tile_index":  13,
+                      "tile":  [
+                                   2457,
+                                   878,
+                                   3481,
+                                   1902
+                               ],
+                      "bbox_count":  2,
+                      "dropped_bbox_count":  3,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\2025-05-16-16-16-55ps5.png",
+                      "relative_path":  "2025-05-16-16-16-55ps5.png",
+                      "tile_index":  14,
+                      "tile":  [
+                                   2572,
+                                   878,
+                                   3596,
+                                   1902
+                               ],
+                      "bbox_count":  2,
+                      "dropped_bbox_count":  3,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\2025-05-16-16-19-14ps5.png",
+                      "relative_path":  "2025-05-16-16-19-14ps5.png",
+                      "tile_index":  0,
+                      "tile":  [
+                                   0,
+                                   0,
+                                   1024,
+                                   1024
+                               ],
+                      "bbox_count":  0,
+                      "dropped_bbox_count":  7,
+                      "empty":  true
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\2025-05-16-16-19-14ps5.png",
+                      "relative_path":  "2025-05-16-16-19-14ps5.png",
+                      "tile_index":  1,
+                      "tile":  [
+                                   819,
+                                   0,
+                                   1843,
+                                   1024
+                               ],
+                      "bbox_count":  2,
+                      "dropped_bbox_count":  5,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\2025-05-16-16-19-14ps5.png",
+                      "relative_path":  "2025-05-16-16-19-14ps5.png",
+                      "tile_index":  6,
+                      "tile":  [
+                                   819,
+                                   819,
+                                   1843,
+                                   1843
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  6,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\2025-05-16-16-19-14ps5.png",
+                      "relative_path":  "2025-05-16-16-19-14ps5.png",
+                      "tile_index":  7,
+                      "tile":  [
+                                   1638,
+                                   819,
+                                   2662,
+                                   1843
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  6,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\2025-05-16-16-19-14ps5.png",
+                      "relative_path":  "2025-05-16-16-19-14ps5.png",
+                      "tile_index":  8,
+                      "tile":  [
+                                   2457,
+                                   819,
+                                   3481,
+                                   1843
+                               ],
+                      "bbox_count":  3,
+                      "dropped_bbox_count":  4,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\2025-05-16-16-19-14ps5.png",
+                      "relative_path":  "2025-05-16-16-19-14ps5.png",
+                      "tile_index":  9,
+                      "tile":  [
+                                   2572,
+                                   819,
+                                   3596,
+                                   1843
+                               ],
+                      "bbox_count":  3,
+                      "dropped_bbox_count":  4,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\2025-05-16-16-19-14ps5.png",
+                      "relative_path":  "2025-05-16-16-19-14ps5.png",
+                      "tile_index":  11,
+                      "tile":  [
+                                   819,
+                                   878,
+                                   1843,
+                                   1902
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  6,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\2025-05-16-16-19-14ps5.png",
+                      "relative_path":  "2025-05-16-16-19-14ps5.png",
+                      "tile_index":  12,
+                      "tile":  [
+                                   1638,
+                                   878,
+                                   2662,
+                                   1902
+                               ],
+                      "bbox_count":  1,
+                      "dropped_bbox_count":  6,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\2025-05-16-16-19-14ps5.png",
+                      "relative_path":  "2025-05-16-16-19-14ps5.png",
+                      "tile_index":  13,
+                      "tile":  [
+                                   2457,
+                                   878,
+                                   3481,
+                                   1902
+                               ],
+                      "bbox_count":  3,
+                      "dropped_bbox_count":  4,
+                      "empty":  false
+                  },
+                  {
+                      "split":  "val",
+                      "source_image":  "E:\\TJGY\\DataSet2_fixed\\images\\val\\2025-05-16-16-19-14ps5.png",
+                      "relative_path":  "2025-05-16-16-19-14ps5.png",
+                      "tile_index":  14,
+                      "tile":  [
+                                   2572,
+                                   878,
+                                   3596,
+                                   1902
+                               ],
+                      "bbox_count":  3,
+                      "dropped_bbox_count":  4,
+                      "empty":  false
+                  }
+              ]
+}

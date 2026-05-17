@@ -6,14 +6,18 @@ from pathlib import Path
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-OUTPUT_PATH = PROJECT_ROOT / "outputs" / "project_snapshot_latest.md"
+SNAPSHOT_PATH = PROJECT_ROOT / "outputs" / "snapshots" / "project_snapshot_latest.md"
+COMPAT_OUTPUT_PATH = PROJECT_ROOT / "outputs" / "project_snapshot_latest.md"
 
 
 def main() -> None:
     snapshot = build_snapshot()
-    OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
-    OUTPUT_PATH.write_text(snapshot, encoding="utf-8")
-    print(str(OUTPUT_PATH))
+    SNAPSHOT_PATH.parent.mkdir(parents=True, exist_ok=True)
+    SNAPSHOT_PATH.write_text(snapshot, encoding="utf-8")
+    COMPAT_OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
+    COMPAT_OUTPUT_PATH.write_text(snapshot, encoding="utf-8")
+    print(str(SNAPSHOT_PATH))
+    print(str(COMPAT_OUTPUT_PATH))
 
 
 def build_snapshot() -> str:
@@ -31,11 +35,20 @@ def build_snapshot() -> str:
         "docs/ARCHITECTURE_CURRENT.md",
         "docs/diagnostic_augmentation_framework.md",
         "docs/experiment_protocol.md",
+        "docs/output_convention.md",
+        "scripts/audit_artifacts.py",
         "scripts/build_yolo_tiled_dataset.py",
         "scripts/run_gpu_preflight.py",
         "scripts/run_diagnostic_augmentation_pipeline.py",
-        "outputs/gpu_preflight_report.md",
-        "outputs/gpu_preflight_report.json",
+        "outputs/audits/gpu_preflight/gpu_preflight_report.md",
+        "outputs/audits/gpu_preflight/gpu_preflight_report.json",
+        "outputs/audits/artifact_inventory/artifact_inventory.md",
+        "outputs/experiments/20260517_tiled_baseline_20epoch/reports/summary.md",
+        "outputs/experiments/20260517_tiled_baseline_20epoch/reports/baseline_20epoch_report.md",
+        "outputs/experiments/20260517_tiled_baseline_20epoch/reports/baseline_20epoch_metrics.json",
+        "outputs/datasets/tiled/tiled_1024_ov20_smoke/dataset_summary.md",
+        "outputs/snapshots/project_snapshot_latest.md",
+        "outputs/project_snapshot_latest.md",
         "AutoAugment/diagnostic_pipeline/__init__.py",
         "AutoAugment/diagnostic_pipeline/strategy_memory.py",
         "AutoAugment/diagnostic_pipeline/metric_audit.py",

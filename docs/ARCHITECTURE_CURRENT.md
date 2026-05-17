@@ -55,6 +55,23 @@ Modules under `AutoAugment/diagnostic_pipeline/`:
 
 ## Output Conventions
 
+The normalized output layout is documented in `docs/output_convention.md`.
+Active artifacts now use these roots:
+
+- `outputs/datasets/` for generated datasets.
+- `outputs/experiments/` for training experiment results.
+- `outputs/audits/` for preflight checks, diagnostics, and inventory reports.
+- `outputs/snapshots/` for project snapshots.
+- `outputs/archive/` for historical artifacts moved out of active paths.
+
+Current active paths:
+
+- Tiled smoke dataset: `outputs/datasets/tiled/tiled_1024_ov20_smoke/`
+- Future full tiled dataset: `outputs/datasets/tiled/tiled_1024_ov20_full/`
+- Current tiled baseline: `outputs/experiments/20260517_tiled_baseline_20epoch/`
+- GPU preflight: `outputs/audits/gpu_preflight/`
+- Artifact inventory: `outputs/audits/artifact_inventory/`
+
 Each stage writes auditable artifacts under the selected output directory:
 
 - command text
@@ -63,8 +80,16 @@ Each stage writes auditable artifacts under the selected output directory:
 - Markdown summaries
 - debug visualizations for tiling and copy-paste where applicable
 
+Formal YOLO commands must explicitly set `project=outputs/experiments/<run_id>`.
+Ultralytics auto outputs under `runs/detect/*` are not formal records and must be
+migrated or archived. Historical root-level outputs were archived to
+`outputs/archive/old_outputs_20260517/`; historical `runs/detect/*` outputs were
+archived to `outputs/archive/old_runs_20260517/runs_detect/`.
+
 ## Operational Constraints
 
+- Formal training must use conda env `pytorch` and `D:\Anaconda\envs\pytorch\python.exe`.
+- Formal training must use GPU `device=0`; CPU is only for smoke/debug.
 - YOLO commands should default to `workers=0` on Windows.
 - Dry-run mode must not start training.
 - This environment may require `KMP_DUPLICATE_LIB_OK=TRUE` for CPU YOLO runs due duplicate OpenMP runtime initialization.

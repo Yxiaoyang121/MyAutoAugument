@@ -8,84 +8,95 @@
 
 ## Current Scope
 
-The project is now a diagnosis-driven augmentation pipeline for industrial defect detection. Keep work centered on augmentation, tiling, diagnosis, proxy safety, short-training validation, and audit artifacts. Do not reframe this as YOLO backbone/neck/head redesign.
+The project is a diagnosis-driven augmentation pipeline for industrial defect detection. Keep work centered on dataset construction, tiling, validation-error diagnosis, policy generation, proxy safety, short-training validation, and auditable artifacts. Do not reframe this as YOLO backbone, neck, or head redesign.
 
-## Important Current Capabilities
+## Output Layout Status
 
-- `scripts/build_yolo_tiled_dataset.py` builds a tiled YOLO dataset with default `tile_size=1024`, `overlap=0.2`, `min_visibility=0.3`, and `keep_empty_ratio=0.1`.
+- Legacy root-level outputs were archived to `outputs/archive/old_outputs_20260517/`.
+- Legacy Ultralytics auto outputs from `runs/detect/*` were archived to `outputs/archive/old_runs_20260517/runs_detect/`.
+- `runs/` is no longer a formal result location. Formal YOLO commands must set `project=outputs/experiments/<run_id>`.
+- Active generated datasets live under `outputs/datasets/`.
+- Active experiment records live under `outputs/experiments/`.
+- Active audits live under `outputs/audits/`.
+- Snapshots live under `outputs/snapshots/`, with `outputs/project_snapshot_latest.md` retained for compatibility.
+- Large local artifacts such as weights, generated images, dataset image/label files, and archive contents are intentionally ignored by Git. They remain available on disk.
+
+## Active Paths
+
+- Output convention: `docs/output_convention.md`
+- Artifact inventory: `outputs/audits/artifact_inventory/artifact_inventory.md`
+- Cleanup summary: `outputs/audits/artifact_inventory/cleanup_summary.md`
+- GPU preflight report: `outputs/audits/gpu_preflight/gpu_preflight_report.md`
+- GPU preflight JSON: `outputs/audits/gpu_preflight/gpu_preflight_report.json`
+- Tiled smoke dataset: `outputs/datasets/tiled/tiled_1024_ov20_smoke/`
+- Tiled smoke data YAML: `outputs/datasets/tiled/tiled_1024_ov20_smoke/data.yaml`
+- Future full tiled dataset: `outputs/datasets/tiled/tiled_1024_ov20_full/`
+- Current tiled baseline run: `outputs/experiments/20260517_tiled_baseline_20epoch/`
+- Tiled baseline summary: `outputs/experiments/20260517_tiled_baseline_20epoch/reports/summary.md`
+- Tiled baseline report: `outputs/experiments/20260517_tiled_baseline_20epoch/reports/baseline_20epoch_report.md`
+- Tiled baseline metrics: `outputs/experiments/20260517_tiled_baseline_20epoch/reports/baseline_20epoch_metrics.json`
+- Tiled baseline best weights: `outputs/experiments/20260517_tiled_baseline_20epoch/train/weights/best.pt`
+- Tiled baseline last weights: `outputs/experiments/20260517_tiled_baseline_20epoch/train/weights/last.pt`
+- Project snapshot: `outputs/snapshots/project_snapshot_latest.md`
+- Compatibility snapshot: `outputs/project_snapshot_latest.md`
+
+## Important Capabilities
+
+- `scripts/build_yolo_tiled_dataset.py` builds tiled YOLO datasets with explicit output directories. Use `outputs/datasets/tiled/<dataset_id>/`.
+- `scripts/audit_artifacts.py` scans `outputs/` and `runs/` and writes inventory reports under `outputs/audits/artifact_inventory/`.
+- `scripts/run_gpu_preflight.py` writes GPU preflight reports under `outputs/audits/gpu_preflight/`.
+- `scripts/run_diagnostic_augmentation_pipeline.py` supports `--run-id`; when `--output-dir` is omitted, it writes to `outputs/experiments/<run_id>/`.
 - `diagnosis.json` includes `diagnosis_vector` scores and per-score evidence.
 - `policy_mapping.py` uses severity-score dynamic formulas for operator probability and strength.
 - Proxy ranking combines `proxy_score` and `SafetyScore`; bbox rates below soft targets are penalties instead of automatic rejection.
-- `copy_paste` policies produce `copy_paste_filter_audit.md/json` and debug visualizations.
-- `strategy_memory.py` appends short-training records to `outputs/strategy_memory.jsonl` and reranks candidates with cosine similarity when prior cases exist.
+- `copy_paste` policies produce filter audits and debug visualizations.
 - `metric_consistency_audit.md` documents differences between YOLO val metrics and diagnosis TP/FP/FN.
 
-## Key Files
+## GPU Environment
 
-- `scripts/build_yolo_tiled_dataset.py`
-- `scripts/run_diagnostic_augmentation_pipeline.py`
-- `AutoAugment/diagnostic_pipeline/diagnosis.py`
-- `AutoAugment/diagnostic_pipeline/policy_mapping.py`
-- `AutoAugment/diagnostic_pipeline/proxy_evaluation.py`
-- `AutoAugment/diagnostic_pipeline/strategy_memory.py`
-- `AutoAugment/diagnostic_pipeline/metric_audit.py`
-- `AutoAugment/augmentations/ops.py`
-- `AutoAugment/search/proxy_metrics.py`
-- `AutoAugment/search/evaluator.py`
+Formal training must use conda env `pytorch`, not `base`.
 
-## Latest Verified Outputs
+- Conda env: `pytorch`
+- Python executable: `D:\Anaconda\envs\pytorch\python.exe`
+- Python version: 3.9.19
+- PyTorch: 2.4.1
+- `torch.cuda.is_available()`: True
+- `torch.version.cuda`: 12.4
+- CUDA device count: 1
+- GPU: NVIDIA GeForce RTX 3060 Laptop GPU
+- Ultralytics: 8.3.221
+- `yolo checks`: passed
+- YOLO GPU smoke: passed with `model=yolo11n.pt`, tiled smoke `data.yaml`, `epochs=1`, `imgsz=640`, `batch=1`, `workers=0`, `device=0`, and YOLO built-in augmentations disabled.
 
-- GPU preflight report: `outputs/gpu_preflight_report.md`
-- GPU preflight JSON: `outputs/gpu_preflight_report.json`
-- Tiled baseline 20 epoch report: `outputs/tiled_baseline_20epoch/baseline_20epoch_report.md`
-- Tiled baseline 20 epoch metrics: `outputs/tiled_baseline_20epoch/baseline_20epoch_metrics.json`
-- Tiled baseline best weights: `outputs/tiled_baseline_20epoch/train/weights/best.pt`
-- Tiled dataset: `outputs/tiled_dataset_smoke`
-- Tiled smoke pipeline: `outputs/diagnostic_aug_tiled_smoke`
-- Copy-paste audit: `outputs/diagnostic_aug_tiled_smoke/proxy/copy_paste_filter_audit.md`
-- Metric audit: `outputs/diagnostic_aug_tiled_smoke/metric_consistency/metric_consistency_audit.md`
-- Memory report: `outputs/diagnostic_aug_tiled_smoke/strategy_memory/strategy_memory_report.md`
+The earlier base-env preflight resolved to CPU-only PyTorch. CPU is only for smoke/debug and must not be treated as formal experiment output.
 
-## Verification Done
+## Current Baseline Result
 
-- GPU environment confirmed in conda env `pytorch`
-  - Python executable: `D:\Anaconda\envs\pytorch\python.exe`
-  - Python version: 3.9.19
-  - PyTorch: 2.4.1
-  - `torch.cuda.is_available()`: True
-  - `torch.version.cuda`: 12.4
-  - CUDA device count: 1
-  - GPU: NVIDIA GeForce RTX 3060 Laptop GPU
-  - Ultralytics: 8.3.221
-  - `yolo checks`: passed
-  - YOLO GPU smoke: passed with `model=yolo11n.pt`, `data=outputs\tiled_dataset_smoke\data.yaml`, `epochs=1`, `imgsz=640`, `batch=1`, `workers=0`, `device=0`, and YOLO built-in augmentations disabled
-  - Formal training must use YOLO `device=0`
-- `D:\Anaconda\Scripts\conda.exe run -n pytorch python scripts\run_gpu_preflight.py`
-- Earlier base-env preflight showed CPU-only PyTorch; base must not be used for formal training.
-- Tiled baseline 20 epoch completed in conda env `pytorch`:
-  - Train command: `outputs/tiled_baseline_20epoch/train_command.txt`
-  - Val command: `outputs/tiled_baseline_20epoch/val_command.txt`
-  - Dataset: `outputs/tiled_dataset_smoke/data.yaml`
-  - `epochs=20 imgsz=1024 batch=2 workers=0 device=0`
-  - YOLO built-in augmentations disabled per command
-  - OOM: false
-  - Precision: 0.828
-  - Recall: 0.213
-  - mAP50: 0.247
-  - mAP50-95: 0.181
+The 20 epoch tiled baseline completed on GPU, but it is not a formal final result because it used the smoke tiled dataset.
+
+- Run ID: `20260517_tiled_baseline_20epoch`
+- Result path: `outputs/experiments/20260517_tiled_baseline_20epoch/`
+- Dataset: `outputs/datasets/tiled/tiled_1024_ov20_smoke/data.yaml`
+- Epochs: 20
+- imgsz: 1024
+- batch: 2
+- workers: 0
+- device: 0
+- OOM: false
+- Precision: 0.828
+- Recall: 0.213
+- mAP50: 0.247
+- mAP50-95: 0.181
+- YOLO built-in augmentations disabled: `mosaic=0 mixup=0 copy_paste=0 hsv_h=0 hsv_s=0 hsv_v=0 degrees=0 translate=0 scale=0 shear=0 perspective=0 fliplr=0 flipud=0`
+
+## Verification Commands
+
+- `python scripts\audit_artifacts.py`
 - `pytest -q tests/test_build_yolo_tiled_dataset.py tests/test_copy_paste.py tests/test_proxy_prefilter.py tests/test_yolo_error_analysis.py`
-- `pytest -q`
-- `python scripts\build_yolo_tiled_dataset.py --dataset-root E:\TJGY\DataSet2_fixed --data-yaml E:\TJGY\DataSet2_fixed\data.yaml --output-dir outputs\tiled_dataset_smoke --tile-size 1024 --overlap 0.2 --min-visibility 0.3 --keep-empty-ratio 0.1 --max-images-per-split 8 --debug-limit 8 --overwrite`
-- `python scripts\run_diagnostic_augmentation_pipeline.py --dataset-root outputs\tiled_dataset_smoke --data-yaml outputs\tiled_dataset_smoke\data.yaml --output-dir outputs\diagnostic_aug_tiled_smoke --model yolo11n.pt --imgsz 640 --batch 4 --baseline-epochs 1 --short-epochs 1 --final-epochs 1 --top-k 1 --workers 0 --device cpu --skip-final-train --proxy-samples 32 --augment-repeat 1`
 
-## Notes
+## Next Steps
 
-- Use conda env `pytorch` for all formal training.
-- Do not use base for formal training; base previously resolved to CPU-only PyTorch.
-- CPU is only for smoke/debug runs and must not be treated as formal experiment output.
-- Formal YOLO commands should set `device=0`.
+- Audit the normalized smoke `data.yaml`, class mapping, and tiled dataset report before using results in paper tables.
+- Build the full tiled dataset at `outputs/datasets/tiled/tiled_1024_ov20_full/`.
+- Use explicit `--run-id` and `project=outputs/experiments/<run_id>` for every formal experiment.
 - Keep Windows YOLO commands at `workers=0`.
-- `scripts/run_gpu_preflight.py` pins Ultralytics config writes to `outputs/ultralytics_config` to avoid using the base/user AppData config path.
-- The older CPU YOLO smoke required `KMP_DUPLICATE_LIB_OK=TRUE` in the Anaconda CPU environment due duplicate OpenMP runtime initialization.
-- The smoke is intentionally capped and is not a benchmark result.
-- Output directories are ignored by `.gitignore`, but `outputs/project_snapshot_latest.md` is tracked.

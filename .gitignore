@@ -1,31 +1,73 @@
-# 缓存文件
+# Python cache
 __pycache__/
 *.pyc
 .pytest_cache/
 
-# 虚拟环境
+# Virtual environments
 AutoAugumentProject/
 venv/
 .venv/
 env/
 
-# 编辑器配置
+# Editor settings
 .idea/
 .vscode/
 
-# 运行输出
-outputs/
-runs/
-
-# 日志文件
+# Logs by default. Selected audit/experiment logs are unignored below.
 *.log
 
-# 模型权重 / 导出模型
+# Model weights / exports
 *.pt
 *.pth
 *.onnx
 *.engine
 
-# 系统文件
+# Large generated outputs by default
+outputs/*
+runs/
+
+# Keep lightweight compatibility snapshots and normalized reports.
+!outputs/project_snapshot_latest.md
+!outputs/snapshots/
+!outputs/snapshots/**/*.md
+
+!outputs/audits/
+!outputs/audits/**/*.md
+!outputs/audits/**/*.json
+
+!outputs/experiments/
+!outputs/experiments/**/
+!outputs/experiments/**/configs/
+!outputs/experiments/**/configs/**/*.json
+!outputs/experiments/**/configs/**/*.txt
+!outputs/experiments/**/logs/
+!outputs/experiments/**/logs/**/*.log
+!outputs/experiments/**/reports/
+!outputs/experiments/**/reports/**/*.md
+!outputs/experiments/**/reports/**/*.json
+
+!outputs/datasets/
+!outputs/datasets/**/
+!outputs/datasets/**/data.yaml
+!outputs/datasets/**/*_summary.md
+!outputs/datasets/**/tiled_dataset_report.md
+!outputs/datasets/**/tiled_dataset_report.json
+
+# Keep archives, generated images, generated datasets, and weights out of Git.
+outputs/archive/**
+outputs/audits/gpu_preflight/gpu_preflight_smoke/**
+outputs/audits/gpu_preflight/ultralytics_config/**
+outputs/datasets/**/images/**
+outputs/datasets/**/labels/**
+outputs/datasets/**/debug_tiling/**
+outputs/experiments/**/weights/**
+outputs/experiments/**/artifacts/**
+outputs/experiments/**/train/weights/**
+outputs/experiments/**/train/*.jpg
+outputs/experiments/**/train/*.png
+outputs/experiments/**/val/*.jpg
+outputs/experiments/**/val/*.png
+
+# System files
 .DS_Store
 Thumbs.db

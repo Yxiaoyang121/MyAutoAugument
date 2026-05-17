@@ -49,7 +49,11 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Build a tiled YOLO dataset from large images.")
     parser.add_argument("--dataset-root", required=True, help="Input YOLO dataset root.")
     parser.add_argument("--data-yaml", default=None, help="Input data.yaml used for class names.")
-    parser.add_argument("--output-dir", required=True, help="Output tiled YOLO dataset root.")
+    parser.add_argument(
+        "--output-dir",
+        required=True,
+        help="Output tiled YOLO dataset root. Use outputs/datasets/tiled/<dataset_id>; full datasets must not use smoke names.",
+    )
     parser.add_argument("--tile-size", type=int, default=1024)
     parser.add_argument("--overlap", type=float, default=0.2, help="Overlap ratio in [0, 1).")
     parser.add_argument("--min-visibility", type=float, default=0.3)

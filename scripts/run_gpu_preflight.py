@@ -13,10 +13,11 @@ from typing import Any
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 OUTPUT_DIR = PROJECT_ROOT / "outputs"
-REPORT_JSON = OUTPUT_DIR / "gpu_preflight_report.json"
-REPORT_MD = OUTPUT_DIR / "gpu_preflight_report.md"
-SMOKE_DIR = OUTPUT_DIR / "gpu_preflight_smoke"
-SMOKE_DATA_YAML = OUTPUT_DIR / "tiled_dataset_smoke" / "data.yaml"
+REPORT_DIR = OUTPUT_DIR / "audits" / "gpu_preflight"
+REPORT_JSON = REPORT_DIR / "gpu_preflight_report.json"
+REPORT_MD = REPORT_DIR / "gpu_preflight_report.md"
+SMOKE_DIR = REPORT_DIR / "gpu_preflight_smoke"
+SMOKE_DATA_YAML = OUTPUT_DIR / "datasets" / "tiled" / "tiled_1024_ov20_smoke" / "data.yaml"
 MODEL_PATH = PROJECT_ROOT / "yolo11n.pt"
 PYTHON_EXECUTABLE = Path(sys.executable).resolve()
 
@@ -32,7 +33,7 @@ TORCH_INFO_CODE = (
 
 
 def main() -> None:
-    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    REPORT_DIR.mkdir(parents=True, exist_ok=True)
     report = build_report()
     REPORT_JSON.write_text(json.dumps(report, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     REPORT_MD.write_text(render_markdown(report), encoding="utf-8")
@@ -49,7 +50,7 @@ def build_report() -> dict[str, Any]:
     started_at = datetime.now().isoformat(timespec="seconds")
     env = os.environ.copy()
     env.setdefault("KMP_DUPLICATE_LIB_OK", "TRUE")
-    ultralytics_config_dir = OUTPUT_DIR / "ultralytics_config"
+    ultralytics_config_dir = REPORT_DIR / "ultralytics_config"
     ultralytics_config_dir.mkdir(parents=True, exist_ok=True)
     env.setdefault("YOLO_CONFIG_DIR", str(ultralytics_config_dir))
     conda_env = detect_conda_env_name(env)

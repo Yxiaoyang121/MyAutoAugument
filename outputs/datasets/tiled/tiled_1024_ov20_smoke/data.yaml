@@ -1,0 +1,20 @@
+path: E:/TJGY/MinPaper/MyAutoAugument/outputs/datasets/tiled/tiled_1024_ov20_smoke
+train: images/train
+val: images/val
+nc: 15
+names:
+  0: "OK"
+  1: "OK2"
+  2: "OK3"
+  3: "鍔犲己绛嬫墦浼?
+  4: "瀹氫綅"
+  5: "寮€瑁?
+  6: "娌规薄"
+  7: "娴呭垝浼?
+  8: "婕忚儗閿?
+  9: "纰颁激"
+  10: "鑴忔薄"
+  11: "杞粨鍒掍激"
+  12: "閿′笣娈嬬暀"
+  13: "閿″皷"
+  14: "閿¤啅"

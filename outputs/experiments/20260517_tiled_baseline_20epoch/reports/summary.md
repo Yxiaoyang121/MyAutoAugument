@@ -1,0 +1,21 @@
+﻿# 20260517 Tiled Baseline 20 Epoch
+
+- run_id: 20260517_tiled_baseline_20epoch
+- formal result: no
+- reason: uses tiled_dataset_smoke / tiled_1024_ov20_smoke, which is not the complete tiled dataset.
+- dataset path: E:\TJGY\MinPaper\MyAutoAugument\outputs\datasets\tiled\tiled_1024_ov20_smoke
+- data.yaml: E:\TJGY\MinPaper\MyAutoAugument\outputs\datasets\tiled\tiled_1024_ov20_smoke\data.yaml
+- result path: E:\TJGY\MinPaper\MyAutoAugument\outputs\experiments\20260517_tiled_baseline_20epoch
+- best.pt: E:\TJGY\MinPaper\MyAutoAugument\outputs\experiments\20260517_tiled_baseline_20epoch\train\weights\best.pt
+- last.pt: E:\TJGY\MinPaper\MyAutoAugument\outputs\experiments\20260517_tiled_baseline_20epoch\train\weights\last.pt
+- mAP50: 0.247
+- mAP50-95: 0.181
+- Precision: 0.828
+- Recall: 0.213
+- batch: 2
+- imgsz: 1024
+- epochs: 20
+- device: 0
+- GPU environment: conda env pytorch, NVIDIA GeForce RTX 3060 Laptop GPU, torch 2.4.1, CUDA 12.4, Ultralytics 8.3.221
+- YOLO built-in augmentation disabled: mosaic=0 mixup=0 copy_paste=0 hsv_h=0 hsv_s=0 hsv_v=0 degrees=0 translate=0 scale=0 shear=0 perspective=0 fliplr=0 flipud=0
+- next step: audit data.yaml, class mapping, and build the complete tiled dataset before using results as formal experiment evidence.

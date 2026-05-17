@@ -1,0 +1,232 @@
+﻿# Cleanup Summary
+
+- Generated: 2026-05-17T18:29:05
+- New output convention: docs/output_convention.md
+
+## Archived outputs directories/files
+
+- outputs/archive/old_outputs_20260517/advisor_baseline_compare_tiled
+- outputs/archive/old_outputs_20260517/advisor_policy_search_map5095
+- outputs/archive/old_outputs_20260517/augmented_policy_smoke
+- outputs/archive/old_outputs_20260517/baseline_compare_tiled
+- outputs/archive/old_outputs_20260517/baseline_dataset2_fixed_200sample_5epochs_workers0
+- outputs/archive/old_outputs_20260517/baseline_dataset2_fixed_5epochs_workers0
+- outputs/archive/old_outputs_20260517/closed_loop_dataset2_fixed_200sample_proxy_prefilter_5trials_workers0
+- outputs/archive/old_outputs_20260517/closed_loop_dataset2_fixed_200sample_proxy_prefilter_5trials_workers0_v2
+- outputs/archive/old_outputs_20260517/closed_loop_dataset2_fixed_200sample_proxy_prefilter_5trials_workers0_v2_failed_partial
+- outputs/archive/old_outputs_20260517/closed_loop_dataset2_fixed_5trials_workers0
+- outputs/archive/old_outputs_20260517/closed_loop_smoke_3trials
+- outputs/archive/old_outputs_20260517/closed_loop_smoke_3trials_workers0
+- outputs/archive/old_outputs_20260517/closed_loop_smoke_p0fix_3trials_workers0
+- outputs/archive/old_outputs_20260517/closed_loop_smoke_p0fix_audit.md
+- outputs/archive/old_outputs_20260517/codebase_implementation_audit.md
+- outputs/archive/old_outputs_20260517/dataset2_audit.md
+- outputs/archive/old_outputs_20260517/dataset2_fix_audit.md
+- outputs/archive/old_outputs_20260517/dataset2_fixed_200sample_comparison
+- outputs/archive/old_outputs_20260517/dataset2_fixed_tiny_bbox_samples
+- outputs/archive/old_outputs_20260517/debug_copy_paste
+- outputs/archive/old_outputs_20260517/debug_copy_paste_rerun_20260517_225107
+- outputs/archive/old_outputs_20260517/demo
+- outputs/archive/old_outputs_20260517/demo_yolo_source
+- outputs/archive/old_outputs_20260517/diagnostic_aug_pipeline_smoke
+- outputs/archive/old_outputs_20260517/diagnostic_aug_real_smoke_2trial
+- outputs/archive/old_outputs_20260517/diagnostic_aug_tiled_smoke
+- outputs/archive/old_outputs_20260517/diagnostics
+- outputs/archive/old_outputs_20260517/my_policy_search_train_yolo_50
+- outputs/archive/old_outputs_20260517/my_policy_search_train_yolo_test
+- outputs/archive/old_outputs_20260517/my_policy_search_train_yolo_tiled_50
+- outputs/archive/old_outputs_20260517/p0_fix_audit.md
+- outputs/archive/old_outputs_20260517/policy_search_example_smoke
+- outputs/archive/old_outputs_20260517/policy_search_smoke
+- outputs/archive/old_outputs_20260517/proxy_evaluator_usage_audit.md
+- outputs/archive/old_outputs_20260517/proxy_prefilter_disk_status_after_cleanup.md
+- outputs/archive/old_outputs_20260517/proxy_prefilter_implementation_audit.md
+- outputs/archive/old_outputs_20260517/proxy_prefilter_storage_failure_audit.md
+- outputs/archive/old_outputs_20260517/proxy_prefilter_storage_fix_audit.md
+- outputs/archive/old_outputs_20260517/strategy_memory.jsonl
+- outputs/archive/old_outputs_20260517/test_copy_paste
+- outputs/archive/old_outputs_20260517/test_copy_paste_rerun_20260517_225107
+- outputs/archive/old_outputs_20260517/test_tmp
+- outputs/archive/old_outputs_20260517/tests
+- outputs/archive/old_outputs_20260517/tests_rerun_20260517_225107
+- outputs/archive/old_outputs_20260517/visualizations
+- outputs/archive/old_outputs_20260517/yolo_augmented
+- outputs/archive/old_outputs_20260517/yolo_tiled_dataset_audit.md
+
+## Archived runs/detect directories
+
+- outputs/archive/old_runs_20260517/runs_detect/outputs
+- outputs/archive/old_runs_20260517/runs_detect/train
+- outputs/archive/old_runs_20260517/runs_detect/val
+- outputs/archive/old_runs_20260517/runs_detect/val-10
+- outputs/archive/old_runs_20260517/runs_detect/val-100
+- outputs/archive/old_runs_20260517/runs_detect/val-101
+- outputs/archive/old_runs_20260517/runs_detect/val-102
+- outputs/archive/old_runs_20260517/runs_detect/val-103
+- outputs/archive/old_runs_20260517/runs_detect/val-104
+- outputs/archive/old_runs_20260517/runs_detect/val-105
+- outputs/archive/old_runs_20260517/runs_detect/val-106
+- outputs/archive/old_runs_20260517/runs_detect/val-107
+- outputs/archive/old_runs_20260517/runs_detect/val-108
+- outputs/archive/old_runs_20260517/runs_detect/val-109
+- outputs/archive/old_runs_20260517/runs_detect/val-11
+- outputs/archive/old_runs_20260517/runs_detect/val-110
+- outputs/archive/old_runs_20260517/runs_detect/val-111
+- outputs/archive/old_runs_20260517/runs_detect/val-112
+- outputs/archive/old_runs_20260517/runs_detect/val-113
+- outputs/archive/old_runs_20260517/runs_detect/val-114
+- outputs/archive/old_runs_20260517/runs_detect/val-115
+- outputs/archive/old_runs_20260517/runs_detect/val-116
+- outputs/archive/old_runs_20260517/runs_detect/val-117
+- outputs/archive/old_runs_20260517/runs_detect/val-118
+- outputs/archive/old_runs_20260517/runs_detect/val-119
+- outputs/archive/old_runs_20260517/runs_detect/val-12
+- outputs/archive/old_runs_20260517/runs_detect/val-120
+- outputs/archive/old_runs_20260517/runs_detect/val-121
+- outputs/archive/old_runs_20260517/runs_detect/val-122
+- outputs/archive/old_runs_20260517/runs_detect/val-123
+- outputs/archive/old_runs_20260517/runs_detect/val-124
+- outputs/archive/old_runs_20260517/runs_detect/val-125
+- outputs/archive/old_runs_20260517/runs_detect/val-126
+- outputs/archive/old_runs_20260517/runs_detect/val-127
+- outputs/archive/old_runs_20260517/runs_detect/val-128
+- outputs/archive/old_runs_20260517/runs_detect/val-129
+- outputs/archive/old_runs_20260517/runs_detect/val-13
+- outputs/archive/old_runs_20260517/runs_detect/val-130
+- outputs/archive/old_runs_20260517/runs_detect/val-131
+- outputs/archive/old_runs_20260517/runs_detect/val-132
+- outputs/archive/old_runs_20260517/runs_detect/val-133
+- outputs/archive/old_runs_20260517/runs_detect/val-134
+- outputs/archive/old_runs_20260517/runs_detect/val-135
+- outputs/archive/old_runs_20260517/runs_detect/val-136
+- outputs/archive/old_runs_20260517/runs_detect/val-137
+- outputs/archive/old_runs_20260517/runs_detect/val-138
+- outputs/archive/old_runs_20260517/runs_detect/val-139
+- outputs/archive/old_runs_20260517/runs_detect/val-14
+- outputs/archive/old_runs_20260517/runs_detect/val-140
+- outputs/archive/old_runs_20260517/runs_detect/val-141
+- outputs/archive/old_runs_20260517/runs_detect/val-142
+- outputs/archive/old_runs_20260517/runs_detect/val-143
+- outputs/archive/old_runs_20260517/runs_detect/val-144
+- outputs/archive/old_runs_20260517/runs_detect/val-145
+- outputs/archive/old_runs_20260517/runs_detect/val-146
+- outputs/archive/old_runs_20260517/runs_detect/val-147
+- outputs/archive/old_runs_20260517/runs_detect/val-148
+- outputs/archive/old_runs_20260517/runs_detect/val-149
+- outputs/archive/old_runs_20260517/runs_detect/val-15
+- outputs/archive/old_runs_20260517/runs_detect/val-150
+- outputs/archive/old_runs_20260517/runs_detect/val-16
+- outputs/archive/old_runs_20260517/runs_detect/val-17
+- outputs/archive/old_runs_20260517/runs_detect/val-18
+- outputs/archive/old_runs_20260517/runs_detect/val-19
+- outputs/archive/old_runs_20260517/runs_detect/val-2
+- outputs/archive/old_runs_20260517/runs_detect/val-20
+- outputs/archive/old_runs_20260517/runs_detect/val-21
+- outputs/archive/old_runs_20260517/runs_detect/val-22
+- outputs/archive/old_runs_20260517/runs_detect/val-23
+- outputs/archive/old_runs_20260517/runs_detect/val-24
+- outputs/archive/old_runs_20260517/runs_detect/val-25
+- outputs/archive/old_runs_20260517/runs_detect/val-26
+- outputs/archive/old_runs_20260517/runs_detect/val-27
+- outputs/archive/old_runs_20260517/runs_detect/val-28
+- outputs/archive/old_runs_20260517/runs_detect/val-29
+- outputs/archive/old_runs_20260517/runs_detect/val-3
+- outputs/archive/old_runs_20260517/runs_detect/val-30
+- outputs/archive/old_runs_20260517/runs_detect/val-31
+- outputs/archive/old_runs_20260517/runs_detect/val-32
+- outputs/archive/old_runs_20260517/runs_detect/val-33
+- outputs/archive/old_runs_20260517/runs_detect/val-34
+- outputs/archive/old_runs_20260517/runs_detect/val-35
+- outputs/archive/old_runs_20260517/runs_detect/val-36
+- outputs/archive/old_runs_20260517/runs_detect/val-37
+- outputs/archive/old_runs_20260517/runs_detect/val-38
+- outputs/archive/old_runs_20260517/runs_detect/val-39
+- outputs/archive/old_runs_20260517/runs_detect/val-4
+- outputs/archive/old_runs_20260517/runs_detect/val-40
+- outputs/archive/old_runs_20260517/runs_detect/val-41
+- outputs/archive/old_runs_20260517/runs_detect/val-42
+- outputs/archive/old_runs_20260517/runs_detect/val-43
+- outputs/archive/old_runs_20260517/runs_detect/val-44
+- outputs/archive/old_runs_20260517/runs_detect/val-45
+- outputs/archive/old_runs_20260517/runs_detect/val-46
+- outputs/archive/old_runs_20260517/runs_detect/val-47
+- outputs/archive/old_runs_20260517/runs_detect/val-48
+- outputs/archive/old_runs_20260517/runs_detect/val-49
+- outputs/archive/old_runs_20260517/runs_detect/val-5
+- outputs/archive/old_runs_20260517/runs_detect/val-50
+- outputs/archive/old_runs_20260517/runs_detect/val-51
+- outputs/archive/old_runs_20260517/runs_detect/val-52
+- outputs/archive/old_runs_20260517/runs_detect/val-53
+- outputs/archive/old_runs_20260517/runs_detect/val-54
+- outputs/archive/old_runs_20260517/runs_detect/val-55
+- outputs/archive/old_runs_20260517/runs_detect/val-56
+- outputs/archive/old_runs_20260517/runs_detect/val-57
+- outputs/archive/old_runs_20260517/runs_detect/val-58
+- outputs/archive/old_runs_20260517/runs_detect/val-59
+- outputs/archive/old_runs_20260517/runs_detect/val-6
+- outputs/archive/old_runs_20260517/runs_detect/val-60
+- outputs/archive/old_runs_20260517/runs_detect/val-61
+- outputs/archive/old_runs_20260517/runs_detect/val-62
+- outputs/archive/old_runs_20260517/runs_detect/val-63
+- outputs/archive/old_runs_20260517/runs_detect/val-64
+- outputs/archive/old_runs_20260517/runs_detect/val-65
+- outputs/archive/old_runs_20260517/runs_detect/val-66
+- outputs/archive/old_runs_20260517/runs_detect/val-67
+- outputs/archive/old_runs_20260517/runs_detect/val-68
+- outputs/archive/old_runs_20260517/runs_detect/val-69
+- outputs/archive/old_runs_20260517/runs_detect/val-7
+- outputs/archive/old_runs_20260517/runs_detect/val-70
+- outputs/archive/old_runs_20260517/runs_detect/val-71
+- outputs/archive/old_runs_20260517/runs_detect/val-72
+- outputs/archive/old_runs_20260517/runs_detect/val-73
+- outputs/archive/old_runs_20260517/runs_detect/val-74
+- outputs/archive/old_runs_20260517/runs_detect/val-75
+- outputs/archive/old_runs_20260517/runs_detect/val-76
+- outputs/archive/old_runs_20260517/runs_detect/val-77
+- outputs/archive/old_runs_20260517/runs_detect/val-78
+- outputs/archive/old_runs_20260517/runs_detect/val-79
+- outputs/archive/old_runs_20260517/runs_detect/val-8
+- outputs/archive/old_runs_20260517/runs_detect/val-80
+- outputs/archive/old_runs_20260517/runs_detect/val-81
+- outputs/archive/old_runs_20260517/runs_detect/val-82
+- outputs/archive/old_runs_20260517/runs_detect/val-83
+- outputs/archive/old_runs_20260517/runs_detect/val-84
+- outputs/archive/old_runs_20260517/runs_detect/val-85
+- outputs/archive/old_runs_20260517/runs_detect/val-86
+- outputs/archive/old_runs_20260517/runs_detect/val-87
+- outputs/archive/old_runs_20260517/runs_detect/val-88
+- outputs/archive/old_runs_20260517/runs_detect/val-89
+- outputs/archive/old_runs_20260517/runs_detect/val-9
+- outputs/archive/old_runs_20260517/runs_detect/val-90
+- outputs/archive/old_runs_20260517/runs_detect/val-91
+- outputs/archive/old_runs_20260517/runs_detect/val-92
+- outputs/archive/old_runs_20260517/runs_detect/val-93
+- outputs/archive/old_runs_20260517/runs_detect/val-94
+- outputs/archive/old_runs_20260517/runs_detect/val-95
+- outputs/archive/old_runs_20260517/runs_detect/val-96
+- outputs/archive/old_runs_20260517/runs_detect/val-97
+- outputs/archive/old_runs_20260517/runs_detect/val-98
+- outputs/archive/old_runs_20260517/runs_detect/val-99
+
+## Current Important Paths
+
+- Current tiled smoke dataset: outputs/datasets/tiled/tiled_1024_ov20_smoke/
+- Future full tiled dataset: outputs/datasets/tiled/tiled_1024_ov20_full/
+- Current 20 epoch result: outputs/experiments/20260517_tiled_baseline_20epoch/
+- Current best.pt: outputs/experiments/20260517_tiled_baseline_20epoch/train/weights/best.pt
+- GPU preflight report: outputs/audits/gpu_preflight/gpu_preflight_report.md
+- Artifact inventory: outputs/audits/artifact_inventory/artifact_inventory.md
+
+## Status
+
+- Unknown output directories after cleanup: 0
+- runs/detect residual entries: 0
+- runs/detect is not a formal result location; old entries were archived.
+
+## Path Policy
+
+- Formal experiment path: outputs/experiments/<run_id>/
+- Formal dataset path: outputs/datasets/<dataset_type>/<dataset_id>/
+- Audit path: outputs/audits/<audit_id>/
+- Smoke/debug/archive paths are not formal experiment outputs.
+- Next experiment should use dataset_path=outputs/datasets/tiled/tiled_1024_ov20_full/ once the full tiled dataset is built.

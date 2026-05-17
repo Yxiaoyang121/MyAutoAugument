@@ -2,42 +2,58 @@
 
 ## 2026-05-17
 
+### Artifact Cleanup And Output Normalization
+
+Paused training and normalized generated artifacts.
+
+- Added `scripts/audit_artifacts.py`.
+- Generated inventory at `outputs/audits/artifact_inventory/artifact_inventory.md` and `.json`.
+- Generated cleanup summary at `outputs/audits/artifact_inventory/cleanup_summary.md`.
+- Added output convention at `docs/output_convention.md`.
+- Archived legacy root-level outputs to `outputs/archive/old_outputs_20260517/`.
+- Archived legacy `runs/detect/*` outputs to `outputs/archive/old_runs_20260517/runs_detect/`.
+- `runs/detect` has no remaining old experiment entries.
+- Active tiled smoke dataset is now `outputs/datasets/tiled/tiled_1024_ov20_smoke/`.
+- Active 20 epoch baseline is now `outputs/experiments/20260517_tiled_baseline_20epoch/`.
+- GPU preflight reports are now `outputs/audits/gpu_preflight/gpu_preflight_report.md` and `.json`.
+- Project snapshots are now written to `outputs/snapshots/project_snapshot_latest.md` and `outputs/project_snapshot_latest.md`.
+
+Policy recorded:
+
+- Formal experiments must use `project=outputs/experiments/<run_id>`.
+- Formal diagnostic runs must pass `--run-id` or explicitly set `--output-dir`.
+- `runs/` is not a formal result location.
+- Weights, generated images, generated dataset image/label files, and archive contents are local artifacts and are ignored by Git.
+
 ### Tiled Baseline 20 Epoch
 
 Ran the tiled baseline on GPU with no external diagnostic augmentation and YOLO built-in augmentation knobs disabled.
 
-Dataset checks before training:
+Status after normalization:
 
-- `outputs/tiled_dataset_smoke/data.yaml`: exists
-- `outputs/tiled_dataset_smoke/images/train`: 107 files
-- `outputs/tiled_dataset_smoke/images/val`: 86 files
-- `outputs/tiled_dataset_smoke/labels/train`: 107 files
-- `outputs/tiled_dataset_smoke/labels/val`: 86 files
+- Run ID: `20260517_tiled_baseline_20epoch`
+- Formal result: no
+- Reason: this used the smoke tiled dataset, not the future full tiled dataset.
+- Result path: `outputs/experiments/20260517_tiled_baseline_20epoch/`
+- Dataset: `outputs/datasets/tiled/tiled_1024_ov20_smoke/data.yaml`
+- Train command: `outputs/experiments/20260517_tiled_baseline_20epoch/configs/train_command.txt`
+- Val command: `outputs/experiments/20260517_tiled_baseline_20epoch/configs/val_command.txt`
+- Report: `outputs/experiments/20260517_tiled_baseline_20epoch/reports/baseline_20epoch_report.md`
+- Metrics: `outputs/experiments/20260517_tiled_baseline_20epoch/reports/baseline_20epoch_metrics.json`
+- best.pt: `outputs/experiments/20260517_tiled_baseline_20epoch/train/weights/best.pt`
+- last.pt: `outputs/experiments/20260517_tiled_baseline_20epoch/train/weights/last.pt`
 
-Train command:
+Normalized train command:
 
 ```powershell
-D:\Anaconda\Scripts\conda.exe run -n pytorch yolo detect train model=yolo11n.pt data=E:\TJGY\MinPaper\MyAutoAugument\outputs\tiled_dataset_smoke\data.yaml epochs=20 imgsz=1024 batch=2 workers=0 device=0 project=outputs\tiled_baseline_20epoch name=train exist_ok=True mosaic=0 mixup=0 copy_paste=0 hsv_h=0 hsv_s=0 hsv_v=0 degrees=0 translate=0 scale=0 shear=0 perspective=0 fliplr=0 flipud=0
+D:\Anaconda\Scripts\conda.exe run -n pytorch yolo detect train model=yolo11n.pt data=E:\TJGY\MinPaper\MyAutoAugument\outputs\datasets\tiled\tiled_1024_ov20_smoke\data.yaml epochs=20 imgsz=1024 batch=2 workers=0 device=0 project=outputs\experiments\20260517_tiled_baseline_20epoch name=train exist_ok=True mosaic=0 mixup=0 copy_paste=0 hsv_h=0 hsv_s=0 hsv_v=0 degrees=0 translate=0 scale=0 shear=0 perspective=0 fliplr=0 flipud=0
 ```
 
-Validation command:
+Normalized validation command:
 
 ```powershell
-D:\Anaconda\envs\pytorch\Scripts\yolo.exe detect val model=outputs\tiled_baseline_20epoch\train\weights\best.pt data=E:\TJGY\MinPaper\MyAutoAugument\outputs\tiled_dataset_smoke\data.yaml imgsz=1024 batch=2 workers=0 device=0 project=outputs\tiled_baseline_20epoch name=val exist_ok=True
+D:\Anaconda\envs\pytorch\Scripts\yolo.exe detect val model=outputs\experiments\20260517_tiled_baseline_20epoch\train\weights\best.pt data=E:\TJGY\MinPaper\MyAutoAugument\outputs\datasets\tiled\tiled_1024_ov20_smoke\data.yaml imgsz=1024 batch=2 workers=0 device=0 project=outputs\experiments\20260517_tiled_baseline_20epoch name=val exist_ok=True
 ```
-
-Outputs:
-
-- `outputs/tiled_baseline_20epoch/baseline_20epoch_report.md`
-- `outputs/tiled_baseline_20epoch/baseline_20epoch_metrics.json`
-- `outputs/tiled_baseline_20epoch/train/weights/best.pt`
-- `outputs/tiled_baseline_20epoch/train/weights/last.pt`
-- `outputs/tiled_baseline_20epoch/train_command.txt`
-- `outputs/tiled_baseline_20epoch/val_command.txt`
-- `outputs/tiled_baseline_20epoch/train_stdout.log`
-- `outputs/tiled_baseline_20epoch/train_stderr.log`
-- `outputs/tiled_baseline_20epoch/val_stdout.log`
-- `outputs/tiled_baseline_20epoch/val_stderr.log`
 
 Result:
 
@@ -60,8 +76,6 @@ Note:
 ### GPU Environment Confirmation
 
 GPU environment has been confirmed in the dedicated conda env `pytorch`. Future formal training must use this environment rather than base.
-
-Environment:
 
 - Conda env: `pytorch`
 - Python executable: `D:\Anaconda\envs\pytorch\python.exe`
@@ -89,11 +103,8 @@ D:\Anaconda\Scripts\conda.exe run -n pytorch python scripts\run_gpu_preflight.py
 
 Outputs:
 
-- `outputs/gpu_preflight_report.md`
-- `outputs/gpu_preflight_report.json`
-- `outputs/gpu_preflight_smoke/train_command.txt`
-- `outputs/gpu_preflight_smoke/train_stdout.log`
-- `outputs/gpu_preflight_smoke/train_stderr.log`
+- `outputs/audits/gpu_preflight/gpu_preflight_report.md`
+- `outputs/audits/gpu_preflight/gpu_preflight_report.json`
 
 Result:
 
@@ -108,42 +119,11 @@ Result:
 - `yolo checks`: passed
 - YOLO GPU smoke: passed
 
-YOLO GPU smoke command:
-
-```powershell
-D:\Anaconda\envs\pytorch\Scripts\yolo.exe detect train model=E:\TJGY\MinPaper\MyAutoAugument\yolo11n.pt data=E:\TJGY\MinPaper\MyAutoAugument\outputs\tiled_dataset_smoke\data.yaml imgsz=640 batch=1 epochs=1 workers=0 device=0 project=E:\TJGY\MinPaper\MyAutoAugument\outputs\gpu_preflight_smoke name=train exist_ok=True mosaic=0 mixup=0 copy_paste=0 hsv_h=0 hsv_s=0 hsv_v=0 degrees=0 translate=0 scale=0 shear=0 perspective=0 fliplr=0 flipud=0
-```
-
-Conclusion:
-
-- GPU preflight passed in conda env `pytorch`.
-- Minimal YOLO GPU smoke passed with YOLO built-in augmentations disabled.
-- Formal training can proceed only from conda env `pytorch` using `device=0`; CPU remains smoke/debug only.
+YOLO GPU smoke used the tiled smoke `data.yaml`, `epochs=1`, `imgsz=640`, `batch=1`, `workers=0`, `device=0`, and YOLO built-in augmentations disabled.
 
 ### Historical Base Env GPU Preflight
 
-Historical base-env preflight. This run confirmed that base was not a valid formal training environment.
-
-Command:
-
-```powershell
-python scripts\run_gpu_preflight.py
-```
-
-Required commands captured in the report:
-
-```powershell
-python --version
-python -c "import torch; print('torch:', torch.__version__); print('cuda_available:', torch.cuda.is_available()); print('cuda_version:', torch.version.cuda); print('device_count:', torch.cuda.device_count()); print('device_name:', torch.cuda.get_device_name(0) if torch.cuda.is_available() else 'NO CUDA')"
-python -c "import ultralytics; print('ultralytics:', ultralytics.__version__)"
-yolo checks
-```
-
-Outputs:
-
-- Superseded by the current pytorch-env reports in `outputs/gpu_preflight_report.md/json`.
-
-Result:
+Historical base-env preflight confirmed that base was not a valid formal training environment.
 
 - Python: 3.12.4
 - PyTorch: 2.4.1+cpu
@@ -154,14 +134,13 @@ Result:
 - `nvidia-smi`: NVIDIA GeForce RTX 3060 Laptop GPU, driver 560.81, 6144 MiB
 - Ultralytics: 8.4.48
 - `yolo checks`: passed, but reported CPU / GPU None / CUDA None
-- YOLO GPU smoke: not run because CUDA is unavailable to PyTorch
+- YOLO GPU smoke: not run because CUDA was unavailable to PyTorch
 
 Conclusion:
 
-- `torch.cuda.is_available() = False`
-- The base Python environment is using CPU-only PyTorch even though the NVIDIA driver can see the GPU.
-- Only CPU smoke/debug can run in base; base results cannot be used as formal experiment results.
-- Superseding rule: formal training uses conda env `pytorch` and YOLO `device=0`.
+- `torch.cuda.is_available() = False` in base.
+- Only CPU smoke/debug can run in base.
+- Base results cannot be used as formal experiment results.
 
 ## 2026-05-16
 
@@ -184,19 +163,15 @@ Conclusion:
 
 ### Tiled Dataset Smoke
 
-Command:
+The smoke tiled dataset was originally built from `E:\TJGY\DataSet2_fixed` with `--max-images-per-split 8`, so it is explicitly a smoke dataset.
 
-```powershell
-python scripts\build_yolo_tiled_dataset.py --dataset-root E:\TJGY\DataSet2_fixed --data-yaml E:\TJGY\DataSet2_fixed\data.yaml --output-dir outputs\tiled_dataset_smoke --tile-size 1024 --overlap 0.2 --min-visibility 0.3 --keep-empty-ratio 0.1 --max-images-per-split 8 --debug-limit 8 --overwrite
-```
+Current normalized outputs:
 
-Outputs:
-
-- `outputs/tiled_dataset_smoke`
-- `outputs/tiled_dataset_smoke/data.yaml`
-- `outputs/tiled_dataset_smoke/tiled_dataset_report.json`
-- `outputs/tiled_dataset_smoke/tiled_dataset_report.md`
-- `outputs/tiled_dataset_smoke/debug_tiling/`
+- `outputs/datasets/tiled/tiled_1024_ov20_smoke/`
+- `outputs/datasets/tiled/tiled_1024_ov20_smoke/data.yaml`
+- `outputs/datasets/tiled/tiled_1024_ov20_smoke/tiled_dataset_report.json`
+- `outputs/datasets/tiled/tiled_1024_ov20_smoke/tiled_dataset_report.md`
+- `outputs/datasets/tiled/tiled_1024_ov20_smoke/dataset_summary.md`
 
 Summary:
 
@@ -207,27 +182,13 @@ Summary:
 
 ### Real Tiled Pipeline Smoke
 
-Command:
+The older CPU smoke pipeline output was archived to `outputs/archive/old_outputs_20260517/diagnostic_aug_tiled_smoke/`.
 
-```powershell
-$env:KMP_DUPLICATE_LIB_OK='TRUE'
-python scripts\run_diagnostic_augmentation_pipeline.py --dataset-root outputs\tiled_dataset_smoke --data-yaml outputs\tiled_dataset_smoke\data.yaml --output-dir outputs\diagnostic_aug_tiled_smoke --model yolo11n.pt --imgsz 640 --batch 4 --baseline-epochs 1 --short-epochs 1 --final-epochs 1 --top-k 1 --workers 0 --device cpu --skip-final-train --proxy-samples 32 --augment-repeat 1
-```
-
-Outputs:
-
-- `outputs/diagnostic_aug_tiled_smoke/diagnosis/diagnosis.json`
-- `outputs/diagnostic_aug_tiled_smoke/policies/policy_update_report.md`
-- `outputs/diagnostic_aug_tiled_smoke/proxy/copy_paste_filter_audit.md`
-- `outputs/diagnostic_aug_tiled_smoke/metric_consistency/metric_consistency_audit.md`
-- `outputs/diagnostic_aug_tiled_smoke/strategy_memory/memory_guided_ranking.json`
-- `outputs/diagnostic_aug_tiled_smoke/strategy_memory/strategy_memory_report.md`
-
-Key conclusions:
+Key conclusions from that archived smoke:
 
 - `copy_paste` was not hard filtered; soft penalties recorded bbox safety risks.
 - Metric consistency audit reported zero precision/recall delta for this smoke and documented threshold/matching causes for expected metric differences.
-- Strategy memory appended one record to `outputs/strategy_memory.jsonl`.
+- Strategy memory appended one record to the archived `strategy_memory.jsonl`.
 
 ## 2026-05-15
 
@@ -248,4 +209,4 @@ Key conclusions:
   - `pytest -q tests/test_yolo_error_analysis.py tests/test_proxy_prefilter.py tests/test_yolo_train_evaluator.py`
   - `pytest -q tests/test_copy_paste.py`
   - `pytest -q tests/test_augmentations.py tests/test_copy_paste.py tests/test_yolo_error_analysis.py tests/test_proxy_prefilter.py tests/test_yolo_train_evaluator.py`
-- Dry-run pipeline invocation passed and produced `outputs/diagnostic_aug_pipeline_smoke`.
+- Dry-run pipeline invocation passed and produced an archived smoke output under `outputs/archive/old_outputs_20260517/diagnostic_aug_pipeline_smoke/`.

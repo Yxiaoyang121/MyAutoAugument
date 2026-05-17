@@ -1,5 +1,5 @@
 ﻿{
-    "experiment":  "tiled_baseline_20epoch",
+    "experiment":  "20260517_tiled_baseline_20epoch",
     "status":  {
                    "train_completed_20_epochs":  true,
                    "train_batch":  2,
@@ -18,8 +18,8 @@
                         "ultralytics":  "8.3.221"
                     },
     "dataset":  {
-                    "dataset_root":  "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\tiled_dataset_smoke",
-                    "data_yaml":  "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\tiled_dataset_smoke\\data.yaml",
+                    "dataset_root":  "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_smoke",
+                    "data_yaml":  "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_smoke\\data.yaml",
                     "train_images":  107,
                     "val_images":  86,
                     "train_labels":  107,
@@ -49,15 +49,15 @@
                                                                }
                    },
     "paths":  {
-                  "output_dir":  "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\tiled_baseline_20epoch",
-                  "best_pt":  "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\tiled_baseline_20epoch\\train\\weights\\best.pt",
-                  "last_pt":  "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\tiled_baseline_20epoch\\train\\weights\\last.pt",
-                  "train_command":  "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\tiled_baseline_20epoch\\train_command.txt",
-                  "train_stdout":  "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\tiled_baseline_20epoch\\train_stdout.log",
-                  "train_stderr":  "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\tiled_baseline_20epoch\\train_stderr.log",
-                  "val_command":  "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\tiled_baseline_20epoch\\val_command.txt",
-                  "val_stdout":  "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\tiled_baseline_20epoch\\val_stdout.log",
-                  "val_stderr":  "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\tiled_baseline_20epoch\\val_stderr.log"
+                  "output_dir":  "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260517_tiled_baseline_20epoch",
+                  "best_pt":  "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260517_tiled_baseline_20epoch\\train\\weights\\best.pt",
+                  "last_pt":  "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260517_tiled_baseline_20epoch\\train\\weights\\last.pt",
+                  "train_command":  "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260517_tiled_baseline_20epoch\\configs\\train_command.txt",
+                  "train_stdout":  "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260517_tiled_baseline_20epoch\\logs\\train_stdout.log",
+                  "train_stderr":  "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260517_tiled_baseline_20epoch\\logs\\train_stderr.log",
+                  "val_command":  "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260517_tiled_baseline_20epoch\\configs\\val_command.txt",
+                  "val_stdout":  "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260517_tiled_baseline_20epoch\\logs\\val_stdout.log",
+                  "val_stderr":  "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260517_tiled_baseline_20epoch\\logs\\val_stderr.log"
               },
     "durations":  {
                       "train_seconds":  312.4,

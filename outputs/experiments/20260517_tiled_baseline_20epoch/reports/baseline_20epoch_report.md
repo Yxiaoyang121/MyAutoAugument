@@ -21,8 +21,8 @@
 
 ## Dataset And Parameters
 
-- Dataset root: E:\TJGY\MinPaper\MyAutoAugument\outputs\tiled_dataset_smoke
-- data.yaml: E:\TJGY\MinPaper\MyAutoAugument\outputs\tiled_dataset_smoke\data.yaml
+- Dataset root: E:\TJGY\MinPaper\MyAutoAugument\outputs\datasets\tiled\tiled_1024_ov20_smoke
+- data.yaml: E:\TJGY\MinPaper\MyAutoAugument\outputs\datasets\tiled\tiled_1024_ov20_smoke\data.yaml
 - Model: yolo11n.pt
 - Epochs: 20
 - imgsz: 1024
@@ -33,10 +33,10 @@
 
 ## Outputs
 
-- best.pt: E:\TJGY\MinPaper\MyAutoAugument\outputs\tiled_baseline_20epoch\train\weights\best.pt
-- last.pt: E:\TJGY\MinPaper\MyAutoAugument\outputs\tiled_baseline_20epoch\train\weights\last.pt
-- Train command: E:\TJGY\MinPaper\MyAutoAugument\outputs\tiled_baseline_20epoch\train_command.txt
-- Val command: E:\TJGY\MinPaper\MyAutoAugument\outputs\tiled_baseline_20epoch\val_command.txt
+- best.pt: E:\TJGY\MinPaper\MyAutoAugument\outputs\experiments\20260517_tiled_baseline_20epoch\train\weights\best.pt
+- last.pt: E:\TJGY\MinPaper\MyAutoAugument\outputs\experiments\20260517_tiled_baseline_20epoch\train\weights\last.pt
+- Train command: E:\TJGY\MinPaper\MyAutoAugument\outputs\experiments\20260517_tiled_baseline_20epoch\train_command.txt
+- Val command: E:\TJGY\MinPaper\MyAutoAugument\outputs\experiments\20260517_tiled_baseline_20epoch\val_command.txt
 
 ## Metrics
 

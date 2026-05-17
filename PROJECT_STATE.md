@@ -36,6 +36,25 @@ The repository is centered on diagnosis-driven augmentation for industrial defec
   - Formal training environment: conda env `pytorch`, YOLO `device=0`
 - Latest GPU preflight reports are `outputs/gpu_preflight_report.md` and `outputs/gpu_preflight_report.json`.
 - Earlier base-env preflight showed CPU-only PyTorch; base must not be used for formal training.
+- Ran tiled baseline 20 epoch on GPU:
+  - Command target: `outputs/tiled_baseline_20epoch`
+  - Dataset: `outputs/tiled_dataset_smoke/data.yaml`
+  - Model: `yolo11n.pt`
+  - Epochs: 20
+  - imgsz: 1024
+  - batch: 2
+  - workers: 0
+  - device: 0
+  - YOLO built-in augmentations disabled: `mosaic=0 mixup=0 copy_paste=0 hsv_h=0 hsv_s=0 hsv_v=0 degrees=0 translate=0 scale=0 shear=0 perspective=0 fliplr=0 flipud=0`
+  - OOM: false
+  - best.pt: `outputs/tiled_baseline_20epoch/train/weights/best.pt`
+  - last.pt: `outputs/tiled_baseline_20epoch/train/weights/last.pt`
+  - Precision: 0.828
+  - Recall: 0.213
+  - mAP50: 0.247
+  - mAP50-95: 0.181
+  - Report: `outputs/tiled_baseline_20epoch/baseline_20epoch_report.md`
+  - Metrics JSON: `outputs/tiled_baseline_20epoch/baseline_20epoch_metrics.json`
 - `pytest -q tests/test_build_yolo_tiled_dataset.py tests/test_copy_paste.py tests/test_proxy_prefilter.py tests/test_yolo_error_analysis.py` passed.
 - `pytest -q` passed: 89 tests.
 - Built tiled smoke dataset:

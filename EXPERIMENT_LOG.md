@@ -2,6 +2,61 @@
 
 ## 2026-05-17
 
+### Tiled Baseline 20 Epoch
+
+Ran the tiled baseline on GPU with no external diagnostic augmentation and YOLO built-in augmentation knobs disabled.
+
+Dataset checks before training:
+
+- `outputs/tiled_dataset_smoke/data.yaml`: exists
+- `outputs/tiled_dataset_smoke/images/train`: 107 files
+- `outputs/tiled_dataset_smoke/images/val`: 86 files
+- `outputs/tiled_dataset_smoke/labels/train`: 107 files
+- `outputs/tiled_dataset_smoke/labels/val`: 86 files
+
+Train command:
+
+```powershell
+D:\Anaconda\Scripts\conda.exe run -n pytorch yolo detect train model=yolo11n.pt data=E:\TJGY\MinPaper\MyAutoAugument\outputs\tiled_dataset_smoke\data.yaml epochs=20 imgsz=1024 batch=2 workers=0 device=0 project=outputs\tiled_baseline_20epoch name=train exist_ok=True mosaic=0 mixup=0 copy_paste=0 hsv_h=0 hsv_s=0 hsv_v=0 degrees=0 translate=0 scale=0 shear=0 perspective=0 fliplr=0 flipud=0
+```
+
+Validation command:
+
+```powershell
+D:\Anaconda\envs\pytorch\Scripts\yolo.exe detect val model=outputs\tiled_baseline_20epoch\train\weights\best.pt data=E:\TJGY\MinPaper\MyAutoAugument\outputs\tiled_dataset_smoke\data.yaml imgsz=1024 batch=2 workers=0 device=0 project=outputs\tiled_baseline_20epoch name=val exist_ok=True
+```
+
+Outputs:
+
+- `outputs/tiled_baseline_20epoch/baseline_20epoch_report.md`
+- `outputs/tiled_baseline_20epoch/baseline_20epoch_metrics.json`
+- `outputs/tiled_baseline_20epoch/train/weights/best.pt`
+- `outputs/tiled_baseline_20epoch/train/weights/last.pt`
+- `outputs/tiled_baseline_20epoch/train_command.txt`
+- `outputs/tiled_baseline_20epoch/val_command.txt`
+- `outputs/tiled_baseline_20epoch/train_stdout.log`
+- `outputs/tiled_baseline_20epoch/train_stderr.log`
+- `outputs/tiled_baseline_20epoch/val_stdout.log`
+- `outputs/tiled_baseline_20epoch/val_stderr.log`
+
+Result:
+
+- Completed 20 epochs: true
+- Final train batch: 2
+- Final val batch: 2
+- OOM: false
+- Precision: 0.828
+- Recall: 0.213
+- mAP50: 0.247
+- mAP50-95: 0.181
+- Train duration: 312.4 seconds
+- Validation duration: 20.137 seconds
+
+Note:
+
+- Training artifacts and epoch 20 metrics were produced successfully.
+- The conda wrapper emitted a UnicodeEncodeError while forwarding YOLO stdout after training; this was not a CUDA OOM and did not prevent `best.pt`, `last.pt`, or `results.csv` from being created.
+
 ### GPU Environment Confirmation
 
 GPU environment has been confirmed in the dedicated conda env `pytorch`. Future formal training must use this environment rather than base.

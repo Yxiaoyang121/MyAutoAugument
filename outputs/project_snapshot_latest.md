@@ -1,13 +1,18 @@
 # Project Snapshot
 
-- Generated: 2026-05-17T17:47:50
+- Generated: 2026-05-17T18:06:58
 - Branch: codex/sync-latest
-- Commit: db8295de3b830f5196b3e1b58fb47c2d3eb853b1
+- Commit: 072e583c85de6120d0e35178a29857eb3489b52d
 - Remote: https://github.com/Yxiaoyang121/MyAutoAugument.git
 
 ## Working Tree
 
-Clean working tree.
+```text
+ M CODEX_HANDOFF.md
+ M EXPERIMENT_LOG.md
+ M PROJECT_STATE.md
+ M outputs/project_snapshot_latest.md
+```
 
 ## Key Files
 
@@ -24,6 +29,8 @@ Clean working tree.
 - scripts/run_diagnostic_augmentation_pipeline.py
 - outputs/gpu_preflight_report.md
 - outputs/gpu_preflight_report.json
+- outputs/tiled_baseline_20epoch/baseline_20epoch_report.md
+- outputs/tiled_baseline_20epoch/baseline_20epoch_metrics.json
 - AutoAugment/diagnostic_pipeline/__init__.py
 - AutoAugment/diagnostic_pipeline/strategy_memory.py
 - AutoAugment/diagnostic_pipeline/metric_audit.py
@@ -36,12 +43,13 @@ Clean working tree.
 
 ## Notes
 
-- Current GPU preflight passed in conda env `pytorch`.
-- Current training Python: `D:\Anaconda\envs\pytorch\python.exe`.
-- Current training stack: PyTorch 2.4.1, CUDA 12.4, Ultralytics 8.3.221.
-- Current GPU: NVIDIA GeForce RTX 3060 Laptop GPU, CUDA device count 1.
-- Minimal YOLO GPU smoke passed with `device=0`, `workers=0`, and YOLO built-in augmentations disabled.
-- Formal training must use conda env `pytorch` and YOLO `device=0`; CPU is only for smoke/debug.
-- Do not use base for formal training.
+- Tiled baseline 20 epoch completed in conda env `pytorch`.
+- Formal training Python: `D:\Anaconda\envs\pytorch\python.exe`.
+- Training settings: `model=yolo11n.pt epochs=20 imgsz=1024 batch=2 workers=0 device=0`.
+- YOLO built-in augmentations were disabled with the requested zero-valued knobs.
+- CUDA OOM occurred: false.
+- Tiled baseline metrics: Precision 0.828, Recall 0.213, mAP50 0.247, mAP50-95 0.181.
+- best.pt: `outputs/tiled_baseline_20epoch/train/weights/best.pt`.
+- CPU remains smoke/debug only; formal training uses GPU `device=0`.
 - This snapshot reflects the current local repository state.
 - It does not invent benchmark results.

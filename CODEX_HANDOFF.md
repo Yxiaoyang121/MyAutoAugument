@@ -37,6 +37,9 @@ The project is now a diagnosis-driven augmentation pipeline for industrial defec
 
 - GPU preflight report: `outputs/gpu_preflight_report.md`
 - GPU preflight JSON: `outputs/gpu_preflight_report.json`
+- Tiled baseline 20 epoch report: `outputs/tiled_baseline_20epoch/baseline_20epoch_report.md`
+- Tiled baseline 20 epoch metrics: `outputs/tiled_baseline_20epoch/baseline_20epoch_metrics.json`
+- Tiled baseline best weights: `outputs/tiled_baseline_20epoch/train/weights/best.pt`
 - Tiled dataset: `outputs/tiled_dataset_smoke`
 - Tiled smoke pipeline: `outputs/diagnostic_aug_tiled_smoke`
 - Copy-paste audit: `outputs/diagnostic_aug_tiled_smoke/proxy/copy_paste_filter_audit.md`
@@ -59,6 +62,17 @@ The project is now a diagnosis-driven augmentation pipeline for industrial defec
   - Formal training must use YOLO `device=0`
 - `D:\Anaconda\Scripts\conda.exe run -n pytorch python scripts\run_gpu_preflight.py`
 - Earlier base-env preflight showed CPU-only PyTorch; base must not be used for formal training.
+- Tiled baseline 20 epoch completed in conda env `pytorch`:
+  - Train command: `outputs/tiled_baseline_20epoch/train_command.txt`
+  - Val command: `outputs/tiled_baseline_20epoch/val_command.txt`
+  - Dataset: `outputs/tiled_dataset_smoke/data.yaml`
+  - `epochs=20 imgsz=1024 batch=2 workers=0 device=0`
+  - YOLO built-in augmentations disabled per command
+  - OOM: false
+  - Precision: 0.828
+  - Recall: 0.213
+  - mAP50: 0.247
+  - mAP50-95: 0.181
 - `pytest -q tests/test_build_yolo_tiled_dataset.py tests/test_copy_paste.py tests/test_proxy_prefilter.py tests/test_yolo_error_analysis.py`
 - `pytest -q`
 - `python scripts\build_yolo_tiled_dataset.py --dataset-root E:\TJGY\DataSet2_fixed --data-yaml E:\TJGY\DataSet2_fixed\data.yaml --output-dir outputs\tiled_dataset_smoke --tile-size 1024 --overlap 0.2 --min-visibility 0.3 --keep-empty-ratio 0.1 --max-images-per-split 8 --debug-limit 8 --overwrite`

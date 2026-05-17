@@ -1,0 +1,1 @@
+﻿D:\Anaconda\envs\pytorch\Scripts\yolo.exe detect val model=outputs\tiled_baseline_20epoch\train\weights\best.pt data=E:\TJGY\MinPaper\MyAutoAugument\outputs\tiled_dataset_smoke\data.yaml imgsz=1024 batch=2 workers=0 device=0 project=outputs\tiled_baseline_20epoch name=val exist_ok=True

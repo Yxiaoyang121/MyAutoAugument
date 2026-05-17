@@ -35,6 +35,8 @@ The project is now a diagnosis-driven augmentation pipeline for industrial defec
 
 ## Latest Verified Outputs
 
+- GPU preflight report: `outputs/gpu_preflight_report.md`
+- GPU preflight JSON: `outputs/gpu_preflight_report.json`
 - Tiled dataset: `outputs/tiled_dataset_smoke`
 - Tiled smoke pipeline: `outputs/diagnostic_aug_tiled_smoke`
 - Copy-paste audit: `outputs/diagnostic_aug_tiled_smoke/proxy/copy_paste_filter_audit.md`
@@ -43,6 +45,16 @@ The project is now a diagnosis-driven augmentation pipeline for industrial defec
 
 ## Verification Done
 
+- `python scripts\run_gpu_preflight.py`
+  - Python: 3.12.4
+  - PyTorch: 2.4.1+cpu
+  - `torch.cuda.is_available()`: False
+  - `torch.version.cuda`: None
+  - PyTorch device name: NO CUDA
+  - `nvidia-smi`: NVIDIA GeForce RTX 3060 Laptop GPU, driver 560.81, 6144 MiB
+  - Ultralytics: 8.4.48
+  - `yolo checks`: passed but reported CPU / GPU None / CUDA None
+  - YOLO GPU smoke: not run because CUDA is unavailable to PyTorch
 - `pytest -q tests/test_build_yolo_tiled_dataset.py tests/test_copy_paste.py tests/test_proxy_prefilter.py tests/test_yolo_error_analysis.py`
 - `pytest -q`
 - `python scripts\build_yolo_tiled_dataset.py --dataset-root E:\TJGY\DataSet2_fixed --data-yaml E:\TJGY\DataSet2_fixed\data.yaml --output-dir outputs\tiled_dataset_smoke --tile-size 1024 --overlap 0.2 --min-visibility 0.3 --keep-empty-ratio 0.1 --max-images-per-split 8 --debug-limit 8 --overwrite`
@@ -50,6 +62,9 @@ The project is now a diagnosis-driven augmentation pipeline for industrial defec
 
 ## Notes
 
+- Formal training must remain paused until CUDA-enabled PyTorch is active and a YOLO GPU smoke test succeeds.
+- The current environment likely has CPU-only PyTorch in the active Python environment: `nvidia-smi` sees the RTX 3060 Laptop GPU, but PyTorch reports `2.4.1+cpu` and `torch.cuda.is_available() = False`.
+- CPU smoke tests are allowed only for pipeline sanity checks and must not be treated as formal experiment results.
 - The YOLO smoke required `KMP_DUPLICATE_LIB_OK=TRUE` in this Anaconda CPU environment due duplicate OpenMP runtime initialization.
 - The smoke is intentionally capped and is not a benchmark result.
 - Output directories are ignored by `.gitignore`, but `outputs/project_snapshot_latest.md` is tracked.

@@ -1,5 +1,51 @@
 # Experiment Log
 
+## 2026-05-17
+
+### GPU Preflight
+
+Formal training remains paused. The current goal was to verify whether this environment can start GPU-backed YOLO training before any further experiments.
+
+Command:
+
+```powershell
+python scripts\run_gpu_preflight.py
+```
+
+Required commands captured in the report:
+
+```powershell
+python --version
+python -c "import torch; print('torch:', torch.__version__); print('cuda_available:', torch.cuda.is_available()); print('cuda_version:', torch.version.cuda); print('device_count:', torch.cuda.device_count()); print('device_name:', torch.cuda.get_device_name(0) if torch.cuda.is_available() else 'NO CUDA')"
+python -c "import ultralytics; print('ultralytics:', ultralytics.__version__)"
+yolo checks
+```
+
+Outputs:
+
+- `outputs/gpu_preflight_report.md`
+- `outputs/gpu_preflight_report.json`
+
+Result:
+
+- Python: 3.12.4
+- PyTorch: 2.4.1+cpu
+- `torch.cuda.is_available()`: False
+- `torch.version.cuda`: None
+- CUDA device count: 0
+- PyTorch device name: NO CUDA
+- `nvidia-smi`: NVIDIA GeForce RTX 3060 Laptop GPU, driver 560.81, 6144 MiB
+- Ultralytics: 8.4.48
+- `yolo checks`: passed, but reported CPU / GPU None / CUDA None
+- YOLO GPU smoke: not run because CUDA is unavailable to PyTorch
+
+Conclusion:
+
+- `torch.cuda.is_available() = False`
+- The active Python environment is likely using CPU-only PyTorch even though the NVIDIA driver can see the GPU.
+- Only CPU smoke tests can run in this state; CPU smoke results cannot be used as formal experiment results.
+- Do not start formal training until CUDA-enabled PyTorch is installed/activated and the YOLO GPU smoke test passes.
+
 ## 2026-05-16
 
 ### Code Changes

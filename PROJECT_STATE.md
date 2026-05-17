@@ -8,7 +8,7 @@ The repository is centered on diagnosis-driven augmentation for industrial defec
 
 ## Implemented In This Update
 
-- Added `scripts/run_gpu_preflight.py` to capture Python, PyTorch/CUDA, Ultralytics, `yolo checks`, optional `nvidia-smi`, and conditional YOLO GPU smoke results.
+- Updated `scripts/run_gpu_preflight.py` to capture the active conda env, `sys.executable`, PyTorch/CUDA, Ultralytics, `yolo checks`, optional `nvidia-smi`, and conditional YOLO GPU smoke results without falling back to base PATH.
 - Generated auditable GPU preflight reports:
   - `outputs/gpu_preflight_report.md`
   - `outputs/gpu_preflight_report.json`
@@ -22,18 +22,20 @@ The repository is centered on diagnosis-driven augmentation for industrial defec
 
 ## Verified Locally
 
-- GPU preflight:
-  - `python scripts\run_gpu_preflight.py`
-  - `python --version`: Python 3.12.4
-  - PyTorch: 2.4.1+cpu
-  - `torch.cuda.is_available()`: False
-  - `torch.version.cuda`: None
-  - CUDA device count: 0
-  - PyTorch device name: NO CUDA
-  - `nvidia-smi`: NVIDIA GeForce RTX 3060 Laptop GPU, driver 560.81, 6144 MiB
-  - Ultralytics: 8.4.48
-  - `yolo checks`: passed, but reported CPU / GPU None / CUDA None
-  - YOLO GPU smoke: not run because CUDA is unavailable to PyTorch
+- GPU environment confirmed in conda env `pytorch`:
+  - Python executable: `D:\Anaconda\envs\pytorch\python.exe`
+  - Python version: 3.9.19
+  - PyTorch: 2.4.1
+  - `torch.cuda.is_available()`: True
+  - `torch.version.cuda`: 12.4
+  - CUDA device count: 1
+  - GPU: NVIDIA GeForce RTX 3060 Laptop GPU
+  - Ultralytics: 8.3.221
+  - `yolo checks`: passed
+  - YOLO GPU smoke: passed with `model=yolo11n.pt`, `data=outputs\tiled_dataset_smoke\data.yaml`, `epochs=1`, `imgsz=640`, `batch=1`, `workers=0`, `device=0`, and YOLO built-in augmentations disabled
+  - Formal training environment: conda env `pytorch`, YOLO `device=0`
+- Latest GPU preflight reports are `outputs/gpu_preflight_report.md` and `outputs/gpu_preflight_report.json`.
+- Earlier base-env preflight showed CPU-only PyTorch; base must not be used for formal training.
 - `pytest -q tests/test_build_yolo_tiled_dataset.py tests/test_copy_paste.py tests/test_proxy_prefilter.py tests/test_yolo_error_analysis.py` passed.
 - `pytest -q` passed: 89 tests.
 - Built tiled smoke dataset:
@@ -59,9 +61,10 @@ The repository is centered on diagnosis-driven augmentation for industrial defec
 
 ## Operational Notes
 
-- Formal training is paused until the active Python environment has CUDA-enabled PyTorch and the YOLO GPU smoke passes.
-- Current blocker: `torch.cuda.is_available() = False`; although `nvidia-smi` detects the RTX 3060 Laptop GPU, the active PyTorch package is `2.4.1+cpu`.
-- CPU smoke tests can run in this environment, but they cannot be used as formal experiment results.
+- Formal training must use conda env `pytorch` with `D:\Anaconda\envs\pytorch\python.exe`.
+- Formal YOLO training must use GPU `device=0`.
+- CPU is allowed only for smoke/debug runs and must not be treated as formal experiment output.
+- Do not use the base conda environment for formal training; it previously resolved to CPU-only PyTorch.
 - Windows YOLO commands should keep `workers=0`.
 - This machine needed `KMP_DUPLICATE_LIB_OK=TRUE` for the CPU YOLO smoke because the active Anaconda environment initialized duplicate OpenMP runtimes.
 - The smoke used a capped tiled dataset (`--max-images-per-split 8`) to keep runtime bounded; it is not a final benchmark.

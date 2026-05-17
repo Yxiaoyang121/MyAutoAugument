@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import os
+import shutil
 import subprocess
 import sys
 import time
@@ -17,6 +18,7 @@ REPORT_MD = OUTPUT_DIR / "gpu_preflight_report.md"
 SMOKE_DIR = OUTPUT_DIR / "gpu_preflight_smoke"
 SMOKE_DATA_YAML = OUTPUT_DIR / "tiled_dataset_smoke" / "data.yaml"
 MODEL_PATH = PROJECT_ROOT / "yolo11n.pt"
+PYTHON_EXECUTABLE = Path(sys.executable).resolve()
 
 
 TORCH_INFO_CODE = (
@@ -47,18 +49,23 @@ def build_report() -> dict[str, Any]:
     started_at = datetime.now().isoformat(timespec="seconds")
     env = os.environ.copy()
     env.setdefault("KMP_DUPLICATE_LIB_OK", "TRUE")
+    ultralytics_config_dir = OUTPUT_DIR / "ultralytics_config"
+    ultralytics_config_dir.mkdir(parents=True, exist_ok=True)
+    env.setdefault("YOLO_CONFIG_DIR", str(ultralytics_config_dir))
+    conda_env = detect_conda_env_name(env)
+    yolo_command = resolve_yolo_command()
 
     commands: dict[str, dict[str, Any]] = {}
     commands["python_version"] = run_command(
-        ["python", "--version"],
-        "python --version",
+        [str(PYTHON_EXECUTABLE), "--version"],
+        f"{PYTHON_EXECUTABLE} --version",
         env=env,
         timeout=60,
     )
     commands["torch_cuda_info"] = run_command(
-        ["python", "-c", TORCH_INFO_CODE],
+        [str(PYTHON_EXECUTABLE), "-c", TORCH_INFO_CODE],
         (
-            'python -c "import torch; print(\'torch:\', torch.__version__); '
+            f'{PYTHON_EXECUTABLE} -c "import torch; print(\'torch:\', torch.__version__); '
             "print('cuda_available:', torch.cuda.is_available()); "
             "print('cuda_version:', torch.version.cuda); "
             "print('device_count:', torch.cuda.device_count()); "
@@ -68,14 +75,14 @@ def build_report() -> dict[str, Any]:
         timeout=120,
     )
     commands["ultralytics_version"] = run_command(
-        ["python", "-c", "import ultralytics; print('ultralytics:', ultralytics.__version__)"],
-        'python -c "import ultralytics; print(\'ultralytics:\', ultralytics.__version__)"',
+        [str(PYTHON_EXECUTABLE), "-c", "import ultralytics; print('ultralytics:', ultralytics.__version__)"],
+        f'{PYTHON_EXECUTABLE} -c "import ultralytics; print(\'ultralytics:\', ultralytics.__version__)"',
         env=env,
         timeout=120,
     )
     commands["yolo_checks"] = run_command(
-        ["yolo", "checks"],
-        "yolo checks",
+        [str(yolo_command), "checks"],
+        f"{yolo_command} checks",
         env=env,
         timeout=240,
     )
@@ -94,7 +101,7 @@ def build_report() -> dict[str, Any]:
 
     yolo_gpu_smoke: dict[str, Any]
     if cuda_available:
-        yolo_gpu_smoke = run_yolo_gpu_smoke(env=env)
+        yolo_gpu_smoke = run_yolo_gpu_smoke(env=env, yolo_command=yolo_command)
     else:
         yolo_gpu_smoke = {
             "status": "not_run_cuda_unavailable",
@@ -109,6 +116,12 @@ def build_report() -> dict[str, Any]:
         "started_at": started_at,
         "finished_at": finished_at,
         "project_root": str(PROJECT_ROOT),
+        "environment": {
+            "conda_env_name": conda_env,
+            "sys_executable": str(PYTHON_EXECUTABLE),
+            "yolo_executable": str(yolo_command),
+            "yolo_config_dir": env.get("YOLO_CONFIG_DIR"),
+        },
         "commands": commands,
         "python": {
             "version_stdout": commands["python_version"]["stdout"].strip(),
@@ -136,7 +149,7 @@ def build_report() -> dict[str, Any]:
     }
 
 
-def run_yolo_gpu_smoke(env: dict[str, str]) -> dict[str, Any]:
+def run_yolo_gpu_smoke(env: dict[str, str], yolo_command: Path) -> dict[str, Any]:
     if not SMOKE_DATA_YAML.exists():
         return {
             "status": "not_run_missing_dataset",
@@ -154,7 +167,7 @@ def run_yolo_gpu_smoke(env: dict[str, str]) -> dict[str, Any]:
 
     SMOKE_DIR.mkdir(parents=True, exist_ok=True)
     train_command = [
-        "yolo",
+        str(yolo_command),
         "detect",
         "train",
         f"model={MODEL_PATH}",
@@ -278,6 +291,28 @@ def parse_int(value: str | None) -> int | None:
         return None
 
 
+def detect_conda_env_name(env: dict[str, str]) -> str | None:
+    if env.get("CONDA_DEFAULT_ENV"):
+        return env["CONDA_DEFAULT_ENV"]
+    parts = PYTHON_EXECUTABLE.parts
+    for index, part in enumerate(parts[:-1]):
+        if part.lower() == "envs" and index + 1 < len(parts):
+            return parts[index + 1]
+    return None
+
+
+def resolve_yolo_command() -> Path:
+    scripts_dir = PYTHON_EXECUTABLE.parent / "Scripts"
+    for name in ("yolo.exe", "yolo.bat", "yolo.cmd", "yolo"):
+        candidate = scripts_dir / name
+        if candidate.exists():
+            return candidate
+    path_yolo = shutil.which("yolo")
+    if path_yolo:
+        return Path(path_yolo)
+    return scripts_dir / "yolo.exe"
+
+
 def summarize_nvidia_smi(command: dict[str, Any]) -> dict[str, Any]:
     first_line = next((line.strip() for line in command["stdout"].splitlines() if line.strip()), "")
     parts = [part.strip() for part in first_line.split(",")] if first_line else []
@@ -348,11 +383,16 @@ def command_display(args: list[str]) -> str:
     return subprocess.list2cmdline([str(arg) for arg in args])
 
 
+def clean_text_block(text: str) -> str:
+    return "\n".join(line.rstrip() for line in text.rstrip().splitlines())
+
+
 def render_markdown(report: dict[str, Any]) -> str:
     torch_info = report["torch"]
     smoke = report["yolo_gpu_smoke"]
     conclusion = report["conclusion"]
     nvidia_smi = report["nvidia_smi"]
+    environment = report["environment"]
     commands = report["commands"]
     lines = [
         "# GPU Preflight Report",
@@ -363,6 +403,10 @@ def render_markdown(report: dict[str, Any]) -> str:
         "",
         "## Summary",
         "",
+        f"- Conda env name: {environment.get('conda_env_name')}",
+        f"- `sys.executable`: `{environment.get('sys_executable')}`",
+        f"- YOLO executable: `{environment.get('yolo_executable')}`",
+        f"- YOLO config dir: `{environment.get('yolo_config_dir')}`",
         f"- `torch.cuda.is_available()` = {torch_info.get('cuda_available')}",
         f"- PyTorch: {torch_info.get('version')}",
         f"- CUDA version reported by PyTorch: {torch_info.get('cuda_version')}",
@@ -441,7 +485,7 @@ def render_markdown(report: dict[str, Any]) -> str:
                 "### Captured Error Stack",
                 "",
                 "```text",
-                str(smoke.get("error_stack", "")).rstrip(),
+                clean_text_block(str(smoke.get("error_stack", ""))),
                 "```",
                 "",
             ]
@@ -460,13 +504,13 @@ def render_command(name: str, command: dict[str, Any]) -> list[str]:
         "stdout:",
         "",
         "```text",
-        command["stdout"].rstrip(),
+        clean_text_block(command["stdout"]),
         "```",
         "",
         "stderr:",
         "",
         "```text",
-        command["stderr"].rstrip(),
+        clean_text_block(command["stderr"]),
         "```",
         "",
     ]

@@ -2,9 +2,72 @@
 
 ## 2026-05-17
 
-### GPU Preflight
+### GPU Environment Confirmation
 
-Formal training remains paused. The current goal was to verify whether this environment can start GPU-backed YOLO training before any further experiments.
+GPU environment has been confirmed in the dedicated conda env `pytorch`. Future formal training must use this environment rather than base.
+
+Environment:
+
+- Conda env: `pytorch`
+- Python executable: `D:\Anaconda\envs\pytorch\python.exe`
+- Python version: 3.9.19
+- PyTorch: 2.4.1
+- `torch.cuda.is_available()`: True
+- `torch.version.cuda`: 12.4
+- CUDA device count: 1
+- GPU: NVIDIA GeForce RTX 3060 Laptop GPU
+- Ultralytics: 8.3.221
+
+Training rule:
+
+- CPU is only for smoke/debug runs.
+- Formal YOLO training must use `device=0`.
+- The base conda environment must not be used for formal training because it previously resolved to CPU-only PyTorch.
+
+### GPU Preflight In Pytorch Env
+
+Command:
+
+```powershell
+D:\Anaconda\Scripts\conda.exe run -n pytorch python scripts\run_gpu_preflight.py
+```
+
+Outputs:
+
+- `outputs/gpu_preflight_report.md`
+- `outputs/gpu_preflight_report.json`
+- `outputs/gpu_preflight_smoke/train_command.txt`
+- `outputs/gpu_preflight_smoke/train_stdout.log`
+- `outputs/gpu_preflight_smoke/train_stderr.log`
+
+Result:
+
+- Conda env: `pytorch`
+- `sys.executable`: `D:\Anaconda\envs\pytorch\python.exe`
+- PyTorch: 2.4.1
+- `torch.cuda.is_available()`: True
+- `torch.version.cuda`: 12.4
+- CUDA device count: 1
+- GPU: NVIDIA GeForce RTX 3060 Laptop GPU
+- Ultralytics: 8.3.221
+- `yolo checks`: passed
+- YOLO GPU smoke: passed
+
+YOLO GPU smoke command:
+
+```powershell
+D:\Anaconda\envs\pytorch\Scripts\yolo.exe detect train model=E:\TJGY\MinPaper\MyAutoAugument\yolo11n.pt data=E:\TJGY\MinPaper\MyAutoAugument\outputs\tiled_dataset_smoke\data.yaml imgsz=640 batch=1 epochs=1 workers=0 device=0 project=E:\TJGY\MinPaper\MyAutoAugument\outputs\gpu_preflight_smoke name=train exist_ok=True mosaic=0 mixup=0 copy_paste=0 hsv_h=0 hsv_s=0 hsv_v=0 degrees=0 translate=0 scale=0 shear=0 perspective=0 fliplr=0 flipud=0
+```
+
+Conclusion:
+
+- GPU preflight passed in conda env `pytorch`.
+- Minimal YOLO GPU smoke passed with YOLO built-in augmentations disabled.
+- Formal training can proceed only from conda env `pytorch` using `device=0`; CPU remains smoke/debug only.
+
+### Historical Base Env GPU Preflight
+
+Historical base-env preflight. This run confirmed that base was not a valid formal training environment.
 
 Command:
 
@@ -23,8 +86,7 @@ yolo checks
 
 Outputs:
 
-- `outputs/gpu_preflight_report.md`
-- `outputs/gpu_preflight_report.json`
+- Superseded by the current pytorch-env reports in `outputs/gpu_preflight_report.md/json`.
 
 Result:
 
@@ -42,9 +104,9 @@ Result:
 Conclusion:
 
 - `torch.cuda.is_available() = False`
-- The active Python environment is likely using CPU-only PyTorch even though the NVIDIA driver can see the GPU.
-- Only CPU smoke tests can run in this state; CPU smoke results cannot be used as formal experiment results.
-- Do not start formal training until CUDA-enabled PyTorch is installed/activated and the YOLO GPU smoke test passes.
+- The base Python environment is using CPU-only PyTorch even though the NVIDIA driver can see the GPU.
+- Only CPU smoke/debug can run in base; base results cannot be used as formal experiment results.
+- Superseding rule: formal training uses conda env `pytorch` and YOLO `device=0`.
 
 ## 2026-05-16
 

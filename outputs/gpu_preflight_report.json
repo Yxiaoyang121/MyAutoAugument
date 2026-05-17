@@ -1,38 +1,44 @@
 {
-  "started_at": "2026-05-17T13:08:54",
-  "finished_at": "2026-05-17T13:09:06",
+  "started_at": "2026-05-17T13:36:20",
+  "finished_at": "2026-05-17T13:37:31",
   "project_root": "E:\\TJGY\\MinPaper\\MyAutoAugument",
+  "environment": {
+    "conda_env_name": "pytorch",
+    "sys_executable": "D:\\Anaconda\\envs\\pytorch\\python.exe",
+    "yolo_executable": "D:\\Anaconda\\envs\\pytorch\\Scripts\\yolo.exe",
+    "yolo_config_dir": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\ultralytics_config"
+  },
   "commands": {
     "python_version": {
-      "command": "python --version",
+      "command": "D:\\Anaconda\\envs\\pytorch\\python.exe --version",
       "returncode": 0,
-      "stdout": "Python 3.12.4\n",
+      "stdout": "Python 3.9.19\n",
       "stderr": "",
-      "duration_seconds": 0.031,
+      "duration_seconds": 0.047,
       "timeout_seconds": 60
     },
     "torch_cuda_info": {
-      "command": "python -c \"import torch; print('torch:', torch.__version__); print('cuda_available:', torch.cuda.is_available()); print('cuda_version:', torch.version.cuda); print('device_count:', torch.cuda.device_count()); print('device_name:', torch.cuda.get_device_name(0) if torch.cuda.is_available() else 'NO CUDA')\"",
+      "command": "D:\\Anaconda\\envs\\pytorch\\python.exe -c \"import torch; print('torch:', torch.__version__); print('cuda_available:', torch.cuda.is_available()); print('cuda_version:', torch.version.cuda); print('device_count:', torch.cuda.device_count()); print('device_name:', torch.cuda.get_device_name(0) if torch.cuda.is_available() else 'NO CUDA')\"",
       "returncode": 0,
-      "stdout": "torch: 2.4.1+cpu\ncuda_available: False\ncuda_version: None\ndevice_count: 0\ndevice_name: NO CUDA\n",
+      "stdout": "torch: 2.4.1\ncuda_available: True\ncuda_version: 12.4\ndevice_count: 1\ndevice_name: NVIDIA GeForce RTX 3060 Laptop GPU\n",
       "stderr": "",
-      "duration_seconds": 3.406,
+      "duration_seconds": 3.516,
       "timeout_seconds": 120
     },
     "ultralytics_version": {
-      "command": "python -c \"import ultralytics; print('ultralytics:', ultralytics.__version__)\"",
+      "command": "D:\\Anaconda\\envs\\pytorch\\python.exe -c \"import ultralytics; print('ultralytics:', ultralytics.__version__)\"",
       "returncode": 0,
-      "stdout": "ultralytics: 8.4.48\n",
+      "stdout": "Creating new Ultralytics Settings v0.0.6 file  \nView Ultralytics Settings with 'yolo settings' or at 'E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\ultralytics_config\\Ultralytics\\settings.json'\nUpdate Settings with 'yolo settings key=value', i.e. 'yolo settings runs_dir=path/to/dir'. For help see https://docs.ultralytics.com/quickstart/#ultralytics-settings.\nultralytics: 8.3.221\n",
       "stderr": "",
-      "duration_seconds": 3.641,
+      "duration_seconds": 3.718,
       "timeout_seconds": 120
     },
     "yolo_checks": {
-      "command": "yolo checks",
+      "command": "D:\\Anaconda\\envs\\pytorch\\Scripts\\yolo.exe checks",
       "returncode": 0,
-      "stdout": "\u001b[2K\n\u001b[2K\nUltralytics 8.4.48  Python-3.12.4 torch-2.4.1+cpu CPU (AMD Ryzen 7 5800H with Radeon Graphics)\nSetup complete  (16 CPUs, 15.9 GB RAM, 312.5/476.9 GB disk)\n\nOS                     Windows-11-10.0.26200-SP0\nEnvironment            Windows\nPython                 3.12.4\nInstall                pip\nPath                   D:\\Anaconda\\Lib\\site-packages\\ultralytics\nRAM                    15.86 GB\nDisk                   312.5/476.9 GB\nCPU                    AMD Ryzen 7 5800H with Radeon Graphics\nCPU count              16\nGPU                    None\nGPU count              None\nCUDA                   None\n\nnumpy                   1.26.4>=1.23.0\nmatplotlib              3.8.4>=3.3.0\nopencv-python           4.10.0.84>=4.6.0\npillow                  10.3.0>=7.1.2\npyyaml                  6.0.1>=5.3.1\nrequests                2.32.2>=2.23.0\nscipy                   1.13.1>=1.4.1\ntorch                   2.4.1>=1.8.0\ntorch                   2.4.1!=2.4.0,>=1.8.0; sys_platform == \"win32\"\ntorchvision             0.19.1>=0.9.0\npsutil                  5.9.0>=5.8.0\npolars                  1.40.1>=0.20.0\nultralytics-thop        2.0.19>=2.0.18\n",
+      "stdout": "\u001b[2K\n\u001b[2K\nUltralytics 8.3.221  Python-3.9.19 torch-2.4.1 CUDA:0 (NVIDIA GeForce RTX 3060 Laptop GPU, 6144MiB)\nSetup complete  (16 CPUs, 15.9 GB RAM, 312.5/476.9 GB disk)\n\nOS                     Windows-10-10.0.26200-SP0\nEnvironment            Windows\nPython                 3.9.19\nInstall                pip\nPath                   D:\\Anaconda\\envs\\pytorch\\Lib\\site-packages\\ultralytics\nRAM                    15.86 GB\nDisk                   312.5/476.9 GB\nCPU                    AMD Ryzen 7 5800H with Radeon Graphics\nCPU count              16\nGPU                    NVIDIA GeForce RTX 3060 Laptop GPU, 6144MiB\nGPU count              1\nCUDA                   12.4\n\nnumpy                   1.26.4>=1.23.0\nmatplotlib              3.9.2>=3.3.0\nopencv-python           4.7.0>=4.6.0\npillow                  10.4.0>=7.1.2\npyyaml                  6.0.1>=5.3.1\nrequests                2.32.3>=2.23.0\nscipy                   1.13.1>=1.4.1\ntorch                   2.4.1>=1.8.0\ntorch                   2.4.1!=2.4.0,>=1.8.0; sys_platform == \"win32\"\ntorchvision             0.19.1>=0.9.0\npsutil                  5.9.0\npolars                  1.34.0\nultralytics-thop        2.0.6>=2.0.0\n",
       "stderr": "",
-      "duration_seconds": 4.703,
+      "duration_seconds": 4.735,
       "timeout_seconds": 240
     },
     "nvidia_smi": {
@@ -40,30 +46,30 @@
       "returncode": 0,
       "stdout": "NVIDIA GeForce RTX 3060 Laptop GPU, 560.81, 6144 MiB\n",
       "stderr": "",
-      "duration_seconds": 0.047,
+      "duration_seconds": 0.078,
       "timeout_seconds": 60
     }
   },
   "python": {
-    "version_stdout": "Python 3.12.4",
+    "version_stdout": "Python 3.9.19",
     "returncode": 0
   },
   "torch": {
-    "version": "2.4.1+cpu",
-    "cuda_available": false,
-    "cuda_version": "None",
-    "device_count": 0,
-    "device_name": "NO CUDA",
+    "version": "2.4.1",
+    "cuda_available": true,
+    "cuda_version": "12.4",
+    "device_count": 1,
+    "device_name": "NVIDIA GeForce RTX 3060 Laptop GPU",
     "raw": {
-      "torch": "2.4.1+cpu",
-      "cuda_available": "False",
-      "cuda_version": "None",
-      "device_count": "0",
-      "device_name": "NO CUDA"
+      "torch": "2.4.1",
+      "cuda_available": "True",
+      "cuda_version": "12.4",
+      "device_count": "1",
+      "device_name": "NVIDIA GeForce RTX 3060 Laptop GPU"
     }
   },
   "ultralytics": {
-    "version": "8.4.48",
+    "version": "8.3.221",
     "returncode": 0
   },
   "nvidia_smi": {
@@ -79,15 +85,21 @@
     "success": true
   },
   "yolo_gpu_smoke": {
-    "status": "not_run_cuda_unavailable",
-    "success": null,
-    "reason": "torch.cuda.is_available() = False",
-    "formal_training_allowed": false
+    "status": "success",
+    "success": true,
+    "returncode": 0,
+    "command": "D:\\Anaconda\\envs\\pytorch\\Scripts\\yolo.exe detect train model=E:\\TJGY\\MinPaper\\MyAutoAugument\\yolo11n.pt data=E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\tiled_dataset_smoke\\data.yaml imgsz=640 batch=1 epochs=1 workers=0 device=0 project=E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\gpu_preflight_smoke name=train exist_ok=True mosaic=0 mixup=0 copy_paste=0 hsv_h=0 hsv_s=0 hsv_v=0 degrees=0 translate=0 scale=0 shear=0 perspective=0 fliplr=0 flipud=0",
+    "data_yaml": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\tiled_dataset_smoke\\data.yaml",
+    "model": "E:\\TJGY\\MinPaper\\MyAutoAugument\\yolo11n.pt",
+    "output_dir": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\gpu_preflight_smoke",
+    "train_command_txt": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\gpu_preflight_smoke\\train_command.txt",
+    "train_stdout_log": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\gpu_preflight_smoke\\train_stdout.log",
+    "train_stderr_log": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\gpu_preflight_smoke\\train_stderr.log",
+    "formal_training_allowed": true
   },
   "conclusion": {
-    "status": "gpu_unavailable",
-    "formal_training_allowed": false,
-    "inference": "nvidia-smi detects a GPU, but the active PyTorch build reports 2.4.1+cpu and cuda_version=None; the primary blocker is likely CPU-only PyTorch in the active Python environment.",
-    "message": "torch.cuda.is_available() = False. Current environment may be CPU-only PyTorch, missing CUDA runtime, or unavailable GPU driver. Only CPU smoke tests can run here, and they cannot be used as formal experiment results."
+    "status": "gpu_smoke_passed",
+    "formal_training_allowed": true,
+    "message": "CUDA is available and the minimal YOLO GPU smoke test completed successfully."
   }
 }

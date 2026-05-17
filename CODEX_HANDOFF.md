@@ -26,6 +26,8 @@ The project is a diagnosis-driven augmentation pipeline for industrial defect de
 - Output convention: `docs/output_convention.md`
 - Artifact inventory: `outputs/audits/artifact_inventory/artifact_inventory.md`
 - Cleanup summary: `outputs/audits/artifact_inventory/cleanup_summary.md`
+- Dataset mapping audit: `outputs/audits/dataset_mapping/dataset_mapping_audit.md`
+- Dataset mapping JSON: `outputs/audits/dataset_mapping/dataset_mapping_audit.json`
 - GPU preflight report: `outputs/audits/gpu_preflight/gpu_preflight_report.md`
 - GPU preflight JSON: `outputs/audits/gpu_preflight/gpu_preflight_report.json`
 - Tiled smoke dataset: `outputs/datasets/tiled/tiled_1024_ov20_smoke/`
@@ -43,6 +45,8 @@ The project is a diagnosis-driven augmentation pipeline for industrial defect de
 ## Important Capabilities
 
 - `scripts/build_yolo_tiled_dataset.py` builds tiled YOLO datasets with explicit output directories. Use `outputs/datasets/tiled/<dataset_id>/`.
+- `scripts/build_yolo_tiled_dataset.py` writes tiled `data.yaml` via `yaml.safe_dump(..., allow_unicode=True)` and must preserve original `names`.
+- `scripts/audit_dataset_mapping.py` audits original versus tiled dataset class names, label class ids, bbox distribution, smoke status, and baseline per-class metrics.
 - `scripts/audit_artifacts.py` scans `outputs/` and `runs/` and writes inventory reports under `outputs/audits/artifact_inventory/`.
 - `scripts/run_gpu_preflight.py` writes GPU preflight reports under `outputs/audits/gpu_preflight/`.
 - `scripts/run_diagnostic_augmentation_pipeline.py` supports `--run-id`; when `--output-dir` is omitted, it writes to `outputs/experiments/<run_id>/`.
@@ -88,15 +92,19 @@ The 20 epoch tiled baseline completed on GPU, but it is not a formal final resul
 - mAP50: 0.247
 - mAP50-95: 0.181
 - YOLO built-in augmentations disabled: `mosaic=0 mixup=0 copy_paste=0 hsv_h=0 hsv_s=0 hsv_v=0 degrees=0 translate=0 scale=0 shear=0 perspective=0 fliplr=0 flipud=0`
+- Existing `blank-or-unrendered` class rows in the saved val report are a class-name rendering/parsing artifact from the earlier corrupted tiled `data.yaml`; current tiled class names match the original data.yaml.
+- No class id >= nc was found in the original or tiled smoke labels.
+- Main low-mAP drag in the smoke run: 开裂, 漏背锡, 碰伤, 轮廓划伤, 锡丝残留, and 锡膏 have recall 0; several of these have very few train/val samples or no train samples in the smoke subset.
 
 ## Verification Commands
 
 - `python scripts\audit_artifacts.py`
+- `python scripts\audit_dataset_mapping.py`
 - `pytest -q tests/test_build_yolo_tiled_dataset.py tests/test_copy_paste.py tests/test_proxy_prefilter.py tests/test_yolo_error_analysis.py`
 
 ## Next Steps
 
-- Audit the normalized smoke `data.yaml`, class mapping, and tiled dataset report before using results in paper tables.
 - Build the full tiled dataset at `outputs/datasets/tiled/tiled_1024_ov20_full/`.
+- Audit the full tiled dataset class distribution before running formal baseline experiments.
 - Use explicit `--run-id` and `project=outputs/experiments/<run_id>` for every formal experiment.
 - Keep Windows YOLO commands at `workers=0`.

@@ -24,6 +24,7 @@ outputs/
 
   audits/
     gpu_preflight/
+    dataset_mapping/
     class_distribution/
     metric_consistency/
     copy_paste/
@@ -63,6 +64,8 @@ outputs/
   `outputs/experiments/20260517_tiled_baseline_20epoch/`
 - GPU preflight audit:
   `outputs/audits/gpu_preflight/`
+- Dataset mapping audit:
+  `outputs/audits/dataset_mapping/`
 - Artifact inventory:
   `outputs/audits/artifact_inventory/`
 - Project snapshot:

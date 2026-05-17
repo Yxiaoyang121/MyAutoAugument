@@ -1,40 +1,25 @@
 # Project Snapshot
 
-- Generated: 2026-05-17T22:53:35
+- Generated: 2026-05-17T23:26:06
 - Branch: codex/sync-latest
-- Commit: 09361af069c075fede4d49cb6daf7a9d7fc5b701
+- Commit: 604a60a586476c4b92de26ff187724875b23cc92
 - Remote: https://github.com/Yxiaoyang121/MyAutoAugument.git
 
 ## Working Tree
 
 ```text
- M .gitignore
  M CODEX_HANDOFF.md
  M EXPERIMENT_LOG.md
  M PROJECT_STATE.md
- M docs/ARCHITECTURE_CURRENT.md
- M docs/experiment_protocol.md
- D outputs/gpu_preflight_report.json
- D outputs/gpu_preflight_report.md
- M outputs/project_snapshot_latest.md
- D outputs/tiled_baseline_20epoch/baseline_20epoch_metrics.json
- D outputs/tiled_baseline_20epoch/baseline_20epoch_report.md
- D outputs/tiled_baseline_20epoch/train_command.txt
- D outputs/tiled_baseline_20epoch/train_stderr.log
- D outputs/tiled_baseline_20epoch/train_stdout.log
- D outputs/tiled_baseline_20epoch/val_command.txt
- D outputs/tiled_baseline_20epoch/val_stderr.log
- D outputs/tiled_baseline_20epoch/val_stdout.log
+ M docs/output_convention.md
+ M outputs/audits/artifact_inventory/artifact_inventory.json
+ M outputs/audits/artifact_inventory/artifact_inventory.md
+ M outputs/datasets/tiled/tiled_1024_ov20_smoke/data.yaml
  M scripts/build_yolo_tiled_dataset.py
  M scripts/export_project_snapshot.py
- M scripts/run_diagnostic_augmentation_pipeline.py
- M scripts/run_gpu_preflight.py
-?? docs/output_convention.md
-?? outputs/audits/
-?? outputs/datasets/
-?? outputs/experiments/
-?? outputs/snapshots/
-?? scripts/audit_artifacts.py
+ M tests/test_build_yolo_tiled_dataset.py
+?? outputs/audits/dataset_mapping/
+?? scripts/audit_dataset_mapping.py
 ```
 
 ## Key Files
@@ -48,10 +33,13 @@
 - docs/diagnostic_augmentation_framework.md
 - docs/experiment_protocol.md
 - docs/output_convention.md
+- scripts/audit_dataset_mapping.py
 - scripts/audit_artifacts.py
 - scripts/build_yolo_tiled_dataset.py
 - scripts/run_gpu_preflight.py
 - scripts/run_diagnostic_augmentation_pipeline.py
+- outputs/audits/dataset_mapping/dataset_mapping_audit.md
+- outputs/audits/dataset_mapping/dataset_mapping_audit.json
 - outputs/audits/gpu_preflight/gpu_preflight_report.md
 - outputs/audits/gpu_preflight/gpu_preflight_report.json
 - outputs/audits/artifact_inventory/artifact_inventory.md
@@ -69,7 +57,7 @@
 
 ## Tracked File Count
 
-- 123 tracked files
+- 137 tracked files
 
 ## Notes
 

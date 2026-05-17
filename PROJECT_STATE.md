@@ -8,6 +8,9 @@ The repository is centered on diagnosis-driven augmentation for industrial defec
 
 ## Implemented In This Update
 
+- Added `scripts/audit_dataset_mapping.py` and generated dataset mapping audit under `outputs/audits/dataset_mapping/`.
+- Repaired `outputs/datasets/tiled/tiled_1024_ov20_smoke/data.yaml` so it fully inherits original class names from `E:\TJGY\DataSet2_fixed\data.yaml`.
+- Updated `scripts/build_yolo_tiled_dataset.py` to write tiled `data.yaml` with `yaml.safe_dump(..., allow_unicode=True)` so non-ASCII class names are preserved.
 - Added `scripts/audit_artifacts.py` and generated artifact inventory under `outputs/audits/artifact_inventory/`.
 - Added `docs/output_convention.md` and normalized active artifacts into `outputs/datasets/`, `outputs/experiments/`, `outputs/audits/`, and `outputs/snapshots/`.
 - Archived legacy root-level outputs to `outputs/archive/old_outputs_20260517/`.
@@ -40,6 +43,16 @@ The repository is centered on diagnosis-driven augmentation for industrial defec
   - Formal training environment: conda env `pytorch`, YOLO `device=0`
 - Latest GPU preflight reports are `outputs/audits/gpu_preflight/gpu_preflight_report.md` and `outputs/audits/gpu_preflight/gpu_preflight_report.json`.
 - Earlier base-env preflight showed CPU-only PyTorch; base must not be used for formal training.
+- Dataset mapping audit:
+  - Report: `outputs/audits/dataset_mapping/dataset_mapping_audit.md`
+  - JSON: `outputs/audits/dataset_mapping/dataset_mapping_audit.json`
+  - Original dataset: 461 train images, 116 val images, 2433 train bboxes, 651 val bboxes, class ids 0..14.
+  - Tiled smoke dataset: 107 train tiles, 86 val tiles, 232 train bboxes, 143 val bboxes, class ids 0..14.
+  - No class id >= nc found in original or tiled smoke labels.
+  - Tiled smoke names now match original names exactly.
+  - Tiled smoke is not a formal baseline dataset because it uses only 16 source images, matching the capped smoke build.
+  - The 20 epoch `blank-or-unrendered` rows came from the earlier corrupted/non-renderable tiled class names in the saved val log/metrics, not from out-of-range class IDs.
+  - Low mAP is mainly driven by the smoke split and class imbalance: OK and OK3 have high AP50, while 开裂, 漏背锡, 碰伤, 轮廓划伤, 锡丝残留, and 锡膏 have recall 0 in the smoke val metrics.
 - Ran tiled baseline 20 epoch on GPU:
   - Command target: `outputs/experiments/20260517_tiled_baseline_20epoch`
   - Dataset: `outputs/datasets/tiled/tiled_1024_ov20_smoke/data.yaml`

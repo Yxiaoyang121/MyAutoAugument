@@ -11,6 +11,7 @@ from typing import Any
 
 import cv2
 import numpy as np
+import yaml
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 if str(PROJECT_ROOT) not in sys.path:
@@ -347,17 +348,14 @@ def write_data_yaml(path: Path, dataset_root: Path, class_names: dict[int, str],
         if len(candidate.labels):
             max_label = max(max_label, int(np.max(candidate.labels)))
     nc = max(max_label + 1, len(class_names), 1)
-    lines = [
-        f"path: {dataset_root.resolve().as_posix()}",
-        "train: images/train",
-        "val: images/val",
-        f"nc: {nc}",
-        "names:",
-    ]
-    for index in range(nc):
-        name = str(class_names.get(index, f"class{index}")).replace("\\", "\\\\").replace('"', '\\"')
-        lines.append(f'  {index}: "{name}"')
-    path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    payload = {
+        "path": dataset_root.resolve().as_posix(),
+        "train": "images/train",
+        "val": "images/val",
+        "nc": nc,
+        "names": [str(class_names.get(index, f"class{index}")) for index in range(nc)],
+    }
+    path.write_text(yaml.safe_dump(payload, allow_unicode=True, sort_keys=False), encoding="utf-8")
 
 
 def build_report(

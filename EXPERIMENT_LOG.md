@@ -25,6 +25,31 @@ Policy recorded:
 - `runs/` is not a formal result location.
 - Weights, generated images, generated dataset image/label files, and archive contents are local artifacts and are ignored by Git.
 
+### Dataset Mapping And Class Distribution Audit
+
+No training was run. Audited `E:\TJGY\DataSet2_fixed` and `outputs/datasets/tiled/tiled_1024_ov20_smoke/`.
+
+Outputs:
+
+- `outputs/audits/dataset_mapping/dataset_mapping_audit.md`
+- `outputs/audits/dataset_mapping/dataset_mapping_audit.json`
+
+Code updates:
+
+- Added `scripts/audit_dataset_mapping.py`.
+- Updated `scripts/build_yolo_tiled_dataset.py` so tiled `data.yaml` is written with `yaml.safe_dump(..., allow_unicode=True)`.
+- Repaired `outputs/datasets/tiled/tiled_1024_ov20_smoke/data.yaml` to fully inherit names from `E:\TJGY\DataSet2_fixed\data.yaml`.
+
+Findings:
+
+- Original data.yaml: `nc=15`, class ids in labels are 0..14, no class id >= nc.
+- Tiled smoke data.yaml: `nc=15`, class ids in labels are 0..14, no class id >= nc.
+- Original data: 461 train images, 116 val images, 2433 train bboxes, 651 val bboxes.
+- Tiled smoke data: 107 train tiles, 86 val tiles, 232 train bboxes, 143 val bboxes.
+- Tiled smoke is not full: it uses 16 source images and the dataset summary records the per-split source cap.
+- Existing 20 epoch `blank-or-unrendered` rows are from the prior corrupted/non-renderable tiled class names in saved val logs/metrics, not from invalid class ids.
+- Low mAP is mainly from smoke subset imbalance and underrepresented classes: 开裂, 漏背锡, 碰伤, 轮廓划伤, 锡丝残留, and 锡膏 have recall 0 in the saved per-class metrics.
+
 ### Tiled Baseline 20 Epoch
 
 Ran the tiled baseline on GPU with no external diagnostic augmentation and YOLO built-in augmentation knobs disabled.

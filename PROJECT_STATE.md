@@ -1,6 +1,6 @@
 # Project State
 
-Last updated: 2026-05-17
+Last updated: 2026-05-18
 
 ## Current Position
 
@@ -8,6 +8,18 @@ The repository is centered on diagnosis-driven augmentation for industrial defec
 
 ## Implemented In This Update
 
+- Built the full tiled dataset from `E:\TJGY\DataSet2_fixed` at `outputs/datasets/tiled/tiled_1024_ov20_full/` without `--max-images-per-split`.
+- Expanded `scripts/build_yolo_tiled_dataset.py` reporting for full baseline readiness:
+  - original and tiled train/val image counts
+  - original and tiled bbox totals
+  - per-class original/tiled train/val instance counts
+  - bbox drop reasons
+  - empty tile retention
+  - `data.yaml` nc/names, class id range, class id out-of-range flags, and Chinese-name damage flags
+- Changed full dataset debug output to 30 random tile-level bbox visualizations under `outputs/datasets/tiled/tiled_1024_ov20_full/debug_tiling/`.
+- Updated `scripts/audit_dataset_mapping.py` to audit the full tiled dataset and write:
+  - `outputs/audits/dataset_mapping/full_tiled_dataset_mapping_audit.md`
+  - `outputs/audits/dataset_mapping/full_tiled_dataset_mapping_audit.json`
 - Added `scripts/audit_dataset_mapping.py` and generated dataset mapping audit under `outputs/audits/dataset_mapping/`.
 - Repaired `outputs/datasets/tiled/tiled_1024_ov20_smoke/data.yaml` so it fully inherits original class names from `E:\TJGY\DataSet2_fixed\data.yaml`.
 - Updated `scripts/build_yolo_tiled_dataset.py` to write tiled `data.yaml` with `yaml.safe_dump(..., allow_unicode=True)` so non-ASCII class names are preserved.
@@ -29,6 +41,30 @@ The repository is centered on diagnosis-driven augmentation for industrial defec
 
 ## Verified Locally
 
+- Full tiled dataset build completed with no training:
+  - Command used no `--max-images-per-split`.
+  - Source dataset: `E:\TJGY\DataSet2_fixed`
+  - Output dataset: `outputs/datasets/tiled/tiled_1024_ov20_full/`
+  - Parameters: `tile_size=1024`, `overlap=0.2`, `min_visibility=0.3`, `keep_empty_ratio=0.1`, `seed=42`
+  - Original images: 461 train, 116 val
+  - Tiled images: 4155 train, 1098 val
+  - Original bboxes: 3084
+  - Tiled bboxes: 7465
+  - Empty tiles retained: 478
+  - Dropped bboxes in retained tiles: 22202 (`below_min_visibility=6212`, `outside_tile=15990`)
+  - Debug tile bbox visualizations: 30
+  - `data.yaml`: `nc=15`, names inherited from original with Chinese names intact
+  - Class ids: tiled min 0, max 14, no class id >= nc
+  - Full tiled dataset readiness: can be used as the formal baseline dataset.
+- Full tiled dataset mapping audit:
+  - Report: `outputs/audits/dataset_mapping/full_tiled_dataset_mapping_audit.md`
+  - JSON: `outputs/audits/dataset_mapping/full_tiled_dataset_mapping_audit.json`
+  - Full source coverage confirmed: 461 train and 116 val source images.
+  - Tiled names match original names exactly.
+  - No class id >= nc and no negative class id found.
+  - Chinese class names are not damaged.
+- `python -c "import ast, pathlib; [ast.parse(pathlib.Path(p).read_text(encoding='utf-8')) for p in ['scripts/build_yolo_tiled_dataset.py','scripts/audit_dataset_mapping.py']]; print('syntax ok')"` passed.
+- `pytest -q tests\test_build_yolo_tiled_dataset.py` passed: 2 tests.
 - GPU environment confirmed in conda env `pytorch`:
   - Python executable: `D:\Anaconda\envs\pytorch\python.exe`
   - Python version: 3.9.19
@@ -43,7 +79,7 @@ The repository is centered on diagnosis-driven augmentation for industrial defec
   - Formal training environment: conda env `pytorch`, YOLO `device=0`
 - Latest GPU preflight reports are `outputs/audits/gpu_preflight/gpu_preflight_report.md` and `outputs/audits/gpu_preflight/gpu_preflight_report.json`.
 - Earlier base-env preflight showed CPU-only PyTorch; base must not be used for formal training.
-- Dataset mapping audit:
+- Dataset mapping audit for the earlier smoke dataset:
   - Report: `outputs/audits/dataset_mapping/dataset_mapping_audit.md`
   - JSON: `outputs/audits/dataset_mapping/dataset_mapping_audit.json`
   - Original dataset: 461 train images, 116 val images, 2433 train bboxes, 651 val bboxes, class ids 0..14.
@@ -100,7 +136,8 @@ The repository is centered on diagnosis-driven augmentation for industrial defec
 - Formal training must use conda env `pytorch` with `D:\Anaconda\envs\pytorch\python.exe`.
 - Formal YOLO training must use GPU `device=0`.
 - Formal runs must use explicit `--run-id` and `project=outputs/experiments/<run_id>`; do not rely on `runs/detect`.
-- Future full tiled dataset path: `outputs/datasets/tiled/tiled_1024_ov20_full/`.
+- Active full tiled dataset path: `outputs/datasets/tiled/tiled_1024_ov20_full/`.
+- Formal baseline training may now target `outputs/datasets/tiled/tiled_1024_ov20_full/data.yaml`; no full-dataset training has been run in this update.
 - CPU is allowed only for smoke/debug runs and must not be treated as formal experiment output.
 - Do not use the base conda environment for formal training; it previously resolved to CPU-only PyTorch.
 - Windows YOLO commands should keep `workers=0`.

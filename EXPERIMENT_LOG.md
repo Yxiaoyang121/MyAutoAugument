@@ -1,5 +1,64 @@
 # Experiment Log
 
+## 2026-05-18
+
+### Full Tiled Dataset Build And Mapping Audit
+
+No training was run. Built the full tiled YOLO dataset from `E:\TJGY\DataSet2_fixed` without `--max-images-per-split`.
+
+Build command:
+
+```powershell
+python scripts\build_yolo_tiled_dataset.py --dataset-root E:\TJGY\DataSet2_fixed --data-yaml E:\TJGY\DataSet2_fixed\data.yaml --output-dir outputs\datasets\tiled\tiled_1024_ov20_full --tile-size 1024 --overlap 0.2 --min-visibility 0.3 --keep-empty-ratio 0.1 --seed 42 --debug-limit 30 --overwrite
+```
+
+Outputs:
+
+- Dataset: `outputs/datasets/tiled/tiled_1024_ov20_full/`
+- Data YAML: `outputs/datasets/tiled/tiled_1024_ov20_full/data.yaml`
+- Dataset summary: `outputs/datasets/tiled/tiled_1024_ov20_full/dataset_summary.md`
+- Dataset report: `outputs/datasets/tiled/tiled_1024_ov20_full/tiled_dataset_report.md`
+- Dataset report JSON: `outputs/datasets/tiled/tiled_1024_ov20_full/tiled_dataset_report.json`
+- Debug tile bbox visualizations: `outputs/datasets/tiled/tiled_1024_ov20_full/debug_tiling/` (30 images)
+
+Build result:
+
+- Original images: 461 train, 116 val
+- Tiled images: 4155 train, 1098 val
+- Original bboxes: 3084
+- Tiled bboxes: 7465
+- Empty tiles retained: 478
+- Dropped bboxes in retained tiles: 22202
+- Drop reasons: `below_min_visibility=6212`, `outside_tile=15990`
+- `data.yaml`: `nc=15`, names inherited from original with `yaml.safe_dump(..., allow_unicode=True)`
+- Tiled class id range: 0..14
+- Class id >= nc: none
+- Chinese class names damaged: false
+
+Audit command:
+
+```powershell
+python scripts\audit_dataset_mapping.py
+```
+
+Audit outputs:
+
+- `outputs/audits/dataset_mapping/full_tiled_dataset_mapping_audit.md`
+- `outputs/audits/dataset_mapping/full_tiled_dataset_mapping_audit.json`
+
+Audit result:
+
+- Full source coverage confirmed: 461 train and 116 val source images.
+- Tiled names match the original `data.yaml` exactly.
+- No class id >= nc and no negative class id found.
+- Chinese class names are intact.
+- The full tiled dataset can be used as the formal baseline dataset.
+
+Verification:
+
+- Syntax check passed for `scripts/build_yolo_tiled_dataset.py` and `scripts/audit_dataset_mapping.py`.
+- `pytest -q tests\test_build_yolo_tiled_dataset.py` passed: 2 tests.
+
 ## 2026-05-17
 
 ### Artifact Cleanup And Output Normalization

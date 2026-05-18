@@ -28,16 +28,24 @@ The project is a diagnosis-driven augmentation pipeline for industrial defect de
 - Cleanup summary: `outputs/audits/artifact_inventory/cleanup_summary.md`
 - Full tiled dataset mapping audit: `outputs/audits/dataset_mapping/full_tiled_dataset_mapping_audit.md`
 - Full tiled dataset mapping JSON: `outputs/audits/dataset_mapping/full_tiled_dataset_mapping_audit.json`
+- Tiling quality audit: `outputs/audits/tiling_quality/tiling_quality_audit.md`
+- Tiling quality audit JSON: `outputs/audits/tiling_quality/tiling_quality_audit.json`
+- Tiling quality debug images: `outputs/audits/tiling_quality/debug_truncated_bboxes/`
 - Legacy smoke dataset mapping audit: `outputs/audits/dataset_mapping/dataset_mapping_audit.md`
 - GPU preflight report: `outputs/audits/gpu_preflight/gpu_preflight_report.md`
 - GPU preflight JSON: `outputs/audits/gpu_preflight/gpu_preflight_report.json`
 - Tiled smoke dataset: `outputs/datasets/tiled/tiled_1024_ov20_smoke/`
 - Tiled smoke data YAML: `outputs/datasets/tiled/tiled_1024_ov20_smoke/data.yaml`
-- Full tiled dataset: `outputs/datasets/tiled/tiled_1024_ov20_full/`
+- Unsafe full tiled dataset: `outputs/datasets/tiled/tiled_1024_ov20_full/`
 - Full tiled data YAML: `outputs/datasets/tiled/tiled_1024_ov20_full/data.yaml`
 - Full tiled dataset report: `outputs/datasets/tiled/tiled_1024_ov20_full/tiled_dataset_report.md`
 - Full tiled dataset summary: `outputs/datasets/tiled/tiled_1024_ov20_full/dataset_summary.md`
 - Full tiled debug visualizations: `outputs/datasets/tiled/tiled_1024_ov20_full/debug_tiling/`
+- Safe full tiled dataset: `outputs/datasets/tiled/tiled_1024_ov20_full_safe/`
+- Safe full tiled data YAML: `outputs/datasets/tiled/tiled_1024_ov20_full_safe/data.yaml`
+- Safe full tiled dataset report: `outputs/datasets/tiled/tiled_1024_ov20_full_safe/tiled_dataset_report.md`
+- Safe full tiled dataset summary: `outputs/datasets/tiled/tiled_1024_ov20_full_safe/dataset_summary.md`
+- Safe full tiled debug visualizations: `outputs/datasets/tiled/tiled_1024_ov20_full_safe/debug_tiling/`
 - Current tiled baseline run: `outputs/experiments/20260517_tiled_baseline_20epoch/`
 - Tiled baseline summary: `outputs/experiments/20260517_tiled_baseline_20epoch/reports/summary.md`
 - Tiled baseline report: `outputs/experiments/20260517_tiled_baseline_20epoch/reports/baseline_20epoch_report.md`
@@ -51,6 +59,8 @@ The project is a diagnosis-driven augmentation pipeline for industrial defect de
 
 - `scripts/build_yolo_tiled_dataset.py` builds tiled YOLO datasets with explicit output directories. Use `outputs/datasets/tiled/<dataset_id>/`.
 - `scripts/build_yolo_tiled_dataset.py` writes tiled `data.yaml` via `yaml.safe_dump(..., allow_unicode=True)` and must preserve original `names`.
+- `scripts/build_yolo_tiled_dataset.py` now defaults to safe bbox filtering: `min_visibility=0.7`, `large_object_min_visibility=0.9`, `drop_border_truncated=True`, `border_margin=2`, and `require_box_center_inside=True`.
+- `scripts/audit_tiling_quality.py` audits retained tiled bbox visibility and tile-boundary truncation for `tiled_1024_ov20_full`.
 - `scripts/audit_dataset_mapping.py` audits original versus the full tiled dataset class names, label class ids, bbox distribution, full-source coverage, and formal baseline readiness.
 - `scripts/audit_artifacts.py` scans `outputs/` and `runs/` and writes inventory reports under `outputs/audits/artifact_inventory/`.
 - `scripts/run_gpu_preflight.py` writes GPU preflight reports under `outputs/audits/gpu_preflight/`.
@@ -101,23 +111,28 @@ The 20 epoch tiled baseline completed on GPU, but it is not a formal final resul
 - No class id >= nc was found in the original or tiled smoke labels.
 - Main low-mAP drag in the smoke run: 开裂, 漏背锡, 碰伤, 轮廓划伤, 锡丝残留, and 锡膏 have recall 0; several of these have very few train/val samples or no train samples in the smoke subset.
 
-## Full Tiled Dataset Status
+## Tiled Dataset Status
 
-The full tiled dataset is now built and audited. No training was run after building it.
+No training was run after building or auditing these datasets.
 
 - Source dataset: `E:\TJGY\DataSet2_fixed`
-- Output dataset: `outputs/datasets/tiled/tiled_1024_ov20_full/`
-- Build parameters: `tile_size=1024`, `overlap=0.2`, `min_visibility=0.3`, `keep_empty_ratio=0.1`, `seed=42`
-- Source coverage: 461 train images and 116 val images; no source-image cap was used.
-- Tiled images: 4155 train, 1098 val
-- Original bboxes: 3084
-- Tiled bboxes: 7465
-- Empty tiles retained: 478
-- Dropped bboxes in retained tiles: 22202 (`below_min_visibility=6212`, `outside_tile=15990`)
-- Debug tile bbox visualizations: 30
-- `data.yaml`: `nc=15`, names inherited from original, Chinese names intact.
-- Class ids: tiled min 0, max 14, no class id >= nc.
-- Audit result: `can_be_formal_baseline_dataset=true`.
+- Unsafe old full dataset: `outputs/datasets/tiled/tiled_1024_ov20_full/`
+  - Built with `min_visibility=0.3`.
+  - Tiling quality audit found 3197 / 7465 border-truncated bboxes (42.83%).
+  - It must not be used as the formal baseline dataset.
+- Safe full dataset: `outputs/datasets/tiled/tiled_1024_ov20_full_safe/`
+  - Build parameters: `tile_size=1024`, `overlap=0.2`, `min_visibility=0.7`, `large_object_min_visibility=0.9`, `drop_border_truncated=True`, `border_margin=2`, `require_box_center_inside=True`, `keep_empty_ratio=0.1`, `seed=42`
+  - Source coverage: 461 train images and 116 val images; no source-image cap was used.
+  - Tiled images: 2452 train, 677 val
+  - Original bboxes: 3084
+  - Safe tiled bboxes: 4269
+  - Dropped bbox candidates after tile intersection: 13826
+  - Visibility-failed dropped candidates: 13346
+  - Border-truncated dropped candidates: 3961
+  - Obvious half-target bbox remains: false
+  - Debug tile bbox visualizations: 100
+  - Class ids remain in range and Chinese names remain intact.
+  - Caveat: class `定位` has 0 retained bboxes under the strict large-structure rule.
 
 ## Verification Commands
 
@@ -127,6 +142,6 @@ The full tiled dataset is now built and audited. No training was run after build
 
 ## Next Steps
 
-- Run the formal baseline experiment against `outputs/datasets/tiled/tiled_1024_ov20_full/data.yaml`.
+- Run the formal baseline experiment against `outputs/datasets/tiled/tiled_1024_ov20_full_safe/data.yaml`.
 - Use explicit `--run-id` and `project=outputs/experiments/<run_id>` for every formal experiment.
 - Keep Windows YOLO commands at `workers=0`.

@@ -16,6 +16,7 @@ REPORT_DIR = PROJECT_ROOT / "outputs" / "audits" / "dataset_mapping"
 REPORT_JSON = REPORT_DIR / "full_tiled_dataset_mapping_audit.json"
 REPORT_MD = REPORT_DIR / "full_tiled_dataset_mapping_audit.md"
 TILED_REPORT_JSON = TILED_FULL_ROOT / "tiled_dataset_report.json"
+TILING_QUALITY_JSON = PROJECT_ROOT / "outputs" / "audits" / "tiling_quality" / "tiling_quality_audit.json"
 IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png", ".bmp", ".tif", ".tiff"}
 
 
@@ -24,7 +25,8 @@ def main() -> None:
     original = audit_dataset("original", ORIGINAL_ROOT, ORIGINAL_ROOT / "data.yaml")
     tiled = audit_dataset("tiled_full", TILED_FULL_ROOT, TILED_FULL_ROOT / "data.yaml")
     tiled_report = load_json(TILED_REPORT_JSON)
-    full_assessment = assess_full_tiled(original, tiled, tiled_report)
+    tiling_quality = load_json(TILING_QUALITY_JSON)
+    full_assessment = assess_full_tiled(original, tiled, tiled_report, tiling_quality)
     mapping_assessment = assess_mapping(original, tiled, full_assessment)
     payload = {
         "generated_at": datetime.now().isoformat(timespec="seconds"),
@@ -32,12 +34,14 @@ def main() -> None:
         "original_dataset": original,
         "tiled_full_dataset": tiled,
         "tiled_full_report": tiled_report,
+        "tiling_quality_audit": tiling_quality,
         "tiled_full_assessment": full_assessment,
         "mapping_assessment": mapping_assessment,
         "inputs": {
             "original_data_yaml": str((ORIGINAL_ROOT / "data.yaml").resolve()),
             "tiled_full_data_yaml": str((TILED_FULL_ROOT / "data.yaml").resolve()),
             "tiled_dataset_report_json": str(TILED_REPORT_JSON.resolve()),
+            "tiling_quality_audit_json": str(TILING_QUALITY_JSON.resolve()),
         },
     }
     REPORT_JSON.write_text(json.dumps(payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
@@ -221,7 +225,12 @@ def build_per_class(nc: int, names: list[str | None], splits: dict[str, dict[str
     return rows
 
 
-def assess_full_tiled(original: dict[str, Any], tiled: dict[str, Any], tiled_report: dict[str, Any]) -> dict[str, Any]:
+def assess_full_tiled(
+    original: dict[str, Any],
+    tiled: dict[str, Any],
+    tiled_report: dict[str, Any],
+    tiling_quality: dict[str, Any],
+) -> dict[str, Any]:
     report_summary = tiled_report.get("summary", {}) if tiled_report else {}
     report_per_split = tiled_report.get("per_split", {}) if tiled_report else {}
     original_train_images = int(original["splits"]["train"]["image_count"])
@@ -231,9 +240,22 @@ def assess_full_tiled(original: dict[str, Any], tiled: dict[str, Any], tiled_rep
     source_counts_match = report_train_source == original_train_images and report_val_source == original_val_images
     path_contains_smoke = "smoke" in tiled["root"].lower()
     is_full_dataset = bool(tiled["data_yaml_exists"] and source_counts_match and not path_contains_smoke)
+    quality_summary = tiling_quality.get("summary", {}) if tiling_quality else {}
+    truncated_ratio = float(quality_summary.get("border_truncated_bbox_ratio", 0.0) or 0.0)
+    severe_truncated_ratio = float(quality_summary.get("severe_truncated_visibility_lt_0.7_ratio", 0.0) or 0.0)
+    tiling_quality_unsafe = bool(truncated_ratio > 0.0 or severe_truncated_ratio > 0.0)
     return {
         "is_full_dataset": is_full_dataset,
         "can_be_formal_baseline_dataset": False,
+        "tiling_quality_unsafe": tiling_quality_unsafe,
+        "border_truncated_bbox_ratio": truncated_ratio,
+        "severe_truncated_visibility_lt_0.7_ratio": severe_truncated_ratio,
+        "unsafe_reason": (
+            "Partial-object bbox risk was found by outputs/audits/tiling_quality/tiling_quality_audit.json; "
+            "use outputs/datasets/tiled/tiled_1024_ov20_full_safe/ for formal baseline."
+            if tiling_quality_unsafe
+            else None
+        ),
         "path_contains_smoke": path_contains_smoke,
         "source_counts_match_original": source_counts_match,
         "original_train_images": original_train_images,
@@ -261,7 +283,13 @@ def assess_mapping(original: dict[str, Any], tiled: dict[str, Any], full_assessm
         or tiled["class_id_negative"]
     )
     tiled_names_problem = bool(tiled["names_quality"]["has_problem"])
-    can_formal = bool(full_assessment["is_full_dataset"] and names_match and not invalid_ids and not tiled_names_problem)
+    can_formal = bool(
+        full_assessment["is_full_dataset"]
+        and names_match
+        and not invalid_ids
+        and not tiled_names_problem
+        and not full_assessment.get("tiling_quality_unsafe", False)
+    )
     full_assessment["can_be_formal_baseline_dataset"] = can_formal
     return {
         "tiled_names_match_original": names_match,
@@ -291,11 +319,15 @@ def render_markdown(payload: dict[str, Any]) -> str:
         f"- Original data.yaml: `{payload['inputs']['original_data_yaml']}`",
         f"- Full tiled data.yaml: `{payload['inputs']['tiled_full_data_yaml']}`",
         f"- Tiled dataset report JSON: `{payload['inputs']['tiled_dataset_report_json']}`",
+        f"- Tiling quality audit JSON: `{payload['inputs']['tiling_quality_audit_json']}`",
         "",
         "## Executive Findings",
         "",
         f"- Full tiled dataset: `{full['is_full_dataset']}`",
         f"- Can be formal baseline dataset: `{mapping['can_be_formal_baseline_dataset']}`",
+        f"- Tiling quality unsafe: `{full['tiling_quality_unsafe']}`",
+        f"- Border-truncated bbox ratio: `{full['border_truncated_bbox_ratio']:.4f}`",
+        f"- Severe truncated visibility < 0.7 ratio: `{full['severe_truncated_visibility_lt_0.7_ratio']:.4f}`",
         f"- Tiled names match original: `{mapping['tiled_names_match_original']}`",
         f"- Class id out of range found: `{mapping['class_id_out_of_range_found']}`",
         f"- Chinese class names damaged: `{mapping['tiled_chinese_names_damaged']}`",
@@ -319,6 +351,7 @@ def render_markdown(payload: dict[str, Any]) -> str:
         f"- empty tiles retained: `{full['empty_tile_retained_count']}`",
         f"- dropped bboxes: `{full['dropped_bbox_count']}`",
         f"- dropped bbox reasons: `{full['dropped_bbox_reasons']}`",
+        f"- unsafe reason: `{full['unsafe_reason']}`",
         "",
         "## Names",
         "",
@@ -363,6 +396,7 @@ def render_markdown(payload: dict[str, Any]) -> str:
             f"- No class id >= nc or negative class id found: `{not mapping['class_id_out_of_range_found']}`.",
             f"- Chinese class names are intact: `{not mapping['tiled_chinese_names_damaged']}`.",
             f"- Formal baseline dataset readiness: `{mapping['can_be_formal_baseline_dataset']}`.",
+            "- The old full tiled dataset is superseded by `outputs/datasets/tiled/tiled_1024_ov20_full_safe/` for formal baseline work.",
         ]
     )
     return "\n".join(lines) + "\n"

@@ -27,7 +27,12 @@ from AutoAugment.diagnostics.yolo_error_analysis import load_class_names_from_da
 class TileConfig:
     tile_size: int = 1024
     overlap: float = 0.2
-    min_visibility: float = 0.3
+    min_visibility: float = 0.7
+    large_object_min_visibility: float = 0.9
+    drop_border_truncated: bool = True
+    border_margin: float = 2.0
+    require_box_center_inside: bool = True
+    classwise_visibility_config: str | None = None
     keep_empty_ratio: float = 0.1
     min_box_area: float = 4.0
     seed: int = 42
@@ -45,6 +50,8 @@ class TileCandidate:
     original_bbox_count: int
     dropped_bbox_count: int
     dropped_bbox_reasons: dict[str, int]
+    dropped_bbox_details: list[dict[str, Any]]
+    retained_bbox_details: list[dict[str, Any]]
     empty: bool
 
 
@@ -59,7 +66,12 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument("--tile-size", type=int, default=1024)
     parser.add_argument("--overlap", type=float, default=0.2, help="Overlap ratio in [0, 1).")
-    parser.add_argument("--min-visibility", type=float, default=0.3)
+    parser.add_argument("--min-visibility", type=float, default=0.7)
+    parser.add_argument("--large-object-min-visibility", type=float, default=0.9)
+    parser.add_argument("--drop-border-truncated", nargs="?", const=True, default=True, type=parse_bool)
+    parser.add_argument("--border-margin", type=float, default=2.0)
+    parser.add_argument("--require-box-center-inside", nargs="?", const=True, default=True, type=parse_bool)
+    parser.add_argument("--classwise-visibility-config", default=None)
     parser.add_argument("--keep-empty-ratio", type=float, default=0.1)
     parser.add_argument("--min-box-area", type=float, default=4.0)
     parser.add_argument("--seed", type=int, default=42)
@@ -75,6 +87,11 @@ def main() -> None:
         tile_size=args.tile_size,
         overlap=args.overlap,
         min_visibility=args.min_visibility,
+        large_object_min_visibility=args.large_object_min_visibility,
+        drop_border_truncated=bool(args.drop_border_truncated),
+        border_margin=args.border_margin,
+        require_box_center_inside=bool(args.require_box_center_inside),
+        classwise_visibility_config=args.classwise_visibility_config,
         keep_empty_ratio=args.keep_empty_ratio,
         min_box_area=args.min_box_area,
         seed=args.seed,
@@ -105,6 +122,17 @@ def main() -> None:
     print(f"- Tiles: {report['summary']['output_tile_count']}")
 
 
+def parse_bool(value: str | bool) -> bool:
+    if isinstance(value, bool):
+        return value
+    normalized = str(value).strip().lower()
+    if normalized in {"1", "true", "yes", "y", "on"}:
+        return True
+    if normalized in {"0", "false", "no", "n", "off"}:
+        return False
+    raise argparse.ArgumentTypeError(f"expected boolean value, got {value!r}")
+
+
 def validate_config(config: TileConfig) -> None:
     if config.tile_size <= 0:
         raise ValueError("--tile-size must be positive")
@@ -112,6 +140,10 @@ def validate_config(config: TileConfig) -> None:
         raise ValueError("--overlap must be in [0, 1)")
     if not 0.0 <= config.min_visibility <= 1.0:
         raise ValueError("--min-visibility must be in [0, 1]")
+    if not 0.0 <= config.large_object_min_visibility <= 1.0:
+        raise ValueError("--large-object-min-visibility must be in [0, 1]")
+    if config.border_margin < 0:
+        raise ValueError("--border-margin must be non-negative")
     if not 0.0 <= config.keep_empty_ratio <= 1.0:
         raise ValueError("--keep-empty-ratio must be in [0, 1]")
     if config.min_box_area < 0:
@@ -138,17 +170,18 @@ def build_tiled_dataset(
     if max_images_per_split is not None:
         split_records = {name: records[: max(1, max_images_per_split)] for name, records in split_records.items()}
 
+    class_rules = build_class_visibility_rules(class_names, config)
     candidates: list[TileCandidate] = []
     all_candidates_by_split: dict[str, list[TileCandidate]] = {}
     for split_name, records in split_records.items():
-        split_candidates = collect_tile_candidates(records, split=split_name, config=config)
+        split_candidates = collect_tile_candidates(records, split=split_name, config=config, class_rules=class_rules)
         all_candidates_by_split[split_name] = split_candidates
         selected = select_empty_tiles(split_candidates, rng=rng, keep_empty_ratio=config.keep_empty_ratio)
         candidates.extend(selected)
 
     write_tiles(candidates, output, config)
     debug_written = write_debug_tile_visualizations(
-        candidates,
+        [candidate for items in all_candidates_by_split.values() for candidate in items],
         output / "debug_tiling",
         rng=rng,
         limit=debug_limit,
@@ -163,6 +196,7 @@ def build_tiled_dataset(
         candidates,
         all_candidates_by_split,
         class_names,
+        class_rules,
         data_yaml_payload,
         debug_written,
     )
@@ -172,7 +206,13 @@ def build_tiled_dataset(
     return report
 
 
-def collect_tile_candidates(records: list[YoloImageRecord], *, split: str, config: TileConfig) -> list[TileCandidate]:
+def collect_tile_candidates(
+    records: list[YoloImageRecord],
+    *,
+    split: str,
+    config: TileConfig,
+    class_rules: dict[int, dict[str, Any]],
+) -> list[TileCandidate]:
     candidates: list[TileCandidate] = []
     for record in records:
         sample = load_yolo_sample(record)
@@ -182,11 +222,12 @@ def collect_tile_candidates(records: list[YoloImageRecord], *, split: str, confi
         bboxes = sample["bboxes"]
         tile_index = 0
         for tile in sliding_windows(width, height, config.tile_size, config.overlap):
-            kept_labels, kept_boxes, dropped, dropped_reasons = crop_bboxes_to_tile(
+            kept_labels, kept_boxes, dropped, dropped_reasons, dropped_details, retained_details = crop_bboxes_to_tile(
                 bboxes,
                 labels,
                 tile,
-                min_visibility=config.min_visibility,
+                class_rules=class_rules,
+                config=config,
                 min_box_area=config.min_box_area,
             )
             candidates.append(
@@ -201,6 +242,8 @@ def collect_tile_candidates(records: list[YoloImageRecord], *, split: str, confi
                     original_bbox_count=int(len(labels)),
                     dropped_bbox_count=int(dropped),
                     dropped_bbox_reasons=dropped_reasons,
+                    dropped_bbox_details=dropped_details,
+                    retained_bbox_details=retained_details,
                     empty=len(kept_labels) == 0,
                 )
             )
@@ -272,33 +315,53 @@ def crop_bboxes_to_tile(
     labels: np.ndarray,
     tile: tuple[int, int, int, int],
     *,
-    min_visibility: float,
+    class_rules: dict[int, dict[str, Any]],
+    config: TileConfig,
     min_box_area: float,
-) -> tuple[np.ndarray, np.ndarray, int, dict[str, int]]:
+) -> tuple[np.ndarray, np.ndarray, int, dict[str, int], list[dict[str, Any]], list[dict[str, Any]]]:
     kept_labels: list[int] = []
     kept_boxes: list[list[float]] = []
     dropped_reasons: Counter[str] = Counter()
+    dropped_details: list[dict[str, Any]] = []
+    retained_details: list[dict[str, Any]] = []
     x1, y1, x2, y2 = tile
     tile_width = x2 - x1
     tile_height = y2 - y1
     for label, box in zip(np.asarray(labels, dtype=np.int64), np.asarray(bboxes, dtype=np.float32).reshape(-1, 4)):
+        class_id = int(label)
+        rule = class_rules.get(class_id, default_class_rule(config))
+        required_visibility = float(rule["min_visibility"])
         original_area = bbox_area(box)
         if original_area <= 0:
             dropped_reasons["invalid_original_area"] += 1
+            dropped_details.append(drop_detail(class_id, box, None, 0.0, "invalid_original_area", required_visibility, tile))
             continue
         intersection = np.asarray(
             [max(box[0], x1), max(box[1], y1), min(box[2], x2), min(box[3], y2)],
             dtype=np.float32,
         )
         visible_area = bbox_area(intersection)
+        visibility = visible_area / original_area if original_area > 0 else 0.0
         if visible_area <= 0:
             dropped_reasons["outside_tile"] += 1
-            continue
-        if visible_area / original_area < min_visibility:
-            dropped_reasons["below_min_visibility"] += 1
+            dropped_details.append(drop_detail(class_id, box, None, visibility, "outside_tile", required_visibility, tile))
             continue
         if visible_area < min_box_area:
             dropped_reasons["below_min_area"] += 1
+            dropped_details.append(drop_detail(class_id, box, intersection, visibility, "below_min_area", required_visibility, tile))
+            continue
+        if rule.get("require_box_center_inside", False) and not box_center_inside_tile(box, tile):
+            dropped_reasons["center_outside_tile"] += 1
+            dropped_details.append(drop_detail(class_id, box, intersection, visibility, "center_outside_tile", required_visibility, tile))
+            continue
+        border_truncated = is_border_truncated(box, intersection, margin=float(rule.get("border_margin", config.border_margin)))
+        if rule.get("drop_border_truncated", False) and border_truncated:
+            dropped_reasons["border_truncated"] += 1
+            dropped_details.append(drop_detail(class_id, box, intersection, visibility, "border_truncated", required_visibility, tile))
+            continue
+        if visibility < required_visibility:
+            dropped_reasons["below_min_visibility"] += 1
+            dropped_details.append(drop_detail(class_id, box, intersection, visibility, "below_min_visibility", required_visibility, tile))
             continue
         out_box = intersection.copy()
         out_box[[0, 2]] -= x1
@@ -307,16 +370,171 @@ def crop_bboxes_to_tile(
         out_box[2] = float(np.clip(out_box[2], 0, tile_width))
         out_box[1] = float(np.clip(out_box[1], 0, tile_height))
         out_box[3] = float(np.clip(out_box[3], 0, tile_height))
-        kept_labels.append(int(label))
+        kept_labels.append(class_id)
         kept_boxes.append([float(value) for value in out_box])
+        retained_details.append(
+            {
+                "class_id": class_id,
+                "original_bbox": [float(value) for value in box],
+                "tile_bbox": [float(value) for value in out_box],
+                "source_bbox": [float(value) for value in intersection],
+                "visibility": float(visibility),
+                "required_visibility": required_visibility,
+                "border_touching": bbox_touches_tile_boundary(out_box, tile_width, tile_height, config.border_margin),
+                "border_truncated": bool(border_truncated),
+                "center_inside_tile": box_center_inside_tile(box, tile),
+            }
+        )
     dropped = int(sum(dropped_reasons.values()))
     if not kept_boxes:
-        return np.zeros((0,), dtype=np.int64), np.zeros((0, 4), dtype=np.float32), dropped, dict(dropped_reasons)
-    return np.asarray(kept_labels, dtype=np.int64), np.asarray(kept_boxes, dtype=np.float32), dropped, dict(dropped_reasons)
+        return (
+            np.zeros((0,), dtype=np.int64),
+            np.zeros((0, 4), dtype=np.float32),
+            dropped,
+            dict(dropped_reasons),
+            dropped_details,
+            retained_details,
+        )
+    return (
+        np.asarray(kept_labels, dtype=np.int64),
+        np.asarray(kept_boxes, dtype=np.float32),
+        dropped,
+        dict(dropped_reasons),
+        dropped_details,
+        retained_details,
+    )
 
 
 def bbox_area(box: np.ndarray) -> float:
     return max(0.0, float(box[2] - box[0])) * max(0.0, float(box[3] - box[1]))
+
+
+def default_class_rule(config: TileConfig) -> dict[str, Any]:
+    return {
+        "min_visibility": config.min_visibility,
+        "drop_border_truncated": config.drop_border_truncated,
+        "border_margin": config.border_margin,
+        "require_box_center_inside": config.require_box_center_inside,
+        "class_group": "defect_or_default",
+    }
+
+
+def build_class_visibility_rules(class_names: dict[int, str], config: TileConfig) -> dict[int, dict[str, Any]]:
+    large_object_names = {"OK", "OK2", "OK3", "定位"}
+    rules: dict[int, dict[str, Any]] = {}
+    for class_id, name in class_names.items():
+        rule = default_class_rule(config)
+        if str(name) in large_object_names:
+            rule["min_visibility"] = config.large_object_min_visibility
+            rule["class_group"] = "large_structure"
+        rules[int(class_id)] = rule
+    rules.update(load_classwise_visibility_config(config.classwise_visibility_config, class_names, config))
+    return rules
+
+
+def load_classwise_visibility_config(
+    path_value: str | None,
+    class_names: dict[int, str],
+    config: TileConfig,
+) -> dict[int, dict[str, Any]]:
+    if not path_value:
+        return {}
+    path = Path(path_value)
+    if not path.exists():
+        raise FileNotFoundError(f"classwise visibility config does not exist: {path}")
+    payload = yaml.safe_load(path.read_text(encoding="utf-8-sig")) or {}
+    raw_rules = payload.get("classes", payload.get("visibility", payload)) if isinstance(payload, dict) else {}
+    if not isinstance(raw_rules, dict):
+        raise ValueError("--classwise-visibility-config must contain a mapping")
+    name_to_id = {name: class_id for class_id, name in class_names.items()}
+    overrides: dict[int, dict[str, Any]] = {}
+    for raw_key, raw_value in raw_rules.items():
+        class_id = parse_class_rule_key(raw_key, name_to_id)
+        rule = default_class_rule(config)
+        if isinstance(raw_value, dict):
+            if "min_visibility" in raw_value:
+                rule["min_visibility"] = float(raw_value["min_visibility"])
+            if "drop_border_truncated" in raw_value:
+                rule["drop_border_truncated"] = parse_bool(raw_value["drop_border_truncated"])
+            if "border_margin" in raw_value:
+                rule["border_margin"] = float(raw_value["border_margin"])
+            if "require_box_center_inside" in raw_value:
+                rule["require_box_center_inside"] = parse_bool(raw_value["require_box_center_inside"])
+            if "class_group" in raw_value:
+                rule["class_group"] = str(raw_value["class_group"])
+        else:
+            rule["min_visibility"] = float(raw_value)
+        overrides[class_id] = rule
+    return overrides
+
+
+def parse_class_rule_key(raw_key: Any, name_to_id: dict[str, int]) -> int:
+    if isinstance(raw_key, int):
+        return raw_key
+    text = str(raw_key)
+    if text.isdigit():
+        return int(text)
+    if text in name_to_id:
+        return int(name_to_id[text])
+    raise ValueError(f"classwise visibility config references unknown class: {raw_key}")
+
+
+def box_center_inside_tile(box: np.ndarray, tile: tuple[int, int, int, int]) -> bool:
+    x1, y1, x2, y2 = tile
+    center_x = (float(box[0]) + float(box[2])) / 2.0
+    center_y = (float(box[1]) + float(box[3])) / 2.0
+    return x1 <= center_x <= x2 and y1 <= center_y <= y2
+
+
+def is_border_truncated(original_box: np.ndarray, clipped_box: np.ndarray, *, margin: float) -> bool:
+    return (
+        float(clipped_box[0]) > float(original_box[0]) + margin
+        or float(clipped_box[1]) > float(original_box[1]) + margin
+        or float(clipped_box[2]) < float(original_box[2]) - margin
+        or float(clipped_box[3]) < float(original_box[3]) - margin
+    )
+
+
+def bbox_touches_tile_boundary(box: np.ndarray, tile_width: int, tile_height: int, margin: float) -> bool:
+    return (
+        float(box[0]) <= margin
+        or float(box[1]) <= margin
+        or float(tile_width) - float(box[2]) <= margin
+        or float(tile_height) - float(box[3]) <= margin
+    )
+
+
+def drop_detail(
+    class_id: int,
+    original_box: np.ndarray,
+    clipped_box: np.ndarray | None,
+    visibility: float,
+    reason: str,
+    required_visibility: float,
+    tile: tuple[int, int, int, int],
+) -> dict[str, Any]:
+    detail: dict[str, Any] = {
+        "class_id": int(class_id),
+        "original_bbox": [float(value) for value in original_box],
+        "source_bbox": [float(value) for value in clipped_box] if clipped_box is not None else None,
+        "visibility": float(visibility),
+        "required_visibility": float(required_visibility),
+        "reason": reason,
+        "tile": list(tile),
+    }
+    if clipped_box is not None:
+        x1, y1, x2, y2 = tile
+        tile_width = x2 - x1
+        tile_height = y2 - y1
+        tile_box = np.asarray(clipped_box, dtype=np.float32).copy()
+        tile_box[[0, 2]] -= x1
+        tile_box[[1, 3]] -= y1
+        detail["tile_bbox"] = [float(value) for value in tile_box]
+        detail["border_touching"] = bbox_touches_tile_boundary(tile_box, tile_width, tile_height, 2.0)
+    else:
+        detail["tile_bbox"] = None
+        detail["border_touching"] = False
+    return detail
 
 
 def write_debug_tiling(
@@ -368,13 +586,34 @@ def write_debug_tile_visualizations(
     if limit <= 0 or not candidates:
         return 0
     debug_dir.mkdir(parents=True, exist_ok=True)
-    non_empty = [candidate for candidate in candidates if not candidate.empty]
-    empty = [candidate for candidate in candidates if candidate.empty]
-    chosen = sample_debug_candidates(non_empty, min(limit, len(non_empty)), rng)
-    remaining = limit - len(chosen)
-    if remaining > 0:
-        chosen.extend(sample_debug_candidates(empty, min(remaining, len(empty)), rng))
-    rng.shuffle(chosen)
+    retained_candidates = [candidate for candidate in candidates if candidate.retained_bbox_details]
+    border_dropped = [
+        candidate
+        for candidate in candidates
+        if any(detail.get("reason") == "border_truncated" for detail in candidate.dropped_bbox_details)
+    ]
+    visibility_dropped = [
+        candidate
+        for candidate in candidates
+        if any(detail.get("reason") in {"below_min_visibility", "center_outside_tile"} for detail in candidate.dropped_bbox_details)
+    ]
+    chosen = pick_class_coverage_debug_candidates(candidates, limit)
+    chosen.extend(sample_debug_candidates(border_dropped, min(max(1, limit // 3), max(0, limit - len(chosen))), rng))
+    chosen.extend(sample_debug_candidates(visibility_dropped, min(max(1, limit // 4), max(0, limit - len(chosen))), rng))
+    chosen.extend(sample_debug_candidates(retained_candidates, max(0, limit - len(chosen)), rng))
+    if len(chosen) < limit:
+        chosen.extend(sample_debug_candidates(candidates, max(0, limit - len(chosen)), rng))
+    chosen = dedupe_candidates(chosen)[:limit]
+    if len(chosen) < limit:
+        chosen_keys = {(candidate.split, candidate.source_image, candidate.tile_index) for candidate in chosen}
+        for candidate in candidates:
+            key = (candidate.split, candidate.source_image, candidate.tile_index)
+            if key in chosen_keys:
+                continue
+            chosen.append(candidate)
+            chosen_keys.add(key)
+            if len(chosen) >= limit:
+                break
 
     written = 0
     for index, candidate in enumerate(chosen, start=1):
@@ -385,30 +624,71 @@ def write_debug_tile_visualizations(
         tile_image = image[y1:y2, x1:x2].copy()
         if tile_image.size == 0:
             continue
-        for label, box in zip(candidate.labels, candidate.bboxes):
-            bx1, by1, bx2, by2 = [int(round(float(value))) for value in box]
-            color = color_for_label(int(label))
-            cv2.rectangle(tile_image, (bx1, by1), (bx2, by2), color, 2)
-            label_text = str(int(label))
-            if int(label) in class_names:
-                label_text = f"{int(label)}"
-            cv2.putText(
-                tile_image,
-                label_text,
-                (max(0, bx1), max(15, by1 - 4)),
-                cv2.FONT_HERSHEY_SIMPLEX,
-                0.55,
-                color,
-                2,
-                cv2.LINE_AA,
-            )
-        if candidate.empty:
+        for detail in candidate.retained_bbox_details:
+            draw_debug_box(tile_image, detail, color_for_label(int(detail["class_id"])), "keep")
+        for detail in candidate.dropped_bbox_details:
+            if detail.get("reason") == "outside_tile" or detail.get("tile_bbox") is None:
+                continue
+            reason = str(detail.get("reason", "drop"))
+            color = (0, 0, 255) if reason == "border_truncated" else (0, 165, 255)
+            draw_debug_box(tile_image, detail, color, reason)
+        if not candidate.retained_bbox_details and not any(detail.get("tile_bbox") for detail in candidate.dropped_bbox_details):
             cv2.putText(tile_image, "empty", (20, 36), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 160, 255), 2, cv2.LINE_AA)
         stem = flatten_relative_stem(candidate.relative_path)[:120]
         out = debug_dir / f"{index:03d}_{candidate.split}_{stem}_tile_{candidate.tile_index:04d}.jpg"
         if cv2.imwrite(str(out), tile_image):
             written += 1
     return written
+
+
+def pick_class_coverage_debug_candidates(candidates: list[TileCandidate], limit: int) -> list[TileCandidate]:
+    chosen: list[TileCandidate] = []
+    seen_classes: set[int] = set()
+    for candidate in candidates:
+        class_ids = {int(detail["class_id"]) for detail in candidate.retained_bbox_details}
+        class_ids.update(int(detail["class_id"]) for detail in candidate.dropped_bbox_details if detail.get("reason") != "outside_tile")
+        if class_ids - seen_classes:
+            chosen.append(candidate)
+            seen_classes.update(class_ids)
+        if len(chosen) >= limit:
+            break
+    return chosen
+
+
+def dedupe_candidates(candidates: list[TileCandidate]) -> list[TileCandidate]:
+    seen: set[tuple[str, str, int]] = set()
+    unique: list[TileCandidate] = []
+    for candidate in candidates:
+        key = (candidate.split, candidate.source_image, candidate.tile_index)
+        if key in seen:
+            continue
+        seen.add(key)
+        unique.append(candidate)
+    return unique
+
+
+def draw_debug_box(image: np.ndarray, detail: dict[str, Any], color: tuple[int, int, int], prefix: str) -> None:
+    box = detail.get("tile_bbox")
+    if box is None:
+        return
+    x1, y1, x2, y2 = [int(round(float(value))) for value in box]
+    height, width = image.shape[:2]
+    x1 = max(0, min(width - 1, x1))
+    y1 = max(0, min(height - 1, y1))
+    x2 = max(x1 + 1, min(width, x2))
+    y2 = max(y1 + 1, min(height, y2))
+    cv2.rectangle(image, (x1, y1), (x2, y2), color, 2)
+    label = f"{prefix}:{int(detail['class_id'])} v={float(detail.get('visibility', 0.0)):.2f}"
+    cv2.putText(
+        image,
+        label,
+        (max(0, x1), max(15, y1 - 4)),
+        cv2.FONT_HERSHEY_SIMPLEX,
+        0.5,
+        color,
+        2,
+        cv2.LINE_AA,
+    )
 
 
 def sample_debug_candidates(candidates: list[TileCandidate], count: int, rng: np.random.Generator) -> list[TileCandidate]:
@@ -465,6 +745,7 @@ def build_report(
     candidates: list[TileCandidate],
     all_candidates_by_split: dict[str, list[TileCandidate]],
     class_names: dict[int, str],
+    class_rules: dict[int, dict[str, Any]],
     data_yaml_payload: dict[str, Any],
     debug_visualization_count: int,
 ) -> dict[str, Any]:
@@ -480,6 +761,7 @@ def build_report(
     tiled_class_ids = [cid for split in tiled_split_stats.values() for cid in split["class_ids"]]
     selected_drop = summarize_dropped_bboxes(candidates)
     all_candidate_drop = summarize_dropped_bboxes(all_candidate_tiles)
+    retained_quality = summarize_retained_bbox_quality(candidates)
     names_quality = inspect_class_names(names, nc)
 
     per_split: dict[str, dict[str, Any]] = {}
@@ -493,8 +775,8 @@ def build_report(
             "empty_tile_retained_count": tiled_stats["empty_tile_count"],
             "original_bbox_count": source_stats["bbox_total"],
             "tiled_bbox_count": tiled_stats["bbox_total"],
-            "dropped_bbox_count": selected_drop["by_split"][split]["total"],
-            "dropped_bbox_reasons": selected_drop["by_split"][split]["by_reason"],
+            "dropped_bbox_count": all_candidate_drop["by_split"][split]["effective_total_excluding_outside_tile"],
+            "dropped_bbox_reasons": all_candidate_drop["by_split"][split]["by_reason"],
             "original_class_counts": source_stats["class_counts"],
             "tiled_class_counts": tiled_stats["class_counts"],
             "original_invalid_row_count": source_stats["invalid_row_count"],
@@ -508,6 +790,10 @@ def build_report(
         original_val = int(source_split_stats["val"]["class_counts"].get(str(class_id), 0))
         tiled_train = int(tiled_split_stats["train"]["class_counts"].get(str(class_id), 0))
         tiled_val = int(tiled_split_stats["val"]["class_counts"].get(str(class_id), 0))
+        tiled_total = tiled_train + tiled_val
+        class_drop = all_candidate_drop["by_class"].get(str(class_id), {})
+        dropped_effective = int(class_drop.get("effective_total_excluding_outside_tile", 0))
+        retention_denominator = tiled_total + dropped_effective
         per_class.append(
             {
                 "class_id": class_id,
@@ -517,7 +803,12 @@ def build_report(
                 "original_total_instances": original_train + original_val,
                 "tiled_train_instances": tiled_train,
                 "tiled_val_instances": tiled_val,
-                "tiled_total_instances": tiled_train + tiled_val,
+                "tiled_total_instances": tiled_total,
+                "dropped_instances": dropped_effective,
+                "visibility_failed_instances": int(class_drop.get("visibility_failed_total", 0)),
+                "dropped_reasons": class_drop.get("by_reason", {}),
+                "retention_rate": tiled_total / retention_denominator if retention_denominator else 0.0,
+                "required_visibility": class_rules.get(class_id, default_class_rule(config))["min_visibility"],
             }
         )
 
@@ -535,6 +826,11 @@ def build_report(
         "tile_size": config.tile_size,
         "overlap": config.overlap,
         "min_visibility": config.min_visibility,
+        "large_object_min_visibility": config.large_object_min_visibility,
+        "drop_border_truncated": config.drop_border_truncated,
+        "border_margin": config.border_margin,
+        "require_box_center_inside": config.require_box_center_inside,
+        "classwise_visibility_config": config.classwise_visibility_config,
         "keep_empty_ratio": config.keep_empty_ratio,
         "seed": config.seed,
         "source_image_count": sum(len(records) for records in split_records.values()),
@@ -548,8 +844,18 @@ def build_report(
         "original_bbox_count": original_bbox_count,
         "tiled_bbox_count": tiled_bbox_count,
         "bbox_count": tiled_bbox_count,
-        "dropped_bbox_count": selected_drop["total"],
-        "dropped_bbox_reasons": selected_drop["by_reason"],
+        "dropped_bbox_count": all_candidate_drop["effective_total_excluding_outside_tile"],
+        "dropped_bbox_reasons": all_candidate_drop["effective_by_reason_excluding_outside_tile"],
+        "outside_tile_candidate_count": int(all_candidate_drop["by_reason"].get("outside_tile", 0)),
+        "visibility_dropped_bbox_count": int(all_candidate_drop["visibility_failed_total"]),
+        "primary_below_min_visibility_dropped_bbox_count": int(all_candidate_drop["effective_by_reason_excluding_outside_tile"].get("below_min_visibility", 0)),
+        "border_truncated_dropped_bbox_count": int(all_candidate_drop["effective_by_reason_excluding_outside_tile"].get("border_truncated", 0)),
+        "center_outside_dropped_bbox_count": int(all_candidate_drop["effective_by_reason_excluding_outside_tile"].get("center_outside_tile", 0)),
+        "retained_bbox_quality": retained_quality,
+        "obvious_half_target_bbox_found": bool(
+            retained_quality["retained_visibility_below_required_count"] > 0
+            or retained_quality["retained_border_truncated_count"] > 0
+        ),
         "all_candidate_dropped_bbox_count_before_empty_sampling": all_candidate_drop["total"],
         "all_candidate_dropped_bbox_reasons_before_empty_sampling": all_candidate_drop["by_reason"],
         "class_count": nc,
@@ -591,6 +897,7 @@ def build_report(
             "names": names,
             "names_quality": names_quality,
         },
+        "class_visibility_rules": {str(class_id): rule for class_id, rule in sorted(class_rules.items())},
         "tiles": [
             {
                 "split": candidate.split,
@@ -718,24 +1025,83 @@ def empty_label_summary(nc: int) -> dict[str, Any]:
 
 def summarize_dropped_bboxes(candidates: list[TileCandidate]) -> dict[str, Any]:
     by_reason: Counter[str] = Counter()
+    by_class: dict[int, Counter[str]] = {}
+    visibility_failed_total = 0
+    visibility_failed_by_class: Counter[int] = Counter()
     by_split = {
         "train": {"total": 0, "by_reason": {}},
         "val": {"total": 0, "by_reason": {}},
     }
     split_reason_counts = {"train": Counter(), "val": Counter()}
     for candidate in candidates:
-        for reason, count in candidate.dropped_bbox_reasons.items():
-            by_reason[reason] += int(count)
-            split_reason_counts.setdefault(candidate.split, Counter())[reason] += int(count)
+        for detail in candidate.dropped_bbox_details:
+            reason = str(detail.get("reason", "unknown"))
+            class_id = int(detail.get("class_id", -1))
+            by_reason[reason] += 1
+            split_reason_counts.setdefault(candidate.split, Counter())[reason] += 1
+            by_class.setdefault(class_id, Counter())[reason] += 1
+            if reason != "outside_tile" and float(detail.get("visibility", 0.0)) < float(detail.get("required_visibility", 0.0)):
+                visibility_failed_total += 1
+                visibility_failed_by_class[class_id] += 1
     for split, counts in split_reason_counts.items():
         by_split[split] = {
             "total": int(sum(counts.values())),
             "by_reason": {reason: int(count) for reason, count in sorted(counts.items())},
+            "effective_total_excluding_outside_tile": int(sum(count for reason, count in counts.items() if reason != "outside_tile")),
         }
+    effective_by_reason = {reason: int(count) for reason, count in sorted(by_reason.items()) if reason != "outside_tile"}
     return {
         "total": int(sum(by_reason.values())),
         "by_reason": {reason: int(count) for reason, count in sorted(by_reason.items())},
+        "effective_total_excluding_outside_tile": int(sum(effective_by_reason.values())),
+        "effective_by_reason_excluding_outside_tile": effective_by_reason,
+        "visibility_failed_total": int(visibility_failed_total),
+        "by_class": {
+            str(class_id): {
+                "total": int(sum(counts.values())),
+                "effective_total_excluding_outside_tile": int(sum(count for reason, count in counts.items() if reason != "outside_tile")),
+                "visibility_failed_total": int(visibility_failed_by_class.get(class_id, 0)),
+                "by_reason": {reason: int(count) for reason, count in sorted(counts.items())},
+            }
+            for class_id, counts in sorted(by_class.items())
+            if class_id >= 0
+        },
         "by_split": by_split,
+    }
+
+
+def summarize_retained_bbox_quality(candidates: list[TileCandidate]) -> dict[str, Any]:
+    total = 0
+    below_required = 0
+    border_truncated = 0
+    border_touching = 0
+    visibility_thresholds = {threshold: 0 for threshold in [0.5, 0.7, 0.8, 0.9]}
+    per_class_visibility: dict[int, list[float]] = {}
+    for candidate in candidates:
+        for detail in candidate.retained_bbox_details:
+            total += 1
+            class_id = int(detail["class_id"])
+            visibility = float(detail.get("visibility", 0.0))
+            per_class_visibility.setdefault(class_id, []).append(visibility)
+            if visibility < float(detail.get("required_visibility", 0.0)):
+                below_required += 1
+            if bool(detail.get("border_truncated")):
+                border_truncated += 1
+            if bool(detail.get("border_touching")):
+                border_touching += 1
+            for threshold in visibility_thresholds:
+                if visibility < threshold:
+                    visibility_thresholds[threshold] += 1
+    return {
+        "retained_bbox_count": total,
+        "retained_visibility_below_required_count": below_required,
+        "retained_border_truncated_count": border_truncated,
+        "retained_border_touching_count": border_touching,
+        "retained_visibility_lt": {str(threshold): int(count) for threshold, count in visibility_thresholds.items()},
+        "per_class_average_visibility": {
+            str(class_id): float(np.mean(values)) if values else None
+            for class_id, values in sorted(per_class_visibility.items())
+        },
     }
 
 
@@ -783,6 +1149,10 @@ def write_report_md(path: Path, report: dict[str, Any]) -> None:
         f"- tile_size: {summary['tile_size']}",
         f"- overlap: {summary['overlap']}",
         f"- min_visibility: {summary['min_visibility']}",
+        f"- large_object_min_visibility: {summary['large_object_min_visibility']}",
+        f"- drop_border_truncated: {summary['drop_border_truncated']}",
+        f"- border_margin: {summary['border_margin']}",
+        f"- require_box_center_inside: {summary['require_box_center_inside']}",
         f"- keep_empty_ratio: {summary['keep_empty_ratio']}",
         f"- seed: {summary['seed']}",
         f"- Original train images: {summary['original_train_image_count']}",
@@ -791,10 +1161,14 @@ def write_report_md(path: Path, report: dict[str, Any]) -> None:
         f"- Tiled val images: {summary['tiled_val_image_count']}",
         f"- Original bboxes: {summary['original_bbox_count']}",
         f"- Tiled bboxes: {summary['tiled_bbox_count']}",
-        f"- Dropped bboxes in retained tiles: {summary['dropped_bbox_count']}",
-        f"- Dropped bbox reasons in retained tiles: `{summary['dropped_bbox_reasons']}`",
+        f"- Dropped bboxes after intersection candidates: {summary['dropped_bbox_count']}",
+        f"- Dropped bbox reasons: `{summary['dropped_bbox_reasons']}`",
+        f"- Dropped for insufficient visibility: {summary['visibility_dropped_bbox_count']}",
+        f"- Dropped for border truncation: {summary['border_truncated_dropped_bbox_count']}",
+        f"- Dropped for center outside tile: {summary['center_outside_dropped_bbox_count']}",
         f"- Empty tiles retained: {summary['empty_tile_retained_count']}",
         f"- Debug tile visualizations: {summary['debug_visualization_count']}",
+        f"- Obvious half-target bbox remains: {summary['obvious_half_target_bbox_found']}",
         f"- data.yaml nc: {summary['data_yaml_nc']}",
         f"- Tiled class id min: {summary['tiled_class_id_min']}",
         f"- Tiled class id max: {summary['tiled_class_id_max']}",
@@ -834,14 +1208,15 @@ def write_report_md(path: Path, report: dict[str, Any]) -> None:
             "",
             "## Per-Class Instances",
             "",
-            "| class id | name | original train | original val | original total | tiled train | tiled val | tiled total |",
-            "|---:|---|---:|---:|---:|---:|---:|---:|",
+            "| class id | name | original train | original val | original total | tiled train | tiled val | tiled total | dropped | retention rate | required visibility |",
+            "|---:|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|",
         ]
     )
     for item in report["per_class"]:
         lines.append(
             "| {class_id} | {name} | {original_train_instances} | {original_val_instances} | "
-            "{original_total_instances} | {tiled_train_instances} | {tiled_val_instances} | {tiled_total_instances} |".format(
+            "{original_total_instances} | {tiled_train_instances} | {tiled_val_instances} | {tiled_total_instances} | "
+            "{dropped_instances} | {retention_rate:.4f} | {required_visibility} |".format(
                 class_id=item["class_id"],
                 name=escape_md(item["name"]),
                 original_train_instances=item["original_train_instances"],
@@ -850,6 +1225,9 @@ def write_report_md(path: Path, report: dict[str, Any]) -> None:
                 tiled_train_instances=item["tiled_train_instances"],
                 tiled_val_instances=item["tiled_val_instances"],
                 tiled_total_instances=item["tiled_total_instances"],
+                dropped_instances=item["dropped_instances"],
+                retention_rate=float(item["retention_rate"]),
+                required_visibility=item["required_visibility"],
             )
         )
     lines.extend(
@@ -859,8 +1237,15 @@ def write_report_md(path: Path, report: dict[str, Any]) -> None:
             "",
             "| scope | total | reasons |",
             "|---|---:|---|",
-            f"| retained tiles | {report['dropped_bboxes']['selected_tiles']['total']} | `{report['dropped_bboxes']['selected_tiles']['by_reason']}` |",
-            f"| all candidate tiles before empty sampling | {report['dropped_bboxes']['all_candidate_tiles_before_empty_sampling']['total']} | `{report['dropped_bboxes']['all_candidate_tiles_before_empty_sampling']['by_reason']}` |",
+            f"| selected retained tiles | {report['dropped_bboxes']['selected_tiles']['effective_total_excluding_outside_tile']} | `{report['dropped_bboxes']['selected_tiles']['effective_by_reason_excluding_outside_tile']}` |",
+            f"| all candidate tiles before empty sampling | {report['dropped_bboxes']['all_candidate_tiles_before_empty_sampling']['effective_total_excluding_outside_tile']} | `{report['dropped_bboxes']['all_candidate_tiles_before_empty_sampling']['effective_by_reason_excluding_outside_tile']}` |",
+            "",
+            "## Retained BBox Quality",
+            "",
+            f"- Retained visibility below required: {summary['retained_bbox_quality']['retained_visibility_below_required_count']}",
+            f"- Retained border truncated: {summary['retained_bbox_quality']['retained_border_truncated_count']}",
+            f"- Retained border touching: {summary['retained_bbox_quality']['retained_border_touching_count']}",
+            f"- Retained visibility thresholds: `{summary['retained_bbox_quality']['retained_visibility_lt']}`",
         ]
     )
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
@@ -878,8 +1263,11 @@ def write_dataset_summary_md(path: Path, report: dict[str, Any]) -> None:
         f"- Original bboxes: {summary['original_bbox_count']}",
         f"- Tiled bboxes: {summary['tiled_bbox_count']}",
         f"- Empty tiles retained: {summary['empty_tile_retained_count']}",
-        f"- Dropped bboxes in retained tiles: {summary['dropped_bbox_count']}",
+        f"- Dropped bboxes after intersection candidates: {summary['dropped_bbox_count']}",
         f"- Dropped bbox reasons: `{summary['dropped_bbox_reasons']}`",
+        f"- Dropped for insufficient visibility: {summary['visibility_dropped_bbox_count']}",
+        f"- Dropped for border truncation: {summary['border_truncated_dropped_bbox_count']}",
+        f"- Obvious half-target bbox remains: {summary['obvious_half_target_bbox_found']}",
         f"- data.yaml nc: {summary['data_yaml_nc']}",
         f"- data.yaml names: `{summary['data_yaml_names']}`",
         f"- Tiled class id min/max: {summary['tiled_class_id_min']} / {summary['tiled_class_id_max']}",
@@ -890,13 +1278,14 @@ def write_dataset_summary_md(path: Path, report: dict[str, Any]) -> None:
         "",
         "## Per-Class Tiled BBoxes",
         "",
-        "| class id | name | tiled train | tiled val | tiled total |",
-        "|---:|---|---:|---:|---:|",
+        "| class id | name | tiled train | tiled val | tiled total | dropped | retention rate |",
+        "|---:|---|---:|---:|---:|---:|---:|",
     ]
     for item in report["per_class"]:
         lines.append(
             f"| {item['class_id']} | {escape_md(item['name'])} | "
-            f"{item['tiled_train_instances']} | {item['tiled_val_instances']} | {item['tiled_total_instances']} |"
+            f"{item['tiled_train_instances']} | {item['tiled_val_instances']} | {item['tiled_total_instances']} | "
+            f"{item['dropped_instances']} | {float(item['retention_rate']):.4f} |"
         )
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 

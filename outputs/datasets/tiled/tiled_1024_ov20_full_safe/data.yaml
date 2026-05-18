@@ -1,0 +1,20 @@
+path: E:/TJGY/MinPaper/MyAutoAugument/outputs/datasets/tiled/tiled_1024_ov20_full_safe
+train: images/train
+val: images/val
+nc: 15
+names:
+- OK
+- OK2
+- OK3
+- 加强筋打伤
+- 定位
+- 开裂
+- 油污
+- 浅划伤
+- 漏背锡
+- 碰伤
+- 脏污
+- 轮廓划伤
+- 锡丝残留
+- 锡尖
+- 锡膏

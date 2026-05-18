@@ -1,22 +1,29 @@
 # Project Snapshot
 
-- Generated: 2026-05-18T09:39:00
+- Generated: 2026-05-18T11:42:26
 - Branch: codex/sync-latest
-- Commit: 9f1047fffa74b094429ea87a7d545ffab61cd01e
+- Commit: 95ebfa9338dc4e5e5f9c1a769ef7a9c478d6102b
 - Remote: https://github.com/Yxiaoyang121/MyAutoAugument.git
 
 ## Working Tree
 
 ```text
+ M .gitignore
  M CODEX_HANDOFF.md
  M EXPERIMENT_LOG.md
  M PROJECT_STATE.md
+ M outputs/audits/dataset_mapping/full_tiled_dataset_mapping_audit.json
+ M outputs/audits/dataset_mapping/full_tiled_dataset_mapping_audit.md
+ M outputs/datasets/tiled/tiled_1024_ov20_full/dataset_summary.md
+ M outputs/datasets/tiled/tiled_1024_ov20_full/tiled_dataset_report.md
+ M outputs/project_snapshot_latest.md
+ M outputs/snapshots/project_snapshot_latest.md
  M scripts/audit_dataset_mapping.py
  M scripts/build_yolo_tiled_dataset.py
  M scripts/export_project_snapshot.py
-?? outputs/audits/dataset_mapping/full_tiled_dataset_mapping_audit.json
-?? outputs/audits/dataset_mapping/full_tiled_dataset_mapping_audit.md
-?? outputs/datasets/tiled/tiled_1024_ov20_full/
+?? outputs/audits/tiling_quality/
+?? outputs/datasets/tiled/tiled_1024_ov20_full_safe/
+?? scripts/audit_tiling_quality.py
 ```
 
 ## Key Files
@@ -31,12 +38,15 @@
 - docs/experiment_protocol.md
 - docs/output_convention.md
 - scripts/audit_dataset_mapping.py
+- scripts/audit_tiling_quality.py
 - scripts/audit_artifacts.py
 - scripts/build_yolo_tiled_dataset.py
 - scripts/run_gpu_preflight.py
 - scripts/run_diagnostic_augmentation_pipeline.py
 - outputs/audits/dataset_mapping/full_tiled_dataset_mapping_audit.md
 - outputs/audits/dataset_mapping/full_tiled_dataset_mapping_audit.json
+- outputs/audits/tiling_quality/tiling_quality_audit.md
+- outputs/audits/tiling_quality/tiling_quality_audit.json
 - outputs/audits/dataset_mapping/dataset_mapping_audit.md
 - outputs/audits/dataset_mapping/dataset_mapping_audit.json
 - outputs/audits/gpu_preflight/gpu_preflight_report.md
@@ -50,6 +60,10 @@
 - outputs/datasets/tiled/tiled_1024_ov20_full/dataset_summary.md
 - outputs/datasets/tiled/tiled_1024_ov20_full/tiled_dataset_report.md
 - outputs/datasets/tiled/tiled_1024_ov20_full/tiled_dataset_report.json
+- outputs/datasets/tiled/tiled_1024_ov20_full_safe/data.yaml
+- outputs/datasets/tiled/tiled_1024_ov20_full_safe/dataset_summary.md
+- outputs/datasets/tiled/tiled_1024_ov20_full_safe/tiled_dataset_report.md
+- outputs/datasets/tiled/tiled_1024_ov20_full_safe/tiled_dataset_report.json
 - outputs/snapshots/project_snapshot_latest.md
 - outputs/project_snapshot_latest.md
 - AutoAugment/diagnostic_pipeline/__init__.py
@@ -60,7 +74,7 @@
 
 ## Tracked File Count
 
-- 140 tracked files
+- 146 tracked files
 
 ## Notes
 

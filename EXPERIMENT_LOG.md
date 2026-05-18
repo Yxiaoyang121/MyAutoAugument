@@ -2,6 +2,70 @@
 
 ## 2026-05-18
 
+### Tiling Quality Audit And Safe Full Dataset
+
+No training or YOLO validation was run. Audited the previously built `tiled_1024_ov20_full` dataset for partial-object bbox risk, then rebuilt a stricter safe tiled dataset.
+
+Old full tiled quality audit command:
+
+```powershell
+python scripts\audit_tiling_quality.py
+```
+
+Audit outputs:
+
+- `outputs/audits/tiling_quality/tiling_quality_audit.md`
+- `outputs/audits/tiling_quality/tiling_quality_audit.json`
+- `outputs/audits/tiling_quality/debug_truncated_bboxes/` (50 images)
+
+Old full tiled audit result:
+
+- Dataset: `outputs/datasets/tiled/tiled_1024_ov20_full/`
+- Total bboxes: 7465
+- Visibility < 0.5: 1091
+- Visibility < 0.7: 1956
+- Visibility < 0.8: 2405
+- Visibility < 0.9: 2874
+- Bboxes touching tile boundary: 3249 (43.52%)
+- Border-truncated bboxes: 3197 (42.83%)
+- Severe truncated bboxes with visibility < 0.7: 1956 (26.20%)
+- Status: unsafe for formal baseline; retained only for audit.
+
+Safe rebuild command:
+
+```powershell
+python scripts\build_yolo_tiled_dataset.py --dataset-root E:\TJGY\DataSet2_fixed --data-yaml E:\TJGY\DataSet2_fixed\data.yaml --output-dir outputs\datasets\tiled\tiled_1024_ov20_full_safe --tile-size 1024 --overlap 0.2 --min-visibility 0.7 --large-object-min-visibility 0.9 --drop-border-truncated True --border-margin 2 --require-box-center-inside True --keep-empty-ratio 0.1 --seed 42 --debug-limit 100 --overwrite
+```
+
+Safe dataset outputs:
+
+- Dataset: `outputs/datasets/tiled/tiled_1024_ov20_full_safe/`
+- Data YAML: `outputs/datasets/tiled/tiled_1024_ov20_full_safe/data.yaml`
+- Dataset summary: `outputs/datasets/tiled/tiled_1024_ov20_full_safe/dataset_summary.md`
+- Dataset report: `outputs/datasets/tiled/tiled_1024_ov20_full_safe/tiled_dataset_report.md`
+- Dataset report JSON: `outputs/datasets/tiled/tiled_1024_ov20_full_safe/tiled_dataset_report.json`
+- Debug tile bbox visualizations: `outputs/datasets/tiled/tiled_1024_ov20_full_safe/debug_tiling/` (100 images)
+
+Safe dataset result:
+
+- Tiled images: 2452 train, 677 val
+- Original bboxes: 3084
+- Safe tiled bboxes: 4269
+- Dropped bbox candidates after tile intersection: 13826
+- Visibility-failed dropped candidates: 13346
+- Border-truncated dropped candidates: 3961
+- Center-outside dropped candidates: 9855
+- Obvious half-target bbox remains: false
+- Class id out of range: false
+- Chinese class names damaged: false
+- Caveat: class `定位` has 0 retained bboxes under the strict large-structure rule.
+- Policy: subsequent formal baseline runs must use `outputs/datasets/tiled/tiled_1024_ov20_full_safe/data.yaml`.
+
+Verification:
+
+- Syntax check passed for `scripts/build_yolo_tiled_dataset.py` and `scripts/audit_tiling_quality.py`.
+- `pytest -q tests\test_build_yolo_tiled_dataset.py` passed: 2 tests.
+
 ### Full Tiled Dataset Build And Mapping Audit
 
 No training was run. Built the full tiled YOLO dataset from `E:\TJGY\DataSet2_fixed` without `--max-images-per-split`.
@@ -52,7 +116,7 @@ Audit result:
 - Tiled names match the original `data.yaml` exactly.
 - No class id >= nc and no negative class id found.
 - Chinese class names are intact.
-- The full tiled dataset can be used as the formal baseline dataset.
+- Superseded by the tiling quality audit above: this dataset is now marked unsafe for formal baseline because partial-object bboxes were retained.
 
 Verification:
 

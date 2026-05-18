@@ -8,6 +8,17 @@ The repository is centered on diagnosis-driven augmentation for industrial defec
 
 ## Implemented In This Update
 
+- Added `scripts/audit_tiling_quality.py` and audited `outputs/datasets/tiled/tiled_1024_ov20_full/` for tile-boundary truncation risk.
+- Marked `outputs/datasets/tiled/tiled_1024_ov20_full/` as unsafe for formal baseline use because it retains partial-object bboxes.
+- Hardened `scripts/build_yolo_tiled_dataset.py` with safe tiling controls:
+  - `--min-visibility` default changed to `0.7`
+  - `--large-object-min-visibility` added with default `0.9`
+  - `--drop-border-truncated` added with default `True`
+  - `--border-margin` added with default `2`
+  - `--require-box-center-inside` added with default `True`
+  - `--classwise-visibility-config` added for optional per-class overrides
+- Built the new safe full tiled dataset at `outputs/datasets/tiled/tiled_1024_ov20_full_safe/`.
+- Safe dataset debug visualizations now include retained boxes and dropped border-truncated/visibility-risk boxes; 100 images were written under `outputs/datasets/tiled/tiled_1024_ov20_full_safe/debug_tiling/`.
 - Built the full tiled dataset from `E:\TJGY\DataSet2_fixed` at `outputs/datasets/tiled/tiled_1024_ov20_full/` without `--max-images-per-split`.
 - Expanded `scripts/build_yolo_tiled_dataset.py` reporting for full baseline readiness:
   - original and tiled train/val image counts
@@ -41,6 +52,32 @@ The repository is centered on diagnosis-driven augmentation for industrial defec
 
 ## Verified Locally
 
+- No YOLO training or validation was run in this update.
+- Tiling quality audit for the old full tiled dataset:
+  - Report: `outputs/audits/tiling_quality/tiling_quality_audit.md`
+  - JSON: `outputs/audits/tiling_quality/tiling_quality_audit.json`
+  - Debug truncated bbox images: `outputs/audits/tiling_quality/debug_truncated_bboxes/` (50 images)
+  - Total old full tiled bboxes: 7465
+  - Border-truncated bboxes: 3197 (42.83%)
+  - Visibility < 0.5: 1091
+  - Visibility < 0.7: 1956
+  - Visibility < 0.8: 2405
+  - Visibility < 0.9: 2874
+  - Bboxes touching tile boundary: 3249 (43.52%)
+- Safe full tiled dataset build completed with no training:
+  - Output dataset: `outputs/datasets/tiled/tiled_1024_ov20_full_safe/`
+  - Parameters: `tile_size=1024`, `overlap=0.2`, `min_visibility=0.7`, `large_object_min_visibility=0.9`, `drop_border_truncated=True`, `border_margin=2`, `require_box_center_inside=True`, `keep_empty_ratio=0.1`, `seed=42`
+  - Tiled images: 2452 train, 677 val
+  - Original bboxes: 3084
+  - Safe tiled bboxes: 4269
+  - Dropped bbox candidates after tile intersection: 13826
+  - Visibility-failed dropped candidates: 13346
+  - Border-truncated dropped candidates: 3961
+  - Center-outside dropped candidates: 9855
+  - Obvious half-target bbox remains: false
+  - Debug tile visualizations: 100
+  - Class ids remain in range and Chinese names remain intact.
+  - Note: class `定位` has 0 retained bboxes under the strict large-structure rule; use this as an explicit audit caveat if that class must be evaluated.
 - Full tiled dataset build completed with no training:
   - Command used no `--max-images-per-split`.
   - Source dataset: `E:\TJGY\DataSet2_fixed`
@@ -55,7 +92,7 @@ The repository is centered on diagnosis-driven augmentation for industrial defec
   - Debug tile bbox visualizations: 30
   - `data.yaml`: `nc=15`, names inherited from original with Chinese names intact
   - Class ids: tiled min 0, max 14, no class id >= nc
-  - Full tiled dataset readiness: can be used as the formal baseline dataset.
+  - Superseded status: this dataset is now marked unsafe for formal baseline use after the tiling quality audit found retained partial-object bboxes.
 - Full tiled dataset mapping audit:
   - Report: `outputs/audits/dataset_mapping/full_tiled_dataset_mapping_audit.md`
   - JSON: `outputs/audits/dataset_mapping/full_tiled_dataset_mapping_audit.json`
@@ -136,8 +173,9 @@ The repository is centered on diagnosis-driven augmentation for industrial defec
 - Formal training must use conda env `pytorch` with `D:\Anaconda\envs\pytorch\python.exe`.
 - Formal YOLO training must use GPU `device=0`.
 - Formal runs must use explicit `--run-id` and `project=outputs/experiments/<run_id>`; do not rely on `runs/detect`.
-- Active full tiled dataset path: `outputs/datasets/tiled/tiled_1024_ov20_full/`.
-- Formal baseline training may now target `outputs/datasets/tiled/tiled_1024_ov20_full/data.yaml`; no full-dataset training has been run in this update.
+- Unsafe full tiled dataset path: `outputs/datasets/tiled/tiled_1024_ov20_full/`; do not use it for formal baseline because partial-object bboxes were retained.
+- Active safe full tiled dataset path: `outputs/datasets/tiled/tiled_1024_ov20_full_safe/`.
+- Formal baseline training must target `outputs/datasets/tiled/tiled_1024_ov20_full_safe/data.yaml`; no full-dataset training has been run in this update.
 - CPU is allowed only for smoke/debug runs and must not be treated as formal experiment output.
 - Do not use the base conda environment for formal training; it previously resolved to CPU-only PyTorch.
 - Windows YOLO commands should keep `workers=0`.

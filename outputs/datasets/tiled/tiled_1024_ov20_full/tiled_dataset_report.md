@@ -1,5 +1,9 @@
 # Tiled YOLO Dataset Report
 
+## Unsafe Baseline Notice
+
+This dataset is retained for audit only and must not be used as the formal baseline dataset. The tiling quality audit found partial-object bbox risk: 3197 / 7465 bboxes (42.83%) are border-truncated and 1956 / 7465 bboxes (26.20%) have visibility < 0.7. Use `outputs/datasets/tiled/tiled_1024_ov20_full_safe/` for subsequent formal baseline work.
+
 - Source dataset: E:\TJGY\DataSet2_fixed
 - Output dataset: E:\TJGY\MinPaper\MyAutoAugument\outputs\datasets\tiled\tiled_1024_ov20_full
 - Data YAML: E:\TJGY\MinPaper\MyAutoAugument\outputs\datasets\tiled\tiled_1024_ov20_full\data.yaml

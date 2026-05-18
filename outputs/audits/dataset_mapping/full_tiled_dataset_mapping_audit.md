@@ -1,14 +1,18 @@
 # Full Tiled Dataset Mapping Audit
 
-- Generated: 2026-05-18T09:35:45
+- Generated: 2026-05-18T11:41:20
 - Original data.yaml: `E:\TJGY\DataSet2_fixed\data.yaml`
 - Full tiled data.yaml: `E:\TJGY\MinPaper\MyAutoAugument\outputs\datasets\tiled\tiled_1024_ov20_full\data.yaml`
 - Tiled dataset report JSON: `E:\TJGY\MinPaper\MyAutoAugument\outputs\datasets\tiled\tiled_1024_ov20_full\tiled_dataset_report.json`
+- Tiling quality audit JSON: `E:\TJGY\MinPaper\MyAutoAugument\outputs\audits\tiling_quality\tiling_quality_audit.json`
 
 ## Executive Findings
 
 - Full tiled dataset: `True`
-- Can be formal baseline dataset: `True`
+- Can be formal baseline dataset: `False`
+- Tiling quality unsafe: `True`
+- Border-truncated bbox ratio: `0.4283`
+- Severe truncated visibility < 0.7 ratio: `0.2620`
 - Tiled names match original: `True`
 - Class id out of range found: `False`
 - Chinese class names damaged: `False`
@@ -32,6 +36,7 @@
 - empty tiles retained: `478`
 - dropped bboxes: `22202`
 - dropped bbox reasons: `{'below_min_visibility': 6212, 'outside_tile': 15990}`
+- unsafe reason: `Partial-object bbox risk was found by outputs/audits/tiling_quality/tiling_quality_audit.json; use outputs/datasets/tiled/tiled_1024_ov20_full_safe/ for formal baseline.`
 
 ## Names
 
@@ -79,4 +84,5 @@
 - Tiled `data.yaml` inherits original names: `True`.
 - No class id >= nc or negative class id found: `True`.
 - Chinese class names are intact: `True`.
-- Formal baseline dataset readiness: `True`.
+- Formal baseline dataset readiness: `False`.
+- The old full tiled dataset is superseded by `outputs/datasets/tiled/tiled_1024_ov20_full_safe/` for formal baseline work.

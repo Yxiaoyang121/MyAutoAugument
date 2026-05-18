@@ -46,6 +46,11 @@ The project is a diagnosis-driven augmentation pipeline for industrial defect de
 - Safe full tiled dataset report: `outputs/datasets/tiled/tiled_1024_ov20_full_safe/tiled_dataset_report.md`
 - Safe full tiled dataset summary: `outputs/datasets/tiled/tiled_1024_ov20_full_safe/dataset_summary.md`
 - Safe full tiled debug visualizations: `outputs/datasets/tiled/tiled_1024_ov20_full_safe/debug_tiling/`
+- Filtered dataset without `OK` and `定位`: `outputs/datasets/tiled/tiled_1024_ov20_full_safe_no_ok_position/`
+- Filtered data YAML: `outputs/datasets/tiled/tiled_1024_ov20_full_safe_no_ok_position/data.yaml`
+- Filtered class filter report: `outputs/datasets/tiled/tiled_1024_ov20_full_safe_no_ok_position/class_filter_report.md`
+- Filtered dataset summary: `outputs/datasets/tiled/tiled_1024_ov20_full_safe_no_ok_position/dataset_summary.md`
+- Filtered debug samples: `outputs/datasets/tiled/tiled_1024_ov20_full_safe_no_ok_position/debug_samples/`
 - Current tiled baseline run: `outputs/experiments/20260517_tiled_baseline_20epoch/`
 - Tiled baseline summary: `outputs/experiments/20260517_tiled_baseline_20epoch/reports/summary.md`
 - Tiled baseline report: `outputs/experiments/20260517_tiled_baseline_20epoch/reports/baseline_20epoch_report.md`
@@ -61,6 +66,7 @@ The project is a diagnosis-driven augmentation pipeline for industrial defect de
 - `scripts/build_yolo_tiled_dataset.py` writes tiled `data.yaml` via `yaml.safe_dump(..., allow_unicode=True)` and must preserve original `names`.
 - `scripts/build_yolo_tiled_dataset.py` now defaults to safe bbox filtering: `min_visibility=0.7`, `large_object_min_visibility=0.9`, `drop_border_truncated=True`, `border_margin=2`, and `require_box_center_inside=True`.
 - `scripts/audit_tiling_quality.py` audits retained tiled bbox visibility and tile-boundary truncation for `tiled_1024_ov20_full`.
+- `scripts/filter_tiled_dataset.py` removes only `OK` and `定位`, keeps `OK2` and `OK3`, remaps ids to `0..12`, and writes the filtered baseline dataset.
 - `scripts/audit_dataset_mapping.py` audits original versus the full tiled dataset class names, label class ids, bbox distribution, full-source coverage, and formal baseline readiness.
 - `scripts/audit_artifacts.py` scans `outputs/` and `runs/` and writes inventory reports under `outputs/audits/artifact_inventory/`.
 - `scripts/run_gpu_preflight.py` writes GPU preflight reports under `outputs/audits/gpu_preflight/`.
@@ -133,6 +139,20 @@ No training was run after building or auditing these datasets.
   - Debug tile bbox visualizations: 100
   - Class ids remain in range and Chinese names remain intact.
   - Caveat: class `定位` has 0 retained bboxes under the strict large-structure rule.
+- Filtered baseline dataset: `outputs/datasets/tiled/tiled_1024_ov20_full_safe_no_ok_position/`
+  - Deletes only `OK` and `定位`.
+  - Keeps `OK2` and `OK3`.
+  - Remaps ids to `0..12`.
+  - Source train/val images: 2452 / 677.
+  - Filtered train/val images: 2301 / 677.
+  - Source bbox count: 4269.
+  - Filtered bbox count: 4087.
+  - Train empty tiles retained: 210.
+  - Val empty tiles retained: 83.
+  - Debug samples: 50.
+  - Class id out of range: false.
+  - Chinese class names damaged: false.
+  - This is the dataset to use for formal baseline training.
 
 ## Verification Commands
 
@@ -142,6 +162,6 @@ No training was run after building or auditing these datasets.
 
 ## Next Steps
 
-- Run the formal baseline experiment against `outputs/datasets/tiled/tiled_1024_ov20_full_safe/data.yaml`.
+- Run the formal baseline experiment against `outputs/datasets/tiled/tiled_1024_ov20_full_safe_no_ok_position/data.yaml`.
 - Use explicit `--run-id` and `project=outputs/experiments/<run_id>` for every formal experiment.
 - Keep Windows YOLO commands at `workers=0`.

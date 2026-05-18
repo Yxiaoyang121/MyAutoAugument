@@ -8,6 +8,16 @@ The repository is centered on diagnosis-driven augmentation for industrial defec
 
 ## Implemented In This Update
 
+- Added `scripts/filter_tiled_dataset.py` and built the filtered dataset at `outputs/datasets/tiled/tiled_1024_ov20_full_safe_no_ok_position/`.
+- The filtered dataset removes only `OK` and `定位`, keeps `OK2` and `OK3`, and remaps class ids to `0..12` with Chinese names preserved.
+- The filtered dataset reports:
+  - source train/val images: 2452 / 677
+  - filtered train/val images: 2301 / 677
+  - source bbox count: 4269
+  - filtered bbox count: 4087
+  - class id out of range: false
+  - Chinese class names damaged: false
+  - formal baseline ready: true
 - Added `scripts/audit_tiling_quality.py` and audited `outputs/datasets/tiled/tiled_1024_ov20_full/` for tile-boundary truncation risk.
 - Marked `outputs/datasets/tiled/tiled_1024_ov20_full/` as unsafe for formal baseline use because it retains partial-object bboxes.
 - Hardened `scripts/build_yolo_tiled_dataset.py` with safe tiling controls:
@@ -53,6 +63,23 @@ The repository is centered on diagnosis-driven augmentation for industrial defec
 ## Verified Locally
 
 - No YOLO training or validation was run in this update.
+- Filtered no-OK/no-position dataset build completed with no training:
+  - Output dataset: `outputs/datasets/tiled/tiled_1024_ov20_full_safe_no_ok_position/`
+  - Deleted classes: `OK`, `定位`
+  - Kept classes: `OK2`, `OK3`, `加强筋打伤`, `开裂`, `油污`, `浅划伤`, `漏背锡`, `碰伤`, `脏污`, `轮廓划伤`, `锡丝残留`, `锡尖`, `锡膏`
+  - New class id mapping: `0..12` in the order above
+  - Source train/val images: 2452 / 677
+  - Filtered train/val images: 2301 / 677
+  - Source bbox count: 4269
+  - Filtered bbox count: 4087
+  - Train bbox count before/after: 3337 / 3182
+  - Val bbox count before/after: 932 / 905
+  - Train empty tiles retained: 210
+  - Val empty tiles retained: 83
+  - Debug samples: 50
+  - Class id out of range: false
+  - Chinese class names damaged: false
+  - Formal baseline readiness: true
 - Tiling quality audit for the old full tiled dataset:
   - Report: `outputs/audits/tiling_quality/tiling_quality_audit.md`
   - JSON: `outputs/audits/tiling_quality/tiling_quality_audit.json`
@@ -175,7 +202,8 @@ The repository is centered on diagnosis-driven augmentation for industrial defec
 - Formal runs must use explicit `--run-id` and `project=outputs/experiments/<run_id>`; do not rely on `runs/detect`.
 - Unsafe full tiled dataset path: `outputs/datasets/tiled/tiled_1024_ov20_full/`; do not use it for formal baseline because partial-object bboxes were retained.
 - Active safe full tiled dataset path: `outputs/datasets/tiled/tiled_1024_ov20_full_safe/`.
-- Formal baseline training must target `outputs/datasets/tiled/tiled_1024_ov20_full_safe/data.yaml`; no full-dataset training has been run in this update.
+- Active filtered formal baseline dataset path: `outputs/datasets/tiled/tiled_1024_ov20_full_safe_no_ok_position/`.
+- Formal baseline training must target `outputs/datasets/tiled/tiled_1024_ov20_full_safe_no_ok_position/data.yaml`; no full-dataset training has been run in this update.
 - CPU is allowed only for smoke/debug runs and must not be treated as formal experiment output.
 - Do not use the base conda environment for formal training; it previously resolved to CPU-only PyTorch.
 - Windows YOLO commands should keep `workers=0`.

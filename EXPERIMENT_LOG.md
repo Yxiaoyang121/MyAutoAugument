@@ -2,6 +2,47 @@
 
 ## 2026-05-18
 
+### Filtered Baseline Dataset Without OK And 定位
+
+No training was run. Built a filtered dataset from `outputs/datasets/tiled/tiled_1024_ov20_full_safe/` that removes only `OK` and `定位`, keeps `OK2` and `OK3`, and remaps class ids to `0..12`.
+
+Build command:
+
+```powershell
+python scripts\filter_tiled_dataset.py --source-root outputs\datasets\tiled\tiled_1024_ov20_full_safe --output-root outputs\datasets\tiled\tiled_1024_ov20_full_safe_no_ok_position --debug-limit 50 --overwrite
+```
+
+Outputs:
+
+- Dataset: `outputs/datasets/tiled/tiled_1024_ov20_full_safe_no_ok_position/`
+- Data YAML: `outputs/datasets/tiled/tiled_1024_ov20_full_safe_no_ok_position/data.yaml`
+- Class filter report: `outputs/datasets/tiled/tiled_1024_ov20_full_safe_no_ok_position/class_filter_report.md`
+- Class filter report JSON: `outputs/datasets/tiled/tiled_1024_ov20_full_safe_no_ok_position/class_filter_report.json`
+- Dataset summary: `outputs/datasets/tiled/tiled_1024_ov20_full_safe_no_ok_position/dataset_summary.md`
+- Debug samples: `outputs/datasets/tiled/tiled_1024_ov20_full_safe_no_ok_position/debug_samples/` (50 images)
+
+Filter result:
+
+- Deleted classes: `OK`, `定位`
+- Kept classes: `OK2`, `OK3`, `加强筋打伤`, `开裂`, `油污`, `浅划伤`, `漏背锡`, `碰伤`, `脏污`, `轮廓划伤`, `锡丝残留`, `锡尖`, `锡膏`
+- New class ids: `0..12`
+- Source train/val images: 2452 / 677
+- Filtered train/val images: 2301 / 677
+- Source bbox count: 4269
+- Filtered bbox count: 4087
+- Train bbox count before/after: 3337 / 3182
+- Val bbox count before/after: 932 / 905
+- Train empty tiles retained: 210
+- Val empty tiles retained: 83
+- Class id out of range: false
+- Chinese class names damaged: false
+- Formal baseline ready: true
+
+Verification:
+
+- Syntax check passed for `scripts/filter_tiled_dataset.py`.
+- `pytest -q tests\test_filter_tiled_dataset.py` passed: 1 test.
+
 ### Tiling Quality Audit And Safe Full Dataset
 
 No training or YOLO validation was run. Audited the previously built `tiled_1024_ov20_full` dataset for partial-object bbox risk, then rebuilt a stricter safe tiled dataset.

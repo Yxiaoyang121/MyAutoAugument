@@ -61,6 +61,7 @@ outputs/audits/tiling_quality/debug_truncated_bboxes/**
 outputs/datasets/**/images/**
 outputs/datasets/**/labels/**
 outputs/datasets/**/debug_tiling/**
+outputs/datasets/**/debug_samples/**
 outputs/experiments/**/weights/**
 outputs/experiments/**/artifacts/**
 outputs/experiments/**/train/weights/**

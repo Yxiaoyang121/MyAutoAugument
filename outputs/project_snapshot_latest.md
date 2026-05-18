@@ -1,8 +1,8 @@
 # Project Snapshot
 
-- Generated: 2026-05-18T11:42:26
+- Generated: 2026-05-18T12:50:56
 - Branch: codex/sync-latest
-- Commit: 95ebfa9338dc4e5e5f9c1a769ef7a9c478d6102b
+- Commit: a5653348877094f114f20b3c7b284c0c0dc14211
 - Remote: https://github.com/Yxiaoyang121/MyAutoAugument.git
 
 ## Working Tree
@@ -12,18 +12,12 @@
  M CODEX_HANDOFF.md
  M EXPERIMENT_LOG.md
  M PROJECT_STATE.md
- M outputs/audits/dataset_mapping/full_tiled_dataset_mapping_audit.json
- M outputs/audits/dataset_mapping/full_tiled_dataset_mapping_audit.md
- M outputs/datasets/tiled/tiled_1024_ov20_full/dataset_summary.md
- M outputs/datasets/tiled/tiled_1024_ov20_full/tiled_dataset_report.md
  M outputs/project_snapshot_latest.md
  M outputs/snapshots/project_snapshot_latest.md
- M scripts/audit_dataset_mapping.py
- M scripts/build_yolo_tiled_dataset.py
  M scripts/export_project_snapshot.py
-?? outputs/audits/tiling_quality/
-?? outputs/datasets/tiled/tiled_1024_ov20_full_safe/
-?? scripts/audit_tiling_quality.py
+?? outputs/datasets/tiled/tiled_1024_ov20_full_safe_no_ok_position/
+?? scripts/filter_tiled_dataset.py
+?? tests/test_filter_tiled_dataset.py
 ```
 
 ## Key Files
@@ -39,6 +33,7 @@
 - docs/output_convention.md
 - scripts/audit_dataset_mapping.py
 - scripts/audit_tiling_quality.py
+- scripts/filter_tiled_dataset.py
 - scripts/audit_artifacts.py
 - scripts/build_yolo_tiled_dataset.py
 - scripts/run_gpu_preflight.py
@@ -64,6 +59,10 @@
 - outputs/datasets/tiled/tiled_1024_ov20_full_safe/dataset_summary.md
 - outputs/datasets/tiled/tiled_1024_ov20_full_safe/tiled_dataset_report.md
 - outputs/datasets/tiled/tiled_1024_ov20_full_safe/tiled_dataset_report.json
+- outputs/datasets/tiled/tiled_1024_ov20_full_safe_no_ok_position/data.yaml
+- outputs/datasets/tiled/tiled_1024_ov20_full_safe_no_ok_position/class_filter_report.md
+- outputs/datasets/tiled/tiled_1024_ov20_full_safe_no_ok_position/class_filter_report.json
+- outputs/datasets/tiled/tiled_1024_ov20_full_safe_no_ok_position/dataset_summary.md
 - outputs/snapshots/project_snapshot_latest.md
 - outputs/project_snapshot_latest.md
 - AutoAugment/diagnostic_pipeline/__init__.py
@@ -74,7 +73,7 @@
 
 ## Tracked File Count
 
-- 146 tracked files
+- 153 tracked files
 
 ## Notes
 

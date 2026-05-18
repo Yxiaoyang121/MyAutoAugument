@@ -1,23 +1,18 @@
 # Project Snapshot
 
-- Generated: 2026-05-18T12:50:56
+- Generated: 2026-05-18T23:13:14
 - Branch: codex/sync-latest
-- Commit: a5653348877094f114f20b3c7b284c0c0dc14211
+- Commit: 3a85eaddde5398663c0f0c4c37829c7a239e0424
 - Remote: https://github.com/Yxiaoyang121/MyAutoAugument.git
 
 ## Working Tree
 
 ```text
- M .gitignore
  M CODEX_HANDOFF.md
  M EXPERIMENT_LOG.md
  M PROJECT_STATE.md
- M outputs/project_snapshot_latest.md
- M outputs/snapshots/project_snapshot_latest.md
  M scripts/export_project_snapshot.py
-?? outputs/datasets/tiled/tiled_1024_ov20_full_safe_no_ok_position/
-?? scripts/filter_tiled_dataset.py
-?? tests/test_filter_tiled_dataset.py
+?? outputs/experiments/20260518_tiled1024_safe_no_ok_position_baseline_yolo11n_50ep/
 ```
 
 ## Key Files
@@ -50,6 +45,8 @@
 - outputs/experiments/20260517_tiled_baseline_20epoch/reports/summary.md
 - outputs/experiments/20260517_tiled_baseline_20epoch/reports/baseline_20epoch_report.md
 - outputs/experiments/20260517_tiled_baseline_20epoch/reports/baseline_20epoch_metrics.json
+- outputs/experiments/20260518_tiled1024_safe_no_ok_position_baseline_yolo11n_50ep/reports/baseline_50ep_report.md
+- outputs/experiments/20260518_tiled1024_safe_no_ok_position_baseline_yolo11n_50ep/reports/baseline_50ep_metrics.json
 - outputs/datasets/tiled/tiled_1024_ov20_smoke/dataset_summary.md
 - outputs/datasets/tiled/tiled_1024_ov20_full/data.yaml
 - outputs/datasets/tiled/tiled_1024_ov20_full/dataset_summary.md
@@ -73,7 +70,7 @@
 
 ## Tracked File Count
 
-- 153 tracked files
+- 159 tracked files
 
 ## Notes
 

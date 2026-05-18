@@ -6,6 +6,23 @@ Last updated: 2026-05-18
 
 The repository is centered on diagnosis-driven augmentation for industrial defect detection. The active path still keeps YOLO network architecture unchanged and focuses on dataset construction, validation-error diagnosis, policy generation, proxy safety, short training, and auditable reporting.
 
+## Formal Safe Tiled Baseline Result (2026-05-18)
+
+- Run ID: `20260518_tiled1024_safe_no_ok_position_baseline_yolo11n_50ep`
+- Dataset: `outputs/datasets/tiled/tiled_1024_ov20_full_safe_no_ok_position/data.yaml`
+- Safe tiled dataset: true; safe source config used `tile_size=1024`, `overlap=0.2`, `min_visibility=0.7`, `large_object_min_visibility=0.9`, `drop_border_truncated=True`, `border_margin=2.0`, `require_box_center_inside=True`, `keep_empty_ratio=0.1`.
+- Removed classes: `OK`, `定位`; retained classes: `OK2`, `OK3`, `加强筋打伤`, `开裂`, `油污`, `浅划伤`, `漏背锡`, `碰伤`, `脏污`, `轮廓划伤`, `锡丝残留`, `锡尖`, `锡膏`.
+- Train/val tiles: 2301 / 677; bboxes: 4087.
+- Model: `yolo11n.pt`; epochs: 50; imgsz: 1024; batch: 2; device: 0; workers: 0.
+- YOLO augmentation switches requested for shutdown were all set to `0`: `mosaic=0 mixup=0 copy_paste=0 hsv_h=0 hsv_s=0 hsv_v=0 degrees=0 translate=0 scale=0 shear=0 perspective=0 fliplr=0 flipud=0`.
+- Completed 50 epochs: true; OOM: false; training time: 2.826 hours.
+- Validation metrics from `best.pt`: Precision=0.690, Recall=0.615, mAP50=0.669, mAP50-95=0.434.
+- Lowest per-class Recall: `开裂` (0.000).
+- Report: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_baseline_yolo11n_50ep/reports/baseline_50ep_report.md`.
+- Metrics JSON: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_baseline_yolo11n_50ep/reports/baseline_50ep_metrics.json`.
+- best.pt: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_baseline_yolo11n_50ep/train/weights/best.pt`.
+- last.pt: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_baseline_yolo11n_50ep/train/weights/last.pt`.
+
 ## Implemented In This Update
 
 - Added `scripts/filter_tiled_dataset.py` and built the filtered dataset at `outputs/datasets/tiled/tiled_1024_ov20_full_safe_no_ok_position/`.
@@ -62,7 +79,7 @@ The repository is centered on diagnosis-driven augmentation for industrial defec
 
 ## Verified Locally
 
-- No YOLO training or validation was run in this update.
+- Formal safe tiled YOLO11n baseline training and validation completed for `20260518_tiled1024_safe_no_ok_position_baseline_yolo11n_50ep`.
 - Filtered no-OK/no-position dataset build completed with no training:
   - Output dataset: `outputs/datasets/tiled/tiled_1024_ov20_full_safe_no_ok_position/`
   - Deleted classes: `OK`, `定位`
@@ -203,7 +220,7 @@ The repository is centered on diagnosis-driven augmentation for industrial defec
 - Unsafe full tiled dataset path: `outputs/datasets/tiled/tiled_1024_ov20_full/`; do not use it for formal baseline because partial-object bboxes were retained.
 - Active safe full tiled dataset path: `outputs/datasets/tiled/tiled_1024_ov20_full_safe/`.
 - Active filtered formal baseline dataset path: `outputs/datasets/tiled/tiled_1024_ov20_full_safe_no_ok_position/`.
-- Formal baseline training must target `outputs/datasets/tiled/tiled_1024_ov20_full_safe_no_ok_position/data.yaml`; no full-dataset training has been run in this update.
+- Formal baseline training has completed on `outputs/datasets/tiled/tiled_1024_ov20_full_safe_no_ok_position/data.yaml`; primary result is `outputs/experiments/20260518_tiled1024_safe_no_ok_position_baseline_yolo11n_50ep/reports/baseline_50ep_report.md`.
 - CPU is allowed only for smoke/debug runs and must not be treated as formal experiment output.
 - Do not use the base conda environment for formal training; it previously resolved to CPU-only PyTorch.
 - Windows YOLO commands should keep `workers=0`.

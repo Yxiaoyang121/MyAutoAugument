@@ -97,25 +97,35 @@ The earlier base-env preflight resolved to CPU-only PyTorch. CPU is only for smo
 
 ## Current Baseline Result
 
-The 20 epoch tiled baseline completed on GPU, but it is not a formal final result because it used the smoke tiled dataset.
+The formal safe tiled 50 epoch baseline has completed on GPU.
 
-- Run ID: `20260517_tiled_baseline_20epoch`
-- Result path: `outputs/experiments/20260517_tiled_baseline_20epoch/`
-- Dataset: `outputs/datasets/tiled/tiled_1024_ov20_smoke/data.yaml`
-- Epochs: 20
+- Run ID: `20260518_tiled1024_safe_no_ok_position_baseline_yolo11n_50ep`
+- Result path: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_baseline_yolo11n_50ep/`
+- Dataset: `outputs/datasets/tiled/tiled_1024_ov20_full_safe_no_ok_position/data.yaml`
+- Safe tiled dataset: true
+- Removed classes: `OK`, `定位`
+- Retained classes: `OK2`, `OK3`, `加强筋打伤`, `开裂`, `油污`, `浅划伤`, `漏背锡`, `碰伤`, `脏污`, `轮廓划伤`, `锡丝残留`, `锡尖`, `锡膏`
+- Train/val tiles: 2301 / 677
+- BBoxes: 4087
+- Model: `yolo11n.pt`
+- Epochs: 50
 - imgsz: 1024
 - batch: 2
 - workers: 0
 - device: 0
 - OOM: false
-- Precision: 0.828
-- Recall: 0.213
-- mAP50: 0.247
-- mAP50-95: 0.181
-- YOLO built-in augmentations disabled: `mosaic=0 mixup=0 copy_paste=0 hsv_h=0 hsv_s=0 hsv_v=0 degrees=0 translate=0 scale=0 shear=0 perspective=0 fliplr=0 flipud=0`
-- Existing `blank-or-unrendered` class rows in the saved val report are a class-name rendering/parsing artifact from the earlier corrupted tiled `data.yaml`; current tiled class names match the original data.yaml.
-- No class id >= nc was found in the original or tiled smoke labels.
-- Main low-mAP drag in the smoke run: 开裂, 漏背锡, 碰伤, 轮廓划伤, 锡丝残留, and 锡膏 have recall 0; several of these have very few train/val samples or no train samples in the smoke subset.
+- Precision: 0.690
+- Recall: 0.615
+- mAP50: 0.669
+- mAP50-95: 0.434
+- Lowest per-class Recall: `开裂` (0.000)
+- YOLO built-in augmentation switches disabled: `mosaic=0 mixup=0 copy_paste=0 hsv_h=0 hsv_s=0 hsv_v=0 degrees=0 translate=0 scale=0 shear=0 perspective=0 fliplr=0 flipud=0`
+- best.pt: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_baseline_yolo11n_50ep/train/weights/best.pt`
+- last.pt: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_baseline_yolo11n_50ep/train/weights/last.pt`
+- Report: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_baseline_yolo11n_50ep/reports/baseline_50ep_report.md`
+- Metrics JSON: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_baseline_yolo11n_50ep/reports/baseline_50ep_metrics.json`
+
+The earlier `20260517_tiled_baseline_20epoch` run used the smoke tiled dataset and should remain a smoke reference, not the formal baseline.
 
 ## Tiled Dataset Status
 
@@ -162,6 +172,6 @@ No training was run after building or auditing these datasets.
 
 ## Next Steps
 
-- Run the formal baseline experiment against `outputs/datasets/tiled/tiled_1024_ov20_full_safe_no_ok_position/data.yaml`.
+- Use the completed formal baseline report at `outputs/experiments/20260518_tiled1024_safe_no_ok_position_baseline_yolo11n_50ep/reports/baseline_50ep_report.md` as the reference for the next diagnostic augmentation experiment.
 - Use explicit `--run-id` and `project=outputs/experiments/<run_id>` for every formal experiment.
 - Keep Windows YOLO commands at `workers=0`.

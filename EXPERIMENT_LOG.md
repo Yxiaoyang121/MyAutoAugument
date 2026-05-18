@@ -2,6 +2,49 @@
 
 ## 2026-05-18
 
+### Safe Tiled No OK/Position Baseline YOLO11n 50 Epoch
+
+Ran the formal baseline on the audited safe tiled dataset with `OK` and `定位` removed. The first sandboxed launch failed during Ultralytics label-cache multiprocessing pipe creation with Windows permission error; the same train command was rerun outside the sandbox and completed. This was not CUDA OOM.
+
+Dataset audit:
+
+- Dataset: `outputs/datasets/tiled/tiled_1024_ov20_full_safe_no_ok_position/data.yaml`
+- Safe tiled dataset: true
+- Removed classes: `OK`, `定位`
+- Retained classes: `OK2`, `OK3`, `加强筋打伤`, `开裂`, `油污`, `浅划伤`, `漏背锡`, `碰伤`, `脏污`, `轮廓划伤`, `锡丝残留`, `锡尖`, `锡膏`
+- Train/val tiles: 2301 / 677
+- Train/val bboxes: 3182 / 905
+- Total bboxes: 4087
+- Class ids out of range: false
+
+Training command:
+
+```powershell
+yolo detect train model=yolo11n.pt data=outputs/datasets/tiled/tiled_1024_ov20_full_safe_no_ok_position/data.yaml epochs=50 imgsz=1024 batch=2 workers=0 device=0 project=outputs/experiments/20260518_tiled1024_safe_no_ok_position_baseline_yolo11n_50ep name=train exist_ok=True mosaic=0 mixup=0 copy_paste=0 hsv_h=0 hsv_s=0 hsv_v=0 degrees=0 translate=0 scale=0 shear=0 perspective=0 fliplr=0 flipud=0
+```
+
+Validation command:
+
+```powershell
+yolo detect val model=outputs/experiments/20260518_tiled1024_safe_no_ok_position_baseline_yolo11n_50ep/train/weights/best.pt data=outputs/datasets/tiled/tiled_1024_ov20_full_safe_no_ok_position/data.yaml imgsz=1024 batch=2 workers=0 device=0 project=outputs/experiments/20260518_tiled1024_safe_no_ok_position_baseline_yolo11n_50ep name=val exist_ok=True
+```
+
+Result:
+
+- Completed 50 epochs: true
+- Final batch: 2
+- OOM: false
+- Training time: 2.826 hours
+- Precision: 0.690
+- Recall: 0.615
+- mAP50: 0.669
+- mAP50-95: 0.434
+- Lowest Recall class: `开裂` (0.000)
+- best.pt: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_baseline_yolo11n_50ep/train/weights/best.pt`
+- last.pt: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_baseline_yolo11n_50ep/train/weights/last.pt`
+- Report: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_baseline_yolo11n_50ep/reports/baseline_50ep_report.md`
+- Metrics JSON: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_baseline_yolo11n_50ep/reports/baseline_50ep_metrics.json`
+
 ### Filtered Baseline Dataset Without OK And 定位
 
 No training was run. Built a filtered dataset from `outputs/datasets/tiled/tiled_1024_ov20_full_safe/` that removes only `OK` and `定位`, keeps `OK2` and `OK3`, and remaps class ids to `0..12`.

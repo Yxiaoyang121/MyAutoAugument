@@ -55,6 +55,8 @@ def build_snapshot() -> str:
         "outputs/experiments/20260517_tiled_baseline_20epoch/reports/summary.md",
         "outputs/experiments/20260517_tiled_baseline_20epoch/reports/baseline_20epoch_report.md",
         "outputs/experiments/20260517_tiled_baseline_20epoch/reports/baseline_20epoch_metrics.json",
+        "outputs/experiments/20260518_tiled1024_safe_no_ok_position_baseline_yolo11n_50ep/reports/baseline_50ep_report.md",
+        "outputs/experiments/20260518_tiled1024_safe_no_ok_position_baseline_yolo11n_50ep/reports/baseline_50ep_metrics.json",
         "outputs/datasets/tiled/tiled_1024_ov20_smoke/dataset_summary.md",
         "outputs/datasets/tiled/tiled_1024_ov20_full/data.yaml",
         "outputs/datasets/tiled/tiled_1024_ov20_full/dataset_summary.md",

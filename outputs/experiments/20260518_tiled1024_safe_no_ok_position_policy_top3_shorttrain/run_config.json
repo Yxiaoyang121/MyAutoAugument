@@ -1,0 +1,34 @@
+{
+  "run_id": "20260518_tiled1024_safe_no_ok_position_policy_top3_shorttrain",
+  "generated_at": "2026-05-20T21:51:54",
+  "top3_source_run": "20260518_tiled1024_safe_no_ok_position_policy_top3_from_baseline",
+  "source_contract": "single baseline diagnosis -> proxy/safety top3; not multi-round closed-loop search",
+  "purpose": "5 epoch short-training validation only; not a final model result",
+  "data_yaml": "outputs/datasets/tiled/tiled_1024_ov20_full_safe_no_ok_position/data.yaml",
+  "model": "yolo11n.pt",
+  "train_settings": {
+    "epochs": 5,
+    "imgsz": 1024,
+    "batch": 2,
+    "workers": 0,
+    "device": "0",
+    "seed": 42,
+    "disabled_yolo_augmentations": {
+      "mosaic": 0,
+      "mixup": 0,
+      "copy_paste": 0,
+      "hsv_h": 0,
+      "hsv_s": 0,
+      "hsv_v": 0,
+      "degrees": 0,
+      "translate": 0,
+      "scale": 0,
+      "shear": 0,
+      "perspective": 0,
+      "fliplr": 0,
+      "flipud": 0
+    }
+  },
+  "score_formula_preferred": "0.30*mAP50 + 0.35*mAP50-95 + 0.20*Recall + 0.15*small_object_recall",
+  "score_formula_fallback": "0.35*mAP50 + 0.40*mAP50-95 + 0.25*Recall"
+}

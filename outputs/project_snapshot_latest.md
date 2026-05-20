@@ -1,28 +1,20 @@
 # Project Snapshot
 
-- Generated: 2026-05-20T21:24:48
+- Generated: 2026-05-20T23:58:17
 - Branch: codex/sync-latest
-- Commit: 2b7edc2b6bfcd5715e55f59fce1a91194db146ba
+- Commit: a9b5dd5d5dbe329a34fb8e0a9058a0b3de56cacf
 - Remote: https://github.com/Yxiaoyang121/MyAutoAugument.git
 
 ## Working Tree
 
 ```text
+ M .gitignore
  M CODEX_HANDOFF.md
  M EXPERIMENT_LOG.md
  M PROJECT_STATE.md
- M outputs/project_snapshot_latest.md
- M outputs/snapshots/project_snapshot_latest.md
  M scripts/export_project_snapshot.py
-?? outputs/experiments/20260518_tiled1024_safe_no_ok_position_diagaug_yolo11n_50ep/reports/diagaug_baseline_overview.png
-?? outputs/experiments/20260518_tiled1024_safe_no_ok_position_diagaug_yolo11n_50ep/reports/diagaug_baseline_overview_standard.png
-?? outputs/experiments/20260518_tiled1024_safe_no_ok_position_diagaug_yolo11n_50ep/reports/diagaug_baseline_per_class.png
-?? outputs/experiments/20260518_tiled1024_safe_no_ok_position_diagaug_yolo11n_50ep/reports/diagaug_baseline_per_class_standard.png
-?? outputs/experiments/20260518_tiled1024_safe_no_ok_position_diagaug_yolo11n_50ep/reports/diagaug_baseline_per_class_table.png
-?? outputs/experiments/20260518_tiled1024_safe_no_ok_position_diagaug_yolo11n_50ep/reports/diagaug_baseline_per_class_table_standard.png
-?? outputs/experiments/20260518_tiled1024_safe_no_ok_position_diagaug_yolo11n_50ep/reports/font_test_cn.png
-?? outputs/experiments/20260518_tiled1024_safe_no_ok_position_policy_top3_from_baseline/
-?? scripts/generate_top3_policies_from_baseline.py
+?? outputs/experiments/20260518_tiled1024_safe_no_ok_position_policy_top3_shorttrain/
+?? scripts/run_top3_policy_short_training.py
 ```
 
 ## Key Files
@@ -44,6 +36,7 @@
 - scripts/run_gpu_preflight.py
 - scripts/run_diagnostic_augmentation_pipeline.py
 - scripts/generate_top3_policies_from_baseline.py
+- scripts/run_top3_policy_short_training.py
 - scripts/write_yolo_default_aug_50ep_reports.py
 - outputs/audits/dataset_mapping/full_tiled_dataset_mapping_audit.md
 - outputs/audits/dataset_mapping/full_tiled_dataset_mapping_audit.json
@@ -76,6 +69,8 @@
 - outputs/experiments/20260518_tiled1024_safe_no_ok_position_policy_top3_from_baseline/top3_policies/top3_policies.md
 - outputs/experiments/20260518_tiled1024_safe_no_ok_position_policy_top3_from_baseline/reports/policy_selection_trace.json
 - outputs/experiments/20260518_tiled1024_safe_no_ok_position_policy_top3_from_baseline/reports/policy_selection_trace.md
+- outputs/experiments/20260518_tiled1024_safe_no_ok_position_policy_top3_shorttrain/reports/top3_policy_shorttrain_report.md
+- outputs/experiments/20260518_tiled1024_safe_no_ok_position_policy_top3_shorttrain/reports/top3_policy_shorttrain_results.json
 - outputs/datasets/tiled/tiled_1024_ov20_smoke/dataset_summary.md
 - outputs/datasets/tiled/tiled_1024_ov20_full/data.yaml
 - outputs/datasets/tiled/tiled_1024_ov20_full/dataset_summary.md
@@ -99,7 +94,7 @@
 
 ## Tracked File Count
 
-- 244 tracked files
+- 272 tracked files
 
 ## Notes
 

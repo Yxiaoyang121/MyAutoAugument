@@ -285,3 +285,19 @@ The repository is centered on diagnosis-driven augmentation for industrial defec
 - Top3 report: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_policy_top3_from_baseline/top3_policies/top3_policies.md`
 - Proxy ranking: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_policy_top3_from_baseline/proxy/proxy_ranking.json`
 <!-- BASELINE_POLICY_TOP3_END -->
+
+<!-- TOP3_POLICY_SHORTTRAIN_START -->
+## Top3 Policy Short-Training Validation
+
+- Run ID: `20260518_tiled1024_safe_no_ok_position_policy_top3_shorttrain`
+- Source top3 run: `20260518_tiled1024_safe_no_ok_position_policy_top3_from_baseline`
+- Scope: top3 short-training strategy validation only; not a final model result.
+- Each policy trained for `5` epochs with YOLO built-in augmentations disabled.
+- Top3 came from one baseline diagnosis and proxy/safety ranking, not multi-round closed-loop search.
+- Short-training scores: `diag_policy_001=0.609204, diag_policy_005=0.578862, diag_policy_002=0.595412`
+- Best short-training policy: `diag_policy_001`
+- Matches current formal DiagAug policy: `true`
+- Result should decide whether a formal DiagAug 50 epoch rerun is needed.
+- Report: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_policy_top3_shorttrain/reports/top3_policy_shorttrain_report.md`
+- Results JSON: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_policy_top3_shorttrain/reports/top3_policy_shorttrain_results.json`
+<!-- TOP3_POLICY_SHORTTRAIN_END -->

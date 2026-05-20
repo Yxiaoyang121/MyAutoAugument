@@ -1,0 +1,84 @@
+{
+  "stage": "final_augmented_dataset_builder",
+  "status": "completed",
+  "dry_run": false,
+  "dataset_dir": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_policy_top3_shorttrain\\policies\\diag_policy_001\\dataset_builder\\final_dataset",
+  "data_yaml": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_policy_top3_shorttrain\\policies\\diag_policy_001\\dataset_builder\\final_dataset\\data.yaml",
+  "selected_policy_id": "diag_policy_001",
+  "selected_policy": {
+    "policy_id": "diag_policy_001",
+    "name": "diag_policy_001",
+    "source_issue": "low_contrast_missed_defect",
+    "source_issues": [
+      "low_contrast_missed_defect"
+    ],
+    "severity_score": 0.5065116279069767,
+    "prob_formula": "prob=clip(base_prob + op_weight * severity_score * 0.55 + jitter, 0, 1)",
+    "strength_formula": "strength=clip(base_strength + op_weight * severity_score * 0.40, 0, 1)",
+    "expected_effect": "Improve low-contrast and exposure-related missed defects.",
+    "risk_control": "Exposure changes are capped and later penalized by SafetyScore exposure_score.",
+    "operations": [
+      {
+        "name": "clahe",
+        "params": {
+          "max_clip_limit": 3.0
+        },
+        "prob": 0.41108379773574866,
+        "strength": 0.3820837209302326
+      },
+      {
+        "name": "contrast",
+        "params": {
+          "max_delta": 0.35
+        },
+        "prob": 0.4071023997041895,
+        "strength": 0.37195348837209297
+      },
+      {
+        "name": "gamma",
+        "params": {
+          "min_gamma": 0.75,
+          "max_gamma": 1.35
+        },
+        "prob": 0.3239777050392019,
+        "strength": 0.3114325581395349
+      },
+      {
+        "name": "brightness",
+        "params": {
+          "max_delta": 0.16
+        },
+        "prob": 0.22949545947643207,
+        "strength": 0.2407813953488372
+      }
+    ],
+    "explanation": "Dynamic severity-weighted policy for low_contrast_missed_defect.",
+    "metadata": {
+      "source_issues": [
+        "low_contrast_missed_defect"
+      ],
+      "diagnostic_evidence": {
+        "issue": "low_contrast_fn_high",
+        "severity": "medium",
+        "observed_rate": 0.5953488372093023
+      },
+      "severity": "medium",
+      "severity_score": 0.5065116279069767
+    },
+    "contains_copy_paste": false,
+    "operation_count": 4
+  },
+  "original_train_count": 2301,
+  "augmented_train_count": 2301,
+  "total_train_images": 4602,
+  "val_count": 677,
+  "augment_repeat": 1,
+  "images_train": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_policy_top3_shorttrain\\policies\\diag_policy_001\\dataset_builder\\final_dataset\\images\\train",
+  "labels_train": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_policy_top3_shorttrain\\policies\\diag_policy_001\\dataset_builder\\final_dataset\\labels\\train",
+  "images_val": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_policy_top3_shorttrain\\policies\\diag_policy_001\\dataset_builder\\final_dataset\\images\\val",
+  "labels_val": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_policy_top3_shorttrain\\policies\\diag_policy_001\\dataset_builder\\final_dataset\\labels\\val",
+  "train_images": 4602,
+  "train_bboxes": 6364,
+  "val_images": 677,
+  "val_bboxes": 905
+}

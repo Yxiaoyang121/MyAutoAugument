@@ -1,0 +1,26 @@
+{
+  "rank": 2,
+  "policy_id": "diag_policy_005",
+  "proxy_score": 0.9373379382953422,
+  "safety_score": 1.0,
+  "combined_proxy_safety_score": 0.9561365568067395,
+  "hard_filter_pass": true,
+  "hard_filter_reasons": [],
+  "safety_soft_penalty_reasons": [],
+  "copy_paste_audit": {
+    "enabled": true,
+    "sample_count": 64,
+    "source_label_count": 82,
+    "before_bbox_count": 82,
+    "after_bbox_count": 156,
+    "new_bbox_count": 74,
+    "original_bbox_retention": 1.0,
+    "iou_matched_original_bbox_retention": 0.7926829268292683,
+    "new_bbox_valid_rate": 1.0,
+    "total_bbox_valid_rate": 1.0,
+    "invalid_bbox_count": 0,
+    "out_of_bounds_bbox_count": 0,
+    "class_out_of_range_count": 0,
+    "debug_dir": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_policy_top3_from_baseline\\proxy\\proxy_artifacts\\diag_policy_005\\copy_paste_audit\\debug"
+  }
+}

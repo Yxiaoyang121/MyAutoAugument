@@ -1,0 +1,15 @@
+{
+  "rank": 1,
+  "policy_id": "diag_policy_001",
+  "proxy_score": 0.9385882458669139,
+  "safety_score": 1.0,
+  "combined_proxy_safety_score": 0.9570117721068396,
+  "hard_filter_pass": true,
+  "hard_filter_reasons": [],
+  "safety_soft_penalty_reasons": [],
+  "copy_paste_audit": {
+    "enabled": false,
+    "source_label_count": 82,
+    "reason": "policy_has_no_copy_paste"
+  }
+}

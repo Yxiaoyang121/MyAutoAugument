@@ -1,0 +1,364 @@
+{
+  "policy_id": "diag_policy_001",
+  "source_issue": "low_contrast_missed_defect",
+  "source_issues": [
+    "low_contrast_missed_defect"
+  ],
+  "operations": [
+    {
+      "name": "clahe",
+      "params": {
+        "max_clip_limit": 3.0
+      },
+      "prob": 0.41108379773574866,
+      "strength": 0.3820837209302326
+    },
+    {
+      "name": "contrast",
+      "params": {
+        "max_delta": 0.35
+      },
+      "prob": 0.4071023997041895,
+      "strength": 0.37195348837209297
+    },
+    {
+      "name": "gamma",
+      "params": {
+        "min_gamma": 0.75,
+        "max_gamma": 1.35
+      },
+      "prob": 0.3239777050392019,
+      "strength": 0.3114325581395349
+    },
+    {
+      "name": "brightness",
+      "params": {
+        "max_delta": 0.16
+      },
+      "prob": 0.22949545947643207,
+      "strength": 0.2407813953488372
+    }
+  ],
+  "contains_copy_paste": false,
+  "proxy_rank": 1,
+  "proxy_score": 0.9385882458669139,
+  "safety_score": 1.0,
+  "combined_proxy_safety_score": 0.9570117721068396,
+  "proxy_hard_filter_pass": true,
+  "proxy_hard_filter_reasons": [],
+  "proxy_soft_penalty_reasons": [],
+  "copy_paste_audit": {
+    "enabled": false,
+    "source_label_count": 82,
+    "reason": "policy_has_no_copy_paste"
+  },
+  "augmented_dataset": {
+    "stage": "final_augmented_dataset_builder",
+    "status": "completed",
+    "dry_run": false,
+    "dataset_dir": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_policy_top3_shorttrain\\policies\\diag_policy_001\\dataset_builder\\final_dataset",
+    "data_yaml": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_policy_top3_shorttrain\\policies\\diag_policy_001\\dataset_builder\\final_dataset\\data.yaml",
+    "selected_policy_id": "diag_policy_001",
+    "selected_policy": {
+      "policy_id": "diag_policy_001",
+      "name": "diag_policy_001",
+      "source_issue": "low_contrast_missed_defect",
+      "source_issues": [
+        "low_contrast_missed_defect"
+      ],
+      "severity_score": 0.5065116279069767,
+      "prob_formula": "prob=clip(base_prob + op_weight * severity_score * 0.55 + jitter, 0, 1)",
+      "strength_formula": "strength=clip(base_strength + op_weight * severity_score * 0.40, 0, 1)",
+      "expected_effect": "Improve low-contrast and exposure-related missed defects.",
+      "risk_control": "Exposure changes are capped and later penalized by SafetyScore exposure_score.",
+      "operations": [
+        {
+          "name": "clahe",
+          "params": {
+            "max_clip_limit": 3.0
+          },
+          "prob": 0.41108379773574866,
+          "strength": 0.3820837209302326
+        },
+        {
+          "name": "contrast",
+          "params": {
+            "max_delta": 0.35
+          },
+          "prob": 0.4071023997041895,
+          "strength": 0.37195348837209297
+        },
+        {
+          "name": "gamma",
+          "params": {
+            "min_gamma": 0.75,
+            "max_gamma": 1.35
+          },
+          "prob": 0.3239777050392019,
+          "strength": 0.3114325581395349
+        },
+        {
+          "name": "brightness",
+          "params": {
+            "max_delta": 0.16
+          },
+          "prob": 0.22949545947643207,
+          "strength": 0.2407813953488372
+        }
+      ],
+      "explanation": "Dynamic severity-weighted policy for low_contrast_missed_defect.",
+      "metadata": {
+        "source_issues": [
+          "low_contrast_missed_defect"
+        ],
+        "diagnostic_evidence": {
+          "issue": "low_contrast_fn_high",
+          "severity": "medium",
+          "observed_rate": 0.5953488372093023
+        },
+        "severity": "medium",
+        "severity_score": 0.5065116279069767
+      },
+      "contains_copy_paste": false,
+      "operation_count": 4
+    },
+    "original_train_count": 2301,
+    "augmented_train_count": 2301,
+    "total_train_images": 4602,
+    "val_count": 677,
+    "augment_repeat": 1,
+    "images_train": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_policy_top3_shorttrain\\policies\\diag_policy_001\\dataset_builder\\final_dataset\\images\\train",
+    "labels_train": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_policy_top3_shorttrain\\policies\\diag_policy_001\\dataset_builder\\final_dataset\\labels\\train",
+    "images_val": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_policy_top3_shorttrain\\policies\\diag_policy_001\\dataset_builder\\final_dataset\\images\\val",
+    "labels_val": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_policy_top3_shorttrain\\policies\\diag_policy_001\\dataset_builder\\final_dataset\\labels\\val",
+    "train_images": 4602,
+    "train_bboxes": 6364,
+    "val_images": 677,
+    "val_bboxes": 905
+  },
+  "train_settings": {
+    "model": "yolo11n.pt",
+    "epochs": 5,
+    "imgsz": 1024,
+    "batch": 2,
+    "workers": 0,
+    "device": "0",
+    "seed": 42,
+    "disabled_yolo_augmentations": {
+      "mosaic": 0,
+      "mixup": 0,
+      "copy_paste": 0,
+      "hsv_h": 0,
+      "hsv_s": 0,
+      "hsv_v": 0,
+      "degrees": 0,
+      "translate": 0,
+      "scale": 0,
+      "shear": 0,
+      "perspective": 0,
+      "fliplr": 0,
+      "flipud": 0
+    }
+  },
+  "commands": {
+    "train_command": "D:\\Anaconda\\envs\\pytorch\\Scripts\\yolo.exe detect train model=yolo11n.pt data=E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_policy_top3_shorttrain\\policies\\diag_policy_001\\dataset_builder\\final_dataset\\data.yaml epochs=5 imgsz=1024 batch=2 workers=0 device=0 seed=42 project=E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_policy_top3_shorttrain\\policies\\diag_policy_001 name=train exist_ok=True mosaic=0 mixup=0 copy_paste=0 hsv_h=0 hsv_s=0 hsv_v=0 degrees=0 translate=0 scale=0 shear=0 perspective=0 fliplr=0 flipud=0",
+    "val_command": "D:\\Anaconda\\envs\\pytorch\\Scripts\\yolo.exe detect val model=E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_policy_top3_shorttrain\\policies\\diag_policy_001\\weights\\best.pt data=E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_policy_top3_shorttrain\\policies\\diag_policy_001\\dataset_builder\\final_dataset\\data.yaml imgsz=1024 batch=2 workers=0 device=0 project=E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_policy_top3_shorttrain\\policies\\diag_policy_001 name=val exist_ok=True",
+    "train_returncode": 0,
+    "val_returncode": 0
+  },
+  "artifacts": {
+    "policy_dir": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_policy_top3_shorttrain\\policies\\diag_policy_001",
+    "data_yaml": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_policy_top3_shorttrain\\policies\\diag_policy_001\\dataset_builder\\final_dataset\\data.yaml",
+    "best_pt": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_policy_top3_shorttrain\\policies\\diag_policy_001\\weights\\best.pt",
+    "last_pt": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_policy_top3_shorttrain\\policies\\diag_policy_001\\weights\\last.pt",
+    "train_stdout": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_policy_top3_shorttrain\\policies\\diag_policy_001\\train_stdout.log",
+    "train_stderr": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_policy_top3_shorttrain\\policies\\diag_policy_001\\train_stderr.log",
+    "val_stdout": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_policy_top3_shorttrain\\policies\\diag_policy_001\\val_stdout.log",
+    "val_stderr": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_policy_top3_shorttrain\\policies\\diag_policy_001\\val_stderr.log"
+  },
+  "metrics": {
+    "images": 677,
+    "instances": 905,
+    "precision": 0.709,
+    "recall": 0.672,
+    "map50": 0.714,
+    "map50_95": 0.479,
+    "per_class": [
+      {
+        "class_id": 0,
+        "name": "OK2",
+        "log_name": "OK2",
+        "images": 64,
+        "instances": 64,
+        "precision": 0.984,
+        "recall": 1.0,
+        "ap50": 0.995,
+        "ap50_95": 0.81
+      },
+      {
+        "class_id": 1,
+        "name": "OK3",
+        "log_name": "OK3",
+        "images": 274,
+        "instances": 274,
+        "precision": 0.953,
+        "recall": 0.982,
+        "ap50": 0.994,
+        "ap50_95": 0.783
+      },
+      {
+        "class_id": 2,
+        "name": "加强筋打伤",
+        "log_name": "8",
+        "images": 8,
+        "instances": 8,
+        "precision": 0.895,
+        "recall": 0.875,
+        "ap50": 0.878,
+        "ap50_95": 0.554
+      },
+      {
+        "class_id": 3,
+        "name": "开裂",
+        "log_name": "2",
+        "images": 2,
+        "instances": 2,
+        "precision": 0.992,
+        "recall": 1.0,
+        "ap50": 0.995,
+        "ap50_95": 0.821
+      },
+      {
+        "class_id": 4,
+        "name": "油污",
+        "log_name": "14",
+        "images": 14,
+        "instances": 18,
+        "precision": 0.205,
+        "recall": 0.315,
+        "ap50": 0.169,
+        "ap50_95": 0.0911
+      },
+      {
+        "class_id": 5,
+        "name": "浅划伤",
+        "log_name": "11",
+        "images": 11,
+        "instances": 13,
+        "precision": 0.449,
+        "recall": 0.538,
+        "ap50": 0.578,
+        "ap50_95": 0.33
+      },
+      {
+        "class_id": 6,
+        "name": "漏背锡",
+        "log_name": "36",
+        "images": 36,
+        "instances": 46,
+        "precision": 0.575,
+        "recall": 0.522,
+        "ap50": 0.645,
+        "ap50_95": 0.414
+      },
+      {
+        "class_id": 7,
+        "name": "碰伤",
+        "log_name": "229",
+        "images": 229,
+        "instances": 269,
+        "precision": 0.815,
+        "recall": 0.425,
+        "ap50": 0.614,
+        "ap50_95": 0.368
+      },
+      {
+        "class_id": 8,
+        "name": "脏污",
+        "log_name": "33",
+        "images": 33,
+        "instances": 42,
+        "precision": 0.529,
+        "recall": 0.452,
+        "ap50": 0.493,
+        "ap50_95": 0.264
+      },
+      {
+        "class_id": 9,
+        "name": "轮廓划伤",
+        "log_name": "69",
+        "images": 69,
+        "instances": 84,
+        "precision": 0.727,
+        "recall": 0.476,
+        "ap50": 0.643,
+        "ap50_95": 0.348
+      },
+      {
+        "class_id": 10,
+        "name": "锡丝残留",
+        "log_name": "12",
+        "images": 12,
+        "instances": 12,
+        "precision": 0.705,
+        "recall": 0.667,
+        "ap50": 0.639,
+        "ap50_95": 0.317
+      },
+      {
+        "class_id": 11,
+        "name": "锡尖",
+        "log_name": "25",
+        "images": 25,
+        "instances": 27,
+        "precision": 0.694,
+        "recall": 0.926,
+        "ap50": 0.926,
+        "ap50_95": 0.677
+      },
+      {
+        "class_id": 12,
+        "name": "锡膏",
+        "log_name": "41",
+        "images": 41,
+        "instances": 46,
+        "precision": 0.7,
+        "recall": 0.565,
+        "ap50": 0.717,
+        "ap50_95": 0.448
+      }
+    ],
+    "small_object_recall": 0.6196943972835314,
+    "small_object_recall_basis": {
+      "available": true,
+      "formula_used": "preferred",
+      "small_object_recall": 0.6196943972835314,
+      "tiny_gt": 177,
+      "small_gt": 412,
+      "small_object_gt": 589,
+      "small_object_tp": 365,
+      "prediction_batch": 2
+    },
+    "short_train_score": 0.6092041595925297,
+    "short_train_score_formula": "0.30*mAP50 + 0.35*mAP50-95 + 0.20*Recall + 0.15*small_object_recall"
+  },
+  "last_epoch_metrics_from_training_loop": {
+    "epoch": 5,
+    "time_seconds": 2116.38,
+    "precision": 0.70994,
+    "recall": 0.6695,
+    "map50": 0.71511,
+    "map50_95": 0.47808
+  },
+  "best_epoch_by_map50_95_from_training_loop": {
+    "epoch": 5,
+    "time_seconds": 2116.38,
+    "precision": 0.70994,
+    "recall": 0.6695,
+    "map50": 0.71511,
+    "map50_95": 0.47808
+  },
+  "oom": false,
+  "training_wall_seconds": 2170.479135990143,
+  "validation_wall_seconds": 33.79075908660889
+}

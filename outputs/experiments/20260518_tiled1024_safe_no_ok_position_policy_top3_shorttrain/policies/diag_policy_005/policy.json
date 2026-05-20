@@ -1,0 +1,84 @@
+{
+  "policy_id": "diag_policy_005",
+  "name": "diag_policy_005",
+  "source_issue": "combined",
+  "source_issues": [
+    "low_contrast_missed_defect",
+    "low_contrast_missed_defect",
+    "class_imbalance",
+    "localization_bias"
+  ],
+  "severity_score": 0.9952554744525548,
+  "prob_formula": "prob=clip(base_prob + op_weight * severity_score * 0.55 + jitter, 0, 1)",
+  "strength_formula": "strength=clip(base_strength + op_weight * severity_score * 0.40, 0, 1)",
+  "expected_effect": "Blend the dominant diagnosis-vector severities into one conservative policy.",
+  "risk_control": "All candidates are still reranked with proxy score and SafetyScore before short training.",
+  "operations": [
+    {
+      "name": "copy_paste",
+      "params": {
+        "max_paste_count": 3,
+        "max_overlap": 0.18,
+        "prefer_small": true,
+        "class_balanced": true,
+        "max_attempts": 60
+      },
+      "prob": 0.7166105643388222,
+      "strength": 0.696213383771112
+    },
+    {
+      "name": "clahe",
+      "params": {
+        "max_clip_limit": 3.495255474452555
+      },
+      "prob": 0.45889720241203674,
+      "strength": 0.42164338821931757
+    },
+    {
+      "name": "contrast",
+      "params": {
+        "max_delta": 0.3492883211678832
+      },
+      "prob": 0.464174176484687,
+      "strength": 0.42164338821931757
+    },
+    {
+      "name": "gamma",
+      "params": {
+        "min_gamma": 0.8,
+        "max_gamma": 1.3
+      },
+      "prob": 0.44708859396133915,
+      "strength": 0.4016433882193176
+    },
+    {
+      "name": "scale",
+      "params": {
+        "max_delta": 0.1596204379562044
+      },
+      "prob": 0.3442449389755085,
+      "strength": 0.2511236414558884
+    },
+    {
+      "name": "gaussian_noise",
+      "params": {
+        "max_std": 0.02992883211678832
+      },
+      "prob": 0.16722073439234225,
+      "strength": 0.11962043795620439
+    }
+  ],
+  "explanation": "Combined dynamic policy generated from diagnosis_vector operator weights.",
+  "metadata": {
+    "source_issues": [
+      "low_contrast_missed_defect",
+      "low_contrast_missed_defect",
+      "class_imbalance",
+      "localization_bias"
+    ],
+    "combined": true,
+    "severity_score": 0.9952554744525548
+  },
+  "contains_copy_paste": true,
+  "operation_count": 6
+}

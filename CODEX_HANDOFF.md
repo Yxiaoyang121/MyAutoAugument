@@ -216,3 +216,21 @@ No training was run after building or auditing these datasets.
 - Comparison: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_yolo_default_aug_yolo11n_50ep/reports/compare_baseline_yolo_default_diagaug.md`
 - Metrics JSON: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_yolo_default_aug_yolo11n_50ep/reports/yolo_default_aug_50ep_metrics.json`
 <!-- YOLO_DEFAULT_AUG_50EP_END -->
+
+<!-- BASELINE_POLICY_TOP3_START -->
+## Baseline Diagnosis Top3 Candidate Policies
+
+- Run ID: `20260518_tiled1024_safe_no_ok_position_policy_top3_from_baseline`
+- Baseline best.pt: `E:\TJGY\MinPaper\MyAutoAugument\outputs\experiments\20260518_tiled1024_safe_no_ok_position_baseline_yolo11n_50ep\train\weights\best.pt`
+- Dataset: `outputs/datasets/tiled/tiled_1024_ov20_full_safe_no_ok_position/data.yaml`
+- Triggered issues: `low_contrast_missed_defect, low_contrast_missed_defect, class_imbalance, localization_bias`
+- Candidate policies generated: `5`
+- Top3 proxy policies: `diag_policy_001, diag_policy_005, diag_policy_002`
+- Top3 containing copy_paste: `diag_policy_005`
+- Scope: single-round baseline diagnosis only; not multi-round optimization.
+- Training status: no YOLO train, no final 50 epoch train, no top3 short-training.
+- Next step for final strategy selection: run short-training for all top3 and select by short_train_score.
+- Trace report: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_policy_top3_from_baseline/reports/policy_selection_trace.md`
+- Top3 report: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_policy_top3_from_baseline/top3_policies/top3_policies.md`
+- Proxy ranking: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_policy_top3_from_baseline/proxy/proxy_ranking.json`
+<!-- BASELINE_POLICY_TOP3_END -->

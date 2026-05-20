@@ -1,0 +1,67 @@
+{
+  "script": "scripts/run_diagnostic_augmentation_pipeline.py",
+  "run_id": "20260518_tiled1024_safe_no_ok_position_diagaug_yolo11n_50ep",
+  "args": {
+    "dataset_root": "outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position",
+    "data_yaml": "outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\data.yaml",
+    "run_id": "20260518_tiled1024_safe_no_ok_position_diagaug_yolo11n_50ep",
+    "output_dir": "outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_diagaug_yolo11n_50ep",
+    "model": "yolo11n.pt",
+    "imgsz": 1024,
+    "batch": 2,
+    "baseline_epochs": 50,
+    "short_epochs": 1,
+    "final_epochs": 50,
+    "top_k": 1,
+    "workers": 0,
+    "device": "0",
+    "skip_baseline": true,
+    "skip_short_train": true,
+    "skip_final_train": true,
+    "dry_run": false,
+    "seed": 42,
+    "baseline_weights": "outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_baseline_yolo11n_50ep\\train\\weights\\best.pt",
+    "predictions_dir": null,
+    "proxy_samples": 64,
+    "augment_repeat": 1,
+    "conf": 0.25,
+    "iou": 0.5,
+    "match_iou": 0.5,
+    "timeout": null
+  },
+  "dataset_root": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position",
+  "data_yaml": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\data.yaml",
+  "dataset_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position",
+  "output_dir": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_diagaug_yolo11n_50ep",
+  "result_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_diagaug_yolo11n_50ep",
+  "class_names": {
+    "0": "OK2",
+    "1": "OK3",
+    "2": "加强筋打伤",
+    "3": "开裂",
+    "4": "油污",
+    "5": "浅划伤",
+    "6": "漏背锡",
+    "7": "碰伤",
+    "8": "脏污",
+    "9": "轮廓划伤",
+    "10": "锡丝残留",
+    "11": "锡尖",
+    "12": "锡膏"
+  },
+  "train_count": 2301,
+  "val_count": 677,
+  "framework_positioning": "validation_error_diagnostic_driven_augmentation",
+  "not_yolo_network_structure_modification": true,
+  "environment": {
+    "python_executable": "D:\\Anaconda\\python.exe"
+  },
+  "yolo_builtin_aug_config": {
+    "note": "Pipeline commands should explicitly set project paths; YOLO builtin augmentation values are stage-specific unless passed through stage helpers."
+  },
+  "external_aug_config": {
+    "diagnosis_driven_augmentation": true,
+    "augment_repeat": 1,
+    "proxy_samples": 64
+  }
+}

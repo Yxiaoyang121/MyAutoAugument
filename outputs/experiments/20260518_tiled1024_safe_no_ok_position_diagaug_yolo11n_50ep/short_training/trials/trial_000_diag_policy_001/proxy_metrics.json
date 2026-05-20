@@ -1,0 +1,185 @@
+{
+  "image_count": 64,
+  "valid_image_count": 64,
+  "image_valid_rate": 1.0,
+  "total_boxes": 82,
+  "valid_boxes": 82,
+  "bbox_valid_rate": 1.0,
+  "safe_boxes": 82,
+  "bbox_safe_rate": 1.0,
+  "total_bbox_valid_rate": 1.0,
+  "original_bbox_slots": 82,
+  "original_bbox_valid_count": 82,
+  "original_bbox_retention": 1.0,
+  "new_bbox_count": 0,
+  "new_bbox_valid_count": 0,
+  "new_bbox_valid_rate": 1.0,
+  "invalid_bbox_count": 0,
+  "out_of_bounds_bbox_count": 0,
+  "class_out_of_range_count": 0,
+  "class_count_for_bounds": 13,
+  "bbox_retention": 0.8333333333333334,
+  "bbox_retention_raw": 1.0,
+  "source_tiny_box_count": 12,
+  "after_tiny_box_count": 12,
+  "tiny_target_retention": 1.0,
+  "source_small_box_count": 32,
+  "after_small_box_count": 32,
+  "small_target_retention": 1.0,
+  "small_object_retention": 1.0,
+  "source_edge_box_count": 13,
+  "after_edge_box_count": 13,
+  "edge_target_retention": 1.0,
+  "source_class_count": 11,
+  "after_class_count": 11,
+  "class_coverage_after": 1.0,
+  "rare_class_present": true,
+  "rare_class_ids": [
+    2,
+    3,
+    4,
+    6,
+    8,
+    11,
+    12
+  ],
+  "rare_class_count_threshold": 5,
+  "rare_class_retention": 1.0,
+  "mean_intensity": 88.74579312900701,
+  "mean_std": 40.86195847760442,
+  "exposure_score": 1.0,
+  "variance_score": 0.9080435217245426,
+  "image_mean_delta_std": 7.894531778524826,
+  "over_dark_or_over_bright_rate": 0.03125,
+  "saturation_rate": 0.004295557737350464,
+  "exposure_diversity_score": 0.42305422084250965,
+  "strength_penalty": 0.04646470271671216,
+  "diversity_score": 1.0,
+  "proxy_score": 0.9385882458669139,
+  "proxy_score_version": "dataset2_v1",
+  "proxy_score_components": {
+    "bbox_safety_score": 1.0,
+    "bbox_retention_score": 1.0,
+    "small_target_retention_score": 1.0,
+    "class_coverage_score": 1.0,
+    "edge_target_retention_score": 1.0,
+    "exposure_diversity_score": 0.42305422084250965,
+    "strength_penalty": 0.04646470271671216
+  },
+  "missing_components": [],
+  "policy_id": "diag_policy_001",
+  "candidate_index": 0,
+  "safety_score": 1.0,
+  "safety_score_formula": "total_bbox_valid_rate * original_bbox_retention * small_object_retention * exposure_score",
+  "safety_score_components": {
+    "total_bbox_valid_rate": 1.0,
+    "original_bbox_retention": 1.0,
+    "small_object_retention": 1.0,
+    "exposure_score": 1.0
+  },
+  "safety_missing_components": [],
+  "safety_soft_penalty_reasons": [],
+  "combined_proxy_safety_score": 0.9570117721068396,
+  "hard_filter_pass": true,
+  "hard_filter_reasons": [],
+  "invalid_sample_count": 0,
+  "class_distribution_change": 0.0,
+  "source_class_counts": {
+    "9": 10,
+    "0": 9,
+    "1": 22,
+    "7": 29,
+    "11": 3,
+    "6": 1,
+    "8": 2,
+    "12": 3,
+    "3": 1,
+    "2": 1,
+    "4": 1
+  },
+  "after_class_counts": {
+    "4": 1,
+    "12": 3,
+    "3": 1,
+    "7": 29,
+    "1": 22,
+    "8": 2,
+    "9": 10,
+    "6": 1,
+    "11": 3,
+    "2": 1,
+    "0": 9
+  },
+  "policy": {
+    "policy_id": "diag_policy_001",
+    "name": "diag_policy_001",
+    "source_issue": "low_contrast_missed_defect",
+    "source_issues": [
+      "low_contrast_missed_defect"
+    ],
+    "severity_score": 0.5065116279069767,
+    "prob_formula": "prob=clip(base_prob + op_weight * severity_score * 0.55 + jitter, 0, 1)",
+    "strength_formula": "strength=clip(base_strength + op_weight * severity_score * 0.40, 0, 1)",
+    "expected_effect": "Improve low-contrast and exposure-related missed defects.",
+    "risk_control": "Exposure changes are capped and later penalized by SafetyScore exposure_score.",
+    "operations": [
+      {
+        "name": "clahe",
+        "params": {
+          "max_clip_limit": 3.0
+        },
+        "prob": 0.41108379773574866,
+        "strength": 0.3820837209302326
+      },
+      {
+        "name": "contrast",
+        "params": {
+          "max_delta": 0.35
+        },
+        "prob": 0.4071023997041895,
+        "strength": 0.37195348837209297
+      },
+      {
+        "name": "gamma",
+        "params": {
+          "min_gamma": 0.75,
+          "max_gamma": 1.35
+        },
+        "prob": 0.3239777050392019,
+        "strength": 0.3114325581395349
+      },
+      {
+        "name": "brightness",
+        "params": {
+          "max_delta": 0.16
+        },
+        "prob": 0.22949545947643207,
+        "strength": 0.2407813953488372
+      }
+    ],
+    "explanation": "Dynamic severity-weighted policy for low_contrast_missed_defect.",
+    "metadata": {
+      "source_issues": [
+        "low_contrast_missed_defect"
+      ],
+      "diagnostic_evidence": {
+        "issue": "low_contrast_fn_high",
+        "severity": "medium",
+        "observed_rate": 0.5953488372093023
+      },
+      "severity": "medium",
+      "severity_score": 0.5065116279069767
+    }
+  },
+  "copy_paste_audit": {
+    "enabled": false,
+    "source_label_count": 82,
+    "reason": "policy_has_no_copy_paste"
+  },
+  "rank": 1,
+  "memory_base_score": 0.9570117721068396,
+  "memory_boost": 0.0,
+  "memory_guided_score": 0.9570117721068396,
+  "memory_evidence": [],
+  "memory_guided_rank": 1
+}

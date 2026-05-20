@@ -1,0 +1,38 @@
+{
+  "stage": "final_training",
+  "status": "completed",
+  "data_yaml": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_diagaug_yolo11n_50ep\\dataset_builder\\final_dataset\\data.yaml",
+  "model": "yolo11n.pt",
+  "epochs": 50,
+  "imgsz": 1024,
+  "batch": 2,
+  "workers": 0,
+  "device": 0,
+  "yolo_builtin_augmentations_disabled": true,
+  "disabled_augmentation_params": {
+    "mosaic": 0,
+    "mixup": 0,
+    "copy_paste": 0,
+    "hsv_h": 0,
+    "hsv_s": 0,
+    "hsv_v": 0,
+    "degrees": 0,
+    "translate": 0,
+    "scale": 0,
+    "shear": 0,
+    "perspective": 0,
+    "fliplr": 0,
+    "flipud": 0
+  },
+  "train_command": "D:\\Anaconda\\envs\\pytorch\\Scripts\\yolo.exe detect train model=yolo11n.pt data=outputs/experiments/20260518_tiled1024_safe_no_ok_position_diagaug_yolo11n_50ep/dataset_builder/final_dataset/data.yaml epochs=50 imgsz=1024 batch=2 workers=0 device=0 project=outputs/experiments/20260518_tiled1024_safe_no_ok_position_diagaug_yolo11n_50ep name=train exist_ok=True mosaic=0 mixup=0 copy_paste=0 hsv_h=0 hsv_s=0 hsv_v=0 degrees=0 translate=0 scale=0 shear=0 perspective=0 fliplr=0 flipud=0",
+  "exitcode": 0,
+  "best_pt": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_diagaug_yolo11n_50ep\\train\\weights\\best.pt",
+  "last_pt": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_diagaug_yolo11n_50ep\\train\\weights\\last.pt",
+  "last_epoch_metrics_from_training_loop": {
+    "precision": 0.66219,
+    "recall": 0.66952,
+    "map50": 0.70129,
+    "map50_95": 0.49
+  },
+  "oom": false
+}

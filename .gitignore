@@ -69,6 +69,11 @@ outputs/experiments/**/train/*.jpg
 outputs/experiments/**/train/*.png
 outputs/experiments/**/val/*.jpg
 outputs/experiments/**/val/*.png
+outputs/experiments/**/dataset_builder/**/images/**
+outputs/experiments/**/dataset_builder/**/labels/**
+outputs/experiments/**/dataset_builder/**/*.cache
+outputs/experiments/**/proxy/proxy_artifacts/**
+outputs/experiments/**/validation_prediction/predict_runs/**
 
 # System files
 .DS_Store

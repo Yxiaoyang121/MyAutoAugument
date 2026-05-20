@@ -1,0 +1,12 @@
+{
+  "stage": "baseline_training",
+  "status": "skipped",
+  "dry_run": false,
+  "best_pt": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_baseline_yolo11n_50ep\\train\\weights\\best.pt",
+  "model": "yolo11n.pt",
+  "epochs": 50,
+  "imgsz": 1024,
+  "batch": 2,
+  "workers": 0,
+  "metrics": {}
+}

@@ -1,0 +1,749 @@
+{
+  "run_id": "20260518_tiled1024_safe_no_ok_position_diagaug_yolo11n_50ep",
+  "generated_at": "2026-05-20T10:17:52",
+  "baseline_run_id": "20260518_tiled1024_safe_no_ok_position_baseline_yolo11n_50ep",
+  "dataset": "outputs/datasets/tiled/tiled_1024_ov20_full_safe_no_ok_position/data.yaml",
+  "baseline_best_pt": "E:/TJGY/MinPaper/MyAutoAugument/outputs/experiments/20260518_tiled1024_safe_no_ok_position_baseline_yolo11n_50ep/train/weights/best.pt",
+  "model": "yolo11n.pt",
+  "train_settings": {
+    "epochs": 50,
+    "imgsz": 1024,
+    "batch": 2,
+    "workers": 0,
+    "device": 0,
+    "yolo_builtin_augmentations_disabled": true,
+    "disabled_augmentation_params": {
+      "mosaic": 0,
+      "mixup": 0,
+      "copy_paste": 0,
+      "hsv_h": 0,
+      "hsv_s": 0,
+      "hsv_v": 0,
+      "degrees": 0,
+      "translate": 0,
+      "scale": 0,
+      "shear": 0,
+      "perspective": 0,
+      "fliplr": 0,
+      "flipud": 0
+    }
+  },
+  "diagnostic_flow": {
+    "diagnosis_json": "outputs/experiments/20260518_tiled1024_safe_no_ok_position_diagaug_yolo11n_50ep/diagnosis/diagnosis.json",
+    "diagnosis_vector": {
+      "small_object_score": {
+        "score": 0.3293718166383701,
+        "basis": {
+          "tiny_gt": 177,
+          "small_gt": 412,
+          "small_total_gt": 589,
+          "small_total_tp": 395,
+          "small_recall": 0.6706281833616299
+        }
+      },
+      "low_contrast_score": {
+        "score": 0.5065116279069767,
+        "basis": {
+          "fn_low_contrast_rate": 0.5953488372093023,
+          "fn_dark_rate": 0.4744186046511628,
+          "fn_bright_rate": 0.009302325581395349
+        }
+      },
+      "class_imbalance_score": {
+        "score": 0.9952554744525548,
+        "basis": {
+          "gt_counts": [
+            64,
+            274,
+            8,
+            2,
+            18,
+            13,
+            46,
+            269,
+            42,
+            84,
+            12,
+            27,
+            46
+          ],
+          "recalls": [
+            1.0,
+            0.9817518248175182,
+            0.875,
+            0.0,
+            0.2777777777777778,
+            0.5384615384615384,
+            0.6956521739130435,
+            0.6133828996282528,
+            0.42857142857142855,
+            0.5595238095238095,
+            0.4166666666666667,
+            0.8148148148148148,
+            0.5869565217391305
+          ],
+          "count_imbalance": 0.9927007299270073,
+          "recall_spread": 1.0
+        }
+      },
+      "localization_score": {
+        "score": 0.02430939226519337,
+        "basis": {
+          "gt": 905,
+          "localization_weak": 22
+        }
+      },
+      "false_positive_score": {
+        "score": 0.20476190476190476,
+        "basis": {
+          "tp": 668,
+          "fp": 172,
+          "precision": 0.7952380952380952
+        }
+      }
+    },
+    "candidate_policies_json": "outputs/experiments/20260518_tiled1024_safe_no_ok_position_diagaug_yolo11n_50ep/policies/candidate_policies.json",
+    "proxy_ranking_json": "outputs/experiments/20260518_tiled1024_safe_no_ok_position_diagaug_yolo11n_50ep/proxy/proxy_ranking.json",
+    "selected_policy_json": "outputs/experiments/20260518_tiled1024_safe_no_ok_position_diagaug_yolo11n_50ep/short_training/selected_policy.json",
+    "copy_paste_policy_count": 2,
+    "copy_paste_hard_rejected": false
+  },
+  "selected_policy": {
+    "policy_id": "diag_policy_001",
+    "name": "diag_policy_001",
+    "source_issue": "low_contrast_missed_defect",
+    "source_issues": [
+      "low_contrast_missed_defect"
+    ],
+    "severity_score": 0.5065116279069767,
+    "prob_formula": "prob=clip(base_prob + op_weight * severity_score * 0.55 + jitter, 0, 1)",
+    "strength_formula": "strength=clip(base_strength + op_weight * severity_score * 0.40, 0, 1)",
+    "expected_effect": "Improve low-contrast and exposure-related missed defects.",
+    "risk_control": "Exposure changes are capped and later penalized by SafetyScore exposure_score.",
+    "operations": [
+      {
+        "name": "clahe",
+        "params": {
+          "max_clip_limit": 3.0
+        },
+        "prob": 0.41108379773574866,
+        "strength": 0.3820837209302326
+      },
+      {
+        "name": "contrast",
+        "params": {
+          "max_delta": 0.35
+        },
+        "prob": 0.4071023997041895,
+        "strength": 0.37195348837209297
+      },
+      {
+        "name": "gamma",
+        "params": {
+          "min_gamma": 0.75,
+          "max_gamma": 1.35
+        },
+        "prob": 0.3239777050392019,
+        "strength": 0.3114325581395349
+      },
+      {
+        "name": "brightness",
+        "params": {
+          "max_delta": 0.16
+        },
+        "prob": 0.22949545947643207,
+        "strength": 0.2407813953488372
+      }
+    ],
+    "explanation": "Dynamic severity-weighted policy for low_contrast_missed_defect.",
+    "metadata": {
+      "source_issues": [
+        "low_contrast_missed_defect"
+      ],
+      "diagnostic_evidence": {
+        "issue": "low_contrast_fn_high",
+        "severity": "medium",
+        "observed_rate": 0.5953488372093023
+      },
+      "severity": "medium",
+      "severity_score": 0.5065116279069767
+    }
+  },
+  "selected_policy_contains_copy_paste": false,
+  "augmented_dataset": {
+    "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_diagaug_yolo11n_50ep\\dataset_builder\\final_dataset",
+    "data_yaml": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_diagaug_yolo11n_50ep\\dataset_builder\\final_dataset\\data.yaml",
+    "train_images": 4602,
+    "train_bboxes": 6364,
+    "val_images": 677,
+    "val_bboxes": 905,
+    "original_train_count": 2301,
+    "augmented_train_count": 2301,
+    "augment_repeat": 1
+  },
+  "commands": {
+    "final_train_command": "D:\\Anaconda\\envs\\pytorch\\Scripts\\yolo.exe detect train model=yolo11n.pt data=outputs/experiments/20260518_tiled1024_safe_no_ok_position_diagaug_yolo11n_50ep/dataset_builder/final_dataset/data.yaml epochs=50 imgsz=1024 batch=2 workers=0 device=0 project=outputs/experiments/20260518_tiled1024_safe_no_ok_position_diagaug_yolo11n_50ep name=train exist_ok=True mosaic=0 mixup=0 copy_paste=0 hsv_h=0 hsv_s=0 hsv_v=0 degrees=0 translate=0 scale=0 shear=0 perspective=0 fliplr=0 flipud=0",
+    "final_val_command": "D:\\Anaconda\\envs\\pytorch\\Scripts\\yolo.exe detect val model=outputs/experiments/20260518_tiled1024_safe_no_ok_position_diagaug_yolo11n_50ep/train/weights/best.pt data=outputs/datasets/tiled/tiled_1024_ov20_full_safe_no_ok_position/data.yaml imgsz=1024 batch=2 workers=0 device=0 project=outputs/experiments/20260518_tiled1024_safe_no_ok_position_diagaug_yolo11n_50ep name=val exist_ok=True",
+    "final_train_exitcode": 0,
+    "final_val_exitcode": 0
+  },
+  "artifacts": {
+    "best_pt": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_diagaug_yolo11n_50ep\\train\\weights\\best.pt",
+    "last_pt": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_diagaug_yolo11n_50ep\\train\\weights\\last.pt",
+    "train_log": "outputs/experiments/20260518_tiled1024_safe_no_ok_position_diagaug_yolo11n_50ep/logs/final_train_batch2.stdout.log",
+    "val_log": "outputs/experiments/20260518_tiled1024_safe_no_ok_position_diagaug_yolo11n_50ep/logs/final_val_batch2.stdout.log",
+    "diagnosis_json": "outputs/experiments/20260518_tiled1024_safe_no_ok_position_diagaug_yolo11n_50ep/diagnosis/diagnosis.json",
+    "candidate_policies_json": "outputs/experiments/20260518_tiled1024_safe_no_ok_position_diagaug_yolo11n_50ep/policies/candidate_policies.json",
+    "proxy_ranking_json": "outputs/experiments/20260518_tiled1024_safe_no_ok_position_diagaug_yolo11n_50ep/proxy/proxy_ranking.json",
+    "selected_policy_json": "outputs/experiments/20260518_tiled1024_safe_no_ok_position_diagaug_yolo11n_50ep/short_training/selected_policy.json",
+    "augmented_dataset": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_diagaug_yolo11n_50ep\\dataset_builder\\final_dataset"
+  },
+  "final_metrics": {
+    "images": 677,
+    "instances": 905,
+    "precision": 0.686,
+    "recall": 0.688,
+    "map50": 0.717,
+    "map50_95": 0.496
+  },
+  "final_per_class": [
+    {
+      "class_id": 0,
+      "name": "OK2",
+      "log_name": "OK2",
+      "images": 64,
+      "instances": 64,
+      "precision": 0.932,
+      "recall": 1.0,
+      "ap50": 0.993,
+      "ap50_95": 0.823
+    },
+    {
+      "class_id": 1,
+      "name": "OK3",
+      "log_name": "OK3",
+      "images": 274,
+      "instances": 274,
+      "precision": 0.934,
+      "recall": 0.989,
+      "ap50": 0.973,
+      "ap50_95": 0.804
+    },
+    {
+      "class_id": 2,
+      "name": "加强筋打伤",
+      "log_name": "8",
+      "images": 8,
+      "instances": 8,
+      "precision": 0.74,
+      "recall": 0.625,
+      "ap50": 0.747,
+      "ap50_95": 0.461
+    },
+    {
+      "class_id": 3,
+      "name": "开裂",
+      "log_name": "2",
+      "images": 2,
+      "instances": 2,
+      "precision": 0.407,
+      "recall": 1.0,
+      "ap50": 0.995,
+      "ap50_95": 0.895
+    },
+    {
+      "class_id": 4,
+      "name": "油污",
+      "log_name": "14",
+      "images": 14,
+      "instances": 18,
+      "precision": 0.387,
+      "recall": 0.389,
+      "ap50": 0.264,
+      "ap50_95": 0.151
+    },
+    {
+      "class_id": 5,
+      "name": "浅划伤",
+      "log_name": "11",
+      "images": 11,
+      "instances": 13,
+      "precision": 0.5,
+      "recall": 0.615,
+      "ap50": 0.581,
+      "ap50_95": 0.314
+    },
+    {
+      "class_id": 6,
+      "name": "漏背锡",
+      "log_name": "36",
+      "images": 36,
+      "instances": 46,
+      "precision": 0.529,
+      "recall": 0.561,
+      "ap50": 0.508,
+      "ap50_95": 0.282
+    },
+    {
+      "class_id": 7,
+      "name": "碰伤",
+      "log_name": "229",
+      "images": 229,
+      "instances": 269,
+      "precision": 0.684,
+      "recall": 0.546,
+      "ap50": 0.64,
+      "ap50_95": 0.404
+    },
+    {
+      "class_id": 8,
+      "name": "脏污",
+      "log_name": "33",
+      "images": 33,
+      "instances": 42,
+      "precision": 0.556,
+      "recall": 0.476,
+      "ap50": 0.443,
+      "ap50_95": 0.245
+    },
+    {
+      "class_id": 9,
+      "name": "轮廓划伤",
+      "log_name": "69",
+      "images": 69,
+      "instances": 84,
+      "precision": 0.713,
+      "recall": 0.563,
+      "ap50": 0.666,
+      "ap50_95": 0.374
+    },
+    {
+      "class_id": 10,
+      "name": "锡丝残留",
+      "log_name": "12",
+      "images": 12,
+      "instances": 12,
+      "precision": 0.775,
+      "recall": 0.574,
+      "ap50": 0.774,
+      "ap50_95": 0.519
+    },
+    {
+      "class_id": 11,
+      "name": "锡尖",
+      "log_name": "25",
+      "images": 25,
+      "instances": 27,
+      "precision": 1.0,
+      "recall": 0.888,
+      "ap50": 0.974,
+      "ap50_95": 0.72
+    },
+    {
+      "class_id": 12,
+      "name": "锡膏",
+      "log_name": "41",
+      "images": 41,
+      "instances": 46,
+      "precision": 0.755,
+      "recall": 0.717,
+      "ap50": 0.76,
+      "ap50_95": 0.461
+    }
+  ],
+  "last_epoch_metrics_from_training_loop": {
+    "precision": 0.66219,
+    "recall": 0.66952,
+    "map50": 0.70129,
+    "map50_95": 0.49
+  },
+  "baseline_metrics": {
+    "images": 677,
+    "instances": 905,
+    "precision": 0.69,
+    "recall": 0.615,
+    "map50": 0.669,
+    "map50_95": 0.434
+  },
+  "baseline_per_class": [
+    {
+      "class_id": 0,
+      "name": "OK2",
+      "log_name": "OK2",
+      "images": 64,
+      "instances": 64,
+      "precision": 0.971,
+      "recall": 1.0,
+      "ap50": 0.995,
+      "ap50_95": 0.841
+    },
+    {
+      "class_id": 1,
+      "name": "OK3",
+      "log_name": "OK3",
+      "images": 274,
+      "instances": 274,
+      "precision": 0.932,
+      "recall": 0.978,
+      "ap50": 0.97,
+      "ap50_95": 0.777
+    },
+    {
+      "class_id": 2,
+      "name": "加强筋打伤",
+      "log_name": "",
+      "images": 8,
+      "instances": 8,
+      "precision": 0.996,
+      "recall": 0.875,
+      "ap50": 0.955,
+      "ap50_95": 0.66
+    },
+    {
+      "class_id": 3,
+      "name": "开裂",
+      "log_name": "",
+      "images": 2,
+      "instances": 2,
+      "precision": 0.0,
+      "recall": 0.0,
+      "ap50": 0.111,
+      "ap50_95": 0.0919
+    },
+    {
+      "class_id": 4,
+      "name": "油污",
+      "log_name": "",
+      "images": 14,
+      "instances": 18,
+      "precision": 0.254,
+      "recall": 0.333,
+      "ap50": 0.242,
+      "ap50_95": 0.111
+    },
+    {
+      "class_id": 5,
+      "name": "浅划伤",
+      "log_name": "",
+      "images": 11,
+      "instances": 13,
+      "precision": 1.0,
+      "recall": 0.55,
+      "ap50": 0.712,
+      "ap50_95": 0.338
+    },
+    {
+      "class_id": 6,
+      "name": "漏背锡",
+      "log_name": "",
+      "images": 36,
+      "instances": 46,
+      "precision": 0.577,
+      "recall": 0.712,
+      "ap50": 0.694,
+      "ap50_95": 0.325
+    },
+    {
+      "class_id": 7,
+      "name": "碰伤",
+      "log_name": "",
+      "images": 229,
+      "instances": 269,
+      "precision": 0.681,
+      "recall": 0.617,
+      "ap50": 0.617,
+      "ap50_95": 0.368
+    },
+    {
+      "class_id": 8,
+      "name": "脏污",
+      "log_name": "",
+      "images": 33,
+      "instances": 42,
+      "precision": 0.49,
+      "recall": 0.381,
+      "ap50": 0.44,
+      "ap50_95": 0.235
+    },
+    {
+      "class_id": 9,
+      "name": "轮廓划伤",
+      "log_name": "",
+      "images": 69,
+      "instances": 84,
+      "precision": 0.782,
+      "recall": 0.511,
+      "ap50": 0.717,
+      "ap50_95": 0.386
+    },
+    {
+      "class_id": 10,
+      "name": "锡丝残留",
+      "log_name": "",
+      "images": 12,
+      "instances": 12,
+      "precision": 0.634,
+      "recall": 0.583,
+      "ap50": 0.619,
+      "ap50_95": 0.375
+    },
+    {
+      "class_id": 11,
+      "name": "锡尖",
+      "log_name": "",
+      "images": 25,
+      "instances": 27,
+      "precision": 0.825,
+      "recall": 0.852,
+      "ap50": 0.906,
+      "ap50_95": 0.685
+    },
+    {
+      "class_id": 12,
+      "name": "锡膏",
+      "log_name": "",
+      "images": 41,
+      "instances": 46,
+      "precision": 0.826,
+      "recall": 0.609,
+      "ap50": 0.725,
+      "ap50_95": 0.45
+    }
+  ],
+  "comparison": {
+    "overall_delta": {
+      "precision": -0.0039999999999998925,
+      "recall": 0.07299999999999995,
+      "map50": 0.04799999999999993,
+      "map50_95": 0.062
+    },
+    "per_class_delta": [
+      {
+        "class_id": 0,
+        "name": "OK2",
+        "baseline_recall": 1.0,
+        "diagaug_recall": 1.0,
+        "delta_recall": 0.0,
+        "baseline_ap50": 0.995,
+        "diagaug_ap50": 0.993,
+        "delta_ap50": -0.0020000000000000018,
+        "baseline_precision": 0.971,
+        "diagaug_precision": 0.932,
+        "delta_precision": -0.038999999999999924
+      },
+      {
+        "class_id": 1,
+        "name": "OK3",
+        "baseline_recall": 0.978,
+        "diagaug_recall": 0.989,
+        "delta_recall": 0.01100000000000001,
+        "baseline_ap50": 0.97,
+        "diagaug_ap50": 0.973,
+        "delta_ap50": 0.0030000000000000027,
+        "baseline_precision": 0.932,
+        "diagaug_precision": 0.934,
+        "delta_precision": 0.0020000000000000018
+      },
+      {
+        "class_id": 2,
+        "name": "加强筋打伤",
+        "baseline_recall": 0.875,
+        "diagaug_recall": 0.625,
+        "delta_recall": -0.25,
+        "baseline_ap50": 0.955,
+        "diagaug_ap50": 0.747,
+        "delta_ap50": -0.20799999999999996,
+        "baseline_precision": 0.996,
+        "diagaug_precision": 0.74,
+        "delta_precision": -0.256
+      },
+      {
+        "class_id": 3,
+        "name": "开裂",
+        "baseline_recall": 0.0,
+        "diagaug_recall": 1.0,
+        "delta_recall": 1.0,
+        "baseline_ap50": 0.111,
+        "diagaug_ap50": 0.995,
+        "delta_ap50": 0.884,
+        "baseline_precision": 0.0,
+        "diagaug_precision": 0.407,
+        "delta_precision": 0.407
+      },
+      {
+        "class_id": 4,
+        "name": "油污",
+        "baseline_recall": 0.333,
+        "diagaug_recall": 0.389,
+        "delta_recall": 0.055999999999999994,
+        "baseline_ap50": 0.242,
+        "diagaug_ap50": 0.264,
+        "delta_ap50": 0.02200000000000002,
+        "baseline_precision": 0.254,
+        "diagaug_precision": 0.387,
+        "delta_precision": 0.133
+      },
+      {
+        "class_id": 5,
+        "name": "浅划伤",
+        "baseline_recall": 0.55,
+        "diagaug_recall": 0.615,
+        "delta_recall": 0.06499999999999995,
+        "baseline_ap50": 0.712,
+        "diagaug_ap50": 0.581,
+        "delta_ap50": -0.131,
+        "baseline_precision": 1.0,
+        "diagaug_precision": 0.5,
+        "delta_precision": -0.5
+      },
+      {
+        "class_id": 6,
+        "name": "漏背锡",
+        "baseline_recall": 0.712,
+        "diagaug_recall": 0.561,
+        "delta_recall": -0.1509999999999999,
+        "baseline_ap50": 0.694,
+        "diagaug_ap50": 0.508,
+        "delta_ap50": -0.18599999999999994,
+        "baseline_precision": 0.577,
+        "diagaug_precision": 0.529,
+        "delta_precision": -0.04799999999999993
+      },
+      {
+        "class_id": 7,
+        "name": "碰伤",
+        "baseline_recall": 0.617,
+        "diagaug_recall": 0.546,
+        "delta_recall": -0.07099999999999995,
+        "baseline_ap50": 0.617,
+        "diagaug_ap50": 0.64,
+        "delta_ap50": 0.02300000000000002,
+        "baseline_precision": 0.681,
+        "diagaug_precision": 0.684,
+        "delta_precision": 0.0030000000000000027
+      },
+      {
+        "class_id": 8,
+        "name": "脏污",
+        "baseline_recall": 0.381,
+        "diagaug_recall": 0.476,
+        "delta_recall": 0.09499999999999997,
+        "baseline_ap50": 0.44,
+        "diagaug_ap50": 0.443,
+        "delta_ap50": 0.0030000000000000027,
+        "baseline_precision": 0.49,
+        "diagaug_precision": 0.556,
+        "delta_precision": 0.06600000000000006
+      },
+      {
+        "class_id": 9,
+        "name": "轮廓划伤",
+        "baseline_recall": 0.511,
+        "diagaug_recall": 0.563,
+        "delta_recall": 0.051999999999999935,
+        "baseline_ap50": 0.717,
+        "diagaug_ap50": 0.666,
+        "delta_ap50": -0.050999999999999934,
+        "baseline_precision": 0.782,
+        "diagaug_precision": 0.713,
+        "delta_precision": -0.06900000000000006
+      },
+      {
+        "class_id": 10,
+        "name": "锡丝残留",
+        "baseline_recall": 0.583,
+        "diagaug_recall": 0.574,
+        "delta_recall": -0.009000000000000008,
+        "baseline_ap50": 0.619,
+        "diagaug_ap50": 0.774,
+        "delta_ap50": 0.15500000000000003,
+        "baseline_precision": 0.634,
+        "diagaug_precision": 0.775,
+        "delta_precision": 0.14100000000000001
+      },
+      {
+        "class_id": 11,
+        "name": "锡尖",
+        "baseline_recall": 0.852,
+        "diagaug_recall": 0.888,
+        "delta_recall": 0.03600000000000003,
+        "baseline_ap50": 0.906,
+        "diagaug_ap50": 0.974,
+        "delta_ap50": 0.06799999999999995,
+        "baseline_precision": 0.825,
+        "diagaug_precision": 1.0,
+        "delta_precision": 0.17500000000000004
+      },
+      {
+        "class_id": 12,
+        "name": "锡膏",
+        "baseline_recall": 0.609,
+        "diagaug_recall": 0.717,
+        "delta_recall": 0.10799999999999998,
+        "baseline_ap50": 0.725,
+        "diagaug_ap50": 0.76,
+        "delta_ap50": 0.03500000000000003,
+        "baseline_precision": 0.826,
+        "diagaug_precision": 0.755,
+        "delta_precision": -0.07099999999999995
+      }
+    ],
+    "largest_recall_gain": {
+      "class_id": 3,
+      "name": "开裂",
+      "baseline_recall": 0.0,
+      "diagaug_recall": 1.0,
+      "delta_recall": 1.0,
+      "baseline_ap50": 0.111,
+      "diagaug_ap50": 0.995,
+      "delta_ap50": 0.884,
+      "baseline_precision": 0.0,
+      "diagaug_precision": 0.407,
+      "delta_precision": 0.407
+    },
+    "largest_recall_drop": {
+      "class_id": 2,
+      "name": "加强筋打伤",
+      "baseline_recall": 0.875,
+      "diagaug_recall": 0.625,
+      "delta_recall": -0.25,
+      "baseline_ap50": 0.955,
+      "diagaug_ap50": 0.747,
+      "delta_ap50": -0.20799999999999996,
+      "baseline_precision": 0.996,
+      "diagaug_precision": 0.74,
+      "delta_precision": -0.256
+    },
+    "largest_ap50_gain": {
+      "class_id": 3,
+      "name": "开裂",
+      "baseline_recall": 0.0,
+      "diagaug_recall": 1.0,
+      "delta_recall": 1.0,
+      "baseline_ap50": 0.111,
+      "diagaug_ap50": 0.995,
+      "delta_ap50": 0.884,
+      "baseline_precision": 0.0,
+      "diagaug_precision": 0.407,
+      "delta_precision": 0.407
+    },
+    "largest_ap50_drop": {
+      "class_id": 2,
+      "name": "加强筋打伤",
+      "baseline_recall": 0.875,
+      "diagaug_recall": 0.625,
+      "delta_recall": -0.25,
+      "baseline_ap50": 0.955,
+      "diagaug_ap50": 0.747,
+      "delta_ap50": -0.20799999999999996,
+      "baseline_precision": 0.996,
+      "diagaug_precision": 0.74,
+      "delta_precision": -0.256
+    }
+  },
+  "oom": false,
+  "notes": [
+    "Final validation uses the original safe tiled no-OK/no-position data.yaml for a direct baseline comparison.",
+    "The augmented dataset retains original training images and adds one diagnosis-driven augmented copy per train image."
+  ]
+}

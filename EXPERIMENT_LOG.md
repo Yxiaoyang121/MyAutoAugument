@@ -442,3 +442,25 @@ Key conclusions from that archived smoke:
   - `pytest -q tests/test_copy_paste.py`
   - `pytest -q tests/test_augmentations.py tests/test_copy_paste.py tests/test_yolo_error_analysis.py tests/test_proxy_prefilter.py tests/test_yolo_train_evaluator.py`
 - Dry-run pipeline invocation passed and produced an archived smoke output under `outputs/archive/old_outputs_20260517/diagnostic_aug_pipeline_smoke/`.
+
+<!-- DIAGAUG_50EP_START -->
+## Diagnosis-Driven Augmentation 50 Epoch Result
+
+- Run ID: `20260518_tiled1024_safe_no_ok_position_diagaug_yolo11n_50ep`
+- Dataset: `outputs/datasets/tiled/tiled_1024_ov20_full_safe_no_ok_position/data.yaml`
+- Baseline best.pt: `E:/TJGY/MinPaper/MyAutoAugument/outputs/experiments/20260518_tiled1024_safe_no_ok_position_baseline_yolo11n_50ep/train/weights/best.pt`
+- Selected policy: `diag_policy_001` from `low_contrast_missed_defect`
+- Selected policy contains copy_paste: `false`
+- Copy-paste candidates retained in proxy ranking: `2`
+- Copy-paste hard rejected: `false`
+- Augmented train images / bboxes: `4602` / `6364`
+- Precision: `0.686` (-0.004 vs baseline)
+- Recall: `0.688` (+0.073 vs baseline)
+- mAP50: `0.717` (+0.048 vs baseline)
+- mAP50-95: `0.496` (+0.062 vs baseline)
+- OOM: `false`
+- best.pt: `E:\TJGY\MinPaper\MyAutoAugument\outputs\experiments\20260518_tiled1024_safe_no_ok_position_diagaug_yolo11n_50ep\train\weights\best.pt`
+- Report: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_diagaug_yolo11n_50ep/reports/diagaug_50ep_report.md`
+- Metrics JSON: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_diagaug_yolo11n_50ep/reports/diagaug_50ep_metrics.json`
+- Baseline comparison: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_diagaug_yolo11n_50ep/reports/baseline_vs_diagaug.md`
+<!-- DIAGAUG_50EP_END -->

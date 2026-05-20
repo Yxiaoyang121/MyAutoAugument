@@ -1,0 +1,383 @@
+{
+  "stage": "strategy_memory_append",
+  "status": "completed",
+  "memory_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\strategy_memory.jsonl",
+  "appended": true,
+  "record": {
+    "diagnosis_vector": {
+      "small_object_score": {
+        "score": 0.3293718166383701,
+        "basis": {
+          "tiny_gt": 177,
+          "small_gt": 412,
+          "small_total_gt": 589,
+          "small_total_tp": 395,
+          "small_recall": 0.6706281833616299
+        }
+      },
+      "low_contrast_score": {
+        "score": 0.5065116279069767,
+        "basis": {
+          "fn_low_contrast_rate": 0.5953488372093023,
+          "fn_dark_rate": 0.4744186046511628,
+          "fn_bright_rate": 0.009302325581395349
+        }
+      },
+      "class_imbalance_score": {
+        "score": 0.9952554744525548,
+        "basis": {
+          "gt_counts": [
+            64,
+            274,
+            8,
+            2,
+            18,
+            13,
+            46,
+            269,
+            42,
+            84,
+            12,
+            27,
+            46
+          ],
+          "recalls": [
+            1.0,
+            0.9817518248175182,
+            0.875,
+            0.0,
+            0.2777777777777778,
+            0.5384615384615384,
+            0.6956521739130435,
+            0.6133828996282528,
+            0.42857142857142855,
+            0.5595238095238095,
+            0.4166666666666667,
+            0.8148148148148148,
+            0.5869565217391305
+          ],
+          "count_imbalance": 0.9927007299270073,
+          "recall_spread": 1.0
+        }
+      },
+      "localization_score": {
+        "score": 0.02430939226519337,
+        "basis": {
+          "gt": 905,
+          "localization_weak": 22
+        }
+      },
+      "false_positive_score": {
+        "score": 0.20476190476190476,
+        "basis": {
+          "tp": 668,
+          "fp": 172,
+          "precision": 0.7952380952380952
+        }
+      }
+    },
+    "candidate_policies": [
+      {
+        "policy_id": "diag_policy_001",
+        "source_issue": "low_contrast_missed_defect",
+        "severity_score": 0.5065116279069767,
+        "operations": [
+          {
+            "name": "clahe",
+            "params": {
+              "max_clip_limit": 3.0
+            },
+            "prob": 0.41108379773574866,
+            "strength": 0.3820837209302326
+          },
+          {
+            "name": "contrast",
+            "params": {
+              "max_delta": 0.35
+            },
+            "prob": 0.4071023997041895,
+            "strength": 0.37195348837209297
+          },
+          {
+            "name": "gamma",
+            "params": {
+              "min_gamma": 0.75,
+              "max_gamma": 1.35
+            },
+            "prob": 0.3239777050392019,
+            "strength": 0.3114325581395349
+          },
+          {
+            "name": "brightness",
+            "params": {
+              "max_delta": 0.16
+            },
+            "prob": 0.22949545947643207,
+            "strength": 0.2407813953488372
+          }
+        ],
+        "proxy_score": 0.9385882458669139,
+        "safety_score": 1.0,
+        "combined_proxy_safety_score": 0.9570117721068396,
+        "memory_guided_score": 0.9570117721068396
+      },
+      {
+        "policy_id": "diag_policy_002",
+        "source_issue": "low_contrast_missed_defect",
+        "severity_score": 0.5065116279069767,
+        "operations": [
+          {
+            "name": "clahe",
+            "params": {
+              "max_clip_limit": 3.0
+            },
+            "prob": 0.3906904367156992,
+            "strength": 0.3820837209302326
+          },
+          {
+            "name": "contrast",
+            "params": {
+              "max_delta": 0.35
+            },
+            "prob": 0.4232047170607306,
+            "strength": 0.37195348837209297
+          },
+          {
+            "name": "gamma",
+            "params": {
+              "min_gamma": 0.75,
+              "max_gamma": 1.35
+            },
+            "prob": 0.32105395850157104,
+            "strength": 0.3114325581395349
+          },
+          {
+            "name": "brightness",
+            "params": {
+              "max_delta": 0.16
+            },
+            "prob": 0.23215634776295976,
+            "strength": 0.2407813953488372
+          }
+        ],
+        "proxy_score": 0.933684385181841,
+        "safety_score": 1.0,
+        "combined_proxy_safety_score": 0.9535790696272888,
+        "memory_guided_score": 0.9535790696272888
+      },
+      {
+        "policy_id": "diag_policy_003",
+        "source_issue": "class_imbalance",
+        "severity_score": 0.9952554744525548,
+        "operations": [
+          {
+            "name": "copy_paste",
+            "params": {
+              "max_paste_count": 3,
+              "max_overlap": 0.2,
+              "class_balanced": true,
+              "max_attempts": 60
+            },
+            "prob": 0.6505470586153029,
+            "strength": 0.6503299270072993
+          },
+          {
+            "name": "scale",
+            "params": {
+              "max_delta": 0.12
+            },
+            "prob": 0.3884155927354072,
+            "strength": 0.28720291970802925
+          },
+          {
+            "name": "translate",
+            "params": {
+              "max_translate": 0.04
+            },
+            "prob": 0.28034109401164903,
+            "strength": 0.21943065693430658
+          },
+          {
+            "name": "contrast",
+            "params": {
+              "max_delta": 0.22
+            },
+            "prob": 0.34965057740268435,
+            "strength": 0.3195255474452555
+          }
+        ],
+        "proxy_score": 0.897560753808038,
+        "safety_score": 1.0,
+        "combined_proxy_safety_score": 0.9282925276656266,
+        "memory_guided_score": 0.9282925276656266
+      },
+      {
+        "policy_id": "diag_policy_004",
+        "source_issue": "localization_bias",
+        "severity_score": 0.05,
+        "operations": [
+          {
+            "name": "translate",
+            "params": {
+              "max_translate": 0.055
+            },
+            "prob": 0.14494095360241993,
+            "strength": 0.115
+          },
+          {
+            "name": "scale",
+            "params": {
+              "max_delta": 0.12
+            },
+            "prob": 0.18618284839812488,
+            "strength": 0.132
+          },
+          {
+            "name": "rotate",
+            "params": {
+              "max_angle": 4.0
+            },
+            "prob": 0.06600242596481994,
+            "strength": 0.06559999999999999
+          }
+        ],
+        "proxy_score": 0.900682197393902,
+        "safety_score": 1.0,
+        "combined_proxy_safety_score": 0.9304775381757313,
+        "memory_guided_score": 0.9304775381757313
+      },
+      {
+        "policy_id": "diag_policy_005",
+        "source_issue": "combined",
+        "severity_score": 0.9952554744525548,
+        "operations": [
+          {
+            "name": "copy_paste",
+            "params": {
+              "max_paste_count": 3,
+              "max_overlap": 0.18,
+              "prefer_small": true,
+              "class_balanced": true,
+              "max_attempts": 60
+            },
+            "prob": 0.7166105643388222,
+            "strength": 0.696213383771112
+          },
+          {
+            "name": "clahe",
+            "params": {
+              "max_clip_limit": 3.495255474452555
+            },
+            "prob": 0.45889720241203674,
+            "strength": 0.42164338821931757
+          },
+          {
+            "name": "contrast",
+            "params": {
+              "max_delta": 0.3492883211678832
+            },
+            "prob": 0.464174176484687,
+            "strength": 0.42164338821931757
+          },
+          {
+            "name": "gamma",
+            "params": {
+              "min_gamma": 0.8,
+              "max_gamma": 1.3
+            },
+            "prob": 0.44708859396133915,
+            "strength": 0.4016433882193176
+          },
+          {
+            "name": "scale",
+            "params": {
+              "max_delta": 0.1596204379562044
+            },
+            "prob": 0.3442449389755085,
+            "strength": 0.2511236414558884
+          },
+          {
+            "name": "gaussian_noise",
+            "params": {
+              "max_std": 0.02992883211678832
+            },
+            "prob": 0.16722073439234225,
+            "strength": 0.11962043795620439
+          }
+        ],
+        "proxy_score": 0.9373379382953422,
+        "safety_score": 1.0,
+        "combined_proxy_safety_score": 0.9561365568067395,
+        "memory_guided_score": 0.9561365568067395
+      }
+    ],
+    "proxy_score": 0.9385882458669139,
+    "safety_score": 1.0,
+    "short_train_metrics": {
+      "status": "skipped",
+      "dry_run": false
+    },
+    "selected_policy": {
+      "policy_id": "diag_policy_001",
+      "name": "diag_policy_001",
+      "source_issue": "low_contrast_missed_defect",
+      "source_issues": [
+        "low_contrast_missed_defect"
+      ],
+      "severity_score": 0.5065116279069767,
+      "prob_formula": "prob=clip(base_prob + op_weight * severity_score * 0.55 + jitter, 0, 1)",
+      "strength_formula": "strength=clip(base_strength + op_weight * severity_score * 0.40, 0, 1)",
+      "expected_effect": "Improve low-contrast and exposure-related missed defects.",
+      "risk_control": "Exposure changes are capped and later penalized by SafetyScore exposure_score.",
+      "operations": [
+        {
+          "name": "clahe",
+          "params": {
+            "max_clip_limit": 3.0
+          },
+          "prob": 0.41108379773574866,
+          "strength": 0.3820837209302326
+        },
+        {
+          "name": "contrast",
+          "params": {
+            "max_delta": 0.35
+          },
+          "prob": 0.4071023997041895,
+          "strength": 0.37195348837209297
+        },
+        {
+          "name": "gamma",
+          "params": {
+            "min_gamma": 0.75,
+            "max_gamma": 1.35
+          },
+          "prob": 0.3239777050392019,
+          "strength": 0.3114325581395349
+        },
+        {
+          "name": "brightness",
+          "params": {
+            "max_delta": 0.16
+          },
+          "prob": 0.22949545947643207,
+          "strength": 0.2407813953488372
+        }
+      ],
+      "explanation": "Dynamic severity-weighted policy for low_contrast_missed_defect.",
+      "metadata": {
+        "source_issues": [
+          "low_contrast_missed_defect"
+        ],
+        "diagnostic_evidence": {
+          "issue": "low_contrast_fn_high",
+          "severity": "medium",
+          "observed_rate": 0.5953488372093023
+        },
+        "severity": "medium",
+        "severity_score": 0.5065116279069767
+      }
+    },
+    "final_score": 0.9385882458669139
+  }
+}

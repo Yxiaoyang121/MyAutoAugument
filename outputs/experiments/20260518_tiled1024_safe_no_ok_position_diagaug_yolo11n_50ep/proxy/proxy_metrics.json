@@ -1,0 +1,1940 @@
+{
+  "stage": "proxy_evaluation",
+  "status": "completed",
+  "dry_run": false,
+  "seed": 42,
+  "proxy_samples": 64,
+  "candidate_count": 5,
+  "metrics": [
+    {
+      "image_count": 64,
+      "valid_image_count": 64,
+      "image_valid_rate": 1.0,
+      "total_boxes": 82,
+      "valid_boxes": 82,
+      "bbox_valid_rate": 1.0,
+      "safe_boxes": 82,
+      "bbox_safe_rate": 1.0,
+      "total_bbox_valid_rate": 1.0,
+      "original_bbox_slots": 82,
+      "original_bbox_valid_count": 82,
+      "original_bbox_retention": 1.0,
+      "new_bbox_count": 0,
+      "new_bbox_valid_count": 0,
+      "new_bbox_valid_rate": 1.0,
+      "invalid_bbox_count": 0,
+      "out_of_bounds_bbox_count": 0,
+      "class_out_of_range_count": 0,
+      "class_count_for_bounds": 13,
+      "bbox_retention": 0.8333333333333334,
+      "bbox_retention_raw": 1.0,
+      "source_tiny_box_count": 12,
+      "after_tiny_box_count": 12,
+      "tiny_target_retention": 1.0,
+      "source_small_box_count": 32,
+      "after_small_box_count": 32,
+      "small_target_retention": 1.0,
+      "small_object_retention": 1.0,
+      "source_edge_box_count": 13,
+      "after_edge_box_count": 13,
+      "edge_target_retention": 1.0,
+      "source_class_count": 11,
+      "after_class_count": 11,
+      "class_coverage_after": 1.0,
+      "rare_class_present": true,
+      "rare_class_ids": [
+        2,
+        3,
+        4,
+        6,
+        8,
+        11,
+        12
+      ],
+      "rare_class_count_threshold": 5,
+      "rare_class_retention": 1.0,
+      "mean_intensity": 88.74579312900701,
+      "mean_std": 40.86195847760442,
+      "exposure_score": 1.0,
+      "variance_score": 0.9080435217245426,
+      "image_mean_delta_std": 7.894531778524826,
+      "over_dark_or_over_bright_rate": 0.03125,
+      "saturation_rate": 0.004295557737350464,
+      "exposure_diversity_score": 0.42305422084250965,
+      "strength_penalty": 0.04646470271671216,
+      "diversity_score": 1.0,
+      "proxy_score": 0.9385882458669139,
+      "proxy_score_version": "dataset2_v1",
+      "proxy_score_components": {
+        "bbox_safety_score": 1.0,
+        "bbox_retention_score": 1.0,
+        "small_target_retention_score": 1.0,
+        "class_coverage_score": 1.0,
+        "edge_target_retention_score": 1.0,
+        "exposure_diversity_score": 0.42305422084250965,
+        "strength_penalty": 0.04646470271671216
+      },
+      "missing_components": [],
+      "policy_id": "diag_policy_001",
+      "candidate_index": 0,
+      "safety_score": 1.0,
+      "safety_score_formula": "total_bbox_valid_rate * original_bbox_retention * small_object_retention * exposure_score",
+      "safety_score_components": {
+        "total_bbox_valid_rate": 1.0,
+        "original_bbox_retention": 1.0,
+        "small_object_retention": 1.0,
+        "exposure_score": 1.0
+      },
+      "safety_missing_components": [],
+      "safety_soft_penalty_reasons": [],
+      "combined_proxy_safety_score": 0.9570117721068396,
+      "hard_filter_pass": true,
+      "hard_filter_reasons": [],
+      "invalid_sample_count": 0,
+      "class_distribution_change": 0.0,
+      "source_class_counts": {
+        "9": 10,
+        "0": 9,
+        "1": 22,
+        "7": 29,
+        "11": 3,
+        "6": 1,
+        "8": 2,
+        "12": 3,
+        "3": 1,
+        "2": 1,
+        "4": 1
+      },
+      "after_class_counts": {
+        "4": 1,
+        "12": 3,
+        "3": 1,
+        "7": 29,
+        "1": 22,
+        "8": 2,
+        "9": 10,
+        "6": 1,
+        "11": 3,
+        "2": 1,
+        "0": 9
+      },
+      "policy": {
+        "policy_id": "diag_policy_001",
+        "name": "diag_policy_001",
+        "source_issue": "low_contrast_missed_defect",
+        "source_issues": [
+          "low_contrast_missed_defect"
+        ],
+        "severity_score": 0.5065116279069767,
+        "prob_formula": "prob=clip(base_prob + op_weight * severity_score * 0.55 + jitter, 0, 1)",
+        "strength_formula": "strength=clip(base_strength + op_weight * severity_score * 0.40, 0, 1)",
+        "expected_effect": "Improve low-contrast and exposure-related missed defects.",
+        "risk_control": "Exposure changes are capped and later penalized by SafetyScore exposure_score.",
+        "operations": [
+          {
+            "name": "clahe",
+            "params": {
+              "max_clip_limit": 3.0
+            },
+            "prob": 0.41108379773574866,
+            "strength": 0.3820837209302326
+          },
+          {
+            "name": "contrast",
+            "params": {
+              "max_delta": 0.35
+            },
+            "prob": 0.4071023997041895,
+            "strength": 0.37195348837209297
+          },
+          {
+            "name": "gamma",
+            "params": {
+              "min_gamma": 0.75,
+              "max_gamma": 1.35
+            },
+            "prob": 0.3239777050392019,
+            "strength": 0.3114325581395349
+          },
+          {
+            "name": "brightness",
+            "params": {
+              "max_delta": 0.16
+            },
+            "prob": 0.22949545947643207,
+            "strength": 0.2407813953488372
+          }
+        ],
+        "explanation": "Dynamic severity-weighted policy for low_contrast_missed_defect.",
+        "metadata": {
+          "source_issues": [
+            "low_contrast_missed_defect"
+          ],
+          "diagnostic_evidence": {
+            "issue": "low_contrast_fn_high",
+            "severity": "medium",
+            "observed_rate": 0.5953488372093023
+          },
+          "severity": "medium",
+          "severity_score": 0.5065116279069767
+        }
+      },
+      "copy_paste_audit": {
+        "enabled": false,
+        "source_label_count": 82,
+        "reason": "policy_has_no_copy_paste"
+      },
+      "rank": 1
+    },
+    {
+      "image_count": 64,
+      "valid_image_count": 64,
+      "image_valid_rate": 1.0,
+      "total_boxes": 82,
+      "valid_boxes": 82,
+      "bbox_valid_rate": 1.0,
+      "safe_boxes": 82,
+      "bbox_safe_rate": 1.0,
+      "total_bbox_valid_rate": 1.0,
+      "original_bbox_slots": 82,
+      "original_bbox_valid_count": 82,
+      "original_bbox_retention": 1.0,
+      "new_bbox_count": 0,
+      "new_bbox_valid_count": 0,
+      "new_bbox_valid_rate": 1.0,
+      "invalid_bbox_count": 0,
+      "out_of_bounds_bbox_count": 0,
+      "class_out_of_range_count": 0,
+      "class_count_for_bounds": 13,
+      "bbox_retention": 0.8333333333333334,
+      "bbox_retention_raw": 1.0,
+      "source_tiny_box_count": 12,
+      "after_tiny_box_count": 12,
+      "tiny_target_retention": 1.0,
+      "source_small_box_count": 32,
+      "after_small_box_count": 32,
+      "small_target_retention": 1.0,
+      "small_object_retention": 1.0,
+      "source_edge_box_count": 13,
+      "after_edge_box_count": 13,
+      "edge_target_retention": 1.0,
+      "source_class_count": 11,
+      "after_class_count": 11,
+      "class_coverage_after": 1.0,
+      "rare_class_present": true,
+      "rare_class_ids": [
+        2,
+        3,
+        4,
+        6,
+        8,
+        11,
+        12
+      ],
+      "rare_class_count_threshold": 5,
+      "rare_class_retention": 1.0,
+      "mean_intensity": 88.1152938057979,
+      "mean_std": 40.81272004932124,
+      "exposure_score": 1.0,
+      "variance_score": 0.906949334429361,
+      "image_mean_delta_std": 7.087804372534035,
+      "over_dark_or_over_bright_rate": 0.046875,
+      "saturation_rate": 0.0038881897926330566,
+      "exposure_diversity_score": 0.3738498127423217,
+      "strength_penalty": 0.0462574511548879,
+      "diversity_score": 1.0,
+      "proxy_score": 0.933684385181841,
+      "proxy_score_version": "dataset2_v1",
+      "proxy_score_components": {
+        "bbox_safety_score": 1.0,
+        "bbox_retention_score": 1.0,
+        "small_target_retention_score": 1.0,
+        "class_coverage_score": 1.0,
+        "edge_target_retention_score": 1.0,
+        "exposure_diversity_score": 0.3738498127423217,
+        "strength_penalty": 0.0462574511548879
+      },
+      "missing_components": [],
+      "policy_id": "diag_policy_002",
+      "candidate_index": 1,
+      "safety_score": 1.0,
+      "safety_score_formula": "total_bbox_valid_rate * original_bbox_retention * small_object_retention * exposure_score",
+      "safety_score_components": {
+        "total_bbox_valid_rate": 1.0,
+        "original_bbox_retention": 1.0,
+        "small_object_retention": 1.0,
+        "exposure_score": 1.0
+      },
+      "safety_missing_components": [],
+      "safety_soft_penalty_reasons": [],
+      "combined_proxy_safety_score": 0.9535790696272888,
+      "hard_filter_pass": true,
+      "hard_filter_reasons": [],
+      "invalid_sample_count": 0,
+      "class_distribution_change": 0.0,
+      "source_class_counts": {
+        "9": 10,
+        "0": 9,
+        "1": 22,
+        "7": 29,
+        "11": 3,
+        "6": 1,
+        "8": 2,
+        "12": 3,
+        "3": 1,
+        "2": 1,
+        "4": 1
+      },
+      "after_class_counts": {
+        "4": 1,
+        "12": 3,
+        "3": 1,
+        "7": 29,
+        "1": 22,
+        "8": 2,
+        "9": 10,
+        "6": 1,
+        "11": 3,
+        "2": 1,
+        "0": 9
+      },
+      "policy": {
+        "policy_id": "diag_policy_002",
+        "name": "diag_policy_002",
+        "source_issue": "low_contrast_missed_defect",
+        "source_issues": [
+          "low_contrast_missed_defect"
+        ],
+        "severity_score": 0.5065116279069767,
+        "prob_formula": "prob=clip(base_prob + op_weight * severity_score * 0.55 + jitter, 0, 1)",
+        "strength_formula": "strength=clip(base_strength + op_weight * severity_score * 0.40, 0, 1)",
+        "expected_effect": "Improve low-contrast and exposure-related missed defects.",
+        "risk_control": "Exposure changes are capped and later penalized by SafetyScore exposure_score.",
+        "operations": [
+          {
+            "name": "clahe",
+            "params": {
+              "max_clip_limit": 3.0
+            },
+            "prob": 0.3906904367156992,
+            "strength": 0.3820837209302326
+          },
+          {
+            "name": "contrast",
+            "params": {
+              "max_delta": 0.35
+            },
+            "prob": 0.4232047170607306,
+            "strength": 0.37195348837209297
+          },
+          {
+            "name": "gamma",
+            "params": {
+              "min_gamma": 0.75,
+              "max_gamma": 1.35
+            },
+            "prob": 0.32105395850157104,
+            "strength": 0.3114325581395349
+          },
+          {
+            "name": "brightness",
+            "params": {
+              "max_delta": 0.16
+            },
+            "prob": 0.23215634776295976,
+            "strength": 0.2407813953488372
+          }
+        ],
+        "explanation": "Dynamic severity-weighted policy for low_contrast_missed_defect.",
+        "metadata": {
+          "source_issues": [
+            "low_contrast_missed_defect"
+          ],
+          "diagnostic_evidence": {
+            "issue": "exposure_fn_high",
+            "severity": "medium",
+            "dark_rate": 0.4744186046511628,
+            "bright_rate": 0.009302325581395349
+          },
+          "severity": "medium",
+          "severity_score": 0.5065116279069767
+        }
+      },
+      "copy_paste_audit": {
+        "enabled": false,
+        "source_label_count": 82,
+        "reason": "policy_has_no_copy_paste"
+      },
+      "rank": 3
+    },
+    {
+      "image_count": 64,
+      "valid_image_count": 64,
+      "image_valid_rate": 1.0,
+      "total_boxes": 160,
+      "valid_boxes": 160,
+      "bbox_valid_rate": 1.0,
+      "safe_boxes": 160,
+      "bbox_safe_rate": 1.0,
+      "total_bbox_valid_rate": 1.0,
+      "original_bbox_slots": 82,
+      "original_bbox_valid_count": 82,
+      "original_bbox_retention": 1.0,
+      "new_bbox_count": 78,
+      "new_bbox_valid_count": 78,
+      "new_bbox_valid_rate": 1.0,
+      "invalid_bbox_count": 0,
+      "out_of_bounds_bbox_count": 0,
+      "class_out_of_range_count": 0,
+      "class_count_for_bounds": 13,
+      "bbox_retention": 1.0,
+      "bbox_retention_raw": 1.0,
+      "source_tiny_box_count": 12,
+      "after_tiny_box_count": 26,
+      "tiny_target_retention": 1.0,
+      "source_small_box_count": 32,
+      "after_small_box_count": 70,
+      "small_target_retention": 1.0,
+      "small_object_retention": 1.0,
+      "source_edge_box_count": 13,
+      "after_edge_box_count": 29,
+      "edge_target_retention": 1.0,
+      "source_class_count": 11,
+      "after_class_count": 11,
+      "class_coverage_after": 1.0,
+      "rare_class_present": true,
+      "rare_class_ids": [
+        2,
+        3,
+        4,
+        6,
+        8,
+        11,
+        12
+      ],
+      "rare_class_count_threshold": 5,
+      "rare_class_retention": 1.0,
+      "mean_intensity": 83.86242306232452,
+      "mean_std": 40.67693900242911,
+      "exposure_score": 1.0,
+      "variance_score": 0.9039319778317579,
+      "image_mean_delta_std": 1.487322644982077,
+      "over_dark_or_over_bright_rate": 0.0625,
+      "saturation_rate": 0.012888848781585693,
+      "exposure_diversity_score": 0.07646629001674349,
+      "strength_penalty": 0.1260734399204535,
+      "diversity_score": 1.0,
+      "proxy_score": 0.897560753808038,
+      "proxy_score_version": "dataset2_v1",
+      "proxy_score_components": {
+        "bbox_safety_score": 1.0,
+        "bbox_retention_score": 1.0,
+        "small_target_retention_score": 1.0,
+        "class_coverage_score": 1.0,
+        "edge_target_retention_score": 1.0,
+        "exposure_diversity_score": 0.07646629001674349,
+        "strength_penalty": 0.1260734399204535
+      },
+      "missing_components": [],
+      "policy_id": "diag_policy_003",
+      "candidate_index": 2,
+      "safety_score": 1.0,
+      "safety_score_formula": "total_bbox_valid_rate * original_bbox_retention * small_object_retention * exposure_score",
+      "safety_score_components": {
+        "total_bbox_valid_rate": 1.0,
+        "original_bbox_retention": 1.0,
+        "small_object_retention": 1.0,
+        "exposure_score": 1.0
+      },
+      "safety_missing_components": [],
+      "safety_soft_penalty_reasons": [],
+      "combined_proxy_safety_score": 0.9282925276656266,
+      "hard_filter_pass": true,
+      "hard_filter_reasons": [],
+      "invalid_sample_count": 0,
+      "class_distribution_change": 0.062195121951219554,
+      "source_class_counts": {
+        "9": 10,
+        "0": 9,
+        "1": 22,
+        "7": 29,
+        "11": 3,
+        "6": 1,
+        "8": 2,
+        "12": 3,
+        "3": 1,
+        "2": 1,
+        "4": 1
+      },
+      "after_class_counts": {
+        "4": 2,
+        "12": 7,
+        "3": 3,
+        "7": 64,
+        "1": 41,
+        "8": 4,
+        "9": 16,
+        "6": 1,
+        "11": 6,
+        "2": 2,
+        "0": 14
+      },
+      "policy": {
+        "policy_id": "diag_policy_003",
+        "name": "diag_policy_003",
+        "source_issue": "class_imbalance",
+        "source_issues": [
+          "class_imbalance"
+        ],
+        "severity_score": 0.9952554744525548,
+        "prob_formula": "prob=clip(base_prob + op_weight * severity_score * 0.55 + jitter, 0, 1)",
+        "strength_formula": "strength=clip(base_strength + op_weight * severity_score * 0.40, 0, 1)",
+        "expected_effect": "Increase minority-class presentation through class-balanced copy_paste.",
+        "risk_control": "Hard class-out-of-range errors still reject; ordinary distribution drift becomes a soft safety penalty.",
+        "operations": [
+          {
+            "name": "copy_paste",
+            "params": {
+              "max_paste_count": 3,
+              "max_overlap": 0.2,
+              "class_balanced": true,
+              "max_attempts": 60
+            },
+            "prob": 0.6505470586153029,
+            "strength": 0.6503299270072993
+          },
+          {
+            "name": "scale",
+            "params": {
+              "max_delta": 0.12
+            },
+            "prob": 0.3884155927354072,
+            "strength": 0.28720291970802925
+          },
+          {
+            "name": "translate",
+            "params": {
+              "max_translate": 0.04
+            },
+            "prob": 0.28034109401164903,
+            "strength": 0.21943065693430658
+          },
+          {
+            "name": "contrast",
+            "params": {
+              "max_delta": 0.22
+            },
+            "prob": 0.34965057740268435,
+            "strength": 0.3195255474452555
+          }
+        ],
+        "explanation": "Dynamic severity-weighted policy for class_imbalance.",
+        "metadata": {
+          "source_issues": [
+            "class_imbalance"
+          ],
+          "diagnostic_evidence": {
+            "issue": "class_recall_imbalance",
+            "severity": "medium",
+            "classes": [
+              {
+                "class_id": 3,
+                "class_name": "开裂",
+                "fn_rate": 1.0
+              },
+              {
+                "class_id": 4,
+                "class_name": "油污",
+                "fn_rate": 0.7222222222222222
+              },
+              {
+                "class_id": 5,
+                "class_name": "浅划伤",
+                "fn_rate": 0.46153846153846156
+              },
+              {
+                "class_id": 8,
+                "class_name": "脏污",
+                "fn_rate": 0.47619047619047616
+              },
+              {
+                "class_id": 10,
+                "class_name": "锡丝残留",
+                "fn_rate": 0.5833333333333334
+              }
+            ]
+          },
+          "severity": "medium",
+          "severity_score": 0.9952554744525548
+        }
+      },
+      "copy_paste_audit": {
+        "enabled": true,
+        "sample_count": 64,
+        "source_label_count": 82,
+        "before_bbox_count": 82,
+        "after_bbox_count": 160,
+        "new_bbox_count": 78,
+        "original_bbox_retention": 1.0,
+        "iou_matched_original_bbox_retention": 0.524390243902439,
+        "new_bbox_valid_rate": 1.0,
+        "total_bbox_valid_rate": 1.0,
+        "invalid_bbox_count": 0,
+        "out_of_bounds_bbox_count": 0,
+        "class_out_of_range_count": 0,
+        "debug_dir": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_diagaug_yolo11n_50ep\\proxy\\proxy_artifacts\\diag_policy_003\\copy_paste_audit\\debug"
+      },
+      "rank": 5
+    },
+    {
+      "image_count": 64,
+      "valid_image_count": 64,
+      "image_valid_rate": 1.0,
+      "total_boxes": 82,
+      "valid_boxes": 82,
+      "bbox_valid_rate": 1.0,
+      "safe_boxes": 82,
+      "bbox_safe_rate": 1.0,
+      "total_bbox_valid_rate": 1.0,
+      "original_bbox_slots": 82,
+      "original_bbox_valid_count": 82,
+      "original_bbox_retention": 1.0,
+      "new_bbox_count": 0,
+      "new_bbox_valid_count": 0,
+      "new_bbox_valid_rate": 1.0,
+      "invalid_bbox_count": 0,
+      "out_of_bounds_bbox_count": 0,
+      "class_out_of_range_count": 0,
+      "class_count_for_bounds": 13,
+      "bbox_retention": 0.8333333333333334,
+      "bbox_retention_raw": 1.0,
+      "source_tiny_box_count": 12,
+      "after_tiny_box_count": 12,
+      "tiny_target_retention": 1.0,
+      "source_small_box_count": 32,
+      "after_small_box_count": 32,
+      "small_target_retention": 1.0,
+      "small_object_retention": 1.0,
+      "source_edge_box_count": 13,
+      "after_edge_box_count": 13,
+      "edge_target_retention": 1.0,
+      "source_class_count": 11,
+      "after_class_count": 11,
+      "class_coverage_after": 1.0,
+      "rare_class_present": true,
+      "rare_class_ids": [
+        2,
+        3,
+        4,
+        6,
+        8,
+        11,
+        12
+      ],
+      "rare_class_count_threshold": 5,
+      "rare_class_retention": 1.0,
+      "mean_intensity": 84.72646644711494,
+      "mean_std": 40.271801616042374,
+      "exposure_score": 1.0,
+      "variance_score": 0.8949289248009417,
+      "image_mean_delta_std": 0.2954463069206789,
+      "over_dark_or_over_bright_rate": 0.046875,
+      "saturation_rate": 0.005384176969528198,
+      "exposure_diversity_score": 0.015560060655271435,
+      "strength_penalty": 0.010922608395314837,
+      "diversity_score": 1.0,
+      "proxy_score": 0.900682197393902,
+      "proxy_score_version": "dataset2_v1",
+      "proxy_score_components": {
+        "bbox_safety_score": 1.0,
+        "bbox_retention_score": 1.0,
+        "small_target_retention_score": 1.0,
+        "class_coverage_score": 1.0,
+        "edge_target_retention_score": 1.0,
+        "exposure_diversity_score": 0.015560060655271435,
+        "strength_penalty": 0.010922608395314837
+      },
+      "missing_components": [],
+      "policy_id": "diag_policy_004",
+      "candidate_index": 3,
+      "safety_score": 1.0,
+      "safety_score_formula": "total_bbox_valid_rate * original_bbox_retention * small_object_retention * exposure_score",
+      "safety_score_components": {
+        "total_bbox_valid_rate": 1.0,
+        "original_bbox_retention": 1.0,
+        "small_object_retention": 1.0,
+        "exposure_score": 1.0
+      },
+      "safety_missing_components": [],
+      "safety_soft_penalty_reasons": [],
+      "combined_proxy_safety_score": 0.9304775381757313,
+      "hard_filter_pass": true,
+      "hard_filter_reasons": [],
+      "invalid_sample_count": 0,
+      "class_distribution_change": 0.0,
+      "source_class_counts": {
+        "9": 10,
+        "0": 9,
+        "1": 22,
+        "7": 29,
+        "11": 3,
+        "6": 1,
+        "8": 2,
+        "12": 3,
+        "3": 1,
+        "2": 1,
+        "4": 1
+      },
+      "after_class_counts": {
+        "4": 1,
+        "12": 3,
+        "3": 1,
+        "7": 29,
+        "1": 22,
+        "8": 2,
+        "9": 10,
+        "6": 1,
+        "11": 3,
+        "2": 1,
+        "0": 9
+      },
+      "policy": {
+        "policy_id": "diag_policy_004",
+        "name": "diag_policy_004",
+        "source_issue": "localization_bias",
+        "source_issues": [
+          "localization_bias"
+        ],
+        "severity_score": 0.05,
+        "prob_formula": "prob=clip(base_prob + op_weight * severity_score * 0.55 + jitter, 0, 1)",
+        "strength_formula": "strength=clip(base_strength + op_weight * severity_score * 0.40, 0, 1)",
+        "expected_effect": "Teach tolerance to small localization shifts without aggressive rotation.",
+        "risk_control": "Rotation is low-probability and low-strength; bbox retention is checked by the proxy audit.",
+        "operations": [
+          {
+            "name": "translate",
+            "params": {
+              "max_translate": 0.055
+            },
+            "prob": 0.14494095360241993,
+            "strength": 0.115
+          },
+          {
+            "name": "scale",
+            "params": {
+              "max_delta": 0.12
+            },
+            "prob": 0.18618284839812488,
+            "strength": 0.132
+          },
+          {
+            "name": "rotate",
+            "params": {
+              "max_angle": 4.0
+            },
+            "prob": 0.06600242596481994,
+            "strength": 0.06559999999999999
+          }
+        ],
+        "explanation": "Dynamic severity-weighted policy for localization_bias.",
+        "metadata": {
+          "source_issues": [
+            "localization_bias"
+          ],
+          "diagnostic_evidence": {
+            "localization_weak_count": 22
+          },
+          "severity": "medium",
+          "severity_score": 0.05
+        }
+      },
+      "copy_paste_audit": {
+        "enabled": false,
+        "source_label_count": 82,
+        "reason": "policy_has_no_copy_paste"
+      },
+      "rank": 4
+    },
+    {
+      "image_count": 64,
+      "valid_image_count": 64,
+      "image_valid_rate": 1.0,
+      "total_boxes": 156,
+      "valid_boxes": 156,
+      "bbox_valid_rate": 1.0,
+      "safe_boxes": 156,
+      "bbox_safe_rate": 1.0,
+      "total_bbox_valid_rate": 1.0,
+      "original_bbox_slots": 82,
+      "original_bbox_valid_count": 82,
+      "original_bbox_retention": 1.0,
+      "new_bbox_count": 74,
+      "new_bbox_valid_count": 74,
+      "new_bbox_valid_rate": 1.0,
+      "invalid_bbox_count": 0,
+      "out_of_bounds_bbox_count": 0,
+      "class_out_of_range_count": 0,
+      "class_count_for_bounds": 13,
+      "bbox_retention": 1.0,
+      "bbox_retention_raw": 1.0,
+      "source_tiny_box_count": 12,
+      "after_tiny_box_count": 26,
+      "tiny_target_retention": 1.0,
+      "source_small_box_count": 32,
+      "after_small_box_count": 64,
+      "small_target_retention": 1.0,
+      "small_object_retention": 1.0,
+      "source_edge_box_count": 13,
+      "after_edge_box_count": 21,
+      "edge_target_retention": 1.0,
+      "source_class_count": 11,
+      "after_class_count": 11,
+      "class_coverage_after": 1.0,
+      "rare_class_present": true,
+      "rare_class_ids": [
+        2,
+        3,
+        4,
+        6,
+        8,
+        11,
+        12
+      ],
+      "rare_class_count_threshold": 5,
+      "rare_class_retention": 1.0,
+      "mean_intensity": 91.04316048324108,
+      "mean_std": 42.25808833430821,
+      "exposure_score": 1.0,
+      "variance_score": 0.9390686296512936,
+      "image_mean_delta_std": 8.78057033198027,
+      "over_dark_or_over_bright_rate": 0.03125,
+      "saturation_rate": 0.01036517322063446,
+      "exposure_diversity_score": 0.46766719476547436,
+      "strength_penalty": 0.1178597647650655,
+      "diversity_score": 1.0,
+      "proxy_score": 0.9373379382953422,
+      "proxy_score_version": "dataset2_v1",
+      "proxy_score_components": {
+        "bbox_safety_score": 1.0,
+        "bbox_retention_score": 1.0,
+        "small_target_retention_score": 1.0,
+        "class_coverage_score": 1.0,
+        "edge_target_retention_score": 1.0,
+        "exposure_diversity_score": 0.46766719476547436,
+        "strength_penalty": 0.1178597647650655
+      },
+      "missing_components": [],
+      "policy_id": "diag_policy_005",
+      "candidate_index": 4,
+      "safety_score": 1.0,
+      "safety_score_formula": "total_bbox_valid_rate * original_bbox_retention * small_object_retention * exposure_score",
+      "safety_score_components": {
+        "total_bbox_valid_rate": 1.0,
+        "original_bbox_retention": 1.0,
+        "small_object_retention": 1.0,
+        "exposure_score": 1.0
+      },
+      "safety_missing_components": [],
+      "safety_soft_penalty_reasons": [],
+      "combined_proxy_safety_score": 0.9561365568067395,
+      "hard_filter_pass": true,
+      "hard_filter_reasons": [],
+      "invalid_sample_count": 0,
+      "class_distribution_change": 0.075515947467167,
+      "source_class_counts": {
+        "9": 10,
+        "0": 9,
+        "1": 22,
+        "7": 29,
+        "11": 3,
+        "6": 1,
+        "8": 2,
+        "12": 3,
+        "3": 1,
+        "2": 1,
+        "4": 1
+      },
+      "after_class_counts": {
+        "4": 1,
+        "12": 7,
+        "3": 3,
+        "7": 57,
+        "1": 33,
+        "8": 6,
+        "9": 22,
+        "6": 3,
+        "11": 7,
+        "2": 1,
+        "0": 16
+      },
+      "policy": {
+        "policy_id": "diag_policy_005",
+        "name": "diag_policy_005",
+        "source_issue": "combined",
+        "source_issues": [
+          "low_contrast_missed_defect",
+          "low_contrast_missed_defect",
+          "class_imbalance",
+          "localization_bias"
+        ],
+        "severity_score": 0.9952554744525548,
+        "prob_formula": "prob=clip(base_prob + op_weight * severity_score * 0.55 + jitter, 0, 1)",
+        "strength_formula": "strength=clip(base_strength + op_weight * severity_score * 0.40, 0, 1)",
+        "expected_effect": "Blend the dominant diagnosis-vector severities into one conservative policy.",
+        "risk_control": "All candidates are still reranked with proxy score and SafetyScore before short training.",
+        "operations": [
+          {
+            "name": "copy_paste",
+            "params": {
+              "max_paste_count": 3,
+              "max_overlap": 0.18,
+              "prefer_small": true,
+              "class_balanced": true,
+              "max_attempts": 60
+            },
+            "prob": 0.7166105643388222,
+            "strength": 0.696213383771112
+          },
+          {
+            "name": "clahe",
+            "params": {
+              "max_clip_limit": 3.495255474452555
+            },
+            "prob": 0.45889720241203674,
+            "strength": 0.42164338821931757
+          },
+          {
+            "name": "contrast",
+            "params": {
+              "max_delta": 0.3492883211678832
+            },
+            "prob": 0.464174176484687,
+            "strength": 0.42164338821931757
+          },
+          {
+            "name": "gamma",
+            "params": {
+              "min_gamma": 0.8,
+              "max_gamma": 1.3
+            },
+            "prob": 0.44708859396133915,
+            "strength": 0.4016433882193176
+          },
+          {
+            "name": "scale",
+            "params": {
+              "max_delta": 0.1596204379562044
+            },
+            "prob": 0.3442449389755085,
+            "strength": 0.2511236414558884
+          },
+          {
+            "name": "gaussian_noise",
+            "params": {
+              "max_std": 0.02992883211678832
+            },
+            "prob": 0.16722073439234225,
+            "strength": 0.11962043795620439
+          }
+        ],
+        "explanation": "Combined dynamic policy generated from diagnosis_vector operator weights.",
+        "metadata": {
+          "source_issues": [
+            "low_contrast_missed_defect",
+            "low_contrast_missed_defect",
+            "class_imbalance",
+            "localization_bias"
+          ],
+          "combined": true,
+          "severity_score": 0.9952554744525548
+        }
+      },
+      "copy_paste_audit": {
+        "enabled": true,
+        "sample_count": 64,
+        "source_label_count": 82,
+        "before_bbox_count": 82,
+        "after_bbox_count": 156,
+        "new_bbox_count": 74,
+        "original_bbox_retention": 1.0,
+        "iou_matched_original_bbox_retention": 0.7926829268292683,
+        "new_bbox_valid_rate": 1.0,
+        "total_bbox_valid_rate": 1.0,
+        "invalid_bbox_count": 0,
+        "out_of_bounds_bbox_count": 0,
+        "class_out_of_range_count": 0,
+        "debug_dir": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_diagaug_yolo11n_50ep\\proxy\\proxy_artifacts\\diag_policy_005\\copy_paste_audit\\debug"
+      },
+      "rank": 2
+    }
+  ],
+  "ranking": [
+    {
+      "image_count": 64,
+      "valid_image_count": 64,
+      "image_valid_rate": 1.0,
+      "total_boxes": 82,
+      "valid_boxes": 82,
+      "bbox_valid_rate": 1.0,
+      "safe_boxes": 82,
+      "bbox_safe_rate": 1.0,
+      "total_bbox_valid_rate": 1.0,
+      "original_bbox_slots": 82,
+      "original_bbox_valid_count": 82,
+      "original_bbox_retention": 1.0,
+      "new_bbox_count": 0,
+      "new_bbox_valid_count": 0,
+      "new_bbox_valid_rate": 1.0,
+      "invalid_bbox_count": 0,
+      "out_of_bounds_bbox_count": 0,
+      "class_out_of_range_count": 0,
+      "class_count_for_bounds": 13,
+      "bbox_retention": 0.8333333333333334,
+      "bbox_retention_raw": 1.0,
+      "source_tiny_box_count": 12,
+      "after_tiny_box_count": 12,
+      "tiny_target_retention": 1.0,
+      "source_small_box_count": 32,
+      "after_small_box_count": 32,
+      "small_target_retention": 1.0,
+      "small_object_retention": 1.0,
+      "source_edge_box_count": 13,
+      "after_edge_box_count": 13,
+      "edge_target_retention": 1.0,
+      "source_class_count": 11,
+      "after_class_count": 11,
+      "class_coverage_after": 1.0,
+      "rare_class_present": true,
+      "rare_class_ids": [
+        2,
+        3,
+        4,
+        6,
+        8,
+        11,
+        12
+      ],
+      "rare_class_count_threshold": 5,
+      "rare_class_retention": 1.0,
+      "mean_intensity": 88.74579312900701,
+      "mean_std": 40.86195847760442,
+      "exposure_score": 1.0,
+      "variance_score": 0.9080435217245426,
+      "image_mean_delta_std": 7.894531778524826,
+      "over_dark_or_over_bright_rate": 0.03125,
+      "saturation_rate": 0.004295557737350464,
+      "exposure_diversity_score": 0.42305422084250965,
+      "strength_penalty": 0.04646470271671216,
+      "diversity_score": 1.0,
+      "proxy_score": 0.9385882458669139,
+      "proxy_score_version": "dataset2_v1",
+      "proxy_score_components": {
+        "bbox_safety_score": 1.0,
+        "bbox_retention_score": 1.0,
+        "small_target_retention_score": 1.0,
+        "class_coverage_score": 1.0,
+        "edge_target_retention_score": 1.0,
+        "exposure_diversity_score": 0.42305422084250965,
+        "strength_penalty": 0.04646470271671216
+      },
+      "missing_components": [],
+      "policy_id": "diag_policy_001",
+      "candidate_index": 0,
+      "safety_score": 1.0,
+      "safety_score_formula": "total_bbox_valid_rate * original_bbox_retention * small_object_retention * exposure_score",
+      "safety_score_components": {
+        "total_bbox_valid_rate": 1.0,
+        "original_bbox_retention": 1.0,
+        "small_object_retention": 1.0,
+        "exposure_score": 1.0
+      },
+      "safety_missing_components": [],
+      "safety_soft_penalty_reasons": [],
+      "combined_proxy_safety_score": 0.9570117721068396,
+      "hard_filter_pass": true,
+      "hard_filter_reasons": [],
+      "invalid_sample_count": 0,
+      "class_distribution_change": 0.0,
+      "source_class_counts": {
+        "9": 10,
+        "0": 9,
+        "1": 22,
+        "7": 29,
+        "11": 3,
+        "6": 1,
+        "8": 2,
+        "12": 3,
+        "3": 1,
+        "2": 1,
+        "4": 1
+      },
+      "after_class_counts": {
+        "4": 1,
+        "12": 3,
+        "3": 1,
+        "7": 29,
+        "1": 22,
+        "8": 2,
+        "9": 10,
+        "6": 1,
+        "11": 3,
+        "2": 1,
+        "0": 9
+      },
+      "policy": {
+        "policy_id": "diag_policy_001",
+        "name": "diag_policy_001",
+        "source_issue": "low_contrast_missed_defect",
+        "source_issues": [
+          "low_contrast_missed_defect"
+        ],
+        "severity_score": 0.5065116279069767,
+        "prob_formula": "prob=clip(base_prob + op_weight * severity_score * 0.55 + jitter, 0, 1)",
+        "strength_formula": "strength=clip(base_strength + op_weight * severity_score * 0.40, 0, 1)",
+        "expected_effect": "Improve low-contrast and exposure-related missed defects.",
+        "risk_control": "Exposure changes are capped and later penalized by SafetyScore exposure_score.",
+        "operations": [
+          {
+            "name": "clahe",
+            "params": {
+              "max_clip_limit": 3.0
+            },
+            "prob": 0.41108379773574866,
+            "strength": 0.3820837209302326
+          },
+          {
+            "name": "contrast",
+            "params": {
+              "max_delta": 0.35
+            },
+            "prob": 0.4071023997041895,
+            "strength": 0.37195348837209297
+          },
+          {
+            "name": "gamma",
+            "params": {
+              "min_gamma": 0.75,
+              "max_gamma": 1.35
+            },
+            "prob": 0.3239777050392019,
+            "strength": 0.3114325581395349
+          },
+          {
+            "name": "brightness",
+            "params": {
+              "max_delta": 0.16
+            },
+            "prob": 0.22949545947643207,
+            "strength": 0.2407813953488372
+          }
+        ],
+        "explanation": "Dynamic severity-weighted policy for low_contrast_missed_defect.",
+        "metadata": {
+          "source_issues": [
+            "low_contrast_missed_defect"
+          ],
+          "diagnostic_evidence": {
+            "issue": "low_contrast_fn_high",
+            "severity": "medium",
+            "observed_rate": 0.5953488372093023
+          },
+          "severity": "medium",
+          "severity_score": 0.5065116279069767
+        }
+      },
+      "copy_paste_audit": {
+        "enabled": false,
+        "source_label_count": 82,
+        "reason": "policy_has_no_copy_paste"
+      },
+      "rank": 1
+    },
+    {
+      "image_count": 64,
+      "valid_image_count": 64,
+      "image_valid_rate": 1.0,
+      "total_boxes": 156,
+      "valid_boxes": 156,
+      "bbox_valid_rate": 1.0,
+      "safe_boxes": 156,
+      "bbox_safe_rate": 1.0,
+      "total_bbox_valid_rate": 1.0,
+      "original_bbox_slots": 82,
+      "original_bbox_valid_count": 82,
+      "original_bbox_retention": 1.0,
+      "new_bbox_count": 74,
+      "new_bbox_valid_count": 74,
+      "new_bbox_valid_rate": 1.0,
+      "invalid_bbox_count": 0,
+      "out_of_bounds_bbox_count": 0,
+      "class_out_of_range_count": 0,
+      "class_count_for_bounds": 13,
+      "bbox_retention": 1.0,
+      "bbox_retention_raw": 1.0,
+      "source_tiny_box_count": 12,
+      "after_tiny_box_count": 26,
+      "tiny_target_retention": 1.0,
+      "source_small_box_count": 32,
+      "after_small_box_count": 64,
+      "small_target_retention": 1.0,
+      "small_object_retention": 1.0,
+      "source_edge_box_count": 13,
+      "after_edge_box_count": 21,
+      "edge_target_retention": 1.0,
+      "source_class_count": 11,
+      "after_class_count": 11,
+      "class_coverage_after": 1.0,
+      "rare_class_present": true,
+      "rare_class_ids": [
+        2,
+        3,
+        4,
+        6,
+        8,
+        11,
+        12
+      ],
+      "rare_class_count_threshold": 5,
+      "rare_class_retention": 1.0,
+      "mean_intensity": 91.04316048324108,
+      "mean_std": 42.25808833430821,
+      "exposure_score": 1.0,
+      "variance_score": 0.9390686296512936,
+      "image_mean_delta_std": 8.78057033198027,
+      "over_dark_or_over_bright_rate": 0.03125,
+      "saturation_rate": 0.01036517322063446,
+      "exposure_diversity_score": 0.46766719476547436,
+      "strength_penalty": 0.1178597647650655,
+      "diversity_score": 1.0,
+      "proxy_score": 0.9373379382953422,
+      "proxy_score_version": "dataset2_v1",
+      "proxy_score_components": {
+        "bbox_safety_score": 1.0,
+        "bbox_retention_score": 1.0,
+        "small_target_retention_score": 1.0,
+        "class_coverage_score": 1.0,
+        "edge_target_retention_score": 1.0,
+        "exposure_diversity_score": 0.46766719476547436,
+        "strength_penalty": 0.1178597647650655
+      },
+      "missing_components": [],
+      "policy_id": "diag_policy_005",
+      "candidate_index": 4,
+      "safety_score": 1.0,
+      "safety_score_formula": "total_bbox_valid_rate * original_bbox_retention * small_object_retention * exposure_score",
+      "safety_score_components": {
+        "total_bbox_valid_rate": 1.0,
+        "original_bbox_retention": 1.0,
+        "small_object_retention": 1.0,
+        "exposure_score": 1.0
+      },
+      "safety_missing_components": [],
+      "safety_soft_penalty_reasons": [],
+      "combined_proxy_safety_score": 0.9561365568067395,
+      "hard_filter_pass": true,
+      "hard_filter_reasons": [],
+      "invalid_sample_count": 0,
+      "class_distribution_change": 0.075515947467167,
+      "source_class_counts": {
+        "9": 10,
+        "0": 9,
+        "1": 22,
+        "7": 29,
+        "11": 3,
+        "6": 1,
+        "8": 2,
+        "12": 3,
+        "3": 1,
+        "2": 1,
+        "4": 1
+      },
+      "after_class_counts": {
+        "4": 1,
+        "12": 7,
+        "3": 3,
+        "7": 57,
+        "1": 33,
+        "8": 6,
+        "9": 22,
+        "6": 3,
+        "11": 7,
+        "2": 1,
+        "0": 16
+      },
+      "policy": {
+        "policy_id": "diag_policy_005",
+        "name": "diag_policy_005",
+        "source_issue": "combined",
+        "source_issues": [
+          "low_contrast_missed_defect",
+          "low_contrast_missed_defect",
+          "class_imbalance",
+          "localization_bias"
+        ],
+        "severity_score": 0.9952554744525548,
+        "prob_formula": "prob=clip(base_prob + op_weight * severity_score * 0.55 + jitter, 0, 1)",
+        "strength_formula": "strength=clip(base_strength + op_weight * severity_score * 0.40, 0, 1)",
+        "expected_effect": "Blend the dominant diagnosis-vector severities into one conservative policy.",
+        "risk_control": "All candidates are still reranked with proxy score and SafetyScore before short training.",
+        "operations": [
+          {
+            "name": "copy_paste",
+            "params": {
+              "max_paste_count": 3,
+              "max_overlap": 0.18,
+              "prefer_small": true,
+              "class_balanced": true,
+              "max_attempts": 60
+            },
+            "prob": 0.7166105643388222,
+            "strength": 0.696213383771112
+          },
+          {
+            "name": "clahe",
+            "params": {
+              "max_clip_limit": 3.495255474452555
+            },
+            "prob": 0.45889720241203674,
+            "strength": 0.42164338821931757
+          },
+          {
+            "name": "contrast",
+            "params": {
+              "max_delta": 0.3492883211678832
+            },
+            "prob": 0.464174176484687,
+            "strength": 0.42164338821931757
+          },
+          {
+            "name": "gamma",
+            "params": {
+              "min_gamma": 0.8,
+              "max_gamma": 1.3
+            },
+            "prob": 0.44708859396133915,
+            "strength": 0.4016433882193176
+          },
+          {
+            "name": "scale",
+            "params": {
+              "max_delta": 0.1596204379562044
+            },
+            "prob": 0.3442449389755085,
+            "strength": 0.2511236414558884
+          },
+          {
+            "name": "gaussian_noise",
+            "params": {
+              "max_std": 0.02992883211678832
+            },
+            "prob": 0.16722073439234225,
+            "strength": 0.11962043795620439
+          }
+        ],
+        "explanation": "Combined dynamic policy generated from diagnosis_vector operator weights.",
+        "metadata": {
+          "source_issues": [
+            "low_contrast_missed_defect",
+            "low_contrast_missed_defect",
+            "class_imbalance",
+            "localization_bias"
+          ],
+          "combined": true,
+          "severity_score": 0.9952554744525548
+        }
+      },
+      "copy_paste_audit": {
+        "enabled": true,
+        "sample_count": 64,
+        "source_label_count": 82,
+        "before_bbox_count": 82,
+        "after_bbox_count": 156,
+        "new_bbox_count": 74,
+        "original_bbox_retention": 1.0,
+        "iou_matched_original_bbox_retention": 0.7926829268292683,
+        "new_bbox_valid_rate": 1.0,
+        "total_bbox_valid_rate": 1.0,
+        "invalid_bbox_count": 0,
+        "out_of_bounds_bbox_count": 0,
+        "class_out_of_range_count": 0,
+        "debug_dir": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_diagaug_yolo11n_50ep\\proxy\\proxy_artifacts\\diag_policy_005\\copy_paste_audit\\debug"
+      },
+      "rank": 2
+    },
+    {
+      "image_count": 64,
+      "valid_image_count": 64,
+      "image_valid_rate": 1.0,
+      "total_boxes": 82,
+      "valid_boxes": 82,
+      "bbox_valid_rate": 1.0,
+      "safe_boxes": 82,
+      "bbox_safe_rate": 1.0,
+      "total_bbox_valid_rate": 1.0,
+      "original_bbox_slots": 82,
+      "original_bbox_valid_count": 82,
+      "original_bbox_retention": 1.0,
+      "new_bbox_count": 0,
+      "new_bbox_valid_count": 0,
+      "new_bbox_valid_rate": 1.0,
+      "invalid_bbox_count": 0,
+      "out_of_bounds_bbox_count": 0,
+      "class_out_of_range_count": 0,
+      "class_count_for_bounds": 13,
+      "bbox_retention": 0.8333333333333334,
+      "bbox_retention_raw": 1.0,
+      "source_tiny_box_count": 12,
+      "after_tiny_box_count": 12,
+      "tiny_target_retention": 1.0,
+      "source_small_box_count": 32,
+      "after_small_box_count": 32,
+      "small_target_retention": 1.0,
+      "small_object_retention": 1.0,
+      "source_edge_box_count": 13,
+      "after_edge_box_count": 13,
+      "edge_target_retention": 1.0,
+      "source_class_count": 11,
+      "after_class_count": 11,
+      "class_coverage_after": 1.0,
+      "rare_class_present": true,
+      "rare_class_ids": [
+        2,
+        3,
+        4,
+        6,
+        8,
+        11,
+        12
+      ],
+      "rare_class_count_threshold": 5,
+      "rare_class_retention": 1.0,
+      "mean_intensity": 88.1152938057979,
+      "mean_std": 40.81272004932124,
+      "exposure_score": 1.0,
+      "variance_score": 0.906949334429361,
+      "image_mean_delta_std": 7.087804372534035,
+      "over_dark_or_over_bright_rate": 0.046875,
+      "saturation_rate": 0.0038881897926330566,
+      "exposure_diversity_score": 0.3738498127423217,
+      "strength_penalty": 0.0462574511548879,
+      "diversity_score": 1.0,
+      "proxy_score": 0.933684385181841,
+      "proxy_score_version": "dataset2_v1",
+      "proxy_score_components": {
+        "bbox_safety_score": 1.0,
+        "bbox_retention_score": 1.0,
+        "small_target_retention_score": 1.0,
+        "class_coverage_score": 1.0,
+        "edge_target_retention_score": 1.0,
+        "exposure_diversity_score": 0.3738498127423217,
+        "strength_penalty": 0.0462574511548879
+      },
+      "missing_components": [],
+      "policy_id": "diag_policy_002",
+      "candidate_index": 1,
+      "safety_score": 1.0,
+      "safety_score_formula": "total_bbox_valid_rate * original_bbox_retention * small_object_retention * exposure_score",
+      "safety_score_components": {
+        "total_bbox_valid_rate": 1.0,
+        "original_bbox_retention": 1.0,
+        "small_object_retention": 1.0,
+        "exposure_score": 1.0
+      },
+      "safety_missing_components": [],
+      "safety_soft_penalty_reasons": [],
+      "combined_proxy_safety_score": 0.9535790696272888,
+      "hard_filter_pass": true,
+      "hard_filter_reasons": [],
+      "invalid_sample_count": 0,
+      "class_distribution_change": 0.0,
+      "source_class_counts": {
+        "9": 10,
+        "0": 9,
+        "1": 22,
+        "7": 29,
+        "11": 3,
+        "6": 1,
+        "8": 2,
+        "12": 3,
+        "3": 1,
+        "2": 1,
+        "4": 1
+      },
+      "after_class_counts": {
+        "4": 1,
+        "12": 3,
+        "3": 1,
+        "7": 29,
+        "1": 22,
+        "8": 2,
+        "9": 10,
+        "6": 1,
+        "11": 3,
+        "2": 1,
+        "0": 9
+      },
+      "policy": {
+        "policy_id": "diag_policy_002",
+        "name": "diag_policy_002",
+        "source_issue": "low_contrast_missed_defect",
+        "source_issues": [
+          "low_contrast_missed_defect"
+        ],
+        "severity_score": 0.5065116279069767,
+        "prob_formula": "prob=clip(base_prob + op_weight * severity_score * 0.55 + jitter, 0, 1)",
+        "strength_formula": "strength=clip(base_strength + op_weight * severity_score * 0.40, 0, 1)",
+        "expected_effect": "Improve low-contrast and exposure-related missed defects.",
+        "risk_control": "Exposure changes are capped and later penalized by SafetyScore exposure_score.",
+        "operations": [
+          {
+            "name": "clahe",
+            "params": {
+              "max_clip_limit": 3.0
+            },
+            "prob": 0.3906904367156992,
+            "strength": 0.3820837209302326
+          },
+          {
+            "name": "contrast",
+            "params": {
+              "max_delta": 0.35
+            },
+            "prob": 0.4232047170607306,
+            "strength": 0.37195348837209297
+          },
+          {
+            "name": "gamma",
+            "params": {
+              "min_gamma": 0.75,
+              "max_gamma": 1.35
+            },
+            "prob": 0.32105395850157104,
+            "strength": 0.3114325581395349
+          },
+          {
+            "name": "brightness",
+            "params": {
+              "max_delta": 0.16
+            },
+            "prob": 0.23215634776295976,
+            "strength": 0.2407813953488372
+          }
+        ],
+        "explanation": "Dynamic severity-weighted policy for low_contrast_missed_defect.",
+        "metadata": {
+          "source_issues": [
+            "low_contrast_missed_defect"
+          ],
+          "diagnostic_evidence": {
+            "issue": "exposure_fn_high",
+            "severity": "medium",
+            "dark_rate": 0.4744186046511628,
+            "bright_rate": 0.009302325581395349
+          },
+          "severity": "medium",
+          "severity_score": 0.5065116279069767
+        }
+      },
+      "copy_paste_audit": {
+        "enabled": false,
+        "source_label_count": 82,
+        "reason": "policy_has_no_copy_paste"
+      },
+      "rank": 3
+    },
+    {
+      "image_count": 64,
+      "valid_image_count": 64,
+      "image_valid_rate": 1.0,
+      "total_boxes": 82,
+      "valid_boxes": 82,
+      "bbox_valid_rate": 1.0,
+      "safe_boxes": 82,
+      "bbox_safe_rate": 1.0,
+      "total_bbox_valid_rate": 1.0,
+      "original_bbox_slots": 82,
+      "original_bbox_valid_count": 82,
+      "original_bbox_retention": 1.0,
+      "new_bbox_count": 0,
+      "new_bbox_valid_count": 0,
+      "new_bbox_valid_rate": 1.0,
+      "invalid_bbox_count": 0,
+      "out_of_bounds_bbox_count": 0,
+      "class_out_of_range_count": 0,
+      "class_count_for_bounds": 13,
+      "bbox_retention": 0.8333333333333334,
+      "bbox_retention_raw": 1.0,
+      "source_tiny_box_count": 12,
+      "after_tiny_box_count": 12,
+      "tiny_target_retention": 1.0,
+      "source_small_box_count": 32,
+      "after_small_box_count": 32,
+      "small_target_retention": 1.0,
+      "small_object_retention": 1.0,
+      "source_edge_box_count": 13,
+      "after_edge_box_count": 13,
+      "edge_target_retention": 1.0,
+      "source_class_count": 11,
+      "after_class_count": 11,
+      "class_coverage_after": 1.0,
+      "rare_class_present": true,
+      "rare_class_ids": [
+        2,
+        3,
+        4,
+        6,
+        8,
+        11,
+        12
+      ],
+      "rare_class_count_threshold": 5,
+      "rare_class_retention": 1.0,
+      "mean_intensity": 84.72646644711494,
+      "mean_std": 40.271801616042374,
+      "exposure_score": 1.0,
+      "variance_score": 0.8949289248009417,
+      "image_mean_delta_std": 0.2954463069206789,
+      "over_dark_or_over_bright_rate": 0.046875,
+      "saturation_rate": 0.005384176969528198,
+      "exposure_diversity_score": 0.015560060655271435,
+      "strength_penalty": 0.010922608395314837,
+      "diversity_score": 1.0,
+      "proxy_score": 0.900682197393902,
+      "proxy_score_version": "dataset2_v1",
+      "proxy_score_components": {
+        "bbox_safety_score": 1.0,
+        "bbox_retention_score": 1.0,
+        "small_target_retention_score": 1.0,
+        "class_coverage_score": 1.0,
+        "edge_target_retention_score": 1.0,
+        "exposure_diversity_score": 0.015560060655271435,
+        "strength_penalty": 0.010922608395314837
+      },
+      "missing_components": [],
+      "policy_id": "diag_policy_004",
+      "candidate_index": 3,
+      "safety_score": 1.0,
+      "safety_score_formula": "total_bbox_valid_rate * original_bbox_retention * small_object_retention * exposure_score",
+      "safety_score_components": {
+        "total_bbox_valid_rate": 1.0,
+        "original_bbox_retention": 1.0,
+        "small_object_retention": 1.0,
+        "exposure_score": 1.0
+      },
+      "safety_missing_components": [],
+      "safety_soft_penalty_reasons": [],
+      "combined_proxy_safety_score": 0.9304775381757313,
+      "hard_filter_pass": true,
+      "hard_filter_reasons": [],
+      "invalid_sample_count": 0,
+      "class_distribution_change": 0.0,
+      "source_class_counts": {
+        "9": 10,
+        "0": 9,
+        "1": 22,
+        "7": 29,
+        "11": 3,
+        "6": 1,
+        "8": 2,
+        "12": 3,
+        "3": 1,
+        "2": 1,
+        "4": 1
+      },
+      "after_class_counts": {
+        "4": 1,
+        "12": 3,
+        "3": 1,
+        "7": 29,
+        "1": 22,
+        "8": 2,
+        "9": 10,
+        "6": 1,
+        "11": 3,
+        "2": 1,
+        "0": 9
+      },
+      "policy": {
+        "policy_id": "diag_policy_004",
+        "name": "diag_policy_004",
+        "source_issue": "localization_bias",
+        "source_issues": [
+          "localization_bias"
+        ],
+        "severity_score": 0.05,
+        "prob_formula": "prob=clip(base_prob + op_weight * severity_score * 0.55 + jitter, 0, 1)",
+        "strength_formula": "strength=clip(base_strength + op_weight * severity_score * 0.40, 0, 1)",
+        "expected_effect": "Teach tolerance to small localization shifts without aggressive rotation.",
+        "risk_control": "Rotation is low-probability and low-strength; bbox retention is checked by the proxy audit.",
+        "operations": [
+          {
+            "name": "translate",
+            "params": {
+              "max_translate": 0.055
+            },
+            "prob": 0.14494095360241993,
+            "strength": 0.115
+          },
+          {
+            "name": "scale",
+            "params": {
+              "max_delta": 0.12
+            },
+            "prob": 0.18618284839812488,
+            "strength": 0.132
+          },
+          {
+            "name": "rotate",
+            "params": {
+              "max_angle": 4.0
+            },
+            "prob": 0.06600242596481994,
+            "strength": 0.06559999999999999
+          }
+        ],
+        "explanation": "Dynamic severity-weighted policy for localization_bias.",
+        "metadata": {
+          "source_issues": [
+            "localization_bias"
+          ],
+          "diagnostic_evidence": {
+            "localization_weak_count": 22
+          },
+          "severity": "medium",
+          "severity_score": 0.05
+        }
+      },
+      "copy_paste_audit": {
+        "enabled": false,
+        "source_label_count": 82,
+        "reason": "policy_has_no_copy_paste"
+      },
+      "rank": 4
+    },
+    {
+      "image_count": 64,
+      "valid_image_count": 64,
+      "image_valid_rate": 1.0,
+      "total_boxes": 160,
+      "valid_boxes": 160,
+      "bbox_valid_rate": 1.0,
+      "safe_boxes": 160,
+      "bbox_safe_rate": 1.0,
+      "total_bbox_valid_rate": 1.0,
+      "original_bbox_slots": 82,
+      "original_bbox_valid_count": 82,
+      "original_bbox_retention": 1.0,
+      "new_bbox_count": 78,
+      "new_bbox_valid_count": 78,
+      "new_bbox_valid_rate": 1.0,
+      "invalid_bbox_count": 0,
+      "out_of_bounds_bbox_count": 0,
+      "class_out_of_range_count": 0,
+      "class_count_for_bounds": 13,
+      "bbox_retention": 1.0,
+      "bbox_retention_raw": 1.0,
+      "source_tiny_box_count": 12,
+      "after_tiny_box_count": 26,
+      "tiny_target_retention": 1.0,
+      "source_small_box_count": 32,
+      "after_small_box_count": 70,
+      "small_target_retention": 1.0,
+      "small_object_retention": 1.0,
+      "source_edge_box_count": 13,
+      "after_edge_box_count": 29,
+      "edge_target_retention": 1.0,
+      "source_class_count": 11,
+      "after_class_count": 11,
+      "class_coverage_after": 1.0,
+      "rare_class_present": true,
+      "rare_class_ids": [
+        2,
+        3,
+        4,
+        6,
+        8,
+        11,
+        12
+      ],
+      "rare_class_count_threshold": 5,
+      "rare_class_retention": 1.0,
+      "mean_intensity": 83.86242306232452,
+      "mean_std": 40.67693900242911,
+      "exposure_score": 1.0,
+      "variance_score": 0.9039319778317579,
+      "image_mean_delta_std": 1.487322644982077,
+      "over_dark_or_over_bright_rate": 0.0625,
+      "saturation_rate": 0.012888848781585693,
+      "exposure_diversity_score": 0.07646629001674349,
+      "strength_penalty": 0.1260734399204535,
+      "diversity_score": 1.0,
+      "proxy_score": 0.897560753808038,
+      "proxy_score_version": "dataset2_v1",
+      "proxy_score_components": {
+        "bbox_safety_score": 1.0,
+        "bbox_retention_score": 1.0,
+        "small_target_retention_score": 1.0,
+        "class_coverage_score": 1.0,
+        "edge_target_retention_score": 1.0,
+        "exposure_diversity_score": 0.07646629001674349,
+        "strength_penalty": 0.1260734399204535
+      },
+      "missing_components": [],
+      "policy_id": "diag_policy_003",
+      "candidate_index": 2,
+      "safety_score": 1.0,
+      "safety_score_formula": "total_bbox_valid_rate * original_bbox_retention * small_object_retention * exposure_score",
+      "safety_score_components": {
+        "total_bbox_valid_rate": 1.0,
+        "original_bbox_retention": 1.0,
+        "small_object_retention": 1.0,
+        "exposure_score": 1.0
+      },
+      "safety_missing_components": [],
+      "safety_soft_penalty_reasons": [],
+      "combined_proxy_safety_score": 0.9282925276656266,
+      "hard_filter_pass": true,
+      "hard_filter_reasons": [],
+      "invalid_sample_count": 0,
+      "class_distribution_change": 0.062195121951219554,
+      "source_class_counts": {
+        "9": 10,
+        "0": 9,
+        "1": 22,
+        "7": 29,
+        "11": 3,
+        "6": 1,
+        "8": 2,
+        "12": 3,
+        "3": 1,
+        "2": 1,
+        "4": 1
+      },
+      "after_class_counts": {
+        "4": 2,
+        "12": 7,
+        "3": 3,
+        "7": 64,
+        "1": 41,
+        "8": 4,
+        "9": 16,
+        "6": 1,
+        "11": 6,
+        "2": 2,
+        "0": 14
+      },
+      "policy": {
+        "policy_id": "diag_policy_003",
+        "name": "diag_policy_003",
+        "source_issue": "class_imbalance",
+        "source_issues": [
+          "class_imbalance"
+        ],
+        "severity_score": 0.9952554744525548,
+        "prob_formula": "prob=clip(base_prob + op_weight * severity_score * 0.55 + jitter, 0, 1)",
+        "strength_formula": "strength=clip(base_strength + op_weight * severity_score * 0.40, 0, 1)",
+        "expected_effect": "Increase minority-class presentation through class-balanced copy_paste.",
+        "risk_control": "Hard class-out-of-range errors still reject; ordinary distribution drift becomes a soft safety penalty.",
+        "operations": [
+          {
+            "name": "copy_paste",
+            "params": {
+              "max_paste_count": 3,
+              "max_overlap": 0.2,
+              "class_balanced": true,
+              "max_attempts": 60
+            },
+            "prob": 0.6505470586153029,
+            "strength": 0.6503299270072993
+          },
+          {
+            "name": "scale",
+            "params": {
+              "max_delta": 0.12
+            },
+            "prob": 0.3884155927354072,
+            "strength": 0.28720291970802925
+          },
+          {
+            "name": "translate",
+            "params": {
+              "max_translate": 0.04
+            },
+            "prob": 0.28034109401164903,
+            "strength": 0.21943065693430658
+          },
+          {
+            "name": "contrast",
+            "params": {
+              "max_delta": 0.22
+            },
+            "prob": 0.34965057740268435,
+            "strength": 0.3195255474452555
+          }
+        ],
+        "explanation": "Dynamic severity-weighted policy for class_imbalance.",
+        "metadata": {
+          "source_issues": [
+            "class_imbalance"
+          ],
+          "diagnostic_evidence": {
+            "issue": "class_recall_imbalance",
+            "severity": "medium",
+            "classes": [
+              {
+                "class_id": 3,
+                "class_name": "开裂",
+                "fn_rate": 1.0
+              },
+              {
+                "class_id": 4,
+                "class_name": "油污",
+                "fn_rate": 0.7222222222222222
+              },
+              {
+                "class_id": 5,
+                "class_name": "浅划伤",
+                "fn_rate": 0.46153846153846156
+              },
+              {
+                "class_id": 8,
+                "class_name": "脏污",
+                "fn_rate": 0.47619047619047616
+              },
+              {
+                "class_id": 10,
+                "class_name": "锡丝残留",
+                "fn_rate": 0.5833333333333334
+              }
+            ]
+          },
+          "severity": "medium",
+          "severity_score": 0.9952554744525548
+        }
+      },
+      "copy_paste_audit": {
+        "enabled": true,
+        "sample_count": 64,
+        "source_label_count": 82,
+        "before_bbox_count": 82,
+        "after_bbox_count": 160,
+        "new_bbox_count": 78,
+        "original_bbox_retention": 1.0,
+        "iou_matched_original_bbox_retention": 0.524390243902439,
+        "new_bbox_valid_rate": 1.0,
+        "total_bbox_valid_rate": 1.0,
+        "invalid_bbox_count": 0,
+        "out_of_bounds_bbox_count": 0,
+        "class_out_of_range_count": 0,
+        "debug_dir": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_diagaug_yolo11n_50ep\\proxy\\proxy_artifacts\\diag_policy_003\\copy_paste_audit\\debug"
+      },
+      "rank": 5
+    }
+  ],
+  "filter_rules": {
+    "hard_reject": "only severe bbox/class/exposure/strength failures reject a candidate",
+    "safety_score": "SafetyScore = total_bbox_valid_rate * original_bbox_retention * small_object_retention * exposure_score",
+    "soft_penalty": "ordinary risks below target thresholds are retained as safety_soft_penalty_reasons",
+    "final_ranking": "sort by hard_filter_pass then 0.70 * proxy_score + 0.30 * SafetyScore"
+  }
+}

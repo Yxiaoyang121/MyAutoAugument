@@ -248,3 +248,22 @@ The repository is centered on diagnosis-driven augmentation for industrial defec
 - Metrics JSON: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_diagaug_yolo11n_50ep/reports/diagaug_50ep_metrics.json`
 - Baseline comparison: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_diagaug_yolo11n_50ep/reports/baseline_vs_diagaug.md`
 <!-- DIAGAUG_50EP_END -->
+
+<!-- YOLO_DEFAULT_AUG_50EP_START -->
+## YOLO Default Augmentation 50 Epoch Control
+
+- Run ID: `20260518_tiled1024_safe_no_ok_position_yolo_default_aug_yolo11n_50ep`
+- Dataset: `outputs/datasets/tiled/tiled_1024_ov20_full_safe_no_ok_position/data.yaml`
+- Model/settings: `yolo11n.pt epochs=50 imgsz=1024 batch=2 workers=0 device=0`
+- YOLO default augmentations enabled; actual args recorded from `train/args.yaml`.
+- Precision: `0.785` (+0.095 vs baseline, +0.099 vs DiagAug)
+- Recall: `0.676` (+0.061 vs baseline, -0.012 vs DiagAug)
+- mAP50: `0.735` (+0.066 vs baseline, +0.018 vs DiagAug)
+- mAP50-95: `0.476` (+0.042 vs baseline, -0.020 vs DiagAug)
+- OOM: `false`
+- Training wall time: `13154.0s (3.65h)`
+- best.pt: `E:\TJGY\MinPaper\MyAutoAugument\outputs\experiments\20260518_tiled1024_safe_no_ok_position_yolo_default_aug_yolo11n_50ep\train\weights\best.pt`
+- Report: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_yolo_default_aug_yolo11n_50ep/reports/yolo_default_aug_50ep_report.md`
+- Comparison: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_yolo_default_aug_yolo11n_50ep/reports/compare_baseline_yolo_default_diagaug.md`
+- Metrics JSON: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_yolo_default_aug_yolo11n_50ep/reports/yolo_default_aug_50ep_metrics.json`
+<!-- YOLO_DEFAULT_AUG_50EP_END -->

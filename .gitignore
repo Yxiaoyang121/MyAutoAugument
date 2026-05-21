@@ -45,6 +45,8 @@ runs/
 !outputs/experiments/**/policies/**/*.log
 !outputs/experiments/**/policies/**/*.json
 !outputs/experiments/**/policies/**/*.md
+!outputs/experiments/**/metrics/
+!outputs/experiments/**/metrics/**/*.json
 !outputs/experiments/**/reports/
 !outputs/experiments/**/reports/**/*.md
 !outputs/experiments/**/reports/**/*.json
@@ -75,6 +77,8 @@ outputs/experiments/**/val/*.png
 outputs/experiments/**/dataset_builder/**/images/**
 outputs/experiments/**/dataset_builder/**/labels/**
 outputs/experiments/**/dataset_builder/**/*.cache
+outputs/experiments/**/dataset/**/images/**
+outputs/experiments/**/dataset/**/labels/**
 outputs/experiments/**/debug_images/**
 outputs/experiments/**/proxy/proxy_artifacts/**
 outputs/experiments/**/validation_prediction/predict_runs/**

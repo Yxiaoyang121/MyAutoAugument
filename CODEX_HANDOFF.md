@@ -282,3 +282,22 @@ No training was run after building or auditing these datasets.
 - Policy: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_per_class_diagnosis/policies/class_aware_mixed_policy.json`
 - Score: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_per_class_diagnosis/policies/class_aware_policy_score.json`
 <!-- CLASS_AWARE_DIAGNOSIS_END -->
+
+<!-- CLASS_AWARE_POLICY_SHORTTRAIN_START -->
+## Class-Aware Policy Short-Training Validation
+
+- Run ID: `20260518_tiled1024_safe_no_ok_position_class_aware_policy_shorttrain`
+- Scope: top1 class-aware mixed policy short-training only; no formal 50 epoch training.
+- Policy: `class_aware_policy_001`
+- Train images / bboxes: `4602` / `6412`
+- Precision: `0.626`
+- Recall: `0.680`
+- mAP50: `0.685`
+- mAP50-95: `0.456`
+- short_train_score: `0.603477`
+- Beats diag_policy_001 short-training score `0.609204`: `false`
+- Recommend formal 50 epoch rerun: `false`
+- Report: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_class_aware_policy_shorttrain/reports/class_aware_shorttrain_report.md`
+- Comparison: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_class_aware_policy_shorttrain/reports/class_aware_vs_diag_policy_001_shorttrain.md`
+- Metrics JSON: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_class_aware_policy_shorttrain/metrics/class_aware_shorttrain_metrics.json`
+<!-- CLASS_AWARE_POLICY_SHORTTRAIN_END -->

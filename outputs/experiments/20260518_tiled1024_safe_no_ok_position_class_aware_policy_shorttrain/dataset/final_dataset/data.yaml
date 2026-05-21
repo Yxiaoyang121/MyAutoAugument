@@ -1,0 +1,18 @@
+path: E:/TJGY/MinPaper/MyAutoAugument/outputs/experiments/20260518_tiled1024_safe_no_ok_position_class_aware_policy_shorttrain/dataset/final_dataset
+train: images/train
+val: images/val
+nc: 13
+names:
+- OK2
+- OK3
+- 加强筋打伤
+- 开裂
+- 油污
+- 浅划伤
+- 漏背锡
+- 碰伤
+- 脏污
+- 轮廓划伤
+- 锡丝残留
+- 锡尖
+- 锡膏

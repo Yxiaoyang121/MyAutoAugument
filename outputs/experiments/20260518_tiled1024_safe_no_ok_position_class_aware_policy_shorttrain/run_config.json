@@ -1,0 +1,38 @@
+{
+  "run_id": "20260518_tiled1024_safe_no_ok_position_class_aware_policy_shorttrain",
+  "generated_at": "2026-05-21T13:42:11",
+  "scope": "top1 class-aware policy short-training only; no final 50 epoch training",
+  "policy_path": "outputs/experiments/20260518_tiled1024_safe_no_ok_position_per_class_diagnosis/policies/class_aware_mixed_policy.json",
+  "data_yaml": "outputs/datasets/tiled/tiled_1024_ov20_full_safe_no_ok_position/data.yaml",
+  "model": "yolo11n.pt",
+  "train_settings": {
+    "epochs": 5,
+    "imgsz": 1024,
+    "batch": 2,
+    "workers": 0,
+    "device": "0",
+    "seed": 42,
+    "disabled_yolo_augmentations": {
+      "mosaic": 0,
+      "mixup": 0,
+      "copy_paste": 0,
+      "hsv_h": 0,
+      "hsv_s": 0,
+      "hsv_v": 0,
+      "degrees": 0,
+      "translate": 0,
+      "scale": 0,
+      "shear": 0,
+      "perspective": 0,
+      "fliplr": 0,
+      "flipud": 0
+    }
+  },
+  "diag_policy_001_shorttrain_reference": {
+    "precision": 0.709,
+    "recall": 0.672,
+    "map50": 0.714,
+    "map50_95": 0.479,
+    "short_train_score": 0.6092041595925297
+  }
+}

@@ -1,8 +1,8 @@
 # Project Snapshot
 
-- Generated: 2026-05-20T23:58:17
+- Generated: 2026-05-21T11:16:57
 - Branch: codex/sync-latest
-- Commit: a9b5dd5d5dbe329a34fb8e0a9058a0b3de56cacf
+- Commit: 6aeaf267605386d2b81a28663648de44e2d210e5
 - Remote: https://github.com/Yxiaoyang121/MyAutoAugument.git
 
 ## Working Tree
@@ -13,8 +13,8 @@
  M EXPERIMENT_LOG.md
  M PROJECT_STATE.md
  M scripts/export_project_snapshot.py
-?? outputs/experiments/20260518_tiled1024_safe_no_ok_position_policy_top3_shorttrain/
-?? scripts/run_top3_policy_short_training.py
+?? outputs/experiments/20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis/
+?? scripts/run_counterfactual_diagnosis.py
 ```
 
 ## Key Files
@@ -37,6 +37,7 @@
 - scripts/run_diagnostic_augmentation_pipeline.py
 - scripts/generate_top3_policies_from_baseline.py
 - scripts/run_top3_policy_short_training.py
+- scripts/run_counterfactual_diagnosis.py
 - scripts/write_yolo_default_aug_50ep_reports.py
 - outputs/audits/dataset_mapping/full_tiled_dataset_mapping_audit.md
 - outputs/audits/dataset_mapping/full_tiled_dataset_mapping_audit.json
@@ -71,6 +72,10 @@
 - outputs/experiments/20260518_tiled1024_safe_no_ok_position_policy_top3_from_baseline/reports/policy_selection_trace.md
 - outputs/experiments/20260518_tiled1024_safe_no_ok_position_policy_top3_shorttrain/reports/top3_policy_shorttrain_report.md
 - outputs/experiments/20260518_tiled1024_safe_no_ok_position_policy_top3_shorttrain/reports/top3_policy_shorttrain_results.json
+- outputs/experiments/20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis/reports/counterfactual_diagnosis_report.md
+- outputs/experiments/20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis/counterfactual_summary.json
+- outputs/experiments/20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis/counterfactual_instances.csv
+- outputs/experiments/20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis/counterfactual_policy_ranking.json
 - outputs/datasets/tiled/tiled_1024_ov20_smoke/dataset_summary.md
 - outputs/datasets/tiled/tiled_1024_ov20_full/data.yaml
 - outputs/datasets/tiled/tiled_1024_ov20_full/dataset_summary.md
@@ -94,7 +99,7 @@
 
 ## Tracked File Count
 
-- 272 tracked files
+- 348 tracked files
 
 ## Notes
 

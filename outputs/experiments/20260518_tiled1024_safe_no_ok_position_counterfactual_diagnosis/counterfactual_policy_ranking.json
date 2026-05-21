@@ -1,0 +1,455 @@
+{
+  "source_proxy_ranking": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_policy_top3_from_baseline\\proxy\\proxy_ranking.json",
+  "formula": "counterfactual_adjusted_score = combined_proxy_safety_score + 0.20 * mean_direct_op_recovery_rate",
+  "copy_paste_rule": "copy_paste is not directly testable by prediction-only counterfactual diagnosis and is not hard rejected.",
+  "ranking": [
+    {
+      "policy_id": "diag_policy_001",
+      "original_rank": 1,
+      "base_score": 0.9570117721068396,
+      "counterfactual_recovery_score": 0.04,
+      "counterfactual_adjustment": 0.008,
+      "counterfactual_adjusted_score": 0.9650117721068396,
+      "directly_tested_ops": [
+        "clahe",
+        "contrast",
+        "gamma",
+        "brightness"
+      ],
+      "non_direct_ops": [],
+      "contains_copy_paste": false,
+      "notes": "directly testable operations adjusted by FN recovery",
+      "policy": {
+        "policy_id": "diag_policy_001",
+        "name": "diag_policy_001",
+        "source_issue": "low_contrast_missed_defect",
+        "source_issues": [
+          "low_contrast_missed_defect"
+        ],
+        "severity_score": 0.5065116279069767,
+        "prob_formula": "prob=clip(base_prob + op_weight * severity_score * 0.55 + jitter, 0, 1)",
+        "strength_formula": "strength=clip(base_strength + op_weight * severity_score * 0.40, 0, 1)",
+        "expected_effect": "Improve low-contrast and exposure-related missed defects.",
+        "risk_control": "Exposure changes are capped and later penalized by SafetyScore exposure_score.",
+        "operations": [
+          {
+            "name": "clahe",
+            "params": {
+              "max_clip_limit": 3.0
+            },
+            "prob": 0.41108379773574866,
+            "strength": 0.3820837209302326
+          },
+          {
+            "name": "contrast",
+            "params": {
+              "max_delta": 0.35
+            },
+            "prob": 0.4071023997041895,
+            "strength": 0.37195348837209297
+          },
+          {
+            "name": "gamma",
+            "params": {
+              "min_gamma": 0.75,
+              "max_gamma": 1.35
+            },
+            "prob": 0.3239777050392019,
+            "strength": 0.3114325581395349
+          },
+          {
+            "name": "brightness",
+            "params": {
+              "max_delta": 0.16
+            },
+            "prob": 0.22949545947643207,
+            "strength": 0.2407813953488372
+          }
+        ],
+        "explanation": "Dynamic severity-weighted policy for low_contrast_missed_defect.",
+        "metadata": {
+          "source_issues": [
+            "low_contrast_missed_defect"
+          ],
+          "diagnostic_evidence": {
+            "issue": "low_contrast_fn_high",
+            "severity": "medium",
+            "observed_rate": 0.5953488372093023
+          },
+          "severity": "medium",
+          "severity_score": 0.5065116279069767
+        },
+        "contains_copy_paste": false,
+        "operation_count": 4
+      },
+      "counterfactual_rank": 1
+    },
+    {
+      "policy_id": "diag_policy_005",
+      "original_rank": 2,
+      "base_score": 0.9561365568067395,
+      "counterfactual_recovery_score": 0.037500000000000006,
+      "counterfactual_adjustment": 0.0075000000000000015,
+      "counterfactual_adjusted_score": 0.9636365568067394,
+      "directly_tested_ops": [
+        "clahe",
+        "contrast",
+        "gamma",
+        "scale"
+      ],
+      "non_direct_ops": [
+        "copy_paste",
+        "gaussian_noise"
+      ],
+      "contains_copy_paste": true,
+      "notes": "copy_paste not directly testable by prediction-only counterfactual",
+      "policy": {
+        "policy_id": "diag_policy_005",
+        "name": "diag_policy_005",
+        "source_issue": "combined",
+        "source_issues": [
+          "low_contrast_missed_defect",
+          "low_contrast_missed_defect",
+          "class_imbalance",
+          "localization_bias"
+        ],
+        "severity_score": 0.9952554744525548,
+        "prob_formula": "prob=clip(base_prob + op_weight * severity_score * 0.55 + jitter, 0, 1)",
+        "strength_formula": "strength=clip(base_strength + op_weight * severity_score * 0.40, 0, 1)",
+        "expected_effect": "Blend the dominant diagnosis-vector severities into one conservative policy.",
+        "risk_control": "All candidates are still reranked with proxy score and SafetyScore before short training.",
+        "operations": [
+          {
+            "name": "copy_paste",
+            "params": {
+              "max_paste_count": 3,
+              "max_overlap": 0.18,
+              "prefer_small": true,
+              "class_balanced": true,
+              "max_attempts": 60
+            },
+            "prob": 0.7166105643388222,
+            "strength": 0.696213383771112
+          },
+          {
+            "name": "clahe",
+            "params": {
+              "max_clip_limit": 3.495255474452555
+            },
+            "prob": 0.45889720241203674,
+            "strength": 0.42164338821931757
+          },
+          {
+            "name": "contrast",
+            "params": {
+              "max_delta": 0.3492883211678832
+            },
+            "prob": 0.464174176484687,
+            "strength": 0.42164338821931757
+          },
+          {
+            "name": "gamma",
+            "params": {
+              "min_gamma": 0.8,
+              "max_gamma": 1.3
+            },
+            "prob": 0.44708859396133915,
+            "strength": 0.4016433882193176
+          },
+          {
+            "name": "scale",
+            "params": {
+              "max_delta": 0.1596204379562044
+            },
+            "prob": 0.3442449389755085,
+            "strength": 0.2511236414558884
+          },
+          {
+            "name": "gaussian_noise",
+            "params": {
+              "max_std": 0.02992883211678832
+            },
+            "prob": 0.16722073439234225,
+            "strength": 0.11962043795620439
+          }
+        ],
+        "explanation": "Combined dynamic policy generated from diagnosis_vector operator weights.",
+        "metadata": {
+          "source_issues": [
+            "low_contrast_missed_defect",
+            "low_contrast_missed_defect",
+            "class_imbalance",
+            "localization_bias"
+          ],
+          "combined": true,
+          "severity_score": 0.9952554744525548
+        },
+        "contains_copy_paste": true,
+        "operation_count": 6
+      },
+      "counterfactual_rank": 2
+    },
+    {
+      "policy_id": "diag_policy_002",
+      "original_rank": 3,
+      "base_score": 0.9535790696272888,
+      "counterfactual_recovery_score": 0.04,
+      "counterfactual_adjustment": 0.008,
+      "counterfactual_adjusted_score": 0.9615790696272888,
+      "directly_tested_ops": [
+        "clahe",
+        "contrast",
+        "gamma",
+        "brightness"
+      ],
+      "non_direct_ops": [],
+      "contains_copy_paste": false,
+      "notes": "directly testable operations adjusted by FN recovery",
+      "policy": {
+        "policy_id": "diag_policy_002",
+        "name": "diag_policy_002",
+        "source_issue": "low_contrast_missed_defect",
+        "source_issues": [
+          "low_contrast_missed_defect"
+        ],
+        "severity_score": 0.5065116279069767,
+        "prob_formula": "prob=clip(base_prob + op_weight * severity_score * 0.55 + jitter, 0, 1)",
+        "strength_formula": "strength=clip(base_strength + op_weight * severity_score * 0.40, 0, 1)",
+        "expected_effect": "Improve low-contrast and exposure-related missed defects.",
+        "risk_control": "Exposure changes are capped and later penalized by SafetyScore exposure_score.",
+        "operations": [
+          {
+            "name": "clahe",
+            "params": {
+              "max_clip_limit": 3.0
+            },
+            "prob": 0.3906904367156992,
+            "strength": 0.3820837209302326
+          },
+          {
+            "name": "contrast",
+            "params": {
+              "max_delta": 0.35
+            },
+            "prob": 0.4232047170607306,
+            "strength": 0.37195348837209297
+          },
+          {
+            "name": "gamma",
+            "params": {
+              "min_gamma": 0.75,
+              "max_gamma": 1.35
+            },
+            "prob": 0.32105395850157104,
+            "strength": 0.3114325581395349
+          },
+          {
+            "name": "brightness",
+            "params": {
+              "max_delta": 0.16
+            },
+            "prob": 0.23215634776295976,
+            "strength": 0.2407813953488372
+          }
+        ],
+        "explanation": "Dynamic severity-weighted policy for low_contrast_missed_defect.",
+        "metadata": {
+          "source_issues": [
+            "low_contrast_missed_defect"
+          ],
+          "diagnostic_evidence": {
+            "issue": "exposure_fn_high",
+            "severity": "medium",
+            "dark_rate": 0.4744186046511628,
+            "bright_rate": 0.009302325581395349
+          },
+          "severity": "medium",
+          "severity_score": 0.5065116279069767
+        },
+        "contains_copy_paste": false,
+        "operation_count": 4
+      },
+      "counterfactual_rank": 3
+    },
+    {
+      "policy_id": "diag_policy_003",
+      "original_rank": 5,
+      "base_score": 0.9282925276656266,
+      "counterfactual_recovery_score": 0.034999999999999996,
+      "counterfactual_adjustment": 0.006999999999999999,
+      "counterfactual_adjusted_score": 0.9352925276656266,
+      "directly_tested_ops": [
+        "scale",
+        "contrast"
+      ],
+      "non_direct_ops": [
+        "copy_paste",
+        "translate"
+      ],
+      "contains_copy_paste": true,
+      "notes": "copy_paste not directly testable by prediction-only counterfactual",
+      "policy": {
+        "policy_id": "diag_policy_003",
+        "name": "diag_policy_003",
+        "source_issue": "class_imbalance",
+        "source_issues": [
+          "class_imbalance"
+        ],
+        "severity_score": 0.9952554744525548,
+        "prob_formula": "prob=clip(base_prob + op_weight * severity_score * 0.55 + jitter, 0, 1)",
+        "strength_formula": "strength=clip(base_strength + op_weight * severity_score * 0.40, 0, 1)",
+        "expected_effect": "Increase minority-class presentation through class-balanced copy_paste.",
+        "risk_control": "Hard class-out-of-range errors still reject; ordinary distribution drift becomes a soft safety penalty.",
+        "operations": [
+          {
+            "name": "copy_paste",
+            "params": {
+              "max_paste_count": 3,
+              "max_overlap": 0.2,
+              "class_balanced": true,
+              "max_attempts": 60
+            },
+            "prob": 0.6505470586153029,
+            "strength": 0.6503299270072993
+          },
+          {
+            "name": "scale",
+            "params": {
+              "max_delta": 0.12
+            },
+            "prob": 0.3884155927354072,
+            "strength": 0.28720291970802925
+          },
+          {
+            "name": "translate",
+            "params": {
+              "max_translate": 0.04
+            },
+            "prob": 0.28034109401164903,
+            "strength": 0.21943065693430658
+          },
+          {
+            "name": "contrast",
+            "params": {
+              "max_delta": 0.22
+            },
+            "prob": 0.34965057740268435,
+            "strength": 0.3195255474452555
+          }
+        ],
+        "explanation": "Dynamic severity-weighted policy for class_imbalance.",
+        "metadata": {
+          "source_issues": [
+            "class_imbalance"
+          ],
+          "diagnostic_evidence": {
+            "issue": "class_recall_imbalance",
+            "severity": "medium",
+            "classes": [
+              {
+                "class_id": 3,
+                "class_name": "开裂",
+                "fn_rate": 1.0
+              },
+              {
+                "class_id": 4,
+                "class_name": "油污",
+                "fn_rate": 0.7222222222222222
+              },
+              {
+                "class_id": 5,
+                "class_name": "浅划伤",
+                "fn_rate": 0.46153846153846156
+              },
+              {
+                "class_id": 8,
+                "class_name": "脏污",
+                "fn_rate": 0.47619047619047616
+              },
+              {
+                "class_id": 10,
+                "class_name": "锡丝残留",
+                "fn_rate": 0.5833333333333334
+              }
+            ]
+          },
+          "severity": "medium",
+          "severity_score": 0.9952554744525548
+        },
+        "contains_copy_paste": true,
+        "operation_count": 4
+      },
+      "counterfactual_rank": 4
+    },
+    {
+      "policy_id": "diag_policy_004",
+      "original_rank": 4,
+      "base_score": 0.9304775381757313,
+      "counterfactual_recovery_score": 0.01,
+      "counterfactual_adjustment": 0.002,
+      "counterfactual_adjusted_score": 0.9324775381757313,
+      "directly_tested_ops": [
+        "scale"
+      ],
+      "non_direct_ops": [
+        "translate",
+        "rotate"
+      ],
+      "contains_copy_paste": false,
+      "notes": "directly testable operations adjusted by FN recovery",
+      "policy": {
+        "policy_id": "diag_policy_004",
+        "name": "diag_policy_004",
+        "source_issue": "localization_bias",
+        "source_issues": [
+          "localization_bias"
+        ],
+        "severity_score": 0.05,
+        "prob_formula": "prob=clip(base_prob + op_weight * severity_score * 0.55 + jitter, 0, 1)",
+        "strength_formula": "strength=clip(base_strength + op_weight * severity_score * 0.40, 0, 1)",
+        "expected_effect": "Teach tolerance to small localization shifts without aggressive rotation.",
+        "risk_control": "Rotation is low-probability and low-strength; bbox retention is checked by the proxy audit.",
+        "operations": [
+          {
+            "name": "translate",
+            "params": {
+              "max_translate": 0.055
+            },
+            "prob": 0.14494095360241993,
+            "strength": 0.115
+          },
+          {
+            "name": "scale",
+            "params": {
+              "max_delta": 0.12
+            },
+            "prob": 0.18618284839812488,
+            "strength": 0.132
+          },
+          {
+            "name": "rotate",
+            "params": {
+              "max_angle": 4.0
+            },
+            "prob": 0.06600242596481994,
+            "strength": 0.06559999999999999
+          }
+        ],
+        "explanation": "Dynamic severity-weighted policy for localization_bias.",
+        "metadata": {
+          "source_issues": [
+            "localization_bias"
+          ],
+          "diagnostic_evidence": {
+            "localization_weak_count": 22
+          },
+          "severity": "medium",
+          "severity_score": 0.05
+        },
+        "contains_copy_paste": false,
+        "operation_count": 3
+      },
+      "counterfactual_rank": 5
+    }
+  ]
+}

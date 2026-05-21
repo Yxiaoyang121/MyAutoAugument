@@ -1,0 +1,3922 @@
+{
+  "run_id": "20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis",
+  "generated_at": "2026-05-21T11:15:59",
+  "elapsed_seconds": 211.345,
+  "no_training_executed": true,
+  "baseline_summary": {
+    "gt_count": 905,
+    "tp_count": 668,
+    "fp_count": 173,
+    "fn_count": 215,
+    "weak_localization_count": 22,
+    "precision": 0.7942925089179548,
+    "recall": 0.7381215469613259
+  },
+  "tested_fn_count": 200,
+  "transform_count": 11,
+  "transform_stats": [
+    {
+      "transform": "sharpen_mild",
+      "family": "sharpen",
+      "params": {
+        "amount": 0.75,
+        "sigma": 1.0
+      },
+      "tested_fn_count": 200,
+      "recovered_count": 14,
+      "recovery_rate": 0.07,
+      "per_class": {
+        "1": {
+          "class_id": 1,
+          "class_name": "OK3",
+          "tested_fn_count": 5,
+          "recovered_count": 2,
+          "recovery_rate": 0.4
+        },
+        "2": {
+          "class_id": 2,
+          "class_name": "加强筋打伤",
+          "tested_fn_count": 1,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "3": {
+          "class_id": 3,
+          "class_name": "开裂",
+          "tested_fn_count": 2,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "4": {
+          "class_id": 4,
+          "class_name": "油污",
+          "tested_fn_count": 11,
+          "recovered_count": 1,
+          "recovery_rate": 0.09090909090909091
+        },
+        "5": {
+          "class_id": 5,
+          "class_name": "浅划伤",
+          "tested_fn_count": 4,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "6": {
+          "class_id": 6,
+          "class_name": "漏背锡",
+          "tested_fn_count": 10,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "7": {
+          "class_id": 7,
+          "class_name": "碰伤",
+          "tested_fn_count": 85,
+          "recovered_count": 7,
+          "recovery_rate": 0.08235294117647059
+        },
+        "8": {
+          "class_id": 8,
+          "class_name": "脏污",
+          "tested_fn_count": 20,
+          "recovered_count": 3,
+          "recovery_rate": 0.15
+        },
+        "9": {
+          "class_id": 9,
+          "class_name": "轮廓划伤",
+          "tested_fn_count": 33,
+          "recovered_count": 1,
+          "recovery_rate": 0.030303030303030304
+        },
+        "10": {
+          "class_id": 10,
+          "class_name": "锡丝残留",
+          "tested_fn_count": 7,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "11": {
+          "class_id": 11,
+          "class_name": "锡尖",
+          "tested_fn_count": 5,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "12": {
+          "class_id": 12,
+          "class_name": "锡膏",
+          "tested_fn_count": 17,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        }
+      },
+      "low_contrast_fn_recovery_rate": 0.07758620689655173,
+      "dark_fn_recovery_rate": 0.07446808510638298,
+      "small_object_recovery_rate": 0.07228915662650602,
+      "average_conf_gain": -0.018502843528985978,
+      "average_iou_gain": 0.05328058674000204,
+      "main_affected_classes": [
+        "碰伤",
+        "脏污",
+        "OK3",
+        "油污",
+        "轮廓划伤"
+      ]
+    },
+    {
+      "transform": "contrast_up_130",
+      "family": "contrast",
+      "params": {
+        "alpha": 1.3
+      },
+      "tested_fn_count": 200,
+      "recovered_count": 12,
+      "recovery_rate": 0.06,
+      "per_class": {
+        "1": {
+          "class_id": 1,
+          "class_name": "OK3",
+          "tested_fn_count": 5,
+          "recovered_count": 2,
+          "recovery_rate": 0.4
+        },
+        "2": {
+          "class_id": 2,
+          "class_name": "加强筋打伤",
+          "tested_fn_count": 1,
+          "recovered_count": 1,
+          "recovery_rate": 1.0
+        },
+        "3": {
+          "class_id": 3,
+          "class_name": "开裂",
+          "tested_fn_count": 2,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "4": {
+          "class_id": 4,
+          "class_name": "油污",
+          "tested_fn_count": 11,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "5": {
+          "class_id": 5,
+          "class_name": "浅划伤",
+          "tested_fn_count": 4,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "6": {
+          "class_id": 6,
+          "class_name": "漏背锡",
+          "tested_fn_count": 10,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "7": {
+          "class_id": 7,
+          "class_name": "碰伤",
+          "tested_fn_count": 85,
+          "recovered_count": 4,
+          "recovery_rate": 0.047058823529411764
+        },
+        "8": {
+          "class_id": 8,
+          "class_name": "脏污",
+          "tested_fn_count": 20,
+          "recovered_count": 3,
+          "recovery_rate": 0.15
+        },
+        "9": {
+          "class_id": 9,
+          "class_name": "轮廓划伤",
+          "tested_fn_count": 33,
+          "recovered_count": 1,
+          "recovery_rate": 0.030303030303030304
+        },
+        "10": {
+          "class_id": 10,
+          "class_name": "锡丝残留",
+          "tested_fn_count": 7,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "11": {
+          "class_id": 11,
+          "class_name": "锡尖",
+          "tested_fn_count": 5,
+          "recovered_count": 1,
+          "recovery_rate": 0.2
+        },
+        "12": {
+          "class_id": 12,
+          "class_name": "锡膏",
+          "tested_fn_count": 17,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        }
+      },
+      "low_contrast_fn_recovery_rate": 0.05172413793103448,
+      "dark_fn_recovery_rate": 0.0425531914893617,
+      "small_object_recovery_rate": 0.05421686746987952,
+      "average_conf_gain": 0.017436739057302475,
+      "average_iou_gain": 0.04415417043492198,
+      "main_affected_classes": [
+        "碰伤",
+        "脏污",
+        "OK3",
+        "加强筋打伤",
+        "轮廓划伤"
+      ]
+    },
+    {
+      "transform": "contrast_up_115",
+      "family": "contrast",
+      "params": {
+        "alpha": 1.15
+      },
+      "tested_fn_count": 200,
+      "recovered_count": 10,
+      "recovery_rate": 0.05,
+      "per_class": {
+        "1": {
+          "class_id": 1,
+          "class_name": "OK3",
+          "tested_fn_count": 5,
+          "recovered_count": 2,
+          "recovery_rate": 0.4
+        },
+        "2": {
+          "class_id": 2,
+          "class_name": "加强筋打伤",
+          "tested_fn_count": 1,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "3": {
+          "class_id": 3,
+          "class_name": "开裂",
+          "tested_fn_count": 2,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "4": {
+          "class_id": 4,
+          "class_name": "油污",
+          "tested_fn_count": 11,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "5": {
+          "class_id": 5,
+          "class_name": "浅划伤",
+          "tested_fn_count": 4,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "6": {
+          "class_id": 6,
+          "class_name": "漏背锡",
+          "tested_fn_count": 10,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "7": {
+          "class_id": 7,
+          "class_name": "碰伤",
+          "tested_fn_count": 85,
+          "recovered_count": 4,
+          "recovery_rate": 0.047058823529411764
+        },
+        "8": {
+          "class_id": 8,
+          "class_name": "脏污",
+          "tested_fn_count": 20,
+          "recovered_count": 2,
+          "recovery_rate": 0.1
+        },
+        "9": {
+          "class_id": 9,
+          "class_name": "轮廓划伤",
+          "tested_fn_count": 33,
+          "recovered_count": 1,
+          "recovery_rate": 0.030303030303030304
+        },
+        "10": {
+          "class_id": 10,
+          "class_name": "锡丝残留",
+          "tested_fn_count": 7,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "11": {
+          "class_id": 11,
+          "class_name": "锡尖",
+          "tested_fn_count": 5,
+          "recovered_count": 1,
+          "recovery_rate": 0.2
+        },
+        "12": {
+          "class_id": 12,
+          "class_name": "锡膏",
+          "tested_fn_count": 17,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        }
+      },
+      "low_contrast_fn_recovery_rate": 0.04310344827586207,
+      "dark_fn_recovery_rate": 0.031914893617021274,
+      "small_object_recovery_rate": 0.04819277108433735,
+      "average_conf_gain": 0.01257015660405159,
+      "average_iou_gain": 0.03732717144303024,
+      "main_affected_classes": [
+        "碰伤",
+        "OK3",
+        "脏污",
+        "轮廓划伤",
+        "锡尖"
+      ]
+    },
+    {
+      "transform": "clahe_clip2",
+      "family": "clahe",
+      "params": {
+        "clip_limit": 2.0,
+        "tile_grid_size": 8
+      },
+      "tested_fn_count": 200,
+      "recovered_count": 8,
+      "recovery_rate": 0.04,
+      "per_class": {
+        "1": {
+          "class_id": 1,
+          "class_name": "OK3",
+          "tested_fn_count": 5,
+          "recovered_count": 2,
+          "recovery_rate": 0.4
+        },
+        "2": {
+          "class_id": 2,
+          "class_name": "加强筋打伤",
+          "tested_fn_count": 1,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "3": {
+          "class_id": 3,
+          "class_name": "开裂",
+          "tested_fn_count": 2,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "4": {
+          "class_id": 4,
+          "class_name": "油污",
+          "tested_fn_count": 11,
+          "recovered_count": 1,
+          "recovery_rate": 0.09090909090909091
+        },
+        "5": {
+          "class_id": 5,
+          "class_name": "浅划伤",
+          "tested_fn_count": 4,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "6": {
+          "class_id": 6,
+          "class_name": "漏背锡",
+          "tested_fn_count": 10,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "7": {
+          "class_id": 7,
+          "class_name": "碰伤",
+          "tested_fn_count": 85,
+          "recovered_count": 3,
+          "recovery_rate": 0.03529411764705882
+        },
+        "8": {
+          "class_id": 8,
+          "class_name": "脏污",
+          "tested_fn_count": 20,
+          "recovered_count": 2,
+          "recovery_rate": 0.1
+        },
+        "9": {
+          "class_id": 9,
+          "class_name": "轮廓划伤",
+          "tested_fn_count": 33,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "10": {
+          "class_id": 10,
+          "class_name": "锡丝残留",
+          "tested_fn_count": 7,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "11": {
+          "class_id": 11,
+          "class_name": "锡尖",
+          "tested_fn_count": 5,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "12": {
+          "class_id": 12,
+          "class_name": "锡膏",
+          "tested_fn_count": 17,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        }
+      },
+      "low_contrast_fn_recovery_rate": 0.04310344827586207,
+      "dark_fn_recovery_rate": 0.0425531914893617,
+      "small_object_recovery_rate": 0.03614457831325301,
+      "average_conf_gain": -0.05622654810547829,
+      "average_iou_gain": 0.035245766204316166,
+      "main_affected_classes": [
+        "碰伤",
+        "OK3",
+        "脏污",
+        "油污"
+      ]
+    },
+    {
+      "transform": "combined_photometric",
+      "family": "combined_photometric",
+      "params": {
+        "clahe_clip_limit": 2.0,
+        "contrast_alpha": 1.15,
+        "gamma": 0.85
+      },
+      "tested_fn_count": 200,
+      "recovered_count": 8,
+      "recovery_rate": 0.04,
+      "per_class": {
+        "1": {
+          "class_id": 1,
+          "class_name": "OK3",
+          "tested_fn_count": 5,
+          "recovered_count": 2,
+          "recovery_rate": 0.4
+        },
+        "2": {
+          "class_id": 2,
+          "class_name": "加强筋打伤",
+          "tested_fn_count": 1,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "3": {
+          "class_id": 3,
+          "class_name": "开裂",
+          "tested_fn_count": 2,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "4": {
+          "class_id": 4,
+          "class_name": "油污",
+          "tested_fn_count": 11,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "5": {
+          "class_id": 5,
+          "class_name": "浅划伤",
+          "tested_fn_count": 4,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "6": {
+          "class_id": 6,
+          "class_name": "漏背锡",
+          "tested_fn_count": 10,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "7": {
+          "class_id": 7,
+          "class_name": "碰伤",
+          "tested_fn_count": 85,
+          "recovered_count": 4,
+          "recovery_rate": 0.047058823529411764
+        },
+        "8": {
+          "class_id": 8,
+          "class_name": "脏污",
+          "tested_fn_count": 20,
+          "recovered_count": 2,
+          "recovery_rate": 0.1
+        },
+        "9": {
+          "class_id": 9,
+          "class_name": "轮廓划伤",
+          "tested_fn_count": 33,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "10": {
+          "class_id": 10,
+          "class_name": "锡丝残留",
+          "tested_fn_count": 7,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "11": {
+          "class_id": 11,
+          "class_name": "锡尖",
+          "tested_fn_count": 5,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "12": {
+          "class_id": 12,
+          "class_name": "锡膏",
+          "tested_fn_count": 17,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        }
+      },
+      "low_contrast_fn_recovery_rate": 0.034482758620689655,
+      "dark_fn_recovery_rate": 0.0425531914893617,
+      "small_object_recovery_rate": 0.03614457831325301,
+      "average_conf_gain": -0.08188513040542603,
+      "average_iou_gain": 0.030227904301136733,
+      "main_affected_classes": [
+        "碰伤",
+        "OK3",
+        "脏污"
+      ]
+    },
+    {
+      "transform": "clahe_clip3",
+      "family": "clahe",
+      "params": {
+        "clip_limit": 3.0,
+        "tile_grid_size": 8
+      },
+      "tested_fn_count": 200,
+      "recovered_count": 6,
+      "recovery_rate": 0.03,
+      "per_class": {
+        "1": {
+          "class_id": 1,
+          "class_name": "OK3",
+          "tested_fn_count": 5,
+          "recovered_count": 2,
+          "recovery_rate": 0.4
+        },
+        "2": {
+          "class_id": 2,
+          "class_name": "加强筋打伤",
+          "tested_fn_count": 1,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "3": {
+          "class_id": 3,
+          "class_name": "开裂",
+          "tested_fn_count": 2,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "4": {
+          "class_id": 4,
+          "class_name": "油污",
+          "tested_fn_count": 11,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "5": {
+          "class_id": 5,
+          "class_name": "浅划伤",
+          "tested_fn_count": 4,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "6": {
+          "class_id": 6,
+          "class_name": "漏背锡",
+          "tested_fn_count": 10,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "7": {
+          "class_id": 7,
+          "class_name": "碰伤",
+          "tested_fn_count": 85,
+          "recovered_count": 2,
+          "recovery_rate": 0.023529411764705882
+        },
+        "8": {
+          "class_id": 8,
+          "class_name": "脏污",
+          "tested_fn_count": 20,
+          "recovered_count": 2,
+          "recovery_rate": 0.1
+        },
+        "9": {
+          "class_id": 9,
+          "class_name": "轮廓划伤",
+          "tested_fn_count": 33,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "10": {
+          "class_id": 10,
+          "class_name": "锡丝残留",
+          "tested_fn_count": 7,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "11": {
+          "class_id": 11,
+          "class_name": "锡尖",
+          "tested_fn_count": 5,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "12": {
+          "class_id": 12,
+          "class_name": "锡膏",
+          "tested_fn_count": 17,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        }
+      },
+      "low_contrast_fn_recovery_rate": 0.034482758620689655,
+      "dark_fn_recovery_rate": 0.02127659574468085,
+      "small_object_recovery_rate": 0.030120481927710843,
+      "average_conf_gain": -0.09452181100845337,
+      "average_iou_gain": 0.02235479427501559,
+      "main_affected_classes": [
+        "OK3",
+        "碰伤",
+        "脏污"
+      ]
+    },
+    {
+      "transform": "gamma_brighten_085",
+      "family": "gamma",
+      "params": {
+        "gamma": 0.85
+      },
+      "tested_fn_count": 200,
+      "recovered_count": 5,
+      "recovery_rate": 0.025,
+      "per_class": {
+        "1": {
+          "class_id": 1,
+          "class_name": "OK3",
+          "tested_fn_count": 5,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "2": {
+          "class_id": 2,
+          "class_name": "加强筋打伤",
+          "tested_fn_count": 1,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "3": {
+          "class_id": 3,
+          "class_name": "开裂",
+          "tested_fn_count": 2,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "4": {
+          "class_id": 4,
+          "class_name": "油污",
+          "tested_fn_count": 11,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "5": {
+          "class_id": 5,
+          "class_name": "浅划伤",
+          "tested_fn_count": 4,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "6": {
+          "class_id": 6,
+          "class_name": "漏背锡",
+          "tested_fn_count": 10,
+          "recovered_count": 1,
+          "recovery_rate": 0.1
+        },
+        "7": {
+          "class_id": 7,
+          "class_name": "碰伤",
+          "tested_fn_count": 85,
+          "recovered_count": 3,
+          "recovery_rate": 0.03529411764705882
+        },
+        "8": {
+          "class_id": 8,
+          "class_name": "脏污",
+          "tested_fn_count": 20,
+          "recovered_count": 1,
+          "recovery_rate": 0.05
+        },
+        "9": {
+          "class_id": 9,
+          "class_name": "轮廓划伤",
+          "tested_fn_count": 33,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "10": {
+          "class_id": 10,
+          "class_name": "锡丝残留",
+          "tested_fn_count": 7,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "11": {
+          "class_id": 11,
+          "class_name": "锡尖",
+          "tested_fn_count": 5,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "12": {
+          "class_id": 12,
+          "class_name": "锡膏",
+          "tested_fn_count": 17,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        }
+      },
+      "low_contrast_fn_recovery_rate": 0.017241379310344827,
+      "dark_fn_recovery_rate": 0.02127659574468085,
+      "small_object_recovery_rate": 0.018072289156626505,
+      "average_conf_gain": 0.004376796036958694,
+      "average_iou_gain": 0.015976318847388028,
+      "main_affected_classes": [
+        "碰伤",
+        "漏背锡",
+        "脏污"
+      ]
+    },
+    {
+      "transform": "brightness_up_30",
+      "family": "brightness",
+      "params": {
+        "beta": 30
+      },
+      "tested_fn_count": 200,
+      "recovered_count": 4,
+      "recovery_rate": 0.02,
+      "per_class": {
+        "1": {
+          "class_id": 1,
+          "class_name": "OK3",
+          "tested_fn_count": 5,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "2": {
+          "class_id": 2,
+          "class_name": "加强筋打伤",
+          "tested_fn_count": 1,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "3": {
+          "class_id": 3,
+          "class_name": "开裂",
+          "tested_fn_count": 2,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "4": {
+          "class_id": 4,
+          "class_name": "油污",
+          "tested_fn_count": 11,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "5": {
+          "class_id": 5,
+          "class_name": "浅划伤",
+          "tested_fn_count": 4,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "6": {
+          "class_id": 6,
+          "class_name": "漏背锡",
+          "tested_fn_count": 10,
+          "recovered_count": 1,
+          "recovery_rate": 0.1
+        },
+        "7": {
+          "class_id": 7,
+          "class_name": "碰伤",
+          "tested_fn_count": 85,
+          "recovered_count": 3,
+          "recovery_rate": 0.03529411764705882
+        },
+        "8": {
+          "class_id": 8,
+          "class_name": "脏污",
+          "tested_fn_count": 20,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "9": {
+          "class_id": 9,
+          "class_name": "轮廓划伤",
+          "tested_fn_count": 33,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "10": {
+          "class_id": 10,
+          "class_name": "锡丝残留",
+          "tested_fn_count": 7,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "11": {
+          "class_id": 11,
+          "class_name": "锡尖",
+          "tested_fn_count": 5,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "12": {
+          "class_id": 12,
+          "class_name": "锡膏",
+          "tested_fn_count": 17,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        }
+      },
+      "low_contrast_fn_recovery_rate": 0.008620689655172414,
+      "dark_fn_recovery_rate": 0.0,
+      "small_object_recovery_rate": 0.018072289156626505,
+      "average_conf_gain": -0.018138507306575777,
+      "average_iou_gain": 0.012053269799798727,
+      "main_affected_classes": [
+        "碰伤",
+        "漏背锡"
+      ]
+    },
+    {
+      "transform": "gamma_brighten_075",
+      "family": "gamma",
+      "params": {
+        "gamma": 0.75
+      },
+      "tested_fn_count": 200,
+      "recovered_count": 4,
+      "recovery_rate": 0.02,
+      "per_class": {
+        "1": {
+          "class_id": 1,
+          "class_name": "OK3",
+          "tested_fn_count": 5,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "2": {
+          "class_id": 2,
+          "class_name": "加强筋打伤",
+          "tested_fn_count": 1,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "3": {
+          "class_id": 3,
+          "class_name": "开裂",
+          "tested_fn_count": 2,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "4": {
+          "class_id": 4,
+          "class_name": "油污",
+          "tested_fn_count": 11,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "5": {
+          "class_id": 5,
+          "class_name": "浅划伤",
+          "tested_fn_count": 4,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "6": {
+          "class_id": 6,
+          "class_name": "漏背锡",
+          "tested_fn_count": 10,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "7": {
+          "class_id": 7,
+          "class_name": "碰伤",
+          "tested_fn_count": 85,
+          "recovered_count": 3,
+          "recovery_rate": 0.03529411764705882
+        },
+        "8": {
+          "class_id": 8,
+          "class_name": "脏污",
+          "tested_fn_count": 20,
+          "recovered_count": 1,
+          "recovery_rate": 0.05
+        },
+        "9": {
+          "class_id": 9,
+          "class_name": "轮廓划伤",
+          "tested_fn_count": 33,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "10": {
+          "class_id": 10,
+          "class_name": "锡丝残留",
+          "tested_fn_count": 7,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "11": {
+          "class_id": 11,
+          "class_name": "锡尖",
+          "tested_fn_count": 5,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "12": {
+          "class_id": 12,
+          "class_name": "锡膏",
+          "tested_fn_count": 17,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        }
+      },
+      "low_contrast_fn_recovery_rate": 0.017241379310344827,
+      "dark_fn_recovery_rate": 0.02127659574468085,
+      "small_object_recovery_rate": 0.018072289156626505,
+      "average_conf_gain": -0.010109266638755799,
+      "average_iou_gain": 0.01190696288831532,
+      "main_affected_classes": [
+        "碰伤",
+        "脏污"
+      ]
+    },
+    {
+      "transform": "brightness_up_15",
+      "family": "brightness",
+      "params": {
+        "beta": 15
+      },
+      "tested_fn_count": 200,
+      "recovered_count": 3,
+      "recovery_rate": 0.015,
+      "per_class": {
+        "1": {
+          "class_id": 1,
+          "class_name": "OK3",
+          "tested_fn_count": 5,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "2": {
+          "class_id": 2,
+          "class_name": "加强筋打伤",
+          "tested_fn_count": 1,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "3": {
+          "class_id": 3,
+          "class_name": "开裂",
+          "tested_fn_count": 2,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "4": {
+          "class_id": 4,
+          "class_name": "油污",
+          "tested_fn_count": 11,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "5": {
+          "class_id": 5,
+          "class_name": "浅划伤",
+          "tested_fn_count": 4,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "6": {
+          "class_id": 6,
+          "class_name": "漏背锡",
+          "tested_fn_count": 10,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "7": {
+          "class_id": 7,
+          "class_name": "碰伤",
+          "tested_fn_count": 85,
+          "recovered_count": 3,
+          "recovery_rate": 0.03529411764705882
+        },
+        "8": {
+          "class_id": 8,
+          "class_name": "脏污",
+          "tested_fn_count": 20,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "9": {
+          "class_id": 9,
+          "class_name": "轮廓划伤",
+          "tested_fn_count": 33,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "10": {
+          "class_id": 10,
+          "class_name": "锡丝残留",
+          "tested_fn_count": 7,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "11": {
+          "class_id": 11,
+          "class_name": "锡尖",
+          "tested_fn_count": 5,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "12": {
+          "class_id": 12,
+          "class_name": "锡膏",
+          "tested_fn_count": 17,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        }
+      },
+      "low_contrast_fn_recovery_rate": 0.008620689655172414,
+      "dark_fn_recovery_rate": 0.0,
+      "small_object_recovery_rate": 0.018072289156626505,
+      "average_conf_gain": -0.0047246584296226505,
+      "average_iou_gain": 0.009165399512276053,
+      "main_affected_classes": [
+        "碰伤"
+      ]
+    },
+    {
+      "transform": "zoom_in_context",
+      "family": "scale_context",
+      "params": {
+        "context_scale": 5.0,
+        "min_crop": 256
+      },
+      "tested_fn_count": 200,
+      "recovered_count": 2,
+      "recovery_rate": 0.01,
+      "per_class": {
+        "1": {
+          "class_id": 1,
+          "class_name": "OK3",
+          "tested_fn_count": 5,
+          "recovered_count": 1,
+          "recovery_rate": 0.2
+        },
+        "2": {
+          "class_id": 2,
+          "class_name": "加强筋打伤",
+          "tested_fn_count": 1,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "3": {
+          "class_id": 3,
+          "class_name": "开裂",
+          "tested_fn_count": 2,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "4": {
+          "class_id": 4,
+          "class_name": "油污",
+          "tested_fn_count": 11,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "5": {
+          "class_id": 5,
+          "class_name": "浅划伤",
+          "tested_fn_count": 4,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "6": {
+          "class_id": 6,
+          "class_name": "漏背锡",
+          "tested_fn_count": 10,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "7": {
+          "class_id": 7,
+          "class_name": "碰伤",
+          "tested_fn_count": 85,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "8": {
+          "class_id": 8,
+          "class_name": "脏污",
+          "tested_fn_count": 20,
+          "recovered_count": 1,
+          "recovery_rate": 0.05
+        },
+        "9": {
+          "class_id": 9,
+          "class_name": "轮廓划伤",
+          "tested_fn_count": 33,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "10": {
+          "class_id": 10,
+          "class_name": "锡丝残留",
+          "tested_fn_count": 7,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "11": {
+          "class_id": 11,
+          "class_name": "锡尖",
+          "tested_fn_count": 5,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        },
+        "12": {
+          "class_id": 12,
+          "class_name": "锡膏",
+          "tested_fn_count": 17,
+          "recovered_count": 0,
+          "recovery_rate": 0.0
+        }
+      },
+      "low_contrast_fn_recovery_rate": 0.008620689655172414,
+      "dark_fn_recovery_rate": 0.0,
+      "small_object_recovery_rate": 0.006024096385542169,
+      "average_conf_gain": -0.1275993186235428,
+      "average_iou_gain": 0.004070016052573919,
+      "main_affected_classes": [
+        "OK3",
+        "脏污"
+      ]
+    }
+  ],
+  "highest_recovery_transform": {
+    "transform": "sharpen_mild",
+    "family": "sharpen",
+    "params": {
+      "amount": 0.75,
+      "sigma": 1.0
+    },
+    "tested_fn_count": 200,
+    "recovered_count": 14,
+    "recovery_rate": 0.07,
+    "per_class": {
+      "1": {
+        "class_id": 1,
+        "class_name": "OK3",
+        "tested_fn_count": 5,
+        "recovered_count": 2,
+        "recovery_rate": 0.4
+      },
+      "2": {
+        "class_id": 2,
+        "class_name": "加强筋打伤",
+        "tested_fn_count": 1,
+        "recovered_count": 0,
+        "recovery_rate": 0.0
+      },
+      "3": {
+        "class_id": 3,
+        "class_name": "开裂",
+        "tested_fn_count": 2,
+        "recovered_count": 0,
+        "recovery_rate": 0.0
+      },
+      "4": {
+        "class_id": 4,
+        "class_name": "油污",
+        "tested_fn_count": 11,
+        "recovered_count": 1,
+        "recovery_rate": 0.09090909090909091
+      },
+      "5": {
+        "class_id": 5,
+        "class_name": "浅划伤",
+        "tested_fn_count": 4,
+        "recovered_count": 0,
+        "recovery_rate": 0.0
+      },
+      "6": {
+        "class_id": 6,
+        "class_name": "漏背锡",
+        "tested_fn_count": 10,
+        "recovered_count": 0,
+        "recovery_rate": 0.0
+      },
+      "7": {
+        "class_id": 7,
+        "class_name": "碰伤",
+        "tested_fn_count": 85,
+        "recovered_count": 7,
+        "recovery_rate": 0.08235294117647059
+      },
+      "8": {
+        "class_id": 8,
+        "class_name": "脏污",
+        "tested_fn_count": 20,
+        "recovered_count": 3,
+        "recovery_rate": 0.15
+      },
+      "9": {
+        "class_id": 9,
+        "class_name": "轮廓划伤",
+        "tested_fn_count": 33,
+        "recovered_count": 1,
+        "recovery_rate": 0.030303030303030304
+      },
+      "10": {
+        "class_id": 10,
+        "class_name": "锡丝残留",
+        "tested_fn_count": 7,
+        "recovered_count": 0,
+        "recovery_rate": 0.0
+      },
+      "11": {
+        "class_id": 11,
+        "class_name": "锡尖",
+        "tested_fn_count": 5,
+        "recovered_count": 0,
+        "recovery_rate": 0.0
+      },
+      "12": {
+        "class_id": 12,
+        "class_name": "锡膏",
+        "tested_fn_count": 17,
+        "recovered_count": 0,
+        "recovery_rate": 0.0
+      }
+    },
+    "low_contrast_fn_recovery_rate": 0.07758620689655173,
+    "dark_fn_recovery_rate": 0.07446808510638298,
+    "small_object_recovery_rate": 0.07228915662650602,
+    "average_conf_gain": -0.018502843528985978,
+    "average_iou_gain": 0.05328058674000204,
+    "main_affected_classes": [
+      "碰伤",
+      "脏污",
+      "OK3",
+      "油污",
+      "轮廓划伤"
+    ]
+  },
+  "diag_policy_001_support": {
+    "policy_id": "diag_policy_001",
+    "operations": [
+      "brightness",
+      "clahe",
+      "contrast",
+      "gamma"
+    ],
+    "tested_fn_count": 200,
+    "any_diag_policy_001_op_recovered_unique_fn_count": 21,
+    "any_diag_policy_001_op_recovery_rate": 0.105,
+    "support_by_operation": {
+      "clahe": {
+        "tested_fn_count": 200,
+        "recovered_unique_fn_count": 10,
+        "unique_recovery_rate": 0.05
+      },
+      "contrast": {
+        "tested_fn_count": 200,
+        "recovered_unique_fn_count": 12,
+        "unique_recovery_rate": 0.06
+      },
+      "gamma": {
+        "tested_fn_count": 200,
+        "recovered_unique_fn_count": 5,
+        "unique_recovery_rate": 0.025
+      },
+      "brightness": {
+        "tested_fn_count": 200,
+        "recovered_unique_fn_count": 4,
+        "unique_recovery_rate": 0.02
+      },
+      "combined_photometric": {
+        "tested_fn_count": 200,
+        "recovered_unique_fn_count": 8,
+        "unique_recovery_rate": 0.04
+      }
+    },
+    "interpretation": "photometric counterfactual recovery supports low_contrast_missed_defect policy"
+  },
+  "source_diagnosis_comparison": {
+    "source_diagnosis_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_policy_top3_from_baseline\\diagnosis\\diagnosis.json",
+    "triggered_issues": [
+      "low_contrast_missed_defect",
+      "low_contrast_missed_defect",
+      "class_imbalance",
+      "localization_bias"
+    ],
+    "contains_low_contrast_missed_defect": true,
+    "counterfactual_supports_low_contrast_issue": true,
+    "interpretation": "supports diag_policy_001"
+  },
+  "most_recovered_classes": [
+    {
+      "class_id": 7,
+      "class_name": "碰伤",
+      "recovered_unique_fn_count": 9
+    },
+    {
+      "class_id": 8,
+      "class_name": "脏污",
+      "recovered_unique_fn_count": 4
+    },
+    {
+      "class_id": 1,
+      "class_name": "OK3",
+      "recovered_unique_fn_count": 3
+    },
+    {
+      "class_id": 2,
+      "class_name": "加强筋打伤",
+      "recovered_unique_fn_count": 1
+    },
+    {
+      "class_id": 4,
+      "class_name": "油污",
+      "recovered_unique_fn_count": 1
+    },
+    {
+      "class_id": 6,
+      "class_name": "漏背锡",
+      "recovered_unique_fn_count": 1
+    },
+    {
+      "class_id": 9,
+      "class_name": "轮廓划伤",
+      "recovered_unique_fn_count": 1
+    },
+    {
+      "class_id": 11,
+      "class_name": "锡尖",
+      "recovered_unique_fn_count": 1
+    }
+  ],
+  "unrecovered_classes": [
+    {
+      "class_id": 7,
+      "class_name": "碰伤",
+      "unrecovered_unique_fn_count": 73,
+      "tested_unique_fn_count": 85,
+      "unrecovered_rate": 0.8588235294117647
+    },
+    {
+      "class_id": 9,
+      "class_name": "轮廓划伤",
+      "unrecovered_unique_fn_count": 31,
+      "tested_unique_fn_count": 33,
+      "unrecovered_rate": 0.9393939393939394
+    },
+    {
+      "class_id": 12,
+      "class_name": "锡膏",
+      "unrecovered_unique_fn_count": 17,
+      "tested_unique_fn_count": 17,
+      "unrecovered_rate": 1.0
+    },
+    {
+      "class_id": 8,
+      "class_name": "脏污",
+      "unrecovered_unique_fn_count": 15,
+      "tested_unique_fn_count": 20,
+      "unrecovered_rate": 0.75
+    },
+    {
+      "class_id": 4,
+      "class_name": "油污",
+      "unrecovered_unique_fn_count": 10,
+      "tested_unique_fn_count": 11,
+      "unrecovered_rate": 0.9090909090909091
+    },
+    {
+      "class_id": 6,
+      "class_name": "漏背锡",
+      "unrecovered_unique_fn_count": 9,
+      "tested_unique_fn_count": 10,
+      "unrecovered_rate": 0.9
+    },
+    {
+      "class_id": 10,
+      "class_name": "锡丝残留",
+      "unrecovered_unique_fn_count": 7,
+      "tested_unique_fn_count": 7,
+      "unrecovered_rate": 1.0
+    },
+    {
+      "class_id": 5,
+      "class_name": "浅划伤",
+      "unrecovered_unique_fn_count": 4,
+      "tested_unique_fn_count": 4,
+      "unrecovered_rate": 1.0
+    },
+    {
+      "class_id": 11,
+      "class_name": "锡尖",
+      "unrecovered_unique_fn_count": 4,
+      "tested_unique_fn_count": 5,
+      "unrecovered_rate": 0.8
+    },
+    {
+      "class_id": 1,
+      "class_name": "OK3",
+      "unrecovered_unique_fn_count": 2,
+      "tested_unique_fn_count": 5,
+      "unrecovered_rate": 0.4
+    },
+    {
+      "class_id": 3,
+      "class_name": "开裂",
+      "unrecovered_unique_fn_count": 2,
+      "tested_unique_fn_count": 2,
+      "unrecovered_rate": 1.0
+    }
+  ],
+  "debug_images_dir": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images",
+  "debug_image_count": 406,
+  "debug_records": [
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\recovered_class_clahe_clip2_iou0p574_conf0p612_2025-05-16-17-11-45ps5_tile_0006_0.jpg",
+      "transform": "clahe_clip2",
+      "recovered": true,
+      "class_name": "油污"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\recovered_class_clahe_clip2_iou0p674_conf0p610_2025-06-07-16-21-50ps5_NGyuan_tile_0007_0.jpg",
+      "transform": "clahe_clip2",
+      "recovered": true,
+      "class_name": "脏污"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\recovered_class_clahe_clip2_iou0p783_conf0p471_2025-06-28-00-58-48ps5_NGyuan_tile_0011_0.jpg",
+      "transform": "clahe_clip2",
+      "recovered": true,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\recovered_OK3_clahe_clip2_iou0p916_conf0p519_2025-07-13-20-08-46ps5_NGyuan_tile_0008_1.jpg",
+      "transform": "clahe_clip2",
+      "recovered": true,
+      "class_name": "OK3"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\recovered_class_clahe_clip2_iou0p966_conf0p768_2025-08-01-19-15-54ps5_NGyuan_tile_0001_1.jpg",
+      "transform": "clahe_clip2",
+      "recovered": true,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\recovered_class_clahe_clip2_iou0p723_conf0p266_2025-09-09-21-09-08ps5_tile_0002_0.jpg",
+      "transform": "clahe_clip2",
+      "recovered": true,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\recovered_OK3_clahe_clip2_iou0p876_conf0p561_2025-10-11-06-43-38ps5_tile_0013_1.jpg",
+      "transform": "clahe_clip2",
+      "recovered": true,
+      "class_name": "OK3"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\recovered_class_clahe_clip2_iou0p850_conf0p578_2025-10-17-13-38-05ps5_NGyuan_tile_0002_0.jpg",
+      "transform": "clahe_clip2",
+      "recovered": true,
+      "class_name": "脏污"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_clahe_clip2_iou0p000_conf0p000_2025-05-16-16-13-18ps5_tile_0007_0.jpg",
+      "transform": "clahe_clip2",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_clahe_clip2_iou0p000_conf0p638_2025-05-16-16-13-18ps5_tile_0012_0.jpg",
+      "transform": "clahe_clip2",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_clahe_clip2_iou0p000_conf0p000_2025-05-16-17-11-45ps5_tile_0000_0.jpg",
+      "transform": "clahe_clip2",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_clahe_clip2_iou0p000_conf0p000_2025-05-19-17-19-55ps5_NGyuan_tile_0007_0.jpg",
+      "transform": "clahe_clip2",
+      "recovered": false,
+      "class_name": "轮廓划伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_clahe_clip2_iou0p000_conf0p000_2025-05-19-17-19-55ps5_NGyuan_tile_0008_0.jpg",
+      "transform": "clahe_clip2",
+      "recovered": false,
+      "class_name": "轮廓划伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_clahe_clip2_iou0p000_conf0p000_2025-06-07-15-42-24ps5_NGyuan_tile_0012_0.jpg",
+      "transform": "clahe_clip2",
+      "recovered": false,
+      "class_name": "脏污"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_clahe_clip2_iou0p000_conf0p000_2025-06-11-19-13-20ps5_NGyuan_tile_0012_0.jpg",
+      "transform": "clahe_clip2",
+      "recovered": false,
+      "class_name": "锡膏"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_clahe_clip2_iou0p000_conf0p000_2025-06-14-16-53-39ps5_tile_0012_0.jpg",
+      "transform": "clahe_clip2",
+      "recovered": false,
+      "class_name": "锡膏"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_clahe_clip2_iou0p000_conf0p514_2025-06-28-00-58-48ps5_NGyuan_tile_0006_0.jpg",
+      "transform": "clahe_clip2",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_clahe_clip2_iou0p000_conf0p949_2025-06-29-08-27-16ps5_NGyuan_tile_0000_2.jpg",
+      "transform": "clahe_clip2",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_clahe_clip2_iou0p000_conf0p000_2025-07-13-20-08-46ps5_NGyuan_tile_0008_0.jpg",
+      "transform": "clahe_clip2",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_clahe_clip2_iou0p479_conf0p496_2025-08-01-19-07-33ps5_tile_0001_1.jpg",
+      "transform": "clahe_clip2",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_clahe_clip2_iou0p000_conf0p000_2025-08-01-19-15-54ps5_NGyuan_tile_0008_0.jpg",
+      "transform": "clahe_clip2",
+      "recovered": false,
+      "class_name": "轮廓划伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_clahe_clip2_iou0p000_conf0p000_2025-08-11-19-48-39ps5_tile_0002_0.jpg",
+      "transform": "clahe_clip2",
+      "recovered": false,
+      "class_name": "锡尖"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_clahe_clip2_iou0p000_conf0p000_2025-08-12-01-35-13ps5_NGyuan_tile_0013_0.jpg",
+      "transform": "clahe_clip2",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_clahe_clip2_iou0p000_conf0p000_2025-09-02-08-24-16ps5_NGyuan_tile_0001_0.jpg",
+      "transform": "clahe_clip2",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_clahe_clip2_iou0p380_conf0p362_2025-09-02-15-04-54ps5_NGyuan_tile_0012_0.jpg",
+      "transform": "clahe_clip2",
+      "recovered": false,
+      "class_name": "漏背锡"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_clahe_clip2_iou0p000_conf0p000_2025-09-09-21-09-08ps5_tile_0003_0.jpg",
+      "transform": "clahe_clip2",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_clahe_clip2_iou0p000_conf0p000_2025-09-15-17-40-45ps5_tile_0008_3.jpg",
+      "transform": "clahe_clip2",
+      "recovered": false,
+      "class_name": "轮廓划伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_clahe_clip2_iou0p000_conf0p000_2025-09-17-00-42-01ps5_NGyuan_tile_0003_0.jpg",
+      "transform": "clahe_clip2",
+      "recovered": false,
+      "class_name": "轮廓划伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_clahe_clip2_iou0p000_conf0p000_2025-09-17-00-42-01ps5_NGyuan_tile_0007_2.jpg",
+      "transform": "clahe_clip2",
+      "recovered": false,
+      "class_name": "轮廓划伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_clahe_clip2_iou0p000_conf0p000_2025-09-17-01-04-57ps5_NGyuan_tile_0007_1.jpg",
+      "transform": "clahe_clip2",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_clahe_clip2_iou0p000_conf0p000_2025-09-23-01-12-21ps5_NGyuan_tile_0001_0.jpg",
+      "transform": "clahe_clip2",
+      "recovered": false,
+      "class_name": "脏污"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_clahe_clip2_iou0p000_conf0p000_2025-10-22-13-52-23ps5_NGyuan_tile_0007_2.jpg",
+      "transform": "clahe_clip2",
+      "recovered": false,
+      "class_name": "锡膏"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_clahe_clip2_iou0p000_conf0p000_2025-10-31-03-46-08ps5_NGyuan_tile_0006_1.jpg",
+      "transform": "clahe_clip2",
+      "recovered": false,
+      "class_name": "浅划伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_clahe_clip2_iou0p000_conf0p000_2025-10-31-03-46-08ps5_NGyuan_tile_0011_1.jpg",
+      "transform": "clahe_clip2",
+      "recovered": false,
+      "class_name": "浅划伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_clahe_clip2_iou0p000_conf0p000_2025-11-01-14-42-20ps5_NGyuan_tile_0005_0.jpg",
+      "transform": "clahe_clip2",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_clahe_clip2_iou0p000_conf0p000_2025-11-01-14-42-20ps5_NGyuan_tile_0009_1.jpg",
+      "transform": "clahe_clip2",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_clahe_clip2_iou0p000_conf0p000_2025-11-01-14-42-20ps5_NGyuan_tile_0010_0.jpg",
+      "transform": "clahe_clip2",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_clahe_clip2_iou0p000_conf0p000_2025-11-12-16-33-42ps5_NGyuan_tile_0006_0.jpg",
+      "transform": "clahe_clip2",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\recovered_class_clahe_clip3_iou0p599_conf0p543_105acebc-2025-05-09-18-24-19ps5_tile_0000_1.jpg",
+      "transform": "clahe_clip3",
+      "recovered": true,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\recovered_class_clahe_clip3_iou0p785_conf0p375_2025-06-07-15-42-24ps5_NGyuan_tile_0012_0.jpg",
+      "transform": "clahe_clip3",
+      "recovered": true,
+      "class_name": "脏污"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\recovered_OK3_clahe_clip3_iou0p905_conf0p339_2025-07-13-20-08-46ps5_NGyuan_tile_0008_1.jpg",
+      "transform": "clahe_clip3",
+      "recovered": true,
+      "class_name": "OK3"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\recovered_class_clahe_clip3_iou0p959_conf0p720_2025-08-01-19-15-54ps5_NGyuan_tile_0001_1.jpg",
+      "transform": "clahe_clip3",
+      "recovered": true,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\recovered_OK3_clahe_clip3_iou0p876_conf0p315_2025-10-11-06-43-38ps5_tile_0013_1.jpg",
+      "transform": "clahe_clip3",
+      "recovered": true,
+      "class_name": "OK3"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\recovered_class_clahe_clip3_iou0p853_conf0p759_2025-10-17-13-38-05ps5_NGyuan_tile_0002_0.jpg",
+      "transform": "clahe_clip3",
+      "recovered": true,
+      "class_name": "脏污"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_clahe_clip3_iou0p000_conf0p000_2025-05-16-16-13-18ps5_tile_0007_0.jpg",
+      "transform": "clahe_clip3",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_clahe_clip3_iou0p000_conf0p000_2025-05-16-16-19-14ps5_tile_0013_1.jpg",
+      "transform": "clahe_clip3",
+      "recovered": false,
+      "class_name": "轮廓划伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_clahe_clip3_iou0p000_conf0p000_2025-05-16-17-11-45ps5_tile_0005_0.jpg",
+      "transform": "clahe_clip3",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_clahe_clip3_iou0p000_conf0p000_2025-05-19-17-19-55ps5_NGyuan_tile_0003_2.jpg",
+      "transform": "clahe_clip3",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_clahe_clip3_iou0p000_conf0p000_2025-05-19-17-19-55ps5_NGyuan_tile_0007_0.jpg",
+      "transform": "clahe_clip3",
+      "recovered": false,
+      "class_name": "轮廓划伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_clahe_clip3_iou0p000_conf0p000_2025-05-26-06-26-47ps5_NGyuan_tile_0002_1.jpg",
+      "transform": "clahe_clip3",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_clahe_clip3_iou0p000_conf0p000_2025-06-06-01-33-39ps5_NGyuan_tile_0003_0.jpg",
+      "transform": "clahe_clip3",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_clahe_clip3_iou0p000_conf0p000_2025-06-07-10-52-02ps5_NGyuan_tile_0007_2.jpg",
+      "transform": "clahe_clip3",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_clahe_clip3_iou0p000_conf0p000_2025-06-07-10-52-02ps5_NGyuan_tile_0012_1.jpg",
+      "transform": "clahe_clip3",
+      "recovered": false,
+      "class_name": "锡膏"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_clahe_clip3_iou0p000_conf0p000_2025-06-07-14-43-50ps5_NGyuan_tile_0007_1.jpg",
+      "transform": "clahe_clip3",
+      "recovered": false,
+      "class_name": "脏污"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_clahe_clip3_iou0p305_conf0p385_2025-06-07-16-21-50ps5_NGyuan_tile_0012_0.jpg",
+      "transform": "clahe_clip3",
+      "recovered": false,
+      "class_name": "脏污"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_clahe_clip3_iou0p000_conf0p000_2025-06-28-00-58-48ps5_NGyuan_tile_0006_0.jpg",
+      "transform": "clahe_clip3",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_clahe_clip3_iou0p000_conf0p000_2025-06-28-00-58-48ps5_NGyuan_tile_0007_1.jpg",
+      "transform": "clahe_clip3",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_clahe_clip3_iou0p000_conf0p942_2025-06-29-08-27-16ps5_NGyuan_tile_0000_2.jpg",
+      "transform": "clahe_clip3",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_clahe_clip3_iou0p000_conf0p000_2025-08-01-18-25-43ps5_NGyuan_tile_0005_0.jpg",
+      "transform": "clahe_clip3",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_clahe_clip3_iou0p000_conf0p984_2025-08-04-12-33-32ps5_NGyuan_tile_0012_0.jpg",
+      "transform": "clahe_clip3",
+      "recovered": false,
+      "class_name": "锡膏"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_clahe_clip3_iou0p000_conf0p000_2025-08-11-19-48-39ps5_tile_0002_0.jpg",
+      "transform": "clahe_clip3",
+      "recovered": false,
+      "class_name": "锡尖"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_clahe_clip3_iou0p000_conf0p000_2025-08-12-01-35-13ps5_NGyuan_tile_0014_0.jpg",
+      "transform": "clahe_clip3",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_clahe_clip3_iou0p000_conf0p000_2025-08-21-05-20-58ps5_NGyuan_tile_0010_0.jpg",
+      "transform": "clahe_clip3",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_clahe_clip3_iou0p000_conf0p000_2025-09-09-21-09-08ps5_tile_0002_0.jpg",
+      "transform": "clahe_clip3",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_clahe_clip3_iou0p000_conf0p000_2025-09-15-17-40-45ps5_tile_0005_0.jpg",
+      "transform": "clahe_clip3",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_clahe_clip3_iou0p000_conf0p000_2025-09-17-00-42-01ps5_NGyuan_tile_0007_2.jpg",
+      "transform": "clahe_clip3",
+      "recovered": false,
+      "class_name": "轮廓划伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_clahe_clip3_iou0p000_conf0p000_2025-09-17-01-04-57ps5_NGyuan_tile_0007_1.jpg",
+      "transform": "clahe_clip3",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_clahe_clip3_iou0p000_conf0p000_2025-09-17-01-04-57ps5_NGyuan_tile_0012_0.jpg",
+      "transform": "clahe_clip3",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_clahe_clip3_iou0p000_conf0p000_2025-09-23-01-12-21ps5_NGyuan_tile_0000_0.jpg",
+      "transform": "clahe_clip3",
+      "recovered": false,
+      "class_name": "脏污"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_clahe_clip3_iou0p000_conf0p000_2025-10-11-06-43-38ps5_tile_0014_0.jpg",
+      "transform": "clahe_clip3",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_clahe_clip3_iou0p000_conf0p000_2025-11-01-14-42-20ps5_NGyuan_tile_0005_0.jpg",
+      "transform": "clahe_clip3",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_clahe_clip3_iou0p000_conf0p000_2025-11-01-14-42-20ps5_NGyuan_tile_0008_3.jpg",
+      "transform": "clahe_clip3",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_clahe_clip3_iou0p000_conf0p000_2025-11-12-16-33-42ps5_NGyuan_tile_0006_0.jpg",
+      "transform": "clahe_clip3",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_clahe_clip3_iou0p000_conf0p000_ce0d1787-2025-04-25-11-20-04ps5_NGyuan_tile_0007_0.jpg",
+      "transform": "clahe_clip3",
+      "recovered": false,
+      "class_name": "锡膏"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\recovered_class_contrast_up_115_iou0p897_conf0p317_2025-06-05-10-27-17ps5_NGyuan_tile_0012_0.jpg",
+      "transform": "contrast_up_115",
+      "recovered": true,
+      "class_name": "脏污"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\recovered_class_contrast_up_115_iou0p626_conf0p352_2025-06-07-16-21-50ps5_NGyuan_tile_0007_0.jpg",
+      "transform": "contrast_up_115",
+      "recovered": true,
+      "class_name": "脏污"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\recovered_class_contrast_up_115_iou0p711_conf0p278_2025-06-14-16-53-39ps5_tile_0005_0.jpg",
+      "transform": "contrast_up_115",
+      "recovered": true,
+      "class_name": "轮廓划伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\recovered_class_contrast_up_115_iou0p825_conf0p329_2025-06-28-00-58-48ps5_NGyuan_tile_0011_0.jpg",
+      "transform": "contrast_up_115",
+      "recovered": true,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\recovered_class_contrast_up_115_iou0p526_conf0p716_2025-08-01-19-07-33ps5_tile_0001_1.jpg",
+      "transform": "contrast_up_115",
+      "recovered": true,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\recovered_class_contrast_up_115_iou0p913_conf0p401_2025-08-01-19-15-54ps5_NGyuan_tile_0001_1.jpg",
+      "transform": "contrast_up_115",
+      "recovered": true,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\recovered_class_contrast_up_115_iou0p730_conf0p347_2025-09-02-07-01-17ps5_NGyuan_tile_0007_0.jpg",
+      "transform": "contrast_up_115",
+      "recovered": true,
+      "class_name": "锡尖"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\recovered_OK3_contrast_up_115_iou0p926_conf0p253_2025-10-11-06-43-38ps5_tile_0012_1.jpg",
+      "transform": "contrast_up_115",
+      "recovered": true,
+      "class_name": "OK3"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\recovered_OK3_contrast_up_115_iou0p866_conf0p351_2025-10-11-06-43-38ps5_tile_0013_1.jpg",
+      "transform": "contrast_up_115",
+      "recovered": true,
+      "class_name": "OK3"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\recovered_class_contrast_up_115_iou0p891_conf0p543_2025-11-12-16-33-42ps5_NGyuan_tile_0006_0.jpg",
+      "transform": "contrast_up_115",
+      "recovered": true,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_contrast_up_115_iou0p174_conf0p910_2025-05-10-15-39-23ps5_tile_0012_1.jpg",
+      "transform": "contrast_up_115",
+      "recovered": false,
+      "class_name": "油污"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_contrast_up_115_iou0p000_conf0p000_2025-05-10-15-40-40ps5_tile_0005_0.jpg",
+      "transform": "contrast_up_115",
+      "recovered": false,
+      "class_name": "油污"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_contrast_up_115_iou0p000_conf0p000_2025-05-16-16-13-18ps5_tile_0006_1.jpg",
+      "transform": "contrast_up_115",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_contrast_up_115_iou0p000_conf0p000_2025-05-16-16-13-18ps5_tile_0011_0.jpg",
+      "transform": "contrast_up_115",
+      "recovered": false,
+      "class_name": "开裂"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_contrast_up_115_iou0p000_conf0p443_2025-05-16-16-19-14ps5_tile_0009_1.jpg",
+      "transform": "contrast_up_115",
+      "recovered": false,
+      "class_name": "轮廓划伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_contrast_up_115_iou0p000_conf0p000_2025-05-25-09-48-32ps5_NGyuan_tile_0002_0.jpg",
+      "transform": "contrast_up_115",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_contrast_up_115_iou0p000_conf0p807_2025-05-26-06-26-47ps5_NGyuan_tile_0007_1.jpg",
+      "transform": "contrast_up_115",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_contrast_up_115_iou0p000_conf0p000_2025-06-05-16-10-10ps5_NGyuan_tile_0000_0.jpg",
+      "transform": "contrast_up_115",
+      "recovered": false,
+      "class_name": "浅划伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_contrast_up_115_iou0p000_conf0p613_2025-06-06-01-33-39ps5_NGyuan_tile_0002_0.jpg",
+      "transform": "contrast_up_115",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_contrast_up_115_iou0p000_conf0p000_2025-06-07-10-52-02ps5_NGyuan_tile_0012_2.jpg",
+      "transform": "contrast_up_115",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_contrast_up_115_iou0p000_conf0p535_2025-06-11-19-13-20ps5_NGyuan_tile_0007_2.jpg",
+      "transform": "contrast_up_115",
+      "recovered": false,
+      "class_name": "浅划伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_contrast_up_115_iou0p000_conf0p000_2025-06-14-16-53-39ps5_tile_0012_0.jpg",
+      "transform": "contrast_up_115",
+      "recovered": false,
+      "class_name": "锡膏"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_contrast_up_115_iou0p000_conf0p000_2025-06-18-06-39-05ps5_NGyuan_tile_0012_1.jpg",
+      "transform": "contrast_up_115",
+      "recovered": false,
+      "class_name": "脏污"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_contrast_up_115_iou0p000_conf0p000_2025-06-18-06-39-05ps5_NGyuan_tile_0012_3.jpg",
+      "transform": "contrast_up_115",
+      "recovered": false,
+      "class_name": "脏污"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_contrast_up_115_iou0p000_conf0p000_2025-07-14-19-29-20ps5_tile_0007_1.jpg",
+      "transform": "contrast_up_115",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_contrast_up_115_iou0p000_conf0p000_2025-07-21-20-56-48ps5_NGyuan_tile_0000_0.jpg",
+      "transform": "contrast_up_115",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_contrast_up_115_iou0p000_conf0p000_2025-07-21-20-56-48ps5_NGyuan_tile_0001_0.jpg",
+      "transform": "contrast_up_115",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_contrast_up_115_iou0p000_conf0p000_2025-07-21-20-56-48ps5_NGyuan_tile_0005_0.jpg",
+      "transform": "contrast_up_115",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_contrast_up_115_iou0p000_conf0p000_2025-08-01-19-15-54ps5_NGyuan_tile_0008_0.jpg",
+      "transform": "contrast_up_115",
+      "recovered": false,
+      "class_name": "轮廓划伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_contrast_up_115_iou0p000_conf0p974_2025-08-04-12-33-32ps5_NGyuan_tile_0007_0.jpg",
+      "transform": "contrast_up_115",
+      "recovered": false,
+      "class_name": "锡膏"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_contrast_up_115_iou0p000_conf0p000_2025-09-09-21-09-08ps5_tile_0002_0.jpg",
+      "transform": "contrast_up_115",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_contrast_up_115_iou0p000_conf0p000_2025-09-15-17-40-45ps5_tile_0013_2.jpg",
+      "transform": "contrast_up_115",
+      "recovered": false,
+      "class_name": "轮廓划伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_contrast_up_115_iou0p000_conf0p000_2025-09-17-00-42-01ps5_NGyuan_tile_0002_0.jpg",
+      "transform": "contrast_up_115",
+      "recovered": false,
+      "class_name": "轮廓划伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_contrast_up_115_iou0p000_conf0p000_2025-10-17-13-38-05ps5_NGyuan_tile_0002_0.jpg",
+      "transform": "contrast_up_115",
+      "recovered": false,
+      "class_name": "脏污"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_contrast_up_115_iou0p000_conf0p000_2025-11-01-14-42-20ps5_NGyuan_tile_0005_0.jpg",
+      "transform": "contrast_up_115",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_contrast_up_115_iou0p000_conf0p328_2025-11-01-14-42-20ps5_NGyuan_tile_0009_1.jpg",
+      "transform": "contrast_up_115",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_contrast_up_115_iou0p000_conf0p592_2025-11-01-14-42-20ps5_NGyuan_tile_0013_1.jpg",
+      "transform": "contrast_up_115",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_contrast_up_115_iou0p000_conf0p592_2025-11-01-14-42-20ps5_NGyuan_tile_0013_3.jpg",
+      "transform": "contrast_up_115",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_contrast_up_115_iou0p000_conf0p646_a91db891-2025-04-13-11-39-07ps5_tile_0002_0.jpg",
+      "transform": "contrast_up_115",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_contrast_up_115_iou0p000_conf0p300_a91db891-2025-04-13-11-39-07ps5_tile_0006_0.jpg",
+      "transform": "contrast_up_115",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\recovered_class_contrast_up_130_iou0p922_conf0p589_2025-06-05-10-27-17ps5_NGyuan_tile_0012_0.jpg",
+      "transform": "contrast_up_130",
+      "recovered": true,
+      "class_name": "脏污"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\recovered_class_contrast_up_130_iou0p629_conf0p445_2025-06-07-16-21-50ps5_NGyuan_tile_0007_0.jpg",
+      "transform": "contrast_up_130",
+      "recovered": true,
+      "class_name": "脏污"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\recovered_class_contrast_up_130_iou0p690_conf0p258_2025-06-14-16-53-39ps5_tile_0005_0.jpg",
+      "transform": "contrast_up_130",
+      "recovered": true,
+      "class_name": "轮廓划伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\recovered_class_contrast_up_130_iou0p831_conf0p411_2025-06-28-00-58-48ps5_NGyuan_tile_0011_0.jpg",
+      "transform": "contrast_up_130",
+      "recovered": true,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\recovered_class_contrast_up_130_iou0p522_conf0p723_2025-08-01-19-07-33ps5_tile_0001_1.jpg",
+      "transform": "contrast_up_130",
+      "recovered": true,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\recovered_class_contrast_up_130_iou0p936_conf0p606_2025-08-01-19-15-54ps5_NGyuan_tile_0001_1.jpg",
+      "transform": "contrast_up_130",
+      "recovered": true,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\recovered_class_contrast_up_130_iou0p718_conf0p291_2025-09-02-07-01-17ps5_NGyuan_tile_0007_0.jpg",
+      "transform": "contrast_up_130",
+      "recovered": true,
+      "class_name": "锡尖"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\recovered_class_contrast_up_130_iou0p509_conf0p263_2025-09-15-17-40-22ps5_tile_0002_2.jpg",
+      "transform": "contrast_up_130",
+      "recovered": true,
+      "class_name": "加强筋打伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\recovered_OK3_contrast_up_130_iou0p923_conf0p275_2025-10-11-06-43-38ps5_tile_0012_1.jpg",
+      "transform": "contrast_up_130",
+      "recovered": true,
+      "class_name": "OK3"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\recovered_OK3_contrast_up_130_iou0p868_conf0p399_2025-10-11-06-43-38ps5_tile_0013_1.jpg",
+      "transform": "contrast_up_130",
+      "recovered": true,
+      "class_name": "OK3"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\recovered_class_contrast_up_130_iou0p838_conf0p406_2025-10-17-13-38-05ps5_NGyuan_tile_0002_0.jpg",
+      "transform": "contrast_up_130",
+      "recovered": true,
+      "class_name": "脏污"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\recovered_class_contrast_up_130_iou0p874_conf0p661_2025-11-12-16-33-42ps5_NGyuan_tile_0006_0.jpg",
+      "transform": "contrast_up_130",
+      "recovered": true,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_contrast_up_130_iou0p000_conf0p000_2025-05-16-16-13-18ps5_tile_0011_0.jpg",
+      "transform": "contrast_up_130",
+      "recovered": false,
+      "class_name": "开裂"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_contrast_up_130_iou0p000_conf0p000_2025-05-16-16-24-29ps5_tile_0003_0.jpg",
+      "transform": "contrast_up_130",
+      "recovered": false,
+      "class_name": "脏污"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_contrast_up_130_iou0p000_conf0p699_2025-05-16-17-11-45ps5_tile_0005_0.jpg",
+      "transform": "contrast_up_130",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_contrast_up_130_iou0p000_conf0p982_2025-05-16-17-11-45ps5_tile_0006_0.jpg",
+      "transform": "contrast_up_130",
+      "recovered": false,
+      "class_name": "油污"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_contrast_up_130_iou0p000_conf0p585_2025-05-16-17-11-45ps5_tile_0011_0.jpg",
+      "transform": "contrast_up_130",
+      "recovered": false,
+      "class_name": "油污"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_contrast_up_130_iou0p000_conf0p770_2025-05-25-09-48-32ps5_NGyuan_tile_0012_1.jpg",
+      "transform": "contrast_up_130",
+      "recovered": false,
+      "class_name": "漏背锡"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_contrast_up_130_iou0p000_conf0p000_2025-05-27-23-28-53ps5_NGyuan_tile_0007_1.jpg",
+      "transform": "contrast_up_130",
+      "recovered": false,
+      "class_name": "脏污"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_contrast_up_130_iou0p000_conf0p000_2025-06-05-16-10-10ps5_NGyuan_tile_0000_0.jpg",
+      "transform": "contrast_up_130",
+      "recovered": false,
+      "class_name": "浅划伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_contrast_up_130_iou0p000_conf0p000_2025-06-07-10-52-02ps5_NGyuan_tile_0007_2.jpg",
+      "transform": "contrast_up_130",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_contrast_up_130_iou0p000_conf0p000_2025-06-07-10-52-02ps5_NGyuan_tile_0012_1.jpg",
+      "transform": "contrast_up_130",
+      "recovered": false,
+      "class_name": "锡膏"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_contrast_up_130_iou0p000_conf0p000_2025-06-07-14-43-50ps5_NGyuan_tile_0007_0.jpg",
+      "transform": "contrast_up_130",
+      "recovered": false,
+      "class_name": "脏污"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_contrast_up_130_iou0p000_conf0p000_2025-06-07-14-43-50ps5_NGyuan_tile_0007_1.jpg",
+      "transform": "contrast_up_130",
+      "recovered": false,
+      "class_name": "脏污"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_contrast_up_130_iou0p000_conf0p000_2025-06-07-15-42-24ps5_NGyuan_tile_0002_0.jpg",
+      "transform": "contrast_up_130",
+      "recovered": false,
+      "class_name": "脏污"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_contrast_up_130_iou0p000_conf0p000_2025-06-14-16-53-39ps5_tile_0007_0.jpg",
+      "transform": "contrast_up_130",
+      "recovered": false,
+      "class_name": "锡膏"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_contrast_up_130_iou0p000_conf0p567_2025-06-28-00-58-48ps5_NGyuan_tile_0006_0.jpg",
+      "transform": "contrast_up_130",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_contrast_up_130_iou0p000_conf0p000_2025-06-28-00-58-48ps5_NGyuan_tile_0007_1.jpg",
+      "transform": "contrast_up_130",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_contrast_up_130_iou0p000_conf0p000_2025-06-28-00-58-48ps5_NGyuan_tile_0012_1.jpg",
+      "transform": "contrast_up_130",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_contrast_up_130_iou0p000_conf0p000_2025-06-29-08-27-16ps5_NGyuan_tile_0001_1.jpg",
+      "transform": "contrast_up_130",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_OK3_contrast_up_130_iou0p000_conf0p000_2025-07-13-20-08-46ps5_NGyuan_tile_0008_1.jpg",
+      "transform": "contrast_up_130",
+      "recovered": false,
+      "class_name": "OK3"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_contrast_up_130_iou0p000_conf0p000_2025-08-01-19-15-54ps5_NGyuan_tile_0001_0.jpg",
+      "transform": "contrast_up_130",
+      "recovered": false,
+      "class_name": "轮廓划伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_contrast_up_130_iou0p000_conf0p969_2025-08-04-12-33-32ps5_NGyuan_tile_0007_0.jpg",
+      "transform": "contrast_up_130",
+      "recovered": false,
+      "class_name": "锡膏"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_contrast_up_130_iou0p000_conf0p000_2025-08-11-19-48-33ps5_tile_0002_1.jpg",
+      "transform": "contrast_up_130",
+      "recovered": false,
+      "class_name": "锡丝残留"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_contrast_up_130_iou0p000_conf0p000_2025-08-11-19-48-39ps5_tile_0002_0.jpg",
+      "transform": "contrast_up_130",
+      "recovered": false,
+      "class_name": "锡尖"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_contrast_up_130_iou0p000_conf0p000_2025-09-09-21-08-16ps5_tile_0010_0.jpg",
+      "transform": "contrast_up_130",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_contrast_up_130_iou0p000_conf0p000_2025-09-17-00-42-01ps5_NGyuan_tile_0007_1.jpg",
+      "transform": "contrast_up_130",
+      "recovered": false,
+      "class_name": "轮廓划伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_contrast_up_130_iou0p000_conf0p000_2025-09-17-00-42-01ps5_NGyuan_tile_0007_2.jpg",
+      "transform": "contrast_up_130",
+      "recovered": false,
+      "class_name": "轮廓划伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_contrast_up_130_iou0p000_conf0p000_2025-09-17-01-04-57ps5_NGyuan_tile_0012_0.jpg",
+      "transform": "contrast_up_130",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_contrast_up_130_iou0p000_conf0p000_2025-10-31-03-46-08ps5_NGyuan_tile_0011_1.jpg",
+      "transform": "contrast_up_130",
+      "recovered": false,
+      "class_name": "浅划伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_contrast_up_130_iou0p000_conf0p000_2025-11-01-14-42-20ps5_NGyuan_tile_0004_0.jpg",
+      "transform": "contrast_up_130",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_contrast_up_130_iou0p000_conf0p000_2025-11-01-14-42-20ps5_NGyuan_tile_0009_3.jpg",
+      "transform": "contrast_up_130",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\recovered_class_gamma_brighten_075_iou0p660_conf0p315_2025-06-07-16-21-50ps5_NGyuan_tile_0007_0.jpg",
+      "transform": "gamma_brighten_075",
+      "recovered": true,
+      "class_name": "脏污"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\recovered_class_gamma_brighten_075_iou0p548_conf0p562_2025-08-01-19-07-33ps5_tile_0001_1.jpg",
+      "transform": "gamma_brighten_075",
+      "recovered": true,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\recovered_class_gamma_brighten_075_iou0p689_conf0p386_2025-09-09-21-09-08ps5_tile_0002_1.jpg",
+      "transform": "gamma_brighten_075",
+      "recovered": true,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\recovered_class_gamma_brighten_075_iou0p664_conf0p305_a91db891-2025-04-13-11-39-07ps5_tile_0006_0.jpg",
+      "transform": "gamma_brighten_075",
+      "recovered": true,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_gamma_brighten_075_iou0p000_conf0p000_2025-05-10-15-40-40ps5_tile_0006_0.jpg",
+      "transform": "gamma_brighten_075",
+      "recovered": false,
+      "class_name": "油污"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_gamma_brighten_075_iou0p000_conf0p426_2025-05-16-16-13-18ps5_tile_0007_0.jpg",
+      "transform": "gamma_brighten_075",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_gamma_brighten_075_iou0p000_conf0p733_2025-05-16-16-13-18ps5_tile_0012_0.jpg",
+      "transform": "gamma_brighten_075",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_gamma_brighten_075_iou0p000_conf0p642_2025-05-16-16-19-14ps5_tile_0013_1.jpg",
+      "transform": "gamma_brighten_075",
+      "recovered": false,
+      "class_name": "轮廓划伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_gamma_brighten_075_iou0p000_conf0p000_2025-05-16-17-11-45ps5_tile_0000_0.jpg",
+      "transform": "gamma_brighten_075",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_gamma_brighten_075_iou0p000_conf0p000_2025-05-16-17-11-45ps5_tile_0007_0.jpg",
+      "transform": "gamma_brighten_075",
+      "recovered": false,
+      "class_name": "油污"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_gamma_brighten_075_iou0p000_conf0p000_2025-05-19-17-19-55ps5_NGyuan_tile_0004_0.jpg",
+      "transform": "gamma_brighten_075",
+      "recovered": false,
+      "class_name": "轮廓划伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_gamma_brighten_075_iou0p000_conf0p000_2025-05-19-17-19-55ps5_NGyuan_tile_0004_1.jpg",
+      "transform": "gamma_brighten_075",
+      "recovered": false,
+      "class_name": "轮廓划伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_gamma_brighten_075_iou0p000_conf0p000_2025-05-19-17-19-55ps5_NGyuan_tile_0007_0.jpg",
+      "transform": "gamma_brighten_075",
+      "recovered": false,
+      "class_name": "轮廓划伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_gamma_brighten_075_iou0p000_conf0p000_2025-06-05-16-10-10ps5_NGyuan_tile_0000_0.jpg",
+      "transform": "gamma_brighten_075",
+      "recovered": false,
+      "class_name": "浅划伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_gamma_brighten_075_iou0p000_conf0p000_2025-06-06-02-05-24ps5_NGyuan_tile_0002_0.jpg",
+      "transform": "gamma_brighten_075",
+      "recovered": false,
+      "class_name": "油污"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_gamma_brighten_075_iou0p000_conf0p000_2025-06-07-10-52-02ps5_NGyuan_tile_0007_1.jpg",
+      "transform": "gamma_brighten_075",
+      "recovered": false,
+      "class_name": "锡膏"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_gamma_brighten_075_iou0p000_conf0p513_2025-06-11-19-13-20ps5_NGyuan_tile_0007_2.jpg",
+      "transform": "gamma_brighten_075",
+      "recovered": false,
+      "class_name": "浅划伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_gamma_brighten_075_iou0p000_conf0p000_2025-06-14-16-53-39ps5_tile_0005_0.jpg",
+      "transform": "gamma_brighten_075",
+      "recovered": false,
+      "class_name": "轮廓划伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_gamma_brighten_075_iou0p000_conf0p000_2025-06-29-08-27-16ps5_NGyuan_tile_0007_1.jpg",
+      "transform": "gamma_brighten_075",
+      "recovered": false,
+      "class_name": "漏背锡"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_gamma_brighten_075_iou0p000_conf0p000_2025-07-21-20-56-48ps5_NGyuan_tile_0001_0.jpg",
+      "transform": "gamma_brighten_075",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_gamma_brighten_075_iou0p000_conf0p000_2025-08-01-18-25-43ps5_NGyuan_tile_0010_0.jpg",
+      "transform": "gamma_brighten_075",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_gamma_brighten_075_iou0p000_conf0p000_2025-08-01-19-15-54ps5_NGyuan_tile_0007_0.jpg",
+      "transform": "gamma_brighten_075",
+      "recovered": false,
+      "class_name": "轮廓划伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_gamma_brighten_075_iou0p000_conf0p000_2025-08-01-19-15-54ps5_NGyuan_tile_0008_0.jpg",
+      "transform": "gamma_brighten_075",
+      "recovered": false,
+      "class_name": "轮廓划伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_gamma_brighten_075_iou0p000_conf0p957_2025-08-04-12-33-32ps5_NGyuan_tile_0007_0.jpg",
+      "transform": "gamma_brighten_075",
+      "recovered": false,
+      "class_name": "锡膏"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_gamma_brighten_075_iou0p000_conf0p000_2025-08-12-01-35-13ps5_NGyuan_tile_0008_0.jpg",
+      "transform": "gamma_brighten_075",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_gamma_brighten_075_iou0p000_conf0p000_2025-08-21-05-20-58ps5_NGyuan_tile_0010_0.jpg",
+      "transform": "gamma_brighten_075",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_gamma_brighten_075_iou0p000_conf0p000_2025-09-09-21-08-16ps5_tile_0010_0.jpg",
+      "transform": "gamma_brighten_075",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_gamma_brighten_075_iou0p000_conf0p911_2025-09-15-17-40-45ps5_tile_0003_2.jpg",
+      "transform": "gamma_brighten_075",
+      "recovered": false,
+      "class_name": "轮廓划伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_gamma_brighten_075_iou0p000_conf0p000_2025-09-17-00-42-01ps5_NGyuan_tile_0012_0.jpg",
+      "transform": "gamma_brighten_075",
+      "recovered": false,
+      "class_name": "轮廓划伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_gamma_brighten_075_iou0p000_conf0p000_2025-10-31-03-46-08ps5_NGyuan_tile_0011_1.jpg",
+      "transform": "gamma_brighten_075",
+      "recovered": false,
+      "class_name": "浅划伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_gamma_brighten_075_iou0p000_conf0p000_2025-11-01-14-42-20ps5_NGyuan_tile_0008_2.jpg",
+      "transform": "gamma_brighten_075",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_gamma_brighten_075_iou0p000_conf0p000_a91db891-2025-04-13-11-39-07ps5_tile_0004_0.jpg",
+      "transform": "gamma_brighten_075",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_gamma_brighten_075_iou0p000_conf0p000_a91db891-2025-04-13-11-39-07ps5_tile_0009_0.jpg",
+      "transform": "gamma_brighten_075",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_gamma_brighten_075_iou0p000_conf0p000_ce0d1787-2025-04-25-11-20-04ps5_NGyuan_tile_0012_0.jpg",
+      "transform": "gamma_brighten_075",
+      "recovered": false,
+      "class_name": "锡膏"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\recovered_class_gamma_brighten_085_iou0p629_conf0p281_2025-05-10-15-40-40ps5_tile_0012_0.jpg",
+      "transform": "gamma_brighten_085",
+      "recovered": true,
+      "class_name": "漏背锡"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\recovered_class_gamma_brighten_085_iou0p645_conf0p282_2025-06-07-16-21-50ps5_NGyuan_tile_0007_0.jpg",
+      "transform": "gamma_brighten_085",
+      "recovered": true,
+      "class_name": "脏污"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\recovered_class_gamma_brighten_085_iou0p532_conf0p668_2025-08-01-19-07-33ps5_tile_0001_1.jpg",
+      "transform": "gamma_brighten_085",
+      "recovered": true,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\recovered_class_gamma_brighten_085_iou0p686_conf0p336_2025-09-09-21-09-08ps5_tile_0002_1.jpg",
+      "transform": "gamma_brighten_085",
+      "recovered": true,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\recovered_class_gamma_brighten_085_iou0p700_conf0p305_a91db891-2025-04-13-11-39-07ps5_tile_0006_0.jpg",
+      "transform": "gamma_brighten_085",
+      "recovered": true,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_gamma_brighten_085_iou0p000_conf0p828_13d91ebd-2025-04-13-11-32-17ps5_tile_0010_0.jpg",
+      "transform": "gamma_brighten_085",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_gamma_brighten_085_iou0p000_conf0p000_182e7d02-2025-04-22-16-40-10ps5_NGyuan_tile_0007_0.jpg",
+      "transform": "gamma_brighten_085",
+      "recovered": false,
+      "class_name": "锡膏"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_gamma_brighten_085_iou0p000_conf0p610_2025-05-16-16-19-14ps5_tile_0014_1.jpg",
+      "transform": "gamma_brighten_085",
+      "recovered": false,
+      "class_name": "轮廓划伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_gamma_brighten_085_iou0p000_conf0p000_2025-05-16-16-24-29ps5_tile_0003_0.jpg",
+      "transform": "gamma_brighten_085",
+      "recovered": false,
+      "class_name": "脏污"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_gamma_brighten_085_iou0p020_conf0p391_2025-05-16-16-24-46ps5_tile_0000_1.jpg",
+      "transform": "gamma_brighten_085",
+      "recovered": false,
+      "class_name": "脏污"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_gamma_brighten_085_iou0p000_conf0p974_2025-05-16-17-11-45ps5_tile_0006_0.jpg",
+      "transform": "gamma_brighten_085",
+      "recovered": false,
+      "class_name": "油污"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_gamma_brighten_085_iou0p000_conf0p000_2025-05-26-06-26-47ps5_NGyuan_tile_0008_1.jpg",
+      "transform": "gamma_brighten_085",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_gamma_brighten_085_iou0p000_conf0p000_2025-05-27-23-28-53ps5_NGyuan_tile_0007_1.jpg",
+      "transform": "gamma_brighten_085",
+      "recovered": false,
+      "class_name": "脏污"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_gamma_brighten_085_iou0p000_conf0p000_2025-06-05-16-10-10ps5_NGyuan_tile_0000_0.jpg",
+      "transform": "gamma_brighten_085",
+      "recovered": false,
+      "class_name": "浅划伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_gamma_brighten_085_iou0p000_conf0p268_2025-06-05-16-10-10ps5_NGyuan_tile_0012_0.jpg",
+      "transform": "gamma_brighten_085",
+      "recovered": false,
+      "class_name": "锡膏"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_gamma_brighten_085_iou0p000_conf0p000_2025-06-06-02-05-24ps5_NGyuan_tile_0002_0.jpg",
+      "transform": "gamma_brighten_085",
+      "recovered": false,
+      "class_name": "油污"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_gamma_brighten_085_iou0p000_conf0p000_2025-06-07-10-52-02ps5_NGyuan_tile_0012_1.jpg",
+      "transform": "gamma_brighten_085",
+      "recovered": false,
+      "class_name": "锡膏"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_gamma_brighten_085_iou0p000_conf0p000_2025-06-07-10-52-02ps5_NGyuan_tile_0012_2.jpg",
+      "transform": "gamma_brighten_085",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_gamma_brighten_085_iou0p000_conf0p000_2025-06-14-16-53-39ps5_tile_0005_0.jpg",
+      "transform": "gamma_brighten_085",
+      "recovered": false,
+      "class_name": "轮廓划伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_gamma_brighten_085_iou0p000_conf0p931_2025-06-29-08-27-16ps5_NGyuan_tile_0000_2.jpg",
+      "transform": "gamma_brighten_085",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_gamma_brighten_085_iou0p000_conf0p998_2025-07-13-20-08-46ps5_NGyuan_tile_0012_1.jpg",
+      "transform": "gamma_brighten_085",
+      "recovered": false,
+      "class_name": "锡尖"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_gamma_brighten_085_iou0p000_conf0p000_2025-07-21-20-56-48ps5_NGyuan_tile_0000_0.jpg",
+      "transform": "gamma_brighten_085",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_gamma_brighten_085_iou0p000_conf0p000_2025-08-11-19-48-33ps5_tile_0007_0.jpg",
+      "transform": "gamma_brighten_085",
+      "recovered": false,
+      "class_name": "锡丝残留"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_gamma_brighten_085_iou0p000_conf0p000_2025-08-11-19-48-39ps5_tile_0002_0.jpg",
+      "transform": "gamma_brighten_085",
+      "recovered": false,
+      "class_name": "锡尖"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_gamma_brighten_085_iou0p000_conf0p000_2025-08-12-01-35-13ps5_NGyuan_tile_0009_0.jpg",
+      "transform": "gamma_brighten_085",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_gamma_brighten_085_iou0p000_conf0p000_2025-09-09-21-09-08ps5_tile_0006_1.jpg",
+      "transform": "gamma_brighten_085",
+      "recovered": false,
+      "class_name": "轮廓划伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_gamma_brighten_085_iou0p000_conf0p593_2025-09-15-17-40-45ps5_tile_0008_3.jpg",
+      "transform": "gamma_brighten_085",
+      "recovered": false,
+      "class_name": "轮廓划伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_gamma_brighten_085_iou0p442_conf0p511_2025-09-15-17-40-45ps5_tile_0009_2.jpg",
+      "transform": "gamma_brighten_085",
+      "recovered": false,
+      "class_name": "轮廓划伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_gamma_brighten_085_iou0p000_conf0p000_2025-09-17-00-42-01ps5_NGyuan_tile_0003_0.jpg",
+      "transform": "gamma_brighten_085",
+      "recovered": false,
+      "class_name": "轮廓划伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_gamma_brighten_085_iou0p000_conf0p000_2025-09-17-01-04-57ps5_NGyuan_tile_0012_0.jpg",
+      "transform": "gamma_brighten_085",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_gamma_brighten_085_iou0p000_conf0p000_2025-11-01-14-42-20ps5_NGyuan_tile_0008_1.jpg",
+      "transform": "gamma_brighten_085",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_gamma_brighten_085_iou0p000_conf0p624_2025-11-01-14-42-20ps5_NGyuan_tile_0014_3.jpg",
+      "transform": "gamma_brighten_085",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_gamma_brighten_085_iou0p000_conf0p000_2229344f-2025-05-09-18-28-13ps5_tile_0002_0.jpg",
+      "transform": "gamma_brighten_085",
+      "recovered": false,
+      "class_name": "锡丝残留"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_gamma_brighten_085_iou0p000_conf0p000_a91db891-2025-04-13-11-39-07ps5_tile_0004_0.jpg",
+      "transform": "gamma_brighten_085",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_gamma_brighten_085_iou0p000_conf0p000_ce0d1787-2025-04-25-11-20-04ps5_NGyuan_tile_0007_0.jpg",
+      "transform": "gamma_brighten_085",
+      "recovered": false,
+      "class_name": "锡膏"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\recovered_class_brightness_up_15_iou0p570_conf0p620_2025-08-01-19-07-33ps5_tile_0001_1.jpg",
+      "transform": "brightness_up_15",
+      "recovered": true,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\recovered_class_brightness_up_15_iou0p712_conf0p377_2025-09-09-21-09-08ps5_tile_0002_1.jpg",
+      "transform": "brightness_up_15",
+      "recovered": true,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\recovered_class_brightness_up_15_iou0p768_conf0p284_2025-09-09-21-09-08ps5_tile_0003_0.jpg",
+      "transform": "brightness_up_15",
+      "recovered": true,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_brightness_up_15_iou0p000_conf0p775_13d91ebd-2025-04-13-11-32-17ps5_tile_0010_0.jpg",
+      "transform": "brightness_up_15",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_brightness_up_15_iou0p135_conf0p420_2025-05-10-15-39-23ps5_tile_0007_1.jpg",
+      "transform": "brightness_up_15",
+      "recovered": false,
+      "class_name": "油污"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_brightness_up_15_iou0p000_conf0p000_2025-05-16-16-13-18ps5_tile_0011_0.jpg",
+      "transform": "brightness_up_15",
+      "recovered": false,
+      "class_name": "开裂"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_brightness_up_15_iou0p000_conf0p913_2025-05-16-16-19-14ps5_tile_0008_1.jpg",
+      "transform": "brightness_up_15",
+      "recovered": false,
+      "class_name": "轮廓划伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_brightness_up_15_iou0p000_conf0p741_2025-05-16-16-19-14ps5_tile_0014_1.jpg",
+      "transform": "brightness_up_15",
+      "recovered": false,
+      "class_name": "轮廓划伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_brightness_up_15_iou0p000_conf0p961_2025-05-16-17-11-45ps5_tile_0006_0.jpg",
+      "transform": "brightness_up_15",
+      "recovered": false,
+      "class_name": "油污"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_brightness_up_15_iou0p000_conf0p000_2025-05-25-09-48-32ps5_NGyuan_tile_0002_0.jpg",
+      "transform": "brightness_up_15",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_brightness_up_15_iou0p000_conf0p000_2025-05-26-06-26-47ps5_NGyuan_tile_0013_0.jpg",
+      "transform": "brightness_up_15",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_brightness_up_15_iou0p000_conf0p000_2025-05-27-23-28-53ps5_NGyuan_tile_0012_0.jpg",
+      "transform": "brightness_up_15",
+      "recovered": false,
+      "class_name": "脏污"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_brightness_up_15_iou0p000_conf0p000_2025-06-06-02-05-24ps5_NGyuan_tile_0002_0.jpg",
+      "transform": "brightness_up_15",
+      "recovered": false,
+      "class_name": "油污"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_brightness_up_15_iou0p000_conf0p000_2025-06-07-10-52-02ps5_NGyuan_tile_0007_2.jpg",
+      "transform": "brightness_up_15",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_brightness_up_15_iou0p000_conf0p560_2025-06-07-15-42-24ps5_NGyuan_tile_0012_0.jpg",
+      "transform": "brightness_up_15",
+      "recovered": false,
+      "class_name": "脏污"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_brightness_up_15_iou0p000_conf0p000_2025-06-11-19-13-20ps5_NGyuan_tile_0007_0.jpg",
+      "transform": "brightness_up_15",
+      "recovered": false,
+      "class_name": "锡膏"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_brightness_up_15_iou0p000_conf0p000_2025-06-14-16-53-39ps5_tile_0006_0.jpg",
+      "transform": "brightness_up_15",
+      "recovered": false,
+      "class_name": "轮廓划伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_brightness_up_15_iou0p000_conf0p000_2025-06-28-00-58-48ps5_NGyuan_tile_0007_1.jpg",
+      "transform": "brightness_up_15",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_brightness_up_15_iou0p000_conf0p000_2025-07-13-20-08-46ps5_NGyuan_tile_0007_0.jpg",
+      "transform": "brightness_up_15",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_brightness_up_15_iou0p000_conf0p000_2025-08-11-19-48-39ps5_tile_0002_0.jpg",
+      "transform": "brightness_up_15",
+      "recovered": false,
+      "class_name": "锡尖"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_brightness_up_15_iou0p000_conf0p000_2025-09-02-07-01-17ps5_NGyuan_tile_0012_0.jpg",
+      "transform": "brightness_up_15",
+      "recovered": false,
+      "class_name": "锡尖"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_brightness_up_15_iou0p000_conf0p000_2025-09-15-17-40-22ps5_tile_0002_2.jpg",
+      "transform": "brightness_up_15",
+      "recovered": false,
+      "class_name": "加强筋打伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_brightness_up_15_iou0p000_conf0p000_2025-09-15-17-40-45ps5_tile_0005_0.jpg",
+      "transform": "brightness_up_15",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_brightness_up_15_iou0p000_conf0p521_2025-09-15-17-40-45ps5_tile_0008_3.jpg",
+      "transform": "brightness_up_15",
+      "recovered": false,
+      "class_name": "轮廓划伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_brightness_up_15_iou0p000_conf0p000_2025-09-17-00-42-01ps5_NGyuan_tile_0003_0.jpg",
+      "transform": "brightness_up_15",
+      "recovered": false,
+      "class_name": "轮廓划伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_brightness_up_15_iou0p000_conf0p000_2025-09-17-00-42-01ps5_NGyuan_tile_0012_1.jpg",
+      "transform": "brightness_up_15",
+      "recovered": false,
+      "class_name": "轮廓划伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_brightness_up_15_iou0p000_conf0p000_2025-09-17-01-04-57ps5_NGyuan_tile_0009_0.jpg",
+      "transform": "brightness_up_15",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_brightness_up_15_iou0p000_conf0p000_2025-09-23-01-12-21ps5_NGyuan_tile_0000_0.jpg",
+      "transform": "brightness_up_15",
+      "recovered": false,
+      "class_name": "脏污"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_brightness_up_15_iou0p000_conf0p000_2025-10-11-06-43-38ps5_tile_0009_0.jpg",
+      "transform": "brightness_up_15",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_brightness_up_15_iou0p000_conf0p000_2025-10-17-13-38-05ps5_NGyuan_tile_0002_0.jpg",
+      "transform": "brightness_up_15",
+      "recovered": false,
+      "class_name": "脏污"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_brightness_up_15_iou0p000_conf0p633_2025-10-17-15-21-16ps5_NGyuan_tile_0001_1.jpg",
+      "transform": "brightness_up_15",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_brightness_up_15_iou0p000_conf0p326_2025-11-01-14-42-20ps5_NGyuan_tile_0009_3.jpg",
+      "transform": "brightness_up_15",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_brightness_up_15_iou0p000_conf0p428_2025-11-01-14-42-20ps5_NGyuan_tile_0013_3.jpg",
+      "transform": "brightness_up_15",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\recovered_class_brightness_up_30_iou0p611_conf0p269_2025-05-10-15-40-40ps5_tile_0012_0.jpg",
+      "transform": "brightness_up_30",
+      "recovered": true,
+      "class_name": "漏背锡"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\recovered_class_brightness_up_30_iou0p573_conf0p448_2025-08-01-19-07-33ps5_tile_0001_1.jpg",
+      "transform": "brightness_up_30",
+      "recovered": true,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\recovered_class_brightness_up_30_iou0p734_conf0p592_2025-09-09-21-09-08ps5_tile_0002_1.jpg",
+      "transform": "brightness_up_30",
+      "recovered": true,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\recovered_class_brightness_up_30_iou0p760_conf0p318_2025-09-09-21-09-08ps5_tile_0003_0.jpg",
+      "transform": "brightness_up_30",
+      "recovered": true,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_brightness_up_30_iou0p000_conf0p000_182e7d02-2025-04-22-16-40-10ps5_NGyuan_tile_0007_0.jpg",
+      "transform": "brightness_up_30",
+      "recovered": false,
+      "class_name": "锡膏"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_brightness_up_30_iou0p140_conf0p319_2025-05-10-15-39-23ps5_tile_0007_1.jpg",
+      "transform": "brightness_up_30",
+      "recovered": false,
+      "class_name": "油污"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_brightness_up_30_iou0p000_conf0p649_2025-05-16-16-13-18ps5_tile_0012_0.jpg",
+      "transform": "brightness_up_30",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_brightness_up_30_iou0p000_conf0p000_2025-05-16-16-24-29ps5_tile_0003_0.jpg",
+      "transform": "brightness_up_30",
+      "recovered": false,
+      "class_name": "脏污"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_brightness_up_30_iou0p000_conf0p000_2025-05-16-17-11-45ps5_tile_0000_0.jpg",
+      "transform": "brightness_up_30",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_brightness_up_30_iou0p000_conf0p740_2025-05-16-17-11-45ps5_tile_0005_0.jpg",
+      "transform": "brightness_up_30",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_brightness_up_30_iou0p000_conf0p930_2025-05-16-17-11-45ps5_tile_0006_0.jpg",
+      "transform": "brightness_up_30",
+      "recovered": false,
+      "class_name": "油污"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_brightness_up_30_iou0p000_conf0p000_2025-05-16-17-11-45ps5_tile_0007_0.jpg",
+      "transform": "brightness_up_30",
+      "recovered": false,
+      "class_name": "油污"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_brightness_up_30_iou0p000_conf0p000_2025-05-19-17-19-55ps5_NGyuan_tile_0009_0.jpg",
+      "transform": "brightness_up_30",
+      "recovered": false,
+      "class_name": "轮廓划伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_brightness_up_30_iou0p000_conf0p000_2025-06-05-16-10-10ps5_NGyuan_tile_0000_0.jpg",
+      "transform": "brightness_up_30",
+      "recovered": false,
+      "class_name": "浅划伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_brightness_up_30_iou0p000_conf0p957_2025-06-06-14-52-09ps5_NGyuan_tile_0012_1.jpg",
+      "transform": "brightness_up_30",
+      "recovered": false,
+      "class_name": "漏背锡"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_brightness_up_30_iou0p000_conf0p000_2025-06-14-16-53-39ps5_tile_0005_0.jpg",
+      "transform": "brightness_up_30",
+      "recovered": false,
+      "class_name": "轮廓划伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_brightness_up_30_iou0p000_conf0p000_2025-06-14-16-53-39ps5_tile_0007_0.jpg",
+      "transform": "brightness_up_30",
+      "recovered": false,
+      "class_name": "锡膏"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_brightness_up_30_iou0p000_conf0p000_2025-06-18-06-39-05ps5_NGyuan_tile_0012_3.jpg",
+      "transform": "brightness_up_30",
+      "recovered": false,
+      "class_name": "脏污"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_brightness_up_30_iou0p000_conf0p905_2025-06-29-08-27-16ps5_NGyuan_tile_0000_2.jpg",
+      "transform": "brightness_up_30",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_brightness_up_30_iou0p000_conf0p000_2025-07-21-20-56-48ps5_NGyuan_tile_0006_0.jpg",
+      "transform": "brightness_up_30",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_brightness_up_30_iou0p000_conf0p000_2025-08-01-19-07-33ps5_tile_0007_1.jpg",
+      "transform": "brightness_up_30",
+      "recovered": false,
+      "class_name": "锡膏"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_brightness_up_30_iou0p000_conf0p977_2025-08-04-12-33-32ps5_NGyuan_tile_0012_0.jpg",
+      "transform": "brightness_up_30",
+      "recovered": false,
+      "class_name": "锡膏"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_brightness_up_30_iou0p000_conf0p000_2025-08-11-19-48-39ps5_tile_0002_0.jpg",
+      "transform": "brightness_up_30",
+      "recovered": false,
+      "class_name": "锡尖"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_brightness_up_30_iou0p244_conf0p505_2025-09-02-15-04-54ps5_NGyuan_tile_0007_0.jpg",
+      "transform": "brightness_up_30",
+      "recovered": false,
+      "class_name": "漏背锡"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_brightness_up_30_iou0p000_conf0p000_2025-09-09-21-08-16ps5_tile_0010_0.jpg",
+      "transform": "brightness_up_30",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_brightness_up_30_iou0p000_conf0p000_2025-09-09-21-09-08ps5_tile_0006_1.jpg",
+      "transform": "brightness_up_30",
+      "recovered": false,
+      "class_name": "轮廓划伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_brightness_up_30_iou0p000_conf0p000_2025-09-17-00-42-01ps5_NGyuan_tile_0002_0.jpg",
+      "transform": "brightness_up_30",
+      "recovered": false,
+      "class_name": "轮廓划伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_brightness_up_30_iou0p000_conf0p000_2025-09-17-01-04-57ps5_NGyuan_tile_0007_1.jpg",
+      "transform": "brightness_up_30",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_brightness_up_30_iou0p000_conf0p000_2025-09-17-01-04-57ps5_NGyuan_tile_0012_0.jpg",
+      "transform": "brightness_up_30",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_brightness_up_30_iou0p000_conf0p000_2025-10-11-06-43-38ps5_tile_0009_0.jpg",
+      "transform": "brightness_up_30",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_brightness_up_30_iou0p000_conf0p000_2025-10-11-06-43-38ps5_tile_0014_0.jpg",
+      "transform": "brightness_up_30",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_brightness_up_30_iou0p000_conf0p000_2025-11-01-14-42-20ps5_NGyuan_tile_0008_1.jpg",
+      "transform": "brightness_up_30",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_brightness_up_30_iou0p000_conf0p000_2229344f-2025-05-09-18-28-13ps5_tile_0007_0.jpg",
+      "transform": "brightness_up_30",
+      "recovered": false,
+      "class_name": "锡丝残留"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_brightness_up_30_iou0p000_conf0p000_a91db891-2025-04-13-11-39-07ps5_tile_0006_0.jpg",
+      "transform": "brightness_up_30",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\recovered_class_sharpen_mild_iou0p522_conf0p327_2025-05-16-17-11-45ps5_tile_0006_0.jpg",
+      "transform": "sharpen_mild",
+      "recovered": true,
+      "class_name": "油污"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\recovered_class_sharpen_mild_iou0p905_conf0p518_2025-06-05-10-27-17ps5_NGyuan_tile_0012_0.jpg",
+      "transform": "sharpen_mild",
+      "recovered": true,
+      "class_name": "脏污"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\recovered_class_sharpen_mild_iou0p543_conf0p684_2025-06-07-16-21-50ps5_NGyuan_tile_0007_0.jpg",
+      "transform": "sharpen_mild",
+      "recovered": true,
+      "class_name": "脏污"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\recovered_class_sharpen_mild_iou0p786_conf0p283_2025-06-18-06-39-05ps5_NGyuan_tile_0007_1.jpg",
+      "transform": "sharpen_mild",
+      "recovered": true,
+      "class_name": "脏污"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\recovered_class_sharpen_mild_iou0p824_conf0p303_2025-06-28-00-58-48ps5_NGyuan_tile_0011_0.jpg",
+      "transform": "sharpen_mild",
+      "recovered": true,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\recovered_class_sharpen_mild_iou0p908_conf0p261_2025-06-28-00-58-48ps5_NGyuan_tile_0012_1.jpg",
+      "transform": "sharpen_mild",
+      "recovered": true,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\recovered_class_sharpen_mild_iou0p669_conf0p307_2025-07-13-20-08-46ps5_NGyuan_tile_0007_0.jpg",
+      "transform": "sharpen_mild",
+      "recovered": true,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\recovered_class_sharpen_mild_iou0p750_conf0p279_2025-07-13-20-08-46ps5_NGyuan_tile_0008_0.jpg",
+      "transform": "sharpen_mild",
+      "recovered": true,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\recovered_class_sharpen_mild_iou0p559_conf0p701_2025-08-01-19-07-33ps5_tile_0001_1.jpg",
+      "transform": "sharpen_mild",
+      "recovered": true,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\recovered_class_sharpen_mild_iou0p906_conf0p261_2025-08-01-19-15-54ps5_NGyuan_tile_0001_1.jpg",
+      "transform": "sharpen_mild",
+      "recovered": true,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\recovered_class_sharpen_mild_iou0p918_conf0p400_2025-09-17-00-42-01ps5_NGyuan_tile_0002_0.jpg",
+      "transform": "sharpen_mild",
+      "recovered": true,
+      "class_name": "轮廓划伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\recovered_OK3_sharpen_mild_iou0p934_conf0p360_2025-10-11-06-43-38ps5_tile_0012_1.jpg",
+      "transform": "sharpen_mild",
+      "recovered": true,
+      "class_name": "OK3"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\recovered_OK3_sharpen_mild_iou0p871_conf0p470_2025-10-11-06-43-38ps5_tile_0013_1.jpg",
+      "transform": "sharpen_mild",
+      "recovered": true,
+      "class_name": "OK3"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\recovered_class_sharpen_mild_iou0p787_conf0p431_2025-11-12-16-33-42ps5_NGyuan_tile_0006_0.jpg",
+      "transform": "sharpen_mild",
+      "recovered": true,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_sharpen_mild_iou0p000_conf0p889_182e7d02-2025-04-22-16-40-10ps5_NGyuan_tile_0001_2.jpg",
+      "transform": "sharpen_mild",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_sharpen_mild_iou0p000_conf0p854_2025-05-16-16-19-14ps5_tile_0008_1.jpg",
+      "transform": "sharpen_mild",
+      "recovered": false,
+      "class_name": "轮廓划伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_sharpen_mild_iou0p000_conf0p000_2025-05-16-16-24-29ps5_tile_0003_0.jpg",
+      "transform": "sharpen_mild",
+      "recovered": false,
+      "class_name": "脏污"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_sharpen_mild_iou0p000_conf0p672_2025-05-25-09-48-32ps5_NGyuan_tile_0012_1.jpg",
+      "transform": "sharpen_mild",
+      "recovered": false,
+      "class_name": "漏背锡"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_sharpen_mild_iou0p117_conf0p502_2025-05-26-06-26-47ps5_NGyuan_tile_0002_1.jpg",
+      "transform": "sharpen_mild",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_sharpen_mild_iou0p000_conf0p000_2025-05-27-23-28-53ps5_NGyuan_tile_0004_0.jpg",
+      "transform": "sharpen_mild",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_sharpen_mild_iou0p000_conf0p000_2025-06-05-16-10-10ps5_NGyuan_tile_0007_0.jpg",
+      "transform": "sharpen_mild",
+      "recovered": false,
+      "class_name": "锡膏"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_sharpen_mild_iou0p000_conf0p932_2025-06-06-14-52-09ps5_NGyuan_tile_0012_1.jpg",
+      "transform": "sharpen_mild",
+      "recovered": false,
+      "class_name": "漏背锡"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_sharpen_mild_iou0p000_conf0p626_2025-06-07-15-42-24ps5_NGyuan_tile_0012_0.jpg",
+      "transform": "sharpen_mild",
+      "recovered": false,
+      "class_name": "脏污"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_sharpen_mild_iou0p000_conf0p000_2025-06-07-16-21-50ps5_NGyuan_tile_0012_0.jpg",
+      "transform": "sharpen_mild",
+      "recovered": false,
+      "class_name": "脏污"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_sharpen_mild_iou0p000_conf0p000_2025-06-14-16-53-39ps5_tile_0006_0.jpg",
+      "transform": "sharpen_mild",
+      "recovered": false,
+      "class_name": "轮廓划伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_sharpen_mild_iou0p000_conf0p000_2025-06-14-16-53-39ps5_tile_0007_0.jpg",
+      "transform": "sharpen_mild",
+      "recovered": false,
+      "class_name": "锡膏"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_sharpen_mild_iou0p000_conf0p000_2025-06-18-06-39-05ps5_NGyuan_tile_0012_3.jpg",
+      "transform": "sharpen_mild",
+      "recovered": false,
+      "class_name": "脏污"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_sharpen_mild_iou0p000_conf0p000_2025-07-14-19-29-20ps5_tile_0008_0.jpg",
+      "transform": "sharpen_mild",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_sharpen_mild_iou0p000_conf0p000_2025-08-01-19-07-33ps5_tile_0007_1.jpg",
+      "transform": "sharpen_mild",
+      "recovered": false,
+      "class_name": "锡膏"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_sharpen_mild_iou0p000_conf0p976_2025-08-04-12-33-32ps5_NGyuan_tile_0007_0.jpg",
+      "transform": "sharpen_mild",
+      "recovered": false,
+      "class_name": "锡膏"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_sharpen_mild_iou0p000_conf0p000_2025-08-11-12-08-10ps5_NGyuan_tile_0002_0.jpg",
+      "transform": "sharpen_mild",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_sharpen_mild_iou0p000_conf0p000_2025-08-11-19-47-12ps5_tile_0002_0.jpg",
+      "transform": "sharpen_mild",
+      "recovered": false,
+      "class_name": "锡丝残留"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_sharpen_mild_iou0p000_conf0p000_2025-09-02-08-24-16ps5_NGyuan_tile_0001_0.jpg",
+      "transform": "sharpen_mild",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_sharpen_mild_iou0p000_conf0p000_2025-09-09-21-08-16ps5_tile_0005_0.jpg",
+      "transform": "sharpen_mild",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_sharpen_mild_iou0p000_conf0p000_2025-09-15-17-40-22ps5_tile_0002_2.jpg",
+      "transform": "sharpen_mild",
+      "recovered": false,
+      "class_name": "加强筋打伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_sharpen_mild_iou0p000_conf0p830_2025-09-15-17-40-45ps5_tile_0003_2.jpg",
+      "transform": "sharpen_mild",
+      "recovered": false,
+      "class_name": "轮廓划伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_sharpen_mild_iou0p000_conf0p000_2025-09-15-17-40-45ps5_tile_0009_2.jpg",
+      "transform": "sharpen_mild",
+      "recovered": false,
+      "class_name": "轮廓划伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_sharpen_mild_iou0p000_conf0p000_2025-09-15-17-40-45ps5_tile_0013_2.jpg",
+      "transform": "sharpen_mild",
+      "recovered": false,
+      "class_name": "轮廓划伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_OK3_sharpen_mild_iou0p000_conf0p000_2025-09-23-12-23-50ps5_NGyuan_tile_0007_1.jpg",
+      "transform": "sharpen_mild",
+      "recovered": false,
+      "class_name": "OK3"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_sharpen_mild_iou0p000_conf0p000_2025-10-31-03-46-08ps5_NGyuan_tile_0006_1.jpg",
+      "transform": "sharpen_mild",
+      "recovered": false,
+      "class_name": "浅划伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_sharpen_mild_iou0p000_conf0p000_2025-11-01-14-42-20ps5_NGyuan_tile_0008_2.jpg",
+      "transform": "sharpen_mild",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_sharpen_mild_iou0p000_conf0p572_2025-11-01-14-42-20ps5_NGyuan_tile_0014_3.jpg",
+      "transform": "sharpen_mild",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_sharpen_mild_iou0p000_conf0p000_a91db891-2025-04-13-11-39-07ps5_tile_0014_0.jpg",
+      "transform": "sharpen_mild",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_sharpen_mild_iou0p000_conf0p000_ce0d1787-2025-04-25-11-20-04ps5_NGyuan_tile_0007_0.jpg",
+      "transform": "sharpen_mild",
+      "recovered": false,
+      "class_name": "锡膏"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\recovered_class_combined_photometric_iou0p603_conf0p583_105acebc-2025-05-09-18-24-19ps5_tile_0000_1.jpg",
+      "transform": "combined_photometric",
+      "recovered": true,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\recovered_class_combined_photometric_iou0p571_conf0p537_2025-06-07-16-21-50ps5_NGyuan_tile_0007_0.jpg",
+      "transform": "combined_photometric",
+      "recovered": true,
+      "class_name": "脏污"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\recovered_class_combined_photometric_iou0p805_conf0p323_2025-06-28-00-58-48ps5_NGyuan_tile_0011_0.jpg",
+      "transform": "combined_photometric",
+      "recovered": true,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\recovered_OK3_combined_photometric_iou0p907_conf0p381_2025-07-13-20-08-46ps5_NGyuan_tile_0008_1.jpg",
+      "transform": "combined_photometric",
+      "recovered": true,
+      "class_name": "OK3"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\recovered_class_combined_photometric_iou0p966_conf0p626_2025-08-01-19-15-54ps5_NGyuan_tile_0001_1.jpg",
+      "transform": "combined_photometric",
+      "recovered": true,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\recovered_class_combined_photometric_iou0p678_conf0p339_2025-09-09-21-09-08ps5_tile_0003_0.jpg",
+      "transform": "combined_photometric",
+      "recovered": true,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\recovered_OK3_combined_photometric_iou0p871_conf0p457_2025-10-11-06-43-38ps5_tile_0013_1.jpg",
+      "transform": "combined_photometric",
+      "recovered": true,
+      "class_name": "OK3"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\recovered_class_combined_photometric_iou0p851_conf0p610_2025-10-17-13-38-05ps5_NGyuan_tile_0002_0.jpg",
+      "transform": "combined_photometric",
+      "recovered": true,
+      "class_name": "脏污"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_combined_photometric_iou0p000_conf0p820_2025-05-10-15-39-23ps5_tile_0007_1.jpg",
+      "transform": "combined_photometric",
+      "recovered": false,
+      "class_name": "油污"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_combined_photometric_iou0p000_conf0p000_2025-05-10-15-40-40ps5_tile_0010_1.jpg",
+      "transform": "combined_photometric",
+      "recovered": false,
+      "class_name": "油污"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_combined_photometric_iou0p000_conf0p000_2025-05-16-16-19-14ps5_tile_0014_1.jpg",
+      "transform": "combined_photometric",
+      "recovered": false,
+      "class_name": "轮廓划伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_combined_photometric_iou0p000_conf0p000_2025-05-16-17-11-45ps5_tile_0007_0.jpg",
+      "transform": "combined_photometric",
+      "recovered": false,
+      "class_name": "油污"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_combined_photometric_iou0p000_conf0p000_2025-05-16-17-11-45ps5_tile_0011_0.jpg",
+      "transform": "combined_photometric",
+      "recovered": false,
+      "class_name": "油污"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_combined_photometric_iou0p000_conf0p000_2025-05-19-17-19-55ps5_NGyuan_tile_0003_2.jpg",
+      "transform": "combined_photometric",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_combined_photometric_iou0p000_conf0p000_2025-05-19-17-19-55ps5_NGyuan_tile_0007_0.jpg",
+      "transform": "combined_photometric",
+      "recovered": false,
+      "class_name": "轮廓划伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_combined_photometric_iou0p000_conf0p000_2025-05-26-06-26-47ps5_NGyuan_tile_0013_0.jpg",
+      "transform": "combined_photometric",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_combined_photometric_iou0p000_conf0p907_2025-06-06-14-52-09ps5_NGyuan_tile_0012_1.jpg",
+      "transform": "combined_photometric",
+      "recovered": false,
+      "class_name": "漏背锡"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_combined_photometric_iou0p000_conf0p000_2025-06-11-19-13-20ps5_NGyuan_tile_0012_0.jpg",
+      "transform": "combined_photometric",
+      "recovered": false,
+      "class_name": "锡膏"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_combined_photometric_iou0p000_conf0p000_2025-06-14-16-53-39ps5_tile_0012_0.jpg",
+      "transform": "combined_photometric",
+      "recovered": false,
+      "class_name": "锡膏"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_combined_photometric_iou0p000_conf0p000_2025-07-13-20-08-46ps5_NGyuan_tile_0008_0.jpg",
+      "transform": "combined_photometric",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_combined_photometric_iou0p000_conf0p998_2025-07-13-20-08-46ps5_NGyuan_tile_0012_1.jpg",
+      "transform": "combined_photometric",
+      "recovered": false,
+      "class_name": "锡尖"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_combined_photometric_iou0p000_conf0p000_2025-07-14-19-29-20ps5_tile_0007_1.jpg",
+      "transform": "combined_photometric",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_combined_photometric_iou0p000_conf0p000_2025-07-14-19-29-20ps5_tile_0008_0.jpg",
+      "transform": "combined_photometric",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_combined_photometric_iou0p000_conf0p000_2025-08-01-18-25-43ps5_NGyuan_tile_0010_0.jpg",
+      "transform": "combined_photometric",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_combined_photometric_iou0p000_conf0p000_2025-08-01-19-07-33ps5_tile_0007_1.jpg",
+      "transform": "combined_photometric",
+      "recovered": false,
+      "class_name": "锡膏"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_combined_photometric_iou0p000_conf0p000_2025-08-12-01-35-13ps5_NGyuan_tile_0013_0.jpg",
+      "transform": "combined_photometric",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_combined_photometric_iou0p000_conf0p000_2025-08-21-05-20-58ps5_NGyuan_tile_0010_0.jpg",
+      "transform": "combined_photometric",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_combined_photometric_iou0p000_conf0p000_2025-09-15-17-40-45ps5_tile_0005_0.jpg",
+      "transform": "combined_photometric",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_combined_photometric_iou0p000_conf0p000_2025-09-17-00-42-01ps5_NGyuan_tile_0007_2.jpg",
+      "transform": "combined_photometric",
+      "recovered": false,
+      "class_name": "轮廓划伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_combined_photometric_iou0p000_conf0p000_2025-09-17-00-42-01ps5_NGyuan_tile_0013_0.jpg",
+      "transform": "combined_photometric",
+      "recovered": false,
+      "class_name": "轮廓划伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_combined_photometric_iou0p000_conf0p000_2025-09-17-01-04-57ps5_NGyuan_tile_0009_0.jpg",
+      "transform": "combined_photometric",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_combined_photometric_iou0p000_conf0p429_2025-10-17-15-21-16ps5_NGyuan_tile_0001_1.jpg",
+      "transform": "combined_photometric",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_combined_photometric_iou0p000_conf0p000_2025-10-17-15-21-16ps5_NGyuan_tile_0011_0.jpg",
+      "transform": "combined_photometric",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_combined_photometric_iou0p000_conf0p000_2025-10-22-13-52-23ps5_NGyuan_tile_0007_2.jpg",
+      "transform": "combined_photometric",
+      "recovered": false,
+      "class_name": "锡膏"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_combined_photometric_iou0p000_conf0p000_2025-11-01-14-42-20ps5_NGyuan_tile_0009_1.jpg",
+      "transform": "combined_photometric",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_combined_photometric_iou0p000_conf0p000_2025-11-01-14-42-20ps5_NGyuan_tile_0009_3.jpg",
+      "transform": "combined_photometric",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_combined_photometric_iou0p000_conf0p000_2025-11-01-14-42-20ps5_NGyuan_tile_0014_3.jpg",
+      "transform": "combined_photometric",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_combined_photometric_iou0p000_conf0p000_2229344f-2025-05-09-18-28-13ps5_tile_0002_0.jpg",
+      "transform": "combined_photometric",
+      "recovered": false,
+      "class_name": "锡丝残留"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\recovered_class_zoom_in_context_iou0p877_conf0p811_2025-06-05-10-27-17ps5_NGyuan_tile_0012_0.jpg",
+      "transform": "zoom_in_context",
+      "recovered": true,
+      "class_name": "脏污"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\recovered_OK3_zoom_in_context_iou0p790_conf0p320_2025-10-11-06-43-38ps5_tile_0012_1.jpg",
+      "transform": "zoom_in_context",
+      "recovered": true,
+      "class_name": "OK3"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_zoom_in_context_iou0p000_conf0p000_2025-05-16-16-13-18ps5_tile_0006_0.jpg",
+      "transform": "zoom_in_context",
+      "recovered": false,
+      "class_name": "开裂"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_zoom_in_context_iou0p000_conf0p000_2025-05-16-17-11-45ps5_tile_0005_0.jpg",
+      "transform": "zoom_in_context",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_zoom_in_context_iou0p000_conf0p000_2025-05-16-17-11-45ps5_tile_0011_0.jpg",
+      "transform": "zoom_in_context",
+      "recovered": false,
+      "class_name": "油污"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_zoom_in_context_iou0p000_conf0p000_2025-05-26-06-14-31ps5_NGyuan_tile_0012_0.jpg",
+      "transform": "zoom_in_context",
+      "recovered": false,
+      "class_name": "锡膏"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_zoom_in_context_iou0p000_conf0p000_2025-05-27-23-28-53ps5_NGyuan_tile_0004_0.jpg",
+      "transform": "zoom_in_context",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_zoom_in_context_iou0p000_conf0p000_2025-06-05-16-10-10ps5_NGyuan_tile_0007_0.jpg",
+      "transform": "zoom_in_context",
+      "recovered": false,
+      "class_name": "锡膏"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_zoom_in_context_iou0p000_conf0p000_2025-06-06-01-33-39ps5_NGyuan_tile_0003_0.jpg",
+      "transform": "zoom_in_context",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_zoom_in_context_iou0p000_conf0p627_2025-06-07-10-52-02ps5_NGyuan_tile_0007_1.jpg",
+      "transform": "zoom_in_context",
+      "recovered": false,
+      "class_name": "锡膏"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_zoom_in_context_iou0p000_conf0p000_2025-06-11-19-13-20ps5_NGyuan_tile_0012_0.jpg",
+      "transform": "zoom_in_context",
+      "recovered": false,
+      "class_name": "锡膏"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_zoom_in_context_iou0p000_conf0p000_2025-06-29-08-27-16ps5_NGyuan_tile_0000_2.jpg",
+      "transform": "zoom_in_context",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_zoom_in_context_iou0p000_conf0p000_2025-07-13-20-08-46ps5_NGyuan_tile_0012_1.jpg",
+      "transform": "zoom_in_context",
+      "recovered": false,
+      "class_name": "锡尖"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_zoom_in_context_iou0p000_conf0p000_2025-07-14-19-29-20ps5_tile_0008_0.jpg",
+      "transform": "zoom_in_context",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_zoom_in_context_iou0p000_conf0p000_2025-07-21-20-56-48ps5_NGyuan_tile_0005_0.jpg",
+      "transform": "zoom_in_context",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_zoom_in_context_iou0p000_conf0p000_2025-08-01-19-15-54ps5_NGyuan_tile_0001_1.jpg",
+      "transform": "zoom_in_context",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_zoom_in_context_iou0p000_conf0p000_2025-08-01-19-15-54ps5_NGyuan_tile_0007_0.jpg",
+      "transform": "zoom_in_context",
+      "recovered": false,
+      "class_name": "轮廓划伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_zoom_in_context_iou0p000_conf0p000_2025-08-04-12-33-32ps5_NGyuan_tile_0007_0.jpg",
+      "transform": "zoom_in_context",
+      "recovered": false,
+      "class_name": "锡膏"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_zoom_in_context_iou0p000_conf0p000_2025-08-12-01-35-13ps5_NGyuan_tile_0009_0.jpg",
+      "transform": "zoom_in_context",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_zoom_in_context_iou0p268_conf0p769_2025-09-02-15-04-54ps5_NGyuan_tile_0012_0.jpg",
+      "transform": "zoom_in_context",
+      "recovered": false,
+      "class_name": "漏背锡"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_zoom_in_context_iou0p000_conf0p863_2025-09-02-20-35-27ps5_NGyuan_tile_0007_0.jpg",
+      "transform": "zoom_in_context",
+      "recovered": false,
+      "class_name": "漏背锡"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_zoom_in_context_iou0p000_conf0p000_2025-09-09-21-08-16ps5_tile_0010_0.jpg",
+      "transform": "zoom_in_context",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_zoom_in_context_iou0p000_conf0p000_2025-09-09-21-09-08ps5_tile_0002_1.jpg",
+      "transform": "zoom_in_context",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_zoom_in_context_iou0p000_conf0p000_2025-09-09-21-09-08ps5_tile_0006_1.jpg",
+      "transform": "zoom_in_context",
+      "recovered": false,
+      "class_name": "轮廓划伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_zoom_in_context_iou0p000_conf0p000_2025-09-09-21-09-08ps5_tile_0011_1.jpg",
+      "transform": "zoom_in_context",
+      "recovered": false,
+      "class_name": "轮廓划伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_zoom_in_context_iou0p000_conf0p000_2025-09-17-00-42-01ps5_NGyuan_tile_0003_0.jpg",
+      "transform": "zoom_in_context",
+      "recovered": false,
+      "class_name": "轮廓划伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_zoom_in_context_iou0p000_conf0p000_2025-09-17-00-42-01ps5_NGyuan_tile_0007_2.jpg",
+      "transform": "zoom_in_context",
+      "recovered": false,
+      "class_name": "轮廓划伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_zoom_in_context_iou0p000_conf0p000_2025-09-17-00-42-01ps5_NGyuan_tile_0012_0.jpg",
+      "transform": "zoom_in_context",
+      "recovered": false,
+      "class_name": "轮廓划伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_zoom_in_context_iou0p000_conf0p000_2025-09-17-01-04-57ps5_NGyuan_tile_0009_0.jpg",
+      "transform": "zoom_in_context",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_zoom_in_context_iou0p000_conf0p000_2025-09-23-01-12-21ps5_NGyuan_tile_0001_0.jpg",
+      "transform": "zoom_in_context",
+      "recovered": false,
+      "class_name": "脏污"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_zoom_in_context_iou0p000_conf0p000_2025-10-17-15-21-16ps5_NGyuan_tile_0001_1.jpg",
+      "transform": "zoom_in_context",
+      "recovered": false,
+      "class_name": "碰伤"
+    },
+    {
+      "path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis\\debug_images\\failed_class_zoom_in_context_iou0p000_conf0p000_2025-11-01-14-42-20ps5_NGyuan_tile_0008_2.jpg",
+      "transform": "zoom_in_context",
+      "recovered": false,
+      "class_name": "碰伤"
+    }
+  ],
+  "headline": {
+    "baseline_fn_count": 215,
+    "tested_fn_count": 200,
+    "highest_recovery_transform": "sharpen_mild",
+    "highest_recovery_rate": 0.07,
+    "diag_policy_001_supported": true
+  }
+}

@@ -73,6 +73,7 @@ outputs/experiments/**/val/*.png
 outputs/experiments/**/dataset_builder/**/images/**
 outputs/experiments/**/dataset_builder/**/labels/**
 outputs/experiments/**/dataset_builder/**/*.cache
+outputs/experiments/**/debug_images/**
 outputs/experiments/**/proxy/proxy_artifacts/**
 outputs/experiments/**/validation_prediction/predict_runs/**
 outputs/experiments/**/diagnosis_prediction/predict_runs/**

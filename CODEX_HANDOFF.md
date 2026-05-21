@@ -250,3 +250,20 @@ No training was run after building or auditing these datasets.
 - Report: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_policy_top3_shorttrain/reports/top3_policy_shorttrain_report.md`
 - Results JSON: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_policy_top3_shorttrain/reports/top3_policy_shorttrain_results.json`
 <!-- TOP3_POLICY_SHORTTRAIN_END -->
+
+<!-- COUNTERFACTUAL_DIAGNOSIS_START -->
+## Counterfactual Diagnosis for Baseline Missed Defects
+
+- Run ID: `20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis`
+- Scope: prediction-only counterfactual diagnosis; no training, no 50 epoch run, no top3 short-training.
+- Purpose: validate whether baseline FN cases respond to low-contrast/brightness-style transforms.
+- Baseline FN count: `215`
+- Tested FN count: `200`
+- Highest recovery transform: `sharpen_mild` recovery_rate=`0.0700`
+- diag_policy_001 unique photometric FN recovery rate: `0.1050`
+- Supports low_contrast_missed_defect -> diag_policy_001: `True`
+- copy_paste is not directly testable by prediction-only counterfactual inference.
+- Report: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis/reports/counterfactual_diagnosis_report.md`
+- Summary JSON: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis/counterfactual_summary.json`
+- Instance table: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis/counterfactual_instances.csv`
+<!-- COUNTERFACTUAL_DIAGNOSIS_END -->

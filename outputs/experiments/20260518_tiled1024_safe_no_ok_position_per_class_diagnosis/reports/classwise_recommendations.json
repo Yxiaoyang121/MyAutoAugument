@@ -1,0 +1,766 @@
+{
+  "run_id": "20260518_tiled1024_safe_no_ok_position_per_class_diagnosis",
+  "generated_at": "2026-05-21T12:59:07",
+  "recommendations": [
+    {
+      "class_id": 0,
+      "class_name": "OK2",
+      "primary_error_type": "stable_or_low_priority",
+      "error_attributions": [
+        "stable_or_low_priority"
+      ],
+      "priority_score": 0.009271,
+      "confidence_score": 1.0,
+      "recommendations": [],
+      "reasons": [],
+      "evidence": {
+        "low_contrast_rate": 0.0,
+        "dark_rate": 0.0,
+        "small_object_rate": 0.0,
+        "edge_object_rate": 0.0,
+        "border_touch_rate": 0.0,
+        "weak_localization_count": 0,
+        "weak_localization_rate": 0.0,
+        "counterfactual_recovered_count": 0,
+        "counterfactual_recovery_rate": 0.0,
+        "photometric_recovered_count": 0,
+        "photometric_recovery_rate": 0.0,
+        "sharpen_recovered_count": 0,
+        "sharpen_recovery_rate": 0.0,
+        "scale_recovered_count": 0,
+        "scale_recovery_rate": 0.0,
+        "top_confused_target_classes": [],
+        "support_confidence": "high",
+        "support_confidence_reason": "val instances >= 50"
+      }
+    },
+    {
+      "class_id": 1,
+      "class_name": "OK3",
+      "primary_error_type": "stable_or_low_priority",
+      "error_attributions": [
+        "low_contrast_error",
+        "dark_object_error",
+        "small_object_error",
+        "tile_edge_error"
+      ],
+      "priority_score": 0.2472,
+      "confidence_score": 1.0,
+      "recommendations": [
+        "clahe",
+        "contrast",
+        "gamma",
+        "brightness",
+        "sharpen_mild",
+        "copy_paste_prefer_small",
+        "scale_aware_augmentation",
+        "keep_high_resolution_tiling",
+        "stricter_tiling",
+        "larger_tile_size_candidate",
+        "avoid_border_truncated_bbox"
+      ],
+      "reasons": [
+        "low_contrast_error / dark_object_error",
+        "small_object_error",
+        "tile_edge_error"
+      ],
+      "evidence": {
+        "low_contrast_rate": 1.0,
+        "dark_rate": 0.4,
+        "small_object_rate": 1.0,
+        "edge_object_rate": 0.8,
+        "border_touch_rate": 0.0,
+        "weak_localization_count": 0,
+        "weak_localization_rate": 0.0,
+        "counterfactual_recovered_count": 3,
+        "counterfactual_recovery_rate": 0.6,
+        "photometric_recovered_count": 3,
+        "photometric_recovery_rate": 0.6,
+        "sharpen_recovered_count": 2,
+        "sharpen_recovery_rate": 0.4,
+        "scale_recovered_count": 1,
+        "scale_recovery_rate": 0.2,
+        "top_confused_target_classes": [],
+        "support_confidence": "high",
+        "support_confidence_reason": "val instances >= 50"
+      }
+    },
+    {
+      "class_id": 2,
+      "class_name": "加强筋打伤",
+      "primary_error_type": "low_support_class",
+      "error_attributions": [
+        "low_support_class",
+        "class_sample_imbalance",
+        "low_contrast_error",
+        "dark_object_error",
+        "small_object_error"
+      ],
+      "priority_score": 0.098945,
+      "confidence_score": 0.35,
+      "recommendations": [
+        "clahe",
+        "contrast",
+        "gamma",
+        "brightness",
+        "sharpen_mild",
+        "class_balanced_copy_paste",
+        "targeted_augmentation",
+        "oversampling",
+        "collect_more_samples_warning",
+        "copy_paste_prefer_small",
+        "scale_aware_augmentation",
+        "keep_high_resolution_tiling"
+      ],
+      "reasons": [
+        "low_contrast_error / dark_object_error",
+        "low_support_class / class_sample_imbalance",
+        "small_object_error"
+      ],
+      "evidence": {
+        "low_contrast_rate": 1.0,
+        "dark_rate": 1.0,
+        "small_object_rate": 1.0,
+        "edge_object_rate": 0.0,
+        "border_touch_rate": 0.0,
+        "weak_localization_count": 0,
+        "weak_localization_rate": 0.0,
+        "counterfactual_recovered_count": 1,
+        "counterfactual_recovery_rate": 1.0,
+        "photometric_recovered_count": 1,
+        "photometric_recovery_rate": 1.0,
+        "sharpen_recovered_count": 0,
+        "sharpen_recovery_rate": 0.0,
+        "scale_recovered_count": 0,
+        "scale_recovery_rate": 0.0,
+        "top_confused_target_classes": [],
+        "support_confidence": "low",
+        "support_confidence_reason": "5 <= val instances < 10; unstable class-level conclusion"
+      }
+    },
+    {
+      "class_id": 3,
+      "class_name": "开裂",
+      "primary_error_type": "low_support_class",
+      "error_attributions": [
+        "low_support_class",
+        "class_sample_imbalance",
+        "dark_object_error",
+        "class_confusion"
+      ],
+      "priority_score": 0.164392,
+      "confidence_score": 0.2,
+      "recommendations": [
+        "clahe",
+        "contrast",
+        "gamma",
+        "brightness",
+        "sharpen_mild",
+        "class_balanced_copy_paste",
+        "targeted_augmentation",
+        "oversampling",
+        "collect_more_samples_warning"
+      ],
+      "reasons": [
+        "low_contrast_error / dark_object_error",
+        "low_support_class / class_sample_imbalance"
+      ],
+      "evidence": {
+        "low_contrast_rate": 0.0,
+        "dark_rate": 1.0,
+        "small_object_rate": 0.0,
+        "edge_object_rate": 0.0,
+        "border_touch_rate": 0.0,
+        "weak_localization_count": 0,
+        "weak_localization_rate": 0.0,
+        "counterfactual_recovered_count": 0,
+        "counterfactual_recovery_rate": 0.0,
+        "photometric_recovered_count": 0,
+        "photometric_recovery_rate": 0.0,
+        "sharpen_recovered_count": 0,
+        "sharpen_recovery_rate": 0.0,
+        "scale_recovered_count": 0,
+        "scale_recovery_rate": 0.0,
+        "top_confused_target_classes": [
+          {
+            "target_class_id": 8,
+            "target_class_name": "脏污",
+            "count": 2
+          }
+        ],
+        "support_confidence": "very_low",
+        "support_confidence_reason": "val instances < 5; do not over-interpret recall"
+      }
+    },
+    {
+      "class_id": 4,
+      "class_name": "油污",
+      "primary_error_type": "high_fp_class",
+      "error_attributions": [
+        "low_recall_class",
+        "high_fp_class",
+        "low_contrast_error",
+        "dark_object_error",
+        "texture_confusion",
+        "tile_edge_error",
+        "class_confusion"
+      ],
+      "priority_score": 0.379015,
+      "confidence_score": 0.6,
+      "recommendations": [
+        "clahe",
+        "contrast",
+        "gamma",
+        "brightness",
+        "sharpen_mild",
+        "sharpen",
+        "local_contrast",
+        "mild_noise",
+        "hard_negative_mining",
+        "stricter_tiling",
+        "larger_tile_size_candidate",
+        "avoid_border_truncated_bbox"
+      ],
+      "reasons": [
+        "low_contrast_error / dark_object_error",
+        "texture_confusion",
+        "tile_edge_error"
+      ],
+      "evidence": {
+        "low_contrast_rate": 0.6923076923076923,
+        "dark_rate": 1.0,
+        "small_object_rate": 0.5384615384615384,
+        "edge_object_rate": 0.46153846153846156,
+        "border_touch_rate": 0.0,
+        "weak_localization_count": 0,
+        "weak_localization_rate": 0.0,
+        "counterfactual_recovered_count": 1,
+        "counterfactual_recovery_rate": 0.09090909090909091,
+        "photometric_recovered_count": 1,
+        "photometric_recovery_rate": 0.09090909090909091,
+        "sharpen_recovered_count": 1,
+        "sharpen_recovery_rate": 0.09090909090909091,
+        "scale_recovered_count": 0,
+        "scale_recovery_rate": 0.0,
+        "top_confused_target_classes": [
+          {
+            "target_class_id": 7,
+            "target_class_name": "碰伤",
+            "count": 4
+          }
+        ],
+        "support_confidence": "medium",
+        "support_confidence_reason": "10 <= val instances < 20"
+      }
+    },
+    {
+      "class_id": 5,
+      "class_name": "浅划伤",
+      "primary_error_type": "class_sample_imbalance",
+      "error_attributions": [
+        "class_sample_imbalance",
+        "low_recall_class",
+        "low_contrast_error",
+        "texture_confusion",
+        "small_object_error",
+        "class_confusion"
+      ],
+      "priority_score": 0.251,
+      "confidence_score": 0.6,
+      "recommendations": [
+        "clahe",
+        "contrast",
+        "gamma",
+        "brightness",
+        "sharpen_mild",
+        "class_balanced_copy_paste",
+        "targeted_augmentation",
+        "oversampling",
+        "collect_more_samples_warning",
+        "sharpen",
+        "local_contrast",
+        "mild_noise",
+        "hard_negative_mining",
+        "copy_paste_prefer_small",
+        "scale_aware_augmentation",
+        "keep_high_resolution_tiling"
+      ],
+      "reasons": [
+        "low_contrast_error / dark_object_error",
+        "low_support_class / class_sample_imbalance",
+        "texture_confusion",
+        "small_object_error"
+      ],
+      "evidence": {
+        "low_contrast_rate": 0.6666666666666666,
+        "dark_rate": 0.16666666666666666,
+        "small_object_rate": 1.0,
+        "edge_object_rate": 0.16666666666666666,
+        "border_touch_rate": 0.0,
+        "weak_localization_count": 0,
+        "weak_localization_rate": 0.0,
+        "counterfactual_recovered_count": 0,
+        "counterfactual_recovery_rate": 0.0,
+        "photometric_recovered_count": 0,
+        "photometric_recovery_rate": 0.0,
+        "sharpen_recovered_count": 0,
+        "sharpen_recovery_rate": 0.0,
+        "scale_recovered_count": 0,
+        "scale_recovery_rate": 0.0,
+        "top_confused_target_classes": [
+          {
+            "target_class_id": 9,
+            "target_class_name": "轮廓划伤",
+            "count": 1
+          }
+        ],
+        "support_confidence": "medium",
+        "support_confidence_reason": "10 <= val instances < 20"
+      }
+    },
+    {
+      "class_id": 6,
+      "class_name": "漏背锡",
+      "primary_error_type": "low_contrast_error",
+      "error_attributions": [
+        "low_contrast_error",
+        "weak_localization",
+        "class_confusion"
+      ],
+      "priority_score": 0.166286,
+      "confidence_score": 0.8,
+      "recommendations": [
+        "clahe",
+        "contrast",
+        "gamma",
+        "brightness",
+        "sharpen_mild",
+        "mild_translate",
+        "mild_scale",
+        "avoid_strong_rotate",
+        "avoid_perspective"
+      ],
+      "reasons": [
+        "low_contrast_error / dark_object_error",
+        "weak_localization"
+      ],
+      "evidence": {
+        "low_contrast_rate": 0.0,
+        "dark_rate": 0.0,
+        "small_object_rate": 0.09090909090909091,
+        "edge_object_rate": 0.09090909090909091,
+        "border_touch_rate": 0.0,
+        "weak_localization_count": 3,
+        "weak_localization_rate": 0.06521739130434782,
+        "counterfactual_recovered_count": 1,
+        "counterfactual_recovery_rate": 0.1,
+        "photometric_recovered_count": 1,
+        "photometric_recovery_rate": 0.1,
+        "sharpen_recovered_count": 0,
+        "sharpen_recovery_rate": 0.0,
+        "scale_recovered_count": 0,
+        "scale_recovery_rate": 0.0,
+        "top_confused_target_classes": [
+          {
+            "target_class_id": 12,
+            "target_class_name": "锡膏",
+            "count": 1
+          }
+        ],
+        "support_confidence": "medium_high",
+        "support_confidence_reason": "20 <= val instances < 50"
+      }
+    },
+    {
+      "class_id": 7,
+      "class_name": "碰伤",
+      "primary_error_type": "low_recall_class",
+      "error_attributions": [
+        "low_recall_class",
+        "low_contrast_error",
+        "dark_object_error",
+        "texture_confusion",
+        "weak_localization",
+        "small_object_error",
+        "tile_edge_error",
+        "class_confusion"
+      ],
+      "priority_score": 0.439426,
+      "confidence_score": 1.0,
+      "recommendations": [
+        "clahe",
+        "contrast",
+        "gamma",
+        "brightness",
+        "sharpen_mild",
+        "sharpen",
+        "local_contrast",
+        "mild_noise",
+        "hard_negative_mining",
+        "mild_translate",
+        "mild_scale",
+        "avoid_strong_rotate",
+        "avoid_perspective",
+        "copy_paste_prefer_small",
+        "scale_aware_augmentation",
+        "keep_high_resolution_tiling",
+        "stricter_tiling",
+        "larger_tile_size_candidate",
+        "avoid_border_truncated_bbox"
+      ],
+      "reasons": [
+        "low_contrast_error / dark_object_error",
+        "texture_confusion",
+        "weak_localization",
+        "small_object_error",
+        "tile_edge_error"
+      ],
+      "evidence": {
+        "low_contrast_rate": 0.8695652173913043,
+        "dark_rate": 0.5760869565217391,
+        "small_object_rate": 0.9565217391304348,
+        "edge_object_rate": 0.6739130434782609,
+        "border_touch_rate": 0.043478260869565216,
+        "weak_localization_count": 12,
+        "weak_localization_rate": 0.04460966542750929,
+        "counterfactual_recovered_count": 12,
+        "counterfactual_recovery_rate": 0.1411764705882353,
+        "photometric_recovered_count": 9,
+        "photometric_recovery_rate": 0.10588235294117647,
+        "sharpen_recovered_count": 7,
+        "sharpen_recovery_rate": 0.08235294117647059,
+        "scale_recovered_count": 0,
+        "scale_recovery_rate": 0.0,
+        "top_confused_target_classes": [
+          {
+            "target_class_id": 4,
+            "target_class_name": "油污",
+            "count": 2
+          }
+        ],
+        "support_confidence": "high",
+        "support_confidence_reason": "val instances >= 50"
+      }
+    },
+    {
+      "class_id": 8,
+      "class_name": "脏污",
+      "primary_error_type": "high_fp_class",
+      "error_attributions": [
+        "low_recall_class",
+        "high_fp_class",
+        "low_contrast_error",
+        "dark_object_error",
+        "texture_confusion",
+        "weak_localization",
+        "small_object_error",
+        "class_confusion"
+      ],
+      "priority_score": 0.375168,
+      "confidence_score": 0.8,
+      "recommendations": [
+        "clahe",
+        "contrast",
+        "gamma",
+        "brightness",
+        "sharpen_mild",
+        "sharpen",
+        "local_contrast",
+        "mild_noise",
+        "hard_negative_mining",
+        "mild_translate",
+        "mild_scale",
+        "avoid_strong_rotate",
+        "avoid_perspective",
+        "copy_paste_prefer_small",
+        "scale_aware_augmentation",
+        "keep_high_resolution_tiling"
+      ],
+      "reasons": [
+        "low_contrast_error / dark_object_error",
+        "texture_confusion",
+        "weak_localization",
+        "small_object_error"
+      ],
+      "evidence": {
+        "low_contrast_rate": 0.1,
+        "dark_rate": 0.4,
+        "small_object_rate": 0.7,
+        "edge_object_rate": 0.25,
+        "border_touch_rate": 0.0,
+        "weak_localization_count": 4,
+        "weak_localization_rate": 0.09523809523809523,
+        "counterfactual_recovered_count": 5,
+        "counterfactual_recovery_rate": 0.25,
+        "photometric_recovered_count": 4,
+        "photometric_recovery_rate": 0.2,
+        "sharpen_recovered_count": 3,
+        "sharpen_recovery_rate": 0.15,
+        "scale_recovered_count": 1,
+        "scale_recovery_rate": 0.05,
+        "top_confused_target_classes": [
+          {
+            "target_class_id": 4,
+            "target_class_name": "油污",
+            "count": 4
+          },
+          {
+            "target_class_id": 7,
+            "target_class_name": "碰伤",
+            "count": 3
+          }
+        ],
+        "support_confidence": "medium_high",
+        "support_confidence_reason": "20 <= val instances < 50"
+      }
+    },
+    {
+      "class_id": 9,
+      "class_name": "轮廓划伤",
+      "primary_error_type": "low_recall_class",
+      "error_attributions": [
+        "low_recall_class",
+        "low_contrast_error",
+        "dark_object_error",
+        "texture_confusion",
+        "weak_localization",
+        "small_object_error",
+        "tile_edge_error",
+        "class_confusion"
+      ],
+      "priority_score": 0.441256,
+      "confidence_score": 1.0,
+      "recommendations": [
+        "clahe",
+        "contrast",
+        "gamma",
+        "brightness",
+        "sharpen_mild",
+        "sharpen",
+        "local_contrast",
+        "mild_noise",
+        "hard_negative_mining",
+        "mild_translate",
+        "mild_scale",
+        "avoid_strong_rotate",
+        "avoid_perspective",
+        "copy_paste_prefer_small",
+        "scale_aware_augmentation",
+        "keep_high_resolution_tiling",
+        "stricter_tiling",
+        "larger_tile_size_candidate",
+        "avoid_border_truncated_bbox"
+      ],
+      "reasons": [
+        "low_contrast_error / dark_object_error",
+        "texture_confusion",
+        "weak_localization",
+        "small_object_error",
+        "tile_edge_error"
+      ],
+      "evidence": {
+        "low_contrast_rate": 0.7714285714285715,
+        "dark_rate": 0.5714285714285714,
+        "small_object_rate": 1.0,
+        "edge_object_rate": 0.6285714285714286,
+        "border_touch_rate": 0.0,
+        "weak_localization_count": 2,
+        "weak_localization_rate": 0.023809523809523808,
+        "counterfactual_recovered_count": 2,
+        "counterfactual_recovery_rate": 0.06060606060606061,
+        "photometric_recovered_count": 1,
+        "photometric_recovery_rate": 0.030303030303030304,
+        "sharpen_recovered_count": 1,
+        "sharpen_recovery_rate": 0.030303030303030304,
+        "scale_recovered_count": 0,
+        "scale_recovery_rate": 0.0,
+        "top_confused_target_classes": [
+          {
+            "target_class_id": 7,
+            "target_class_name": "碰伤",
+            "count": 7
+          },
+          {
+            "target_class_id": 4,
+            "target_class_name": "油污",
+            "count": 6
+          },
+          {
+            "target_class_id": 5,
+            "target_class_name": "浅划伤",
+            "count": 1
+          }
+        ],
+        "support_confidence": "high",
+        "support_confidence_reason": "val instances >= 50"
+      }
+    },
+    {
+      "class_id": 10,
+      "class_name": "锡丝残留",
+      "primary_error_type": "class_sample_imbalance",
+      "error_attributions": [
+        "class_sample_imbalance",
+        "low_recall_class",
+        "small_object_error",
+        "tile_edge_error",
+        "class_confusion"
+      ],
+      "priority_score": 0.277841,
+      "confidence_score": 0.6,
+      "recommendations": [
+        "class_balanced_copy_paste",
+        "targeted_augmentation",
+        "oversampling",
+        "collect_more_samples_warning",
+        "copy_paste_prefer_small",
+        "scale_aware_augmentation",
+        "keep_high_resolution_tiling",
+        "stricter_tiling",
+        "larger_tile_size_candidate",
+        "avoid_border_truncated_bbox"
+      ],
+      "reasons": [
+        "low_support_class / class_sample_imbalance",
+        "small_object_error",
+        "tile_edge_error"
+      ],
+      "evidence": {
+        "low_contrast_rate": 0.0,
+        "dark_rate": 0.2857142857142857,
+        "small_object_rate": 0.7142857142857143,
+        "edge_object_rate": 1.0,
+        "border_touch_rate": 0.0,
+        "weak_localization_count": 0,
+        "weak_localization_rate": 0.0,
+        "counterfactual_recovered_count": 0,
+        "counterfactual_recovery_rate": 0.0,
+        "photometric_recovered_count": 0,
+        "photometric_recovery_rate": 0.0,
+        "sharpen_recovered_count": 0,
+        "sharpen_recovery_rate": 0.0,
+        "scale_recovered_count": 0,
+        "scale_recovery_rate": 0.0,
+        "top_confused_target_classes": [
+          {
+            "target_class_id": 11,
+            "target_class_name": "锡尖",
+            "count": 3
+          }
+        ],
+        "support_confidence": "medium",
+        "support_confidence_reason": "10 <= val instances < 20"
+      }
+    },
+    {
+      "class_id": 11,
+      "class_name": "锡尖",
+      "primary_error_type": "low_contrast_error",
+      "error_attributions": [
+        "low_contrast_error",
+        "small_object_error",
+        "class_confusion"
+      ],
+      "priority_score": 0.150248,
+      "confidence_score": 0.8,
+      "recommendations": [
+        "clahe",
+        "contrast",
+        "gamma",
+        "brightness",
+        "sharpen_mild",
+        "copy_paste_prefer_small",
+        "scale_aware_augmentation",
+        "keep_high_resolution_tiling"
+      ],
+      "reasons": [
+        "low_contrast_error / dark_object_error",
+        "small_object_error"
+      ],
+      "evidence": {
+        "low_contrast_rate": 0.0,
+        "dark_rate": 0.0,
+        "small_object_rate": 1.0,
+        "edge_object_rate": 0.2,
+        "border_touch_rate": 0.0,
+        "weak_localization_count": 0,
+        "weak_localization_rate": 0.0,
+        "counterfactual_recovered_count": 1,
+        "counterfactual_recovery_rate": 0.2,
+        "photometric_recovered_count": 1,
+        "photometric_recovery_rate": 0.2,
+        "sharpen_recovered_count": 0,
+        "sharpen_recovery_rate": 0.0,
+        "scale_recovered_count": 0,
+        "scale_recovery_rate": 0.0,
+        "top_confused_target_classes": [
+          {
+            "target_class_id": 6,
+            "target_class_name": "漏背锡",
+            "count": 2
+          }
+        ],
+        "support_confidence": "medium_high",
+        "support_confidence_reason": "20 <= val instances < 50"
+      }
+    },
+    {
+      "class_id": 12,
+      "class_name": "锡膏",
+      "primary_error_type": "low_recall_class",
+      "error_attributions": [
+        "low_recall_class",
+        "texture_confusion",
+        "weak_localization",
+        "small_object_error",
+        "class_confusion"
+      ],
+      "priority_score": 0.221242,
+      "confidence_score": 0.8,
+      "recommendations": [
+        "sharpen",
+        "local_contrast",
+        "mild_noise",
+        "hard_negative_mining",
+        "mild_translate",
+        "mild_scale",
+        "avoid_strong_rotate",
+        "avoid_perspective",
+        "copy_paste_prefer_small",
+        "scale_aware_augmentation",
+        "keep_high_resolution_tiling"
+      ],
+      "reasons": [
+        "texture_confusion",
+        "weak_localization",
+        "small_object_error"
+      ],
+      "evidence": {
+        "low_contrast_rate": 0.0,
+        "dark_rate": 0.0,
+        "small_object_rate": 0.6666666666666666,
+        "edge_object_rate": 0.16666666666666666,
+        "border_touch_rate": 0.0,
+        "weak_localization_count": 1,
+        "weak_localization_rate": 0.021739130434782608,
+        "counterfactual_recovered_count": 0,
+        "counterfactual_recovery_rate": 0.0,
+        "photometric_recovered_count": 0,
+        "photometric_recovery_rate": 0.0,
+        "sharpen_recovered_count": 0,
+        "sharpen_recovery_rate": 0.0,
+        "scale_recovered_count": 0,
+        "scale_recovery_rate": 0.0,
+        "top_confused_target_classes": [
+          {
+            "target_class_id": 6,
+            "target_class_name": "漏背锡",
+            "count": 2
+          }
+        ],
+        "support_confidence": "medium_high",
+        "support_confidence_reason": "20 <= val instances < 50"
+      }
+    }
+  ]
+}

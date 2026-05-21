@@ -1,20 +1,30 @@
 # Project Snapshot
 
-- Generated: 2026-05-21T11:16:57
+- Generated: 2026-05-21T12:59:08
 - Branch: codex/sync-latest
-- Commit: 6aeaf267605386d2b81a28663648de44e2d210e5
+- Commit: 8f158d356179b08a71a8d0631187884cdeb050e2
 - Remote: https://github.com/Yxiaoyang121/MyAutoAugument.git
 
 ## Working Tree
 
 ```text
- M .gitignore
- M CODEX_HANDOFF.md
- M EXPERIMENT_LOG.md
- M PROJECT_STATE.md
- M scripts/export_project_snapshot.py
-?? outputs/experiments/20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis/
-?? scripts/run_counterfactual_diagnosis.py
+M  .gitignore
+M  CODEX_HANDOFF.md
+M  EXPERIMENT_LOG.md
+M  PROJECT_STATE.md
+AM outputs/experiments/20260518_tiled1024_safe_no_ok_position_per_class_diagnosis/policies/class_aware_mixed_policy.json
+AM outputs/experiments/20260518_tiled1024_safe_no_ok_position_per_class_diagnosis/policies/class_aware_mixed_policy.md
+AM outputs/experiments/20260518_tiled1024_safe_no_ok_position_per_class_diagnosis/policies/class_aware_policy_score.json
+A  outputs/experiments/20260518_tiled1024_safe_no_ok_position_per_class_diagnosis/policies/class_aware_policy_score.md
+AM outputs/experiments/20260518_tiled1024_safe_no_ok_position_per_class_diagnosis/reports/classwise_recommendations.json
+A  outputs/experiments/20260518_tiled1024_safe_no_ok_position_per_class_diagnosis/reports/classwise_recommendations.md
+AM outputs/experiments/20260518_tiled1024_safe_no_ok_position_per_class_diagnosis/reports/per_class_diagnosis.json
+A  outputs/experiments/20260518_tiled1024_safe_no_ok_position_per_class_diagnosis/reports/per_class_diagnosis_report.md
+AM outputs/experiments/20260518_tiled1024_safe_no_ok_position_per_class_diagnosis/run_config.json
+M  outputs/project_snapshot_latest.md
+M  outputs/snapshots/project_snapshot_latest.md
+M  scripts/export_project_snapshot.py
+AM scripts/run_per_class_diagnosis.py
 ```
 
 ## Key Files
@@ -38,6 +48,7 @@
 - scripts/generate_top3_policies_from_baseline.py
 - scripts/run_top3_policy_short_training.py
 - scripts/run_counterfactual_diagnosis.py
+- scripts/run_per_class_diagnosis.py
 - scripts/write_yolo_default_aug_50ep_reports.py
 - outputs/audits/dataset_mapping/full_tiled_dataset_mapping_audit.md
 - outputs/audits/dataset_mapping/full_tiled_dataset_mapping_audit.json
@@ -76,6 +87,12 @@
 - outputs/experiments/20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis/counterfactual_summary.json
 - outputs/experiments/20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis/counterfactual_instances.csv
 - outputs/experiments/20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis/counterfactual_policy_ranking.json
+- outputs/experiments/20260518_tiled1024_safe_no_ok_position_per_class_diagnosis/reports/per_class_diagnosis_report.md
+- outputs/experiments/20260518_tiled1024_safe_no_ok_position_per_class_diagnosis/reports/per_class_diagnosis.json
+- outputs/experiments/20260518_tiled1024_safe_no_ok_position_per_class_diagnosis/reports/classwise_recommendations.md
+- outputs/experiments/20260518_tiled1024_safe_no_ok_position_per_class_diagnosis/reports/classwise_recommendations.json
+- outputs/experiments/20260518_tiled1024_safe_no_ok_position_per_class_diagnosis/policies/class_aware_mixed_policy.json
+- outputs/experiments/20260518_tiled1024_safe_no_ok_position_per_class_diagnosis/policies/class_aware_policy_score.json
 - outputs/datasets/tiled/tiled_1024_ov20_smoke/dataset_summary.md
 - outputs/datasets/tiled/tiled_1024_ov20_full/data.yaml
 - outputs/datasets/tiled/tiled_1024_ov20_full/dataset_summary.md
@@ -99,7 +116,7 @@
 
 ## Tracked File Count
 
-- 348 tracked files
+- 370 tracked files
 
 ## Notes
 

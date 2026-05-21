@@ -1,0 +1,1417 @@
+{
+  "policy_id": "class_aware_policy_001",
+  "type": "class_aware_mixed_policy",
+  "generated_at": "2026-05-21T12:59:07",
+  "source": {
+    "baseline_diagnosis": "outputs/experiments/20260518_tiled1024_safe_no_ok_position_policy_top3_from_baseline/diagnosis/diagnosis.json",
+    "counterfactual_diagnosis": "outputs/experiments/20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis/counterfactual_summary.json",
+    "per_class_diagnosis": "outputs/experiments/20260518_tiled1024_safe_no_ok_position_per_class_diagnosis/reports/per_class_diagnosis.json"
+  },
+  "selection_rules": [
+    "Do not apply all augmentations globally.",
+    "copy_paste is restricted to low-support or class-imbalance classes.",
+    "photometric operations are assigned only to classes with low-contrast/dark evidence or counterfactual recovery.",
+    "prob and strength are dynamic functions of severity_score and confidence_score."
+  ],
+  "branch_names": [
+    "photometric_branch",
+    "copy_paste_branch",
+    "texture_branch",
+    "localization_branch"
+  ],
+  "branches": [
+    {
+      "branch_name": "photometric_branch",
+      "target_class_ids": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        11
+      ],
+      "target_classes": [
+        "加强筋打伤",
+        "开裂",
+        "油污",
+        "浅划伤",
+        "漏背锡",
+        "碰伤",
+        "脏污",
+        "轮廓划伤",
+        "锡尖"
+      ],
+      "ops": [
+        {
+          "name": "clahe",
+          "prob": 0.352,
+          "strength": 0.5,
+          "params": {
+            "clip_limit_range": [
+              2.0,
+              3.0
+            ],
+            "tile_grid_size": 8,
+            "target_class_ids": [
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              11
+            ]
+          },
+          "prob_formula": "clip(base_prob + priority_gain*avg_priority + confidence_gain*avg_confidence)",
+          "strength_formula": "clip(base_strength + severity_gain*avg_severity + confidence_gain*avg_confidence)"
+        },
+        {
+          "name": "contrast",
+          "prob": 0.352,
+          "strength": 0.5,
+          "params": {
+            "alpha_range": [
+              1.1,
+              1.3
+            ],
+            "target_class_ids": [
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              11
+            ]
+          },
+          "prob_formula": "clip(base_prob + priority_gain*avg_priority + confidence_gain*avg_confidence)",
+          "strength_formula": "clip(base_strength + severity_gain*avg_severity + confidence_gain*avg_confidence)"
+        },
+        {
+          "name": "gamma",
+          "prob": 0.352,
+          "strength": 0.5,
+          "params": {
+            "gamma_range": [
+              0.75,
+              0.9
+            ],
+            "target_class_ids": [
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              11
+            ]
+          },
+          "prob_formula": "clip(base_prob + priority_gain*avg_priority + confidence_gain*avg_confidence)",
+          "strength_formula": "clip(base_strength + severity_gain*avg_severity + confidence_gain*avg_confidence)"
+        },
+        {
+          "name": "brightness",
+          "prob": 0.352,
+          "strength": 0.5,
+          "params": {
+            "beta_range": [
+              10,
+              30
+            ],
+            "target_class_ids": [
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              11
+            ]
+          },
+          "prob_formula": "clip(base_prob + priority_gain*avg_priority + confidence_gain*avg_confidence)",
+          "strength_formula": "clip(base_strength + severity_gain*avg_severity + confidence_gain*avg_confidence)"
+        },
+        {
+          "name": "sharpen_mild",
+          "prob": 0.352,
+          "strength": 0.5,
+          "params": {
+            "amount_range": [
+              0.5,
+              0.9
+            ],
+            "sigma": 1.0,
+            "target_class_ids": [
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              11
+            ]
+          },
+          "prob_formula": "clip(base_prob + priority_gain*avg_priority + confidence_gain*avg_confidence)",
+          "strength_formula": "clip(base_strength + severity_gain*avg_severity + confidence_gain*avg_confidence)"
+        }
+      ],
+      "reason": "low_contrast_error / dark_object_error",
+      "avg_severity_score": 0.433333,
+      "avg_confidence_score": 0.683333,
+      "avg_priority_score": 0.273971,
+      "target_class_evidence": [
+        {
+          "class_id": 2,
+          "class_name": "加强筋打伤",
+          "primary_error_type": "low_support_class",
+          "error_attributions": [
+            "low_support_class",
+            "class_sample_imbalance",
+            "low_contrast_error",
+            "dark_object_error",
+            "small_object_error"
+          ],
+          "severity_score": 0.2827,
+          "confidence_score": 0.35,
+          "priority_score": 0.098945,
+          "evidence": {
+            "low_contrast_rate": 1.0,
+            "dark_rate": 1.0,
+            "small_object_rate": 1.0,
+            "edge_object_rate": 0.0,
+            "border_touch_rate": 0.0,
+            "weak_localization_count": 0,
+            "weak_localization_rate": 0.0,
+            "counterfactual_recovered_count": 1,
+            "counterfactual_recovery_rate": 1.0,
+            "photometric_recovered_count": 1,
+            "photometric_recovery_rate": 1.0,
+            "sharpen_recovered_count": 0,
+            "sharpen_recovery_rate": 0.0,
+            "scale_recovered_count": 0,
+            "scale_recovery_rate": 0.0,
+            "top_confused_target_classes": [],
+            "support_confidence": "low",
+            "support_confidence_reason": "5 <= val instances < 10; unstable class-level conclusion"
+          }
+        },
+        {
+          "class_id": 3,
+          "class_name": "开裂",
+          "primary_error_type": "low_support_class",
+          "error_attributions": [
+            "low_support_class",
+            "class_sample_imbalance",
+            "dark_object_error",
+            "class_confusion"
+          ],
+          "severity_score": 0.82196,
+          "confidence_score": 0.2,
+          "priority_score": 0.164392,
+          "evidence": {
+            "low_contrast_rate": 0.0,
+            "dark_rate": 1.0,
+            "small_object_rate": 0.0,
+            "edge_object_rate": 0.0,
+            "border_touch_rate": 0.0,
+            "weak_localization_count": 0,
+            "weak_localization_rate": 0.0,
+            "counterfactual_recovered_count": 0,
+            "counterfactual_recovery_rate": 0.0,
+            "photometric_recovered_count": 0,
+            "photometric_recovery_rate": 0.0,
+            "sharpen_recovered_count": 0,
+            "sharpen_recovery_rate": 0.0,
+            "scale_recovered_count": 0,
+            "scale_recovery_rate": 0.0,
+            "top_confused_target_classes": [
+              {
+                "target_class_id": 8,
+                "target_class_name": "脏污",
+                "count": 2
+              }
+            ],
+            "support_confidence": "very_low",
+            "support_confidence_reason": "val instances < 5; do not over-interpret recall"
+          }
+        },
+        {
+          "class_id": 4,
+          "class_name": "油污",
+          "primary_error_type": "high_fp_class",
+          "error_attributions": [
+            "low_recall_class",
+            "high_fp_class",
+            "low_contrast_error",
+            "dark_object_error",
+            "texture_confusion",
+            "tile_edge_error",
+            "class_confusion"
+          ],
+          "severity_score": 0.631691,
+          "confidence_score": 0.6,
+          "priority_score": 0.379015,
+          "evidence": {
+            "low_contrast_rate": 0.6923076923076923,
+            "dark_rate": 1.0,
+            "small_object_rate": 0.5384615384615384,
+            "edge_object_rate": 0.46153846153846156,
+            "border_touch_rate": 0.0,
+            "weak_localization_count": 0,
+            "weak_localization_rate": 0.0,
+            "counterfactual_recovered_count": 1,
+            "counterfactual_recovery_rate": 0.09090909090909091,
+            "photometric_recovered_count": 1,
+            "photometric_recovery_rate": 0.09090909090909091,
+            "sharpen_recovered_count": 1,
+            "sharpen_recovery_rate": 0.09090909090909091,
+            "scale_recovered_count": 0,
+            "scale_recovery_rate": 0.0,
+            "top_confused_target_classes": [
+              {
+                "target_class_id": 7,
+                "target_class_name": "碰伤",
+                "count": 4
+              }
+            ],
+            "support_confidence": "medium",
+            "support_confidence_reason": "10 <= val instances < 20"
+          }
+        },
+        {
+          "class_id": 5,
+          "class_name": "浅划伤",
+          "primary_error_type": "class_sample_imbalance",
+          "error_attributions": [
+            "class_sample_imbalance",
+            "low_recall_class",
+            "low_contrast_error",
+            "texture_confusion",
+            "small_object_error",
+            "class_confusion"
+          ],
+          "severity_score": 0.418333,
+          "confidence_score": 0.6,
+          "priority_score": 0.251,
+          "evidence": {
+            "low_contrast_rate": 0.6666666666666666,
+            "dark_rate": 0.16666666666666666,
+            "small_object_rate": 1.0,
+            "edge_object_rate": 0.16666666666666666,
+            "border_touch_rate": 0.0,
+            "weak_localization_count": 0,
+            "weak_localization_rate": 0.0,
+            "counterfactual_recovered_count": 0,
+            "counterfactual_recovery_rate": 0.0,
+            "photometric_recovered_count": 0,
+            "photometric_recovery_rate": 0.0,
+            "sharpen_recovered_count": 0,
+            "sharpen_recovery_rate": 0.0,
+            "scale_recovered_count": 0,
+            "scale_recovery_rate": 0.0,
+            "top_confused_target_classes": [
+              {
+                "target_class_id": 9,
+                "target_class_name": "轮廓划伤",
+                "count": 1
+              }
+            ],
+            "support_confidence": "medium",
+            "support_confidence_reason": "10 <= val instances < 20"
+          }
+        },
+        {
+          "class_id": 6,
+          "class_name": "漏背锡",
+          "primary_error_type": "low_contrast_error",
+          "error_attributions": [
+            "low_contrast_error",
+            "weak_localization",
+            "class_confusion"
+          ],
+          "severity_score": 0.207857,
+          "confidence_score": 0.8,
+          "priority_score": 0.166286,
+          "evidence": {
+            "low_contrast_rate": 0.0,
+            "dark_rate": 0.0,
+            "small_object_rate": 0.09090909090909091,
+            "edge_object_rate": 0.09090909090909091,
+            "border_touch_rate": 0.0,
+            "weak_localization_count": 3,
+            "weak_localization_rate": 0.06521739130434782,
+            "counterfactual_recovered_count": 1,
+            "counterfactual_recovery_rate": 0.1,
+            "photometric_recovered_count": 1,
+            "photometric_recovery_rate": 0.1,
+            "sharpen_recovered_count": 0,
+            "sharpen_recovery_rate": 0.0,
+            "scale_recovered_count": 0,
+            "scale_recovery_rate": 0.0,
+            "top_confused_target_classes": [
+              {
+                "target_class_id": 12,
+                "target_class_name": "锡膏",
+                "count": 1
+              }
+            ],
+            "support_confidence": "medium_high",
+            "support_confidence_reason": "20 <= val instances < 50"
+          }
+        },
+        {
+          "class_id": 7,
+          "class_name": "碰伤",
+          "primary_error_type": "low_recall_class",
+          "error_attributions": [
+            "low_recall_class",
+            "low_contrast_error",
+            "dark_object_error",
+            "texture_confusion",
+            "weak_localization",
+            "small_object_error",
+            "tile_edge_error",
+            "class_confusion"
+          ],
+          "severity_score": 0.439426,
+          "confidence_score": 1.0,
+          "priority_score": 0.439426,
+          "evidence": {
+            "low_contrast_rate": 0.8695652173913043,
+            "dark_rate": 0.5760869565217391,
+            "small_object_rate": 0.9565217391304348,
+            "edge_object_rate": 0.6739130434782609,
+            "border_touch_rate": 0.043478260869565216,
+            "weak_localization_count": 12,
+            "weak_localization_rate": 0.04460966542750929,
+            "counterfactual_recovered_count": 12,
+            "counterfactual_recovery_rate": 0.1411764705882353,
+            "photometric_recovered_count": 9,
+            "photometric_recovery_rate": 0.10588235294117647,
+            "sharpen_recovered_count": 7,
+            "sharpen_recovery_rate": 0.08235294117647059,
+            "scale_recovered_count": 0,
+            "scale_recovery_rate": 0.0,
+            "top_confused_target_classes": [
+              {
+                "target_class_id": 4,
+                "target_class_name": "油污",
+                "count": 2
+              }
+            ],
+            "support_confidence": "high",
+            "support_confidence_reason": "val instances >= 50"
+          }
+        },
+        {
+          "class_id": 8,
+          "class_name": "脏污",
+          "primary_error_type": "high_fp_class",
+          "error_attributions": [
+            "low_recall_class",
+            "high_fp_class",
+            "low_contrast_error",
+            "dark_object_error",
+            "texture_confusion",
+            "weak_localization",
+            "small_object_error",
+            "class_confusion"
+          ],
+          "severity_score": 0.46896,
+          "confidence_score": 0.8,
+          "priority_score": 0.375168,
+          "evidence": {
+            "low_contrast_rate": 0.1,
+            "dark_rate": 0.4,
+            "small_object_rate": 0.7,
+            "edge_object_rate": 0.25,
+            "border_touch_rate": 0.0,
+            "weak_localization_count": 4,
+            "weak_localization_rate": 0.09523809523809523,
+            "counterfactual_recovered_count": 5,
+            "counterfactual_recovery_rate": 0.25,
+            "photometric_recovered_count": 4,
+            "photometric_recovery_rate": 0.2,
+            "sharpen_recovered_count": 3,
+            "sharpen_recovery_rate": 0.15,
+            "scale_recovered_count": 1,
+            "scale_recovery_rate": 0.05,
+            "top_confused_target_classes": [
+              {
+                "target_class_id": 4,
+                "target_class_name": "油污",
+                "count": 4
+              },
+              {
+                "target_class_id": 7,
+                "target_class_name": "碰伤",
+                "count": 3
+              }
+            ],
+            "support_confidence": "medium_high",
+            "support_confidence_reason": "20 <= val instances < 50"
+          }
+        },
+        {
+          "class_id": 9,
+          "class_name": "轮廓划伤",
+          "primary_error_type": "low_recall_class",
+          "error_attributions": [
+            "low_recall_class",
+            "low_contrast_error",
+            "dark_object_error",
+            "texture_confusion",
+            "weak_localization",
+            "small_object_error",
+            "tile_edge_error",
+            "class_confusion"
+          ],
+          "severity_score": 0.441256,
+          "confidence_score": 1.0,
+          "priority_score": 0.441256,
+          "evidence": {
+            "low_contrast_rate": 0.7714285714285715,
+            "dark_rate": 0.5714285714285714,
+            "small_object_rate": 1.0,
+            "edge_object_rate": 0.6285714285714286,
+            "border_touch_rate": 0.0,
+            "weak_localization_count": 2,
+            "weak_localization_rate": 0.023809523809523808,
+            "counterfactual_recovered_count": 2,
+            "counterfactual_recovery_rate": 0.06060606060606061,
+            "photometric_recovered_count": 1,
+            "photometric_recovery_rate": 0.030303030303030304,
+            "sharpen_recovered_count": 1,
+            "sharpen_recovery_rate": 0.030303030303030304,
+            "scale_recovered_count": 0,
+            "scale_recovery_rate": 0.0,
+            "top_confused_target_classes": [
+              {
+                "target_class_id": 7,
+                "target_class_name": "碰伤",
+                "count": 7
+              },
+              {
+                "target_class_id": 4,
+                "target_class_name": "油污",
+                "count": 6
+              },
+              {
+                "target_class_id": 5,
+                "target_class_name": "浅划伤",
+                "count": 1
+              }
+            ],
+            "support_confidence": "high",
+            "support_confidence_reason": "val instances >= 50"
+          }
+        },
+        {
+          "class_id": 11,
+          "class_name": "锡尖",
+          "primary_error_type": "low_contrast_error",
+          "error_attributions": [
+            "low_contrast_error",
+            "small_object_error",
+            "class_confusion"
+          ],
+          "severity_score": 0.18781,
+          "confidence_score": 0.8,
+          "priority_score": 0.150248,
+          "evidence": {
+            "low_contrast_rate": 0.0,
+            "dark_rate": 0.0,
+            "small_object_rate": 1.0,
+            "edge_object_rate": 0.2,
+            "border_touch_rate": 0.0,
+            "weak_localization_count": 0,
+            "weak_localization_rate": 0.0,
+            "counterfactual_recovered_count": 1,
+            "counterfactual_recovery_rate": 0.2,
+            "photometric_recovered_count": 1,
+            "photometric_recovery_rate": 0.2,
+            "sharpen_recovered_count": 0,
+            "sharpen_recovery_rate": 0.0,
+            "scale_recovered_count": 0,
+            "scale_recovery_rate": 0.0,
+            "top_confused_target_classes": [
+              {
+                "target_class_id": 6,
+                "target_class_name": "漏背锡",
+                "count": 2
+              }
+            ],
+            "support_confidence": "medium_high",
+            "support_confidence_reason": "20 <= val instances < 50"
+          }
+        }
+      ]
+    },
+    {
+      "branch_name": "copy_paste_branch",
+      "target_class_ids": [
+        2,
+        3,
+        5,
+        10
+      ],
+      "target_classes": [
+        "加强筋打伤",
+        "开裂",
+        "浅划伤",
+        "锡丝残留"
+      ],
+      "ops": [
+        {
+          "name": "class_balanced_copy_paste",
+          "prob": 0.313,
+          "strength": 0.608,
+          "params": {
+            "target_class_ids": [
+              2,
+              3,
+              5,
+              10
+            ],
+            "prefer_small": true,
+            "class_balanced": true,
+            "max_paste_count": 2,
+            "max_overlap": 0.2
+          },
+          "prob_formula": "clip(base_prob + priority_gain*avg_priority + confidence_gain*avg_confidence)",
+          "strength_formula": "clip(base_strength + severity_gain*avg_severity + confidence_gain*avg_confidence)"
+        }
+      ],
+      "reason": "low_support_class / class_sample_imbalance",
+      "avg_severity_score": 0.496515,
+      "avg_confidence_score": 0.4375,
+      "avg_priority_score": 0.198045,
+      "target_class_evidence": [
+        {
+          "class_id": 2,
+          "class_name": "加强筋打伤",
+          "primary_error_type": "low_support_class",
+          "error_attributions": [
+            "low_support_class",
+            "class_sample_imbalance",
+            "low_contrast_error",
+            "dark_object_error",
+            "small_object_error"
+          ],
+          "severity_score": 0.2827,
+          "confidence_score": 0.35,
+          "priority_score": 0.098945,
+          "evidence": {
+            "low_contrast_rate": 1.0,
+            "dark_rate": 1.0,
+            "small_object_rate": 1.0,
+            "edge_object_rate": 0.0,
+            "border_touch_rate": 0.0,
+            "weak_localization_count": 0,
+            "weak_localization_rate": 0.0,
+            "counterfactual_recovered_count": 1,
+            "counterfactual_recovery_rate": 1.0,
+            "photometric_recovered_count": 1,
+            "photometric_recovery_rate": 1.0,
+            "sharpen_recovered_count": 0,
+            "sharpen_recovery_rate": 0.0,
+            "scale_recovered_count": 0,
+            "scale_recovery_rate": 0.0,
+            "top_confused_target_classes": [],
+            "support_confidence": "low",
+            "support_confidence_reason": "5 <= val instances < 10; unstable class-level conclusion"
+          }
+        },
+        {
+          "class_id": 3,
+          "class_name": "开裂",
+          "primary_error_type": "low_support_class",
+          "error_attributions": [
+            "low_support_class",
+            "class_sample_imbalance",
+            "dark_object_error",
+            "class_confusion"
+          ],
+          "severity_score": 0.82196,
+          "confidence_score": 0.2,
+          "priority_score": 0.164392,
+          "evidence": {
+            "low_contrast_rate": 0.0,
+            "dark_rate": 1.0,
+            "small_object_rate": 0.0,
+            "edge_object_rate": 0.0,
+            "border_touch_rate": 0.0,
+            "weak_localization_count": 0,
+            "weak_localization_rate": 0.0,
+            "counterfactual_recovered_count": 0,
+            "counterfactual_recovery_rate": 0.0,
+            "photometric_recovered_count": 0,
+            "photometric_recovery_rate": 0.0,
+            "sharpen_recovered_count": 0,
+            "sharpen_recovery_rate": 0.0,
+            "scale_recovered_count": 0,
+            "scale_recovery_rate": 0.0,
+            "top_confused_target_classes": [
+              {
+                "target_class_id": 8,
+                "target_class_name": "脏污",
+                "count": 2
+              }
+            ],
+            "support_confidence": "very_low",
+            "support_confidence_reason": "val instances < 5; do not over-interpret recall"
+          }
+        },
+        {
+          "class_id": 5,
+          "class_name": "浅划伤",
+          "primary_error_type": "class_sample_imbalance",
+          "error_attributions": [
+            "class_sample_imbalance",
+            "low_recall_class",
+            "low_contrast_error",
+            "texture_confusion",
+            "small_object_error",
+            "class_confusion"
+          ],
+          "severity_score": 0.418333,
+          "confidence_score": 0.6,
+          "priority_score": 0.251,
+          "evidence": {
+            "low_contrast_rate": 0.6666666666666666,
+            "dark_rate": 0.16666666666666666,
+            "small_object_rate": 1.0,
+            "edge_object_rate": 0.16666666666666666,
+            "border_touch_rate": 0.0,
+            "weak_localization_count": 0,
+            "weak_localization_rate": 0.0,
+            "counterfactual_recovered_count": 0,
+            "counterfactual_recovery_rate": 0.0,
+            "photometric_recovered_count": 0,
+            "photometric_recovery_rate": 0.0,
+            "sharpen_recovered_count": 0,
+            "sharpen_recovery_rate": 0.0,
+            "scale_recovered_count": 0,
+            "scale_recovery_rate": 0.0,
+            "top_confused_target_classes": [
+              {
+                "target_class_id": 9,
+                "target_class_name": "轮廓划伤",
+                "count": 1
+              }
+            ],
+            "support_confidence": "medium",
+            "support_confidence_reason": "10 <= val instances < 20"
+          }
+        },
+        {
+          "class_id": 10,
+          "class_name": "锡丝残留",
+          "primary_error_type": "class_sample_imbalance",
+          "error_attributions": [
+            "class_sample_imbalance",
+            "low_recall_class",
+            "small_object_error",
+            "tile_edge_error",
+            "class_confusion"
+          ],
+          "severity_score": 0.463068,
+          "confidence_score": 0.6,
+          "priority_score": 0.277841,
+          "evidence": {
+            "low_contrast_rate": 0.0,
+            "dark_rate": 0.2857142857142857,
+            "small_object_rate": 0.7142857142857143,
+            "edge_object_rate": 1.0,
+            "border_touch_rate": 0.0,
+            "weak_localization_count": 0,
+            "weak_localization_rate": 0.0,
+            "counterfactual_recovered_count": 0,
+            "counterfactual_recovery_rate": 0.0,
+            "photometric_recovered_count": 0,
+            "photometric_recovery_rate": 0.0,
+            "sharpen_recovered_count": 0,
+            "sharpen_recovery_rate": 0.0,
+            "scale_recovered_count": 0,
+            "scale_recovery_rate": 0.0,
+            "top_confused_target_classes": [
+              {
+                "target_class_id": 11,
+                "target_class_name": "锡尖",
+                "count": 3
+              }
+            ],
+            "support_confidence": "medium",
+            "support_confidence_reason": "10 <= val instances < 20"
+          }
+        }
+      ]
+    },
+    {
+      "branch_name": "texture_branch",
+      "target_class_ids": [
+        4,
+        5,
+        7,
+        8,
+        9,
+        12
+      ],
+      "target_classes": [
+        "油污",
+        "浅划伤",
+        "碰伤",
+        "脏污",
+        "轮廓划伤",
+        "锡膏"
+      ],
+      "ops": [
+        {
+          "name": "sharpen",
+          "prob": 0.398,
+          "strength": 0.515,
+          "params": {
+            "amount_range": [
+              0.5,
+              0.9
+            ],
+            "sigma": 1.0,
+            "target_class_ids": [
+              4,
+              5,
+              7,
+              8,
+              9,
+              12
+            ]
+          },
+          "prob_formula": "clip(base_prob + priority_gain*avg_priority + confidence_gain*avg_confidence)",
+          "strength_formula": "clip(base_strength + severity_gain*avg_severity + confidence_gain*avg_confidence)"
+        },
+        {
+          "name": "local_contrast",
+          "prob": 0.398,
+          "strength": 0.515,
+          "params": {
+            "clip_limit_range": [
+              1.5,
+              2.5
+            ],
+            "target_class_ids": [
+              4,
+              5,
+              7,
+              8,
+              9,
+              12
+            ]
+          },
+          "prob_formula": "clip(base_prob + priority_gain*avg_priority + confidence_gain*avg_confidence)",
+          "strength_formula": "clip(base_strength + severity_gain*avg_severity + confidence_gain*avg_confidence)"
+        },
+        {
+          "name": "mild_noise",
+          "prob": 0.358,
+          "strength": 0.445,
+          "params": {
+            "std_range": [
+              0.01,
+              0.03
+            ],
+            "target_class_ids": [
+              4,
+              5,
+              7,
+              8,
+              9,
+              12
+            ]
+          },
+          "prob_formula": "clip(base_prob + priority_gain*avg_priority + confidence_gain*avg_confidence)",
+          "strength_formula": "clip(base_strength + severity_gain*avg_severity + confidence_gain*avg_confidence)"
+        }
+      ],
+      "reason": "texture_confusion / weak texture boundary",
+      "avg_severity_score": 0.446036,
+      "avg_confidence_score": 0.8,
+      "avg_priority_score": 0.351185,
+      "target_class_evidence": [
+        {
+          "class_id": 4,
+          "class_name": "油污",
+          "primary_error_type": "high_fp_class",
+          "error_attributions": [
+            "low_recall_class",
+            "high_fp_class",
+            "low_contrast_error",
+            "dark_object_error",
+            "texture_confusion",
+            "tile_edge_error",
+            "class_confusion"
+          ],
+          "severity_score": 0.631691,
+          "confidence_score": 0.6,
+          "priority_score": 0.379015,
+          "evidence": {
+            "low_contrast_rate": 0.6923076923076923,
+            "dark_rate": 1.0,
+            "small_object_rate": 0.5384615384615384,
+            "edge_object_rate": 0.46153846153846156,
+            "border_touch_rate": 0.0,
+            "weak_localization_count": 0,
+            "weak_localization_rate": 0.0,
+            "counterfactual_recovered_count": 1,
+            "counterfactual_recovery_rate": 0.09090909090909091,
+            "photometric_recovered_count": 1,
+            "photometric_recovery_rate": 0.09090909090909091,
+            "sharpen_recovered_count": 1,
+            "sharpen_recovery_rate": 0.09090909090909091,
+            "scale_recovered_count": 0,
+            "scale_recovery_rate": 0.0,
+            "top_confused_target_classes": [
+              {
+                "target_class_id": 7,
+                "target_class_name": "碰伤",
+                "count": 4
+              }
+            ],
+            "support_confidence": "medium",
+            "support_confidence_reason": "10 <= val instances < 20"
+          }
+        },
+        {
+          "class_id": 5,
+          "class_name": "浅划伤",
+          "primary_error_type": "class_sample_imbalance",
+          "error_attributions": [
+            "class_sample_imbalance",
+            "low_recall_class",
+            "low_contrast_error",
+            "texture_confusion",
+            "small_object_error",
+            "class_confusion"
+          ],
+          "severity_score": 0.418333,
+          "confidence_score": 0.6,
+          "priority_score": 0.251,
+          "evidence": {
+            "low_contrast_rate": 0.6666666666666666,
+            "dark_rate": 0.16666666666666666,
+            "small_object_rate": 1.0,
+            "edge_object_rate": 0.16666666666666666,
+            "border_touch_rate": 0.0,
+            "weak_localization_count": 0,
+            "weak_localization_rate": 0.0,
+            "counterfactual_recovered_count": 0,
+            "counterfactual_recovery_rate": 0.0,
+            "photometric_recovered_count": 0,
+            "photometric_recovery_rate": 0.0,
+            "sharpen_recovered_count": 0,
+            "sharpen_recovery_rate": 0.0,
+            "scale_recovered_count": 0,
+            "scale_recovery_rate": 0.0,
+            "top_confused_target_classes": [
+              {
+                "target_class_id": 9,
+                "target_class_name": "轮廓划伤",
+                "count": 1
+              }
+            ],
+            "support_confidence": "medium",
+            "support_confidence_reason": "10 <= val instances < 20"
+          }
+        },
+        {
+          "class_id": 7,
+          "class_name": "碰伤",
+          "primary_error_type": "low_recall_class",
+          "error_attributions": [
+            "low_recall_class",
+            "low_contrast_error",
+            "dark_object_error",
+            "texture_confusion",
+            "weak_localization",
+            "small_object_error",
+            "tile_edge_error",
+            "class_confusion"
+          ],
+          "severity_score": 0.439426,
+          "confidence_score": 1.0,
+          "priority_score": 0.439426,
+          "evidence": {
+            "low_contrast_rate": 0.8695652173913043,
+            "dark_rate": 0.5760869565217391,
+            "small_object_rate": 0.9565217391304348,
+            "edge_object_rate": 0.6739130434782609,
+            "border_touch_rate": 0.043478260869565216,
+            "weak_localization_count": 12,
+            "weak_localization_rate": 0.04460966542750929,
+            "counterfactual_recovered_count": 12,
+            "counterfactual_recovery_rate": 0.1411764705882353,
+            "photometric_recovered_count": 9,
+            "photometric_recovery_rate": 0.10588235294117647,
+            "sharpen_recovered_count": 7,
+            "sharpen_recovery_rate": 0.08235294117647059,
+            "scale_recovered_count": 0,
+            "scale_recovery_rate": 0.0,
+            "top_confused_target_classes": [
+              {
+                "target_class_id": 4,
+                "target_class_name": "油污",
+                "count": 2
+              }
+            ],
+            "support_confidence": "high",
+            "support_confidence_reason": "val instances >= 50"
+          }
+        },
+        {
+          "class_id": 8,
+          "class_name": "脏污",
+          "primary_error_type": "high_fp_class",
+          "error_attributions": [
+            "low_recall_class",
+            "high_fp_class",
+            "low_contrast_error",
+            "dark_object_error",
+            "texture_confusion",
+            "weak_localization",
+            "small_object_error",
+            "class_confusion"
+          ],
+          "severity_score": 0.46896,
+          "confidence_score": 0.8,
+          "priority_score": 0.375168,
+          "evidence": {
+            "low_contrast_rate": 0.1,
+            "dark_rate": 0.4,
+            "small_object_rate": 0.7,
+            "edge_object_rate": 0.25,
+            "border_touch_rate": 0.0,
+            "weak_localization_count": 4,
+            "weak_localization_rate": 0.09523809523809523,
+            "counterfactual_recovered_count": 5,
+            "counterfactual_recovery_rate": 0.25,
+            "photometric_recovered_count": 4,
+            "photometric_recovery_rate": 0.2,
+            "sharpen_recovered_count": 3,
+            "sharpen_recovery_rate": 0.15,
+            "scale_recovered_count": 1,
+            "scale_recovery_rate": 0.05,
+            "top_confused_target_classes": [
+              {
+                "target_class_id": 4,
+                "target_class_name": "油污",
+                "count": 4
+              },
+              {
+                "target_class_id": 7,
+                "target_class_name": "碰伤",
+                "count": 3
+              }
+            ],
+            "support_confidence": "medium_high",
+            "support_confidence_reason": "20 <= val instances < 50"
+          }
+        },
+        {
+          "class_id": 9,
+          "class_name": "轮廓划伤",
+          "primary_error_type": "low_recall_class",
+          "error_attributions": [
+            "low_recall_class",
+            "low_contrast_error",
+            "dark_object_error",
+            "texture_confusion",
+            "weak_localization",
+            "small_object_error",
+            "tile_edge_error",
+            "class_confusion"
+          ],
+          "severity_score": 0.441256,
+          "confidence_score": 1.0,
+          "priority_score": 0.441256,
+          "evidence": {
+            "low_contrast_rate": 0.7714285714285715,
+            "dark_rate": 0.5714285714285714,
+            "small_object_rate": 1.0,
+            "edge_object_rate": 0.6285714285714286,
+            "border_touch_rate": 0.0,
+            "weak_localization_count": 2,
+            "weak_localization_rate": 0.023809523809523808,
+            "counterfactual_recovered_count": 2,
+            "counterfactual_recovery_rate": 0.06060606060606061,
+            "photometric_recovered_count": 1,
+            "photometric_recovery_rate": 0.030303030303030304,
+            "sharpen_recovered_count": 1,
+            "sharpen_recovery_rate": 0.030303030303030304,
+            "scale_recovered_count": 0,
+            "scale_recovery_rate": 0.0,
+            "top_confused_target_classes": [
+              {
+                "target_class_id": 7,
+                "target_class_name": "碰伤",
+                "count": 7
+              },
+              {
+                "target_class_id": 4,
+                "target_class_name": "油污",
+                "count": 6
+              },
+              {
+                "target_class_id": 5,
+                "target_class_name": "浅划伤",
+                "count": 1
+              }
+            ],
+            "support_confidence": "high",
+            "support_confidence_reason": "val instances >= 50"
+          }
+        },
+        {
+          "class_id": 12,
+          "class_name": "锡膏",
+          "primary_error_type": "low_recall_class",
+          "error_attributions": [
+            "low_recall_class",
+            "texture_confusion",
+            "weak_localization",
+            "small_object_error",
+            "class_confusion"
+          ],
+          "severity_score": 0.276552,
+          "confidence_score": 0.8,
+          "priority_score": 0.221242,
+          "evidence": {
+            "low_contrast_rate": 0.0,
+            "dark_rate": 0.0,
+            "small_object_rate": 0.6666666666666666,
+            "edge_object_rate": 0.16666666666666666,
+            "border_touch_rate": 0.0,
+            "weak_localization_count": 1,
+            "weak_localization_rate": 0.021739130434782608,
+            "counterfactual_recovered_count": 0,
+            "counterfactual_recovery_rate": 0.0,
+            "photometric_recovered_count": 0,
+            "photometric_recovery_rate": 0.0,
+            "sharpen_recovered_count": 0,
+            "sharpen_recovery_rate": 0.0,
+            "scale_recovered_count": 0,
+            "scale_recovery_rate": 0.0,
+            "top_confused_target_classes": [
+              {
+                "target_class_id": 6,
+                "target_class_name": "漏背锡",
+                "count": 2
+              }
+            ],
+            "support_confidence": "medium_high",
+            "support_confidence_reason": "20 <= val instances < 50"
+          }
+        }
+      ]
+    },
+    {
+      "branch_name": "localization_branch",
+      "target_class_ids": [
+        6,
+        7,
+        8,
+        9,
+        12
+      ],
+      "target_classes": [
+        "漏背锡",
+        "碰伤",
+        "脏污",
+        "轮廓划伤",
+        "锡膏"
+      ],
+      "ops": [
+        {
+          "name": "mild_translate",
+          "prob": 0.356,
+          "strength": 0.435,
+          "params": {
+            "max_translate": 0.04,
+            "target_class_ids": [
+              6,
+              7,
+              8,
+              9,
+              12
+            ]
+          },
+          "prob_formula": "clip(base_prob + priority_gain*avg_priority + confidence_gain*avg_confidence)",
+          "strength_formula": "clip(base_strength + severity_gain*avg_severity + confidence_gain*avg_confidence)"
+        },
+        {
+          "name": "mild_scale",
+          "prob": 0.376,
+          "strength": 0.485,
+          "params": {
+            "scale_range": [
+              0.92,
+              1.08
+            ],
+            "target_class_ids": [
+              6,
+              7,
+              8,
+              9,
+              12
+            ]
+          },
+          "prob_formula": "clip(base_prob + priority_gain*avg_priority + confidence_gain*avg_confidence)",
+          "strength_formula": "clip(base_strength + severity_gain*avg_severity + confidence_gain*avg_confidence)"
+        }
+      ],
+      "reason": "weak_localization",
+      "avg_severity_score": 0.36681,
+      "avg_confidence_score": 0.88,
+      "avg_priority_score": 0.328676,
+      "target_class_evidence": [
+        {
+          "class_id": 6,
+          "class_name": "漏背锡",
+          "primary_error_type": "low_contrast_error",
+          "error_attributions": [
+            "low_contrast_error",
+            "weak_localization",
+            "class_confusion"
+          ],
+          "severity_score": 0.207857,
+          "confidence_score": 0.8,
+          "priority_score": 0.166286,
+          "evidence": {
+            "low_contrast_rate": 0.0,
+            "dark_rate": 0.0,
+            "small_object_rate": 0.09090909090909091,
+            "edge_object_rate": 0.09090909090909091,
+            "border_touch_rate": 0.0,
+            "weak_localization_count": 3,
+            "weak_localization_rate": 0.06521739130434782,
+            "counterfactual_recovered_count": 1,
+            "counterfactual_recovery_rate": 0.1,
+            "photometric_recovered_count": 1,
+            "photometric_recovery_rate": 0.1,
+            "sharpen_recovered_count": 0,
+            "sharpen_recovery_rate": 0.0,
+            "scale_recovered_count": 0,
+            "scale_recovery_rate": 0.0,
+            "top_confused_target_classes": [
+              {
+                "target_class_id": 12,
+                "target_class_name": "锡膏",
+                "count": 1
+              }
+            ],
+            "support_confidence": "medium_high",
+            "support_confidence_reason": "20 <= val instances < 50"
+          }
+        },
+        {
+          "class_id": 7,
+          "class_name": "碰伤",
+          "primary_error_type": "low_recall_class",
+          "error_attributions": [
+            "low_recall_class",
+            "low_contrast_error",
+            "dark_object_error",
+            "texture_confusion",
+            "weak_localization",
+            "small_object_error",
+            "tile_edge_error",
+            "class_confusion"
+          ],
+          "severity_score": 0.439426,
+          "confidence_score": 1.0,
+          "priority_score": 0.439426,
+          "evidence": {
+            "low_contrast_rate": 0.8695652173913043,
+            "dark_rate": 0.5760869565217391,
+            "small_object_rate": 0.9565217391304348,
+            "edge_object_rate": 0.6739130434782609,
+            "border_touch_rate": 0.043478260869565216,
+            "weak_localization_count": 12,
+            "weak_localization_rate": 0.04460966542750929,
+            "counterfactual_recovered_count": 12,
+            "counterfactual_recovery_rate": 0.1411764705882353,
+            "photometric_recovered_count": 9,
+            "photometric_recovery_rate": 0.10588235294117647,
+            "sharpen_recovered_count": 7,
+            "sharpen_recovery_rate": 0.08235294117647059,
+            "scale_recovered_count": 0,
+            "scale_recovery_rate": 0.0,
+            "top_confused_target_classes": [
+              {
+                "target_class_id": 4,
+                "target_class_name": "油污",
+                "count": 2
+              }
+            ],
+            "support_confidence": "high",
+            "support_confidence_reason": "val instances >= 50"
+          }
+        },
+        {
+          "class_id": 8,
+          "class_name": "脏污",
+          "primary_error_type": "high_fp_class",
+          "error_attributions": [
+            "low_recall_class",
+            "high_fp_class",
+            "low_contrast_error",
+            "dark_object_error",
+            "texture_confusion",
+            "weak_localization",
+            "small_object_error",
+            "class_confusion"
+          ],
+          "severity_score": 0.46896,
+          "confidence_score": 0.8,
+          "priority_score": 0.375168,
+          "evidence": {
+            "low_contrast_rate": 0.1,
+            "dark_rate": 0.4,
+            "small_object_rate": 0.7,
+            "edge_object_rate": 0.25,
+            "border_touch_rate": 0.0,
+            "weak_localization_count": 4,
+            "weak_localization_rate": 0.09523809523809523,
+            "counterfactual_recovered_count": 5,
+            "counterfactual_recovery_rate": 0.25,
+            "photometric_recovered_count": 4,
+            "photometric_recovery_rate": 0.2,
+            "sharpen_recovered_count": 3,
+            "sharpen_recovery_rate": 0.15,
+            "scale_recovered_count": 1,
+            "scale_recovery_rate": 0.05,
+            "top_confused_target_classes": [
+              {
+                "target_class_id": 4,
+                "target_class_name": "油污",
+                "count": 4
+              },
+              {
+                "target_class_id": 7,
+                "target_class_name": "碰伤",
+                "count": 3
+              }
+            ],
+            "support_confidence": "medium_high",
+            "support_confidence_reason": "20 <= val instances < 50"
+          }
+        },
+        {
+          "class_id": 9,
+          "class_name": "轮廓划伤",
+          "primary_error_type": "low_recall_class",
+          "error_attributions": [
+            "low_recall_class",
+            "low_contrast_error",
+            "dark_object_error",
+            "texture_confusion",
+            "weak_localization",
+            "small_object_error",
+            "tile_edge_error",
+            "class_confusion"
+          ],
+          "severity_score": 0.441256,
+          "confidence_score": 1.0,
+          "priority_score": 0.441256,
+          "evidence": {
+            "low_contrast_rate": 0.7714285714285715,
+            "dark_rate": 0.5714285714285714,
+            "small_object_rate": 1.0,
+            "edge_object_rate": 0.6285714285714286,
+            "border_touch_rate": 0.0,
+            "weak_localization_count": 2,
+            "weak_localization_rate": 0.023809523809523808,
+            "counterfactual_recovered_count": 2,
+            "counterfactual_recovery_rate": 0.06060606060606061,
+            "photometric_recovered_count": 1,
+            "photometric_recovery_rate": 0.030303030303030304,
+            "sharpen_recovered_count": 1,
+            "sharpen_recovery_rate": 0.030303030303030304,
+            "scale_recovered_count": 0,
+            "scale_recovery_rate": 0.0,
+            "top_confused_target_classes": [
+              {
+                "target_class_id": 7,
+                "target_class_name": "碰伤",
+                "count": 7
+              },
+              {
+                "target_class_id": 4,
+                "target_class_name": "油污",
+                "count": 6
+              },
+              {
+                "target_class_id": 5,
+                "target_class_name": "浅划伤",
+                "count": 1
+              }
+            ],
+            "support_confidence": "high",
+            "support_confidence_reason": "val instances >= 50"
+          }
+        },
+        {
+          "class_id": 12,
+          "class_name": "锡膏",
+          "primary_error_type": "low_recall_class",
+          "error_attributions": [
+            "low_recall_class",
+            "texture_confusion",
+            "weak_localization",
+            "small_object_error",
+            "class_confusion"
+          ],
+          "severity_score": 0.276552,
+          "confidence_score": 0.8,
+          "priority_score": 0.221242,
+          "evidence": {
+            "low_contrast_rate": 0.0,
+            "dark_rate": 0.0,
+            "small_object_rate": 0.6666666666666666,
+            "edge_object_rate": 0.16666666666666666,
+            "border_touch_rate": 0.0,
+            "weak_localization_count": 1,
+            "weak_localization_rate": 0.021739130434782608,
+            "counterfactual_recovered_count": 0,
+            "counterfactual_recovery_rate": 0.0,
+            "photometric_recovered_count": 0,
+            "photometric_recovery_rate": 0.0,
+            "sharpen_recovered_count": 0,
+            "sharpen_recovery_rate": 0.0,
+            "scale_recovered_count": 0,
+            "scale_recovery_rate": 0.0,
+            "top_confused_target_classes": [
+              {
+                "target_class_id": 6,
+                "target_class_name": "漏背锡",
+                "count": 2
+              }
+            ],
+            "support_confidence": "medium_high",
+            "support_confidence_reason": "20 <= val instances < 50"
+          }
+        }
+      ]
+    }
+  ]
+}

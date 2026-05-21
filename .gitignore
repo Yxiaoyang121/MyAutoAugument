@@ -43,6 +43,8 @@ runs/
 !outputs/experiments/**/logs/
 !outputs/experiments/**/logs/**/*.log
 !outputs/experiments/**/policies/**/*.log
+!outputs/experiments/**/policies/**/*.json
+!outputs/experiments/**/policies/**/*.md
 !outputs/experiments/**/reports/
 !outputs/experiments/**/reports/**/*.md
 !outputs/experiments/**/reports/**/*.json

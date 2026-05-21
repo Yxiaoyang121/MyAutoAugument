@@ -267,3 +267,18 @@ No training was run after building or auditing these datasets.
 - Summary JSON: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis/counterfactual_summary.json`
 - Instance table: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_counterfactual_diagnosis/counterfactual_instances.csv`
 <!-- COUNTERFACTUAL_DIAGNOSIS_END -->
+
+<!-- CLASS_AWARE_DIAGNOSIS_START -->
+## Class-Aware Per-Class Diagnosis and Policy Generation
+
+- Run ID: `20260518_tiled1024_safe_no_ok_position_per_class_diagnosis`
+- Scope: upgraded diagnosis and policy generation only; no training, no 50 epoch run, no short-training.
+- Method upgrade: global policy selection -> class-aware error attribution policy generation.
+- Inputs: baseline 50 epoch metrics, baseline diagnosis, and counterfactual diagnosis.
+- Policy generated: `class_aware_policy_001` with branches `photometric_branch, copy_paste_branch, texture_branch, localization_branch`
+- final_policy_score: `0.570452`
+- Next step: run short-training for `class_aware_policy_001` before any formal 50 epoch rerun.
+- Report: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_per_class_diagnosis/reports/per_class_diagnosis_report.md`
+- Policy: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_per_class_diagnosis/policies/class_aware_mixed_policy.json`
+- Score: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_per_class_diagnosis/policies/class_aware_policy_score.json`
+<!-- CLASS_AWARE_DIAGNOSIS_END -->

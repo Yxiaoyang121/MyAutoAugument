@@ -1,0 +1,62 @@
+{
+  "policy_id": "random_external_policy_seed42",
+  "name": "random_external_policy_seed42",
+  "type": "random_external_policy",
+  "generated_at": "2026-05-21T19:34:24",
+  "seed": 42,
+  "generation_method": "default_detection_search_space(operation_count_range=(4,4), allow_repeated_operations=False)",
+  "operation_pool": [
+    "brightness",
+    "contrast",
+    "gamma",
+    "gaussian_noise",
+    "gaussian_blur",
+    "motion_blur",
+    "sharpen",
+    "clahe",
+    "cutout",
+    "horizontal_flip",
+    "translate",
+    "scale",
+    "rotate",
+    "affine"
+  ],
+  "operations": [
+    {
+      "name": "sharpen",
+      "prob": 0.23767093915505982,
+      "strength": 0.34268670549102676,
+      "params": {
+        "amount": 0.8
+      }
+    },
+    {
+      "name": "brightness",
+      "prob": 0.6805698509951765,
+      "strength": 0.41442572211078155,
+      "params": {
+        "max_delta": 0.2
+      }
+    },
+    {
+      "name": "cutout",
+      "prob": 0.15124545307021836,
+      "strength": 0.14007718757911342,
+      "params": {
+        "max_holes": 2,
+        "max_fraction": 0.18
+      }
+    },
+    {
+      "name": "horizontal_flip",
+      "prob": 0.44831920969303246,
+      "strength": 1.0,
+      "params": {}
+    }
+  ],
+  "notes": [
+    "This policy is not diagnosis-driven.",
+    "It is used as a random external augmentation control against DiagAug.",
+    "YOLO built-in augmentations are disabled during training."
+  ]
+}

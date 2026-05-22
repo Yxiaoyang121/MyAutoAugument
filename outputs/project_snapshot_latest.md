@@ -1,20 +1,19 @@
 # Project Snapshot
 
-- Generated: 2026-05-21T14:32:47
+- Generated: 2026-05-22T10:08:41
 - Branch: codex/sync-latest
-- Commit: 3e5f74ef1d4c01a9a0e754a7ce0fd662bd488a1c
+- Commit: b584f7d75dea75196b19a550d5fab361259fa0ed
 - Remote: https://github.com/Yxiaoyang121/MyAutoAugument.git
 
 ## Working Tree
 
 ```text
- M .gitignore
  M CODEX_HANDOFF.md
  M EXPERIMENT_LOG.md
  M PROJECT_STATE.md
  M scripts/export_project_snapshot.py
-?? outputs/experiments/20260518_tiled1024_safe_no_ok_position_class_aware_policy_shorttrain/
-?? scripts/run_class_aware_policy_short_training.py
+?? outputs/experiments/20260518_tiled1024_safe_no_ok_position_random_external_aug_yolo11n_50ep/
+?? scripts/run_random_external_aug_50ep.py
 ```
 
 ## Key Files
@@ -40,6 +39,7 @@
 - scripts/run_counterfactual_diagnosis.py
 - scripts/run_per_class_diagnosis.py
 - scripts/run_class_aware_policy_short_training.py
+- scripts/run_random_external_aug_50ep.py
 - scripts/write_yolo_default_aug_50ep_reports.py
 - outputs/audits/dataset_mapping/full_tiled_dataset_mapping_audit.md
 - outputs/audits/dataset_mapping/full_tiled_dataset_mapping_audit.json
@@ -87,6 +87,12 @@
 - outputs/experiments/20260518_tiled1024_safe_no_ok_position_class_aware_policy_shorttrain/reports/class_aware_shorttrain_report.md
 - outputs/experiments/20260518_tiled1024_safe_no_ok_position_class_aware_policy_shorttrain/reports/class_aware_vs_diag_policy_001_shorttrain.md
 - outputs/experiments/20260518_tiled1024_safe_no_ok_position_class_aware_policy_shorttrain/metrics/class_aware_shorttrain_metrics.json
+- outputs/experiments/20260518_tiled1024_safe_no_ok_position_random_external_aug_yolo11n_50ep/random_policy.json
+- outputs/experiments/20260518_tiled1024_safe_no_ok_position_random_external_aug_yolo11n_50ep/random_augmented_dataset_report.json
+- outputs/experiments/20260518_tiled1024_safe_no_ok_position_random_external_aug_yolo11n_50ep/proxy_safety_report.md
+- outputs/experiments/20260518_tiled1024_safe_no_ok_position_random_external_aug_yolo11n_50ep/reports/random_external_aug_50ep_report.md
+- outputs/experiments/20260518_tiled1024_safe_no_ok_position_random_external_aug_yolo11n_50ep/reports/random_external_aug_50ep_metrics.json
+- outputs/experiments/20260518_tiled1024_safe_no_ok_position_random_external_aug_yolo11n_50ep/reports/compare_baseline_yolo_default_diagaug_random.md
 - outputs/datasets/tiled/tiled_1024_ov20_smoke/dataset_summary.md
 - outputs/datasets/tiled/tiled_1024_ov20_full/data.yaml
 - outputs/datasets/tiled/tiled_1024_ov20_full/dataset_summary.md
@@ -110,7 +116,7 @@
 
 ## Tracked File Count
 
-- 370 tracked files
+- 388 tracked files
 
 ## Notes
 

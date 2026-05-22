@@ -301,3 +301,25 @@ No training was run after building or auditing these datasets.
 - Comparison: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_class_aware_policy_shorttrain/reports/class_aware_vs_diag_policy_001_shorttrain.md`
 - Metrics JSON: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_class_aware_policy_shorttrain/metrics/class_aware_shorttrain_metrics.json`
 <!-- CLASS_AWARE_POLICY_SHORTTRAIN_END -->
+
+<!-- RANDOM_EXTERNAL_AUG_50EP_START -->
+## Random External Augmentation 50 Epoch Control
+
+- Run ID: `20260518_tiled1024_safe_no_ok_position_random_external_aug_yolo11n_50ep`
+- Scope: random external augmentation control group; not diagnosis-driven.
+- Training set: original train images + 1x random augmented train images.
+- YOLO built-in augmentations: disabled to match DiagAug final training.
+- Random policy: `random_external_policy_seed42` with ops `sharpen(p=0.238,s=0.343), brightness(p=0.681,s=0.414), cutout(p=0.151,s=0.140), horizontal_flip(p=0.448,s=1.000)`
+- Train images / bboxes: `4602` / `6364`
+- Safety: hard_filter_pass=`true`, bbox_valid_rate=`1.000000`
+- Precision: `0.750`
+- Recall: `0.668`
+- mAP50: `0.734`
+- mAP50-95: `0.501`
+- Delta vs DiagAug: P `+0.064`, R `-0.020`, mAP50 `+0.017`, mAP50-95 `+0.005`
+- OOM: `false`
+- best.pt: `E:\TJGY\MinPaper\MyAutoAugument\outputs\experiments\20260518_tiled1024_safe_no_ok_position_random_external_aug_yolo11n_50ep\train\weights\best.pt`
+- Report: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_random_external_aug_yolo11n_50ep/reports/random_external_aug_50ep_report.md`
+- Comparison: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_random_external_aug_yolo11n_50ep/reports/compare_baseline_yolo_default_diagaug_random.md`
+- Metrics JSON: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_random_external_aug_yolo11n_50ep/reports/random_external_aug_50ep_metrics.json`
+<!-- RANDOM_EXTERNAL_AUG_50EP_END -->

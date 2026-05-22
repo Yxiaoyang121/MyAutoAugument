@@ -1,0 +1,167 @@
+{
+  "stage": "random_external_augmented_dataset_builder",
+  "status": "completed",
+  "dataset_dir": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_random_external_aug_yolo11n_50ep\\dataset\\final_dataset",
+  "data_yaml": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_random_external_aug_yolo11n_50ep\\dataset\\final_dataset\\data.yaml",
+  "source_data_yaml": "outputs/datasets/tiled/tiled_1024_ov20_full_safe_no_ok_position/data.yaml",
+  "random_policy_json": "outputs/experiments/20260518_tiled1024_safe_no_ok_position_random_external_aug_yolo11n_50ep/random_policy.json",
+  "policy_id": "random_external_policy_seed42",
+  "original_train_count": 2301,
+  "augmented_train_count": 2301,
+  "total_train_images": 4602,
+  "val_count": 677,
+  "train_images": 4602,
+  "train_bboxes": 6364,
+  "val_images": 677,
+  "val_bboxes": 905,
+  "original_train_bboxes": 3182,
+  "augmented_train_raw_bboxes": 3182,
+  "augmented_train_valid_bboxes": 3182,
+  "invalid_bbox_count": 0,
+  "bbox_valid_rate": 1.0,
+  "original_bbox_retention": 1.0,
+  "class_id_valid_rate": 1.0,
+  "image_save_failures": 0,
+  "label_valid_failures": 0,
+  "augmented_modified_images": 2030,
+  "augmented_unmodified_images": 271,
+  "operation_application_counts": {
+    "brightness": 1581,
+    "horizontal_flip": 1036,
+    "cutout": 370,
+    "sharpen": 561
+  },
+  "hard_filter_pass": true,
+  "hard_filter_reasons": [],
+  "safety_soft_penalty_reasons": [],
+  "proxy_score": 0.9587787918296392,
+  "safety_score": 0.94,
+  "combined_proxy_safety_score": 0.9503283355063017,
+  "exposure_score": 0.8822251195132551,
+  "class_distribution_change": {
+    "l1_distance": 0.0,
+    "per_class": [
+      {
+        "class_id": 0,
+        "name": "OK2",
+        "original_count": 302,
+        "augmented_count": 302,
+        "original_ratio": 0.09490886235072282,
+        "augmented_ratio": 0.09490886235072282,
+        "delta_ratio": 0.0
+      },
+      {
+        "class_id": 1,
+        "name": "OK3",
+        "original_count": 946,
+        "augmented_count": 946,
+        "original_ratio": 0.2972972972972973,
+        "augmented_ratio": 0.2972972972972973,
+        "delta_ratio": 0.0
+      },
+      {
+        "class_id": 2,
+        "name": "加强筋打伤",
+        "original_count": 36,
+        "augmented_count": 36,
+        "original_ratio": 0.011313639220615965,
+        "augmented_ratio": 0.011313639220615965,
+        "delta_ratio": 0.0
+      },
+      {
+        "class_id": 3,
+        "name": "开裂",
+        "original_count": 17,
+        "augmented_count": 17,
+        "original_ratio": 0.005342551854179761,
+        "augmented_ratio": 0.005342551854179761,
+        "delta_ratio": 0.0
+      },
+      {
+        "class_id": 4,
+        "name": "油污",
+        "original_count": 137,
+        "augmented_count": 137,
+        "original_ratio": 0.04305468258956631,
+        "augmented_ratio": 0.04305468258956631,
+        "delta_ratio": 0.0
+      },
+      {
+        "class_id": 5,
+        "name": "浅划伤",
+        "original_count": 81,
+        "augmented_count": 81,
+        "original_ratio": 0.02545568824638592,
+        "augmented_ratio": 0.02545568824638592,
+        "delta_ratio": 0.0
+      },
+      {
+        "class_id": 6,
+        "name": "漏背锡",
+        "original_count": 187,
+        "augmented_count": 187,
+        "original_ratio": 0.058768070395977375,
+        "augmented_ratio": 0.058768070395977375,
+        "delta_ratio": 0.0
+      },
+      {
+        "class_id": 7,
+        "name": "碰伤",
+        "original_count": 860,
+        "augmented_count": 860,
+        "original_ratio": 0.2702702702702703,
+        "augmented_ratio": 0.2702702702702703,
+        "delta_ratio": 0.0
+      },
+      {
+        "class_id": 8,
+        "name": "脏污",
+        "original_count": 157,
+        "augmented_count": 157,
+        "original_ratio": 0.04934003771213073,
+        "augmented_ratio": 0.04934003771213073,
+        "delta_ratio": 0.0
+      },
+      {
+        "class_id": 9,
+        "name": "轮廓划伤",
+        "original_count": 189,
+        "augmented_count": 189,
+        "original_ratio": 0.05939660590823381,
+        "augmented_ratio": 0.05939660590823381,
+        "delta_ratio": 0.0
+      },
+      {
+        "class_id": 10,
+        "name": "锡丝残留",
+        "original_count": 32,
+        "augmented_count": 32,
+        "original_ratio": 0.01005656819610308,
+        "augmented_ratio": 0.01005656819610308,
+        "delta_ratio": 0.0
+      },
+      {
+        "class_id": 11,
+        "name": "锡尖",
+        "original_count": 108,
+        "augmented_count": 108,
+        "original_ratio": 0.0339409176618479,
+        "augmented_ratio": 0.0339409176618479,
+        "delta_ratio": 0.0
+      },
+      {
+        "class_id": 12,
+        "name": "锡膏",
+        "original_count": 130,
+        "augmented_count": 130,
+        "original_ratio": 0.04085480829666876,
+        "augmented_ratio": 0.04085480829666876,
+        "delta_ratio": 0.0
+      }
+    ]
+  },
+  "images_train": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_random_external_aug_yolo11n_50ep\\dataset\\final_dataset\\images\\train",
+  "labels_train": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_random_external_aug_yolo11n_50ep\\dataset\\final_dataset\\labels\\train",
+  "images_val": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_random_external_aug_yolo11n_50ep\\dataset\\final_dataset\\images\\val",
+  "labels_val": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_random_external_aug_yolo11n_50ep\\dataset\\final_dataset\\labels\\val"
+}

@@ -1,0 +1,100 @@
+{
+  "policy_id": "search_policy_019",
+  "name": "search_policy_019",
+  "type": "diagnosis_guided_sampled_policy",
+  "source_diagnosis_weights": {
+    "small_object_score": 0.3293718166383701,
+    "low_contrast_score": 0.5065116279069767,
+    "class_imbalance_score": 0.9952554744525548,
+    "localization_score": 0.02430939226519337,
+    "false_positive_score": 0.20476190476190476,
+    "low_support_score": 0.9952554744525548
+  },
+  "operation_sampling_weights": {
+    "contrast": 2.0130232558139536,
+    "clahe": 2.0130232558139536,
+    "gamma": 2.0130232558139536,
+    "scale": 1.2791790561772458,
+    "translate": 1.2791790561772458
+  },
+  "operations": [
+    {
+      "name": "contrast",
+      "prob": 0.4155811093762262,
+      "strength": 0.23062482651447022,
+      "params": {
+        "max_delta": 0.35
+      }
+    },
+    {
+      "name": "clahe",
+      "prob": 0.42718428589159396,
+      "strength": 0.4594357511082612,
+      "params": {
+        "max_clip_limit": 3.0,
+        "tile_grid_size": [
+          8,
+          8
+        ]
+      }
+    },
+    {
+      "name": "gamma",
+      "prob": 0.552495559706033,
+      "strength": 0.1178587466364919,
+      "params": {
+        "min_gamma": 0.75,
+        "max_gamma": 1.35
+      }
+    },
+    {
+      "name": "scale",
+      "prob": 0.2531324576392921,
+      "strength": 0.1138085709470677,
+      "params": {
+        "max_delta": 0.16
+      }
+    },
+    {
+      "name": "translate",
+      "prob": 0.2804875269478079,
+      "strength": 0.2039612622481582,
+      "params": {
+        "max_translate": 0.06
+      }
+    }
+  ],
+  "why_sampled": {
+    "contrast": [
+      "base exploration weight",
+      "low_contrast_missed_defect boost=1.013"
+    ],
+    "clahe": [
+      "base exploration weight",
+      "low_contrast_missed_defect boost=1.013"
+    ],
+    "gamma": [
+      "base exploration weight",
+      "low_contrast_missed_defect boost=1.013"
+    ],
+    "scale": [
+      "base exploration weight",
+      "localization/small-object boost=0.049, small=0.231"
+    ],
+    "translate": [
+      "base exploration weight",
+      "localization/small-object boost=0.049, small=0.231"
+    ]
+  },
+  "risk_control": [
+    "proxy hard filters reject class-id out-of-range, invalid boxes, image-save failures, and illegal copy-paste boxes",
+    "geometry ops are limited to mild scale/translate and audited for bbox retention",
+    "photometric/detail operations are capped to avoid overexposure or excessive sharpening"
+  ],
+  "contains_copy_paste": false,
+  "generation": {
+    "seed": 42,
+    "attempt_index": 19,
+    "rule": "weighted random sampling; diagnosis changes probabilities, not final selection"
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "stage": "policy_search_trial_dataset_builder",
+  "status": "completed",
+  "policy_id": "search_policy_011",
+  "dataset_dir": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_diagnosis_guided_policy_search\\short_training\\policies\\search_policy_011\\dataset\\final_dataset",
+  "data_yaml": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_diagnosis_guided_policy_search\\short_training\\policies\\search_policy_011\\dataset\\final_dataset\\data.yaml",
+  "original_train_count": 2301,
+  "augmented_train_count": 2301,
+  "train_images": 4602,
+  "train_bboxes": 6417,
+  "val_images": 677,
+  "val_bboxes": 905,
+  "augmented_train_raw_bboxes": 3236,
+  "augmented_train_valid_bboxes": 3235,
+  "invalid_augmented_bbox_count": 1,
+  "bbox_valid_rate": 0.9996909765142151,
+  "image_failures": 0,
+  "label_failures": 0,
+  "operation_application_counts": {
+    "copy_paste": 1423,
+    "clahe": 1150,
+    "brightness": 1614,
+    "local_contrast": 970,
+    "sharpen": 1084
+  },
+  "cutout_bbox_occlusion_rate": 0.0,
+  "cutout_max_bbox_occlusion": 0.0,
+  "images_train": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_diagnosis_guided_policy_search\\short_training\\policies\\search_policy_011\\dataset\\final_dataset\\images\\train",
+  "labels_train": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_diagnosis_guided_policy_search\\short_training\\policies\\search_policy_011\\dataset\\final_dataset\\labels\\train",
+  "images_val": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_diagnosis_guided_policy_search\\short_training\\policies\\search_policy_011\\dataset\\final_dataset\\images\\val",
+  "labels_val": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_diagnosis_guided_policy_search\\short_training\\policies\\search_policy_011\\dataset\\final_dataset\\labels\\val"
+}

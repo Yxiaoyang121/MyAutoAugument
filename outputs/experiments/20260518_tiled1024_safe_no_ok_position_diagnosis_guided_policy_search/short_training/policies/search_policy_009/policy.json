@@ -1,0 +1,72 @@
+{
+  "policy_id": "search_policy_009",
+  "name": "search_policy_009",
+  "type": "diagnosis_guided_sampled_policy",
+  "source_diagnosis_weights": {
+    "small_object_score": 0.3293718166383701,
+    "low_contrast_score": 0.5065116279069767,
+    "class_imbalance_score": 0.9952554744525548,
+    "localization_score": 0.02430939226519337,
+    "false_positive_score": 0.20476190476190476,
+    "low_support_score": 0.9952554744525548
+  },
+  "operation_sampling_weights": {
+    "horizontal_flip": 1.25,
+    "clahe": 2.0130232558139536,
+    "sharpen": 2.730313815295929
+  },
+  "operations": [
+    {
+      "name": "horizontal_flip",
+      "prob": 0.2945649608516624,
+      "strength": 1.0,
+      "params": {}
+    },
+    {
+      "name": "clahe",
+      "prob": 0.42285790433069104,
+      "strength": 0.23550084907352062,
+      "params": {
+        "max_clip_limit": 3.0,
+        "tile_grid_size": [
+          8,
+          8
+        ]
+      }
+    },
+    {
+      "name": "sharpen",
+      "prob": 0.24512999376386643,
+      "strength": 0.11730586697815296,
+      "params": {
+        "amount": 0.8,
+        "sigma": 1.0
+      }
+    }
+  ],
+  "why_sampled": {
+    "horizontal_flip": [
+      "base exploration weight",
+      "orientation-invariance exploration prior"
+    ],
+    "clahe": [
+      "base exploration weight",
+      "low_contrast_missed_defect boost=1.013"
+    ],
+    "sharpen": [
+      "base exploration weight",
+      "texture/visibility boost from low_contrast=1.216, small=0.165",
+      "counterfactual/random-control search prior for boundary detail"
+    ]
+  },
+  "risk_control": [
+    "proxy hard filters reject class-id out-of-range, invalid boxes, image-save failures, and illegal copy-paste boxes",
+    "photometric/detail operations are capped to avoid overexposure or excessive sharpening"
+  ],
+  "contains_copy_paste": false,
+  "generation": {
+    "seed": 42,
+    "attempt_index": 9,
+    "rule": "weighted random sampling; diagnosis changes probabilities, not final selection"
+  }
+}

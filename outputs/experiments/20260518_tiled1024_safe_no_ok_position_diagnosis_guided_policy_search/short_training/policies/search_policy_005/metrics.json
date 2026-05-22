@@ -1,0 +1,375 @@
+{
+  "policy_id": "search_policy_005",
+  "policy": {
+    "policy_id": "search_policy_005",
+    "name": "search_policy_005",
+    "type": "diagnosis_guided_sampled_policy",
+    "source_diagnosis_weights": {
+      "small_object_score": 0.3293718166383701,
+      "low_contrast_score": 0.5065116279069767,
+      "class_imbalance_score": 0.9952554744525548,
+      "localization_score": 0.02430939226519337,
+      "false_positive_score": 0.20476190476190476,
+      "low_support_score": 0.9952554744525548
+    },
+    "operation_sampling_weights": {
+      "scale": 1.2791790561772458,
+      "gaussian_noise": 1.2457142857142858,
+      "local_contrast": 2.380313815295929,
+      "cutout": 1.4457142857142857,
+      "contrast": 2.0130232558139536,
+      "translate": 1.2791790561772458
+    },
+    "operations": [
+      {
+        "name": "scale",
+        "prob": 0.4077546437201707,
+        "strength": 0.25618602481289315,
+        "params": {
+          "max_delta": 0.16
+        }
+      },
+      {
+        "name": "gaussian_noise",
+        "prob": 0.26437055961921924,
+        "strength": 0.12663914680058155,
+        "params": {
+          "max_std": 0.035
+        }
+      },
+      {
+        "name": "local_contrast",
+        "prob": 0.41523114240844283,
+        "strength": 0.2018175444179496,
+        "params": {
+          "max_clip_limit": 2.5,
+          "tile_grid_size": [
+            8,
+            8
+          ],
+          "blend": 0.65
+        }
+      },
+      {
+        "name": "cutout",
+        "prob": 0.08802731214698231,
+        "strength": 0.1118712046279545,
+        "params": {
+          "max_holes": 2,
+          "max_fraction": 0.1450684084165159
+        }
+      },
+      {
+        "name": "contrast",
+        "prob": 0.34026529213859635,
+        "strength": 0.26781596630917404,
+        "params": {
+          "max_delta": 0.35
+        }
+      },
+      {
+        "name": "translate",
+        "prob": 0.5238678291659318,
+        "strength": 0.11305245056217801,
+        "params": {
+          "max_translate": 0.06
+        }
+      }
+    ],
+    "why_sampled": {
+      "scale": [
+        "base exploration weight",
+        "localization/small-object boost=0.049, small=0.231"
+      ],
+      "gaussian_noise": [
+        "base exploration weight",
+        "false_positive robustness boost=0.246"
+      ],
+      "local_contrast": [
+        "base exploration weight",
+        "texture/visibility boost from low_contrast=1.216, small=0.165"
+      ],
+      "cutout": [
+        "base exploration weight",
+        "false_positive robustness boost=0.246",
+        "mAP-oriented robustness exploration prior"
+      ],
+      "contrast": [
+        "base exploration weight",
+        "low_contrast_missed_defect boost=1.013"
+      ],
+      "translate": [
+        "base exploration weight",
+        "localization/small-object boost=0.049, small=0.231"
+      ]
+    },
+    "risk_control": [
+      "proxy hard filters reject class-id out-of-range, invalid boxes, image-save failures, and illegal copy-paste boxes",
+      "geometry ops are limited to mild scale/translate and audited for bbox retention",
+      "cutout is audited for bbox subject occlusion and downweighted when it masks object bodies",
+      "photometric/detail operations are capped to avoid overexposure or excessive sharpening"
+    ],
+    "contains_copy_paste": false,
+    "generation": {
+      "seed": 42,
+      "attempt_index": 5,
+      "rule": "weighted random sampling; diagnosis changes probabilities, not final selection"
+    }
+  },
+  "proxy_rank": 2,
+  "proxy_score": 0.9141816206152109,
+  "safety_score": 1.0,
+  "combined_proxy_safety_score": 0.9699635672153238,
+  "hard_filter_pass": true,
+  "hard_filter_reasons": [],
+  "safety_soft_penalty_reasons": [],
+  "augmented_dataset": {
+    "stage": "policy_search_trial_dataset_builder",
+    "status": "completed",
+    "policy_id": "search_policy_005",
+    "dataset_dir": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_diagnosis_guided_policy_search\\short_training\\policies\\search_policy_005\\dataset\\final_dataset",
+    "data_yaml": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_diagnosis_guided_policy_search\\short_training\\policies\\search_policy_005\\dataset\\final_dataset\\data.yaml",
+    "original_train_count": 2301,
+    "augmented_train_count": 2301,
+    "train_images": 4602,
+    "train_bboxes": 6362,
+    "val_images": 677,
+    "val_bboxes": 905,
+    "augmented_train_raw_bboxes": 3181,
+    "augmented_train_valid_bboxes": 3180,
+    "invalid_augmented_bbox_count": 1,
+    "bbox_valid_rate": 0.9996856334486011,
+    "image_failures": 0,
+    "label_failures": 0,
+    "operation_application_counts": {
+      "contrast": 776,
+      "gaussian_noise": 599,
+      "translate": 1182,
+      "local_contrast": 975,
+      "scale": 910,
+      "cutout": 191
+    },
+    "cutout_bbox_occlusion_rate": 0.0,
+    "cutout_max_bbox_occlusion": 0.145044319097502,
+    "images_train": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_diagnosis_guided_policy_search\\short_training\\policies\\search_policy_005\\dataset\\final_dataset\\images\\train",
+    "labels_train": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_diagnosis_guided_policy_search\\short_training\\policies\\search_policy_005\\dataset\\final_dataset\\labels\\train",
+    "images_val": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_diagnosis_guided_policy_search\\short_training\\policies\\search_policy_005\\dataset\\final_dataset\\images\\val",
+    "labels_val": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_diagnosis_guided_policy_search\\short_training\\policies\\search_policy_005\\dataset\\final_dataset\\labels\\val"
+  },
+  "train_settings": {
+    "model": "yolo11n.pt",
+    "epochs": 5,
+    "imgsz": 1024,
+    "batch": 2,
+    "workers": 0,
+    "device": "0",
+    "seed": 42,
+    "disabled_yolo_augmentations": {
+      "mosaic": 0,
+      "mixup": 0,
+      "copy_paste": 0,
+      "hsv_h": 0,
+      "hsv_s": 0,
+      "hsv_v": 0,
+      "degrees": 0,
+      "translate": 0,
+      "scale": 0,
+      "shear": 0,
+      "perspective": 0,
+      "fliplr": 0,
+      "flipud": 0
+    }
+  },
+  "commands": {
+    "train_command": "D:\\Anaconda\\envs\\pytorch\\Scripts\\yolo.exe detect train model=yolo11n.pt data=E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_diagnosis_guided_policy_search\\short_training\\policies\\search_policy_005\\dataset\\final_dataset\\data.yaml epochs=5 imgsz=1024 batch=2 workers=0 device=0 seed=42 project=E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_diagnosis_guided_policy_search\\short_training\\policies\\search_policy_005 name=train exist_ok=True mosaic=0 mixup=0 copy_paste=0 hsv_h=0 hsv_s=0 hsv_v=0 degrees=0 translate=0 scale=0 shear=0 perspective=0 fliplr=0 flipud=0",
+    "val_command": "D:\\Anaconda\\envs\\pytorch\\Scripts\\yolo.exe detect val model=E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_diagnosis_guided_policy_search\\short_training\\policies\\search_policy_005\\weights\\best.pt data=E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_diagnosis_guided_policy_search\\short_training\\policies\\search_policy_005\\dataset\\final_dataset\\data.yaml imgsz=1024 batch=2 workers=0 device=0 project=E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_diagnosis_guided_policy_search\\short_training\\policies\\search_policy_005 name=val exist_ok=True"
+  },
+  "artifacts": {
+    "policy_dir": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_diagnosis_guided_policy_search\\short_training\\policies\\search_policy_005",
+    "data_yaml": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_diagnosis_guided_policy_search\\short_training\\policies\\search_policy_005\\dataset\\final_dataset\\data.yaml",
+    "best_pt": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_diagnosis_guided_policy_search\\short_training\\policies\\search_policy_005\\weights\\best.pt",
+    "last_pt": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_diagnosis_guided_policy_search\\short_training\\policies\\search_policy_005\\weights\\last.pt",
+    "train_stdout": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_diagnosis_guided_policy_search\\short_training\\policies\\search_policy_005\\train_stdout.log",
+    "train_stderr": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_diagnosis_guided_policy_search\\short_training\\policies\\search_policy_005\\train_stderr.log",
+    "val_stdout": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_diagnosis_guided_policy_search\\short_training\\policies\\search_policy_005\\val_stdout.log",
+    "val_stderr": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_diagnosis_guided_policy_search\\short_training\\policies\\search_policy_005\\val_stderr.log"
+  },
+  "metrics": {
+    "images": 677,
+    "instances": 905,
+    "precision": 0.609,
+    "recall": 0.732,
+    "map50": 0.719,
+    "map50_95": 0.478,
+    "per_class": [
+      {
+        "class_id": 0,
+        "name": "OK2",
+        "log_name": "OK2",
+        "images": 64,
+        "instances": 64,
+        "precision": 0.951,
+        "recall": 1.0,
+        "ap50": 0.995,
+        "ap50_95": 0.838
+      },
+      {
+        "class_id": 1,
+        "name": "OK3",
+        "log_name": "OK3",
+        "images": 274,
+        "instances": 274,
+        "precision": 0.951,
+        "recall": 0.982,
+        "ap50": 0.99,
+        "ap50_95": 0.799
+      },
+      {
+        "class_id": 2,
+        "name": "加强筋打伤",
+        "log_name": "8",
+        "images": 8,
+        "instances": 8,
+        "precision": 0.822,
+        "recall": 0.875,
+        "ap50": 0.884,
+        "ap50_95": 0.598
+      },
+      {
+        "class_id": 3,
+        "name": "开裂",
+        "log_name": "2",
+        "images": 2,
+        "instances": 2,
+        "precision": 0.566,
+        "recall": 1.0,
+        "ap50": 0.995,
+        "ap50_95": 0.796
+      },
+      {
+        "class_id": 4,
+        "name": "油污",
+        "log_name": "14",
+        "images": 14,
+        "instances": 18,
+        "precision": 0.122,
+        "recall": 0.278,
+        "ap50": 0.196,
+        "ap50_95": 0.0998
+      },
+      {
+        "class_id": 5,
+        "name": "浅划伤",
+        "log_name": "11",
+        "images": 11,
+        "instances": 13,
+        "precision": 0.348,
+        "recall": 0.615,
+        "ap50": 0.454,
+        "ap50_95": 0.226
+      },
+      {
+        "class_id": 6,
+        "name": "漏背锡",
+        "log_name": "36",
+        "images": 36,
+        "instances": 46,
+        "precision": 0.435,
+        "recall": 0.739,
+        "ap50": 0.669,
+        "ap50_95": 0.343
+      },
+      {
+        "class_id": 7,
+        "name": "碰伤",
+        "log_name": "229",
+        "images": 229,
+        "instances": 269,
+        "precision": 0.675,
+        "recall": 0.569,
+        "ap50": 0.647,
+        "ap50_95": 0.384
+      },
+      {
+        "class_id": 8,
+        "name": "脏污",
+        "log_name": "33",
+        "images": 33,
+        "instances": 42,
+        "precision": 0.366,
+        "recall": 0.476,
+        "ap50": 0.421,
+        "ap50_95": 0.23
+      },
+      {
+        "class_id": 9,
+        "name": "轮廓划伤",
+        "log_name": "69",
+        "images": 69,
+        "instances": 84,
+        "precision": 0.714,
+        "recall": 0.667,
+        "ap50": 0.733,
+        "ap50_95": 0.381
+      },
+      {
+        "class_id": 10,
+        "name": "锡丝残留",
+        "log_name": "12",
+        "images": 12,
+        "instances": 12,
+        "precision": 0.524,
+        "recall": 0.667,
+        "ap50": 0.683,
+        "ap50_95": 0.361
+      },
+      {
+        "class_id": 11,
+        "name": "锡尖",
+        "log_name": "25",
+        "images": 25,
+        "instances": 27,
+        "precision": 0.73,
+        "recall": 0.963,
+        "ap50": 0.949,
+        "ap50_95": 0.7
+      },
+      {
+        "class_id": 12,
+        "name": "锡膏",
+        "log_name": "41",
+        "images": 41,
+        "instances": 46,
+        "precision": 0.708,
+        "recall": 0.684,
+        "ap50": 0.725,
+        "ap50_95": 0.458
+      }
+    ],
+    "balanced_score": 0.62795,
+    "balanced_score_formula": "0.30*mAP50-95 + 0.25*mAP50 + 0.25*Recall + 0.20*Precision",
+    "recall_priority_score": 0.6595000000000001,
+    "recall_priority_score_formula": "0.40*Recall + 0.25*mAP50 + 0.20*mAP50-95 + 0.15*Precision",
+    "map_priority_score": 0.6019,
+    "map_priority_score_formula": "0.40*mAP50-95 + 0.30*mAP50 + 0.20*Precision + 0.10*Recall"
+  },
+  "last_epoch_metrics_from_training_loop": {
+    "epoch": 5,
+    "time_seconds": 2208.32,
+    "precision": 0.60462,
+    "recall": 0.72997,
+    "map50": 0.71954,
+    "map50_95": 0.47942
+  },
+  "best_epoch_by_map50_95_from_training_loop": {
+    "epoch": 5,
+    "time_seconds": 2208.32,
+    "precision": 0.60462,
+    "recall": 0.72997,
+    "map50": 0.71954,
+    "map50_95": 0.47942
+  },
+  "oom": false,
+  "training_wall_seconds": 2265.116837501526,
+  "validation_wall_seconds": 37.476003646850586
+}

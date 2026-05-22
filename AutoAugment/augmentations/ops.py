@@ -456,6 +456,36 @@ def clahe(
     return cv2.cvtColor(lab, cv2.COLOR_LAB2BGR), labels_out, bboxes_out
 
 
+@register_augmentation("local_contrast", changes_bboxes=False)
+def local_contrast(
+    image: np.ndarray,
+    labels: np.ndarray | None = None,
+    bboxes: np.ndarray | None = None,
+    params: dict[str, Any] | None = None,
+    strength: float = 1.0,
+    rng: np.random.Generator | None = None,
+) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+    image, labels_arr, bboxes_arr = _inputs(image, labels, bboxes)
+    labels_out, bboxes_out = _copy_labels_bboxes(labels_arr, bboxes_arr)
+    params = params or {}
+    s = _strength(strength)
+    if s <= 0:
+        return image.copy(), labels_out, bboxes_out
+    cv_image = _uint8_for_cv(image)
+    clip_limit = 1.0 + (float(params.get("max_clip_limit", 2.5)) - 1.0) * s
+    tile_grid_size = tuple(params.get("tile_grid_size", (8, 8)))
+    blend = float(np.clip(params.get("blend", 0.65) * s, 0.0, 1.0))
+    clahe_op = cv2.createCLAHE(clipLimit=clip_limit, tileGridSize=tile_grid_size)
+    if cv_image.ndim == 2:
+        enhanced = clahe_op.apply(cv_image)
+    else:
+        lab = cv2.cvtColor(cv_image, cv2.COLOR_BGR2LAB)
+        lab[:, :, 0] = clahe_op.apply(lab[:, :, 0])
+        enhanced = cv2.cvtColor(lab, cv2.COLOR_LAB2BGR)
+    out = cv2.addWeighted(cv_image.astype(np.float32), 1.0 - blend, enhanced.astype(np.float32), blend, 0.0)
+    return _clip_image(out, image.dtype), labels_out, bboxes_out
+
+
 @register_augmentation("cutout", changes_bboxes=False)
 def cutout(
     image: np.ndarray,

@@ -178,6 +178,7 @@ def default_detection_search_space(
         OperationSpace("motion_blur", (0.1, 0.5), (0.05, 0.3), {"max_kernel": 7}),
         OperationSpace("sharpen", (0.2, 0.6), (0.05, 0.35), {"amount": 0.8}),
         OperationSpace("clahe", (0.2, 0.6), (0.05, 0.4), {"max_clip_limit": 3.0}),
+        OperationSpace("local_contrast", (0.2, 0.6), (0.05, 0.4), {"max_clip_limit": 2.5, "blend": 0.65}),
         OperationSpace("cutout", (0.1, 0.5), (0.05, 0.25), {"max_holes": 2, "max_fraction": 0.18}),
         OperationSpace("horizontal_flip", (0.3, 0.7), (1.0, 1.0), {}),
         OperationSpace("translate", (0.2, 0.7), (0.05, 0.4), {"max_translate": 0.08}),

@@ -1,0 +1,117 @@
+{
+  "policy_id": "search_policy_030",
+  "name": "search_policy_030",
+  "type": "diagnosis_guided_sampled_policy",
+  "source_diagnosis_weights": {
+    "small_object_score": 0.3293718166383701,
+    "low_contrast_score": 0.5065116279069767,
+    "class_imbalance_score": 0.9952554744525548,
+    "localization_score": 0.02430939226519337,
+    "false_positive_score": 0.20476190476190476,
+    "low_support_score": 0.9952554744525548
+  },
+  "operation_sampling_weights": {
+    "gamma": 2.0130232558139536,
+    "contrast": 2.0130232558139536,
+    "copy_paste": 3.9836244159964314,
+    "local_contrast": 2.380313815295929,
+    "scale": 1.2791790561772458
+  },
+  "operations": [
+    {
+      "name": "gamma",
+      "prob": 0.4686136588541032,
+      "strength": 0.33513667245603224,
+      "params": {
+        "min_gamma": 0.75,
+        "max_gamma": 1.35
+      }
+    },
+    {
+      "name": "contrast",
+      "prob": 0.3110492103809632,
+      "strength": 0.48860924506671555,
+      "params": {
+        "max_delta": 0.35
+      }
+    },
+    {
+      "name": "copy_paste",
+      "prob": 0.34258204877609766,
+      "strength": 0.5086795178100997,
+      "params": {
+        "max_paste_count": 3,
+        "max_overlap": 0.18,
+        "fallback_max_overlap": 0.45,
+        "prefer_small": true,
+        "class_balanced": true,
+        "max_attempts": 60,
+        "dataset_class_counts": {
+          "2": 36,
+          "3": 17,
+          "10": 32
+        },
+        "target_classes": [
+          2,
+          3,
+          10
+        ]
+      }
+    },
+    {
+      "name": "local_contrast",
+      "prob": 0.47436156478434954,
+      "strength": 0.34020056986594316,
+      "params": {
+        "max_clip_limit": 2.5,
+        "tile_grid_size": [
+          8,
+          8
+        ],
+        "blend": 0.65
+      }
+    },
+    {
+      "name": "scale",
+      "prob": 0.5590004605314727,
+      "strength": 0.09000796205400545,
+      "params": {
+        "max_delta": 0.16
+      }
+    }
+  ],
+  "why_sampled": {
+    "gamma": [
+      "base exploration weight",
+      "low_contrast_missed_defect boost=1.013"
+    ],
+    "contrast": [
+      "base exploration weight",
+      "low_contrast_missed_defect boost=1.013"
+    ],
+    "copy_paste": [
+      "base exploration weight",
+      "class_imbalance/low_support boost=2.687, small=0.296"
+    ],
+    "local_contrast": [
+      "base exploration weight",
+      "texture/visibility boost from low_contrast=1.216, small=0.165"
+    ],
+    "scale": [
+      "base exploration weight",
+      "localization/small-object boost=0.049, small=0.231"
+    ]
+  },
+  "risk_control": [
+    "proxy hard filters reject class-id out-of-range, invalid boxes, image-save failures, and illegal copy-paste boxes",
+    "geometry ops are limited to mild scale/translate and audited for bbox retention",
+    "copy_paste uses low overlap, optional class-balanced target classes, and new bbox validity audit",
+    "photometric/detail operations are capped to avoid overexposure or excessive sharpening"
+  ],
+  "contains_copy_paste": true,
+  "generation": {
+    "seed": 42,
+    "attempt_index": 30,
+    "rule": "weighted random sampling; diagnosis changes probabilities, not final selection"
+  }
+}

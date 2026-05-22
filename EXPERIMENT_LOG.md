@@ -590,3 +590,20 @@ Key conclusions from that archived smoke:
 - Comparison: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_random_external_aug_yolo11n_50ep/reports/compare_baseline_yolo_default_diagaug_random.md`
 - Metrics JSON: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_random_external_aug_yolo11n_50ep/reports/random_external_aug_50ep_metrics.json`
 <!-- RANDOM_EXTERNAL_AUG_50EP_END -->
+
+<!-- DIAGNOSIS_GUIDED_POLICY_SEARCH_START -->
+## Diagnosis-Guided Policy Search
+
+- Run ID: `20260518_tiled1024_safe_no_ok_position_diagnosis_guided_policy_search`
+- Scope: diagnosis-guided sampled policy search plus 5 epoch short-training; no formal 50 epoch training.
+- Change in method: diagnosis adjusts operation sampling probabilities instead of directly selecting a fixed policy.
+- Candidate policies: `30`
+- Proxy pass count: `20`
+- Short-training trials: `10`
+- Best balanced-score policy: `search_policy_017` balanced=0.632550 P/R/mAP50/mAP50-95=0.697/0.691/0.720/0.468
+- Beats diag_policy_001 short-training balanced score: `true`
+- Recommend formal 50 epoch: `true`
+- Report: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_diagnosis_guided_policy_search/reports/policy_search_report.md`
+- Results JSON: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_diagnosis_guided_policy_search/reports/policy_search_results.json`
+- Best summary: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_diagnosis_guided_policy_search/reports/best_policy_summary.md`
+<!-- DIAGNOSIS_GUIDED_POLICY_SEARCH_END -->

@@ -1,0 +1,207 @@
+{
+  "run_id": "20260518_tiled1024_safe_no_ok_position_diagnosis_guided_policy_search",
+  "mode": "diagnosis_guided_policy_search",
+  "baseline_run_id": "20260518_tiled1024_safe_no_ok_position_baseline_yolo11n_50ep",
+  "baseline_best_pt": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_baseline_yolo11n_50ep\\train\\weights\\best.pt",
+  "data_yaml": "outputs/datasets/tiled/tiled_1024_ov20_full_safe_no_ok_position/data.yaml",
+  "diagnosis_vector": {
+    "small_object_score": 0.3293718166383701,
+    "low_contrast_score": 0.5065116279069767,
+    "class_imbalance_score": 0.9952554744525548,
+    "localization_score": 0.02430939226519337,
+    "false_positive_score": 0.20476190476190476,
+    "low_support_score": 0.9952554744525548
+  },
+  "diagnosis_issues": [
+    {
+      "type": "low_contrast_missed_defect",
+      "source_issue": "low_contrast_fn_high",
+      "severity": "medium",
+      "evidence": {
+        "issue": "low_contrast_fn_high",
+        "severity": "medium",
+        "observed_rate": 0.5953488372093023
+      },
+      "suggested_augmentations": [
+        "contrast",
+        "gamma",
+        "clahe",
+        "brightness",
+        "sharpen"
+      ],
+      "severity_score": 0.5065116279069767
+    },
+    {
+      "type": "low_contrast_missed_defect",
+      "source_issue": "exposure_fn_high",
+      "severity": "medium",
+      "evidence": {
+        "issue": "exposure_fn_high",
+        "severity": "medium",
+        "dark_rate": 0.4744186046511628,
+        "bright_rate": 0.009302325581395349
+      },
+      "suggested_augmentations": [
+        "contrast",
+        "gamma",
+        "clahe",
+        "brightness",
+        "sharpen"
+      ],
+      "severity_score": 0.5065116279069767
+    },
+    {
+      "type": "class_imbalance",
+      "source_issue": "class_recall_imbalance",
+      "severity": "medium",
+      "evidence": {
+        "issue": "class_recall_imbalance",
+        "severity": "medium",
+        "classes": [
+          {
+            "class_id": 3,
+            "class_name": "开裂",
+            "fn_rate": 1.0
+          },
+          {
+            "class_id": 4,
+            "class_name": "油污",
+            "fn_rate": 0.7222222222222222
+          },
+          {
+            "class_id": 5,
+            "class_name": "浅划伤",
+            "fn_rate": 0.46153846153846156
+          },
+          {
+            "class_id": 8,
+            "class_name": "脏污",
+            "fn_rate": 0.47619047619047616
+          },
+          {
+            "class_id": 10,
+            "class_name": "锡丝残留",
+            "fn_rate": 0.5833333333333334
+          }
+        ]
+      },
+      "suggested_augmentations": [
+        "class-aware-sampling",
+        "targeted-augmentation",
+        "class-balanced-policy"
+      ],
+      "severity_score": 0.9952554744525548
+    },
+    {
+      "type": "localization_bias",
+      "source_issue": "localization_weak_count",
+      "severity": "medium",
+      "evidence": {
+        "localization_weak_count": 22
+      },
+      "suggested_augmentations": [
+        "mild-scale",
+        "mild-translate",
+        "reduce-rotate",
+        "reduce-shear",
+        "reduce-perspective"
+      ],
+      "severity_score": 0.02430939226519337
+    }
+  ],
+  "baseline_metrics": {
+    "images": 677,
+    "instances": 905,
+    "precision": 0.69,
+    "recall": 0.615,
+    "map50": 0.669,
+    "map50_95": 0.434
+  },
+  "low_support_classes": [
+    {
+      "class_id": 2,
+      "class_name": "加强筋打伤",
+      "train_instances": 36,
+      "val_instances": 8
+    },
+    {
+      "class_id": 3,
+      "class_name": "开裂",
+      "train_instances": 17,
+      "val_instances": 2
+    },
+    {
+      "class_id": 10,
+      "class_name": "锡丝残留",
+      "train_instances": 32,
+      "val_instances": 12
+    }
+  ],
+  "operation_sampling_weights": {
+    "clahe": 2.0130232558139536,
+    "contrast": 2.0130232558139536,
+    "gamma": 2.0130232558139536,
+    "brightness": 2.0130232558139536,
+    "sharpen": 2.730313815295929,
+    "local_contrast": 2.380313815295929,
+    "cutout": 1.4457142857142857,
+    "horizontal_flip": 1.25,
+    "scale": 1.2791790561772458,
+    "translate": 1.2791790561772458,
+    "gaussian_noise": 1.2457142857142858,
+    "copy_paste": 3.9836244159964314
+  },
+  "operation_sampling_reasons": {
+    "clahe": [
+      "base exploration weight",
+      "low_contrast_missed_defect boost=1.013"
+    ],
+    "contrast": [
+      "base exploration weight",
+      "low_contrast_missed_defect boost=1.013"
+    ],
+    "gamma": [
+      "base exploration weight",
+      "low_contrast_missed_defect boost=1.013"
+    ],
+    "brightness": [
+      "base exploration weight",
+      "low_contrast_missed_defect boost=1.013"
+    ],
+    "sharpen": [
+      "base exploration weight",
+      "texture/visibility boost from low_contrast=1.216, small=0.165",
+      "counterfactual/random-control search prior for boundary detail"
+    ],
+    "local_contrast": [
+      "base exploration weight",
+      "texture/visibility boost from low_contrast=1.216, small=0.165"
+    ],
+    "cutout": [
+      "base exploration weight",
+      "false_positive robustness boost=0.246",
+      "mAP-oriented robustness exploration prior"
+    ],
+    "horizontal_flip": [
+      "base exploration weight",
+      "orientation-invariance exploration prior"
+    ],
+    "scale": [
+      "base exploration weight",
+      "localization/small-object boost=0.049, small=0.231"
+    ],
+    "translate": [
+      "base exploration weight",
+      "localization/small-object boost=0.049, small=0.231"
+    ],
+    "gaussian_noise": [
+      "base exploration weight",
+      "false_positive robustness boost=0.246"
+    ],
+    "copy_paste": [
+      "base exploration weight",
+      "class_imbalance/low_support boost=2.687, small=0.296"
+    ]
+  },
+  "policy_generation_rule": "Diagnosis weights adjust operation sampling probabilities; short-training, not proxy, selects the final policy."
+}

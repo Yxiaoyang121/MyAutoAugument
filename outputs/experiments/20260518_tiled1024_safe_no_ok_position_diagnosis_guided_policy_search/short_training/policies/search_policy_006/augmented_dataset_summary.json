@@ -1,0 +1,32 @@
+{
+  "stage": "policy_search_trial_dataset_builder",
+  "status": "completed",
+  "policy_id": "search_policy_006",
+  "dataset_dir": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_diagnosis_guided_policy_search\\short_training\\policies\\search_policy_006\\dataset\\final_dataset",
+  "data_yaml": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_diagnosis_guided_policy_search\\short_training\\policies\\search_policy_006\\dataset\\final_dataset\\data.yaml",
+  "original_train_count": 2301,
+  "augmented_train_count": 2301,
+  "train_images": 4602,
+  "train_bboxes": 6376,
+  "val_images": 677,
+  "val_bboxes": 905,
+  "augmented_train_raw_bboxes": 3196,
+  "augmented_train_valid_bboxes": 3194,
+  "invalid_augmented_bbox_count": 2,
+  "bbox_valid_rate": 0.9993742177722152,
+  "image_failures": 0,
+  "label_failures": 0,
+  "operation_application_counts": {
+    "copy_paste": 618,
+    "cutout": 618,
+    "clahe": 908,
+    "brightness": 762,
+    "horizontal_flip": 738
+  },
+  "cutout_bbox_occlusion_rate": 0.001148105625717566,
+  "cutout_max_bbox_occlusion": 0.5308880308880309,
+  "images_train": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_diagnosis_guided_policy_search\\short_training\\policies\\search_policy_006\\dataset\\final_dataset\\images\\train",
+  "labels_train": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_diagnosis_guided_policy_search\\short_training\\policies\\search_policy_006\\dataset\\final_dataset\\labels\\train",
+  "images_val": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_diagnosis_guided_policy_search\\short_training\\policies\\search_policy_006\\dataset\\final_dataset\\images\\val",
+  "labels_val": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_diagnosis_guided_policy_search\\short_training\\policies\\search_policy_006\\dataset\\final_dataset\\labels\\val"
+}

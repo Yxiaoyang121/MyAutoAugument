@@ -40,6 +40,7 @@ OP_RISK_WEIGHTS = {
     "gamma": 0.4,
     "clahe": 0.4,
     "sharpen": 0.4,
+    "local_contrast": 0.4,
     "horizontal_flip": 0.2,
     "translate": 0.7,
     "scale": 0.7,

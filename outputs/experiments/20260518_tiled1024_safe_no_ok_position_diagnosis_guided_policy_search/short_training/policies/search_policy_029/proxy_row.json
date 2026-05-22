@@ -1,0 +1,21 @@
+{
+  "rank": 5,
+  "policy_id": "search_policy_029",
+  "proxy_score": 0.8727228856215046,
+  "safety_score": 1.0,
+  "combined_proxy_safety_score": 0.9554530099675266,
+  "hard_filter_pass": true,
+  "hard_filter_reasons": [],
+  "safety_soft_penalty_reasons": [],
+  "bbox_valid_rate": 1.0,
+  "original_bbox_retention": 1.0,
+  "new_bbox_valid_rate": 1.0,
+  "small_object_retention": 1.0,
+  "cutout_bbox_occlusion_rate": 0.0,
+  "copy_paste_audit": {
+    "enabled": true,
+    "new_bbox_count": 0,
+    "new_bbox_valid_rate": 1.0,
+    "invalid_new_bbox_count": 0
+  }
+}

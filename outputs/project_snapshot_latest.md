@@ -1,19 +1,22 @@
 # Project Snapshot
 
-- Generated: 2026-05-22T10:08:41
+- Generated: 2026-05-22T19:29:19
 - Branch: codex/sync-latest
-- Commit: b584f7d75dea75196b19a550d5fab361259fa0ed
+- Commit: 296b7c34e661309494f82949c878ab33e734d47f
 - Remote: https://github.com/Yxiaoyang121/MyAutoAugument.git
 
 ## Working Tree
 
 ```text
+ M AutoAugment/augmentations/ops.py
+ M AutoAugment/policies/search_space.py
+ M AutoAugment/search/proxy_metrics.py
  M CODEX_HANDOFF.md
  M EXPERIMENT_LOG.md
  M PROJECT_STATE.md
  M scripts/export_project_snapshot.py
-?? outputs/experiments/20260518_tiled1024_safe_no_ok_position_random_external_aug_yolo11n_50ep/
-?? scripts/run_random_external_aug_50ep.py
+?? outputs/experiments/20260518_tiled1024_safe_no_ok_position_diagnosis_guided_policy_search/
+?? scripts/run_diagnosis_guided_policy_search.py
 ```
 
 ## Key Files
@@ -40,6 +43,7 @@
 - scripts/run_per_class_diagnosis.py
 - scripts/run_class_aware_policy_short_training.py
 - scripts/run_random_external_aug_50ep.py
+- scripts/run_diagnosis_guided_policy_search.py
 - scripts/write_yolo_default_aug_50ep_reports.py
 - outputs/audits/dataset_mapping/full_tiled_dataset_mapping_audit.md
 - outputs/audits/dataset_mapping/full_tiled_dataset_mapping_audit.json
@@ -93,6 +97,14 @@
 - outputs/experiments/20260518_tiled1024_safe_no_ok_position_random_external_aug_yolo11n_50ep/reports/random_external_aug_50ep_report.md
 - outputs/experiments/20260518_tiled1024_safe_no_ok_position_random_external_aug_yolo11n_50ep/reports/random_external_aug_50ep_metrics.json
 - outputs/experiments/20260518_tiled1024_safe_no_ok_position_random_external_aug_yolo11n_50ep/reports/compare_baseline_yolo_default_diagaug_random.md
+- outputs/experiments/20260518_tiled1024_safe_no_ok_position_diagnosis_guided_policy_search/diagnosis_source.json
+- outputs/experiments/20260518_tiled1024_safe_no_ok_position_diagnosis_guided_policy_search/policies/candidate_policies.json
+- outputs/experiments/20260518_tiled1024_safe_no_ok_position_diagnosis_guided_policy_search/policies/candidate_policies.md
+- outputs/experiments/20260518_tiled1024_safe_no_ok_position_diagnosis_guided_policy_search/proxy/proxy_ranking.json
+- outputs/experiments/20260518_tiled1024_safe_no_ok_position_diagnosis_guided_policy_search/proxy/proxy_safety_report.md
+- outputs/experiments/20260518_tiled1024_safe_no_ok_position_diagnosis_guided_policy_search/reports/policy_search_report.md
+- outputs/experiments/20260518_tiled1024_safe_no_ok_position_diagnosis_guided_policy_search/reports/policy_search_results.json
+- outputs/experiments/20260518_tiled1024_safe_no_ok_position_diagnosis_guided_policy_search/reports/best_policy_summary.md
 - outputs/datasets/tiled/tiled_1024_ov20_smoke/dataset_summary.md
 - outputs/datasets/tiled/tiled_1024_ov20_full/data.yaml
 - outputs/datasets/tiled/tiled_1024_ov20_full/dataset_summary.md
@@ -116,7 +128,7 @@
 
 ## Tracked File Count
 
-- 388 tracked files
+- 410 tracked files
 
 ## Notes
 

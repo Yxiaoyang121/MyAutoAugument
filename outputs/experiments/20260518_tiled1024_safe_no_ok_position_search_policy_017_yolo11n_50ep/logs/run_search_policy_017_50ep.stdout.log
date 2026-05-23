@@ -1,0 +1,47 @@
+E:\TJGY\MinPaper\MyAutoAugument\outputs\snapshots\project_snapshot_latest.md
+E:\TJGY\MinPaper\MyAutoAugument\outputs\project_snapshot_latest.md
+[search017] building original + 1x search_policy_017 augmented dataset
+[search017] training 50 epochs
+[search017] validating best.pt on base validation set
+{
+  "precision": 0.71,
+  "recall": 0.616,
+  "map50": 0.681,
+  "map50_95": 0.474,
+  "balanced_score": 0.60845,
+  "delta_vs_baseline": {
+    "precision": 0.020000000000000018,
+    "recall": 0.0010000000000000009,
+    "map50": 0.01200000000000001,
+    "map50_95": 0.03999999999999998,
+    "balanced_score": 0.0192500000000001
+  },
+  "delta_vs_diagaug": {
+    "precision": 0.02399999999999991,
+    "recall": -0.07199999999999995,
+    "map50": -0.03599999999999992,
+    "map50_95": -0.02200000000000002,
+    "balanced_score": -0.028799999999999826
+  },
+  "delta_vs_random_external": {
+    "precision": -0.040000000000000036,
+    "recall": -0.052000000000000046,
+    "map50": -0.052999999999999936,
+    "map50_95": -0.027000000000000024,
+    "balanced_score": -0.04235
+  },
+  "delta_vs_yolo_default": {
+    "precision": -0.07500000000000007,
+    "recall": -0.06000000000000005,
+    "map50": -0.05399999999999994,
+    "map50_95": -0.0020000000000000018,
+    "balanced_score": -0.04410000000000003
+  },
+  "beats_random_external_by_map50_95": false,
+  "beats_diag_policy_001_by_map50_95": false,
+  "is_best_formal_by_map50_95": false,
+  "is_best_formal_by_balanced_score": false,
+  "best_pt": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_search_policy_017_yolo11n_50ep\\train\\weights\\best.pt",
+  "oom": false,
+  "training_wall_seconds": 34573.718051195145
+}

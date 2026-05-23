@@ -340,3 +340,33 @@ No training was run after building or auditing these datasets.
 - Results JSON: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_diagnosis_guided_policy_search/reports/policy_search_results.json`
 - Best summary: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_diagnosis_guided_policy_search/reports/best_policy_summary.md`
 <!-- DIAGNOSIS_GUIDED_POLICY_SEARCH_END -->
+
+<!-- SEARCH_POLICY_017_50EP_START -->
+## search_policy_017 Formal 50 Epoch Result
+
+- Run ID: `20260518_tiled1024_safe_no_ok_position_search_policy_017_yolo11n_50ep`
+- Scope: diagnosis-guided policy search winner promoted to formal 50 epoch YOLO training.
+- Training set: original train images + 1x `search_policy_017` augmented train images.
+- YOLO built-in augmentations: disabled.
+- Policy: `gaussian_noise(p=0.189, s=0.104), gamma(p=0.475, s=0.456), local_contrast(p=0.371, s=0.179), cutout(p=0.142, s=0.163), copy_paste(p=0.621, s=0.273)`
+- Train images / bboxes: `4602` / `6408`
+- Safety: bbox_valid_rate=`0.999380`, image_failures=`0`, label_failures=`0`
+- Precision: `0.710`
+- Recall: `0.616`
+- mAP50: `0.681`
+- mAP50-95: `0.474`
+- Balanced score: `0.608450`
+- Delta vs baseline: P `+0.020`, R `+0.001`, mAP50 `+0.012`, mAP50-95 `+0.040`
+- Delta vs diag_policy_001: P `+0.024`, R `-0.072`, mAP50 `-0.036`, mAP50-95 `-0.022`
+- Delta vs random external: P `-0.040`, R `-0.052`, mAP50 `-0.053`, mAP50-95 `-0.027`
+- Exceeds random external by mAP50-95: `false`
+- Exceeds diag_policy_001 by mAP50-95: `false`
+- Current best formal by mAP50-95: `false`
+- Current best formal by balanced score: `false`
+- OOM: `false`
+- Training wall seconds: `34573.7`
+- best.pt: `E:\TJGY\MinPaper\MyAutoAugument\outputs\experiments\20260518_tiled1024_safe_no_ok_position_search_policy_017_yolo11n_50ep\train\weights\best.pt`
+- Report: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_search_policy_017_yolo11n_50ep/reports/search_policy_017_50ep_report.md`
+- Comparison: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_search_policy_017_yolo11n_50ep/reports/compare_baseline_diagaug_random_yolo_search017.md`
+- Metrics JSON: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_search_policy_017_yolo11n_50ep/reports/search_policy_017_50ep_metrics.json`
+<!-- SEARCH_POLICY_017_50EP_END -->

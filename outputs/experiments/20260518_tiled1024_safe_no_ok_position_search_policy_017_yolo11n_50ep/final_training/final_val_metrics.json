@@ -1,0 +1,917 @@
+{
+  "stage": "final_validation",
+  "status": "completed",
+  "data_yaml": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\data.yaml",
+  "command": "D:\\Anaconda\\envs\\pytorch\\Scripts\\yolo.exe detect val model=E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_search_policy_017_yolo11n_50ep\\train\\weights\\best.pt data=E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\data.yaml imgsz=1024 batch=2 workers=0 device=0 project=E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_search_policy_017_yolo11n_50ep name=val exist_ok=True",
+  "exitcode": 0,
+  "metrics": {
+    "images": 677,
+    "instances": 905,
+    "precision": 0.71,
+    "recall": 0.616,
+    "map50": 0.681,
+    "map50_95": 0.474,
+    "balanced_score": 0.60845,
+    "balanced_score_formula": "0.30*mAP50-95 + 0.25*mAP50 + 0.25*Recall + 0.20*Precision",
+    "recall_priority_score": 0.61795,
+    "recall_priority_score_formula": "0.40*Recall + 0.25*mAP50 + 0.20*mAP50-95 + 0.15*Precision",
+    "map_priority_score": 0.5975,
+    "map_priority_score_formula": "0.40*mAP50-95 + 0.30*mAP50 + 0.20*Precision + 0.10*Recall"
+  },
+  "per_class": [
+    {
+      "class_id": 0,
+      "name": "OK2",
+      "log_name": "OK2",
+      "images": 64,
+      "instances": 64,
+      "precision": 0.947,
+      "recall": 1.0,
+      "ap50": 0.995,
+      "ap50_95": 0.839
+    },
+    {
+      "class_id": 1,
+      "name": "OK3",
+      "log_name": "OK3",
+      "images": 274,
+      "instances": 274,
+      "precision": 0.926,
+      "recall": 0.993,
+      "ap50": 0.974,
+      "ap50_95": 0.807
+    },
+    {
+      "class_id": 2,
+      "name": "加强筋打伤",
+      "log_name": "8",
+      "images": 8,
+      "instances": 8,
+      "precision": 0.998,
+      "recall": 0.375,
+      "ap50": 0.492,
+      "ap50_95": 0.343
+    },
+    {
+      "class_id": 3,
+      "name": "开裂",
+      "log_name": "2",
+      "images": 2,
+      "instances": 2,
+      "precision": 0.577,
+      "recall": 1.0,
+      "ap50": 0.995,
+      "ap50_95": 0.895
+    },
+    {
+      "class_id": 4,
+      "name": "油污",
+      "log_name": "14",
+      "images": 14,
+      "instances": 18,
+      "precision": 0.524,
+      "recall": 0.429,
+      "ap50": 0.394,
+      "ap50_95": 0.21
+    },
+    {
+      "class_id": 5,
+      "name": "浅划伤",
+      "log_name": "11",
+      "images": 11,
+      "instances": 13,
+      "precision": 0.797,
+      "recall": 0.615,
+      "ap50": 0.643,
+      "ap50_95": 0.353
+    },
+    {
+      "class_id": 6,
+      "name": "漏背锡",
+      "log_name": "36",
+      "images": 36,
+      "instances": 46,
+      "precision": 0.556,
+      "recall": 0.565,
+      "ap50": 0.615,
+      "ap50_95": 0.316
+    },
+    {
+      "class_id": 7,
+      "name": "碰伤",
+      "log_name": "229",
+      "images": 229,
+      "instances": 269,
+      "precision": 0.688,
+      "recall": 0.48,
+      "ap50": 0.596,
+      "ap50_95": 0.383
+    },
+    {
+      "class_id": 8,
+      "name": "脏污",
+      "log_name": "33",
+      "images": 33,
+      "instances": 42,
+      "precision": 0.632,
+      "recall": 0.381,
+      "ap50": 0.488,
+      "ap50_95": 0.28
+    },
+    {
+      "class_id": 9,
+      "name": "轮廓划伤",
+      "log_name": "69",
+      "images": 69,
+      "instances": 84,
+      "precision": 0.771,
+      "recall": 0.4,
+      "ap50": 0.669,
+      "ap50_95": 0.365
+    },
+    {
+      "class_id": 10,
+      "name": "锡丝残留",
+      "log_name": "12",
+      "images": 12,
+      "instances": 12,
+      "precision": 0.368,
+      "recall": 0.333,
+      "ap50": 0.329,
+      "ap50_95": 0.2
+    },
+    {
+      "class_id": 11,
+      "name": "锡尖",
+      "log_name": "25",
+      "images": 25,
+      "instances": 27,
+      "precision": 0.696,
+      "recall": 0.852,
+      "ap50": 0.91,
+      "ap50_95": 0.698
+    },
+    {
+      "class_id": 12,
+      "name": "锡膏",
+      "log_name": "41",
+      "images": 41,
+      "instances": 46,
+      "precision": 0.75,
+      "recall": 0.587,
+      "ap50": 0.749,
+      "ap50_95": 0.468
+    }
+  ],
+  "comparisons": {
+    "vs_baseline": {
+      "overall_delta": {
+        "precision": 0.020000000000000018,
+        "recall": 0.0010000000000000009,
+        "map50": 0.01200000000000001,
+        "map50_95": 0.03999999999999998,
+        "balanced_score": 0.0192500000000001
+      },
+      "per_class_delta": [
+        {
+          "class_id": 0,
+          "name": "OK2",
+          "baseline_recall": 1.0,
+          "search_policy_017_recall": 1.0,
+          "delta_recall": 0.0,
+          "baseline_ap50": 0.995,
+          "search_policy_017_ap50": 0.995,
+          "delta_ap50": 0.0
+        },
+        {
+          "class_id": 1,
+          "name": "OK3",
+          "baseline_recall": 0.978,
+          "search_policy_017_recall": 0.993,
+          "delta_recall": 0.015000000000000013,
+          "baseline_ap50": 0.97,
+          "search_policy_017_ap50": 0.974,
+          "delta_ap50": 0.0040000000000000036
+        },
+        {
+          "class_id": 2,
+          "name": "加强筋打伤",
+          "baseline_recall": 0.875,
+          "search_policy_017_recall": 0.375,
+          "delta_recall": -0.5,
+          "baseline_ap50": 0.955,
+          "search_policy_017_ap50": 0.492,
+          "delta_ap50": -0.46299999999999997
+        },
+        {
+          "class_id": 3,
+          "name": "开裂",
+          "baseline_recall": 0.0,
+          "search_policy_017_recall": 1.0,
+          "delta_recall": 1.0,
+          "baseline_ap50": 0.111,
+          "search_policy_017_ap50": 0.995,
+          "delta_ap50": 0.884
+        },
+        {
+          "class_id": 4,
+          "name": "油污",
+          "baseline_recall": 0.333,
+          "search_policy_017_recall": 0.429,
+          "delta_recall": 0.09599999999999997,
+          "baseline_ap50": 0.242,
+          "search_policy_017_ap50": 0.394,
+          "delta_ap50": 0.15200000000000002
+        },
+        {
+          "class_id": 5,
+          "name": "浅划伤",
+          "baseline_recall": 0.55,
+          "search_policy_017_recall": 0.615,
+          "delta_recall": 0.06499999999999995,
+          "baseline_ap50": 0.712,
+          "search_policy_017_ap50": 0.643,
+          "delta_ap50": -0.06899999999999995
+        },
+        {
+          "class_id": 6,
+          "name": "漏背锡",
+          "baseline_recall": 0.712,
+          "search_policy_017_recall": 0.565,
+          "delta_recall": -0.14700000000000002,
+          "baseline_ap50": 0.694,
+          "search_policy_017_ap50": 0.615,
+          "delta_ap50": -0.07899999999999996
+        },
+        {
+          "class_id": 7,
+          "name": "碰伤",
+          "baseline_recall": 0.617,
+          "search_policy_017_recall": 0.48,
+          "delta_recall": -0.137,
+          "baseline_ap50": 0.617,
+          "search_policy_017_ap50": 0.596,
+          "delta_ap50": -0.02100000000000002
+        },
+        {
+          "class_id": 8,
+          "name": "脏污",
+          "baseline_recall": 0.381,
+          "search_policy_017_recall": 0.381,
+          "delta_recall": 0.0,
+          "baseline_ap50": 0.44,
+          "search_policy_017_ap50": 0.488,
+          "delta_ap50": 0.04799999999999999
+        },
+        {
+          "class_id": 9,
+          "name": "轮廓划伤",
+          "baseline_recall": 0.511,
+          "search_policy_017_recall": 0.4,
+          "delta_recall": -0.11099999999999999,
+          "baseline_ap50": 0.717,
+          "search_policy_017_ap50": 0.669,
+          "delta_ap50": -0.04799999999999993
+        },
+        {
+          "class_id": 10,
+          "name": "锡丝残留",
+          "baseline_recall": 0.583,
+          "search_policy_017_recall": 0.333,
+          "delta_recall": -0.24999999999999994,
+          "baseline_ap50": 0.619,
+          "search_policy_017_ap50": 0.329,
+          "delta_ap50": -0.29
+        },
+        {
+          "class_id": 11,
+          "name": "锡尖",
+          "baseline_recall": 0.852,
+          "search_policy_017_recall": 0.852,
+          "delta_recall": 0.0,
+          "baseline_ap50": 0.906,
+          "search_policy_017_ap50": 0.91,
+          "delta_ap50": 0.0040000000000000036
+        },
+        {
+          "class_id": 12,
+          "name": "锡膏",
+          "baseline_recall": 0.609,
+          "search_policy_017_recall": 0.587,
+          "delta_recall": -0.02200000000000002,
+          "baseline_ap50": 0.725,
+          "search_policy_017_ap50": 0.749,
+          "delta_ap50": 0.02400000000000002
+        }
+      ]
+    },
+    "vs_diagaug": {
+      "overall_delta": {
+        "precision": 0.02399999999999991,
+        "recall": -0.07199999999999995,
+        "map50": -0.03599999999999992,
+        "map50_95": -0.02200000000000002,
+        "balanced_score": -0.028799999999999826
+      },
+      "per_class_delta": [
+        {
+          "class_id": 0,
+          "name": "OK2",
+          "diagaug_recall": 1.0,
+          "search_policy_017_recall": 1.0,
+          "delta_recall": 0.0,
+          "diagaug_ap50": 0.993,
+          "search_policy_017_ap50": 0.995,
+          "delta_ap50": 0.0020000000000000018
+        },
+        {
+          "class_id": 1,
+          "name": "OK3",
+          "diagaug_recall": 0.989,
+          "search_policy_017_recall": 0.993,
+          "delta_recall": 0.0040000000000000036,
+          "diagaug_ap50": 0.973,
+          "search_policy_017_ap50": 0.974,
+          "delta_ap50": 0.0010000000000000009
+        },
+        {
+          "class_id": 2,
+          "name": "加强筋打伤",
+          "diagaug_recall": 0.625,
+          "search_policy_017_recall": 0.375,
+          "delta_recall": -0.25,
+          "diagaug_ap50": 0.747,
+          "search_policy_017_ap50": 0.492,
+          "delta_ap50": -0.255
+        },
+        {
+          "class_id": 3,
+          "name": "开裂",
+          "diagaug_recall": 1.0,
+          "search_policy_017_recall": 1.0,
+          "delta_recall": 0.0,
+          "diagaug_ap50": 0.995,
+          "search_policy_017_ap50": 0.995,
+          "delta_ap50": 0.0
+        },
+        {
+          "class_id": 4,
+          "name": "油污",
+          "diagaug_recall": 0.389,
+          "search_policy_017_recall": 0.429,
+          "delta_recall": 0.03999999999999998,
+          "diagaug_ap50": 0.264,
+          "search_policy_017_ap50": 0.394,
+          "delta_ap50": 0.13
+        },
+        {
+          "class_id": 5,
+          "name": "浅划伤",
+          "diagaug_recall": 0.615,
+          "search_policy_017_recall": 0.615,
+          "delta_recall": 0.0,
+          "diagaug_ap50": 0.581,
+          "search_policy_017_ap50": 0.643,
+          "delta_ap50": 0.062000000000000055
+        },
+        {
+          "class_id": 6,
+          "name": "漏背锡",
+          "diagaug_recall": 0.561,
+          "search_policy_017_recall": 0.565,
+          "delta_recall": 0.0039999999999998925,
+          "diagaug_ap50": 0.508,
+          "search_policy_017_ap50": 0.615,
+          "delta_ap50": 0.10699999999999998
+        },
+        {
+          "class_id": 7,
+          "name": "碰伤",
+          "diagaug_recall": 0.546,
+          "search_policy_017_recall": 0.48,
+          "delta_recall": -0.06600000000000006,
+          "diagaug_ap50": 0.64,
+          "search_policy_017_ap50": 0.596,
+          "delta_ap50": -0.04400000000000004
+        },
+        {
+          "class_id": 8,
+          "name": "脏污",
+          "diagaug_recall": 0.476,
+          "search_policy_017_recall": 0.381,
+          "delta_recall": -0.09499999999999997,
+          "diagaug_ap50": 0.443,
+          "search_policy_017_ap50": 0.488,
+          "delta_ap50": 0.044999999999999984
+        },
+        {
+          "class_id": 9,
+          "name": "轮廓划伤",
+          "diagaug_recall": 0.563,
+          "search_policy_017_recall": 0.4,
+          "delta_recall": -0.16299999999999992,
+          "diagaug_ap50": 0.666,
+          "search_policy_017_ap50": 0.669,
+          "delta_ap50": 0.0030000000000000027
+        },
+        {
+          "class_id": 10,
+          "name": "锡丝残留",
+          "diagaug_recall": 0.574,
+          "search_policy_017_recall": 0.333,
+          "delta_recall": -0.24099999999999994,
+          "diagaug_ap50": 0.774,
+          "search_policy_017_ap50": 0.329,
+          "delta_ap50": -0.445
+        },
+        {
+          "class_id": 11,
+          "name": "锡尖",
+          "diagaug_recall": 0.888,
+          "search_policy_017_recall": 0.852,
+          "delta_recall": -0.03600000000000003,
+          "diagaug_ap50": 0.974,
+          "search_policy_017_ap50": 0.91,
+          "delta_ap50": -0.06399999999999995
+        },
+        {
+          "class_id": 12,
+          "name": "锡膏",
+          "diagaug_recall": 0.717,
+          "search_policy_017_recall": 0.587,
+          "delta_recall": -0.13,
+          "diagaug_ap50": 0.76,
+          "search_policy_017_ap50": 0.749,
+          "delta_ap50": -0.01100000000000001
+        }
+      ]
+    },
+    "vs_yolo_default": {
+      "overall_delta": {
+        "precision": -0.07500000000000007,
+        "recall": -0.06000000000000005,
+        "map50": -0.05399999999999994,
+        "map50_95": -0.0020000000000000018,
+        "balanced_score": -0.04410000000000003
+      },
+      "per_class_delta": [
+        {
+          "class_id": 0,
+          "name": "OK2",
+          "yolo_default_recall": 0.984,
+          "search_policy_017_recall": 1.0,
+          "delta_recall": 0.016000000000000014,
+          "yolo_default_ap50": 0.993,
+          "search_policy_017_ap50": 0.995,
+          "delta_ap50": 0.0020000000000000018
+        },
+        {
+          "class_id": 1,
+          "name": "OK3",
+          "yolo_default_recall": 0.967,
+          "search_policy_017_recall": 0.993,
+          "delta_recall": 0.026000000000000023,
+          "yolo_default_ap50": 0.994,
+          "search_policy_017_ap50": 0.974,
+          "delta_ap50": -0.020000000000000018
+        },
+        {
+          "class_id": 2,
+          "name": "加强筋打伤",
+          "yolo_default_recall": 0.875,
+          "search_policy_017_recall": 0.375,
+          "delta_recall": -0.5,
+          "yolo_default_ap50": 0.949,
+          "search_policy_017_ap50": 0.492,
+          "delta_ap50": -0.45699999999999996
+        },
+        {
+          "class_id": 3,
+          "name": "开裂",
+          "yolo_default_recall": 1.0,
+          "search_policy_017_recall": 1.0,
+          "delta_recall": 0.0,
+          "yolo_default_ap50": 0.663,
+          "search_policy_017_ap50": 0.995,
+          "delta_ap50": 0.33199999999999996
+        },
+        {
+          "class_id": 4,
+          "name": "油污",
+          "yolo_default_recall": 0.278,
+          "search_policy_017_recall": 0.429,
+          "delta_recall": 0.15099999999999997,
+          "yolo_default_ap50": 0.292,
+          "search_policy_017_ap50": 0.394,
+          "delta_ap50": 0.10200000000000004
+        },
+        {
+          "class_id": 5,
+          "name": "浅划伤",
+          "yolo_default_recall": 0.462,
+          "search_policy_017_recall": 0.615,
+          "delta_recall": 0.15299999999999997,
+          "yolo_default_ap50": 0.551,
+          "search_policy_017_ap50": 0.643,
+          "delta_ap50": 0.09199999999999997
+        },
+        {
+          "class_id": 6,
+          "name": "漏背锡",
+          "yolo_default_recall": 0.5,
+          "search_policy_017_recall": 0.565,
+          "delta_recall": 0.06499999999999995,
+          "yolo_default_ap50": 0.686,
+          "search_policy_017_ap50": 0.615,
+          "delta_ap50": -0.07100000000000006
+        },
+        {
+          "class_id": 7,
+          "name": "碰伤",
+          "yolo_default_recall": 0.565,
+          "search_policy_017_recall": 0.48,
+          "delta_recall": -0.08499999999999996,
+          "yolo_default_ap50": 0.723,
+          "search_policy_017_ap50": 0.596,
+          "delta_ap50": -0.127
+        },
+        {
+          "class_id": 8,
+          "name": "脏污",
+          "yolo_default_recall": 0.5,
+          "search_policy_017_recall": 0.381,
+          "delta_recall": -0.119,
+          "yolo_default_ap50": 0.517,
+          "search_policy_017_ap50": 0.488,
+          "delta_ap50": -0.029000000000000026
+        },
+        {
+          "class_id": 9,
+          "name": "轮廓划伤",
+          "yolo_default_recall": 0.571,
+          "search_policy_017_recall": 0.4,
+          "delta_recall": -0.17099999999999993,
+          "yolo_default_ap50": 0.747,
+          "search_policy_017_ap50": 0.669,
+          "delta_ap50": -0.07799999999999996
+        },
+        {
+          "class_id": 10,
+          "name": "锡丝残留",
+          "yolo_default_recall": 0.65,
+          "search_policy_017_recall": 0.333,
+          "delta_recall": -0.317,
+          "yolo_default_ap50": 0.776,
+          "search_policy_017_ap50": 0.329,
+          "delta_ap50": -0.447
+        },
+        {
+          "class_id": 11,
+          "name": "锡尖",
+          "yolo_default_recall": 0.773,
+          "search_policy_017_recall": 0.852,
+          "delta_recall": 0.07899999999999996,
+          "yolo_default_ap50": 0.951,
+          "search_policy_017_ap50": 0.91,
+          "delta_ap50": -0.040999999999999925
+        },
+        {
+          "class_id": 12,
+          "name": "锡膏",
+          "yolo_default_recall": 0.668,
+          "search_policy_017_recall": 0.587,
+          "delta_recall": -0.08100000000000007,
+          "yolo_default_ap50": 0.709,
+          "search_policy_017_ap50": 0.749,
+          "delta_ap50": 0.040000000000000036
+        }
+      ]
+    },
+    "vs_random_external": {
+      "overall_delta": {
+        "precision": -0.040000000000000036,
+        "recall": -0.052000000000000046,
+        "map50": -0.052999999999999936,
+        "map50_95": -0.027000000000000024,
+        "balanced_score": -0.04235
+      },
+      "per_class_delta": [
+        {
+          "class_id": 0,
+          "name": "OK2",
+          "random_external_recall": 1.0,
+          "search_policy_017_recall": 1.0,
+          "delta_recall": 0.0,
+          "random_external_ap50": 0.995,
+          "search_policy_017_ap50": 0.995,
+          "delta_ap50": 0.0
+        },
+        {
+          "class_id": 1,
+          "name": "OK3",
+          "random_external_recall": 0.995,
+          "search_policy_017_recall": 0.993,
+          "delta_recall": -0.0020000000000000018,
+          "random_external_ap50": 0.967,
+          "search_policy_017_ap50": 0.974,
+          "delta_ap50": 0.007000000000000006
+        },
+        {
+          "class_id": 2,
+          "name": "加强筋打伤",
+          "random_external_recall": 0.875,
+          "search_policy_017_recall": 0.375,
+          "delta_recall": -0.5,
+          "random_external_ap50": 0.982,
+          "search_policy_017_ap50": 0.492,
+          "delta_ap50": -0.49
+        },
+        {
+          "class_id": 3,
+          "name": "开裂",
+          "random_external_recall": 1.0,
+          "search_policy_017_recall": 1.0,
+          "delta_recall": 0.0,
+          "random_external_ap50": 0.995,
+          "search_policy_017_ap50": 0.995,
+          "delta_ap50": 0.0
+        },
+        {
+          "class_id": 4,
+          "name": "油污",
+          "random_external_recall": 0.389,
+          "search_policy_017_recall": 0.429,
+          "delta_recall": 0.03999999999999998,
+          "random_external_ap50": 0.29,
+          "search_policy_017_ap50": 0.394,
+          "delta_ap50": 0.10400000000000004
+        },
+        {
+          "class_id": 5,
+          "name": "浅划伤",
+          "random_external_recall": 0.506,
+          "search_policy_017_recall": 0.615,
+          "delta_recall": 0.10899999999999999,
+          "random_external_ap50": 0.622,
+          "search_policy_017_ap50": 0.643,
+          "delta_ap50": 0.02100000000000002
+        },
+        {
+          "class_id": 6,
+          "name": "漏背锡",
+          "random_external_recall": 0.587,
+          "search_policy_017_recall": 0.565,
+          "delta_recall": -0.02200000000000002,
+          "random_external_ap50": 0.608,
+          "search_policy_017_ap50": 0.615,
+          "delta_ap50": 0.007000000000000006
+        },
+        {
+          "class_id": 7,
+          "name": "碰伤",
+          "random_external_recall": 0.513,
+          "search_policy_017_recall": 0.48,
+          "delta_recall": -0.03300000000000003,
+          "random_external_ap50": 0.638,
+          "search_policy_017_ap50": 0.596,
+          "delta_ap50": -0.04200000000000004
+        },
+        {
+          "class_id": 8,
+          "name": "脏污",
+          "random_external_recall": 0.381,
+          "search_policy_017_recall": 0.381,
+          "delta_recall": 0.0,
+          "random_external_ap50": 0.446,
+          "search_policy_017_ap50": 0.488,
+          "delta_ap50": 0.04199999999999998
+        },
+        {
+          "class_id": 9,
+          "name": "轮廓划伤",
+          "random_external_recall": 0.607,
+          "search_policy_017_recall": 0.4,
+          "delta_recall": -0.20699999999999996,
+          "random_external_ap50": 0.709,
+          "search_policy_017_ap50": 0.669,
+          "delta_ap50": -0.039999999999999925
+        },
+        {
+          "class_id": 10,
+          "name": "锡丝残留",
+          "random_external_recall": 0.366,
+          "search_policy_017_recall": 0.333,
+          "delta_recall": -0.032999999999999974,
+          "random_external_ap50": 0.66,
+          "search_policy_017_ap50": 0.329,
+          "delta_ap50": -0.331
+        },
+        {
+          "class_id": 11,
+          "name": "锡尖",
+          "random_external_recall": 0.896,
+          "search_policy_017_recall": 0.852,
+          "delta_recall": -0.04400000000000004,
+          "random_external_ap50": 0.929,
+          "search_policy_017_ap50": 0.91,
+          "delta_ap50": -0.019000000000000017
+        },
+        {
+          "class_id": 12,
+          "name": "锡膏",
+          "random_external_recall": 0.567,
+          "search_policy_017_recall": 0.587,
+          "delta_recall": 0.020000000000000018,
+          "random_external_ap50": 0.698,
+          "search_policy_017_ap50": 0.749,
+          "delta_ap50": 0.051000000000000045
+        }
+      ]
+    },
+    "five_way_per_class": [
+      {
+        "class_id": 0,
+        "name": "OK2",
+        "baseline_recall": 1.0,
+        "baseline_ap50": 0.995,
+        "yolo_default_recall": 0.984,
+        "yolo_default_ap50": 0.993,
+        "diagaug_recall": 1.0,
+        "diagaug_ap50": 0.993,
+        "random_recall": 1.0,
+        "random_ap50": 0.995,
+        "search017_recall": 1.0,
+        "search017_ap50": 0.995
+      },
+      {
+        "class_id": 1,
+        "name": "OK3",
+        "baseline_recall": 0.978,
+        "baseline_ap50": 0.97,
+        "yolo_default_recall": 0.967,
+        "yolo_default_ap50": 0.994,
+        "diagaug_recall": 0.989,
+        "diagaug_ap50": 0.973,
+        "random_recall": 0.995,
+        "random_ap50": 0.967,
+        "search017_recall": 0.993,
+        "search017_ap50": 0.974
+      },
+      {
+        "class_id": 2,
+        "name": "加强筋打伤",
+        "baseline_recall": 0.875,
+        "baseline_ap50": 0.955,
+        "yolo_default_recall": 0.875,
+        "yolo_default_ap50": 0.949,
+        "diagaug_recall": 0.625,
+        "diagaug_ap50": 0.747,
+        "random_recall": 0.875,
+        "random_ap50": 0.982,
+        "search017_recall": 0.375,
+        "search017_ap50": 0.492
+      },
+      {
+        "class_id": 3,
+        "name": "开裂",
+        "baseline_recall": 0.0,
+        "baseline_ap50": 0.111,
+        "yolo_default_recall": 1.0,
+        "yolo_default_ap50": 0.663,
+        "diagaug_recall": 1.0,
+        "diagaug_ap50": 0.995,
+        "random_recall": 1.0,
+        "random_ap50": 0.995,
+        "search017_recall": 1.0,
+        "search017_ap50": 0.995
+      },
+      {
+        "class_id": 4,
+        "name": "油污",
+        "baseline_recall": 0.333,
+        "baseline_ap50": 0.242,
+        "yolo_default_recall": 0.278,
+        "yolo_default_ap50": 0.292,
+        "diagaug_recall": 0.389,
+        "diagaug_ap50": 0.264,
+        "random_recall": 0.389,
+        "random_ap50": 0.29,
+        "search017_recall": 0.429,
+        "search017_ap50": 0.394
+      },
+      {
+        "class_id": 5,
+        "name": "浅划伤",
+        "baseline_recall": 0.55,
+        "baseline_ap50": 0.712,
+        "yolo_default_recall": 0.462,
+        "yolo_default_ap50": 0.551,
+        "diagaug_recall": 0.615,
+        "diagaug_ap50": 0.581,
+        "random_recall": 0.506,
+        "random_ap50": 0.622,
+        "search017_recall": 0.615,
+        "search017_ap50": 0.643
+      },
+      {
+        "class_id": 6,
+        "name": "漏背锡",
+        "baseline_recall": 0.712,
+        "baseline_ap50": 0.694,
+        "yolo_default_recall": 0.5,
+        "yolo_default_ap50": 0.686,
+        "diagaug_recall": 0.561,
+        "diagaug_ap50": 0.508,
+        "random_recall": 0.587,
+        "random_ap50": 0.608,
+        "search017_recall": 0.565,
+        "search017_ap50": 0.615
+      },
+      {
+        "class_id": 7,
+        "name": "碰伤",
+        "baseline_recall": 0.617,
+        "baseline_ap50": 0.617,
+        "yolo_default_recall": 0.565,
+        "yolo_default_ap50": 0.723,
+        "diagaug_recall": 0.546,
+        "diagaug_ap50": 0.64,
+        "random_recall": 0.513,
+        "random_ap50": 0.638,
+        "search017_recall": 0.48,
+        "search017_ap50": 0.596
+      },
+      {
+        "class_id": 8,
+        "name": "脏污",
+        "baseline_recall": 0.381,
+        "baseline_ap50": 0.44,
+        "yolo_default_recall": 0.5,
+        "yolo_default_ap50": 0.517,
+        "diagaug_recall": 0.476,
+        "diagaug_ap50": 0.443,
+        "random_recall": 0.381,
+        "random_ap50": 0.446,
+        "search017_recall": 0.381,
+        "search017_ap50": 0.488
+      },
+      {
+        "class_id": 9,
+        "name": "轮廓划伤",
+        "baseline_recall": 0.511,
+        "baseline_ap50": 0.717,
+        "yolo_default_recall": 0.571,
+        "yolo_default_ap50": 0.747,
+        "diagaug_recall": 0.563,
+        "diagaug_ap50": 0.666,
+        "random_recall": 0.607,
+        "random_ap50": 0.709,
+        "search017_recall": 0.4,
+        "search017_ap50": 0.669
+      },
+      {
+        "class_id": 10,
+        "name": "锡丝残留",
+        "baseline_recall": 0.583,
+        "baseline_ap50": 0.619,
+        "yolo_default_recall": 0.65,
+        "yolo_default_ap50": 0.776,
+        "diagaug_recall": 0.574,
+        "diagaug_ap50": 0.774,
+        "random_recall": 0.366,
+        "random_ap50": 0.66,
+        "search017_recall": 0.333,
+        "search017_ap50": 0.329
+      },
+      {
+        "class_id": 11,
+        "name": "锡尖",
+        "baseline_recall": 0.852,
+        "baseline_ap50": 0.906,
+        "yolo_default_recall": 0.773,
+        "yolo_default_ap50": 0.951,
+        "diagaug_recall": 0.888,
+        "diagaug_ap50": 0.974,
+        "random_recall": 0.896,
+        "random_ap50": 0.929,
+        "search017_recall": 0.852,
+        "search017_ap50": 0.91
+      },
+      {
+        "class_id": 12,
+        "name": "锡膏",
+        "baseline_recall": 0.609,
+        "baseline_ap50": 0.725,
+        "yolo_default_recall": 0.668,
+        "yolo_default_ap50": 0.709,
+        "diagaug_recall": 0.717,
+        "diagaug_ap50": 0.76,
+        "random_recall": 0.567,
+        "random_ap50": 0.698,
+        "search017_recall": 0.587,
+        "search017_ap50": 0.749
+      }
+    ]
+  },
+  "oom": false
+}

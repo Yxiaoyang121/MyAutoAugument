@@ -1,26 +1,19 @@
 # Project Snapshot
 
-- Generated: 2026-05-24T23:09:35
+- Generated: 2026-05-25T04:37:45
 - Branch: codex/sync-latest
-- Commit: f3417f28796291b34c6d82a02e0f98a3b39d4428
+- Commit: 641de2d1407fb222ba67a9eecbfe923b74334461
 - Remote: https://github.com/Yxiaoyang121/MyAutoAugument.git
 
 ## Working Tree
 
 ```text
- M .gitignore
- M AutoAugment/augmentations/registry.py
  M CODEX_HANDOFF.md
  M EXPERIMENT_LOG.md
  M PROJECT_STATE.md
- M outputs/experiments/20260518_tiled1024_safe_no_ok_position_diagaug_yolo11n_50ep/policies/policy_update_report.md
  M outputs/project_snapshot_latest.md
  M outputs/snapshots/project_snapshot_latest.md
- M scripts/export_project_snapshot.py
-?? AutoAugment/online_augmentation.py
-?? outputs/experiments/20260518_tiled1024_safe_no_ok_position_online_diag_policy_001_smoke/
-?? scripts/train_yolo_online_aug.py
-?? tests/test_online_augmentation.py
+?? outputs/experiments/20260518_tiled1024_safe_no_ok_position_online_diag_policy_001_yolo11n_50ep/
 ```
 
 ## Key Files
@@ -122,6 +115,11 @@
 - outputs/experiments/20260518_tiled1024_safe_no_ok_position_online_diag_policy_001_smoke/reports/online_aug_smoke_report.md
 - outputs/experiments/20260518_tiled1024_safe_no_ok_position_online_diag_policy_001_smoke/reports/online_aug_stats.json
 - outputs/experiments/20260518_tiled1024_safe_no_ok_position_online_diag_policy_001_smoke/configs/train_config.json
+- outputs/experiments/20260518_tiled1024_safe_no_ok_position_online_diag_policy_001_yolo11n_50ep/reports/online_diag_policy_001_50ep_report.md
+- outputs/experiments/20260518_tiled1024_safe_no_ok_position_online_diag_policy_001_yolo11n_50ep/reports/online_diag_policy_001_50ep_metrics.json
+- outputs/experiments/20260518_tiled1024_safe_no_ok_position_online_diag_policy_001_yolo11n_50ep/reports/compare_online_offline_yolo_default_random.md
+- outputs/experiments/20260518_tiled1024_safe_no_ok_position_online_diag_policy_001_yolo11n_50ep/reports/online_aug_stats.json
+- outputs/experiments/20260518_tiled1024_safe_no_ok_position_online_diag_policy_001_yolo11n_50ep/configs/train_config.json
 - outputs/datasets/tiled/tiled_1024_ov20_smoke/dataset_summary.md
 - outputs/datasets/tiled/tiled_1024_ov20_full/data.yaml
 - outputs/datasets/tiled/tiled_1024_ov20_full/dataset_summary.md
@@ -147,7 +145,7 @@
 
 ## Tracked File Count
 
-- 599 tracked files
+- 612 tracked files
 
 ## Notes
 

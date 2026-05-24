@@ -173,8 +173,19 @@ def main() -> None:
         val_wall_seconds=val_end - val_start,
         weights_for_val=weights_for_val,
     )
+    report_paths = report_paths_for(args, output_dir)
+    payload["artifacts"].update({key: str(path.resolve()) for key, path in report_paths.items()})
+    if is_formal_50ep_run(args):
+        metrics_payload = build_metrics_payload(payload)
+        comparison_payload = build_comparison_payload(metrics_payload)
+        metrics_payload["comparison"] = comparison_payload
+        payload["formal_metrics"] = metrics_payload
+        write_json(report_paths["metrics_json"], metrics_payload)
+        write_markdown(report_paths["report_md"], build_formal_report(metrics_payload))
+        write_markdown(report_paths["comparison_md"], build_comparison_report(metrics_payload, comparison_payload))
+    else:
+        write_markdown(report_paths["report_md"], build_smoke_report(payload))
     write_json(output_dir / "reports" / "online_aug_stats.json", payload["online_aug_stats"])
-    write_markdown(output_dir / "reports" / "online_aug_smoke_report.md", build_smoke_report(payload))
     update_state_docs(payload)
     export_project_snapshot()
 
@@ -506,12 +517,246 @@ def metrics_to_dict(metrics: Any) -> dict[str, Any]:
     box = getattr(metrics, "box", None)
     if box is None:
         return {}
+    per_class = []
+    names = getattr(metrics, "names", {}) or {}
+    nt_per_class = np.asarray(getattr(metrics, "nt_per_class", []))
+    nt_per_image = np.asarray(getattr(metrics, "nt_per_image", []))
+    ap_class_index = np.asarray(getattr(box, "ap_class_index", []), dtype=int)
+    for result_index, class_id in enumerate(ap_class_index.tolist()):
+        precision, recall, ap50, ap50_95 = box.class_result(result_index)
+        per_class.append(
+            {
+                "class_id": int(class_id),
+                "name": str(names.get(int(class_id), class_id)) if isinstance(names, dict) else str(class_id),
+                "images": int(nt_per_image[class_id]) if class_id < len(nt_per_image) else None,
+                "instances": int(nt_per_class[class_id]) if class_id < len(nt_per_class) else None,
+                "precision": float(precision),
+                "recall": float(recall),
+                "ap50": float(ap50),
+                "ap50_95": float(ap50_95),
+            }
+        )
     return {
+        "images": None,
+        "instances": int(np.sum(nt_per_class)) if len(nt_per_class) else None,
         "precision": float(getattr(box, "mp", 0.0)),
         "recall": float(getattr(box, "mr", 0.0)),
         "map50": float(getattr(box, "map50", 0.0)),
         "map50_95": float(getattr(box, "map", 0.0)),
+        "per_class": per_class,
     }
+
+
+def count_split_images(data_yaml: Path, split: str) -> int | None:
+    try:
+        import yaml
+    except Exception:
+        return None
+    try:
+        data = yaml.safe_load(data_yaml.read_text(encoding="utf-8-sig")) or {}
+    except Exception:
+        return None
+    root = Path(data.get("path", data_yaml.parent))
+    if not root.is_absolute():
+        root = (data_yaml.parent / root).resolve()
+    value = data.get(split)
+    if value is None:
+        return None
+    split_paths = value if isinstance(value, list) else [value]
+    count = 0
+    suffixes = {".jpg", ".jpeg", ".png", ".bmp", ".tif", ".tiff", ".webp"}
+    for item in split_paths:
+        path = Path(str(item))
+        if not path.is_absolute():
+            path = root / path
+        if path.is_dir():
+            count += sum(1 for child in path.rglob("*") if child.suffix.lower() in suffixes)
+        elif path.is_file():
+            lines = [line.strip() for line in path.read_text(encoding="utf-8-sig", errors="replace").splitlines()]
+            count += sum(1 for line in lines if line and Path(line).suffix.lower() in suffixes)
+    return count
+
+
+def is_formal_50ep_run(args: argparse.Namespace) -> bool:
+    return int(args.epochs) >= 50 and "online_diag_policy_001" in str(args.run_id)
+
+
+def report_paths_for(args: argparse.Namespace, output_dir: Path) -> dict[str, Path]:
+    if is_formal_50ep_run(args):
+        return {
+            "report_md": output_dir / "reports" / "online_diag_policy_001_50ep_report.md",
+            "metrics_json": output_dir / "reports" / "online_diag_policy_001_50ep_metrics.json",
+            "comparison_md": output_dir / "reports" / "compare_online_offline_yolo_default_random.md",
+        }
+    return {"report_md": output_dir / "reports" / "online_aug_smoke_report.md"}
+
+
+def compact_overall(metrics: dict[str, Any]) -> dict[str, Any]:
+    return {key: metrics.get(key) for key in ["images", "instances", "precision", "recall", "map50", "map50_95"]}
+
+
+def build_metrics_payload(payload: dict[str, Any]) -> dict[str, Any]:
+    output_dir = Path(payload["output_dir"])
+    val_metrics = payload["val"]["metrics"]
+    stats = payload["online_aug_stats"]
+    best_pt = output_dir / "train" / "weights" / "best.pt"
+    last_pt = output_dir / "train" / "weights" / "last.pt"
+    references = load_reference_metrics()
+    final_metrics = compact_overall(val_metrics)
+    result = {
+        "run_id": payload["run_id"],
+        "generated_at": datetime.now().isoformat(timespec="seconds"),
+        "dataset": payload.get("data"),
+        "model": payload.get("model"),
+        "mode": payload["mode"],
+        "policy": payload["policy"],
+        "online_mechanism": {
+            "online_augmentation": True,
+            "train_images": stats.get("train_image_count"),
+            "train_image_count_matches_original": stats.get("train_image_count_matches_original"),
+            "fixed_augmented_dataset_generated": stats.get("fixed_augmented_dataset_generated"),
+            "validation_custom_augmentation": False,
+            "yolo_builtin_augmentations_disabled": payload.get("disable_yolo_aug", True),
+            "copy_paste_online_supported": stats.get("copy_paste_online_supported", False),
+            "copy_paste_status": stats.get("copy_paste_status"),
+        },
+        "online_aug_stats": stats,
+        "final_metrics": final_metrics,
+        "final_per_class": val_metrics.get("per_class", []),
+        "references": references,
+        "artifacts": {
+            "best_pt": str(best_pt.resolve()) if best_pt.exists() else None,
+            "last_pt": str(last_pt.resolve()) if last_pt.exists() else None,
+            "train_args_yaml": str((output_dir / "train" / "args.yaml").resolve()),
+            "train_results_csv": str((output_dir / "train" / "results.csv").resolve()),
+            "preview_dir": payload["artifacts"]["preview_dir"],
+            "online_aug_stats": payload["artifacts"]["stats_json"],
+            "train_command": str((output_dir / "configs" / "train_command.txt").resolve()),
+            "val_command": str((output_dir / "configs" / "val_command.txt").resolve()),
+        },
+        "train": payload["train"],
+        "val": payload["val"],
+    }
+    return result
+
+
+def load_reference_metrics() -> dict[str, dict[str, Any]]:
+    paths = {
+        "baseline_no_aug": PROJECT_ROOT
+        / "outputs/experiments/20260518_tiled1024_safe_no_ok_position_baseline_yolo11n_50ep/reports/baseline_50ep_metrics.json",
+        "offline_diag_policy_001": PROJECT_ROOT
+        / "outputs/experiments/20260518_tiled1024_safe_no_ok_position_diagaug_yolo11n_50ep/reports/diagaug_50ep_metrics.json",
+        "yolo_default": PROJECT_ROOT
+        / "outputs/experiments/20260518_tiled1024_safe_no_ok_position_yolo_default_aug_yolo11n_50ep/reports/yolo_default_aug_50ep_metrics.json",
+        "random_external": PROJECT_ROOT
+        / "outputs/experiments/20260518_tiled1024_safe_no_ok_position_random_external_aug_yolo11n_50ep/reports/random_external_aug_50ep_metrics.json",
+    }
+    references: dict[str, dict[str, Any]] = {}
+    for name, path in paths.items():
+        if not path.exists():
+            references[name] = {"path": str(path), "missing": True}
+            continue
+        raw = read_json(path)
+        references[name] = {
+            "path": str(path),
+            "missing": False,
+            "overall": extract_overall_metrics(raw),
+            "per_class": extract_per_class_metrics(raw),
+        }
+    return references
+
+
+def extract_overall_metrics(payload: dict[str, Any]) -> dict[str, Any]:
+    for key_path in [
+        ("final_metrics",),
+        ("validation", "overall"),
+        ("val_metrics",),
+        ("overall",),
+    ]:
+        current: Any = payload
+        for key in key_path:
+            current = current.get(key) if isinstance(current, dict) else None
+        if isinstance(current, dict):
+            return compact_overall(current)
+    return {}
+
+
+def extract_per_class_metrics(payload: dict[str, Any]) -> list[dict[str, Any]]:
+    for key_path in [
+        ("final_per_class",),
+        ("validation", "per_class"),
+        ("per_class",),
+    ]:
+        current: Any = payload
+        for key in key_path:
+            current = current.get(key) if isinstance(current, dict) else None
+        if isinstance(current, list):
+            return current
+    return []
+
+
+def build_comparison_payload(metrics_payload: dict[str, Any]) -> dict[str, Any]:
+    online = metrics_payload["final_metrics"]
+    references = metrics_payload.get("references", {})
+    order = [
+        ("baseline_no_aug", "Baseline no aug"),
+        ("offline_diag_policy_001", "Offline DiagAug"),
+        ("yolo_default", "YOLO default"),
+        ("random_external", "Random external"),
+        ("online_diag_policy_001", "Online DiagAug"),
+    ]
+    rows = []
+    for key, label in order:
+        if key == "online_diag_policy_001":
+            overall = online
+        else:
+            overall = references.get(key, {}).get("overall", {})
+        rows.append({"key": key, "name": label, **compact_overall(overall)})
+    comparisons = {
+        "summary_rows": rows,
+        "vs_baseline": metric_delta(online, references.get("baseline_no_aug", {}).get("overall", {})),
+        "vs_offline_diag_policy_001": metric_delta(online, references.get("offline_diag_policy_001", {}).get("overall", {})),
+        "vs_yolo_default": metric_delta(online, references.get("yolo_default", {}).get("overall", {})),
+        "vs_random_external": metric_delta(online, references.get("random_external", {}).get("overall", {})),
+        "answers": {
+            "online_better_than_offline_diagaug": compare_primary(online, references.get("offline_diag_policy_001", {}).get("overall", {})),
+            "online_close_to_yolo_default": close_to_reference(online, references.get("yolo_default", {}).get("overall", {})),
+            "online_improves_precision_map": online_improves_precision_map(online, references.get("offline_diag_policy_001", {}).get("overall", {})),
+            "online_mechanism_more_reasonable": True,
+        },
+    }
+    return comparisons
+
+
+def metric_delta(current: dict[str, Any], reference: dict[str, Any]) -> dict[str, float | None]:
+    delta: dict[str, float | None] = {}
+    for key in ["precision", "recall", "map50", "map50_95"]:
+        if current.get(key) is None or reference.get(key) is None:
+            delta[key] = None
+        else:
+            delta[key] = float(current[key]) - float(reference[key])
+    return delta
+
+
+def compare_primary(current: dict[str, Any], reference: dict[str, Any]) -> bool | None:
+    if not current or not reference:
+        return None
+    return float(current.get("map50_95", 0.0)) > float(reference.get("map50_95", 0.0))
+
+
+def close_to_reference(current: dict[str, Any], reference: dict[str, Any], tolerance: float = 0.03) -> bool | None:
+    if not current or not reference:
+        return None
+    return abs(float(current.get("map50_95", 0.0)) - float(reference.get("map50_95", 0.0))) <= tolerance
+
+
+def online_improves_precision_map(current: dict[str, Any], reference: dict[str, Any]) -> bool | None:
+    if not current or not reference:
+        return None
+    return (
+        float(current.get("precision", 0.0)) > float(reference.get("precision", 0.0))
+        and float(current.get("map50_95", 0.0)) > float(reference.get("map50_95", 0.0))
+    )
 
 
 def build_report_payload(
@@ -558,6 +803,9 @@ def build_report_payload(
         }
     )
     train_results_csv = output_dir / "train" / "results.csv"
+    val_image_count = count_split_images(Path(args.data), "val")
+    if val_metrics and val_metrics.get("images") is None:
+        val_metrics["images"] = val_image_count
     summary = {
         "online_augmentation_implemented": True,
         "fixed_augmented_dataset_generated": fixed_augmented_dataset_generated,
@@ -572,6 +820,10 @@ def build_report_payload(
     return {
         "run_id": args.run_id,
         "output_dir": str(output_dir),
+        "data": str(args.data),
+        "model": str(args.model),
+        "epochs": int(args.epochs),
+        "disable_yolo_aug": bool(args.disable_yolo_aug),
         "policy": policy,
         "mode": "only_custom_online_aug" if args.disable_yolo_aug else "custom_online_plus_yolo_default_reserved",
         "online_aug_stats": stats,
@@ -663,9 +915,197 @@ def build_smoke_report(payload: dict[str, Any]) -> str:
     return "\n".join(lines) + "\n"
 
 
+def build_formal_report(metrics_payload: dict[str, Any]) -> str:
+    stats = metrics_payload["online_aug_stats"]
+    final_metrics = metrics_payload["final_metrics"]
+    comparison = metrics_payload.get("comparison", {})
+    lines = [
+        "# Online Diag Policy 001 50 Epoch Report",
+        "",
+        f"- Run ID: `{metrics_payload['run_id']}`",
+        f"- Mode: `{metrics_payload['mode']}`",
+        f"- Train images: `{stats.get('train_image_count')}`",
+        f"- Train images remain 2301: `{str(stats.get('train_image_count_matches_original')).lower()}`",
+        f"- Fixed augmented dataset generated: `{str(stats.get('fixed_augmented_dataset_generated')).lower()}`",
+        "- Validation custom augmentation: `false`",
+        f"- YOLO built-in augmentation disabled: `{str(metrics_payload['online_mechanism'].get('yolo_builtin_augmentations_disabled')).lower()}`",
+        f"- Copy-paste online supported: `{str(metrics_payload['online_mechanism'].get('copy_paste_online_supported')).lower()}`",
+        "",
+        "## Final Metrics",
+        "",
+        "| Precision | Recall | mAP50 | mAP50-95 |",
+        "|---:|---:|---:|---:|",
+        (
+            f"| {fmt(final_metrics.get('precision'))} | {fmt(final_metrics.get('recall'))} | "
+            f"{fmt(final_metrics.get('map50'))} | {fmt(final_metrics.get('map50_95'))} |"
+        ),
+        "",
+        "## Online Operation Counts",
+        "",
+        "| op | seen | applied | skipped_probability | skipped_safety | skipped_copy_paste_pending | skipped_unsupported |",
+        "|---|---:|---:|---:|---:|---:|---:|",
+    ]
+    for name, counts in sorted(stats.get("ops", {}).items()):
+        lines.append(
+            f"| {name} | {counts.get('seen', 0)} | {counts.get('applied', 0)} | "
+            f"{counts.get('skipped_probability', 0)} | {counts.get('skipped_safety', 0)} | "
+            f"{counts.get('skipped_copy_paste_pending', 0)} | {counts.get('skipped_unsupported', 0)} |"
+        )
+    lines.extend(
+        [
+            "",
+            "## Safety",
+            "",
+            f"- Invalid bbox count: `{stats.get('invalid_bbox_count', 0)}`",
+            f"- Bbox out-of-bounds count before clipping: `{stats.get('bbox_oob_count', 0)}`",
+            f"- Class id out-of-range count: `{stats.get('class_id_oob_count', 0)}`",
+            f"- Cutout holes applied: `{stats.get('cutout_safe', {}).get('holes_applied', 0)}`",
+            f"- Cutout skipped by center safety: `{stats.get('cutout_safe', {}).get('holes_skipped_center', 0)}`",
+            f"- Cutout skipped by overlap safety: `{stats.get('cutout_safe', {}).get('holes_skipped_overlap', 0)}`",
+            "",
+            "## Per-Class Recall/AP50",
+            "",
+            "| class_id | name | instances | Precision | Recall | AP50 | AP50-95 |",
+            "|---:|---|---:|---:|---:|---:|---:|",
+        ]
+    )
+    for row in metrics_payload.get("final_per_class", []):
+        lines.append(
+            f"| {row.get('class_id')} | {row.get('name')} | {row.get('instances')} | "
+            f"{fmt(row.get('precision'))} | {fmt(row.get('recall'))} | {fmt(row.get('ap50'))} | {fmt(row.get('ap50_95'))} |"
+        )
+    lines.extend(
+        [
+            "",
+            "## Comparison Summary",
+            "",
+            comparison_table(comparison.get("summary_rows", [])),
+            "",
+            "## Key Answers",
+            "",
+            answer_line("Online DiagAug better than offline DiagAug", comparison.get("answers", {}).get("online_better_than_offline_diagaug")),
+            answer_line("Online DiagAug close to YOLO default by mAP50-95 within 0.03", comparison.get("answers", {}).get("online_close_to_yolo_default")),
+            answer_line("Online improves Precision and mAP50-95 vs offline DiagAug", comparison.get("answers", {}).get("online_improves_precision_map")),
+            "- Online mechanism is more methodologically reasonable than fixed offline doubling because the train image count stays unchanged and policy randomness is sampled per epoch/sample in the dataloader.",
+            "",
+            "## Artifacts",
+            "",
+            f"- best.pt: `{metrics_payload['artifacts'].get('best_pt')}`",
+            f"- last.pt: `{metrics_payload['artifacts'].get('last_pt')}`",
+            f"- Stats JSON: `{metrics_payload['artifacts'].get('online_aug_stats')}`",
+            f"- Preview dir: `{metrics_payload['artifacts'].get('preview_dir')}`",
+        ]
+    )
+    return "\n".join(lines) + "\n"
+
+
+def build_comparison_report(metrics_payload: dict[str, Any], comparison: dict[str, Any]) -> str:
+    lines = [
+        "# Online vs Offline/Yolo Default/Random Comparison",
+        "",
+        comparison_table(comparison.get("summary_rows", [])),
+        "",
+        "## Deltas For Online DiagAug",
+        "",
+        "| reference | dP | dR | d_mAP50 | d_mAP50-95 |",
+        "|---|---:|---:|---:|---:|",
+    ]
+    labels = {
+        "vs_baseline": "Baseline no aug",
+        "vs_offline_diag_policy_001": "Offline DiagAug",
+        "vs_yolo_default": "YOLO default",
+        "vs_random_external": "Random external",
+    }
+    for key, label in labels.items():
+        delta = comparison.get(key, {})
+        lines.append(
+            f"| {label} | {fmt(delta.get('precision'), signed=True)} | {fmt(delta.get('recall'), signed=True)} | "
+            f"{fmt(delta.get('map50'), signed=True)} | {fmt(delta.get('map50_95'), signed=True)} |"
+        )
+    lines.extend(
+        [
+            "",
+            "## Interpretation",
+            "",
+            answer_line("Online DiagAug better than offline DiagAug", comparison.get("answers", {}).get("online_better_than_offline_diagaug")),
+            answer_line("Online DiagAug close to YOLO default by mAP50-95 within 0.03", comparison.get("answers", {}).get("online_close_to_yolo_default")),
+            answer_line("Online improves Precision and mAP50-95 vs offline DiagAug", comparison.get("answers", {}).get("online_improves_precision_map")),
+            "- Online DiagAug removes the fixed doubled dataset confound and is the fairer mechanism to compare against YOLO default online augmentation.",
+            "",
+            "## Source",
+            "",
+            f"- Online metrics JSON: `{metrics_payload['artifacts'].get('online_aug_stats')}`",
+        ]
+    )
+    return "\n".join(lines) + "\n"
+
+
+def comparison_table(rows: list[dict[str, Any]]) -> str:
+    lines = [
+        "| run | Precision | Recall | mAP50 | mAP50-95 |",
+        "|---|---:|---:|---:|---:|",
+    ]
+    for row in rows:
+        lines.append(
+            f"| {row.get('name')} | {fmt(row.get('precision'))} | {fmt(row.get('recall'))} | "
+            f"{fmt(row.get('map50'))} | {fmt(row.get('map50_95'))} |"
+        )
+    return "\n".join(lines)
+
+
+def answer_line(label: str, value: bool | None) -> str:
+    if value is None:
+        text = "unknown"
+    else:
+        text = "yes" if value else "no"
+    return f"- {label}: `{text}`"
+
+
+def fmt(value: Any, *, signed: bool = False) -> str:
+    if value is None:
+        return "n/a"
+    try:
+        number = float(value)
+    except (TypeError, ValueError):
+        return str(value)
+    if signed:
+        return f"{number:+.4f}"
+    return f"{number:.4f}"
+
+
 def update_state_docs(payload: dict[str, Any]) -> None:
     stats = payload["online_aug_stats"]
     val = payload["val"]["metrics"]
+    if "formal_metrics" in payload:
+        metrics_payload = payload["formal_metrics"]
+        comparison = metrics_payload.get("comparison", {})
+        section = "\n".join(
+            [
+                "## Online Diag Policy 001 50 Epoch",
+                "",
+                f"- Run ID: `{payload['run_id']}`",
+                "- Entrypoint: `scripts/train_yolo_online_aug.py`.",
+                "- Mechanism: custom policy is sampled online in the YOLO training dataloader; no fixed augmented dataset is built.",
+                f"- Train image count: `{stats.get('train_image_count')}`; no train image doubling.",
+                f"- Fixed augmented dataset generated: `{str(stats.get('fixed_augmented_dataset_generated')).lower()}`",
+                "- Validation custom augmentation: `false`; val uses original val tiles.",
+                "- YOLO built-in augmentation: disabled for `only_custom_online_aug`.",
+                "- Online copy-paste: pending object-bank implementation; copy_paste ops are skipped safely.",
+                f"- Train success: `{str(payload['train']['success']).lower()}`",
+                f"- Val success: `{str(payload['val']['success']).lower()}`",
+                f"- Val P/R/mAP50/mAP50-95: `{val.get('precision', 0.0):.4f}/{val.get('recall', 0.0):.4f}/{val.get('map50', 0.0):.4f}/{val.get('map50_95', 0.0):.4f}`",
+                f"- Online better than offline DiagAug by mAP50-95: `{str(comparison.get('answers', {}).get('online_better_than_offline_diagaug')).lower()}`",
+                f"- Online close to YOLO default by mAP50-95 within 0.03: `{str(comparison.get('answers', {}).get('online_close_to_yolo_default')).lower()}`",
+                f"- Report: `outputs/experiments/{payload['run_id']}/reports/online_diag_policy_001_50ep_report.md`",
+                f"- Metrics JSON: `outputs/experiments/{payload['run_id']}/reports/online_diag_policy_001_50ep_metrics.json`",
+                f"- Comparison: `outputs/experiments/{payload['run_id']}/reports/compare_online_offline_yolo_default_random.md`",
+                f"- Stats JSON: `outputs/experiments/{payload['run_id']}/reports/online_aug_stats.json`",
+            ]
+        )
+        for rel in ["PROJECT_STATE.md", "CODEX_HANDOFF.md", "EXPERIMENT_LOG.md"]:
+            upsert_section(PROJECT_ROOT / rel, "ONLINE_DIAG_POLICY_001_50EP", section)
+        return
+
     section = "\n".join(
         [
             "## Online Policy Augmentation Smoke",

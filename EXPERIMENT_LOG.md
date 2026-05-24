@@ -656,3 +656,25 @@ Key conclusions from that archived smoke:
 - Stats JSON: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_online_diag_policy_001_smoke/reports/online_aug_stats.json`
 - Next step after smoke success: run online `diag_policy_001` for 50 epochs and compare fairly against YOLO default augmentation.
 <!-- ONLINE_AUG_SMOKE_END -->
+
+<!-- ONLINE_DIAG_POLICY_001_50EP_START -->
+## Online Diag Policy 001 50 Epoch
+
+- Run ID: `20260518_tiled1024_safe_no_ok_position_online_diag_policy_001_yolo11n_50ep`
+- Entrypoint: `scripts/train_yolo_online_aug.py`.
+- Mechanism: custom policy is sampled online in the YOLO training dataloader; no fixed augmented dataset is built.
+- Train image count: `2301`; no train image doubling.
+- Fixed augmented dataset generated: `false`
+- Validation custom augmentation: `false`; val uses original val tiles.
+- YOLO built-in augmentation: disabled for `only_custom_online_aug`.
+- Online copy-paste: pending object-bank implementation; copy_paste ops are skipped safely.
+- Train success: `true`
+- Val success: `true`
+- Val P/R/mAP50/mAP50-95: `0.7297/0.6772/0.6814/0.4607`
+- Online better than offline DiagAug by mAP50-95: `false`
+- Online close to YOLO default by mAP50-95 within 0.03: `true`
+- Report: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_online_diag_policy_001_yolo11n_50ep/reports/online_diag_policy_001_50ep_report.md`
+- Metrics JSON: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_online_diag_policy_001_yolo11n_50ep/reports/online_diag_policy_001_50ep_metrics.json`
+- Comparison: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_online_diag_policy_001_yolo11n_50ep/reports/compare_online_offline_yolo_default_random.md`
+- Stats JSON: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_online_diag_policy_001_yolo11n_50ep/reports/online_aug_stats.json`
+<!-- ONLINE_DIAG_POLICY_001_50EP_END -->

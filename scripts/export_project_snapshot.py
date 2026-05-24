@@ -51,6 +51,7 @@ def build_snapshot() -> str:
         "scripts/run_random_external_aug_50ep.py",
         "scripts/run_diagnosis_guided_policy_search.py",
         "scripts/run_search_policy_017_50ep.py",
+        "scripts/train_yolo_online_aug.py",
         "scripts/write_yolo_default_aug_50ep_reports.py",
         "outputs/audits/dataset_mapping/full_tiled_dataset_mapping_audit.md",
         "outputs/audits/dataset_mapping/full_tiled_dataset_mapping_audit.json",
@@ -120,6 +121,9 @@ def build_snapshot() -> str:
         "outputs/experiments/20260518_tiled1024_safe_no_ok_position_search_policy_017_yolo11n_50ep/reports/search_policy_017_50ep_report.md",
         "outputs/experiments/20260518_tiled1024_safe_no_ok_position_search_policy_017_yolo11n_50ep/reports/search_policy_017_50ep_metrics.json",
         "outputs/experiments/20260518_tiled1024_safe_no_ok_position_search_policy_017_yolo11n_50ep/reports/compare_baseline_diagaug_random_yolo_search017.md",
+        "outputs/experiments/20260518_tiled1024_safe_no_ok_position_online_diag_policy_001_smoke/reports/online_aug_smoke_report.md",
+        "outputs/experiments/20260518_tiled1024_safe_no_ok_position_online_diag_policy_001_smoke/reports/online_aug_stats.json",
+        "outputs/experiments/20260518_tiled1024_safe_no_ok_position_online_diag_policy_001_smoke/configs/train_config.json",
         "outputs/datasets/tiled/tiled_1024_ov20_smoke/dataset_summary.md",
         "outputs/datasets/tiled/tiled_1024_ov20_full/data.yaml",
         "outputs/datasets/tiled/tiled_1024_ov20_full/dataset_summary.md",
@@ -135,11 +139,13 @@ def build_snapshot() -> str:
         "outputs/datasets/tiled/tiled_1024_ov20_full_safe_no_ok_position/dataset_summary.md",
         "outputs/snapshots/project_snapshot_latest.md",
         "outputs/project_snapshot_latest.md",
+        "AutoAugment/online_augmentation.py",
         "AutoAugment/diagnostic_pipeline/__init__.py",
         "AutoAugment/diagnostic_pipeline/strategy_memory.py",
         "AutoAugment/diagnostic_pipeline/metric_audit.py",
         "AutoAugment/diagnostic_pipeline/proxy_evaluation.py",
         "AutoAugment/diagnostic_pipeline/policy_mapping.py",
+        "tests/test_online_augmentation.py",
     ]
     now = datetime.now().isoformat(timespec="seconds")
     lines = [

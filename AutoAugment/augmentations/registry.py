@@ -2,14 +2,14 @@ from __future__ import annotations
 
 from collections.abc import Callable
 from dataclasses import dataclass
-from typing import Any
+from typing import Any, Optional, Tuple
 
 import numpy as np
 
 
 AugmentationFn = Callable[
-    [np.ndarray, np.ndarray, np.ndarray, dict[str, Any] | None, float, np.random.Generator | None],
-    tuple[np.ndarray, np.ndarray, np.ndarray],
+    [np.ndarray, np.ndarray, np.ndarray, Optional[dict[str, Any]], float, Optional[np.random.Generator]],
+    Tuple[np.ndarray, np.ndarray, np.ndarray],
 ]
 
 

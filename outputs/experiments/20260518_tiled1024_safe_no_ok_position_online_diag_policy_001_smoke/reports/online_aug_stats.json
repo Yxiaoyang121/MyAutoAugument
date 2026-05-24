@@ -1,0 +1,72 @@
+{
+  "supported_ops": [
+    "brightness",
+    "clahe",
+    "contrast",
+    "cutout",
+    "cutout_safe",
+    "gamma",
+    "gaussian_noise",
+    "horizontal_flip",
+    "local_contrast",
+    "mild_scale",
+    "mild_translate",
+    "scale",
+    "sharpen",
+    "sharpen_mild",
+    "translate"
+  ],
+  "copy_paste_status": "pending_object_bank_design",
+  "samples_seen": 2301,
+  "samples_augmented": 1873,
+  "input_bbox_count": 3182,
+  "output_bbox_count": 3182,
+  "invalid_bbox_count": 0,
+  "bbox_oob_count": 5,
+  "class_id_oob_count": 0,
+  "preview_saved": 50,
+  "ops": {
+    "brightness": {
+      "seen": 2301,
+      "skipped_probability": 1778,
+      "applied": 523
+    },
+    "clahe": {
+      "seen": 2301,
+      "skipped_probability": 1315,
+      "applied": 986
+    },
+    "contrast": {
+      "seen": 2301,
+      "skipped_probability": 1378,
+      "applied": 923
+    },
+    "gamma": {
+      "seen": 2301,
+      "skipped_probability": 1542,
+      "applied": 759
+    }
+  },
+  "cutout_safe": {},
+  "copy_paste": {},
+  "run_id": "20260518_tiled1024_safe_no_ok_position_online_diag_policy_001_smoke",
+  "generated_at": "2026-05-24T23:07:48",
+  "online_augmentation": true,
+  "train_image_count": 2301,
+  "expected_original_train_images": 2301,
+  "train_image_count_matches_original": true,
+  "fixed_augmented_dataset_generated": false,
+  "policy_id": "diag_policy_001",
+  "copy_paste_online_supported": false,
+  "copy_paste_note": "online copy-paste is pending object-bank implementation; copy_paste ops are skipped safely.",
+  "train_success": true,
+  "train_error": null,
+  "val_success": true,
+  "val_error": null,
+  "val_metrics": {
+    "precision": 0.8099386587406958,
+    "recall": 0.25179938071850644,
+    "map50": 0.27212912596891425,
+    "map50_95": 0.17888634588164448
+  }
+}

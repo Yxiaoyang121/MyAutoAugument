@@ -678,3 +678,27 @@ Key conclusions from that archived smoke:
 - Comparison: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_online_diag_policy_001_yolo11n_50ep/reports/compare_online_offline_yolo_default_random.md`
 - Stats JSON: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_online_diag_policy_001_yolo11n_50ep/reports/online_aug_stats.json`
 <!-- ONLINE_DIAG_POLICY_001_50EP_END -->
+
+<!-- ONLINE_RANDOM_LIKE_50EP_START -->
+## Online Random-Like 50 Epoch
+
+- Run ID: `20260518_tiled1024_safe_no_ok_position_online_random_like_yolo11n_50ep`
+- Entrypoint: `scripts/train_yolo_online_aug.py`.
+- Policy: online random-like mix of `sharpen_mild`, `brightness`, `cutout_safe`, and `horizontal_flip`.
+- Mechanism: policy is sampled online in the YOLO training dataloader; no fixed augmented dataset is built.
+- Train image count: `2301`; no train image doubling.
+- Fixed augmented dataset generated: `false`
+- Validation custom augmentation: `false`; val uses original val tiles.
+- YOLO built-in augmentation: disabled for `only_custom_online_aug`.
+- Online copy-paste: disabled.
+- Train success: `true`
+- Val success: `true`
+- Val P/R/mAP50/mAP50-95: `0.7132/0.6641/0.6859/0.4661`
+- Online random-like better than offline random by mAP50-95: `false`
+- Online random-like better than online DiagAug by mAP50-95: `true`
+- Random external advantage source: `operator_combo_helps_but_offline_doubling_or_training_variance_still_contributes`
+- Report: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_online_random_like_yolo11n_50ep/reports/online_random_like_50ep_report.md`
+- Metrics JSON: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_online_random_like_yolo11n_50ep/reports/online_random_like_metrics.json`
+- Comparison: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_online_random_like_yolo11n_50ep/reports/compare_online_random_like_with_all.md`
+- Stats JSON: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_online_random_like_yolo11n_50ep/reports/online_aug_stats.json`
+<!-- ONLINE_RANDOM_LIKE_50EP_END -->

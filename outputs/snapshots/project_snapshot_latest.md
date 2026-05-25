@@ -1,8 +1,8 @@
 # Project Snapshot
 
-- Generated: 2026-05-25T04:37:45
+- Generated: 2026-05-25T16:44:37
 - Branch: codex/sync-latest
-- Commit: 641de2d1407fb222ba67a9eecbfe923b74334461
+- Commit: 4607a89427d95eadf86d5df8cd6ae2c4f518338b
 - Remote: https://github.com/Yxiaoyang121/MyAutoAugument.git
 
 ## Working Tree
@@ -13,7 +13,14 @@
  M PROJECT_STATE.md
  M outputs/project_snapshot_latest.md
  M outputs/snapshots/project_snapshot_latest.md
-?? outputs/experiments/20260518_tiled1024_safe_no_ok_position_online_diag_policy_001_yolo11n_50ep/
+ M scripts/train_yolo_online_aug.py
+?? outputs/experiments/20260518_tiled1024_safe_no_ok_position_online_random_like_yolo11n_50ep/configs/policy.json
+?? outputs/experiments/20260518_tiled1024_safe_no_ok_position_online_random_like_yolo11n_50ep/configs/train_command.txt
+?? outputs/experiments/20260518_tiled1024_safe_no_ok_position_online_random_like_yolo11n_50ep/configs/train_config.json
+?? outputs/experiments/20260518_tiled1024_safe_no_ok_position_online_random_like_yolo11n_50ep/configs/val_command.txt
+?? outputs/experiments/20260518_tiled1024_safe_no_ok_position_online_random_like_yolo11n_50ep/logs/
+?? outputs/experiments/20260518_tiled1024_safe_no_ok_position_online_random_like_yolo11n_50ep/reports/
+?? outputs/experiments/20260518_tiled1024_safe_no_ok_position_online_random_like_yolo11n_50ep/train/
 ```
 
 ## Key Files
@@ -120,6 +127,12 @@
 - outputs/experiments/20260518_tiled1024_safe_no_ok_position_online_diag_policy_001_yolo11n_50ep/reports/compare_online_offline_yolo_default_random.md
 - outputs/experiments/20260518_tiled1024_safe_no_ok_position_online_diag_policy_001_yolo11n_50ep/reports/online_aug_stats.json
 - outputs/experiments/20260518_tiled1024_safe_no_ok_position_online_diag_policy_001_yolo11n_50ep/configs/train_config.json
+- outputs/experiments/20260518_tiled1024_safe_no_ok_position_online_random_like_yolo11n_50ep/configs/online_random_like_policy.json
+- outputs/experiments/20260518_tiled1024_safe_no_ok_position_online_random_like_yolo11n_50ep/reports/online_random_like_50ep_report.md
+- outputs/experiments/20260518_tiled1024_safe_no_ok_position_online_random_like_yolo11n_50ep/reports/online_random_like_metrics.json
+- outputs/experiments/20260518_tiled1024_safe_no_ok_position_online_random_like_yolo11n_50ep/reports/compare_online_random_like_with_all.md
+- outputs/experiments/20260518_tiled1024_safe_no_ok_position_online_random_like_yolo11n_50ep/reports/online_aug_stats.json
+- outputs/experiments/20260518_tiled1024_safe_no_ok_position_online_random_like_yolo11n_50ep/configs/train_config.json
 - outputs/datasets/tiled/tiled_1024_ov20_smoke/dataset_summary.md
 - outputs/datasets/tiled/tiled_1024_ov20_full/data.yaml
 - outputs/datasets/tiled/tiled_1024_ov20_full/dataset_summary.md
@@ -145,7 +158,7 @@
 
 ## Tracked File Count
 
-- 612 tracked files
+- 627 tracked files
 
 ## Notes
 

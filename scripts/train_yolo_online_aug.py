@@ -577,12 +577,30 @@ def count_split_images(data_yaml: Path, split: str) -> int | None:
     return count
 
 
+def formal_run_kind(args: argparse.Namespace) -> str | None:
+    if int(args.epochs) < 50:
+        return None
+    run_id = str(args.run_id)
+    if "online_random_like" in run_id:
+        return "online_random_like"
+    if "online_diag_policy_001" in run_id:
+        return "online_diag_policy_001"
+    return None
+
+
 def is_formal_50ep_run(args: argparse.Namespace) -> bool:
-    return int(args.epochs) >= 50 and "online_diag_policy_001" in str(args.run_id)
+    return formal_run_kind(args) is not None
 
 
 def report_paths_for(args: argparse.Namespace, output_dir: Path) -> dict[str, Path]:
-    if is_formal_50ep_run(args):
+    kind = formal_run_kind(args)
+    if kind == "online_random_like":
+        return {
+            "report_md": output_dir / "reports" / "online_random_like_50ep_report.md",
+            "metrics_json": output_dir / "reports" / "online_random_like_metrics.json",
+            "comparison_md": output_dir / "reports" / "compare_online_random_like_with_all.md",
+        }
+    if kind == "online_diag_policy_001":
         return {
             "report_md": output_dir / "reports" / "online_diag_policy_001_50ep_report.md",
             "metrics_json": output_dir / "reports" / "online_diag_policy_001_50ep_metrics.json",
@@ -605,6 +623,7 @@ def build_metrics_payload(payload: dict[str, Any]) -> dict[str, Any]:
     final_metrics = compact_overall(val_metrics)
     result = {
         "run_id": payload["run_id"],
+        "run_kind": formal_run_kind(argparse.Namespace(epochs=payload.get("epochs", 0), run_id=payload["run_id"])),
         "generated_at": datetime.now().isoformat(timespec="seconds"),
         "dataset": payload.get("data"),
         "model": payload.get("model"),
@@ -630,6 +649,7 @@ def build_metrics_payload(payload: dict[str, Any]) -> dict[str, Any]:
             "train_args_yaml": str((output_dir / "train" / "args.yaml").resolve()),
             "train_results_csv": str((output_dir / "train" / "results.csv").resolve()),
             "preview_dir": payload["artifacts"]["preview_dir"],
+            "metrics_json": payload["artifacts"].get("metrics_json"),
             "online_aug_stats": payload["artifacts"]["stats_json"],
             "train_command": str((output_dir / "configs" / "train_command.txt").resolve()),
             "val_command": str((output_dir / "configs" / "val_command.txt").resolve()),
@@ -650,6 +670,8 @@ def load_reference_metrics() -> dict[str, dict[str, Any]]:
         / "outputs/experiments/20260518_tiled1024_safe_no_ok_position_yolo_default_aug_yolo11n_50ep/reports/yolo_default_aug_50ep_metrics.json",
         "random_external": PROJECT_ROOT
         / "outputs/experiments/20260518_tiled1024_safe_no_ok_position_random_external_aug_yolo11n_50ep/reports/random_external_aug_50ep_metrics.json",
+        "online_diag_policy_001": PROJECT_ROOT
+        / "outputs/experiments/20260518_tiled1024_safe_no_ok_position_online_diag_policy_001_yolo11n_50ep/reports/online_diag_policy_001_50ep_metrics.json",
     }
     references: dict[str, dict[str, Any]] = {}
     for name, path in paths.items():
@@ -698,30 +720,51 @@ def extract_per_class_metrics(payload: dict[str, Any]) -> list[dict[str, Any]]:
 def build_comparison_payload(metrics_payload: dict[str, Any]) -> dict[str, Any]:
     online = metrics_payload["final_metrics"]
     references = metrics_payload.get("references", {})
+    run_kind = metrics_payload.get("run_kind") or "online_diag_policy_001"
+    current_label = "Online random-like" if run_kind == "online_random_like" else "Online DiagAug"
     order = [
         ("baseline_no_aug", "Baseline no aug"),
         ("offline_diag_policy_001", "Offline DiagAug"),
         ("yolo_default", "YOLO default"),
         ("random_external", "Random external"),
         ("online_diag_policy_001", "Online DiagAug"),
+        ("online_random_like", "Online random-like"),
     ]
     rows = []
     for key, label in order:
-        if key == "online_diag_policy_001":
+        if key == run_kind:
             overall = online
         else:
             overall = references.get(key, {}).get("overall", {})
+        if not overall:
+            continue
         rows.append({"key": key, "name": label, **compact_overall(overall)})
-    comparisons = {
-        "summary_rows": rows,
+    deltas = {
         "vs_baseline": metric_delta(online, references.get("baseline_no_aug", {}).get("overall", {})),
         "vs_offline_diag_policy_001": metric_delta(online, references.get("offline_diag_policy_001", {}).get("overall", {})),
         "vs_yolo_default": metric_delta(online, references.get("yolo_default", {}).get("overall", {})),
         "vs_random_external": metric_delta(online, references.get("random_external", {}).get("overall", {})),
+        "vs_online_diag_policy_001": metric_delta(online, references.get("online_diag_policy_001", {}).get("overall", {})),
+    }
+    comparisons = {
+        "current_key": run_kind,
+        "current_label": current_label,
+        "summary_rows": rows,
+        **deltas,
         "answers": {
             "online_better_than_offline_diagaug": compare_primary(online, references.get("offline_diag_policy_001", {}).get("overall", {})),
             "online_close_to_yolo_default": close_to_reference(online, references.get("yolo_default", {}).get("overall", {})),
             "online_improves_precision_map": online_improves_precision_map(online, references.get("offline_diag_policy_001", {}).get("overall", {})),
+            "online_random_like_better_than_offline_random": compare_primary(online, references.get("random_external", {}).get("overall", {})),
+            "online_random_like_better_than_online_diagaug": compare_primary(online, references.get("online_diag_policy_001", {}).get("overall", {})),
+            "online_random_like_close_to_offline_random": close_to_reference(online, references.get("random_external", {}).get("overall", {})),
+            "is_current_best": is_current_best(online, references, exclude_key=run_kind),
+            "random_external_advantage_source": infer_random_external_advantage_source(
+                online,
+                references.get("random_external", {}).get("overall", {}),
+            )
+            if run_kind == "online_random_like"
+            else None,
             "online_mechanism_more_reasonable": True,
         },
     }
@@ -757,6 +800,33 @@ def online_improves_precision_map(current: dict[str, Any], reference: dict[str, 
         float(current.get("precision", 0.0)) > float(reference.get("precision", 0.0))
         and float(current.get("map50_95", 0.0)) > float(reference.get("map50_95", 0.0))
     )
+
+
+def is_current_best(current: dict[str, Any], references: dict[str, dict[str, Any]], *, exclude_key: str) -> bool | None:
+    if current.get("map50_95") is None:
+        return None
+    current_score = float(current["map50_95"])
+    reference_scores = []
+    for key, payload in references.items():
+        if key == exclude_key:
+            continue
+        score = payload.get("overall", {}).get("map50_95")
+        if score is not None:
+            reference_scores.append(float(score))
+    if not reference_scores:
+        return None
+    return current_score >= max(reference_scores)
+
+
+def infer_random_external_advantage_source(current: dict[str, Any], offline_random: dict[str, Any]) -> str:
+    if current.get("map50_95") is None or offline_random.get("map50_95") is None:
+        return "unknown"
+    delta = float(current["map50_95"]) - float(offline_random["map50_95"])
+    if delta >= -0.01:
+        return "mostly_operator_combo"
+    if delta >= -0.04:
+        return "operator_combo_helps_but_offline_doubling_or_training_variance_still_contributes"
+    return "offline_doubling_or_fixed_dataset_effect_likely_contributes_substantially"
 
 
 def build_report_payload(
@@ -901,6 +971,7 @@ def build_smoke_report(payload: dict[str, Any]) -> str:
             f"- Cutout holes applied: `{stats.get('cutout_safe', {}).get('holes_applied', 0)}`",
             f"- Cutout skipped by center safety: `{stats.get('cutout_safe', {}).get('holes_skipped_center', 0)}`",
             f"- Cutout skipped by overlap safety: `{stats.get('cutout_safe', {}).get('holes_skipped_overlap', 0)}`",
+            f"- Cutout skipped by no safe region: `{stats.get('cutout_safe', {}).get('holes_skipped_no_safe_region', 0)}`",
             "",
             "## Copy-Paste",
             "",
@@ -919,8 +990,11 @@ def build_formal_report(metrics_payload: dict[str, Any]) -> str:
     stats = metrics_payload["online_aug_stats"]
     final_metrics = metrics_payload["final_metrics"]
     comparison = metrics_payload.get("comparison", {})
+    run_kind = metrics_payload.get("run_kind")
+    is_random_like = run_kind == "online_random_like"
+    title = "Online Random-Like 50 Epoch Report" if is_random_like else "Online Diag Policy 001 50 Epoch Report"
     lines = [
-        "# Online Diag Policy 001 50 Epoch Report",
+        f"# {title}",
         "",
         f"- Run ID: `{metrics_payload['run_id']}`",
         f"- Mode: `{metrics_payload['mode']}`",
@@ -962,6 +1036,7 @@ def build_formal_report(metrics_payload: dict[str, Any]) -> str:
             f"- Cutout holes applied: `{stats.get('cutout_safe', {}).get('holes_applied', 0)}`",
             f"- Cutout skipped by center safety: `{stats.get('cutout_safe', {}).get('holes_skipped_center', 0)}`",
             f"- Cutout skipped by overlap safety: `{stats.get('cutout_safe', {}).get('holes_skipped_overlap', 0)}`",
+            f"- Cutout skipped by no safe region: `{stats.get('cutout_safe', {}).get('holes_skipped_no_safe_region', 0)}`",
             "",
             "## Per-Class Recall/AP50",
             "",
@@ -983,10 +1058,30 @@ def build_formal_report(metrics_payload: dict[str, Any]) -> str:
             "",
             "## Key Answers",
             "",
-            answer_line("Online DiagAug better than offline DiagAug", comparison.get("answers", {}).get("online_better_than_offline_diagaug")),
-            answer_line("Online DiagAug close to YOLO default by mAP50-95 within 0.03", comparison.get("answers", {}).get("online_close_to_yolo_default")),
-            answer_line("Online improves Precision and mAP50-95 vs offline DiagAug", comparison.get("answers", {}).get("online_improves_precision_map")),
-            "- Online mechanism is more methodologically reasonable than fixed offline doubling because the train image count stays unchanged and policy randomness is sampled per epoch/sample in the dataloader.",
+        ]
+    )
+    if is_random_like:
+        lines.extend(
+            [
+                answer_line("Online random-like better than offline random external", comparison.get("answers", {}).get("online_random_like_better_than_offline_random")),
+                answer_line("Online random-like better than online DiagAug", comparison.get("answers", {}).get("online_random_like_better_than_online_diagaug")),
+                answer_line("Online random-like close to YOLO default by mAP50-95 within 0.03", comparison.get("answers", {}).get("online_close_to_yolo_default")),
+                answer_line("Online random-like is current best by mAP50-95", comparison.get("answers", {}).get("is_current_best")),
+                f"- Random external advantage source: `{comparison.get('answers', {}).get('random_external_advantage_source', 'unknown')}`",
+                "- Online random-like removes the fixed doubled dataset confound; if it approaches offline random, the operator mix is the likely driver.",
+            ]
+        )
+    else:
+        lines.extend(
+            [
+                answer_line("Online DiagAug better than offline DiagAug", comparison.get("answers", {}).get("online_better_than_offline_diagaug")),
+                answer_line("Online DiagAug close to YOLO default by mAP50-95 within 0.03", comparison.get("answers", {}).get("online_close_to_yolo_default")),
+                answer_line("Online improves Precision and mAP50-95 vs offline DiagAug", comparison.get("answers", {}).get("online_improves_precision_map")),
+                "- Online mechanism is more methodologically reasonable than fixed offline doubling because the train image count stays unchanged and policy randomness is sampled per epoch/sample in the dataloader.",
+            ]
+        )
+    lines.extend(
+        [
             "",
             "## Artifacts",
             "",
@@ -1000,12 +1095,15 @@ def build_formal_report(metrics_payload: dict[str, Any]) -> str:
 
 
 def build_comparison_report(metrics_payload: dict[str, Any], comparison: dict[str, Any]) -> str:
+    is_random_like = metrics_payload.get("run_kind") == "online_random_like"
+    title = "Online Random-Like vs All Comparison" if is_random_like else "Online vs Offline/Yolo Default/Random Comparison"
+    delta_title = "Deltas For Online Random-Like" if is_random_like else "Deltas For Online DiagAug"
     lines = [
-        "# Online vs Offline/Yolo Default/Random Comparison",
+        f"# {title}",
         "",
         comparison_table(comparison.get("summary_rows", [])),
         "",
-        "## Deltas For Online DiagAug",
+        f"## {delta_title}",
         "",
         "| reference | dP | dR | d_mAP50 | d_mAP50-95 |",
         "|---|---:|---:|---:|---:|",
@@ -1015,9 +1113,12 @@ def build_comparison_report(metrics_payload: dict[str, Any], comparison: dict[st
         "vs_offline_diag_policy_001": "Offline DiagAug",
         "vs_yolo_default": "YOLO default",
         "vs_random_external": "Random external",
+        "vs_online_diag_policy_001": "Online DiagAug",
     }
     for key, label in labels.items():
         delta = comparison.get(key, {})
+        if all(delta.get(metric) is None for metric in ["precision", "recall", "map50", "map50_95"]):
+            continue
         lines.append(
             f"| {label} | {fmt(delta.get('precision'), signed=True)} | {fmt(delta.get('recall'), signed=True)} | "
             f"{fmt(delta.get('map50'), signed=True)} | {fmt(delta.get('map50_95'), signed=True)} |"
@@ -1027,14 +1128,34 @@ def build_comparison_report(metrics_payload: dict[str, Any], comparison: dict[st
             "",
             "## Interpretation",
             "",
-            answer_line("Online DiagAug better than offline DiagAug", comparison.get("answers", {}).get("online_better_than_offline_diagaug")),
-            answer_line("Online DiagAug close to YOLO default by mAP50-95 within 0.03", comparison.get("answers", {}).get("online_close_to_yolo_default")),
-            answer_line("Online improves Precision and mAP50-95 vs offline DiagAug", comparison.get("answers", {}).get("online_improves_precision_map")),
-            "- Online DiagAug removes the fixed doubled dataset confound and is the fairer mechanism to compare against YOLO default online augmentation.",
+        ]
+    )
+    if is_random_like:
+        lines.extend(
+            [
+                answer_line("Online random-like better than offline random external", comparison.get("answers", {}).get("online_random_like_better_than_offline_random")),
+                answer_line("Online random-like better than online DiagAug", comparison.get("answers", {}).get("online_random_like_better_than_online_diagaug")),
+                answer_line("Online random-like is current best by mAP50-95", comparison.get("answers", {}).get("is_current_best")),
+                f"- Random external advantage source: `{comparison.get('answers', {}).get('random_external_advantage_source', 'unknown')}`",
+                "- This run isolates the random-like operator mix from offline train-set doubling.",
+            ]
+        )
+    else:
+        lines.extend(
+            [
+                answer_line("Online DiagAug better than offline DiagAug", comparison.get("answers", {}).get("online_better_than_offline_diagaug")),
+                answer_line("Online DiagAug close to YOLO default by mAP50-95 within 0.03", comparison.get("answers", {}).get("online_close_to_yolo_default")),
+                answer_line("Online improves Precision and mAP50-95 vs offline DiagAug", comparison.get("answers", {}).get("online_improves_precision_map")),
+                "- Online DiagAug removes the fixed doubled dataset confound and is the fairer mechanism to compare against YOLO default online augmentation.",
+            ]
+        )
+    lines.extend(
+        [
             "",
             "## Source",
             "",
-            f"- Online metrics JSON: `{metrics_payload['artifacts'].get('online_aug_stats')}`",
+            f"- Online metrics JSON: `{metrics_payload['artifacts'].get('metrics_json')}`",
+            f"- Online augmentation stats JSON: `{metrics_payload['artifacts'].get('online_aug_stats')}`",
         ]
     )
     return "\n".join(lines) + "\n"
@@ -1079,6 +1200,36 @@ def update_state_docs(payload: dict[str, Any]) -> None:
     if "formal_metrics" in payload:
         metrics_payload = payload["formal_metrics"]
         comparison = metrics_payload.get("comparison", {})
+        if metrics_payload.get("run_kind") == "online_random_like":
+            section = "\n".join(
+                [
+                    "## Online Random-Like 50 Epoch",
+                    "",
+                    f"- Run ID: `{payload['run_id']}`",
+                    "- Entrypoint: `scripts/train_yolo_online_aug.py`.",
+                    "- Policy: online random-like mix of `sharpen_mild`, `brightness`, `cutout_safe`, and `horizontal_flip`.",
+                    "- Mechanism: policy is sampled online in the YOLO training dataloader; no fixed augmented dataset is built.",
+                    f"- Train image count: `{stats.get('train_image_count')}`; no train image doubling.",
+                    f"- Fixed augmented dataset generated: `{str(stats.get('fixed_augmented_dataset_generated')).lower()}`",
+                    "- Validation custom augmentation: `false`; val uses original val tiles.",
+                    "- YOLO built-in augmentation: disabled for `only_custom_online_aug`.",
+                    "- Online copy-paste: disabled.",
+                    f"- Train success: `{str(payload['train']['success']).lower()}`",
+                    f"- Val success: `{str(payload['val']['success']).lower()}`",
+                    f"- Val P/R/mAP50/mAP50-95: `{val.get('precision', 0.0):.4f}/{val.get('recall', 0.0):.4f}/{val.get('map50', 0.0):.4f}/{val.get('map50_95', 0.0):.4f}`",
+                    f"- Online random-like better than offline random by mAP50-95: `{str(comparison.get('answers', {}).get('online_random_like_better_than_offline_random')).lower()}`",
+                    f"- Online random-like better than online DiagAug by mAP50-95: `{str(comparison.get('answers', {}).get('online_random_like_better_than_online_diagaug')).lower()}`",
+                    f"- Random external advantage source: `{comparison.get('answers', {}).get('random_external_advantage_source', 'unknown')}`",
+                    f"- Report: `outputs/experiments/{payload['run_id']}/reports/online_random_like_50ep_report.md`",
+                    f"- Metrics JSON: `outputs/experiments/{payload['run_id']}/reports/online_random_like_metrics.json`",
+                    f"- Comparison: `outputs/experiments/{payload['run_id']}/reports/compare_online_random_like_with_all.md`",
+                    f"- Stats JSON: `outputs/experiments/{payload['run_id']}/reports/online_aug_stats.json`",
+                ]
+            )
+            for rel in ["PROJECT_STATE.md", "CODEX_HANDOFF.md", "EXPERIMENT_LOG.md"]:
+                upsert_section(PROJECT_ROOT / rel, "ONLINE_RANDOM_LIKE_50EP", section)
+            return
+
         section = "\n".join(
             [
                 "## Online Diag Policy 001 50 Epoch",

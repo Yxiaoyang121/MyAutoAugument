@@ -1,0 +1,48 @@
+{
+  "policy_id": "online_random_like_policy_seed42",
+  "name": "online_random_like_policy_seed42",
+  "type": "online_random_like_policy",
+  "source": "random_external_policy_seed42_operator_mix",
+  "seed": 42,
+  "operations": [
+    {
+      "name": "sharpen_mild",
+      "prob": 0.238,
+      "strength": 0.343,
+      "params": {
+        "amount": 0.8
+      }
+    },
+    {
+      "name": "brightness",
+      "prob": 0.681,
+      "strength": 0.414,
+      "params": {
+        "max_delta": 0.2
+      }
+    },
+    {
+      "name": "cutout_safe",
+      "prob": 0.151,
+      "strength": 0.14,
+      "params": {
+        "max_holes": 2,
+        "max_fraction": 0.18,
+        "max_overlap_ratio": 0.05,
+        "max_attempts": 40
+      }
+    },
+    {
+      "name": "horizontal_flip",
+      "prob": 0.448,
+      "strength": 1.0,
+      "params": {}
+    }
+  ],
+  "notes": [
+    "Online version of the random external policy operator mix.",
+    "No fixed augmented dataset is generated.",
+    "YOLO built-in augmentations must stay disabled.",
+    "copy_paste is not enabled."
+  ]
+}

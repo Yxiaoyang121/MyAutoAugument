@@ -1,26 +1,27 @@
 # Project Snapshot
 
-- Generated: 2026-05-25T16:44:37
+- Generated: 2026-05-25T21:29:13
 - Branch: codex/sync-latest
-- Commit: 4607a89427d95eadf86d5df8cd6ae2c4f518338b
+- Commit: 4ae14ee6239424b41c6b6c8c9b1e7ab4c6af41e0
 - Remote: https://github.com/Yxiaoyang121/MyAutoAugument.git
 
 ## Working Tree
 
 ```text
+ M AutoAugment/online_augmentation.py
  M CODEX_HANDOFF.md
  M EXPERIMENT_LOG.md
  M PROJECT_STATE.md
  M outputs/project_snapshot_latest.md
  M outputs/snapshots/project_snapshot_latest.md
+ M scripts/export_project_snapshot.py
  M scripts/train_yolo_online_aug.py
-?? outputs/experiments/20260518_tiled1024_safe_no_ok_position_online_random_like_yolo11n_50ep/configs/policy.json
-?? outputs/experiments/20260518_tiled1024_safe_no_ok_position_online_random_like_yolo11n_50ep/configs/train_command.txt
-?? outputs/experiments/20260518_tiled1024_safe_no_ok_position_online_random_like_yolo11n_50ep/configs/train_config.json
-?? outputs/experiments/20260518_tiled1024_safe_no_ok_position_online_random_like_yolo11n_50ep/configs/val_command.txt
-?? outputs/experiments/20260518_tiled1024_safe_no_ok_position_online_random_like_yolo11n_50ep/logs/
-?? outputs/experiments/20260518_tiled1024_safe_no_ok_position_online_random_like_yolo11n_50ep/reports/
-?? outputs/experiments/20260518_tiled1024_safe_no_ok_position_online_random_like_yolo11n_50ep/train/
+ M tests/test_online_augmentation.py
+?? AutoAugment/feedback_policy_controller.py
+?? configs/
+?? outputs/experiments/feedback_online_policy_2stage_smoke/
+?? outputs/experiments/online_yolo_like_base_smoke/
+?? tests/test_feedback_policy_controller.py
 ```
 
 ## Key Files
@@ -51,6 +52,9 @@
 - scripts/run_search_policy_017_50ep.py
 - scripts/train_yolo_online_aug.py
 - scripts/write_yolo_default_aug_50ep_reports.py
+- configs/online_policies/yolo_like_base_policy.json
+- configs/online_policies/industrial_diag_policy.json
+- configs/online_policies/feedback_online_policy.json
 - outputs/audits/dataset_mapping/full_tiled_dataset_mapping_audit.md
 - outputs/audits/dataset_mapping/full_tiled_dataset_mapping_audit.json
 - outputs/audits/tiling_quality/tiling_quality_audit.md
@@ -133,6 +137,15 @@
 - outputs/experiments/20260518_tiled1024_safe_no_ok_position_online_random_like_yolo11n_50ep/reports/compare_online_random_like_with_all.md
 - outputs/experiments/20260518_tiled1024_safe_no_ok_position_online_random_like_yolo11n_50ep/reports/online_aug_stats.json
 - outputs/experiments/20260518_tiled1024_safe_no_ok_position_online_random_like_yolo11n_50ep/configs/train_config.json
+- outputs/experiments/online_yolo_like_base_smoke/reports/online_aug_smoke_report.md
+- outputs/experiments/online_yolo_like_base_smoke/reports/online_aug_stats.json
+- outputs/experiments/online_yolo_like_base_smoke/configs/train_config.json
+- outputs/experiments/feedback_online_policy_2stage_smoke/reports/online_aug_smoke_report.md
+- outputs/experiments/feedback_online_policy_2stage_smoke/reports/online_aug_stats.json
+- outputs/experiments/feedback_online_policy_2stage_smoke/reports/policy_history.json
+- outputs/experiments/feedback_online_policy_2stage_smoke/reports/policy_history.md
+- outputs/experiments/feedback_online_policy_2stage_smoke/reports/policy_history.csv
+- outputs/experiments/feedback_online_policy_2stage_smoke/configs/train_config.json
 - outputs/datasets/tiled/tiled_1024_ov20_smoke/dataset_summary.md
 - outputs/datasets/tiled/tiled_1024_ov20_full/data.yaml
 - outputs/datasets/tiled/tiled_1024_ov20_full/dataset_summary.md
@@ -149,16 +162,18 @@
 - outputs/snapshots/project_snapshot_latest.md
 - outputs/project_snapshot_latest.md
 - AutoAugment/online_augmentation.py
+- AutoAugment/feedback_policy_controller.py
 - AutoAugment/diagnostic_pipeline/__init__.py
 - AutoAugment/diagnostic_pipeline/strategy_memory.py
 - AutoAugment/diagnostic_pipeline/metric_audit.py
 - AutoAugment/diagnostic_pipeline/proxy_evaluation.py
 - AutoAugment/diagnostic_pipeline/policy_mapping.py
 - tests/test_online_augmentation.py
+- tests/test_feedback_policy_controller.py
 
 ## Tracked File Count
 
-- 627 tracked files
+- 641 tracked files
 
 ## Notes
 

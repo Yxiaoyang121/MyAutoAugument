@@ -425,7 +425,7 @@ The repository is centered on diagnosis-driven augmentation for industrial defec
 <!-- ONLINE_AUG_SMOKE_START -->
 ## Online Policy Augmentation Smoke
 
-- Run ID: `20260518_tiled1024_safe_no_ok_position_online_diag_policy_001_smoke`
+- Run ID: `online_yolo_like_base_smoke`
 - New entrypoint: `scripts/train_yolo_online_aug.py`.
 - Method change: custom policy is applied dynamically inside the YOLO training dataloader instead of building a fixed offline augmented dataset.
 - Train image count: `2301`; no train image doubling.
@@ -434,11 +434,11 @@ The repository is centered on diagnosis-driven augmentation for industrial defec
 - Online copy-paste: pending object-bank implementation; copy_paste ops are skipped safely for now.
 - 1 epoch smoke train success: `true`
 - 1 epoch smoke val success: `true`
-- Val P/R/mAP50/mAP50-95: `0.8099/0.2518/0.2721/0.1789`
-- Preview dir: `E:\TJGY\MinPaper\MyAutoAugument\outputs\experiments\20260518_tiled1024_safe_no_ok_position_online_diag_policy_001_smoke\previews`
-- Report: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_online_diag_policy_001_smoke/reports/online_aug_smoke_report.md`
-- Stats JSON: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_online_diag_policy_001_smoke/reports/online_aug_stats.json`
-- Next step after smoke success: run online `diag_policy_001` for 50 epochs and compare fairly against YOLO default augmentation.
+- Val P/R/mAP50/mAP50-95: `0.4922/0.2364/0.1763/0.0986`
+- Preview dir: `E:\TJGY\MinPaper\MyAutoAugument\outputs\experiments\online_yolo_like_base_smoke\previews`
+- Report: `outputs/experiments/online_yolo_like_base_smoke/reports/online_aug_smoke_report.md`
+- Stats JSON: `outputs/experiments/online_yolo_like_base_smoke/reports/online_aug_stats.json`
+- Next step: inspect smoke safety/history and tune the feedback controller before any formal 50 epoch experiment.
 <!-- ONLINE_AUG_SMOKE_END -->
 
 <!-- ONLINE_DIAG_POLICY_001_50EP_START -->
@@ -486,3 +486,24 @@ The repository is centered on diagnosis-driven augmentation for industrial defec
 - Comparison: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_online_random_like_yolo11n_50ep/reports/compare_online_random_like_with_all.md`
 - Stats JSON: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_online_random_like_yolo11n_50ep/reports/online_aug_stats.json`
 <!-- ONLINE_RANDOM_LIKE_50EP_END -->
+
+<!-- FEEDBACK_ONLINE_AUG_SMOKE_START -->
+## Feedback Online Augmentation Smoke
+
+- Run ID: `feedback_online_policy_2stage_smoke`
+- Entrypoint: `scripts/train_yolo_online_aug.py` with `--feedback-enabled`.
+- Mechanism: custom YOLO-like/industrial online augmentation remains inside the training dataloader; no fixed augmented dataset is built.
+- Stage count: `2`
+- Policy history updates: `1`
+- Train image count: `2301`; no train image doubling.
+- Fixed augmented dataset generated: `false`
+- Validation custom augmentation: `false`; val uses original val tiles.
+- YOLO built-in augmentation: disabled for `only_custom_online_aug`.
+- Online copy-paste: pending object-bank implementation; feedback may raise pending copy-paste probabilities but execution is skipped safely.
+- Train success: `true`
+- Val success: `true`
+- Val P/R/mAP50/mAP50-95: `0.6540/0.3189/0.3338/0.2071`
+- Report: `outputs/experiments/feedback_online_policy_2stage_smoke/reports/online_aug_smoke_report.md`
+- Stats JSON: `outputs/experiments/feedback_online_policy_2stage_smoke/reports/online_aug_stats.json`
+- Policy history JSON: `outputs/experiments/feedback_online_policy_2stage_smoke/reports/policy_history.json`
+<!-- FEEDBACK_ONLINE_AUG_SMOKE_END -->

@@ -1,0 +1,1041 @@
+{
+  "history": [
+    {
+      "timestamp": "2026-05-25T21:17:27",
+      "stage_index": 0,
+      "profile": "industrial",
+      "diagnostics": {
+        "profile": "industrial",
+        "recall_low": true,
+        "precision_low": true,
+        "fn_high": true,
+        "fp_high": true,
+        "map50_high_map95_low": false,
+        "localization_weak": false,
+        "low_contrast_fn_high": true,
+        "class_imbalance": true,
+        "low_support": true
+      },
+      "normalized_flags": {
+        "low_contrast_fn_high": true,
+        "recall_low": true,
+        "fn_high": true,
+        "precision_low": true,
+        "fp_high": true,
+        "map50_high_map95_low": false,
+        "localization_weak": false,
+        "class_imbalance": true,
+        "low_support": true
+      },
+      "metrics": {
+        "images": 677,
+        "instances": 905,
+        "precision": 0.5092707748315003,
+        "recall": 0.23014805853214157,
+        "map50": 0.21925122423331517,
+        "map50_95": 0.13724469961943828,
+        "per_class": [
+          {
+            "class_id": 0,
+            "name": "OK2",
+            "images": 64,
+            "instances": 64,
+            "precision": 0.5418538247020457,
+            "recall": 1.0,
+            "ap50": 0.9896153846153845,
+            "ap50_95": 0.6899256924879156
+          },
+          {
+            "class_id": 1,
+            "name": "OK3",
+            "images": 274,
+            "instances": 274,
+            "precision": 0.48831327262899915,
+            "recall": 1.0,
+            "ap50": 0.9326958955213929,
+            "ap50_95": 0.6131271232265008
+          },
+          {
+            "class_id": 2,
+            "name": "加强筋打伤",
+            "images": 8,
+            "instances": 8,
+            "precision": 1.0,
+            "recall": 0.0,
+            "ap50": 0.0,
+            "ap50_95": 0.0
+          },
+          {
+            "class_id": 3,
+            "name": "开裂",
+            "images": 2,
+            "instances": 2,
+            "precision": 1.0,
+            "recall": 0.0,
+            "ap50": 0.0003287323186637438,
+            "ap50_95": 6.574646373274877e-05
+          },
+          {
+            "class_id": 4,
+            "name": "油污",
+            "images": 14,
+            "instances": 18,
+            "precision": 0.0,
+            "recall": 0.0,
+            "ap50": 0.0027591089592807934,
+            "ap50_95": 0.0012457031043007708
+          },
+          {
+            "class_id": 5,
+            "name": "浅划伤",
+            "images": 11,
+            "instances": 13,
+            "precision": 1.0,
+            "recall": 0.0,
+            "ap50": 0.0,
+            "ap50_95": 0.0
+          },
+          {
+            "class_id": 6,
+            "name": "漏背锡",
+            "images": 36,
+            "instances": 46,
+            "precision": 0.07576026557869224,
+            "recall": 0.043478260869565216,
+            "ap50": 0.028641414299326786,
+            "ap50_95": 0.008789961220472804
+          },
+          {
+            "class_id": 7,
+            "name": "碰伤",
+            "images": 229,
+            "instances": 269,
+            "precision": 0.4532939397450226,
+            "recall": 0.15985130111524162,
+            "ap50": 0.19732819800807253,
+            "ap50_95": 0.09957843788749805
+          },
+          {
+            "class_id": 8,
+            "name": "脏污",
+            "images": 33,
+            "instances": 42,
+            "precision": 0.10397743846326384,
+            "recall": 0.004951306593488755,
+            "ap50": 0.04468155496559331,
+            "ap50_95": 0.021519933123263394
+          },
+          {
+            "class_id": 9,
+            "name": "轮廓划伤",
+            "images": 69,
+            "instances": 84,
+            "precision": 0.23738227727532063,
+            "recall": 0.42857142857142855,
+            "ap50": 0.22351216224649434,
+            "ap50_95": 0.10190172561375191
+          },
+          {
+            "class_id": 10,
+            "name": "锡丝残留",
+            "images": 12,
+            "instances": 12,
+            "precision": 1.0,
+            "recall": 0.0,
+            "ap50": 7.150630710996433e-05,
+            "ap50_95": 7.150630710996433e-05
+          },
+          {
+            "class_id": 11,
+            "name": "锡尖",
+            "images": 25,
+            "instances": 27,
+            "precision": 0.6400858766470308,
+            "recall": 0.3333333333333333,
+            "ap50": 0.39933762543227946,
+            "ap50_95": 0.23167105271403748
+          },
+          {
+            "class_id": 12,
+            "name": "锡膏",
+            "images": 41,
+            "instances": 46,
+            "precision": 0.07985317776912987,
+            "recall": 0.021739130434782608,
+            "ap50": 0.0312943323594985,
+            "ap50_95": 0.01628421290411414
+          }
+        ]
+      },
+      "adjustments": [
+        {
+          "op": "clahe",
+          "field": "prob",
+          "before": 0.3,
+          "after": 0.38,
+          "reason": "low_contrast_fn_high"
+        },
+        {
+          "op": "clahe",
+          "field": "strength",
+          "before": 0.35,
+          "after": 0.38999999999999996,
+          "reason": "low_contrast_fn_high"
+        },
+        {
+          "op": "gamma",
+          "field": "prob",
+          "before": 0.3,
+          "after": 0.38,
+          "reason": "low_contrast_fn_high"
+        },
+        {
+          "op": "gamma",
+          "field": "strength",
+          "before": 0.35,
+          "after": 0.38999999999999996,
+          "reason": "low_contrast_fn_high"
+        },
+        {
+          "op": "brightness",
+          "field": "prob",
+          "before": 0.3,
+          "after": 0.38,
+          "reason": "low_contrast_fn_high"
+        },
+        {
+          "op": "brightness",
+          "field": "strength",
+          "before": 0.35,
+          "after": 0.38999999999999996,
+          "reason": "low_contrast_fn_high"
+        },
+        {
+          "op": "contrast",
+          "field": "prob",
+          "before": 0.3,
+          "after": 0.38,
+          "reason": "low_contrast_fn_high"
+        },
+        {
+          "op": "contrast",
+          "field": "strength",
+          "before": 0.35,
+          "after": 0.38999999999999996,
+          "reason": "low_contrast_fn_high"
+        },
+        {
+          "op": "sharpen_mild",
+          "field": "prob",
+          "before": 0.25,
+          "after": 0.33,
+          "reason": "low_contrast_fn_high"
+        },
+        {
+          "op": "sharpen_mild",
+          "field": "strength",
+          "before": 0.35,
+          "after": 0.38999999999999996,
+          "reason": "low_contrast_fn_high"
+        },
+        {
+          "op": "sharpen",
+          "field": "prob",
+          "before": 0.0,
+          "after": 0.08,
+          "reason": "low_contrast_fn_high"
+        },
+        {
+          "op": "sharpen",
+          "field": "strength",
+          "before": 0.0,
+          "after": 0.04,
+          "reason": "low_contrast_fn_high"
+        },
+        {
+          "op": "clahe",
+          "field": "prob",
+          "before": 0.38,
+          "after": 0.43,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "op": "clahe",
+          "field": "strength",
+          "before": 0.38999999999999996,
+          "after": 0.41999999999999993,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "op": "gamma",
+          "field": "prob",
+          "before": 0.38,
+          "after": 0.43,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "op": "gamma",
+          "field": "strength",
+          "before": 0.38999999999999996,
+          "after": 0.41999999999999993,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "op": "brightness",
+          "field": "prob",
+          "before": 0.38,
+          "after": 0.43,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "op": "brightness",
+          "field": "strength",
+          "before": 0.38999999999999996,
+          "after": 0.41999999999999993,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "op": "contrast",
+          "field": "prob",
+          "before": 0.38,
+          "after": 0.43,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "op": "contrast",
+          "field": "strength",
+          "before": 0.38999999999999996,
+          "after": 0.41999999999999993,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "op": "mild_scale",
+          "field": "prob",
+          "before": 0.18,
+          "after": 0.22999999999999998,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "op": "mild_scale",
+          "field": "strength",
+          "before": 0.35,
+          "after": 0.38,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "op": "mosaic4",
+          "field": "prob",
+          "before": 0.75,
+          "after": 0.8,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "op": "copy_paste",
+          "field": "prob",
+          "before": 0.0,
+          "after": 0.04,
+          "reason": "recall_low_copy_paste_pending"
+        },
+        {
+          "op": "brightness",
+          "field": "prob",
+          "before": 0.43,
+          "after": 0.37,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "op": "brightness",
+          "field": "strength",
+          "before": 0.41999999999999993,
+          "after": 0.3899999999999999,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "op": "contrast",
+          "field": "prob",
+          "before": 0.43,
+          "after": 0.37,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "op": "contrast",
+          "field": "strength",
+          "before": 0.41999999999999993,
+          "after": 0.3899999999999999,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "op": "gamma",
+          "field": "prob",
+          "before": 0.43,
+          "after": 0.37,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "op": "gamma",
+          "field": "strength",
+          "before": 0.41999999999999993,
+          "after": 0.3899999999999999,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "op": "gaussian_noise",
+          "field": "prob",
+          "before": 0.1,
+          "after": 0.04000000000000001,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "op": "gaussian_noise",
+          "field": "strength",
+          "before": 0.15,
+          "after": 0.12,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "op": "copy_paste",
+          "field": "prob",
+          "before": 0.04,
+          "after": 0.0,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "op": "cutout_safe",
+          "field": "prob",
+          "before": 0.2,
+          "after": 0.26,
+          "reason": "precision_low_hard_negative_like"
+        },
+        {
+          "op": "cutout_safe",
+          "field": "strength",
+          "before": 0.3,
+          "after": 0.32,
+          "reason": "precision_low_hard_negative_like"
+        },
+        {
+          "op": "random_erasing",
+          "field": "prob",
+          "before": 0.0,
+          "after": 0.06,
+          "reason": "precision_low_hard_negative_like"
+        },
+        {
+          "op": "random_erasing",
+          "field": "strength",
+          "before": 0.0,
+          "after": 0.02,
+          "reason": "precision_low_hard_negative_like"
+        },
+        {
+          "op": "class_balanced_copy_paste",
+          "field": "prob",
+          "before": 0.0,
+          "after": 0.06,
+          "reason": "class_imbalance_copy_paste_pending"
+        }
+      ],
+      "copy_paste_status": "pending_object_bank_design",
+      "policy": {
+        "policy_id": "feedback_online_policy",
+        "description": "Feedback-adjustable YOLO-like plus industrial online augmentation policy.",
+        "target_size": 1024,
+        "operations": [
+          {
+            "name": "mosaic4",
+            "base_prob": 0.75,
+            "prob": 0.8,
+            "min_prob": 0.0,
+            "max_prob": 1.0,
+            "strength": 1.0,
+            "min_strength": 0.4,
+            "max_strength": 1.0,
+            "update_rule": "recall_low_up; localization_weak_or_map50_high_map95_low_down",
+            "params": {
+              "target_size": 1024,
+              "close_mosaic": 10,
+              "min_visibility": 0.05
+            }
+          },
+          {
+            "name": "hsv_jitter",
+            "base_prob": 1.0,
+            "prob": 1.0,
+            "min_prob": 0.4,
+            "max_prob": 1.0,
+            "strength": 1.0,
+            "min_strength": 0.4,
+            "max_strength": 1.0,
+            "update_rule": "yolo_like_static",
+            "params": {
+              "hsv_h": 0.015,
+              "hsv_s": 0.7,
+              "hsv_v": 0.4
+            }
+          },
+          {
+            "name": "random_scale_translate",
+            "base_prob": 0.75,
+            "prob": 0.75,
+            "min_prob": 0.1,
+            "max_prob": 1.0,
+            "strength": 0.8,
+            "min_strength": 0.2,
+            "max_strength": 1.0,
+            "update_rule": "localization_weak_up; map50_high_map95_low_down",
+            "params": {
+              "translate": 0.1,
+              "scale": 0.5,
+              "min_visibility": 0.2
+            }
+          },
+          {
+            "name": "horizontal_flip",
+            "base_prob": 0.5,
+            "prob": 0.5,
+            "min_prob": 0.0,
+            "max_prob": 0.7,
+            "strength": 1.0,
+            "update_rule": "static_yolo_like",
+            "params": {}
+          },
+          {
+            "name": "randaugment_like",
+            "base_prob": 0.45,
+            "prob": 0.45,
+            "min_prob": 0.0,
+            "max_prob": 0.8,
+            "strength": 0.45,
+            "min_strength": 0.05,
+            "max_strength": 0.8,
+            "update_rule": "recall_low_up; precision_low_down",
+            "params": {
+              "min_ops": 1,
+              "max_ops": 2,
+              "candidate_ops": [
+                "brightness",
+                "contrast",
+                "gamma",
+                "sharpen_mild",
+                "local_contrast",
+                "gaussian_noise",
+                "blur_mild",
+                "cutout_safe"
+              ]
+            }
+          },
+          {
+            "name": "clahe",
+            "base_prob": 0.3,
+            "prob": 0.43,
+            "min_prob": 0.0,
+            "max_prob": 0.8,
+            "strength": 0.41999999999999993,
+            "min_strength": 0.05,
+            "max_strength": 0.8,
+            "update_rule": "low_contrast_fn_high_up",
+            "params": {
+              "max_clip_limit": 2.5
+            }
+          },
+          {
+            "name": "contrast",
+            "base_prob": 0.3,
+            "prob": 0.37,
+            "min_prob": 0.0,
+            "max_prob": 0.8,
+            "strength": 0.3899999999999999,
+            "min_strength": 0.05,
+            "max_strength": 0.8,
+            "update_rule": "low_contrast_fn_high_up; fp_high_down",
+            "params": {
+              "max_delta": 0.3
+            }
+          },
+          {
+            "name": "gamma",
+            "base_prob": 0.3,
+            "prob": 0.37,
+            "min_prob": 0.0,
+            "max_prob": 0.8,
+            "strength": 0.3899999999999999,
+            "min_strength": 0.05,
+            "max_strength": 0.8,
+            "update_rule": "low_contrast_fn_high_up; fp_high_down",
+            "params": {
+              "min_gamma": 0.75,
+              "max_gamma": 1.35
+            }
+          },
+          {
+            "name": "brightness",
+            "base_prob": 0.3,
+            "prob": 0.37,
+            "min_prob": 0.0,
+            "max_prob": 0.8,
+            "strength": 0.3899999999999999,
+            "min_strength": 0.05,
+            "max_strength": 0.8,
+            "update_rule": "low_contrast_fn_high_up; fp_high_down",
+            "params": {
+              "max_delta": 0.18
+            }
+          },
+          {
+            "name": "local_contrast",
+            "base_prob": 0.25,
+            "prob": 0.25,
+            "min_prob": 0.0,
+            "max_prob": 0.8,
+            "strength": 0.35,
+            "min_strength": 0.05,
+            "max_strength": 0.8,
+            "update_rule": "map50_high_map95_low_up",
+            "params": {
+              "max_clip_limit": 2.2,
+              "blend": 0.6
+            }
+          },
+          {
+            "name": "sharpen_mild",
+            "base_prob": 0.25,
+            "prob": 0.33,
+            "min_prob": 0.0,
+            "max_prob": 0.8,
+            "strength": 0.38999999999999996,
+            "min_strength": 0.05,
+            "max_strength": 0.8,
+            "update_rule": "low_contrast_fn_high_or_map50_high_map95_low_up",
+            "params": {
+              "amount": 0.7
+            }
+          },
+          {
+            "name": "gaussian_noise",
+            "base_prob": 0.1,
+            "prob": 0.04000000000000001,
+            "min_prob": 0.0,
+            "max_prob": 0.35,
+            "strength": 0.12,
+            "min_strength": 0.0,
+            "max_strength": 0.35,
+            "update_rule": "fp_high_down",
+            "params": {
+              "max_std": 0.025
+            }
+          },
+          {
+            "name": "cutout_safe",
+            "base_prob": 0.2,
+            "prob": 0.26,
+            "min_prob": 0.0,
+            "max_prob": 0.55,
+            "strength": 0.32,
+            "min_strength": 0.05,
+            "max_strength": 0.55,
+            "update_rule": "fp_high_up; map50_high_map95_low_down",
+            "params": {
+              "max_holes": 2,
+              "max_fraction": 0.18,
+              "max_overlap_ratio": 0.05,
+              "max_attempts": 40
+            }
+          },
+          {
+            "name": "mild_scale",
+            "base_prob": 0.18,
+            "prob": 0.22999999999999998,
+            "min_prob": 0.0,
+            "max_prob": 0.6,
+            "strength": 0.38,
+            "min_strength": 0.05,
+            "max_strength": 0.7,
+            "update_rule": "localization_weak_or_recall_low_up",
+            "params": {
+              "max_delta": 0.12
+            }
+          },
+          {
+            "name": "mild_translate",
+            "base_prob": 0.18,
+            "prob": 0.18,
+            "min_prob": 0.0,
+            "max_prob": 0.6,
+            "strength": 0.35,
+            "min_strength": 0.05,
+            "max_strength": 0.7,
+            "update_rule": "localization_weak_up",
+            "params": {
+              "max_translate": 0.05
+            }
+          },
+          {
+            "name": "copy_paste",
+            "base_prob": 0.0,
+            "prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.35,
+            "strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.5,
+            "status": "pending_object_bank_design",
+            "update_rule": "recall_low_or_low_support_up_pending",
+            "params": {
+              "max_paste_count": 1,
+              "target_classes": "low_support"
+            }
+          },
+          {
+            "name": "sharpen",
+            "prob": 0.08,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 1.0,
+            "strength": 0.04,
+            "min_strength": 0.0,
+            "max_strength": 1.0,
+            "params": {},
+            "update_rule": "created_by_feedback_controller"
+          },
+          {
+            "name": "blur_mild",
+            "prob": 0.0,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 1.0,
+            "strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 1.0,
+            "params": {},
+            "update_rule": "created_by_feedback_controller"
+          },
+          {
+            "name": "random_erasing",
+            "prob": 0.06,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 1.0,
+            "strength": 0.02,
+            "min_strength": 0.0,
+            "max_strength": 1.0,
+            "params": {},
+            "update_rule": "created_by_feedback_controller"
+          },
+          {
+            "name": "class_balanced_copy_paste",
+            "prob": 0.06,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.4,
+            "strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 1.0,
+            "params": {},
+            "update_rule": "created_by_feedback_controller",
+            "status": "pending_object_bank_design"
+          }
+        ]
+      }
+    }
+  ],
+  "latest_policy": {
+    "policy_id": "feedback_online_policy",
+    "description": "Feedback-adjustable YOLO-like plus industrial online augmentation policy.",
+    "target_size": 1024,
+    "operations": [
+      {
+        "name": "mosaic4",
+        "base_prob": 0.75,
+        "prob": 0.8,
+        "min_prob": 0.0,
+        "max_prob": 1.0,
+        "strength": 1.0,
+        "min_strength": 0.4,
+        "max_strength": 1.0,
+        "update_rule": "recall_low_up; localization_weak_or_map50_high_map95_low_down",
+        "params": {
+          "target_size": 1024,
+          "close_mosaic": 10,
+          "min_visibility": 0.05
+        }
+      },
+      {
+        "name": "hsv_jitter",
+        "base_prob": 1.0,
+        "prob": 1.0,
+        "min_prob": 0.4,
+        "max_prob": 1.0,
+        "strength": 1.0,
+        "min_strength": 0.4,
+        "max_strength": 1.0,
+        "update_rule": "yolo_like_static",
+        "params": {
+          "hsv_h": 0.015,
+          "hsv_s": 0.7,
+          "hsv_v": 0.4
+        }
+      },
+      {
+        "name": "random_scale_translate",
+        "base_prob": 0.75,
+        "prob": 0.75,
+        "min_prob": 0.1,
+        "max_prob": 1.0,
+        "strength": 0.8,
+        "min_strength": 0.2,
+        "max_strength": 1.0,
+        "update_rule": "localization_weak_up; map50_high_map95_low_down",
+        "params": {
+          "translate": 0.1,
+          "scale": 0.5,
+          "min_visibility": 0.2
+        }
+      },
+      {
+        "name": "horizontal_flip",
+        "base_prob": 0.5,
+        "prob": 0.5,
+        "min_prob": 0.0,
+        "max_prob": 0.7,
+        "strength": 1.0,
+        "update_rule": "static_yolo_like",
+        "params": {}
+      },
+      {
+        "name": "randaugment_like",
+        "base_prob": 0.45,
+        "prob": 0.45,
+        "min_prob": 0.0,
+        "max_prob": 0.8,
+        "strength": 0.45,
+        "min_strength": 0.05,
+        "max_strength": 0.8,
+        "update_rule": "recall_low_up; precision_low_down",
+        "params": {
+          "min_ops": 1,
+          "max_ops": 2,
+          "candidate_ops": [
+            "brightness",
+            "contrast",
+            "gamma",
+            "sharpen_mild",
+            "local_contrast",
+            "gaussian_noise",
+            "blur_mild",
+            "cutout_safe"
+          ]
+        }
+      },
+      {
+        "name": "clahe",
+        "base_prob": 0.3,
+        "prob": 0.43,
+        "min_prob": 0.0,
+        "max_prob": 0.8,
+        "strength": 0.41999999999999993,
+        "min_strength": 0.05,
+        "max_strength": 0.8,
+        "update_rule": "low_contrast_fn_high_up",
+        "params": {
+          "max_clip_limit": 2.5
+        }
+      },
+      {
+        "name": "contrast",
+        "base_prob": 0.3,
+        "prob": 0.37,
+        "min_prob": 0.0,
+        "max_prob": 0.8,
+        "strength": 0.3899999999999999,
+        "min_strength": 0.05,
+        "max_strength": 0.8,
+        "update_rule": "low_contrast_fn_high_up; fp_high_down",
+        "params": {
+          "max_delta": 0.3
+        }
+      },
+      {
+        "name": "gamma",
+        "base_prob": 0.3,
+        "prob": 0.37,
+        "min_prob": 0.0,
+        "max_prob": 0.8,
+        "strength": 0.3899999999999999,
+        "min_strength": 0.05,
+        "max_strength": 0.8,
+        "update_rule": "low_contrast_fn_high_up; fp_high_down",
+        "params": {
+          "min_gamma": 0.75,
+          "max_gamma": 1.35
+        }
+      },
+      {
+        "name": "brightness",
+        "base_prob": 0.3,
+        "prob": 0.37,
+        "min_prob": 0.0,
+        "max_prob": 0.8,
+        "strength": 0.3899999999999999,
+        "min_strength": 0.05,
+        "max_strength": 0.8,
+        "update_rule": "low_contrast_fn_high_up; fp_high_down",
+        "params": {
+          "max_delta": 0.18
+        }
+      },
+      {
+        "name": "local_contrast",
+        "base_prob": 0.25,
+        "prob": 0.25,
+        "min_prob": 0.0,
+        "max_prob": 0.8,
+        "strength": 0.35,
+        "min_strength": 0.05,
+        "max_strength": 0.8,
+        "update_rule": "map50_high_map95_low_up",
+        "params": {
+          "max_clip_limit": 2.2,
+          "blend": 0.6
+        }
+      },
+      {
+        "name": "sharpen_mild",
+        "base_prob": 0.25,
+        "prob": 0.33,
+        "min_prob": 0.0,
+        "max_prob": 0.8,
+        "strength": 0.38999999999999996,
+        "min_strength": 0.05,
+        "max_strength": 0.8,
+        "update_rule": "low_contrast_fn_high_or_map50_high_map95_low_up",
+        "params": {
+          "amount": 0.7
+        }
+      },
+      {
+        "name": "gaussian_noise",
+        "base_prob": 0.1,
+        "prob": 0.04000000000000001,
+        "min_prob": 0.0,
+        "max_prob": 0.35,
+        "strength": 0.12,
+        "min_strength": 0.0,
+        "max_strength": 0.35,
+        "update_rule": "fp_high_down",
+        "params": {
+          "max_std": 0.025
+        }
+      },
+      {
+        "name": "cutout_safe",
+        "base_prob": 0.2,
+        "prob": 0.26,
+        "min_prob": 0.0,
+        "max_prob": 0.55,
+        "strength": 0.32,
+        "min_strength": 0.05,
+        "max_strength": 0.55,
+        "update_rule": "fp_high_up; map50_high_map95_low_down",
+        "params": {
+          "max_holes": 2,
+          "max_fraction": 0.18,
+          "max_overlap_ratio": 0.05,
+          "max_attempts": 40
+        }
+      },
+      {
+        "name": "mild_scale",
+        "base_prob": 0.18,
+        "prob": 0.22999999999999998,
+        "min_prob": 0.0,
+        "max_prob": 0.6,
+        "strength": 0.38,
+        "min_strength": 0.05,
+        "max_strength": 0.7,
+        "update_rule": "localization_weak_or_recall_low_up",
+        "params": {
+          "max_delta": 0.12
+        }
+      },
+      {
+        "name": "mild_translate",
+        "base_prob": 0.18,
+        "prob": 0.18,
+        "min_prob": 0.0,
+        "max_prob": 0.6,
+        "strength": 0.35,
+        "min_strength": 0.05,
+        "max_strength": 0.7,
+        "update_rule": "localization_weak_up",
+        "params": {
+          "max_translate": 0.05
+        }
+      },
+      {
+        "name": "copy_paste",
+        "base_prob": 0.0,
+        "prob": 0.0,
+        "min_prob": 0.0,
+        "max_prob": 0.35,
+        "strength": 0.0,
+        "min_strength": 0.0,
+        "max_strength": 0.5,
+        "status": "pending_object_bank_design",
+        "update_rule": "recall_low_or_low_support_up_pending",
+        "params": {
+          "max_paste_count": 1,
+          "target_classes": "low_support"
+        }
+      },
+      {
+        "name": "sharpen",
+        "prob": 0.08,
+        "base_prob": 0.0,
+        "min_prob": 0.0,
+        "max_prob": 1.0,
+        "strength": 0.04,
+        "min_strength": 0.0,
+        "max_strength": 1.0,
+        "params": {},
+        "update_rule": "created_by_feedback_controller"
+      },
+      {
+        "name": "blur_mild",
+        "prob": 0.0,
+        "base_prob": 0.0,
+        "min_prob": 0.0,
+        "max_prob": 1.0,
+        "strength": 0.0,
+        "min_strength": 0.0,
+        "max_strength": 1.0,
+        "params": {},
+        "update_rule": "created_by_feedback_controller"
+      },
+      {
+        "name": "random_erasing",
+        "prob": 0.06,
+        "base_prob": 0.0,
+        "min_prob": 0.0,
+        "max_prob": 1.0,
+        "strength": 0.02,
+        "min_strength": 0.0,
+        "max_strength": 1.0,
+        "params": {},
+        "update_rule": "created_by_feedback_controller"
+      },
+      {
+        "name": "class_balanced_copy_paste",
+        "prob": 0.06,
+        "base_prob": 0.0,
+        "min_prob": 0.0,
+        "max_prob": 0.4,
+        "strength": 0.0,
+        "min_strength": 0.0,
+        "max_strength": 1.0,
+        "params": {},
+        "update_rule": "created_by_feedback_controller",
+        "status": "pending_object_bank_design"
+      }
+    ]
+  }
+}

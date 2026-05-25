@@ -1,0 +1,1 @@
+YOLO.val model=E:\TJGY\MinPaper\MyAutoAugument\outputs\experiments\feedback_online_policy_2stage_smoke\train_stage1\weights\last.pt data=outputs\datasets\tiled\tiled_1024_ov20_full_safe_no_ok_position\data.yaml imgsz=1024 batch=2 workers=0 device=0 project=E:\TJGY\MinPaper\MyAutoAugument\outputs\experiments\feedback_online_policy_2stage_smoke name=val_stage1 exist_ok=True

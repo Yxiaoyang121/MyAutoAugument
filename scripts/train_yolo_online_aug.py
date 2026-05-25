@@ -8,6 +8,7 @@ import shutil
 import subprocess
 import sys
 import time
+from copy import deepcopy
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
@@ -22,6 +23,10 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 from AutoAugment.bbox.convert import xyxy_to_yolo, yolo_to_xyxy  # noqa: E402
+from AutoAugment.feedback_policy_controller import (  # noqa: E402
+    FeedbackPolicyController,
+    infer_feedback_diagnostics,
+)
 from AutoAugment.online_augmentation import (  # noqa: E402
     OnlineAugmentationStats,
     OnlinePolicyAugmentor,
@@ -78,6 +83,8 @@ class OnlineTrainingContext:
     num_classes: int | None = None
     train_image_count: int | None = None
     train_img_path: str | None = None
+    global_epoch_offset: int = 0
+    total_epochs: int | None = None
 
 
 def main() -> None:
@@ -92,18 +99,31 @@ def main() -> None:
     train_config = build_train_config(args, output_dir)
     write_json(output_dir / "configs" / "train_config.json", train_config)
 
+    if args.feedback_enabled:
+        payload = run_feedback_training(args, output_dir, api, policy)
+        update_state_docs(payload)
+        export_project_snapshot()
+        print(json.dumps(payload["summary"], ensure_ascii=False, indent=2))
+        if not payload["train"]["success"]:
+            raise RuntimeError(f"feedback online augmentation training failed: {payload['train']['error']}")
+        if not payload["val"]["success"]:
+            raise RuntimeError(f"feedback online augmentation validation failed: {payload['val']['error']}")
+        return
+
     stats = OnlineAugmentationStats()
     augmentor = OnlinePolicyAugmentor(
         policy,
         seed=args.seed,
         copy_paste_enabled=args.online_copy_paste,
         stats=stats,
+        total_epochs=args.epochs,
     )
     context = OnlineTrainingContext(
         augmentor=augmentor,
         preview_dir=output_dir / "previews",
         save_preview=args.save_preview,
         preview_count=args.preview_count,
+        total_epochs=args.epochs,
     )
 
     train_command = build_train_command(args, output_dir)
@@ -117,6 +137,7 @@ def main() -> None:
     try:
         trainer_cls = make_online_trainer(api, context)
         model = api["YOLO"](args.model)
+        register_epoch_callback(model, context, total_epochs=args.epochs)
         train_kwargs = build_train_kwargs(args, output_dir)
         train_result = model.train(trainer=trainer_cls, **train_kwargs)
         train_success = True
@@ -214,6 +235,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--preview-count", type=int, default=50)
     parser.add_argument("--online-copy-paste", action="store_true")
     parser.add_argument("--copy-paste-bank-size", type=int, default=512)
+    parser.add_argument("--feedback-enabled", action="store_true")
+    parser.add_argument("--feedback-interval", type=int, default=1)
+    parser.add_argument("--feedback-start-epoch", type=int, default=1)
+    parser.add_argument("--feedback-profile", default="industrial")
+    parser.add_argument("--policy-state-path", default=None)
     return parser.parse_args()
 
 
@@ -267,6 +293,266 @@ def prepare_output_dirs(output_dir: Path) -> None:
         (output_dir / subdir).mkdir(parents=True, exist_ok=True)
 
 
+def run_feedback_training(args: argparse.Namespace, output_dir: Path, api: dict[str, Any], initial_policy: dict[str, Any]) -> dict[str, Any]:
+    stats = OnlineAugmentationStats()
+    augmentor = OnlinePolicyAugmentor(
+        initial_policy,
+        seed=args.seed,
+        copy_paste_enabled=args.online_copy_paste,
+        stats=stats,
+        total_epochs=args.epochs,
+    )
+    context = OnlineTrainingContext(
+        augmentor=augmentor,
+        preview_dir=output_dir / "previews",
+        save_preview=args.save_preview,
+        preview_count=args.preview_count,
+        total_epochs=args.epochs,
+    )
+    policy_state_path = Path(args.policy_state_path) if args.policy_state_path else output_dir / "configs" / "policy_state.json"
+    controller = FeedbackPolicyController(
+        initial_policy,
+        history_dir=output_dir / "reports",
+        policy_state_path=policy_state_path,
+        profile=args.feedback_profile,
+    )
+    stage_lengths = build_feedback_stage_lengths(args.epochs, args.feedback_interval)
+    stage_records: list[dict[str, Any]] = []
+    current_model: str | Path = args.model
+    global_epoch = 0
+    train_success = True
+    train_error: str | None = None
+    val_success = True
+    val_error: str | None = None
+    final_val_metrics: dict[str, Any] = {}
+    final_weights = Path()
+
+    for stage_index, stage_epochs in enumerate(stage_lengths):
+        stage_policy = deepcopy(controller.policy)
+        augmentor.set_policy(stage_policy)
+        context.global_epoch_offset = global_epoch
+        context.total_epochs = args.epochs
+        augmentor.set_epoch(global_epoch, args.epochs)
+        write_json(output_dir / "configs" / f"stage_{stage_index}_policy.json", stage_policy)
+
+        train_name = f"train_stage{stage_index}"
+        val_name = f"val_stage{stage_index}"
+        train_command = build_train_command(
+            args,
+            output_dir,
+            epochs=stage_epochs,
+            name=train_name,
+            model_override=current_model,
+        )
+        write_text(output_dir / "configs" / f"stage_{stage_index}_train_command.txt", train_command)
+        write_text(output_dir / "logs" / f"stage_{stage_index}.train.command.txt", train_command)
+
+        stage_train_success = False
+        stage_train_error: str | None = None
+        train_start = time.time()
+        try:
+            trainer_cls = make_online_trainer(api, context)
+            model = api["YOLO"](str(current_model))
+            register_epoch_callback(model, context, total_epochs=args.epochs)
+            train_kwargs = build_train_kwargs(args, output_dir, epochs=stage_epochs, name=train_name)
+            train_result = model.train(trainer=trainer_cls, **train_kwargs)
+            stage_train_success = True
+            train_result_type = type(train_result).__name__
+        except Exception as exc:
+            stage_train_error = f"{type(exc).__name__}: {exc}"
+            train_result_type = None
+        train_end = time.time()
+
+        stage_dir = output_dir / train_name
+        best_pt = stage_dir / "weights" / "best.pt"
+        last_pt = stage_dir / "weights" / "last.pt"
+        weights_for_val = last_pt if last_pt.exists() else best_pt
+        final_weights = weights_for_val
+
+        stage_val_success = False
+        stage_val_error: str | None = None
+        stage_val_metrics: dict[str, Any] = {}
+        val_command = build_val_command(args, output_dir, weights_for_val, name=val_name)
+        write_text(output_dir / "configs" / f"stage_{stage_index}_val_command.txt", val_command)
+        write_text(output_dir / "logs" / f"stage_{stage_index}.val.command.txt", val_command)
+        val_start = time.time()
+        if stage_train_success and weights_for_val.exists():
+            try:
+                val_result = api["YOLO"](str(weights_for_val)).val(
+                    data=str(Path(args.data)),
+                    imgsz=args.imgsz,
+                    batch=args.batch,
+                    workers=args.workers,
+                    device=str(args.device),
+                    project=str(output_dir),
+                    name=val_name,
+                    exist_ok=True,
+                    plots=False,
+                )
+                stage_val_metrics = metrics_to_dict(val_result)
+                stage_val_success = True
+            except Exception as exc:
+                stage_val_error = f"{type(exc).__name__}: {exc}"
+        elif stage_train_success:
+            stage_val_error = f"no weights found for validation under {stage_dir / 'weights'}"
+        else:
+            stage_val_error = "validation skipped because stage training failed"
+        val_end = time.time()
+
+        val_image_count = count_split_images(Path(args.data), "val")
+        if stage_val_metrics and stage_val_metrics.get("images") is None:
+            stage_val_metrics["images"] = val_image_count
+
+        diagnosis: dict[str, Any] = {}
+        policy_updated = False
+        next_global_epoch = global_epoch + stage_epochs
+        if (
+            stage_val_success
+            and stage_index < len(stage_lengths) - 1
+            and next_global_epoch >= int(args.feedback_start_epoch)
+        ):
+            diagnosis = infer_feedback_diagnostics(stage_val_metrics, profile=args.feedback_profile)
+            updated_policy = controller.update(diagnosis, stage_index=stage_index, metrics=stage_val_metrics)
+            write_json(output_dir / "configs" / f"stage_{stage_index}_updated_policy.json", updated_policy)
+            policy_updated = True
+
+        stage_records.append(
+            {
+                "stage_index": stage_index,
+                "epochs": stage_epochs,
+                "global_epoch_start": global_epoch,
+                "global_epoch_end": next_global_epoch,
+                "train_name": train_name,
+                "val_name": val_name,
+                "train_success": stage_train_success,
+                "train_error": stage_train_error,
+                "train_wall_seconds": train_end - train_start,
+                "train_result_type": train_result_type,
+                "val_success": stage_val_success,
+                "val_error": stage_val_error,
+                "val_wall_seconds": val_end - val_start,
+                "val_metrics": stage_val_metrics,
+                "weights_for_val": str(weights_for_val) if weights_for_val.exists() else None,
+                "policy_updated": policy_updated,
+                "feedback_diagnostics": diagnosis,
+            }
+        )
+
+        train_success = train_success and stage_train_success
+        val_success = val_success and stage_val_success
+        train_error = train_error or stage_train_error
+        val_error = val_error or stage_val_error
+        final_val_metrics = stage_val_metrics or final_val_metrics
+        if not stage_train_success or not stage_val_success:
+            break
+        current_model = weights_for_val if weights_for_val.exists() else current_model
+        global_epoch = next_global_epoch
+
+    write_json(output_dir / "configs" / "policy_final.json", controller.policy)
+    fixed_augmented_dataset_generated = any(
+        path.exists()
+        for path in [
+            output_dir / "dataset" / "final_dataset" / "images",
+            output_dir / "dataset_builder" / "final_dataset" / "images",
+        ]
+    )
+    stats_payload = stats.to_dict()
+    stats_payload.update(
+        {
+            "run_id": args.run_id,
+            "generated_at": datetime.now().isoformat(timespec="seconds"),
+            "online_augmentation": True,
+            "feedback_enabled": True,
+            "feedback_interval": int(args.feedback_interval),
+            "feedback_start_epoch": int(args.feedback_start_epoch),
+            "feedback_profile": str(args.feedback_profile),
+            "train_image_count": context.train_image_count,
+            "expected_original_train_images": 2301,
+            "train_image_count_matches_original": context.train_image_count == 2301,
+            "fixed_augmented_dataset_generated": fixed_augmented_dataset_generated,
+            "policy_id": initial_policy.get("policy_id", initial_policy.get("name")),
+            "copy_paste_online_supported": False,
+            "copy_paste_note": "online copy-paste is pending object-bank implementation; copy_paste ops are skipped safely.",
+            "train_success": train_success,
+            "train_error": train_error,
+            "val_success": val_success,
+            "val_error": val_error,
+            "val_metrics": final_val_metrics,
+            "policy_history_json": str((output_dir / "reports" / "policy_history.json").resolve()),
+            "policy_history_md": str((output_dir / "reports" / "policy_history.md").resolve()),
+            "policy_history_csv": str((output_dir / "reports" / "policy_history.csv").resolve()),
+        }
+    )
+    payload = {
+        "run_id": args.run_id,
+        "output_dir": str(output_dir),
+        "data": str(args.data),
+        "model": str(args.model),
+        "epochs": int(args.epochs),
+        "disable_yolo_aug": bool(args.disable_yolo_aug),
+        "policy": initial_policy,
+        "final_policy": controller.policy,
+        "mode": "only_custom_online_aug" if args.disable_yolo_aug else "custom_online_plus_yolo_default_reserved",
+        "online_aug_stats": stats_payload,
+        "feedback": {
+            "enabled": True,
+            "stage_count": len(stage_records),
+            "stages": stage_records,
+            "policy_history_count": len(controller.history),
+            "policy_history_json": str((output_dir / "reports" / "policy_history.json").resolve()),
+            "policy_history_md": str((output_dir / "reports" / "policy_history.md").resolve()),
+            "policy_history_csv": str((output_dir / "reports" / "policy_history.csv").resolve()),
+        },
+        "summary": {
+            "online_augmentation_implemented": True,
+            "feedback_enabled": True,
+            "policy_history_updates": len(controller.history),
+            "fixed_augmented_dataset_generated": fixed_augmented_dataset_generated,
+            "train_image_count": context.train_image_count,
+            "train_success": train_success,
+            "val_success": val_success,
+            "val_metrics": final_val_metrics,
+            "preview_dir": str((output_dir / "previews").resolve()),
+            "online_aug_stats": str((output_dir / "reports" / "online_aug_stats.json").resolve()),
+            "policy_history": str((output_dir / "reports" / "policy_history.json").resolve()),
+            "copy_paste_supported": False,
+        },
+        "train": {
+            "success": train_success,
+            "error": train_error,
+            "weights_for_val": str(final_weights) if final_weights.exists() else None,
+            "stages": stage_records,
+        },
+        "val": {
+            "success": val_success,
+            "error": val_error,
+            "metrics": final_val_metrics,
+        },
+        "artifacts": {
+            "policy_json": str((output_dir / "configs" / "policy.json").resolve()),
+            "train_config_json": str((output_dir / "configs" / "train_config.json").resolve()),
+            "report_md": str((output_dir / "reports" / "online_aug_smoke_report.md").resolve()),
+            "stats_json": str((output_dir / "reports" / "online_aug_stats.json").resolve()),
+            "preview_dir": str((output_dir / "previews").resolve()),
+        },
+    }
+    write_json(output_dir / "reports" / "online_aug_stats.json", stats_payload)
+    write_markdown(output_dir / "reports" / "online_aug_smoke_report.md", build_feedback_smoke_report(payload))
+    return payload
+
+
+def build_feedback_stage_lengths(total_epochs: int, interval: int) -> list[int]:
+    total = max(1, int(total_epochs))
+    step = max(1, int(interval))
+    lengths = []
+    remaining = total
+    while remaining > 0:
+        current = min(step, remaining)
+        lengths.append(current)
+        remaining -= current
+    return lengths
+
+
 def make_online_trainer(api: dict[str, Any], context: OnlineTrainingContext):
     YOLODataset = api["YOLODataset"]
     DetectionTrainer = api["DetectionTrainer"]
@@ -278,12 +564,28 @@ def make_online_trainer(api: dict[str, Any], context: OnlineTrainingContext):
         def __init__(self, *dataset_args, online_context: OnlineTrainingContext | None = None, **dataset_kwargs):
             self.online_context = online_context
             super().__init__(*dataset_args, **dataset_kwargs)
+            if self.online_context is not None:
+                self.online_context.augmentor.set_sample_provider(self.sample_online_source)
 
         def build_transforms(self, hyp: dict | None = None):
             transforms = super().build_transforms(hyp)
             if self.augment and self.online_context is not None:
                 transforms.insert(0, UltralyticsOnlinePolicyTransform(self.online_context, Instances))
             return transforms
+
+        def sample_online_source(self, rng: np.random.Generator):
+            if len(self) <= 0:
+                return None
+            index = int(rng.integers(0, len(self)))
+            label = self.get_image_and_label(index)
+            image = label.get("img")
+            instances = label.get("instances")
+            if image is None or instances is None:
+                return None
+            height, width = image.shape[:2]
+            class_values = np.asarray(label.get("cls", np.zeros((0, 1))), dtype=np.float32).reshape(-1).astype(np.int64)
+            bboxes = instances_to_xyxy(instances, width=width, height=height)
+            return image, class_values, bboxes
 
     class OnlineAugDetectionTrainer(DetectionTrainer):
         def build_dataset(self, img_path: str, mode: str = "train", batch: int | None = None):
@@ -316,6 +618,15 @@ def make_online_trainer(api: dict[str, Any], context: OnlineTrainingContext):
             return dataset
 
     return OnlineAugDetectionTrainer
+
+
+def register_epoch_callback(model: Any, context: OnlineTrainingContext, *, total_epochs: int) -> None:
+    def _on_train_epoch_start(trainer: Any) -> None:
+        local_epoch = int(getattr(trainer, "epoch", 0) or 0)
+        context.augmentor.set_epoch(context.global_epoch_offset + local_epoch, total_epochs)
+
+    if hasattr(model, "add_callback"):
+        model.add_callback("on_train_epoch_start", _on_train_epoch_start)
 
 
 class UltralyticsOnlinePolicyTransform:
@@ -401,17 +712,23 @@ def make_instances(instances_cls: Any, bboxes_xyxy: np.ndarray, *, width: int, h
     return instances_cls(yolo_boxes, segments=segments, bbox_format="xywh", normalized=True)
 
 
-def build_train_kwargs(args: argparse.Namespace, output_dir: Path) -> dict[str, Any]:
+def build_train_kwargs(
+    args: argparse.Namespace,
+    output_dir: Path,
+    *,
+    epochs: int | None = None,
+    name: str = "train",
+) -> dict[str, Any]:
     kwargs: dict[str, Any] = {
         "data": str(Path(args.data)),
-        "epochs": args.epochs,
+        "epochs": int(epochs if epochs is not None else args.epochs),
         "imgsz": args.imgsz,
         "batch": args.batch,
         "workers": args.workers,
         "device": str(args.device),
         "seed": args.seed,
         "project": str(output_dir),
-        "name": "train",
+        "name": name,
         "exist_ok": True,
         "plots": False,
     }
@@ -420,20 +737,27 @@ def build_train_kwargs(args: argparse.Namespace, output_dir: Path) -> dict[str, 
     return kwargs
 
 
-def build_train_command(args: argparse.Namespace, output_dir: Path) -> str:
+def build_train_command(
+    args: argparse.Namespace,
+    output_dir: Path,
+    *,
+    epochs: int | None = None,
+    name: str = "train",
+    model_override: str | Path | None = None,
+) -> str:
     parts = [
         "YOLO.train",
-        f"model={args.model}",
+        f"model={model_override if model_override is not None else args.model}",
         f"data={Path(args.data)}",
         f"policy={Path(args.policy)}",
-        f"epochs={args.epochs}",
+        f"epochs={int(epochs if epochs is not None else args.epochs)}",
         f"imgsz={args.imgsz}",
         f"batch={args.batch}",
         f"workers={args.workers}",
         f"device={args.device}",
         f"seed={args.seed}",
         f"project={output_dir}",
-        "name=train",
+        f"name={name}",
         "trainer=OnlineAugDetectionTrainer",
     ]
     if args.disable_yolo_aug:
@@ -441,7 +765,7 @@ def build_train_command(args: argparse.Namespace, output_dir: Path) -> str:
     return subprocess.list2cmdline([str(part) for part in parts])
 
 
-def build_val_command(args: argparse.Namespace, output_dir: Path, weights: Path) -> str:
+def build_val_command(args: argparse.Namespace, output_dir: Path, weights: Path, *, name: str = "val") -> str:
     parts = [
         "YOLO.val",
         f"model={weights}",
@@ -451,7 +775,7 @@ def build_val_command(args: argparse.Namespace, output_dir: Path, weights: Path)
         f"workers={args.workers}",
         f"device={args.device}",
         f"project={output_dir}",
-        "name=val",
+        f"name={name}",
         "exist_ok=True",
     ]
     return subprocess.list2cmdline([str(part) for part in parts])
@@ -476,6 +800,11 @@ def build_train_config(args: argparse.Namespace, output_dir: Path) -> dict[str, 
         "preview_count": args.preview_count,
         "online_copy_paste": bool(args.online_copy_paste),
         "copy_paste_bank_size": args.copy_paste_bank_size,
+        "feedback_enabled": bool(args.feedback_enabled),
+        "feedback_interval": int(args.feedback_interval),
+        "feedback_start_epoch": int(args.feedback_start_epoch),
+        "feedback_profile": str(args.feedback_profile),
+        "policy_state_path": args.policy_state_path,
         "mode": "only_custom_online_aug" if args.disable_yolo_aug else "custom_online_plus_yolo_default_reserved",
     }
 
@@ -976,7 +1305,91 @@ def build_smoke_report(payload: dict[str, Any]) -> str:
             "## Copy-Paste",
             "",
             "- Online copy-paste pending: object-bank paste is not enabled in this first smoke implementation.",
-            "- Current online policy verifies photometric / texture / cutout / flip / mild geometry operations.",
+            "- Current online policy verifies YOLO-like and industrial online operators while leaving copy-paste execution pending.",
+        ]
+    )
+    if payload["train"]["error"]:
+        lines.extend(["", "## Train Error", "", f"`{payload['train']['error']}`"])
+    if payload["val"]["error"]:
+        lines.extend(["", "## Validation Error", "", f"`{payload['val']['error']}`"])
+    return "\n".join(lines) + "\n"
+
+
+def build_feedback_smoke_report(payload: dict[str, Any]) -> str:
+    stats = payload["online_aug_stats"]
+    val_metrics = payload["val"]["metrics"]
+    feedback = payload.get("feedback", {})
+    lines = [
+        "# Feedback Online Augmentation Smoke Report",
+        "",
+        f"- Run ID: `{payload['run_id']}`",
+        f"- Mode: `{payload['mode']}`",
+        f"- Online augmentation implemented: `{str(stats['online_augmentation']).lower()}`",
+        f"- Feedback enabled: `{str(feedback.get('enabled', False)).lower()}`",
+        f"- Stage count: `{feedback.get('stage_count', 0)}`",
+        f"- Policy history updates: `{feedback.get('policy_history_count', 0)}`",
+        f"- Train image count: `{stats.get('train_image_count')}`",
+        f"- Train image count remains original 2301: `{str(stats.get('train_image_count_matches_original')).lower()}`",
+        f"- Fixed augmented dataset generated: `{str(stats.get('fixed_augmented_dataset_generated')).lower()}`",
+        f"- YOLO built-in augmentation disabled: `{str(payload.get('disable_yolo_aug', True)).lower()}`",
+        "- Validation custom augmentation: `false`",
+        f"- Training success: `{str(payload['train']['success']).lower()}`",
+        f"- Validation success: `{str(payload['val']['success']).lower()}`",
+        f"- Preview dir: `{payload['artifacts']['preview_dir']}`",
+        f"- Stats JSON: `{payload['artifacts']['stats_json']}`",
+        f"- Policy history JSON: `{feedback.get('policy_history_json')}`",
+        "",
+        "## Validation Metrics",
+        "",
+        f"- Precision: `{val_metrics.get('precision', 0.0):.4f}`",
+        f"- Recall: `{val_metrics.get('recall', 0.0):.4f}`",
+        f"- mAP50: `{val_metrics.get('map50', 0.0):.4f}`",
+        f"- mAP50-95: `{val_metrics.get('map50_95', 0.0):.4f}`",
+        "",
+        "## Stage Summary",
+        "",
+        "| stage | epochs | train | val | policy_updated |",
+        "|---:|---:|---|---|---|",
+    ]
+    for stage in feedback.get("stages", []):
+        lines.append(
+            f"| {stage.get('stage_index')} | {stage.get('epochs')} | "
+            f"{str(stage.get('train_success')).lower()} | {str(stage.get('val_success')).lower()} | "
+            f"{str(stage.get('policy_updated')).lower()} |"
+        )
+    lines.extend(
+        [
+            "",
+            "## Operation Counts",
+            "",
+            "| op | seen | applied | skipped_probability | skipped_safety | skipped_copy_paste_pending | skipped_unsupported | skipped_close_mosaic |",
+            "|---|---:|---:|---:|---:|---:|---:|---:|",
+        ]
+    )
+    for name, counts in sorted(stats.get("ops", {}).items()):
+        lines.append(
+            f"| {name} | {counts.get('seen', 0)} | {counts.get('applied', 0)} | "
+            f"{counts.get('skipped_probability', 0)} | {counts.get('skipped_safety', 0)} | "
+            f"{counts.get('skipped_copy_paste_pending', 0)} | {counts.get('skipped_unsupported', 0)} | "
+            f"{counts.get('skipped_close_mosaic', 0)} |"
+        )
+    lines.extend(
+        [
+            "",
+            "## Safety",
+            "",
+            f"- Bbox transform valid: `{str(stats.get('invalid_bbox_count', 0) == 0 and stats.get('class_id_oob_count', 0) == 0).lower()}`",
+            f"- Invalid bbox count: `{stats.get('invalid_bbox_count', 0)}`",
+            f"- Bbox out-of-bounds count before clipping: `{stats.get('bbox_oob_count', 0)}`",
+            f"- Class id out-of-range count: `{stats.get('class_id_oob_count', 0)}`",
+            f"- Cutout holes applied: `{stats.get('cutout_safe', {}).get('holes_applied', 0)}`",
+            f"- Cutout skipped by center safety: `{stats.get('cutout_safe', {}).get('holes_skipped_center', 0)}`",
+            f"- Cutout skipped by overlap safety: `{stats.get('cutout_safe', {}).get('holes_skipped_overlap', 0)}`",
+            f"- Mosaic applied: `{stats.get('mosaic4', {}).get('applied', 0)}`",
+            "",
+            "## Copy-Paste",
+            "",
+            "- Online copy-paste pending: object-bank paste is not enabled; copy_paste and class_balanced_copy_paste updates are recorded as pending.",
         ]
     )
     if payload["train"]["error"]:
@@ -1197,6 +1610,33 @@ def fmt(value: Any, *, signed: bool = False) -> str:
 def update_state_docs(payload: dict[str, Any]) -> None:
     stats = payload["online_aug_stats"]
     val = payload["val"]["metrics"]
+    if payload.get("feedback", {}).get("enabled"):
+        feedback = payload["feedback"]
+        section = "\n".join(
+            [
+                "## Feedback Online Augmentation Smoke",
+                "",
+                f"- Run ID: `{payload['run_id']}`",
+                "- Entrypoint: `scripts/train_yolo_online_aug.py` with `--feedback-enabled`.",
+                "- Mechanism: custom YOLO-like/industrial online augmentation remains inside the training dataloader; no fixed augmented dataset is built.",
+                f"- Stage count: `{feedback.get('stage_count')}`",
+                f"- Policy history updates: `{feedback.get('policy_history_count')}`",
+                f"- Train image count: `{stats.get('train_image_count')}`; no train image doubling.",
+                f"- Fixed augmented dataset generated: `{str(stats.get('fixed_augmented_dataset_generated')).lower()}`",
+                "- Validation custom augmentation: `false`; val uses original val tiles.",
+                "- YOLO built-in augmentation: disabled for `only_custom_online_aug`.",
+                "- Online copy-paste: pending object-bank implementation; feedback may raise pending copy-paste probabilities but execution is skipped safely.",
+                f"- Train success: `{str(payload['train']['success']).lower()}`",
+                f"- Val success: `{str(payload['val']['success']).lower()}`",
+                f"- Val P/R/mAP50/mAP50-95: `{val.get('precision', 0.0):.4f}/{val.get('recall', 0.0):.4f}/{val.get('map50', 0.0):.4f}/{val.get('map50_95', 0.0):.4f}`",
+                f"- Report: `outputs/experiments/{payload['run_id']}/reports/online_aug_smoke_report.md`",
+                f"- Stats JSON: `outputs/experiments/{payload['run_id']}/reports/online_aug_stats.json`",
+                f"- Policy history JSON: `outputs/experiments/{payload['run_id']}/reports/policy_history.json`",
+            ]
+        )
+        for rel in ["PROJECT_STATE.md", "CODEX_HANDOFF.md", "EXPERIMENT_LOG.md"]:
+            upsert_section(PROJECT_ROOT / rel, "FEEDBACK_ONLINE_AUG_SMOKE", section)
+        return
     if "formal_metrics" in payload:
         metrics_payload = payload["formal_metrics"]
         comparison = metrics_payload.get("comparison", {})
@@ -1274,7 +1714,7 @@ def update_state_docs(payload: dict[str, Any]) -> None:
             f"- Preview dir: `{payload['artifacts']['preview_dir']}`",
             f"- Report: `outputs/experiments/{payload['run_id']}/reports/online_aug_smoke_report.md`",
             f"- Stats JSON: `outputs/experiments/{payload['run_id']}/reports/online_aug_stats.json`",
-            "- Next step after smoke success: run online `diag_policy_001` for 50 epochs and compare fairly against YOLO default augmentation.",
+            "- Next step: inspect smoke safety/history and tune the feedback controller before any formal 50 epoch experiment.",
         ]
     )
     for rel in ["PROJECT_STATE.md", "CODEX_HANDOFF.md", "EXPERIMENT_LOG.md"]:

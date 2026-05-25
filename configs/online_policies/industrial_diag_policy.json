@@ -1,0 +1,101 @@
+{
+  "policy_id": "industrial_diag_policy",
+  "description": "Industrial defect oriented online augmentation pool with safe geometry and texture operations.",
+  "target_size": 1024,
+  "operations": [
+    {
+      "name": "clahe",
+      "prob": 0.35,
+      "strength": 0.45,
+      "params": {
+        "max_clip_limit": 2.5
+      }
+    },
+    {
+      "name": "contrast",
+      "prob": 0.35,
+      "strength": 0.35,
+      "params": {
+        "max_delta": 0.30
+      }
+    },
+    {
+      "name": "gamma",
+      "prob": 0.30,
+      "strength": 0.35,
+      "params": {
+        "min_gamma": 0.75,
+        "max_gamma": 1.35
+      }
+    },
+    {
+      "name": "brightness",
+      "prob": 0.30,
+      "strength": 0.35,
+      "params": {
+        "max_delta": 0.18
+      }
+    },
+    {
+      "name": "local_contrast",
+      "prob": 0.25,
+      "strength": 0.35,
+      "params": {
+        "max_clip_limit": 2.2,
+        "blend": 0.6
+      }
+    },
+    {
+      "name": "sharpen_mild",
+      "prob": 0.25,
+      "strength": 0.35,
+      "params": {
+        "amount": 0.7
+      }
+    },
+    {
+      "name": "gaussian_noise",
+      "prob": 0.12,
+      "strength": 0.18,
+      "params": {
+        "max_std": 0.025
+      }
+    },
+    {
+      "name": "cutout_safe",
+      "prob": 0.18,
+      "strength": 0.30,
+      "params": {
+        "max_holes": 2,
+        "max_fraction": 0.16,
+        "max_overlap_ratio": 0.05,
+        "max_attempts": 40
+      }
+    },
+    {
+      "name": "mild_scale",
+      "prob": 0.20,
+      "strength": 0.40,
+      "params": {
+        "max_delta": 0.12
+      }
+    },
+    {
+      "name": "mild_translate",
+      "prob": 0.20,
+      "strength": 0.40,
+      "params": {
+        "max_translate": 0.05
+      }
+    },
+    {
+      "name": "copy_paste",
+      "prob": 0.0,
+      "strength": 0.0,
+      "status": "pending_object_bank_design",
+      "params": {
+        "max_paste_count": 1
+      }
+    }
+  ]
+}

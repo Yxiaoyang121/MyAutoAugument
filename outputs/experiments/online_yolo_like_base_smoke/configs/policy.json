@@ -1,0 +1,54 @@
+{
+  "policy_id": "yolo_like_base_policy",
+  "description": "YOLO-like online augmentation pool implemented outside Ultralytics built-in augmentation.",
+  "target_size": 1024,
+  "operations": [
+    {
+      "name": "mosaic4",
+      "prob": 1.0,
+      "strength": 1.0,
+      "params": {
+        "target_size": 1024,
+        "close_mosaic": 10,
+        "min_visibility": 0.05
+      }
+    },
+    {
+      "name": "hsv_jitter",
+      "prob": 1.0,
+      "strength": 1.0,
+      "params": {
+        "hsv_h": 0.015,
+        "hsv_s": 0.7,
+        "hsv_v": 0.4
+      }
+    },
+    {
+      "name": "random_scale_translate",
+      "prob": 1.0,
+      "strength": 1.0,
+      "params": {
+        "translate": 0.1,
+        "scale": 0.5,
+        "min_visibility": 0.2
+      }
+    },
+    {
+      "name": "horizontal_flip",
+      "prob": 0.5,
+      "strength": 1.0,
+      "params": {}
+    },
+    {
+      "name": "random_erasing",
+      "prob": 0.4,
+      "strength": 0.6,
+      "params": {
+        "max_holes": 2,
+        "max_fraction": 0.18,
+        "max_overlap_ratio": 0.05,
+        "max_attempts": 40
+      }
+    }
+  ]
+}

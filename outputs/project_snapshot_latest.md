@@ -1,27 +1,22 @@
 # Project Snapshot
 
-- Generated: 2026-05-25T21:29:13
+- Generated: 2026-05-26T05:17:30
 - Branch: codex/sync-latest
-- Commit: 4ae14ee6239424b41c6b6c8c9b1e7ab4c6af41e0
+- Commit: 5bc00ba990c364d086bc557784579a65c5ca0dd3
 - Remote: https://github.com/Yxiaoyang121/MyAutoAugument.git
 
 ## Working Tree
 
 ```text
- M AutoAugment/online_augmentation.py
  M CODEX_HANDOFF.md
  M EXPERIMENT_LOG.md
  M PROJECT_STATE.md
+ M configs/online_policies/yolo_like_base_policy.json
  M outputs/project_snapshot_latest.md
  M outputs/snapshots/project_snapshot_latest.md
  M scripts/export_project_snapshot.py
  M scripts/train_yolo_online_aug.py
- M tests/test_online_augmentation.py
-?? AutoAugment/feedback_policy_controller.py
-?? configs/
-?? outputs/experiments/feedback_online_policy_2stage_smoke/
-?? outputs/experiments/online_yolo_like_base_smoke/
-?? tests/test_feedback_policy_controller.py
+?? outputs/experiments/20260518_tiled1024_safe_no_ok_position_custom_yolo_like_base_yolo11n_50ep/
 ```
 
 ## Key Files
@@ -146,6 +141,12 @@
 - outputs/experiments/feedback_online_policy_2stage_smoke/reports/policy_history.md
 - outputs/experiments/feedback_online_policy_2stage_smoke/reports/policy_history.csv
 - outputs/experiments/feedback_online_policy_2stage_smoke/configs/train_config.json
+- outputs/experiments/20260518_tiled1024_safe_no_ok_position_custom_yolo_like_base_yolo11n_50ep/reports/custom_yolo_like_base_50ep_report.md
+- outputs/experiments/20260518_tiled1024_safe_no_ok_position_custom_yolo_like_base_yolo11n_50ep/reports/custom_yolo_like_base_50ep_metrics.json
+- outputs/experiments/20260518_tiled1024_safe_no_ok_position_custom_yolo_like_base_yolo11n_50ep/reports/compare_custom_yolo_like_with_yolo_default.md
+- outputs/experiments/20260518_tiled1024_safe_no_ok_position_custom_yolo_like_base_yolo11n_50ep/reports/online_aug_stats.json
+- outputs/experiments/20260518_tiled1024_safe_no_ok_position_custom_yolo_like_base_yolo11n_50ep/reports/policy_history.json
+- outputs/experiments/20260518_tiled1024_safe_no_ok_position_custom_yolo_like_base_yolo11n_50ep/configs/train_config.json
 - outputs/datasets/tiled/tiled_1024_ov20_smoke/dataset_summary.md
 - outputs/datasets/tiled/tiled_1024_ov20_full/data.yaml
 - outputs/datasets/tiled/tiled_1024_ov20_full/dataset_summary.md
@@ -173,7 +174,7 @@
 
 ## Tracked File Count
 
-- 641 tracked files
+- 680 tracked files
 
 ## Notes
 

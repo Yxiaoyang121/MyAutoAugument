@@ -194,6 +194,8 @@ def main() -> None:
         val_wall_seconds=val_end - val_start,
         weights_for_val=weights_for_val,
     )
+    if not args.feedback_enabled:
+        add_no_feedback_history(output_dir, payload)
     report_paths = report_paths_for(args, output_dir)
     payload["artifacts"].update({key: str(path.resolve()) for key, path in report_paths.items()})
     if is_formal_50ep_run(args):
@@ -551,6 +553,39 @@ def build_feedback_stage_lengths(total_epochs: int, interval: int) -> list[int]:
         lengths.append(current)
         remaining -= current
     return lengths
+
+
+def add_no_feedback_history(output_dir: Path, payload: dict[str, Any]) -> None:
+    history_json = output_dir / "reports" / "policy_history.json"
+    history_md = output_dir / "reports" / "policy_history.md"
+    history_csv = output_dir / "reports" / "policy_history.csv"
+    history_payload = {
+        "feedback_applied": False,
+        "note": "no feedback applied for this base policy run",
+        "history": [],
+        "latest_policy": payload["policy"],
+    }
+    write_json(history_json, history_payload)
+    write_markdown(
+        history_md,
+        "\n".join(
+            [
+                "# Policy History",
+                "",
+                "- Feedback applied: `false`",
+                "- Note: no feedback applied for this base policy run.",
+            ]
+        )
+        + "\n",
+    )
+    write_text(history_csv, "stage_index,op,field,before,after,reason\n")
+    paths = {
+        "policy_history_json": str(history_json.resolve()),
+        "policy_history_md": str(history_md.resolve()),
+        "policy_history_csv": str(history_csv.resolve()),
+    }
+    payload["online_aug_stats"].update({"feedback_enabled": False, "policy_history_count": 0, **paths})
+    payload["summary"].update({"feedback_enabled": False, "policy_history_updates": 0, "policy_history": paths["policy_history_json"]})
 
 
 def make_online_trainer(api: dict[str, Any], context: OnlineTrainingContext):
@@ -912,6 +947,8 @@ def formal_run_kind(args: argparse.Namespace) -> str | None:
     run_id = str(args.run_id)
     if "online_random_like" in run_id:
         return "online_random_like"
+    if "custom_yolo_like_base" in run_id:
+        return "custom_yolo_like_base"
     if "online_diag_policy_001" in run_id:
         return "online_diag_policy_001"
     return None
@@ -934,6 +971,12 @@ def report_paths_for(args: argparse.Namespace, output_dir: Path) -> dict[str, Pa
             "report_md": output_dir / "reports" / "online_diag_policy_001_50ep_report.md",
             "metrics_json": output_dir / "reports" / "online_diag_policy_001_50ep_metrics.json",
             "comparison_md": output_dir / "reports" / "compare_online_offline_yolo_default_random.md",
+        }
+    if kind == "custom_yolo_like_base":
+        return {
+            "report_md": output_dir / "reports" / "custom_yolo_like_base_50ep_report.md",
+            "metrics_json": output_dir / "reports" / "custom_yolo_like_base_50ep_metrics.json",
+            "comparison_md": output_dir / "reports" / "compare_custom_yolo_like_with_yolo_default.md",
         }
     return {"report_md": output_dir / "reports" / "online_aug_smoke_report.md"}
 
@@ -980,6 +1023,9 @@ def build_metrics_payload(payload: dict[str, Any]) -> dict[str, Any]:
             "preview_dir": payload["artifacts"]["preview_dir"],
             "metrics_json": payload["artifacts"].get("metrics_json"),
             "online_aug_stats": payload["artifacts"]["stats_json"],
+            "policy_history_json": stats.get("policy_history_json"),
+            "policy_history_md": stats.get("policy_history_md"),
+            "policy_history_csv": stats.get("policy_history_csv"),
             "train_command": str((output_dir / "configs" / "train_command.txt").resolve()),
             "val_command": str((output_dir / "configs" / "val_command.txt").resolve()),
         },
@@ -1050,7 +1096,11 @@ def build_comparison_payload(metrics_payload: dict[str, Any]) -> dict[str, Any]:
     online = metrics_payload["final_metrics"]
     references = metrics_payload.get("references", {})
     run_kind = metrics_payload.get("run_kind") or "online_diag_policy_001"
-    current_label = "Online random-like" if run_kind == "online_random_like" else "Online DiagAug"
+    current_label = {
+        "online_random_like": "Online random-like",
+        "custom_yolo_like_base": "Custom YOLO-like base",
+        "online_diag_policy_001": "Online DiagAug",
+    }.get(run_kind, run_kind)
     order = [
         ("baseline_no_aug", "Baseline no aug"),
         ("offline_diag_policy_001", "Offline DiagAug"),
@@ -1058,6 +1108,7 @@ def build_comparison_payload(metrics_payload: dict[str, Any]) -> dict[str, Any]:
         ("random_external", "Random external"),
         ("online_diag_policy_001", "Online DiagAug"),
         ("online_random_like", "Online random-like"),
+        ("custom_yolo_like_base", "Custom YOLO-like base"),
     ]
     rows = []
     for key, label in order:
@@ -1087,6 +1138,11 @@ def build_comparison_payload(metrics_payload: dict[str, Any]) -> dict[str, Any]:
             "online_random_like_better_than_offline_random": compare_primary(online, references.get("random_external", {}).get("overall", {})),
             "online_random_like_better_than_online_diagaug": compare_primary(online, references.get("online_diag_policy_001", {}).get("overall", {})),
             "online_random_like_close_to_offline_random": close_to_reference(online, references.get("random_external", {}).get("overall", {})),
+            "custom_yolo_like_close_to_yolo_default": close_to_reference(online, references.get("yolo_default", {}).get("overall", {})),
+            "custom_yolo_like_better_than_yolo_default": compare_primary(online, references.get("yolo_default", {}).get("overall", {})),
+            "custom_yolo_like_better_than_baseline": compare_primary(online, references.get("baseline_no_aug", {}).get("overall", {})),
+            "custom_yolo_like_better_than_online_diagaug": compare_primary(online, references.get("online_diag_policy_001", {}).get("overall", {})),
+            "custom_yolo_like_better_than_random_external": compare_primary(online, references.get("random_external", {}).get("overall", {})),
             "is_current_best": is_current_best(online, references, exclude_key=run_kind),
             "random_external_advantage_source": infer_random_external_advantage_source(
                 online,
@@ -1405,7 +1461,13 @@ def build_formal_report(metrics_payload: dict[str, Any]) -> str:
     comparison = metrics_payload.get("comparison", {})
     run_kind = metrics_payload.get("run_kind")
     is_random_like = run_kind == "online_random_like"
-    title = "Online Random-Like 50 Epoch Report" if is_random_like else "Online Diag Policy 001 50 Epoch Report"
+    is_custom_yolo_like = run_kind == "custom_yolo_like_base"
+    if is_custom_yolo_like:
+        title = "Custom YOLO-Like Base 50 Epoch Report"
+    elif is_random_like:
+        title = "Online Random-Like 50 Epoch Report"
+    else:
+        title = "Online Diag Policy 001 50 Epoch Report"
     lines = [
         f"# {title}",
         "",
@@ -1415,10 +1477,12 @@ def build_formal_report(metrics_payload: dict[str, Any]) -> str:
         f"- Train images remain 2301: `{str(stats.get('train_image_count_matches_original')).lower()}`",
         f"- Fixed augmented dataset generated: `{str(stats.get('fixed_augmented_dataset_generated')).lower()}`",
         "- Validation custom augmentation: `false`",
-        f"- YOLO built-in augmentation disabled: `{str(metrics_payload['online_mechanism'].get('yolo_builtin_augmentations_disabled')).lower()}`",
-        f"- Copy-paste online supported: `{str(metrics_payload['online_mechanism'].get('copy_paste_online_supported')).lower()}`",
-        "",
-        "## Final Metrics",
+            f"- YOLO built-in augmentation disabled: `{str(metrics_payload['online_mechanism'].get('yolo_builtin_augmentations_disabled')).lower()}`",
+            f"- Copy-paste online supported: `{str(metrics_payload['online_mechanism'].get('copy_paste_online_supported')).lower()}`",
+            f"- Feedback applied: `{str(stats.get('feedback_enabled', False)).lower()}`",
+            f"- Policy history: `{metrics_payload['artifacts'].get('policy_history_json')}`",
+            "",
+            "## Final Metrics",
         "",
         "| Precision | Recall | mAP50 | mAP50-95 |",
         "|---:|---:|---:|---:|",
@@ -1450,6 +1514,9 @@ def build_formal_report(metrics_payload: dict[str, Any]) -> str:
             f"- Cutout skipped by center safety: `{stats.get('cutout_safe', {}).get('holes_skipped_center', 0)}`",
             f"- Cutout skipped by overlap safety: `{stats.get('cutout_safe', {}).get('holes_skipped_overlap', 0)}`",
             f"- Cutout skipped by no safe region: `{stats.get('cutout_safe', {}).get('holes_skipped_no_safe_region', 0)}`",
+            f"- Mosaic applied: `{stats.get('mosaic4', {}).get('applied', 0)}`",
+            f"- Mosaic skipped by close_mosaic: `{stats.get('mosaic4', {}).get('skipped_close_mosaic', stats.get('ops', {}).get('mosaic4', {}).get('skipped_close_mosaic', 0))}`",
+            f"- close_mosaic active: `{str(stats.get('ops', {}).get('mosaic4', {}).get('skipped_close_mosaic', 0) > 0).lower()}`",
             "",
             "## Per-Class Recall/AP50",
             "",
@@ -1484,6 +1551,17 @@ def build_formal_report(metrics_payload: dict[str, Any]) -> str:
                 "- Online random-like removes the fixed doubled dataset confound; if it approaches offline random, the operator mix is the likely driver.",
             ]
         )
+    elif is_custom_yolo_like:
+        lines.extend(
+            [
+                answer_line("Custom YOLO-like close to Ultralytics YOLO default by mAP50-95 within 0.03", comparison.get("answers", {}).get("custom_yolo_like_close_to_yolo_default")),
+                answer_line("Custom YOLO-like better than YOLO default", comparison.get("answers", {}).get("custom_yolo_like_better_than_yolo_default")),
+                answer_line("Custom YOLO-like better than baseline", comparison.get("answers", {}).get("custom_yolo_like_better_than_baseline")),
+                answer_line("Custom YOLO-like better than Online DiagAug", comparison.get("answers", {}).get("custom_yolo_like_better_than_online_diagaug")),
+                answer_line("Custom YOLO-like better than offline random external", comparison.get("answers", {}).get("custom_yolo_like_better_than_random_external")),
+                "- This run isolates the custom implementation of YOLO-like online operators from Ultralytics built-in augmentation.",
+            ]
+        )
     else:
         lines.extend(
             [
@@ -1509,8 +1587,16 @@ def build_formal_report(metrics_payload: dict[str, Any]) -> str:
 
 def build_comparison_report(metrics_payload: dict[str, Any], comparison: dict[str, Any]) -> str:
     is_random_like = metrics_payload.get("run_kind") == "online_random_like"
-    title = "Online Random-Like vs All Comparison" if is_random_like else "Online vs Offline/Yolo Default/Random Comparison"
-    delta_title = "Deltas For Online Random-Like" if is_random_like else "Deltas For Online DiagAug"
+    is_custom_yolo_like = metrics_payload.get("run_kind") == "custom_yolo_like_base"
+    if is_custom_yolo_like:
+        title = "Custom YOLO-Like Base vs YOLO Default Comparison"
+        delta_title = "Deltas For Custom YOLO-Like Base"
+    elif is_random_like:
+        title = "Online Random-Like vs All Comparison"
+        delta_title = "Deltas For Online Random-Like"
+    else:
+        title = "Online vs Offline/Yolo Default/Random Comparison"
+        delta_title = "Deltas For Online DiagAug"
     lines = [
         f"# {title}",
         "",
@@ -1551,6 +1637,17 @@ def build_comparison_report(metrics_payload: dict[str, Any], comparison: dict[st
                 answer_line("Online random-like is current best by mAP50-95", comparison.get("answers", {}).get("is_current_best")),
                 f"- Random external advantage source: `{comparison.get('answers', {}).get('random_external_advantage_source', 'unknown')}`",
                 "- This run isolates the random-like operator mix from offline train-set doubling.",
+            ]
+        )
+    elif is_custom_yolo_like:
+        lines.extend(
+            [
+                answer_line("Custom YOLO-like close to Ultralytics YOLO default by mAP50-95 within 0.03", comparison.get("answers", {}).get("custom_yolo_like_close_to_yolo_default")),
+                answer_line("Custom YOLO-like better than YOLO default", comparison.get("answers", {}).get("custom_yolo_like_better_than_yolo_default")),
+                answer_line("Custom YOLO-like better than baseline", comparison.get("answers", {}).get("custom_yolo_like_better_than_baseline")),
+                answer_line("Custom YOLO-like better than Online DiagAug", comparison.get("answers", {}).get("custom_yolo_like_better_than_online_diagaug")),
+                answer_line("Custom YOLO-like better than offline random external", comparison.get("answers", {}).get("custom_yolo_like_better_than_random_external")),
+                "- This run evaluates whether the custom YOLO-like operator pool can stand in for Ultralytics default augmentation while keeping augmentation auditable.",
             ]
         )
     else:
@@ -1640,6 +1737,35 @@ def update_state_docs(payload: dict[str, Any]) -> None:
     if "formal_metrics" in payload:
         metrics_payload = payload["formal_metrics"]
         comparison = metrics_payload.get("comparison", {})
+        if metrics_payload.get("run_kind") == "custom_yolo_like_base":
+            section = "\n".join(
+                [
+                    "## Custom YOLO-Like Base 50 Epoch",
+                    "",
+                    f"- Run ID: `{payload['run_id']}`",
+                    "- Entrypoint: `scripts/train_yolo_online_aug.py`.",
+                    "- Policy: `configs/online_policies/yolo_like_base_policy.json`.",
+                    "- Mechanism: custom YOLO-like operators are sampled online in the YOLO training dataloader; no fixed augmented dataset is built.",
+                    f"- Train image count: `{stats.get('train_image_count')}`; no train image doubling.",
+                    f"- Fixed augmented dataset generated: `{str(stats.get('fixed_augmented_dataset_generated')).lower()}`",
+                    "- Validation custom augmentation: `false`; val uses original val tiles.",
+                    "- YOLO built-in augmentation: disabled for `only_custom_online_aug`.",
+                    f"- Feedback applied: `{str(stats.get('feedback_enabled', False)).lower()}`; policy history records no feedback applied.",
+                    f"- close_mosaic active: `{str(stats.get('ops', {}).get('mosaic4', {}).get('skipped_close_mosaic', 0) > 0).lower()}`",
+                    f"- Train success: `{str(payload['train']['success']).lower()}`",
+                    f"- Val success: `{str(payload['val']['success']).lower()}`",
+                    f"- Val P/R/mAP50/mAP50-95: `{val.get('precision', 0.0):.4f}/{val.get('recall', 0.0):.4f}/{val.get('map50', 0.0):.4f}/{val.get('map50_95', 0.0):.4f}`",
+                    f"- Close to YOLO default by mAP50-95 within 0.03: `{str(comparison.get('answers', {}).get('custom_yolo_like_close_to_yolo_default')).lower()}`",
+                    f"- Report: `outputs/experiments/{payload['run_id']}/reports/custom_yolo_like_base_50ep_report.md`",
+                    f"- Metrics JSON: `outputs/experiments/{payload['run_id']}/reports/custom_yolo_like_base_50ep_metrics.json`",
+                    f"- Comparison: `outputs/experiments/{payload['run_id']}/reports/compare_custom_yolo_like_with_yolo_default.md`",
+                    f"- Stats JSON: `outputs/experiments/{payload['run_id']}/reports/online_aug_stats.json`",
+                    f"- Policy history JSON: `outputs/experiments/{payload['run_id']}/reports/policy_history.json`",
+                ]
+            )
+            for rel in ["PROJECT_STATE.md", "CODEX_HANDOFF.md", "EXPERIMENT_LOG.md"]:
+                upsert_section(PROJECT_ROOT / rel, "CUSTOM_YOLO_LIKE_BASE_50EP", section)
+            return
         if metrics_payload.get("run_kind") == "online_random_like":
             section = "\n".join(
                 [

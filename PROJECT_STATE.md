@@ -507,3 +507,27 @@ The repository is centered on diagnosis-driven augmentation for industrial defec
 - Stats JSON: `outputs/experiments/feedback_online_policy_2stage_smoke/reports/online_aug_stats.json`
 - Policy history JSON: `outputs/experiments/feedback_online_policy_2stage_smoke/reports/policy_history.json`
 <!-- FEEDBACK_ONLINE_AUG_SMOKE_END -->
+
+<!-- CUSTOM_YOLO_LIKE_BASE_50EP_START -->
+## Custom YOLO-Like Base 50 Epoch
+
+- Run ID: `20260518_tiled1024_safe_no_ok_position_custom_yolo_like_base_yolo11n_50ep`
+- Entrypoint: `scripts/train_yolo_online_aug.py`.
+- Policy: `configs/online_policies/yolo_like_base_policy.json`.
+- Mechanism: custom YOLO-like operators are sampled online in the YOLO training dataloader; no fixed augmented dataset is built.
+- Train image count: `2301`; no train image doubling.
+- Fixed augmented dataset generated: `false`
+- Validation custom augmentation: `false`; val uses original val tiles.
+- YOLO built-in augmentation: disabled for `only_custom_online_aug`.
+- Feedback applied: `false`; policy history records no feedback applied.
+- close_mosaic active: `true`
+- Train success: `true`
+- Val success: `true`
+- Val P/R/mAP50/mAP50-95: `0.6661/0.7490/0.7129/0.4415`
+- Close to YOLO default by mAP50-95 within 0.03: `false`
+- Report: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_custom_yolo_like_base_yolo11n_50ep/reports/custom_yolo_like_base_50ep_report.md`
+- Metrics JSON: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_custom_yolo_like_base_yolo11n_50ep/reports/custom_yolo_like_base_50ep_metrics.json`
+- Comparison: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_custom_yolo_like_base_yolo11n_50ep/reports/compare_custom_yolo_like_with_yolo_default.md`
+- Stats JSON: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_custom_yolo_like_base_yolo11n_50ep/reports/online_aug_stats.json`
+- Policy history JSON: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_custom_yolo_like_base_yolo11n_50ep/reports/policy_history.json`
+<!-- CUSTOM_YOLO_LIKE_BASE_50EP_END -->

@@ -1,0 +1,2757 @@
+{
+  "run_id": "20260518_tiled1024_safe_no_ok_position_yolo_default_diagnosis_constrained_50ep",
+  "generated_at": "2026-05-27T00:02:36",
+  "dataset": "outputs/datasets/tiled/tiled_1024_ov20_full_safe_no_ok_position/data.yaml",
+  "reference": "yolo_default",
+  "constraint_limits": {
+    "precision_min_delta": -0.02,
+    "map50_min_delta": -0.01,
+    "map50_95_min_delta": -0.01
+  },
+  "rows": [
+    {
+      "key": "yolo_default",
+      "label": "YOLO default",
+      "run_dir": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_yolo_default_diagnosis_constrained_50ep\\runs\\yolo_default_seed42",
+      "policy": "E:\\TJGY\\MinPaper\\MyAutoAugument\\configs\\online_policies\\yolo_default_passthrough_policy.json",
+      "metrics": {
+        "images": 677,
+        "instances": 905,
+        "precision": 0.7131994837486653,
+        "recall": 0.7600146544998627,
+        "map50": 0.7758767738838886,
+        "map50_95": 0.5240624589214792
+      },
+      "delta_vs_yolo_default": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "map50": 0.0,
+        "map50_95": 0.0
+      },
+      "constraints": {
+        "passed": true,
+        "failures": []
+      },
+      "diagnosis": {
+        "global": {
+          "tp": 719,
+          "fp": 287,
+          "fn": 162,
+          "precision": 0.7147117296222664,
+          "recall": 0.7944751381215469,
+          "localization_weak": 24,
+          "gt": 905
+        },
+        "fn_types": {
+          "by_class_top": [
+            {
+              "class_id": 7,
+              "class_name": "碰伤",
+              "gt": 269,
+              "tp": 178,
+              "fp": 78,
+              "fn": 79,
+              "precision": 0.6953125,
+              "recall": 0.6617100371747212,
+              "fn_rate": 0.2936802973977695,
+              "fp_rate": 0.3046875
+            },
+            {
+              "class_id": 9,
+              "class_name": "轮廓划伤",
+              "gt": 84,
+              "tp": 50,
+              "fp": 27,
+              "fn": 30,
+              "precision": 0.6493506493506493,
+              "recall": 0.5952380952380952,
+              "fn_rate": 0.35714285714285715,
+              "fp_rate": 0.35064935064935066
+            },
+            {
+              "class_id": 8,
+              "class_name": "脏污",
+              "gt": 42,
+              "tp": 26,
+              "fp": 16,
+              "fn": 15,
+              "precision": 0.6190476190476191,
+              "recall": 0.6190476190476191,
+              "fn_rate": 0.35714285714285715,
+              "fp_rate": 0.38095238095238093
+            },
+            {
+              "class_id": 12,
+              "class_name": "锡膏",
+              "gt": 46,
+              "tp": 33,
+              "fp": 13,
+              "fn": 13,
+              "precision": 0.717391304347826,
+              "recall": 0.717391304347826,
+              "fn_rate": 0.2826086956521739,
+              "fp_rate": 0.2826086956521739
+            },
+            {
+              "class_id": 4,
+              "class_name": "油污",
+              "gt": 18,
+              "tp": 9,
+              "fp": 31,
+              "fn": 9,
+              "precision": 0.225,
+              "recall": 0.5,
+              "fn_rate": 0.5,
+              "fp_rate": 0.775
+            },
+            {
+              "class_id": 6,
+              "class_name": "漏背锡",
+              "gt": 46,
+              "tp": 32,
+              "fp": 24,
+              "fn": 8,
+              "precision": 0.5714285714285714,
+              "recall": 0.6956521739130435,
+              "fn_rate": 0.17391304347826086,
+              "fp_rate": 0.42857142857142855
+            },
+            {
+              "class_id": 5,
+              "class_name": "浅划伤",
+              "gt": 13,
+              "tp": 7,
+              "fp": 4,
+              "fn": 5,
+              "precision": 0.6363636363636364,
+              "recall": 0.5384615384615384,
+              "fn_rate": 0.38461538461538464,
+              "fp_rate": 0.36363636363636365
+            },
+            {
+              "class_id": 1,
+              "class_name": "OK3",
+              "gt": 274,
+              "tp": 273,
+              "fp": 66,
+              "fn": 1,
+              "precision": 0.8053097345132744,
+              "recall": 0.9963503649635036,
+              "fn_rate": 0.0036496350364963502,
+              "fp_rate": 0.19469026548672566
+            }
+          ],
+          "by_size": {
+            "tiny": {
+              "gt_count": 177,
+              "tp_count": 113,
+              "fn_count": 58,
+              "recall": 0.6384180790960452,
+              "fn_rate": 0.327683615819209
+            },
+            "small": {
+              "gt_count": 412,
+              "tp_count": 317,
+              "fn_count": 83,
+              "recall": 0.7694174757281553,
+              "fn_rate": 0.20145631067961164
+            },
+            "medium": {
+              "gt_count": 307,
+              "tp_count": 281,
+              "fn_count": 20,
+              "recall": 0.9153094462540716,
+              "fn_rate": 0.06514657980456026
+            },
+            "large": {
+              "gt_count": 9,
+              "tp_count": 8,
+              "fn_count": 1,
+              "recall": 0.8888888888888888,
+              "fn_rate": 0.1111111111111111
+            }
+          },
+          "by_quality": {
+            "count": 162,
+            "brightness_mean": 65.583122664246,
+            "contrast_std_mean": 18.344309717065947,
+            "low_contrast_count": 111,
+            "dark_count": 88,
+            "bright_count": 2,
+            "low_contrast_rate": 0.6851851851851852,
+            "dark_rate": 0.5432098765432098,
+            "bright_rate": 0.012345679012345678
+          },
+          "by_position": {
+            "left": {
+              "gt_count": 283,
+              "tp_count": 226,
+              "fn_count": 55,
+              "recall": 0.7985865724381626,
+              "fn_rate": 0.19434628975265017
+            },
+            "center": {
+              "gt_count": 338,
+              "tp_count": 257,
+              "fn_count": 69,
+              "recall": 0.7603550295857988,
+              "fn_rate": 0.20414201183431951
+            },
+            "right": {
+              "gt_count": 284,
+              "tp_count": 236,
+              "fn_count": 38,
+              "recall": 0.8309859154929577,
+              "fn_rate": 0.13380281690140844
+            },
+            "top": {
+              "gt_count": 190,
+              "tp_count": 152,
+              "fn_count": 26,
+              "recall": 0.8,
+              "fn_rate": 0.1368421052631579
+            },
+            "middle": {
+              "gt_count": 475,
+              "tp_count": 382,
+              "fn_count": 87,
+              "recall": 0.8042105263157895,
+              "fn_rate": 0.1831578947368421
+            },
+            "bottom": {
+              "gt_count": 240,
+              "tp_count": 185,
+              "fn_count": 49,
+              "recall": 0.7708333333333334,
+              "fn_rate": 0.20416666666666666
+            },
+            "edge": {
+              "gt_count": 178,
+              "tp_count": 148,
+              "fn_count": 24,
+              "recall": 0.8314606741573034,
+              "fn_rate": 0.1348314606741573
+            }
+          }
+        },
+        "fp_types": {
+          "by_class_top": [
+            {
+              "class_id": 7,
+              "class_name": "碰伤",
+              "gt": 269,
+              "tp": 178,
+              "fp": 78,
+              "fn": 79,
+              "precision": 0.6953125,
+              "recall": 0.6617100371747212,
+              "fn_rate": 0.2936802973977695,
+              "fp_rate": 0.3046875
+            },
+            {
+              "class_id": 1,
+              "class_name": "OK3",
+              "gt": 274,
+              "tp": 273,
+              "fp": 66,
+              "fn": 1,
+              "precision": 0.8053097345132744,
+              "recall": 0.9963503649635036,
+              "fn_rate": 0.0036496350364963502,
+              "fp_rate": 0.19469026548672566
+            },
+            {
+              "class_id": 4,
+              "class_name": "油污",
+              "gt": 18,
+              "tp": 9,
+              "fp": 31,
+              "fn": 9,
+              "precision": 0.225,
+              "recall": 0.5,
+              "fn_rate": 0.5,
+              "fp_rate": 0.775
+            },
+            {
+              "class_id": 9,
+              "class_name": "轮廓划伤",
+              "gt": 84,
+              "tp": 50,
+              "fp": 27,
+              "fn": 30,
+              "precision": 0.6493506493506493,
+              "recall": 0.5952380952380952,
+              "fn_rate": 0.35714285714285715,
+              "fp_rate": 0.35064935064935066
+            },
+            {
+              "class_id": 6,
+              "class_name": "漏背锡",
+              "gt": 46,
+              "tp": 32,
+              "fp": 24,
+              "fn": 8,
+              "precision": 0.5714285714285714,
+              "recall": 0.6956521739130435,
+              "fn_rate": 0.17391304347826086,
+              "fp_rate": 0.42857142857142855
+            },
+            {
+              "class_id": 0,
+              "class_name": "OK2",
+              "gt": 64,
+              "tp": 64,
+              "fp": 18,
+              "fn": 0,
+              "precision": 0.7804878048780488,
+              "recall": 1.0,
+              "fn_rate": 0.0,
+              "fp_rate": 0.21951219512195122
+            },
+            {
+              "class_id": 8,
+              "class_name": "脏污",
+              "gt": 42,
+              "tp": 26,
+              "fp": 16,
+              "fn": 15,
+              "precision": 0.6190476190476191,
+              "recall": 0.6190476190476191,
+              "fn_rate": 0.35714285714285715,
+              "fp_rate": 0.38095238095238093
+            },
+            {
+              "class_id": 12,
+              "class_name": "锡膏",
+              "gt": 46,
+              "tp": 33,
+              "fp": 13,
+              "fn": 13,
+              "precision": 0.717391304347826,
+              "recall": 0.717391304347826,
+              "fn_rate": 0.2826086956521739,
+              "fp_rate": 0.2826086956521739
+            }
+          ],
+          "by_quality": {
+            "count": 287,
+            "brightness_mean": 65.74850661062855,
+            "contrast_std_mean": 20.759474270737062,
+            "low_contrast_count": 192,
+            "dark_count": 151,
+            "bright_count": 0,
+            "low_contrast_rate": 0.6689895470383276,
+            "dark_rate": 0.5261324041811847,
+            "bright_rate": 0.0
+          },
+          "background": {}
+        },
+        "issues": [
+          {
+            "type": "low_contrast_missed_defect",
+            "source_issue": "low_contrast_fn_high",
+            "severity": "high",
+            "evidence": {
+              "issue": "low_contrast_fn_high",
+              "severity": "high",
+              "observed_rate": 0.6851851851851852
+            },
+            "suggested_augmentations": [
+              "contrast",
+              "gamma",
+              "clahe",
+              "brightness",
+              "sharpen"
+            ]
+          },
+          {
+            "type": "low_contrast_missed_defect",
+            "source_issue": "exposure_fn_high",
+            "severity": "medium",
+            "evidence": {
+              "issue": "exposure_fn_high",
+              "severity": "medium",
+              "dark_rate": 0.5432098765432098,
+              "bright_rate": 0.012345679012345678
+            },
+            "suggested_augmentations": [
+              "contrast",
+              "gamma",
+              "clahe",
+              "brightness",
+              "sharpen"
+            ]
+          },
+          {
+            "type": "class_imbalance",
+            "source_issue": "class_recall_imbalance",
+            "severity": "medium",
+            "evidence": {
+              "issue": "class_recall_imbalance",
+              "severity": "medium",
+              "classes": [
+                {
+                  "class_id": 4,
+                  "class_name": "油污",
+                  "fn_rate": 0.5
+                },
+                {
+                  "class_id": 5,
+                  "class_name": "浅划伤",
+                  "fn_rate": 0.38461538461538464
+                }
+              ]
+            },
+            "suggested_augmentations": [
+              "class-aware-sampling",
+              "targeted-augmentation",
+              "class-balanced-policy"
+            ]
+          },
+          {
+            "type": "high_false_positive",
+            "source_issue": "false_positive_high",
+            "severity": "medium",
+            "evidence": {
+              "issue": "false_positive_high",
+              "severity": "medium",
+              "fp_count": 287
+            },
+            "suggested_augmentations": [
+              "hard-negative-review",
+              "reduce-noise",
+              "reduce-blur",
+              "mild-lighting"
+            ]
+          },
+          {
+            "type": "localization_bias",
+            "source_issue": "localization_weak_count",
+            "severity": "medium",
+            "evidence": {
+              "localization_weak_count": 24
+            },
+            "suggested_augmentations": [
+              "mild-scale",
+              "mild-translate",
+              "reduce-rotate",
+              "reduce-shear",
+              "reduce-perspective"
+            ]
+          }
+        ]
+      },
+      "artifacts": {
+        "best_pt": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_yolo_default_diagnosis_constrained_50ep\\runs\\yolo_default_seed42\\train\\weights\\best.pt",
+        "last_pt": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_yolo_default_diagnosis_constrained_50ep\\runs\\yolo_default_seed42\\train\\weights\\last.pt",
+        "results_csv": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_yolo_default_diagnosis_constrained_50ep\\runs\\yolo_default_seed42\\train\\results.csv",
+        "val_dir": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_yolo_default_diagnosis_constrained_50ep\\runs\\yolo_default_seed42\\val",
+        "stats_json": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_yolo_default_diagnosis_constrained_50ep\\runs\\yolo_default_seed42\\reports\\online_aug_stats.json",
+        "diagnosis_json": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_yolo_default_diagnosis_constrained_50ep\\runs\\yolo_default_seed42\\diagnosis\\diagnosis.json",
+        "diagnosis_report": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_yolo_default_diagnosis_constrained_50ep\\runs\\yolo_default_seed42\\reports\\diagnosis_report.md"
+      },
+      "online_aug_stats": {
+        "train_image_count": 2301,
+        "fixed_augmented_dataset_generated": false,
+        "yolo_builtin_augmentations_disabled": false,
+        "ops": {},
+        "cutout_safe": {},
+        "mosaic4": {}
+      }
+    },
+    {
+      "key": "diagnosis_light",
+      "label": "YOLO default + diagnosis_light",
+      "run_dir": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_yolo_default_diagnosis_constrained_50ep\\runs\\diagnosis_light",
+      "policy": "E:\\TJGY\\MinPaper\\MyAutoAugument\\configs\\online_policies\\diagnosis_light_policy.json",
+      "metrics": {
+        "images": 677,
+        "instances": 905,
+        "precision": 0.7342764740246326,
+        "recall": 0.6861761348940524,
+        "map50": 0.7555252251398363,
+        "map50_95": 0.4993358516140418
+      },
+      "delta_vs_yolo_default": {
+        "precision": 0.021076990275967322,
+        "recall": -0.07383851960581034,
+        "map50": -0.020351548744052317,
+        "map50_95": -0.024726607307437365
+      },
+      "constraints": {
+        "passed": false,
+        "failures": [
+          "map50_drop_gt_0.01",
+          "map50_95_drop_gt_0.01"
+        ]
+      },
+      "diagnosis": {
+        "global": {
+          "tp": 720,
+          "fp": 278,
+          "fn": 172,
+          "precision": 0.7214428857715431,
+          "recall": 0.7955801104972375,
+          "localization_weak": 13,
+          "gt": 905
+        },
+        "fn_types": {
+          "by_class_top": [
+            {
+              "class_id": 7,
+              "class_name": "碰伤",
+              "gt": 269,
+              "tp": 188,
+              "fp": 75,
+              "fn": 75,
+              "precision": 0.714828897338403,
+              "recall": 0.6988847583643123,
+              "fn_rate": 0.2788104089219331,
+              "fp_rate": 0.28517110266159695
+            },
+            {
+              "class_id": 9,
+              "class_name": "轮廓划伤",
+              "gt": 84,
+              "tp": 56,
+              "fp": 45,
+              "fn": 28,
+              "precision": 0.5544554455445545,
+              "recall": 0.6666666666666666,
+              "fn_rate": 0.3333333333333333,
+              "fp_rate": 0.44554455445544555
+            },
+            {
+              "class_id": 8,
+              "class_name": "脏污",
+              "gt": 42,
+              "tp": 18,
+              "fp": 7,
+              "fn": 24,
+              "precision": 0.72,
+              "recall": 0.42857142857142855,
+              "fn_rate": 0.5714285714285714,
+              "fp_rate": 0.28
+            },
+            {
+              "class_id": 4,
+              "class_name": "油污",
+              "gt": 18,
+              "tp": 4,
+              "fp": 14,
+              "fn": 14,
+              "precision": 0.2222222222222222,
+              "recall": 0.2222222222222222,
+              "fn_rate": 0.7777777777777778,
+              "fp_rate": 0.7777777777777778
+            },
+            {
+              "class_id": 12,
+              "class_name": "锡膏",
+              "gt": 46,
+              "tp": 32,
+              "fp": 5,
+              "fn": 14,
+              "precision": 0.8648648648648649,
+              "recall": 0.6956521739130435,
+              "fn_rate": 0.30434782608695654,
+              "fp_rate": 0.13513513513513514
+            },
+            {
+              "class_id": 5,
+              "class_name": "浅划伤",
+              "gt": 13,
+              "tp": 5,
+              "fp": 8,
+              "fn": 8,
+              "precision": 0.38461538461538464,
+              "recall": 0.38461538461538464,
+              "fn_rate": 0.6153846153846154,
+              "fp_rate": 0.6153846153846154
+            },
+            {
+              "class_id": 6,
+              "class_name": "漏背锡",
+              "gt": 46,
+              "tp": 34,
+              "fp": 24,
+              "fn": 5,
+              "precision": 0.5862068965517241,
+              "recall": 0.7391304347826086,
+              "fn_rate": 0.10869565217391304,
+              "fp_rate": 0.41379310344827586
+            },
+            {
+              "class_id": 1,
+              "class_name": "OK3",
+              "gt": 274,
+              "tp": 272,
+              "fp": 66,
+              "fn": 2,
+              "precision": 0.8047337278106509,
+              "recall": 0.9927007299270073,
+              "fn_rate": 0.0072992700729927005,
+              "fp_rate": 0.1952662721893491
+            }
+          ],
+          "by_size": {
+            "tiny": {
+              "gt_count": 177,
+              "tp_count": 117,
+              "fn_count": 55,
+              "recall": 0.6610169491525424,
+              "fn_rate": 0.3107344632768362
+            },
+            "small": {
+              "gt_count": 412,
+              "tp_count": 316,
+              "fn_count": 95,
+              "recall": 0.7669902912621359,
+              "fn_rate": 0.23058252427184467
+            },
+            "medium": {
+              "gt_count": 307,
+              "tp_count": 281,
+              "fn_count": 19,
+              "recall": 0.9153094462540716,
+              "fn_rate": 0.06188925081433225
+            },
+            "large": {
+              "gt_count": 9,
+              "tp_count": 6,
+              "fn_count": 3,
+              "recall": 0.6666666666666666,
+              "fn_rate": 0.3333333333333333
+            }
+          },
+          "by_quality": {
+            "count": 172,
+            "brightness_mean": 64.64445433347463,
+            "contrast_std_mean": 19.174223484573535,
+            "low_contrast_count": 110,
+            "dark_count": 92,
+            "bright_count": 2,
+            "low_contrast_rate": 0.6395348837209303,
+            "dark_rate": 0.5348837209302325,
+            "bright_rate": 0.011627906976744186
+          },
+          "by_position": {
+            "left": {
+              "gt_count": 283,
+              "tp_count": 230,
+              "fn_count": 52,
+              "recall": 0.8127208480565371,
+              "fn_rate": 0.18374558303886926
+            },
+            "center": {
+              "gt_count": 338,
+              "tp_count": 249,
+              "fn_count": 85,
+              "recall": 0.7366863905325444,
+              "fn_rate": 0.2514792899408284
+            },
+            "right": {
+              "gt_count": 284,
+              "tp_count": 241,
+              "fn_count": 35,
+              "recall": 0.8485915492957746,
+              "fn_rate": 0.12323943661971831
+            },
+            "top": {
+              "gt_count": 190,
+              "tp_count": 158,
+              "fn_count": 26,
+              "recall": 0.8315789473684211,
+              "fn_rate": 0.1368421052631579
+            },
+            "middle": {
+              "gt_count": 475,
+              "tp_count": 378,
+              "fn_count": 92,
+              "recall": 0.7957894736842105,
+              "fn_rate": 0.1936842105263158
+            },
+            "bottom": {
+              "gt_count": 240,
+              "tp_count": 184,
+              "fn_count": 54,
+              "recall": 0.7666666666666667,
+              "fn_rate": 0.225
+            },
+            "edge": {
+              "gt_count": 178,
+              "tp_count": 147,
+              "fn_count": 29,
+              "recall": 0.8258426966292135,
+              "fn_rate": 0.16292134831460675
+            }
+          }
+        },
+        "fp_types": {
+          "by_class_top": [
+            {
+              "class_id": 7,
+              "class_name": "碰伤",
+              "gt": 269,
+              "tp": 188,
+              "fp": 75,
+              "fn": 75,
+              "precision": 0.714828897338403,
+              "recall": 0.6988847583643123,
+              "fn_rate": 0.2788104089219331,
+              "fp_rate": 0.28517110266159695
+            },
+            {
+              "class_id": 1,
+              "class_name": "OK3",
+              "gt": 274,
+              "tp": 272,
+              "fp": 66,
+              "fn": 2,
+              "precision": 0.8047337278106509,
+              "recall": 0.9927007299270073,
+              "fn_rate": 0.0072992700729927005,
+              "fp_rate": 0.1952662721893491
+            },
+            {
+              "class_id": 9,
+              "class_name": "轮廓划伤",
+              "gt": 84,
+              "tp": 56,
+              "fp": 45,
+              "fn": 28,
+              "precision": 0.5544554455445545,
+              "recall": 0.6666666666666666,
+              "fn_rate": 0.3333333333333333,
+              "fp_rate": 0.44554455445544555
+            },
+            {
+              "class_id": 6,
+              "class_name": "漏背锡",
+              "gt": 46,
+              "tp": 34,
+              "fp": 24,
+              "fn": 5,
+              "precision": 0.5862068965517241,
+              "recall": 0.7391304347826086,
+              "fn_rate": 0.10869565217391304,
+              "fp_rate": 0.41379310344827586
+            },
+            {
+              "class_id": 0,
+              "class_name": "OK2",
+              "gt": 64,
+              "tp": 64,
+              "fp": 18,
+              "fn": 0,
+              "precision": 0.7804878048780488,
+              "recall": 1.0,
+              "fn_rate": 0.0,
+              "fp_rate": 0.21951219512195122
+            },
+            {
+              "class_id": 4,
+              "class_name": "油污",
+              "gt": 18,
+              "tp": 4,
+              "fp": 14,
+              "fn": 14,
+              "precision": 0.2222222222222222,
+              "recall": 0.2222222222222222,
+              "fn_rate": 0.7777777777777778,
+              "fp_rate": 0.7777777777777778
+            },
+            {
+              "class_id": 5,
+              "class_name": "浅划伤",
+              "gt": 13,
+              "tp": 5,
+              "fp": 8,
+              "fn": 8,
+              "precision": 0.38461538461538464,
+              "recall": 0.38461538461538464,
+              "fn_rate": 0.6153846153846154,
+              "fp_rate": 0.6153846153846154
+            },
+            {
+              "class_id": 8,
+              "class_name": "脏污",
+              "gt": 42,
+              "tp": 18,
+              "fp": 7,
+              "fn": 24,
+              "precision": 0.72,
+              "recall": 0.42857142857142855,
+              "fn_rate": 0.5714285714285714,
+              "fp_rate": 0.28
+            }
+          ],
+          "by_quality": {
+            "count": 278,
+            "brightness_mean": 66.76817198880474,
+            "contrast_std_mean": 19.756498300309953,
+            "low_contrast_count": 195,
+            "dark_count": 146,
+            "bright_count": 0,
+            "low_contrast_rate": 0.7014388489208633,
+            "dark_rate": 0.5251798561151079,
+            "bright_rate": 0.0
+          },
+          "background": {}
+        },
+        "issues": [
+          {
+            "type": "low_contrast_missed_defect",
+            "source_issue": "low_contrast_fn_high",
+            "severity": "high",
+            "evidence": {
+              "issue": "low_contrast_fn_high",
+              "severity": "high",
+              "observed_rate": 0.6395348837209303
+            },
+            "suggested_augmentations": [
+              "contrast",
+              "gamma",
+              "clahe",
+              "brightness",
+              "sharpen"
+            ]
+          },
+          {
+            "type": "low_contrast_missed_defect",
+            "source_issue": "exposure_fn_high",
+            "severity": "medium",
+            "evidence": {
+              "issue": "exposure_fn_high",
+              "severity": "medium",
+              "dark_rate": 0.5348837209302325,
+              "bright_rate": 0.011627906976744186
+            },
+            "suggested_augmentations": [
+              "contrast",
+              "gamma",
+              "clahe",
+              "brightness",
+              "sharpen"
+            ]
+          },
+          {
+            "type": "class_imbalance",
+            "source_issue": "class_recall_imbalance",
+            "severity": "medium",
+            "evidence": {
+              "issue": "class_recall_imbalance",
+              "severity": "medium",
+              "classes": [
+                {
+                  "class_id": 4,
+                  "class_name": "油污",
+                  "fn_rate": 0.7777777777777778
+                },
+                {
+                  "class_id": 5,
+                  "class_name": "浅划伤",
+                  "fn_rate": 0.6153846153846154
+                },
+                {
+                  "class_id": 8,
+                  "class_name": "脏污",
+                  "fn_rate": 0.5714285714285714
+                }
+              ]
+            },
+            "suggested_augmentations": [
+              "class-aware-sampling",
+              "targeted-augmentation",
+              "class-balanced-policy"
+            ]
+          },
+          {
+            "type": "high_false_positive",
+            "source_issue": "false_positive_high",
+            "severity": "medium",
+            "evidence": {
+              "issue": "false_positive_high",
+              "severity": "medium",
+              "fp_count": 278
+            },
+            "suggested_augmentations": [
+              "hard-negative-review",
+              "reduce-noise",
+              "reduce-blur",
+              "mild-lighting"
+            ]
+          },
+          {
+            "type": "localization_bias",
+            "source_issue": "localization_weak_count",
+            "severity": "medium",
+            "evidence": {
+              "localization_weak_count": 13
+            },
+            "suggested_augmentations": [
+              "mild-scale",
+              "mild-translate",
+              "reduce-rotate",
+              "reduce-shear",
+              "reduce-perspective"
+            ]
+          }
+        ]
+      },
+      "artifacts": {
+        "best_pt": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_yolo_default_diagnosis_constrained_50ep\\runs\\diagnosis_light\\train\\weights\\best.pt",
+        "last_pt": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_yolo_default_diagnosis_constrained_50ep\\runs\\diagnosis_light\\train\\weights\\last.pt",
+        "results_csv": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_yolo_default_diagnosis_constrained_50ep\\runs\\diagnosis_light\\train\\results.csv",
+        "val_dir": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_yolo_default_diagnosis_constrained_50ep\\runs\\diagnosis_light\\val",
+        "stats_json": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_yolo_default_diagnosis_constrained_50ep\\runs\\diagnosis_light\\reports\\online_aug_stats.json",
+        "diagnosis_json": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_yolo_default_diagnosis_constrained_50ep\\runs\\diagnosis_light\\diagnosis\\diagnosis.json",
+        "diagnosis_report": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_yolo_default_diagnosis_constrained_50ep\\runs\\diagnosis_light\\reports\\diagnosis_report.md"
+      },
+      "online_aug_stats": {
+        "train_image_count": 2301,
+        "fixed_augmented_dataset_generated": false,
+        "yolo_builtin_augmentations_disabled": false,
+        "ops": {
+          "hsv_jitter": {
+            "seen": 115050,
+            "skipped_probability": 97654,
+            "applied": 17396
+          },
+          "random_scale_translate": {
+            "seen": 115050,
+            "skipped_probability": 103772,
+            "applied": 11278,
+            "boxes_dropped_visibility": 4,
+            "boxes_dropped_size": 3,
+            "scale_translate_applied": 11278
+          }
+        },
+        "cutout_safe": {},
+        "mosaic4": {}
+      }
+    },
+    {
+      "key": "diagnosis_precision_safe",
+      "label": "YOLO default + diagnosis_precision_safe",
+      "run_dir": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_yolo_default_diagnosis_constrained_50ep\\runs\\diagnosis_precision_safe",
+      "policy": "E:\\TJGY\\MinPaper\\MyAutoAugument\\configs\\online_policies\\diagnosis_precision_safe_policy.json",
+      "metrics": {
+        "images": 677,
+        "instances": 905,
+        "precision": 0.6647234135205979,
+        "recall": 0.749293165993089,
+        "map50": 0.7556500710511661,
+        "map50_95": 0.5055154807166977
+      },
+      "delta_vs_yolo_default": {
+        "precision": -0.048476070228067325,
+        "recall": -0.01072148850677368,
+        "map50": -0.020226702832722543,
+        "map50_95": -0.01854697820478146
+      },
+      "constraints": {
+        "passed": false,
+        "failures": [
+          "precision_drop_gt_0.02",
+          "map50_drop_gt_0.01",
+          "map50_95_drop_gt_0.01"
+        ]
+      },
+      "diagnosis": {
+        "global": {
+          "tp": 725,
+          "fp": 305,
+          "fn": 156,
+          "precision": 0.7038834951456311,
+          "recall": 0.8011049723756906,
+          "localization_weak": 24,
+          "gt": 905
+        },
+        "fn_types": {
+          "by_class_top": [
+            {
+              "class_id": 7,
+              "class_name": "碰伤",
+              "gt": 269,
+              "tp": 184,
+              "fp": 76,
+              "fn": 75,
+              "precision": 0.7076923076923077,
+              "recall": 0.6840148698884758,
+              "fn_rate": 0.2788104089219331,
+              "fp_rate": 0.2923076923076923
+            },
+            {
+              "class_id": 9,
+              "class_name": "轮廓划伤",
+              "gt": 84,
+              "tp": 56,
+              "fp": 38,
+              "fn": 23,
+              "precision": 0.5957446808510638,
+              "recall": 0.6666666666666666,
+              "fn_rate": 0.27380952380952384,
+              "fp_rate": 0.40425531914893614
+            },
+            {
+              "class_id": 8,
+              "class_name": "脏污",
+              "gt": 42,
+              "tp": 22,
+              "fp": 12,
+              "fn": 16,
+              "precision": 0.6470588235294118,
+              "recall": 0.5238095238095238,
+              "fn_rate": 0.38095238095238093,
+              "fp_rate": 0.35294117647058826
+            },
+            {
+              "class_id": 6,
+              "class_name": "漏背锡",
+              "gt": 46,
+              "tp": 33,
+              "fp": 26,
+              "fn": 10,
+              "precision": 0.559322033898305,
+              "recall": 0.717391304347826,
+              "fn_rate": 0.21739130434782608,
+              "fp_rate": 0.4406779661016949
+            },
+            {
+              "class_id": 12,
+              "class_name": "锡膏",
+              "gt": 46,
+              "tp": 34,
+              "fp": 12,
+              "fn": 10,
+              "precision": 0.7391304347826086,
+              "recall": 0.7391304347826086,
+              "fn_rate": 0.21739130434782608,
+              "fp_rate": 0.2608695652173913
+            },
+            {
+              "class_id": 4,
+              "class_name": "油污",
+              "gt": 18,
+              "tp": 9,
+              "fp": 24,
+              "fn": 9,
+              "precision": 0.2727272727272727,
+              "recall": 0.5,
+              "fn_rate": 0.5,
+              "fp_rate": 0.7272727272727273
+            },
+            {
+              "class_id": 5,
+              "class_name": "浅划伤",
+              "gt": 13,
+              "tp": 6,
+              "fp": 12,
+              "fn": 7,
+              "precision": 0.3333333333333333,
+              "recall": 0.46153846153846156,
+              "fn_rate": 0.5384615384615384,
+              "fp_rate": 0.6666666666666666
+            },
+            {
+              "class_id": 10,
+              "class_name": "锡丝残留",
+              "gt": 12,
+              "tp": 9,
+              "fp": 5,
+              "fn": 3,
+              "precision": 0.6428571428571429,
+              "recall": 0.75,
+              "fn_rate": 0.25,
+              "fp_rate": 0.35714285714285715
+            }
+          ],
+          "by_size": {
+            "tiny": {
+              "gt_count": 177,
+              "tp_count": 119,
+              "fn_count": 54,
+              "recall": 0.672316384180791,
+              "fn_rate": 0.3050847457627119
+            },
+            "small": {
+              "gt_count": 412,
+              "tp_count": 320,
+              "fn_count": 78,
+              "recall": 0.7766990291262136,
+              "fn_rate": 0.18932038834951456
+            },
+            "medium": {
+              "gt_count": 307,
+              "tp_count": 278,
+              "fn_count": 23,
+              "recall": 0.9055374592833876,
+              "fn_rate": 0.0749185667752443
+            },
+            "large": {
+              "gt_count": 9,
+              "tp_count": 8,
+              "fn_count": 1,
+              "recall": 0.8888888888888888,
+              "fn_rate": 0.1111111111111111
+            }
+          },
+          "by_quality": {
+            "count": 156,
+            "brightness_mean": 65.0102008130286,
+            "contrast_std_mean": 19.94031999114369,
+            "low_contrast_count": 97,
+            "dark_count": 81,
+            "bright_count": 2,
+            "low_contrast_rate": 0.6217948717948718,
+            "dark_rate": 0.5192307692307693,
+            "bright_rate": 0.01282051282051282
+          },
+          "by_position": {
+            "left": {
+              "gt_count": 283,
+              "tp_count": 234,
+              "fn_count": 45,
+              "recall": 0.8268551236749117,
+              "fn_rate": 0.15901060070671377
+            },
+            "center": {
+              "gt_count": 338,
+              "tp_count": 249,
+              "fn_count": 79,
+              "recall": 0.7366863905325444,
+              "fn_rate": 0.23372781065088757
+            },
+            "right": {
+              "gt_count": 284,
+              "tp_count": 242,
+              "fn_count": 32,
+              "recall": 0.852112676056338,
+              "fn_rate": 0.11267605633802817
+            },
+            "top": {
+              "gt_count": 190,
+              "tp_count": 146,
+              "fn_count": 32,
+              "recall": 0.7684210526315789,
+              "fn_rate": 0.16842105263157894
+            },
+            "middle": {
+              "gt_count": 475,
+              "tp_count": 387,
+              "fn_count": 83,
+              "recall": 0.8147368421052632,
+              "fn_rate": 0.17473684210526316
+            },
+            "bottom": {
+              "gt_count": 240,
+              "tp_count": 192,
+              "fn_count": 41,
+              "recall": 0.8,
+              "fn_rate": 0.17083333333333334
+            },
+            "edge": {
+              "gt_count": 178,
+              "tp_count": 149,
+              "fn_count": 23,
+              "recall": 0.8370786516853933,
+              "fn_rate": 0.12921348314606743
+            }
+          }
+        },
+        "fp_types": {
+          "by_class_top": [
+            {
+              "class_id": 7,
+              "class_name": "碰伤",
+              "gt": 269,
+              "tp": 184,
+              "fp": 76,
+              "fn": 75,
+              "precision": 0.7076923076923077,
+              "recall": 0.6840148698884758,
+              "fn_rate": 0.2788104089219331,
+              "fp_rate": 0.2923076923076923
+            },
+            {
+              "class_id": 1,
+              "class_name": "OK3",
+              "gt": 274,
+              "tp": 273,
+              "fp": 65,
+              "fn": 1,
+              "precision": 0.8076923076923077,
+              "recall": 0.9963503649635036,
+              "fn_rate": 0.0036496350364963502,
+              "fp_rate": 0.19230769230769232
+            },
+            {
+              "class_id": 9,
+              "class_name": "轮廓划伤",
+              "gt": 84,
+              "tp": 56,
+              "fp": 38,
+              "fn": 23,
+              "precision": 0.5957446808510638,
+              "recall": 0.6666666666666666,
+              "fn_rate": 0.27380952380952384,
+              "fp_rate": 0.40425531914893614
+            },
+            {
+              "class_id": 6,
+              "class_name": "漏背锡",
+              "gt": 46,
+              "tp": 33,
+              "fp": 26,
+              "fn": 10,
+              "precision": 0.559322033898305,
+              "recall": 0.717391304347826,
+              "fn_rate": 0.21739130434782608,
+              "fp_rate": 0.4406779661016949
+            },
+            {
+              "class_id": 4,
+              "class_name": "油污",
+              "gt": 18,
+              "tp": 9,
+              "fp": 24,
+              "fn": 9,
+              "precision": 0.2727272727272727,
+              "recall": 0.5,
+              "fn_rate": 0.5,
+              "fp_rate": 0.7272727272727273
+            },
+            {
+              "class_id": 0,
+              "class_name": "OK2",
+              "gt": 64,
+              "tp": 64,
+              "fp": 21,
+              "fn": 0,
+              "precision": 0.7529411764705882,
+              "recall": 1.0,
+              "fn_rate": 0.0,
+              "fp_rate": 0.24705882352941178
+            },
+            {
+              "class_id": 5,
+              "class_name": "浅划伤",
+              "gt": 13,
+              "tp": 6,
+              "fp": 12,
+              "fn": 7,
+              "precision": 0.3333333333333333,
+              "recall": 0.46153846153846156,
+              "fn_rate": 0.5384615384615384,
+              "fp_rate": 0.6666666666666666
+            },
+            {
+              "class_id": 8,
+              "class_name": "脏污",
+              "gt": 42,
+              "tp": 22,
+              "fp": 12,
+              "fn": 16,
+              "precision": 0.6470588235294118,
+              "recall": 0.5238095238095238,
+              "fn_rate": 0.38095238095238093,
+              "fp_rate": 0.35294117647058826
+            }
+          ],
+          "by_quality": {
+            "count": 305,
+            "brightness_mean": 68.61197828111945,
+            "contrast_std_mean": 20.74982631873731,
+            "low_contrast_count": 202,
+            "dark_count": 155,
+            "bright_count": 0,
+            "low_contrast_rate": 0.6622950819672131,
+            "dark_rate": 0.5081967213114754,
+            "bright_rate": 0.0
+          },
+          "background": {}
+        },
+        "issues": [
+          {
+            "type": "low_contrast_missed_defect",
+            "source_issue": "low_contrast_fn_high",
+            "severity": "high",
+            "evidence": {
+              "issue": "low_contrast_fn_high",
+              "severity": "high",
+              "observed_rate": 0.6217948717948718
+            },
+            "suggested_augmentations": [
+              "contrast",
+              "gamma",
+              "clahe",
+              "brightness",
+              "sharpen"
+            ]
+          },
+          {
+            "type": "low_contrast_missed_defect",
+            "source_issue": "exposure_fn_high",
+            "severity": "medium",
+            "evidence": {
+              "issue": "exposure_fn_high",
+              "severity": "medium",
+              "dark_rate": 0.5192307692307693,
+              "bright_rate": 0.01282051282051282
+            },
+            "suggested_augmentations": [
+              "contrast",
+              "gamma",
+              "clahe",
+              "brightness",
+              "sharpen"
+            ]
+          },
+          {
+            "type": "class_imbalance",
+            "source_issue": "class_recall_imbalance",
+            "severity": "medium",
+            "evidence": {
+              "issue": "class_recall_imbalance",
+              "severity": "medium",
+              "classes": [
+                {
+                  "class_id": 4,
+                  "class_name": "油污",
+                  "fn_rate": 0.5
+                },
+                {
+                  "class_id": 5,
+                  "class_name": "浅划伤",
+                  "fn_rate": 0.5384615384615384
+                },
+                {
+                  "class_id": 8,
+                  "class_name": "脏污",
+                  "fn_rate": 0.38095238095238093
+                }
+              ]
+            },
+            "suggested_augmentations": [
+              "class-aware-sampling",
+              "targeted-augmentation",
+              "class-balanced-policy"
+            ]
+          },
+          {
+            "type": "high_false_positive",
+            "source_issue": "false_positive_high",
+            "severity": "medium",
+            "evidence": {
+              "issue": "false_positive_high",
+              "severity": "medium",
+              "fp_count": 305
+            },
+            "suggested_augmentations": [
+              "hard-negative-review",
+              "reduce-noise",
+              "reduce-blur",
+              "mild-lighting"
+            ]
+          },
+          {
+            "type": "localization_bias",
+            "source_issue": "localization_weak_count",
+            "severity": "medium",
+            "evidence": {
+              "localization_weak_count": 24
+            },
+            "suggested_augmentations": [
+              "mild-scale",
+              "mild-translate",
+              "reduce-rotate",
+              "reduce-shear",
+              "reduce-perspective"
+            ]
+          }
+        ]
+      },
+      "artifacts": {
+        "best_pt": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_yolo_default_diagnosis_constrained_50ep\\runs\\diagnosis_precision_safe\\train\\weights\\best.pt",
+        "last_pt": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_yolo_default_diagnosis_constrained_50ep\\runs\\diagnosis_precision_safe\\train\\weights\\last.pt",
+        "results_csv": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_yolo_default_diagnosis_constrained_50ep\\runs\\diagnosis_precision_safe\\train\\results.csv",
+        "val_dir": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_yolo_default_diagnosis_constrained_50ep\\runs\\diagnosis_precision_safe\\val",
+        "stats_json": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_yolo_default_diagnosis_constrained_50ep\\runs\\diagnosis_precision_safe\\reports\\online_aug_stats.json",
+        "diagnosis_json": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_yolo_default_diagnosis_constrained_50ep\\runs\\diagnosis_precision_safe\\diagnosis\\diagnosis.json",
+        "diagnosis_report": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_yolo_default_diagnosis_constrained_50ep\\runs\\diagnosis_precision_safe\\reports\\diagnosis_report.md"
+      },
+      "online_aug_stats": {
+        "train_image_count": 2301,
+        "fixed_augmented_dataset_generated": false,
+        "yolo_builtin_augmentations_disabled": false,
+        "ops": {
+          "hsv_jitter": {
+            "seen": 115050,
+            "skipped_probability": 103546,
+            "applied": 11504
+          },
+          "mosaic4": {
+            "seen": 115050,
+            "skipped_probability": 89333,
+            "applied": 2707,
+            "skipped_close_mosaic": 23010
+          },
+          "random_erasing": {
+            "seen": 115050,
+            "skipped_probability": 111616,
+            "applied": 3434
+          },
+          "random_scale_translate": {
+            "seen": 115050,
+            "skipped_probability": 105890,
+            "applied": 9160,
+            "boxes_dropped_visibility": 1,
+            "boxes_dropped_size": 0,
+            "scale_translate_applied": 9160
+          }
+        },
+        "cutout_safe": {
+          "op_attempted": 3434,
+          "holes_requested": 3434,
+          "holes_applied": 3434,
+          "holes_skipped_center": 0,
+          "holes_skipped_overlap": 0,
+          "holes_skipped_no_safe_region": 0
+        },
+        "mosaic4": {
+          "attempted": 2707,
+          "applied": 2707,
+          "source_images": 10828,
+          "output_size": 2771968,
+          "boxes_dropped_visibility": 0,
+          "boxes_dropped_size": 0,
+          "skipped_close_mosaic": 23010
+        }
+      }
+    },
+    {
+      "key": "diagnosis_recall_safe",
+      "label": "YOLO default + diagnosis_recall_safe",
+      "run_dir": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_yolo_default_diagnosis_constrained_50ep\\runs\\diagnosis_recall_safe",
+      "policy": "E:\\TJGY\\MinPaper\\MyAutoAugument\\configs\\online_policies\\diagnosis_recall_safe_policy.json",
+      "metrics": {
+        "images": 677,
+        "instances": 905,
+        "precision": 0.6712373020017045,
+        "recall": 0.7658751104672861,
+        "map50": 0.7410937344882793,
+        "map50_95": 0.5044177227621444
+      },
+      "delta_vs_yolo_default": {
+        "precision": -0.04196218174696076,
+        "recall": 0.00586045596742335,
+        "map50": -0.03478303939560934,
+        "map50_95": -0.01964473615933482
+      },
+      "constraints": {
+        "passed": false,
+        "failures": [
+          "precision_drop_gt_0.02",
+          "map50_drop_gt_0.01",
+          "map50_95_drop_gt_0.01"
+        ]
+      },
+      "diagnosis": {
+        "global": {
+          "tp": 735,
+          "fp": 269,
+          "fn": 149,
+          "precision": 0.7320717131474104,
+          "recall": 0.8121546961325967,
+          "localization_weak": 21,
+          "gt": 905
+        },
+        "fn_types": {
+          "by_class_top": [
+            {
+              "class_id": 7,
+              "class_name": "碰伤",
+              "gt": 269,
+              "tp": 191,
+              "fp": 72,
+              "fn": 72,
+              "precision": 0.7262357414448669,
+              "recall": 0.7100371747211895,
+              "fn_rate": 0.26765799256505574,
+              "fp_rate": 0.2737642585551331
+            },
+            {
+              "class_id": 9,
+              "class_name": "轮廓划伤",
+              "gt": 84,
+              "tp": 52,
+              "fp": 24,
+              "fn": 28,
+              "precision": 0.6842105263157895,
+              "recall": 0.6190476190476191,
+              "fn_rate": 0.3333333333333333,
+              "fp_rate": 0.3157894736842105
+            },
+            {
+              "class_id": 12,
+              "class_name": "锡膏",
+              "gt": 46,
+              "tp": 31,
+              "fp": 14,
+              "fn": 12,
+              "precision": 0.6888888888888889,
+              "recall": 0.6739130434782609,
+              "fn_rate": 0.2608695652173913,
+              "fp_rate": 0.3111111111111111
+            },
+            {
+              "class_id": 4,
+              "class_name": "油污",
+              "gt": 18,
+              "tp": 8,
+              "fp": 22,
+              "fn": 10,
+              "precision": 0.26666666666666666,
+              "recall": 0.4444444444444444,
+              "fn_rate": 0.5555555555555556,
+              "fp_rate": 0.7333333333333333
+            },
+            {
+              "class_id": 8,
+              "class_name": "脏污",
+              "gt": 42,
+              "tp": 28,
+              "fp": 12,
+              "fn": 10,
+              "precision": 0.7,
+              "recall": 0.6666666666666666,
+              "fn_rate": 0.23809523809523808,
+              "fp_rate": 0.3
+            },
+            {
+              "class_id": 6,
+              "class_name": "漏背锡",
+              "gt": 46,
+              "tp": 35,
+              "fp": 18,
+              "fn": 8,
+              "precision": 0.660377358490566,
+              "recall": 0.7608695652173914,
+              "fn_rate": 0.17391304347826086,
+              "fp_rate": 0.33962264150943394
+            },
+            {
+              "class_id": 5,
+              "class_name": "浅划伤",
+              "gt": 13,
+              "tp": 6,
+              "fp": 4,
+              "fn": 7,
+              "precision": 0.6,
+              "recall": 0.46153846153846156,
+              "fn_rate": 0.5384615384615384,
+              "fp_rate": 0.4
+            },
+            {
+              "class_id": 2,
+              "class_name": "加强筋打伤",
+              "gt": 8,
+              "tp": 7,
+              "fp": 0,
+              "fn": 1,
+              "precision": 1.0,
+              "recall": 0.875,
+              "fn_rate": 0.125,
+              "fp_rate": 0.0
+            }
+          ],
+          "by_size": {
+            "tiny": {
+              "gt_count": 177,
+              "tp_count": 121,
+              "fn_count": 51,
+              "recall": 0.6836158192090396,
+              "fn_rate": 0.288135593220339
+            },
+            "small": {
+              "gt_count": 412,
+              "tp_count": 320,
+              "fn_count": 81,
+              "recall": 0.7766990291262136,
+              "fn_rate": 0.1966019417475728
+            },
+            "medium": {
+              "gt_count": 307,
+              "tp_count": 286,
+              "fn_count": 16,
+              "recall": 0.9315960912052117,
+              "fn_rate": 0.05211726384364821
+            },
+            "large": {
+              "gt_count": 9,
+              "tp_count": 8,
+              "fn_count": 1,
+              "recall": 0.8888888888888888,
+              "fn_rate": 0.1111111111111111
+            }
+          },
+          "by_quality": {
+            "count": 149,
+            "brightness_mean": 67.36324116931087,
+            "contrast_std_mean": 18.647077794485533,
+            "low_contrast_count": 100,
+            "dark_count": 73,
+            "bright_count": 2,
+            "low_contrast_rate": 0.6711409395973155,
+            "dark_rate": 0.4899328859060403,
+            "bright_rate": 0.013422818791946308
+          },
+          "by_position": {
+            "left": {
+              "gt_count": 283,
+              "tp_count": 232,
+              "fn_count": 47,
+              "recall": 0.8197879858657244,
+              "fn_rate": 0.16607773851590105
+            },
+            "center": {
+              "gt_count": 338,
+              "tp_count": 258,
+              "fn_count": 71,
+              "recall": 0.7633136094674556,
+              "fn_rate": 0.21005917159763313
+            },
+            "right": {
+              "gt_count": 284,
+              "tp_count": 245,
+              "fn_count": 31,
+              "recall": 0.8626760563380281,
+              "fn_rate": 0.10915492957746478
+            },
+            "top": {
+              "gt_count": 190,
+              "tp_count": 150,
+              "fn_count": 29,
+              "recall": 0.7894736842105263,
+              "fn_rate": 0.15263157894736842
+            },
+            "middle": {
+              "gt_count": 475,
+              "tp_count": 390,
+              "fn_count": 80,
+              "recall": 0.8210526315789474,
+              "fn_rate": 0.16842105263157894
+            },
+            "bottom": {
+              "gt_count": 240,
+              "tp_count": 195,
+              "fn_count": 40,
+              "recall": 0.8125,
+              "fn_rate": 0.16666666666666666
+            },
+            "edge": {
+              "gt_count": 178,
+              "tp_count": 150,
+              "fn_count": 24,
+              "recall": 0.8426966292134831,
+              "fn_rate": 0.1348314606741573
+            }
+          }
+        },
+        "fp_types": {
+          "by_class_top": [
+            {
+              "class_id": 7,
+              "class_name": "碰伤",
+              "gt": 269,
+              "tp": 191,
+              "fp": 72,
+              "fn": 72,
+              "precision": 0.7262357414448669,
+              "recall": 0.7100371747211895,
+              "fn_rate": 0.26765799256505574,
+              "fp_rate": 0.2737642585551331
+            },
+            {
+              "class_id": 1,
+              "class_name": "OK3",
+              "gt": 274,
+              "tp": 274,
+              "fp": 67,
+              "fn": 0,
+              "precision": 0.8035190615835777,
+              "recall": 1.0,
+              "fn_rate": 0.0,
+              "fp_rate": 0.19648093841642228
+            },
+            {
+              "class_id": 9,
+              "class_name": "轮廓划伤",
+              "gt": 84,
+              "tp": 52,
+              "fp": 24,
+              "fn": 28,
+              "precision": 0.6842105263157895,
+              "recall": 0.6190476190476191,
+              "fn_rate": 0.3333333333333333,
+              "fp_rate": 0.3157894736842105
+            },
+            {
+              "class_id": 4,
+              "class_name": "油污",
+              "gt": 18,
+              "tp": 8,
+              "fp": 22,
+              "fn": 10,
+              "precision": 0.26666666666666666,
+              "recall": 0.4444444444444444,
+              "fn_rate": 0.5555555555555556,
+              "fp_rate": 0.7333333333333333
+            },
+            {
+              "class_id": 0,
+              "class_name": "OK2",
+              "gt": 64,
+              "tp": 64,
+              "fp": 20,
+              "fn": 0,
+              "precision": 0.7619047619047619,
+              "recall": 1.0,
+              "fn_rate": 0.0,
+              "fp_rate": 0.23809523809523808
+            },
+            {
+              "class_id": 6,
+              "class_name": "漏背锡",
+              "gt": 46,
+              "tp": 35,
+              "fp": 18,
+              "fn": 8,
+              "precision": 0.660377358490566,
+              "recall": 0.7608695652173914,
+              "fn_rate": 0.17391304347826086,
+              "fp_rate": 0.33962264150943394
+            },
+            {
+              "class_id": 12,
+              "class_name": "锡膏",
+              "gt": 46,
+              "tp": 31,
+              "fp": 14,
+              "fn": 12,
+              "precision": 0.6888888888888889,
+              "recall": 0.6739130434782609,
+              "fn_rate": 0.2608695652173913,
+              "fp_rate": 0.3111111111111111
+            },
+            {
+              "class_id": 8,
+              "class_name": "脏污",
+              "gt": 42,
+              "tp": 28,
+              "fp": 12,
+              "fn": 10,
+              "precision": 0.7,
+              "recall": 0.6666666666666666,
+              "fn_rate": 0.23809523809523808,
+              "fp_rate": 0.3
+            }
+          ],
+          "by_quality": {
+            "count": 269,
+            "brightness_mean": 68.06257591764303,
+            "contrast_std_mean": 20.1576669242175,
+            "low_contrast_count": 175,
+            "dark_count": 140,
+            "bright_count": 0,
+            "low_contrast_rate": 0.6505576208178439,
+            "dark_rate": 0.5204460966542751,
+            "bright_rate": 0.0
+          },
+          "background": {}
+        },
+        "issues": [
+          {
+            "type": "low_contrast_missed_defect",
+            "source_issue": "low_contrast_fn_high",
+            "severity": "high",
+            "evidence": {
+              "issue": "low_contrast_fn_high",
+              "severity": "high",
+              "observed_rate": 0.6711409395973155
+            },
+            "suggested_augmentations": [
+              "contrast",
+              "gamma",
+              "clahe",
+              "brightness",
+              "sharpen"
+            ]
+          },
+          {
+            "type": "low_contrast_missed_defect",
+            "source_issue": "exposure_fn_high",
+            "severity": "medium",
+            "evidence": {
+              "issue": "exposure_fn_high",
+              "severity": "medium",
+              "dark_rate": 0.4899328859060403,
+              "bright_rate": 0.013422818791946308
+            },
+            "suggested_augmentations": [
+              "contrast",
+              "gamma",
+              "clahe",
+              "brightness",
+              "sharpen"
+            ]
+          },
+          {
+            "type": "class_imbalance",
+            "source_issue": "class_recall_imbalance",
+            "severity": "medium",
+            "evidence": {
+              "issue": "class_recall_imbalance",
+              "severity": "medium",
+              "classes": [
+                {
+                  "class_id": 4,
+                  "class_name": "油污",
+                  "fn_rate": 0.5555555555555556
+                },
+                {
+                  "class_id": 5,
+                  "class_name": "浅划伤",
+                  "fn_rate": 0.5384615384615384
+                }
+              ]
+            },
+            "suggested_augmentations": [
+              "class-aware-sampling",
+              "targeted-augmentation",
+              "class-balanced-policy"
+            ]
+          },
+          {
+            "type": "high_false_positive",
+            "source_issue": "false_positive_high",
+            "severity": "medium",
+            "evidence": {
+              "issue": "false_positive_high",
+              "severity": "medium",
+              "fp_count": 269
+            },
+            "suggested_augmentations": [
+              "hard-negative-review",
+              "reduce-noise",
+              "reduce-blur",
+              "mild-lighting"
+            ]
+          },
+          {
+            "type": "localization_bias",
+            "source_issue": "localization_weak_count",
+            "severity": "medium",
+            "evidence": {
+              "localization_weak_count": 21
+            },
+            "suggested_augmentations": [
+              "mild-scale",
+              "mild-translate",
+              "reduce-rotate",
+              "reduce-shear",
+              "reduce-perspective"
+            ]
+          }
+        ]
+      },
+      "artifacts": {
+        "best_pt": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_yolo_default_diagnosis_constrained_50ep\\runs\\diagnosis_recall_safe\\train\\weights\\best.pt",
+        "last_pt": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_yolo_default_diagnosis_constrained_50ep\\runs\\diagnosis_recall_safe\\train\\weights\\last.pt",
+        "results_csv": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_yolo_default_diagnosis_constrained_50ep\\runs\\diagnosis_recall_safe\\train\\results.csv",
+        "val_dir": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_yolo_default_diagnosis_constrained_50ep\\runs\\diagnosis_recall_safe\\val",
+        "stats_json": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_yolo_default_diagnosis_constrained_50ep\\runs\\diagnosis_recall_safe\\reports\\online_aug_stats.json",
+        "diagnosis_json": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_yolo_default_diagnosis_constrained_50ep\\runs\\diagnosis_recall_safe\\diagnosis\\diagnosis.json",
+        "diagnosis_report": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_yolo_default_diagnosis_constrained_50ep\\runs\\diagnosis_recall_safe\\reports\\diagnosis_report.md"
+      },
+      "online_aug_stats": {
+        "train_image_count": 2301,
+        "fixed_augmented_dataset_generated": false,
+        "yolo_builtin_augmentations_disabled": false,
+        "ops": {
+          "brightness": {
+            "seen": 115050,
+            "skipped_probability": 105938,
+            "applied": 9112
+          },
+          "clahe": {
+            "seen": 115050,
+            "skipped_probability": 101246,
+            "applied": 13804
+          },
+          "contrast": {
+            "seen": 115050,
+            "skipped_probability": 101210,
+            "applied": 13840
+          },
+          "gamma": {
+            "seen": 115050,
+            "skipped_probability": 103567,
+            "applied": 11483
+          },
+          "random_scale_translate": {
+            "seen": 115050,
+            "skipped_probability": 101388,
+            "applied": 13662,
+            "boxes_dropped_visibility": 2,
+            "boxes_dropped_size": 5,
+            "scale_translate_applied": 13662
+          },
+          "sharpen_mild": {
+            "seen": 115050,
+            "applied": 11533,
+            "skipped_probability": 103517
+          }
+        },
+        "cutout_safe": {},
+        "mosaic4": {}
+      }
+    },
+    {
+      "key": "custom_yolo_like_base_old",
+      "label": "custom_yolo_like_base old control",
+      "run_dir": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_custom_yolo_like_base_yolo11n_50ep",
+      "policy": "E:\\TJGY\\MinPaper\\MyAutoAugument\\configs\\online_policies\\yolo_like_base_policy.json",
+      "metrics": {
+        "images": 677,
+        "instances": 905,
+        "precision": 0.666090717892226,
+        "recall": 0.7490366574120604,
+        "map50": 0.7129374998600813,
+        "map50_95": 0.4414700155135836
+      },
+      "delta_vs_yolo_default": {
+        "precision": -0.047108765856439305,
+        "recall": -0.010977997087802338,
+        "map50": -0.06293927402380739,
+        "map50_95": -0.08259244340789557
+      },
+      "constraints": {
+        "passed": false,
+        "failures": [
+          "precision_drop_gt_0.02",
+          "map50_drop_gt_0.01",
+          "map50_95_drop_gt_0.01"
+        ]
+      },
+      "diagnosis": {
+        "global": {
+          "tp": 722,
+          "fp": 319,
+          "fn": 170,
+          "precision": 0.6935638808837656,
+          "recall": 0.7977900552486188,
+          "localization_weak": 13,
+          "gt": 905
+        },
+        "fn_types": {
+          "by_class_top": [
+            {
+              "class_id": 7,
+              "class_name": "碰伤",
+              "gt": 269,
+              "tp": 191,
+              "fp": 107,
+              "fn": 71,
+              "precision": 0.6409395973154363,
+              "recall": 0.7100371747211895,
+              "fn_rate": 0.26394052044609667,
+              "fp_rate": 0.35906040268456374
+            },
+            {
+              "class_id": 9,
+              "class_name": "轮廓划伤",
+              "gt": 84,
+              "tp": 45,
+              "fp": 23,
+              "fn": 36,
+              "precision": 0.6617647058823529,
+              "recall": 0.5357142857142857,
+              "fn_rate": 0.42857142857142855,
+              "fp_rate": 0.3382352941176471
+            },
+            {
+              "class_id": 8,
+              "class_name": "脏污",
+              "gt": 42,
+              "tp": 24,
+              "fp": 22,
+              "fn": 18,
+              "precision": 0.5217391304347826,
+              "recall": 0.5714285714285714,
+              "fn_rate": 0.42857142857142855,
+              "fp_rate": 0.4782608695652174
+            },
+            {
+              "class_id": 12,
+              "class_name": "锡膏",
+              "gt": 46,
+              "tp": 33,
+              "fp": 25,
+              "fn": 13,
+              "precision": 0.5689655172413793,
+              "recall": 0.717391304347826,
+              "fn_rate": 0.2826086956521739,
+              "fp_rate": 0.43103448275862066
+            },
+            {
+              "class_id": 4,
+              "class_name": "油污",
+              "gt": 18,
+              "tp": 8,
+              "fp": 30,
+              "fn": 10,
+              "precision": 0.21052631578947367,
+              "recall": 0.4444444444444444,
+              "fn_rate": 0.5555555555555556,
+              "fp_rate": 0.7894736842105263
+            },
+            {
+              "class_id": 6,
+              "class_name": "漏背锡",
+              "gt": 46,
+              "tp": 34,
+              "fp": 12,
+              "fn": 9,
+              "precision": 0.7391304347826086,
+              "recall": 0.7391304347826086,
+              "fn_rate": 0.1956521739130435,
+              "fp_rate": 0.2608695652173913
+            },
+            {
+              "class_id": 5,
+              "class_name": "浅划伤",
+              "gt": 13,
+              "tp": 8,
+              "fp": 4,
+              "fn": 5,
+              "precision": 0.6666666666666666,
+              "recall": 0.6153846153846154,
+              "fn_rate": 0.38461538461538464,
+              "fp_rate": 0.3333333333333333
+            },
+            {
+              "class_id": 2,
+              "class_name": "加强筋打伤",
+              "gt": 8,
+              "tp": 4,
+              "fp": 1,
+              "fn": 4,
+              "precision": 0.8,
+              "recall": 0.5,
+              "fn_rate": 0.5,
+              "fp_rate": 0.2
+            }
+          ],
+          "by_size": {
+            "tiny": {
+              "gt_count": 177,
+              "tp_count": 127,
+              "fn_count": 45,
+              "recall": 0.7175141242937854,
+              "fn_rate": 0.2542372881355932
+            },
+            "small": {
+              "gt_count": 412,
+              "tp_count": 303,
+              "fn_count": 104,
+              "recall": 0.7354368932038835,
+              "fn_rate": 0.2524271844660194
+            },
+            "medium": {
+              "gt_count": 307,
+              "tp_count": 284,
+              "fn_count": 20,
+              "recall": 0.9250814332247557,
+              "fn_rate": 0.06514657980456026
+            },
+            "large": {
+              "gt_count": 9,
+              "tp_count": 8,
+              "fn_count": 1,
+              "recall": 0.8888888888888888,
+              "fn_rate": 0.1111111111111111
+            }
+          },
+          "by_quality": {
+            "count": 170,
+            "brightness_mean": 67.37568306277372,
+            "contrast_std_mean": 19.67728647774212,
+            "low_contrast_count": 115,
+            "dark_count": 81,
+            "bright_count": 2,
+            "low_contrast_rate": 0.6764705882352942,
+            "dark_rate": 0.4764705882352941,
+            "bright_rate": 0.011764705882352941
+          },
+          "by_position": {
+            "left": {
+              "gt_count": 283,
+              "tp_count": 226,
+              "fn_count": 56,
+              "recall": 0.7985865724381626,
+              "fn_rate": 0.1978798586572438
+            },
+            "center": {
+              "gt_count": 338,
+              "tp_count": 255,
+              "fn_count": 79,
+              "recall": 0.7544378698224852,
+              "fn_rate": 0.23372781065088757
+            },
+            "right": {
+              "gt_count": 284,
+              "tp_count": 241,
+              "fn_count": 35,
+              "recall": 0.8485915492957746,
+              "fn_rate": 0.12323943661971831
+            },
+            "top": {
+              "gt_count": 190,
+              "tp_count": 155,
+              "fn_count": 31,
+              "recall": 0.8157894736842105,
+              "fn_rate": 0.1631578947368421
+            },
+            "middle": {
+              "gt_count": 475,
+              "tp_count": 378,
+              "fn_count": 90,
+              "recall": 0.7957894736842105,
+              "fn_rate": 0.18947368421052632
+            },
+            "bottom": {
+              "gt_count": 240,
+              "tp_count": 189,
+              "fn_count": 49,
+              "recall": 0.7875,
+              "fn_rate": 0.20416666666666666
+            },
+            "edge": {
+              "gt_count": 178,
+              "tp_count": 149,
+              "fn_count": 27,
+              "recall": 0.8370786516853933,
+              "fn_rate": 0.15168539325842698
+            }
+          }
+        },
+        "fp_types": {
+          "by_class_top": [
+            {
+              "class_id": 7,
+              "class_name": "碰伤",
+              "gt": 269,
+              "tp": 191,
+              "fp": 107,
+              "fn": 71,
+              "precision": 0.6409395973154363,
+              "recall": 0.7100371747211895,
+              "fn_rate": 0.26394052044609667,
+              "fp_rate": 0.35906040268456374
+            },
+            {
+              "class_id": 1,
+              "class_name": "OK3",
+              "gt": 274,
+              "tp": 273,
+              "fp": 59,
+              "fn": 1,
+              "precision": 0.822289156626506,
+              "recall": 0.9963503649635036,
+              "fn_rate": 0.0036496350364963502,
+              "fp_rate": 0.17771084337349397
+            },
+            {
+              "class_id": 4,
+              "class_name": "油污",
+              "gt": 18,
+              "tp": 8,
+              "fp": 30,
+              "fn": 10,
+              "precision": 0.21052631578947367,
+              "recall": 0.4444444444444444,
+              "fn_rate": 0.5555555555555556,
+              "fp_rate": 0.7894736842105263
+            },
+            {
+              "class_id": 12,
+              "class_name": "锡膏",
+              "gt": 46,
+              "tp": 33,
+              "fp": 25,
+              "fn": 13,
+              "precision": 0.5689655172413793,
+              "recall": 0.717391304347826,
+              "fn_rate": 0.2826086956521739,
+              "fp_rate": 0.43103448275862066
+            },
+            {
+              "class_id": 9,
+              "class_name": "轮廓划伤",
+              "gt": 84,
+              "tp": 45,
+              "fp": 23,
+              "fn": 36,
+              "precision": 0.6617647058823529,
+              "recall": 0.5357142857142857,
+              "fn_rate": 0.42857142857142855,
+              "fp_rate": 0.3382352941176471
+            },
+            {
+              "class_id": 8,
+              "class_name": "脏污",
+              "gt": 42,
+              "tp": 24,
+              "fp": 22,
+              "fn": 18,
+              "precision": 0.5217391304347826,
+              "recall": 0.5714285714285714,
+              "fn_rate": 0.42857142857142855,
+              "fp_rate": 0.4782608695652174
+            },
+            {
+              "class_id": 0,
+              "class_name": "OK2",
+              "gt": 64,
+              "tp": 64,
+              "fp": 15,
+              "fn": 0,
+              "precision": 0.810126582278481,
+              "recall": 1.0,
+              "fn_rate": 0.0,
+              "fp_rate": 0.189873417721519
+            },
+            {
+              "class_id": 6,
+              "class_name": "漏背锡",
+              "gt": 46,
+              "tp": 34,
+              "fp": 12,
+              "fn": 9,
+              "precision": 0.7391304347826086,
+              "recall": 0.7391304347826086,
+              "fn_rate": 0.1956521739130435,
+              "fp_rate": 0.2608695652173913
+            }
+          ],
+          "by_quality": {
+            "count": 319,
+            "brightness_mean": 65.38897861778871,
+            "contrast_std_mean": 19.195005382803142,
+            "low_contrast_count": 220,
+            "dark_count": 168,
+            "bright_count": 0,
+            "low_contrast_rate": 0.6896551724137931,
+            "dark_rate": 0.5266457680250783,
+            "bright_rate": 0.0
+          },
+          "background": {}
+        },
+        "issues": [
+          {
+            "type": "low_contrast_missed_defect",
+            "source_issue": "low_contrast_fn_high",
+            "severity": "high",
+            "evidence": {
+              "issue": "low_contrast_fn_high",
+              "severity": "high",
+              "observed_rate": 0.6764705882352942
+            },
+            "suggested_augmentations": [
+              "contrast",
+              "gamma",
+              "clahe",
+              "brightness",
+              "sharpen"
+            ]
+          },
+          {
+            "type": "low_contrast_missed_defect",
+            "source_issue": "exposure_fn_high",
+            "severity": "medium",
+            "evidence": {
+              "issue": "exposure_fn_high",
+              "severity": "medium",
+              "dark_rate": 0.4764705882352941,
+              "bright_rate": 0.011764705882352941
+            },
+            "suggested_augmentations": [
+              "contrast",
+              "gamma",
+              "clahe",
+              "brightness",
+              "sharpen"
+            ]
+          },
+          {
+            "type": "class_imbalance",
+            "source_issue": "class_recall_imbalance",
+            "severity": "medium",
+            "evidence": {
+              "issue": "class_recall_imbalance",
+              "severity": "medium",
+              "classes": [
+                {
+                  "class_id": 2,
+                  "class_name": "加强筋打伤",
+                  "fn_rate": 0.5
+                },
+                {
+                  "class_id": 4,
+                  "class_name": "油污",
+                  "fn_rate": 0.5555555555555556
+                },
+                {
+                  "class_id": 8,
+                  "class_name": "脏污",
+                  "fn_rate": 0.42857142857142855
+                },
+                {
+                  "class_id": 9,
+                  "class_name": "轮廓划伤",
+                  "fn_rate": 0.42857142857142855
+                }
+              ]
+            },
+            "suggested_augmentations": [
+              "class-aware-sampling",
+              "targeted-augmentation",
+              "class-balanced-policy"
+            ]
+          },
+          {
+            "type": "high_false_positive",
+            "source_issue": "false_positive_high",
+            "severity": "medium",
+            "evidence": {
+              "issue": "false_positive_high",
+              "severity": "medium",
+              "fp_count": 319
+            },
+            "suggested_augmentations": [
+              "hard-negative-review",
+              "reduce-noise",
+              "reduce-blur",
+              "mild-lighting"
+            ]
+          },
+          {
+            "type": "localization_bias",
+            "source_issue": "localization_weak_count",
+            "severity": "medium",
+            "evidence": {
+              "localization_weak_count": 13
+            },
+            "suggested_augmentations": [
+              "mild-scale",
+              "mild-translate",
+              "reduce-rotate",
+              "reduce-shear",
+              "reduce-perspective"
+            ]
+          }
+        ]
+      },
+      "artifacts": {
+        "best_pt": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_custom_yolo_like_base_yolo11n_50ep\\train\\weights\\best.pt",
+        "last_pt": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_custom_yolo_like_base_yolo11n_50ep\\train\\weights\\last.pt",
+        "results_csv": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_custom_yolo_like_base_yolo11n_50ep\\train\\results.csv",
+        "val_dir": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_custom_yolo_like_base_yolo11n_50ep\\val",
+        "stats_json": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_custom_yolo_like_base_yolo11n_50ep\\reports\\online_aug_stats.json",
+        "diagnosis_json": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_custom_yolo_like_base_yolo11n_50ep\\diagnosis\\diagnosis.json",
+        "diagnosis_report": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_custom_yolo_like_base_yolo11n_50ep\\reports\\diagnosis_report.md"
+      },
+      "online_aug_stats": {
+        "train_image_count": 2301,
+        "fixed_augmented_dataset_generated": false,
+        "yolo_builtin_augmentations_disabled": false,
+        "ops": {
+          "horizontal_flip": {
+            "seen": 115050,
+            "skipped_probability": 57396,
+            "applied": 57654
+          },
+          "hsv_jitter": {
+            "seen": 115050,
+            "applied": 115050
+          },
+          "mosaic4": {
+            "seen": 115050,
+            "applied": 92040,
+            "skipped_close_mosaic": 23010
+          },
+          "randaugment_like": {
+            "seen": 115050,
+            "skipped_probability": 63725,
+            "applied": 51325
+          },
+          "random_erasing": {
+            "seen": 115050,
+            "skipped_probability": 69011,
+            "applied": 46039
+          },
+          "random_scale_translate": {
+            "seen": 115050,
+            "applied": 115050,
+            "boxes_dropped_visibility": 3614,
+            "boxes_dropped_size": 49527,
+            "scale_translate_applied": 115050
+          }
+        },
+        "cutout_safe": {
+          "op_attempted": 55617,
+          "holes_requested": 111234,
+          "holes_applied": 111234,
+          "holes_skipped_center": 0,
+          "holes_skipped_overlap": 0,
+          "holes_skipped_no_safe_region": 0
+        },
+        "mosaic4": {
+          "attempted": 92040,
+          "applied": 92040,
+          "source_images": 368160,
+          "output_size": 94248960,
+          "boxes_dropped_visibility": 0,
+          "boxes_dropped_size": 0,
+          "skipped_close_mosaic": 23010
+        }
+      }
+    }
+  ],
+  "constraint_scoring": {
+    "best_key": "yolo_default",
+    "best_label": "YOLO default",
+    "passed_candidates": [
+      "yolo_default"
+    ],
+    "constraints_realized": true,
+    "recall_improved_under_constraints": false,
+    "failure_driver_if_no_improvement": "diagnosis_light: mAP50-95 dropped without localization_weak increase in conf=0.25 diagnosis; diagnosis_precision_safe: FP increased by 18; diagnosis_precision_safe: mAP50-95 dropped without localization_weak increase in conf=0.25 diagnosis; diagnosis_recall_safe: mAP50-95 dropped without localization_weak increase in conf=0.25 diagnosis",
+    "selection_rule": "maximize Recall delta under Precision/mAP50/mAP50-95 constraints; tie-break by mAP50-95"
+  },
+  "operator_impact": [
+    {
+      "group": "yolo_default",
+      "op": "ultralytics_default_aug_pool",
+      "prob": null,
+      "strength": null,
+      "applied": null,
+      "delta_vs_yolo_default": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "map50": 0.0,
+        "map50_95": 0.0
+      },
+      "impact_scope": "reference_default_pool"
+    },
+    {
+      "group": "diagnosis_light",
+      "op": "hsv_jitter",
+      "prob": 0.15,
+      "strength": 0.25,
+      "applied": 17396,
+      "skipped_probability": 97654,
+      "skipped_safety": null,
+      "delta_vs_yolo_default": {
+        "precision": 0.021076990275967322,
+        "recall": -0.07383851960581034,
+        "map50": -0.020351548744052317,
+        "map50_95": -0.024726607307437365
+      },
+      "impact_scope": "policy_group_not_isolated"
+    },
+    {
+      "group": "diagnosis_light",
+      "op": "random_scale_translate",
+      "prob": 0.1,
+      "strength": 0.2,
+      "applied": 11278,
+      "skipped_probability": 103772,
+      "skipped_safety": null,
+      "delta_vs_yolo_default": {
+        "precision": 0.021076990275967322,
+        "recall": -0.07383851960581034,
+        "map50": -0.020351548744052317,
+        "map50_95": -0.024726607307437365
+      },
+      "impact_scope": "policy_group_not_isolated"
+    },
+    {
+      "group": "diagnosis_precision_safe",
+      "op": "hsv_jitter",
+      "prob": 0.1,
+      "strength": 0.2,
+      "applied": 11504,
+      "skipped_probability": 103546,
+      "skipped_safety": null,
+      "delta_vs_yolo_default": {
+        "precision": -0.048476070228067325,
+        "recall": -0.01072148850677368,
+        "map50": -0.020226702832722543,
+        "map50_95": -0.01854697820478146
+      },
+      "impact_scope": "policy_group_not_isolated"
+    },
+    {
+      "group": "diagnosis_precision_safe",
+      "op": "random_scale_translate",
+      "prob": 0.08,
+      "strength": 0.15,
+      "applied": 9160,
+      "skipped_probability": 105890,
+      "skipped_safety": null,
+      "delta_vs_yolo_default": {
+        "precision": -0.048476070228067325,
+        "recall": -0.01072148850677368,
+        "map50": -0.020226702832722543,
+        "map50_95": -0.01854697820478146
+      },
+      "impact_scope": "policy_group_not_isolated"
+    },
+    {
+      "group": "diagnosis_precision_safe",
+      "op": "mosaic4",
+      "prob": 0.03,
+      "strength": 0.25,
+      "applied": 2707,
+      "skipped_probability": 89333,
+      "skipped_safety": null,
+      "delta_vs_yolo_default": {
+        "precision": -0.048476070228067325,
+        "recall": -0.01072148850677368,
+        "map50": -0.020226702832722543,
+        "map50_95": -0.01854697820478146
+      },
+      "impact_scope": "policy_group_not_isolated"
+    },
+    {
+      "group": "diagnosis_precision_safe",
+      "op": "random_erasing",
+      "prob": 0.03,
+      "strength": 0.12,
+      "applied": 3434,
+      "skipped_probability": 111616,
+      "skipped_safety": null,
+      "delta_vs_yolo_default": {
+        "precision": -0.048476070228067325,
+        "recall": -0.01072148850677368,
+        "map50": -0.020226702832722543,
+        "map50_95": -0.01854697820478146
+      },
+      "impact_scope": "policy_group_not_isolated"
+    },
+    {
+      "group": "diagnosis_recall_safe",
+      "op": "clahe",
+      "prob": 0.12,
+      "strength": 0.22,
+      "applied": 13804,
+      "skipped_probability": 101246,
+      "skipped_safety": null,
+      "delta_vs_yolo_default": {
+        "precision": -0.04196218174696076,
+        "recall": 0.00586045596742335,
+        "map50": -0.03478303939560934,
+        "map50_95": -0.01964473615933482
+      },
+      "impact_scope": "policy_group_not_isolated"
+    },
+    {
+      "group": "diagnosis_recall_safe",
+      "op": "contrast",
+      "prob": 0.12,
+      "strength": 0.2,
+      "applied": 13840,
+      "skipped_probability": 101210,
+      "skipped_safety": null,
+      "delta_vs_yolo_default": {
+        "precision": -0.04196218174696076,
+        "recall": 0.00586045596742335,
+        "map50": -0.03478303939560934,
+        "map50_95": -0.01964473615933482
+      },
+      "impact_scope": "policy_group_not_isolated"
+    },
+    {
+      "group": "diagnosis_recall_safe",
+      "op": "gamma",
+      "prob": 0.1,
+      "strength": 0.18,
+      "applied": 11483,
+      "skipped_probability": 103567,
+      "skipped_safety": null,
+      "delta_vs_yolo_default": {
+        "precision": -0.04196218174696076,
+        "recall": 0.00586045596742335,
+        "map50": -0.03478303939560934,
+        "map50_95": -0.01964473615933482
+      },
+      "impact_scope": "policy_group_not_isolated"
+    },
+    {
+      "group": "diagnosis_recall_safe",
+      "op": "brightness",
+      "prob": 0.08,
+      "strength": 0.14,
+      "applied": 9112,
+      "skipped_probability": 105938,
+      "skipped_safety": null,
+      "delta_vs_yolo_default": {
+        "precision": -0.04196218174696076,
+        "recall": 0.00586045596742335,
+        "map50": -0.03478303939560934,
+        "map50_95": -0.01964473615933482
+      },
+      "impact_scope": "policy_group_not_isolated"
+    },
+    {
+      "group": "diagnosis_recall_safe",
+      "op": "sharpen_mild",
+      "prob": 0.1,
+      "strength": 0.2,
+      "applied": 11533,
+      "skipped_probability": 103517,
+      "skipped_safety": null,
+      "delta_vs_yolo_default": {
+        "precision": -0.04196218174696076,
+        "recall": 0.00586045596742335,
+        "map50": -0.03478303939560934,
+        "map50_95": -0.01964473615933482
+      },
+      "impact_scope": "policy_group_not_isolated"
+    },
+    {
+      "group": "diagnosis_recall_safe",
+      "op": "random_scale_translate",
+      "prob": 0.12,
+      "strength": 0.2,
+      "applied": 13662,
+      "skipped_probability": 101388,
+      "skipped_safety": null,
+      "delta_vs_yolo_default": {
+        "precision": -0.04196218174696076,
+        "recall": 0.00586045596742335,
+        "map50": -0.03478303939560934,
+        "map50_95": -0.01964473615933482
+      },
+      "impact_scope": "policy_group_not_isolated"
+    },
+    {
+      "group": "custom_yolo_like_base_old",
+      "op": "mosaic4",
+      "prob": 1.0,
+      "strength": 1.0,
+      "applied": 92040,
+      "skipped_probability": null,
+      "skipped_safety": null,
+      "delta_vs_yolo_default": {
+        "precision": -0.047108765856439305,
+        "recall": -0.010977997087802338,
+        "map50": -0.06293927402380739,
+        "map50_95": -0.08259244340789557
+      },
+      "impact_scope": "policy_group_not_isolated"
+    },
+    {
+      "group": "custom_yolo_like_base_old",
+      "op": "hsv_jitter",
+      "prob": 1.0,
+      "strength": 1.0,
+      "applied": 115050,
+      "skipped_probability": null,
+      "skipped_safety": null,
+      "delta_vs_yolo_default": {
+        "precision": -0.047108765856439305,
+        "recall": -0.010977997087802338,
+        "map50": -0.06293927402380739,
+        "map50_95": -0.08259244340789557
+      },
+      "impact_scope": "policy_group_not_isolated"
+    },
+    {
+      "group": "custom_yolo_like_base_old",
+      "op": "random_scale_translate",
+      "prob": 1.0,
+      "strength": 1.0,
+      "applied": 115050,
+      "skipped_probability": null,
+      "skipped_safety": null,
+      "delta_vs_yolo_default": {
+        "precision": -0.047108765856439305,
+        "recall": -0.010977997087802338,
+        "map50": -0.06293927402380739,
+        "map50_95": -0.08259244340789557
+      },
+      "impact_scope": "policy_group_not_isolated"
+    },
+    {
+      "group": "custom_yolo_like_base_old",
+      "op": "horizontal_flip",
+      "prob": 0.5,
+      "strength": 1.0,
+      "applied": 57654,
+      "skipped_probability": 57396,
+      "skipped_safety": null,
+      "delta_vs_yolo_default": {
+        "precision": -0.047108765856439305,
+        "recall": -0.010977997087802338,
+        "map50": -0.06293927402380739,
+        "map50_95": -0.08259244340789557
+      },
+      "impact_scope": "policy_group_not_isolated"
+    },
+    {
+      "group": "custom_yolo_like_base_old",
+      "op": "randaugment_like",
+      "prob": 0.45,
+      "strength": 0.45,
+      "applied": 51325,
+      "skipped_probability": 63725,
+      "skipped_safety": null,
+      "delta_vs_yolo_default": {
+        "precision": -0.047108765856439305,
+        "recall": -0.010977997087802338,
+        "map50": -0.06293927402380739,
+        "map50_95": -0.08259244340789557
+      },
+      "impact_scope": "policy_group_not_isolated"
+    },
+    {
+      "group": "custom_yolo_like_base_old",
+      "op": "random_erasing",
+      "prob": 0.4,
+      "strength": 0.6,
+      "applied": 46039,
+      "skipped_probability": 69011,
+      "skipped_safety": null,
+      "delta_vs_yolo_default": {
+        "precision": -0.047108765856439305,
+        "recall": -0.010977997087802338,
+        "map50": -0.06293927402380739,
+        "map50_95": -0.08259244340789557
+      },
+      "impact_scope": "policy_group_not_isolated"
+    }
+  ],
+  "summary": {
+    "run_id": "20260518_tiled1024_safe_no_ok_position_yolo_default_diagnosis_constrained_50ep",
+    "output_dir": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_yolo_default_diagnosis_constrained_50ep",
+    "best_under_constraints": "yolo_default",
+    "best_label": "YOLO default",
+    "recall_improved_under_constraints": false,
+    "constraints_realized": true,
+    "failure_driver_if_no_improvement": "diagnosis_light: mAP50-95 dropped without localization_weak increase in conf=0.25 diagnosis; diagnosis_precision_safe: FP increased by 18; diagnosis_precision_safe: mAP50-95 dropped without localization_weak increase in conf=0.25 diagnosis; diagnosis_recall_safe: mAP50-95 dropped without localization_weak increase in conf=0.25 diagnosis"
+  }
+}

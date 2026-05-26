@@ -1,8 +1,8 @@
 # Project Snapshot
 
-- Generated: 2026-05-26T05:17:30
+- Generated: 2026-05-27T00:02:37
 - Branch: codex/sync-latest
-- Commit: 5bc00ba990c364d086bc557784579a65c5ca0dd3
+- Commit: a3be4f9986ce27de777eb760d65389db36071772
 - Remote: https://github.com/Yxiaoyang121/MyAutoAugument.git
 
 ## Working Tree
@@ -11,12 +11,18 @@
  M CODEX_HANDOFF.md
  M EXPERIMENT_LOG.md
  M PROJECT_STATE.md
- M configs/online_policies/yolo_like_base_policy.json
- M outputs/project_snapshot_latest.md
- M outputs/snapshots/project_snapshot_latest.md
  M scripts/export_project_snapshot.py
  M scripts/train_yolo_online_aug.py
-?? outputs/experiments/20260518_tiled1024_safe_no_ok_position_custom_yolo_like_base_yolo11n_50ep/
+?? configs/online_policies/diagnosis_light_policy.json
+?? configs/online_policies/diagnosis_precision_safe_policy.json
+?? configs/online_policies/diagnosis_recall_safe_policy.json
+?? configs/online_policies/yolo_default_passthrough_policy.json
+?? outputs/experiments/20260518_tiled1024_safe_no_ok_position_custom_yolo_like_base_yolo11n_50ep/diagnosis/
+?? outputs/experiments/20260518_tiled1024_safe_no_ok_position_custom_yolo_like_base_yolo11n_50ep/diagnosis_prediction/
+?? outputs/experiments/20260518_tiled1024_safe_no_ok_position_custom_yolo_like_base_yolo11n_50ep/reports/diagnosis_report.md
+?? outputs/experiments/20260518_tiled1024_safe_no_ok_position_yolo_default_diagnosis_constrained_50ep/
+?? scripts/run_yolo_default_diagnosis_constraints.py
+?? tests/test_diagnosis_constraints.py
 ```
 
 ## Key Files
@@ -46,10 +52,15 @@
 - scripts/run_diagnosis_guided_policy_search.py
 - scripts/run_search_policy_017_50ep.py
 - scripts/train_yolo_online_aug.py
+- scripts/run_yolo_default_diagnosis_constraints.py
 - scripts/write_yolo_default_aug_50ep_reports.py
 - configs/online_policies/yolo_like_base_policy.json
 - configs/online_policies/industrial_diag_policy.json
 - configs/online_policies/feedback_online_policy.json
+- configs/online_policies/yolo_default_passthrough_policy.json
+- configs/online_policies/diagnosis_light_policy.json
+- configs/online_policies/diagnosis_precision_safe_policy.json
+- configs/online_policies/diagnosis_recall_safe_policy.json
 - outputs/audits/dataset_mapping/full_tiled_dataset_mapping_audit.md
 - outputs/audits/dataset_mapping/full_tiled_dataset_mapping_audit.json
 - outputs/audits/tiling_quality/tiling_quality_audit.md
@@ -147,6 +158,11 @@
 - outputs/experiments/20260518_tiled1024_safe_no_ok_position_custom_yolo_like_base_yolo11n_50ep/reports/online_aug_stats.json
 - outputs/experiments/20260518_tiled1024_safe_no_ok_position_custom_yolo_like_base_yolo11n_50ep/reports/policy_history.json
 - outputs/experiments/20260518_tiled1024_safe_no_ok_position_custom_yolo_like_base_yolo11n_50ep/configs/train_config.json
+- outputs/experiments/20260518_tiled1024_safe_no_ok_position_yolo_default_diagnosis_constrained_50ep/reports/diagnosis_constrained_experiment_report.md
+- outputs/experiments/20260518_tiled1024_safe_no_ok_position_yolo_default_diagnosis_constrained_50ep/reports/diagnosis_constrained_metrics.json
+- outputs/experiments/20260518_tiled1024_safe_no_ok_position_yolo_default_diagnosis_constrained_50ep/reports/constraint_scoring.json
+- outputs/experiments/20260518_tiled1024_safe_no_ok_position_yolo_default_diagnosis_constrained_50ep/reports/operator_impact.json
+- outputs/experiments/20260518_tiled1024_safe_no_ok_position_yolo_default_diagnosis_constrained_50ep/reports/unified_comparison.csv
 - outputs/datasets/tiled/tiled_1024_ov20_smoke/dataset_summary.md
 - outputs/datasets/tiled/tiled_1024_ov20_full/data.yaml
 - outputs/datasets/tiled/tiled_1024_ov20_full/dataset_summary.md
@@ -174,7 +190,7 @@
 
 ## Tracked File Count
 
-- 680 tracked files
+- 697 tracked files
 
 ## Notes
 

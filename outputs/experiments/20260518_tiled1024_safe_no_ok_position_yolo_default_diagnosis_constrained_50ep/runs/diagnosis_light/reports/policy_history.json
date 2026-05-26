@@ -1,0 +1,35 @@
+{
+  "feedback_applied": false,
+  "note": "no feedback applied for this base policy run",
+  "history": [],
+  "latest_policy": {
+    "policy_id": "diagnosis_light_policy",
+    "diagnosis_mode": "diagnosis_light",
+    "description": "YOLO default augmentation plus only light diagnostic hsv and scale/translate. No random erasing and no randaugment_like.",
+    "operations": [
+      {
+        "name": "hsv_jitter",
+        "prob": 0.15,
+        "strength": 0.25,
+        "params": {
+          "hsv_h": 0.005,
+          "hsv_s": 0.15,
+          "hsv_v": 0.1
+        }
+      },
+      {
+        "name": "random_scale_translate",
+        "prob": 0.1,
+        "strength": 0.2,
+        "params": {
+          "translate": 0.03,
+          "scale": 0.08,
+          "min_visibility": 0.5,
+          "min_width": 2.0,
+          "min_height": 2.0,
+          "min_area": 4.0
+        }
+      }
+    ]
+  }
+}

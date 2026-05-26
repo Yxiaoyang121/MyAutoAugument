@@ -101,8 +101,9 @@ def main() -> None:
 
     if args.feedback_enabled:
         payload = run_feedback_training(args, output_dir, api, policy)
-        update_state_docs(payload)
-        export_project_snapshot()
+        if not args.skip_doc_update:
+            update_state_docs(payload)
+            export_project_snapshot()
         print(json.dumps(payload["summary"], ensure_ascii=False, indent=2))
         if not payload["train"]["success"]:
             raise RuntimeError(f"feedback online augmentation training failed: {payload['train']['error']}")
@@ -209,8 +210,9 @@ def main() -> None:
     else:
         write_markdown(report_paths["report_md"], build_smoke_report(payload))
     write_json(output_dir / "reports" / "online_aug_stats.json", payload["online_aug_stats"])
-    update_state_docs(payload)
-    export_project_snapshot()
+    if not args.skip_doc_update:
+        update_state_docs(payload)
+        export_project_snapshot()
 
     print(json.dumps(payload["summary"], ensure_ascii=False, indent=2))
     if not train_success:
@@ -242,6 +244,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--feedback-start-epoch", type=int, default=1)
     parser.add_argument("--feedback-profile", default="industrial")
     parser.add_argument("--policy-state-path", default=None)
+    parser.add_argument("--skip-doc-update", action="store_true")
     return parser.parse_args()
 
 
@@ -494,7 +497,7 @@ def run_feedback_training(args: argparse.Namespace, output_dir: Path, api: dict[
         "disable_yolo_aug": bool(args.disable_yolo_aug),
         "policy": initial_policy,
         "final_policy": controller.policy,
-        "mode": "only_custom_online_aug" if args.disable_yolo_aug else "custom_online_plus_yolo_default_reserved",
+        "mode": "only_custom_online_aug" if args.disable_yolo_aug else "yolo_default_plus_custom_online_aug",
         "online_aug_stats": stats_payload,
         "feedback": {
             "enabled": True,
@@ -840,7 +843,7 @@ def build_train_config(args: argparse.Namespace, output_dir: Path) -> dict[str, 
         "feedback_start_epoch": int(args.feedback_start_epoch),
         "feedback_profile": str(args.feedback_profile),
         "policy_state_path": args.policy_state_path,
-        "mode": "only_custom_online_aug" if args.disable_yolo_aug else "custom_online_plus_yolo_default_reserved",
+        "mode": "only_custom_online_aug" if args.disable_yolo_aug else "yolo_default_plus_custom_online_aug",
     }
 
 
@@ -1280,7 +1283,7 @@ def build_report_payload(
         "epochs": int(args.epochs),
         "disable_yolo_aug": bool(args.disable_yolo_aug),
         "policy": policy,
-        "mode": "only_custom_online_aug" if args.disable_yolo_aug else "custom_online_plus_yolo_default_reserved",
+        "mode": "only_custom_online_aug" if args.disable_yolo_aug else "yolo_default_plus_custom_online_aug",
         "online_aug_stats": stats,
         "summary": summary,
         "train": {

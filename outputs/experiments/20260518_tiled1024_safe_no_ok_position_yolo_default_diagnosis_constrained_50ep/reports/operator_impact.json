@@ -1,0 +1,304 @@
+[
+  {
+    "group": "yolo_default",
+    "op": "ultralytics_default_aug_pool",
+    "prob": null,
+    "strength": null,
+    "applied": null,
+    "delta_vs_yolo_default": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "map50": 0.0,
+      "map50_95": 0.0
+    },
+    "impact_scope": "reference_default_pool"
+  },
+  {
+    "group": "diagnosis_light",
+    "op": "hsv_jitter",
+    "prob": 0.15,
+    "strength": 0.25,
+    "applied": 17396,
+    "skipped_probability": 97654,
+    "skipped_safety": null,
+    "delta_vs_yolo_default": {
+      "precision": 0.021076990275967322,
+      "recall": -0.07383851960581034,
+      "map50": -0.020351548744052317,
+      "map50_95": -0.024726607307437365
+    },
+    "impact_scope": "policy_group_not_isolated"
+  },
+  {
+    "group": "diagnosis_light",
+    "op": "random_scale_translate",
+    "prob": 0.1,
+    "strength": 0.2,
+    "applied": 11278,
+    "skipped_probability": 103772,
+    "skipped_safety": null,
+    "delta_vs_yolo_default": {
+      "precision": 0.021076990275967322,
+      "recall": -0.07383851960581034,
+      "map50": -0.020351548744052317,
+      "map50_95": -0.024726607307437365
+    },
+    "impact_scope": "policy_group_not_isolated"
+  },
+  {
+    "group": "diagnosis_precision_safe",
+    "op": "hsv_jitter",
+    "prob": 0.1,
+    "strength": 0.2,
+    "applied": 11504,
+    "skipped_probability": 103546,
+    "skipped_safety": null,
+    "delta_vs_yolo_default": {
+      "precision": -0.048476070228067325,
+      "recall": -0.01072148850677368,
+      "map50": -0.020226702832722543,
+      "map50_95": -0.01854697820478146
+    },
+    "impact_scope": "policy_group_not_isolated"
+  },
+  {
+    "group": "diagnosis_precision_safe",
+    "op": "random_scale_translate",
+    "prob": 0.08,
+    "strength": 0.15,
+    "applied": 9160,
+    "skipped_probability": 105890,
+    "skipped_safety": null,
+    "delta_vs_yolo_default": {
+      "precision": -0.048476070228067325,
+      "recall": -0.01072148850677368,
+      "map50": -0.020226702832722543,
+      "map50_95": -0.01854697820478146
+    },
+    "impact_scope": "policy_group_not_isolated"
+  },
+  {
+    "group": "diagnosis_precision_safe",
+    "op": "mosaic4",
+    "prob": 0.03,
+    "strength": 0.25,
+    "applied": 2707,
+    "skipped_probability": 89333,
+    "skipped_safety": null,
+    "delta_vs_yolo_default": {
+      "precision": -0.048476070228067325,
+      "recall": -0.01072148850677368,
+      "map50": -0.020226702832722543,
+      "map50_95": -0.01854697820478146
+    },
+    "impact_scope": "policy_group_not_isolated"
+  },
+  {
+    "group": "diagnosis_precision_safe",
+    "op": "random_erasing",
+    "prob": 0.03,
+    "strength": 0.12,
+    "applied": 3434,
+    "skipped_probability": 111616,
+    "skipped_safety": null,
+    "delta_vs_yolo_default": {
+      "precision": -0.048476070228067325,
+      "recall": -0.01072148850677368,
+      "map50": -0.020226702832722543,
+      "map50_95": -0.01854697820478146
+    },
+    "impact_scope": "policy_group_not_isolated"
+  },
+  {
+    "group": "diagnosis_recall_safe",
+    "op": "clahe",
+    "prob": 0.12,
+    "strength": 0.22,
+    "applied": 13804,
+    "skipped_probability": 101246,
+    "skipped_safety": null,
+    "delta_vs_yolo_default": {
+      "precision": -0.04196218174696076,
+      "recall": 0.00586045596742335,
+      "map50": -0.03478303939560934,
+      "map50_95": -0.01964473615933482
+    },
+    "impact_scope": "policy_group_not_isolated"
+  },
+  {
+    "group": "diagnosis_recall_safe",
+    "op": "contrast",
+    "prob": 0.12,
+    "strength": 0.2,
+    "applied": 13840,
+    "skipped_probability": 101210,
+    "skipped_safety": null,
+    "delta_vs_yolo_default": {
+      "precision": -0.04196218174696076,
+      "recall": 0.00586045596742335,
+      "map50": -0.03478303939560934,
+      "map50_95": -0.01964473615933482
+    },
+    "impact_scope": "policy_group_not_isolated"
+  },
+  {
+    "group": "diagnosis_recall_safe",
+    "op": "gamma",
+    "prob": 0.1,
+    "strength": 0.18,
+    "applied": 11483,
+    "skipped_probability": 103567,
+    "skipped_safety": null,
+    "delta_vs_yolo_default": {
+      "precision": -0.04196218174696076,
+      "recall": 0.00586045596742335,
+      "map50": -0.03478303939560934,
+      "map50_95": -0.01964473615933482
+    },
+    "impact_scope": "policy_group_not_isolated"
+  },
+  {
+    "group": "diagnosis_recall_safe",
+    "op": "brightness",
+    "prob": 0.08,
+    "strength": 0.14,
+    "applied": 9112,
+    "skipped_probability": 105938,
+    "skipped_safety": null,
+    "delta_vs_yolo_default": {
+      "precision": -0.04196218174696076,
+      "recall": 0.00586045596742335,
+      "map50": -0.03478303939560934,
+      "map50_95": -0.01964473615933482
+    },
+    "impact_scope": "policy_group_not_isolated"
+  },
+  {
+    "group": "diagnosis_recall_safe",
+    "op": "sharpen_mild",
+    "prob": 0.1,
+    "strength": 0.2,
+    "applied": 11533,
+    "skipped_probability": 103517,
+    "skipped_safety": null,
+    "delta_vs_yolo_default": {
+      "precision": -0.04196218174696076,
+      "recall": 0.00586045596742335,
+      "map50": -0.03478303939560934,
+      "map50_95": -0.01964473615933482
+    },
+    "impact_scope": "policy_group_not_isolated"
+  },
+  {
+    "group": "diagnosis_recall_safe",
+    "op": "random_scale_translate",
+    "prob": 0.12,
+    "strength": 0.2,
+    "applied": 13662,
+    "skipped_probability": 101388,
+    "skipped_safety": null,
+    "delta_vs_yolo_default": {
+      "precision": -0.04196218174696076,
+      "recall": 0.00586045596742335,
+      "map50": -0.03478303939560934,
+      "map50_95": -0.01964473615933482
+    },
+    "impact_scope": "policy_group_not_isolated"
+  },
+  {
+    "group": "custom_yolo_like_base_old",
+    "op": "mosaic4",
+    "prob": 1.0,
+    "strength": 1.0,
+    "applied": 92040,
+    "skipped_probability": null,
+    "skipped_safety": null,
+    "delta_vs_yolo_default": {
+      "precision": -0.047108765856439305,
+      "recall": -0.010977997087802338,
+      "map50": -0.06293927402380739,
+      "map50_95": -0.08259244340789557
+    },
+    "impact_scope": "policy_group_not_isolated"
+  },
+  {
+    "group": "custom_yolo_like_base_old",
+    "op": "hsv_jitter",
+    "prob": 1.0,
+    "strength": 1.0,
+    "applied": 115050,
+    "skipped_probability": null,
+    "skipped_safety": null,
+    "delta_vs_yolo_default": {
+      "precision": -0.047108765856439305,
+      "recall": -0.010977997087802338,
+      "map50": -0.06293927402380739,
+      "map50_95": -0.08259244340789557
+    },
+    "impact_scope": "policy_group_not_isolated"
+  },
+  {
+    "group": "custom_yolo_like_base_old",
+    "op": "random_scale_translate",
+    "prob": 1.0,
+    "strength": 1.0,
+    "applied": 115050,
+    "skipped_probability": null,
+    "skipped_safety": null,
+    "delta_vs_yolo_default": {
+      "precision": -0.047108765856439305,
+      "recall": -0.010977997087802338,
+      "map50": -0.06293927402380739,
+      "map50_95": -0.08259244340789557
+    },
+    "impact_scope": "policy_group_not_isolated"
+  },
+  {
+    "group": "custom_yolo_like_base_old",
+    "op": "horizontal_flip",
+    "prob": 0.5,
+    "strength": 1.0,
+    "applied": 57654,
+    "skipped_probability": 57396,
+    "skipped_safety": null,
+    "delta_vs_yolo_default": {
+      "precision": -0.047108765856439305,
+      "recall": -0.010977997087802338,
+      "map50": -0.06293927402380739,
+      "map50_95": -0.08259244340789557
+    },
+    "impact_scope": "policy_group_not_isolated"
+  },
+  {
+    "group": "custom_yolo_like_base_old",
+    "op": "randaugment_like",
+    "prob": 0.45,
+    "strength": 0.45,
+    "applied": 51325,
+    "skipped_probability": 63725,
+    "skipped_safety": null,
+    "delta_vs_yolo_default": {
+      "precision": -0.047108765856439305,
+      "recall": -0.010977997087802338,
+      "map50": -0.06293927402380739,
+      "map50_95": -0.08259244340789557
+    },
+    "impact_scope": "policy_group_not_isolated"
+  },
+  {
+    "group": "custom_yolo_like_base_old",
+    "op": "random_erasing",
+    "prob": 0.4,
+    "strength": 0.6,
+    "applied": 46039,
+    "skipped_probability": 69011,
+    "skipped_safety": null,
+    "delta_vs_yolo_default": {
+      "precision": -0.047108765856439305,
+      "recall": -0.010977997087802338,
+      "map50": -0.06293927402380739,
+      "map50_95": -0.08259244340789557
+    },
+    "impact_scope": "policy_group_not_isolated"
+  }
+]

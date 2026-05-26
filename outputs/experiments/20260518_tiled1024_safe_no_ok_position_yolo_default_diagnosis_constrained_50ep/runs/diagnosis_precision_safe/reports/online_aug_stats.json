@@ -1,0 +1,238 @@
+{
+  "supported_ops": [
+    "blur_mild",
+    "brightness",
+    "clahe",
+    "contrast",
+    "cutout",
+    "cutout_safe",
+    "gamma",
+    "gaussian_noise",
+    "horizontal_flip",
+    "hsv_jitter",
+    "local_contrast",
+    "mild_scale",
+    "mild_translate",
+    "mosaic4",
+    "randaugment_like",
+    "random_erasing",
+    "random_scale_translate",
+    "scale",
+    "sharpen",
+    "sharpen_mild",
+    "translate"
+  ],
+  "copy_paste_status": "pending_object_bank_design",
+  "samples_seen": 115050,
+  "samples_augmented": 24754,
+  "input_bbox_count": 159100,
+  "output_bbox_count": 170333,
+  "invalid_bbox_count": 0,
+  "bbox_oob_count": 230,
+  "class_id_oob_count": 0,
+  "preview_saved": 20,
+  "ops": {
+    "hsv_jitter": {
+      "seen": 115050,
+      "skipped_probability": 103546,
+      "applied": 11504
+    },
+    "mosaic4": {
+      "seen": 115050,
+      "skipped_probability": 89333,
+      "applied": 2707,
+      "skipped_close_mosaic": 23010
+    },
+    "random_erasing": {
+      "seen": 115050,
+      "skipped_probability": 111616,
+      "applied": 3434
+    },
+    "random_scale_translate": {
+      "seen": 115050,
+      "skipped_probability": 105890,
+      "applied": 9160,
+      "boxes_dropped_visibility": 1,
+      "boxes_dropped_size": 0,
+      "scale_translate_applied": 9160
+    }
+  },
+  "cutout_safe": {
+    "op_attempted": 3434,
+    "holes_requested": 3434,
+    "holes_applied": 3434,
+    "holes_skipped_center": 0,
+    "holes_skipped_overlap": 0,
+    "holes_skipped_no_safe_region": 0
+  },
+  "mosaic4": {
+    "attempted": 2707,
+    "applied": 2707,
+    "source_images": 10828,
+    "output_size": 2771968,
+    "boxes_dropped_visibility": 0,
+    "boxes_dropped_size": 0,
+    "skipped_close_mosaic": 23010
+  },
+  "randaugment_like": {},
+  "copy_paste": {},
+  "run_id": "diagnosis_precision_safe",
+  "generated_at": "2026-05-26T19:58:10",
+  "online_augmentation": true,
+  "train_image_count": 2301,
+  "expected_original_train_images": 2301,
+  "train_image_count_matches_original": true,
+  "fixed_augmented_dataset_generated": false,
+  "policy_id": "diagnosis_precision_safe_policy",
+  "copy_paste_online_supported": false,
+  "copy_paste_note": "online copy-paste is pending object-bank implementation; copy_paste ops are skipped safely.",
+  "train_success": true,
+  "train_error": null,
+  "val_success": true,
+  "val_error": null,
+  "val_metrics": {
+    "images": 677,
+    "instances": 905,
+    "precision": 0.6647234135205979,
+    "recall": 0.749293165993089,
+    "map50": 0.7556500710511661,
+    "map50_95": 0.5055154807166977,
+    "per_class": [
+      {
+        "class_id": 0,
+        "name": "OK2",
+        "images": 64,
+        "instances": 64,
+        "precision": 0.8997303775432519,
+        "recall": 1.0,
+        "ap50": 0.9923764744824265,
+        "ap50_95": 0.850289909440276
+      },
+      {
+        "class_id": 1,
+        "name": "OK3",
+        "images": 274,
+        "instances": 274,
+        "precision": 0.9784011914800567,
+        "recall": 0.991947780482506,
+        "ap50": 0.9944867460250014,
+        "ap50_95": 0.8198226011259477
+      },
+      {
+        "class_id": 2,
+        "name": "加强筋打伤",
+        "images": 8,
+        "instances": 8,
+        "precision": 0.8743831191675495,
+        "recall": 0.875,
+        "ap50": 0.93975,
+        "ap50_95": 0.5249848775894538
+      },
+      {
+        "class_id": 3,
+        "name": "开裂",
+        "images": 2,
+        "instances": 2,
+        "precision": 0.2643845933942383,
+        "recall": 1.0,
+        "ap50": 0.995,
+        "ap50_95": 0.9949999999999999
+      },
+      {
+        "class_id": 4,
+        "name": "油污",
+        "images": 14,
+        "instances": 18,
+        "precision": 0.3862393940484635,
+        "recall": 0.5,
+        "ap50": 0.3089693575984576,
+        "ap50_95": 0.1455939717102883
+      },
+      {
+        "class_id": 5,
+        "name": "浅划伤",
+        "images": 11,
+        "instances": 13,
+        "precision": 0.40761993545593356,
+        "recall": 0.46153846153846156,
+        "ap50": 0.512072152014832,
+        "ap50_95": 0.24967563417401467
+      },
+      {
+        "class_id": 6,
+        "name": "漏背锡",
+        "images": 36,
+        "instances": 46,
+        "precision": 0.5923315241499162,
+        "recall": 0.7608695652173914,
+        "ap50": 0.7047519057463081,
+        "ap50_95": 0.37518843021663884
+      },
+      {
+        "class_id": 7,
+        "name": "碰伤",
+        "images": 229,
+        "instances": 269,
+        "precision": 0.7137226006006129,
+        "recall": 0.6302338185807003,
+        "ap50": 0.6723626515902773,
+        "ap50_95": 0.41294816290973085
+      },
+      {
+        "class_id": 8,
+        "name": "脏污",
+        "images": 33,
+        "instances": 42,
+        "precision": 0.5488209699432838,
+        "recall": 0.47619047619047616,
+        "ap50": 0.49022942600248537,
+        "ap50_95": 0.25745308586818405
+      },
+      {
+        "class_id": 9,
+        "name": "轮廓划伤",
+        "images": 69,
+        "instances": 84,
+        "precision": 0.6981152213429276,
+        "recall": 0.6428571428571429,
+        "ap50": 0.6883398113339095,
+        "ap50_95": 0.34205196341013283
+      },
+      {
+        "class_id": 10,
+        "name": "锡丝残留",
+        "images": 12,
+        "instances": 12,
+        "precision": 0.7623567559818875,
+        "recall": 0.75,
+        "ap50": 0.8383656565656564,
+        "ap50_95": 0.5055883754340897
+      },
+      {
+        "class_id": 11,
+        "name": "锡尖",
+        "images": 25,
+        "instances": 27,
+        "precision": 0.8080803713199183,
+        "recall": 1.0,
+        "ap50": 0.94300333000333,
+        "ap50_95": 0.6221751473816063
+      },
+      {
+        "class_id": 12,
+        "name": "锡膏",
+        "images": 41,
+        "instances": 46,
+        "precision": 0.7072183213397343,
+        "recall": 0.6521739130434783,
+        "ap50": 0.7437434123024751,
+        "ap50_95": 0.4709290900567072
+      }
+    ]
+  },
+  "feedback_enabled": false,
+  "policy_history_count": 0,
+  "policy_history_json": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_yolo_default_diagnosis_constrained_50ep\\runs\\diagnosis_precision_safe\\reports\\policy_history.json",
+  "policy_history_md": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_yolo_default_diagnosis_constrained_50ep\\runs\\diagnosis_precision_safe\\reports\\policy_history.md",
+  "policy_history_csv": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_yolo_default_diagnosis_constrained_50ep\\runs\\diagnosis_precision_safe\\reports\\policy_history.csv"
+}

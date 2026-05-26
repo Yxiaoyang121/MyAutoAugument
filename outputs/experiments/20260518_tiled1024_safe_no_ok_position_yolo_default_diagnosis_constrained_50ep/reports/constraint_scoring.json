@@ -1,0 +1,11 @@
+{
+  "best_key": "yolo_default",
+  "best_label": "YOLO default",
+  "passed_candidates": [
+    "yolo_default"
+  ],
+  "constraints_realized": true,
+  "recall_improved_under_constraints": false,
+  "failure_driver_if_no_improvement": "diagnosis_light: mAP50-95 dropped without localization_weak increase in conf=0.25 diagnosis; diagnosis_precision_safe: FP increased by 18; diagnosis_precision_safe: mAP50-95 dropped without localization_weak increase in conf=0.25 diagnosis; diagnosis_recall_safe: mAP50-95 dropped without localization_weak increase in conf=0.25 diagnosis",
+  "selection_rule": "maximize Recall delta under Precision/mAP50/mAP50-95 constraints; tie-break by mAP50-95"
+}

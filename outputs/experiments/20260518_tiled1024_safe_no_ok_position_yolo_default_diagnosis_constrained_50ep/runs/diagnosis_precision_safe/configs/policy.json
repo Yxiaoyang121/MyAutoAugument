@@ -1,0 +1,54 @@
+{
+  "policy_id": "diagnosis_precision_safe_policy",
+  "diagnosis_mode": "diagnosis_precision_safe",
+  "description": "YOLO default augmentation plus very low-probability diagnostic mosaic/erasing. This policy is accepted only if Precision and mAP constraints hold.",
+  "operations": [
+    {
+      "name": "hsv_jitter",
+      "prob": 0.1,
+      "strength": 0.2,
+      "params": {
+        "hsv_h": 0.004,
+        "hsv_s": 0.12,
+        "hsv_v": 0.08
+      }
+    },
+    {
+      "name": "random_scale_translate",
+      "prob": 0.08,
+      "strength": 0.15,
+      "params": {
+        "translate": 0.025,
+        "scale": 0.06,
+        "min_visibility": 0.55,
+        "min_width": 2.0,
+        "min_height": 2.0,
+        "min_area": 4.0
+      }
+    },
+    {
+      "name": "mosaic4",
+      "prob": 0.03,
+      "strength": 0.25,
+      "params": {
+        "target_size": 1024,
+        "close_mosaic": 10,
+        "min_visibility": 0.35,
+        "min_width": 2.0,
+        "min_height": 2.0,
+        "min_area": 4.0
+      }
+    },
+    {
+      "name": "random_erasing",
+      "prob": 0.03,
+      "strength": 0.12,
+      "params": {
+        "max_holes": 1,
+        "max_fraction": 0.05,
+        "max_overlap_ratio": 0.01,
+        "max_attempts": 40
+      }
+    }
+  ]
+}

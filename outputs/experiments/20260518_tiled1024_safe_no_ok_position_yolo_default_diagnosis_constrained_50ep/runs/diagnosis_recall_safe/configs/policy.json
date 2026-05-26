@@ -1,0 +1,65 @@
+{
+  "policy_id": "diagnosis_recall_safe_policy",
+  "diagnosis_mode": "diagnosis_recall_safe",
+  "description": "YOLO default augmentation plus FN-oriented low-contrast and mild geometry operators. FP and mAP50-95 are checked by constrained scoring.",
+  "operations": [
+    {
+      "name": "clahe",
+      "prob": 0.12,
+      "strength": 0.22,
+      "params": {
+        "max_clip_limit": 2.2,
+        "tile_grid_size": [
+          8,
+          8
+        ]
+      }
+    },
+    {
+      "name": "contrast",
+      "prob": 0.12,
+      "strength": 0.2,
+      "params": {
+        "max_delta": 0.18
+      }
+    },
+    {
+      "name": "gamma",
+      "prob": 0.1,
+      "strength": 0.18,
+      "params": {
+        "min_gamma": 0.88,
+        "max_gamma": 1.18
+      }
+    },
+    {
+      "name": "brightness",
+      "prob": 0.08,
+      "strength": 0.14,
+      "params": {
+        "max_delta": 0.1
+      }
+    },
+    {
+      "name": "sharpen_mild",
+      "prob": 0.1,
+      "strength": 0.2,
+      "params": {
+        "amount": 0.6
+      }
+    },
+    {
+      "name": "random_scale_translate",
+      "prob": 0.12,
+      "strength": 0.2,
+      "params": {
+        "translate": 0.04,
+        "scale": 0.1,
+        "min_visibility": 0.45,
+        "min_width": 2.0,
+        "min_height": 2.0,
+        "min_area": 4.0
+      }
+    }
+  ]
+}

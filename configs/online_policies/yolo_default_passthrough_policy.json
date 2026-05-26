@@ -1,0 +1,6 @@
+{
+  "policy_id": "yolo_default_passthrough_policy",
+  "diagnosis_mode": "yolo_default_reference",
+  "description": "No custom online operations. Use Ultralytics YOLO default augmentation by running train_yolo_online_aug.py with --no-disable-yolo-aug.",
+  "operations": []
+}

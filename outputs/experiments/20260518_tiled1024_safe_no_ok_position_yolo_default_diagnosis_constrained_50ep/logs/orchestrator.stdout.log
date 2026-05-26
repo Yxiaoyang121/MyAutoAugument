@@ -1,0 +1,29 @@
+E:\TJGY\MinPaper\MyAutoAugument\outputs\snapshots\project_snapshot_latest.md
+E:\TJGY\MinPaper\MyAutoAugument\outputs\project_snapshot_latest.md
+[train:start] yolo_default -> E:\TJGY\MinPaper\MyAutoAugument\outputs\experiments\20260518_tiled1024_safe_no_ok_position_yolo_default_diagnosis_constrained_50ep\runs\yolo_default_seed42
+[train:done] yolo_default wall_seconds=12127.1
+[diagnosis:start] yolo_default
+[diagnosis:done] yolo_default
+[train:start] diagnosis_light -> E:\TJGY\MinPaper\MyAutoAugument\outputs\experiments\20260518_tiled1024_safe_no_ok_position_yolo_default_diagnosis_constrained_50ep\runs\diagnosis_light
+[train:done] diagnosis_light wall_seconds=13060.0
+[diagnosis:start] diagnosis_light
+[diagnosis:done] diagnosis_light
+[train:start] diagnosis_precision_safe -> E:\TJGY\MinPaper\MyAutoAugument\outputs\experiments\20260518_tiled1024_safe_no_ok_position_yolo_default_diagnosis_constrained_50ep\runs\diagnosis_precision_safe
+[train:done] diagnosis_precision_safe wall_seconds=12549.6
+[diagnosis:start] diagnosis_precision_safe
+[diagnosis:done] diagnosis_precision_safe
+[train:start] diagnosis_recall_safe -> E:\TJGY\MinPaper\MyAutoAugument\outputs\experiments\20260518_tiled1024_safe_no_ok_position_yolo_default_diagnosis_constrained_50ep\runs\diagnosis_recall_safe
+[train:done] diagnosis_recall_safe wall_seconds=14422.2
+[diagnosis:start] diagnosis_recall_safe
+[diagnosis:done] diagnosis_recall_safe
+[diagnosis:start] custom_yolo_like_base_old
+[diagnosis:done] custom_yolo_like_base_old
+{
+  "run_id": "20260518_tiled1024_safe_no_ok_position_yolo_default_diagnosis_constrained_50ep",
+  "output_dir": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_yolo_default_diagnosis_constrained_50ep",
+  "best_under_constraints": "yolo_default",
+  "best_label": "YOLO default",
+  "recall_improved_under_constraints": false,
+  "constraints_realized": true,
+  "failure_driver_if_no_improvement": "diagnosis_light: mAP50-95 dropped without localization_weak increase in conf=0.25 diagnosis; diagnosis_precision_safe: FP increased by 18; diagnosis_precision_safe: mAP50-95 dropped without localization_weak increase in conf=0.25 diagnosis; diagnosis_recall_safe: mAP50-95 dropped without localization_weak increase in conf=0.25 diagnosis"
+}

@@ -765,3 +765,19 @@ Key conclusions from that archived smoke:
 - Metrics JSON: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_yolo_default_diagnosis_constrained_50ep/reports/diagnosis_constrained_metrics.json`
 - Constraint scoring: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_yolo_default_diagnosis_constrained_50ep/reports/constraint_scoring.json`
 <!-- END YOLO_DEFAULT_DIAGNOSIS_CONSTRAINED_50EP -->
+
+<!-- YOLO_DEFAULT_FEEDBACK_AUG_SMOKE_START -->
+## YOLO Default Feedback Augmentation Smoke
+
+- Entrypoint: `scripts/train_yolo_default_with_feedback.py`.
+- Base: Ultralytics YOLO default augmentation remains enabled; custom YOLO-like `mosaic4` and `randaugment_like` are not used.
+- Scope: 2-stage smoke when `epochs=2 feedback_interval=1`; no formal 50 epoch run in this step.
+- Output: `outputs/experiments/yolo_default_feedback_aug_50ep/`
+- Stage count: `2`
+- Policy history updates: `1`
+- Fixed augmented dataset generated: `false`
+- Final P/R/mAP50/mAP50-95: `0.5259/0.3311/0.3109/0.1961`
+- Constraint accepted: `false`
+- Report: `outputs/experiments/yolo_default_feedback_aug_50ep/reports/yolo_default_feedback_smoke_report.md`
+- Policy history: `outputs/experiments/yolo_default_feedback_aug_50ep/reports/policy_history.json`
+<!-- YOLO_DEFAULT_FEEDBACK_AUG_SMOKE_END -->

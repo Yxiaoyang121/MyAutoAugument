@@ -1,8 +1,8 @@
 # Project Snapshot
 
-- Generated: 2026-05-27T00:02:37
+- Generated: 2026-05-27T01:05:36
 - Branch: codex/sync-latest
-- Commit: a3be4f9986ce27de777eb760d65389db36071772
+- Commit: 370ad23317004f89cabdfe820ef8c92c92c02b46
 - Remote: https://github.com/Yxiaoyang121/MyAutoAugument.git
 
 ## Working Tree
@@ -13,16 +13,8 @@
  M PROJECT_STATE.md
  M scripts/export_project_snapshot.py
  M scripts/train_yolo_online_aug.py
-?? configs/online_policies/diagnosis_light_policy.json
-?? configs/online_policies/diagnosis_precision_safe_policy.json
-?? configs/online_policies/diagnosis_recall_safe_policy.json
-?? configs/online_policies/yolo_default_passthrough_policy.json
-?? outputs/experiments/20260518_tiled1024_safe_no_ok_position_custom_yolo_like_base_yolo11n_50ep/diagnosis/
-?? outputs/experiments/20260518_tiled1024_safe_no_ok_position_custom_yolo_like_base_yolo11n_50ep/diagnosis_prediction/
-?? outputs/experiments/20260518_tiled1024_safe_no_ok_position_custom_yolo_like_base_yolo11n_50ep/reports/diagnosis_report.md
-?? outputs/experiments/20260518_tiled1024_safe_no_ok_position_yolo_default_diagnosis_constrained_50ep/
-?? scripts/run_yolo_default_diagnosis_constraints.py
-?? tests/test_diagnosis_constraints.py
+?? outputs/experiments/yolo_default_feedback_aug_50ep/
+?? scripts/train_yolo_default_with_feedback.py
 ```
 
 ## Key Files
@@ -53,6 +45,7 @@
 - scripts/run_search_policy_017_50ep.py
 - scripts/train_yolo_online_aug.py
 - scripts/run_yolo_default_diagnosis_constraints.py
+- scripts/train_yolo_default_with_feedback.py
 - scripts/write_yolo_default_aug_50ep_reports.py
 - configs/online_policies/yolo_like_base_policy.json
 - configs/online_policies/industrial_diag_policy.json
@@ -163,6 +156,10 @@
 - outputs/experiments/20260518_tiled1024_safe_no_ok_position_yolo_default_diagnosis_constrained_50ep/reports/constraint_scoring.json
 - outputs/experiments/20260518_tiled1024_safe_no_ok_position_yolo_default_diagnosis_constrained_50ep/reports/operator_impact.json
 - outputs/experiments/20260518_tiled1024_safe_no_ok_position_yolo_default_diagnosis_constrained_50ep/reports/unified_comparison.csv
+- outputs/experiments/yolo_default_feedback_aug_50ep/reports/yolo_default_feedback_smoke_report.md
+- outputs/experiments/yolo_default_feedback_aug_50ep/reports/final_metrics.json
+- outputs/experiments/yolo_default_feedback_aug_50ep/reports/policy_history.json
+- outputs/experiments/yolo_default_feedback_aug_50ep/reports/constraint_scoring.json
 - outputs/datasets/tiled/tiled_1024_ov20_smoke/dataset_summary.md
 - outputs/datasets/tiled/tiled_1024_ov20_full/data.yaml
 - outputs/datasets/tiled/tiled_1024_ov20_full/dataset_summary.md
@@ -190,7 +187,7 @@
 
 ## Tracked File Count
 
-- 697 tracked files
+- 815 tracked files
 
 ## Notes
 

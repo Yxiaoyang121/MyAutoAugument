@@ -245,6 +245,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--feedback-profile", default="industrial")
     parser.add_argument("--policy-state-path", default=None)
     parser.add_argument("--skip-doc-update", action="store_true")
+    parser.add_argument(
+        "--yolo-aug-overrides",
+        default=None,
+        help="Optional JSON object with Ultralytics augmentation kwargs to apply on top of its defaults.",
+    )
     return parser.parse_args()
 
 
@@ -772,6 +777,8 @@ def build_train_kwargs(
     }
     if args.disable_yolo_aug:
         kwargs.update(DISABLED_YOLO_AUG_ARGS)
+    else:
+        kwargs.update(parse_yolo_aug_overrides(args.yolo_aug_overrides))
     return kwargs
 
 
@@ -800,6 +807,8 @@ def build_train_command(
     ]
     if args.disable_yolo_aug:
         parts.extend(f"{key}={value}" for key, value in DISABLED_YOLO_AUG_ARGS.items())
+    elif args.yolo_aug_overrides:
+        parts.append(f"yolo_aug_overrides={args.yolo_aug_overrides}")
     return subprocess.list2cmdline([str(part) for part in parts])
 
 
@@ -843,8 +852,44 @@ def build_train_config(args: argparse.Namespace, output_dir: Path) -> dict[str, 
         "feedback_start_epoch": int(args.feedback_start_epoch),
         "feedback_profile": str(args.feedback_profile),
         "policy_state_path": args.policy_state_path,
+        "yolo_aug_overrides": parse_yolo_aug_overrides(args.yolo_aug_overrides),
         "mode": "only_custom_online_aug" if args.disable_yolo_aug else "yolo_default_plus_custom_online_aug",
     }
+
+
+def parse_yolo_aug_overrides(raw: str | None) -> dict[str, Any]:
+    if raw is None or str(raw).strip() == "":
+        return {}
+    try:
+        payload = json.loads(raw)
+    except json.JSONDecodeError as exc:
+        raise ValueError(f"--yolo-aug-overrides must be a JSON object: {exc}") from exc
+    if not isinstance(payload, dict):
+        raise ValueError("--yolo-aug-overrides must decode to a JSON object")
+    allowed = {
+        "hsv_h",
+        "hsv_s",
+        "hsv_v",
+        "degrees",
+        "translate",
+        "scale",
+        "shear",
+        "perspective",
+        "fliplr",
+        "flipud",
+        "mosaic",
+        "mixup",
+        "copy_paste",
+        "erasing",
+        "cutmix",
+        "bgr",
+        "close_mosaic",
+        "auto_augment",
+    }
+    unknown = sorted(set(payload) - allowed)
+    if unknown:
+        raise ValueError(f"unsupported YOLO augmentation override(s): {unknown}")
+    return payload
 
 
 def save_preview(

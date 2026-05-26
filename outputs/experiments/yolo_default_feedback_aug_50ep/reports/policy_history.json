@@ -1,0 +1,595 @@
+{
+  "history": [
+    {
+      "timestamp": "2026-05-27T00:57:57",
+      "stage_index": 0,
+      "profile": "industrial",
+      "trigger_metrics": {
+        "images": 677,
+        "instances": 905,
+        "precision": 0.5863208333162645,
+        "recall": 0.1714938233769218,
+        "map50": 0.17714687557907322,
+        "map50_95": 0.11571109845769131
+      },
+      "diagnosis_global": {
+        "tp": 371,
+        "fp": 188,
+        "fn": 533,
+        "precision": 0.6636851520572451,
+        "recall": 0.40994475138121544,
+        "localization_weak": 1,
+        "gt": 905
+      },
+      "diagnosis_vector": {
+        "small_object_score": {
+          "score": 0.7385398981324278,
+          "basis": {
+            "tiny_gt": 177,
+            "small_gt": 412,
+            "small_total_gt": 589,
+            "small_total_tp": 154,
+            "small_recall": 0.2614601018675722
+          }
+        },
+        "low_contrast_score": {
+          "score": 0.5042213883677299,
+          "basis": {
+            "fn_low_contrast_rate": 0.6041275797373359,
+            "fn_dark_rate": 0.4446529080675422,
+            "fn_bright_rate": 0.00375234521575985
+          }
+        },
+        "class_imbalance_score": {
+          "score": 0.9952554744525548,
+          "basis": {
+            "gt_counts": [
+              64,
+              274,
+              8,
+              2,
+              18,
+              13,
+              46,
+              269,
+              42,
+              84,
+              12,
+              27,
+              46
+            ],
+            "recalls": [
+              1.0,
+              0.9598540145985401,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.16356877323420074,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "count_imbalance": 0.9927007299270073,
+            "recall_spread": 1.0
+          }
+        },
+        "localization_score": {
+          "score": 0.0011049723756906078,
+          "basis": {
+            "gt": 905,
+            "localization_weak": 1
+          }
+        },
+        "false_positive_score": {
+          "score": 0.3363148479427549,
+          "basis": {
+            "tp": 371,
+            "fp": 188,
+            "precision": 0.6636851520572451
+          }
+        }
+      },
+      "constraints": {
+        "passed": false,
+        "constraint_failed": true,
+        "failures": [
+          "precision_drop_gt_0.01",
+          "map50_drop_gt_0.01",
+          "map50_95_drop_gt_0.01"
+        ]
+      },
+      "adjustments": [
+        {
+          "scope": "official_yolo_aug",
+          "name": "hsv_v",
+          "field": "value",
+          "before": 0.4,
+          "after": 0.41500000000000004,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "official_yolo_aug",
+          "name": "translate",
+          "field": "value",
+          "before": 0.1,
+          "after": 0.10500000000000001,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "official_yolo_aug",
+          "name": "scale",
+          "field": "value",
+          "before": 0.5,
+          "after": 0.525,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "clahe",
+          "field": "prob",
+          "before": 0.0,
+          "after": 0.025,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "clahe",
+          "field": "strength",
+          "before": 0.0,
+          "after": 0.02,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "gamma",
+          "field": "prob",
+          "before": 0.0,
+          "after": 0.025,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "gamma",
+          "field": "strength",
+          "before": 0.0,
+          "after": 0.02,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "sharpen_mild",
+          "field": "prob",
+          "before": 0.0,
+          "after": 0.025,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "sharpen_mild",
+          "field": "strength",
+          "before": 0.0,
+          "after": 0.02,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "official_yolo_aug",
+          "name": "hsv_v",
+          "field": "value",
+          "before": 0.41500000000000004,
+          "after": 0.37500000000000006,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "clahe",
+          "field": "prob",
+          "before": 0.025,
+          "after": 0.0,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "clahe",
+          "field": "strength",
+          "before": 0.02,
+          "after": 0.0,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "gamma",
+          "field": "prob",
+          "before": 0.025,
+          "after": 0.0,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "gamma",
+          "field": "strength",
+          "before": 0.02,
+          "after": 0.0,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "scope": "official_yolo_aug",
+          "name": "erasing",
+          "field": "value",
+          "before": 0.4,
+          "after": 0.44,
+          "reason": "precision_low_hard_negative_like"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "cutout_safe",
+          "field": "prob",
+          "before": 0.0,
+          "after": 0.04,
+          "reason": "precision_low_hard_negative_like"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "cutout_safe",
+          "field": "strength",
+          "before": 0.0,
+          "after": 0.03,
+          "reason": "precision_low_hard_negative_like"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "clahe",
+          "field": "prob",
+          "before": 0.0,
+          "after": 0.025,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "clahe",
+          "field": "strength",
+          "before": 0.0,
+          "after": 0.02,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "gamma",
+          "field": "prob",
+          "before": 0.0,
+          "after": 0.025,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "gamma",
+          "field": "strength",
+          "before": 0.0,
+          "after": 0.02,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "local_contrast",
+          "field": "prob",
+          "before": 0.0,
+          "after": 0.025,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "local_contrast",
+          "field": "strength",
+          "before": 0.0,
+          "after": 0.02,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "sharpen_mild",
+          "field": "prob",
+          "before": 0.025,
+          "after": 0.05,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "sharpen_mild",
+          "field": "strength",
+          "before": 0.02,
+          "after": 0.04,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        }
+      ],
+      "policy_before": {
+        "official_yolo_aug": {
+          "hsv_h": 0.015,
+          "hsv_s": 0.7,
+          "hsv_v": 0.4,
+          "degrees": 0.0,
+          "translate": 0.1,
+          "scale": 0.5,
+          "shear": 0.0,
+          "perspective": 0.0,
+          "flipud": 0.0,
+          "fliplr": 0.5,
+          "mosaic": 1.0,
+          "mixup": 0.0,
+          "copy_paste": 0.0,
+          "erasing": 0.4,
+          "close_mosaic": 10
+        },
+        "custom_industrial_policy": {
+          "policy_id": "yolo_default_feedback_extra_industrial",
+          "notes": [
+            "Ultralytics YOLO default augmentation is the base.",
+            "No custom mosaic4 or randaugment_like is used.",
+            "copy_paste is disabled pending constrained object-bank design."
+          ],
+          "operations": [
+            {
+              "name": "clahe",
+              "prob": 0.0,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.35,
+              "strength": 0.0,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.45,
+              "params": {}
+            },
+            {
+              "name": "gamma",
+              "prob": 0.0,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.35,
+              "strength": 0.0,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.45,
+              "params": {}
+            },
+            {
+              "name": "sharpen_mild",
+              "prob": 0.0,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.3,
+              "strength": 0.0,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.4,
+              "params": {
+                "amount": 0.6
+              }
+            },
+            {
+              "name": "local_contrast",
+              "prob": 0.0,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.3,
+              "strength": 0.0,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.4,
+              "params": {}
+            },
+            {
+              "name": "cutout_safe",
+              "prob": 0.0,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.25,
+              "strength": 0.0,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.35,
+              "params": {
+                "max_holes": 2,
+                "max_fraction": 0.12,
+                "max_bbox_overlap": 0.05
+              }
+            }
+          ]
+        }
+      },
+      "policy_after": {
+        "official_yolo_aug": {
+          "hsv_h": 0.015,
+          "hsv_s": 0.7,
+          "hsv_v": 0.37500000000000006,
+          "degrees": 0.0,
+          "translate": 0.10500000000000001,
+          "scale": 0.525,
+          "shear": 0.0,
+          "perspective": 0.0,
+          "flipud": 0.0,
+          "fliplr": 0.5,
+          "mosaic": 1.0,
+          "mixup": 0.0,
+          "copy_paste": 0.0,
+          "erasing": 0.44,
+          "close_mosaic": 10
+        },
+        "custom_industrial_policy": {
+          "policy_id": "yolo_default_feedback_extra_industrial",
+          "notes": [
+            "Ultralytics YOLO default augmentation is the base.",
+            "No custom mosaic4 or randaugment_like is used.",
+            "copy_paste is disabled pending constrained object-bank design."
+          ],
+          "operations": [
+            {
+              "name": "clahe",
+              "prob": 0.025,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.35,
+              "strength": 0.02,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.45,
+              "params": {}
+            },
+            {
+              "name": "gamma",
+              "prob": 0.025,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.35,
+              "strength": 0.02,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.45,
+              "params": {}
+            },
+            {
+              "name": "sharpen_mild",
+              "prob": 0.05,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.3,
+              "strength": 0.04,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.4,
+              "params": {
+                "amount": 0.6
+              }
+            },
+            {
+              "name": "local_contrast",
+              "prob": 0.025,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.3,
+              "strength": 0.02,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.4,
+              "params": {}
+            },
+            {
+              "name": "cutout_safe",
+              "prob": 0.04,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.25,
+              "strength": 0.03,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.35,
+              "params": {
+                "max_holes": 2,
+                "max_fraction": 0.12,
+                "max_bbox_overlap": 0.05
+              }
+            }
+          ]
+        }
+      },
+      "copy_paste_status": "disabled_not_allowed_by_feedback_constraints"
+    }
+  ],
+  "latest_policy": {
+    "official_yolo_aug": {
+      "hsv_h": 0.015,
+      "hsv_s": 0.7,
+      "hsv_v": 0.37500000000000006,
+      "degrees": 0.0,
+      "translate": 0.10500000000000001,
+      "scale": 0.525,
+      "shear": 0.0,
+      "perspective": 0.0,
+      "flipud": 0.0,
+      "fliplr": 0.5,
+      "mosaic": 1.0,
+      "mixup": 0.0,
+      "copy_paste": 0.0,
+      "erasing": 0.44,
+      "close_mosaic": 10
+    },
+    "custom_industrial_policy": {
+      "policy_id": "yolo_default_feedback_extra_industrial",
+      "notes": [
+        "Ultralytics YOLO default augmentation is the base.",
+        "No custom mosaic4 or randaugment_like is used.",
+        "copy_paste is disabled pending constrained object-bank design."
+      ],
+      "operations": [
+        {
+          "name": "clahe",
+          "prob": 0.025,
+          "base_prob": 0.0,
+          "min_prob": 0.0,
+          "max_prob": 0.35,
+          "strength": 0.02,
+          "base_strength": 0.0,
+          "min_strength": 0.0,
+          "max_strength": 0.45,
+          "params": {}
+        },
+        {
+          "name": "gamma",
+          "prob": 0.025,
+          "base_prob": 0.0,
+          "min_prob": 0.0,
+          "max_prob": 0.35,
+          "strength": 0.02,
+          "base_strength": 0.0,
+          "min_strength": 0.0,
+          "max_strength": 0.45,
+          "params": {}
+        },
+        {
+          "name": "sharpen_mild",
+          "prob": 0.05,
+          "base_prob": 0.0,
+          "min_prob": 0.0,
+          "max_prob": 0.3,
+          "strength": 0.04,
+          "base_strength": 0.0,
+          "min_strength": 0.0,
+          "max_strength": 0.4,
+          "params": {
+            "amount": 0.6
+          }
+        },
+        {
+          "name": "local_contrast",
+          "prob": 0.025,
+          "base_prob": 0.0,
+          "min_prob": 0.0,
+          "max_prob": 0.3,
+          "strength": 0.02,
+          "base_strength": 0.0,
+          "min_strength": 0.0,
+          "max_strength": 0.4,
+          "params": {}
+        },
+        {
+          "name": "cutout_safe",
+          "prob": 0.04,
+          "base_prob": 0.0,
+          "min_prob": 0.0,
+          "max_prob": 0.25,
+          "strength": 0.03,
+          "base_strength": 0.0,
+          "min_strength": 0.0,
+          "max_strength": 0.35,
+          "params": {
+            "max_holes": 2,
+            "max_fraction": 0.12,
+            "max_bbox_overlap": 0.05
+          }
+        }
+      ]
+    }
+  }
+}

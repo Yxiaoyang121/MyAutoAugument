@@ -1,0 +1,29 @@
+{
+  "run_id": "yolo_default_inloop_feedback_50ep_full",
+  "skipped": true,
+  "skip_reason": "in-loop no-feedback control was not close to the YOLO default reference",
+  "feedback_train_started": false,
+  "feedback_train_success": false,
+  "no_feedback_control": {
+    "precision": 0.7262349655719601,
+    "recall": 0.6843688238246138,
+    "map50": 0.7616313722771619,
+    "map50_95": 0.525047137970041
+  },
+  "yolo_default_reference": {
+    "precision": 0.7131994837486653,
+    "recall": 0.7600146544998627,
+    "map50": 0.7758767738838886,
+    "map50_95": 0.5240624589214792
+  },
+  "delta_control_vs_reference": {
+    "precision": 0.013035481823294837,
+    "recall": -0.07564583067524888,
+    "map50": -0.014245401606726715,
+    "map50_95": 0.0009846790485618095
+  },
+  "close_to_yolo_default_reference": false,
+  "feedback_metrics": null,
+  "feedback_delta_vs_control": null,
+  "constraint_failed": null
+}

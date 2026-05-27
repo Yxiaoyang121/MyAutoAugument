@@ -1,0 +1,13 @@
+{
+  "run_id": "yolo_default_inloop_feedback_50ep_full",
+  "feedback_constraint_evaluated": false,
+  "constraint_failed": null,
+  "reason": "feedback 50ep was not run because the no-feedback control failed the YOLO default reproduction gate",
+  "control_gate": {
+    "close_to_yolo_default_reference": false,
+    "delta_precision": 0.013035481823294837,
+    "delta_recall": -0.07564583067524888,
+    "delta_map50": -0.014245401606726715,
+    "delta_map50_95": 0.0009846790485618095
+  }
+}

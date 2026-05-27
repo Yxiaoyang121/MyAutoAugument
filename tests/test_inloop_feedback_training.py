@@ -6,6 +6,8 @@ import numpy as np
 
 from AutoAugment.online_augmentation import OnlinePolicyAugmentor
 from scripts.train_yolo_default_with_inloop_feedback import (
+    build_constraint_scoring,
+    control_close_to_reference,
     initial_policy_state,
     training_policy,
     update_policy_state,
@@ -98,3 +100,31 @@ def test_copy_paste_pending_does_not_crash() -> None:
     assert result.audit["skipped_ops"][0]["skip_reason"] == "copy_paste_pending"
     np.testing.assert_array_equal(result.labels, labels)
     np.testing.assert_allclose(result.bboxes, boxes)
+
+
+def test_industrial_disabled_returns_empty_training_policy() -> None:
+    policy = initial_policy_state()
+    update_policy_state(
+        policy,
+        diagnosis={"global": {"tp": 1, "fp": 0, "fn": 10}, "diagnosis_vector": {"low_contrast_score": {"score": 0.8}}},
+        metrics={"precision": 0.8, "recall": 0.2, "map50": 0.5, "map50_95": 0.3},
+        reference=REFERENCE,
+    )
+    active = training_policy(policy, enabled=False)
+    assert active["operations"] == []
+
+
+def test_constraint_scoring_flags_precision_or_map_drop() -> None:
+    scoring = build_constraint_scoring(
+        {"precision": 0.68, "recall": 0.8, "map50": 0.77, "map50_95": 0.50},
+        {"precision": 0.70, "recall": 0.76, "map50": 0.78, "map50_95": 0.52},
+        baseline_name="control",
+    )
+    assert scoring["constraint_failed"] is True
+    assert "precision_drop_gt_0.01" in scoring["failure_reasons"]
+    assert "map50_95_drop_gt_0.01" in scoring["failure_reasons"]
+
+
+def test_control_close_thresholds() -> None:
+    assert control_close_to_reference({"precision": 0.001, "recall": -0.002, "map50": 0.0, "map50_95": 0.01})
+    assert not control_close_to_reference({"precision": 0.001, "recall": -0.05, "map50": 0.0, "map50_95": 0.01})

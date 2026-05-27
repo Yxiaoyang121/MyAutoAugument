@@ -530,20 +530,27 @@ No training was run after building or auditing these datasets.
 - Report: `outputs/experiments/yolo_default_feedback_aug_50ep_full/reports/final_report.md`
 - Policy history: `outputs/experiments/yolo_default_feedback_aug_50ep_full/reports/policy_history.json`
 <!-- YOLO_DEFAULT_FEEDBACK_AUG_50EP_FULL_END -->
-
 <!-- YOLO_DEFAULT_INLOOP_FEEDBACK_SMOKE_START -->
-## YOLO Default In-Loop Feedback Smoke
+## YOLO Default In-Loop Feedback / Control
 
 - Entrypoint: `scripts/train_yolo_default_with_inloop_feedback.py`.
 - The previous `yolo_default_feedback_aug_50ep_full` run is a segmented fine-tune experiment, not strict continuous feedback.
 - New direction: one `YOLO.train()` run with in-loop feedback callbacks; optimizer/scheduler/EMA/epoch/close_mosaic remain under one Ultralytics trainer.
-- Output: `outputs/experiments/yolo_default_inloop_feedback_10ep_smoke/`
-- Epochs: `10`
-- Feedback epochs: `[5]`
+- No-feedback control disables both feedback and industrial augmentation, using Ultralytics YOLO default augmentation as the behavior check.
+- Output: `outputs/experiments/yolo_default_inloop_no_feedback_control_50ep/`
+- Epochs: `50`
+- Feedback enabled: `false`
+- Industrial augmentation enabled: `false`
+- Feedback epochs: `[]`
 - Stage restart count: `0`
 - Epoch continuous: `true`
 - Train image count: `2301`
 - Fixed augmented dataset generated: `false`
-- Report: `outputs/experiments/yolo_default_inloop_feedback_10ep_smoke/reports/inloop_feedback_smoke_report.md`
-- Policy history: `outputs/experiments/yolo_default_inloop_feedback_10ep_smoke/reports/policy_history.json`
+- Control P/R/mAP50/mAP50-95: `0.7262/0.6844/0.7616/0.5250`
+- Delta vs YOLO default reference: `+0.0130/-0.0756/-0.0142/+0.0010`
+- Close to YOLO default reference: `false`
+- Feedback 50ep status: `skipped`; reason: no-feedback control did not reproduce YOLO default closely enough.
+- Report: `outputs/experiments/yolo_default_inloop_no_feedback_control_50ep/reports/inloop_no_feedback_control_report.md`
+- Policy history: `outputs/experiments/yolo_default_inloop_no_feedback_control_50ep/reports/policy_history.json`
+- Feedback skip report: `outputs/experiments/yolo_default_inloop_feedback_50ep_full/reports/final_report.md`
 <!-- YOLO_DEFAULT_INLOOP_FEEDBACK_SMOKE_END -->

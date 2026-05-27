@@ -1,0 +1,1 @@
+﻿D:\Anaconda\envs\pytorch\python.exe scripts\train_yolo_default_with_inloop_feedback.py --model yolo11n.pt --data outputs\datasets\tiled\tiled_1024_ov20_full_safe_no_ok_position\data.yaml --epochs 50 --imgsz 1024 --batch 2 --workers 0 --device 0 --seed 42 --run-id yolo_default_inloop_no_feedback_control_50ep --no-feedback-enabled --no-industrial-aug-enabled --no-save-preview

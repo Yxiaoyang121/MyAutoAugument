@@ -80,6 +80,19 @@ def main() -> None:
 
     api = check_ultralytics_api()
     reference_metrics = load_yolo_default_reference(Path(args.reference_metrics))
+    if is_native_no_feedback_mode(args):
+        payload = run_native_no_feedback_control(args, output_dir, api, reference_metrics)
+        write_outputs(payload)
+        if not args.skip_doc_update:
+            update_state_docs(payload)
+            export_project_snapshot()
+        print(json.dumps(payload["summary"], ensure_ascii=False, indent=2))
+        if not payload["train"]["success"]:
+            raise RuntimeError(f"native no-feedback training failed: {payload['train']['error']}")
+        if not payload["val"]["success"]:
+            raise RuntimeError(f"native no-feedback final validation failed: {payload['val']['error']}")
+        return
+
     policy_state = initial_policy_state()
     active_policy = training_policy(policy_state, enabled=bool(args.industrial_aug_enabled))
     write_json(output_dir / "configs" / "initial_policy_state.json", policy_state)
@@ -143,7 +156,7 @@ def main() -> None:
     if train_success and weights_for_val.exists():
         try:
             val_result = api["YOLO"](str(weights_for_val)).val(
-                data=str(Path(args.data)),
+                data=str(Path(args.data).resolve()),
                 imgsz=args.imgsz,
                 batch=args.batch,
                 workers=args.workers,
@@ -186,6 +199,111 @@ def main() -> None:
         raise RuntimeError(f"in-loop feedback training failed: {train_error}")
     if not val_success:
         raise RuntimeError(f"in-loop feedback final validation failed: {val_error}")
+
+
+def is_native_no_feedback_mode(args: argparse.Namespace) -> bool:
+    return not bool(args.feedback_enabled) and not bool(args.industrial_aug_enabled)
+
+
+def run_native_no_feedback_control(
+    args: argparse.Namespace,
+    output_dir: Path,
+    api: dict[str, Any],
+    reference_metrics: dict[str, Any],
+) -> dict[str, Any]:
+    write_json(output_dir / "configs" / "initial_policy_state.json", empty_native_policy_state())
+    write_json(output_dir / "configs" / "active_policy_epoch_000.json", {"policy_id": "native_yolo_default_no_feedback", "operations": []})
+    write_json(output_dir / "configs" / "train_config.json", build_train_config(args, output_dir))
+
+    stats = OnlineAugmentationStats()
+    augmentor = OnlinePolicyAugmentor(
+        {"policy_id": "native_yolo_default_no_feedback", "operations": []},
+        seed=args.seed,
+        copy_paste_enabled=False,
+        stats=stats,
+        total_epochs=args.epochs,
+    )
+    context = OnlineTrainingContext(
+        augmentor=augmentor,
+        preview_dir=output_dir / "previews",
+        save_preview=False,
+        preview_count=0,
+        total_epochs=args.epochs,
+    )
+    context.train_image_count = count_split_images(Path(args.data).resolve(), "train")
+    state = InLoopFeedbackState(
+        output_dir=output_dir,
+        args=args,
+        context=context,
+        policy_state=empty_native_policy_state(),
+        reference_metrics=reference_metrics,
+    )
+
+    train_command = build_train_command(args, output_dir)
+    write_text(output_dir / "configs" / "train_command.txt", train_command)
+    write_text(output_dir / "logs" / "train.command.txt", train_command)
+
+    train_success = False
+    train_error: str | None = None
+    train_result_type: str | None = None
+    train_start = time.time()
+    model = api["YOLO"](args.model)
+    train_kwargs = build_train_kwargs(args, output_dir)
+    try:
+        train_result = model.train(**train_kwargs)
+        train_result_type = type(train_result).__name__
+        train_success = True
+    except Exception as exc:
+        train_error = f"{type(exc).__name__}: {exc}"
+    state.train_start_time = train_start
+    state.train_end_time = time.time()
+
+    best_pt = output_dir / "train" / "weights" / "best.pt"
+    last_pt = output_dir / "train" / "weights" / "last.pt"
+    weights_for_val = best_pt if best_pt.exists() else last_pt
+    val_metrics: dict[str, Any] = {}
+    val_success = False
+    val_error: str | None = None
+    if train_success and weights_for_val.exists():
+        val_command = build_val_command(args, output_dir, weights_for_val)
+        write_text(output_dir / "configs" / "val_command.txt", val_command)
+        write_text(output_dir / "logs" / "val.command.txt", val_command)
+        try:
+            val_result = api["YOLO"](str(weights_for_val)).val(
+                data=str(Path(args.data).resolve()),
+                imgsz=args.imgsz,
+                batch=args.batch,
+                workers=args.workers,
+                device=str(args.device),
+                project=str(output_dir),
+                name="val",
+                exist_ok=True,
+                plots=False,
+            )
+            val_metrics = metrics_to_dict(val_result)
+            if val_metrics.get("images") is None:
+                val_metrics["images"] = count_split_images(Path(args.data).resolve(), "val")
+            val_success = True
+        except Exception as exc:
+            val_error = f"{type(exc).__name__}: {exc}"
+    elif train_success:
+        val_error = "no best.pt or last.pt found after training"
+    else:
+        val_error = "validation skipped because training failed"
+
+    return build_payload(
+        args=args,
+        output_dir=output_dir,
+        state=state,
+        train_success=train_success,
+        train_error=train_error,
+        train_result_type=train_result_type,
+        val_success=val_success,
+        val_error=val_error,
+        val_metrics=val_metrics,
+        best_pt=best_pt,
+        last_pt=last_pt,
+    )
 
 
 def parse_args() -> argparse.Namespace:
@@ -235,7 +353,7 @@ def build_train_config(args: argparse.Namespace, output_dir: Path) -> dict[str, 
         "run_id": args.run_id,
         "output_dir": str(output_dir),
         "model": args.model,
-        "data": str(Path(args.data)),
+        "data": str(Path(args.data).resolve()),
         "epochs": int(args.epochs),
         "imgsz": int(args.imgsz),
         "batch": int(args.batch),
@@ -246,6 +364,7 @@ def build_train_config(args: argparse.Namespace, output_dir: Path) -> dict[str, 
         "feedback_interval": int(args.feedback_interval),
         "feedback_start_epoch": int(args.feedback_start_epoch),
         "industrial_aug_enabled": bool(args.industrial_aug_enabled),
+        "native_no_feedback_passthrough": is_native_no_feedback_mode(args),
         "yolo_default_augmentation_enabled": True,
         "disable_yolo_aug": False,
         "custom_mosaic4_used": False,
@@ -257,7 +376,7 @@ def build_train_config(args: argparse.Namespace, output_dir: Path) -> dict[str, 
 
 def build_train_kwargs(args: argparse.Namespace, output_dir: Path) -> dict[str, Any]:
     return {
-        "data": str(Path(args.data)),
+        "data": str(Path(args.data).resolve()),
         "epochs": int(args.epochs),
         "imgsz": int(args.imgsz),
         "batch": int(args.batch),
@@ -275,7 +394,7 @@ def build_train_command(args: argparse.Namespace, output_dir: Path) -> str:
     parts = [
         "YOLO.train",
         f"model={args.model}",
-        f"data={Path(args.data)}",
+        f"data={Path(args.data).resolve()}",
         f"epochs={args.epochs}",
         f"imgsz={args.imgsz}",
         f"batch={args.batch}",
@@ -284,11 +403,28 @@ def build_train_command(args: argparse.Namespace, output_dir: Path) -> str:
         f"seed={args.seed}",
         f"project={output_dir}",
         "name=train",
-        "trainer=InLoopFeedbackDetectionTrainer" if args.industrial_aug_enabled else "UltralyticsDefaultDetectionTrainer",
+        "trainer=InLoopFeedbackDetectionTrainer" if args.industrial_aug_enabled else "trainer=UltralyticsDefaultDetectionTrainer",
         "yolo_default_augmentation_enabled=True",
         "disable_yolo_aug=False",
         f"feedback_enabled={bool(args.feedback_enabled)}",
         f"industrial_aug_enabled={bool(args.industrial_aug_enabled)}",
+    ]
+    return subprocess.list2cmdline([str(part) for part in parts])
+
+
+def build_val_command(args: argparse.Namespace, output_dir: Path, weights: Path) -> str:
+    parts = [
+        "YOLO.val",
+        f"model={weights.resolve()}",
+        f"data={Path(args.data).resolve()}",
+        f"imgsz={args.imgsz}",
+        f"batch={args.batch}",
+        f"workers={args.workers}",
+        f"device={args.device}",
+        f"project={output_dir}",
+        "name=val",
+        "exist_ok=True",
+        "plots=False",
     ]
     return subprocess.list2cmdline([str(part) for part in parts])
 
@@ -311,6 +447,19 @@ def initial_policy_state() -> dict[str, Any]:
             op_payload("brightness", 0.0, 0.0, params={"max_delta": 0.12}),
             op_payload("contrast", 0.0, 0.0, params={"alpha": 0.15}),
         ],
+    }
+
+
+def empty_native_policy_state() -> dict[str, Any]:
+    return {
+        "policy_id": "native_yolo_default_no_feedback",
+        "copy_paste_status": "not_used",
+        "notes": [
+            "feedback_enabled=false and industrial_aug_enabled=false.",
+            "No custom trainer, dataset, transform, industrial augmentor, or feedback callback is registered.",
+            "Training is a direct Ultralytics YOLO.train(**same_args) call.",
+        ],
+        "operations": [],
     }
 
 
@@ -569,7 +718,7 @@ def build_payload(
     stats = state.context.augmentor.stats.to_dict()
     train_image_count = state.context.train_image_count
     if train_image_count is None:
-        train_image_count = count_split_images(Path(args.data), "train")
+        train_image_count = count_split_images(Path(args.data).resolve(), "train")
     stats.update(
         {
             "run_id": args.run_id,

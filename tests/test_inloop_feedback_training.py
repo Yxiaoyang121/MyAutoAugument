@@ -1,14 +1,19 @@
 from __future__ import annotations
 
 import json
+from argparse import Namespace
+from pathlib import Path
 
 import numpy as np
 
 from AutoAugment.online_augmentation import OnlinePolicyAugmentor
 from scripts.train_yolo_default_with_inloop_feedback import (
+    build_train_command,
+    build_train_kwargs,
     build_constraint_scoring,
     control_close_to_reference,
     initial_policy_state,
+    is_native_no_feedback_mode,
     training_policy,
     update_policy_state,
     write_policy_history,
@@ -128,3 +133,26 @@ def test_constraint_scoring_flags_precision_or_map_drop() -> None:
 def test_control_close_thresholds() -> None:
     assert control_close_to_reference({"precision": 0.001, "recall": -0.002, "map50": 0.0, "map50_95": 0.01})
     assert not control_close_to_reference({"precision": 0.001, "recall": -0.05, "map50": 0.0, "map50_95": 0.01})
+
+
+def test_no_feedback_no_industrial_uses_native_passthrough() -> None:
+    args = Namespace(
+        feedback_enabled=False,
+        industrial_aug_enabled=False,
+        model="yolo11n.pt",
+        data="outputs/datasets/tiled/tiled_1024_ov20_full_safe_no_ok_position/data.yaml",
+        epochs=1,
+        imgsz=1024,
+        batch=2,
+        workers=0,
+        device="0",
+        seed=42,
+    )
+    output_dir = Path("outputs/experiments/native_parity_test")
+
+    assert is_native_no_feedback_mode(args)
+    assert build_train_kwargs(args, output_dir)["data"].endswith("data.yaml")
+    command = build_train_command(args, output_dir)
+
+    assert "trainer=UltralyticsDefaultDetectionTrainer" in command
+    assert "InLoopFeedbackDetectionTrainer" not in command

@@ -554,3 +554,19 @@ No training was run after building or auditing these datasets.
 - Policy history: `outputs/experiments/yolo_default_inloop_no_feedback_control_50ep/reports/policy_history.json`
 - Feedback skip report: `outputs/experiments/yolo_default_inloop_feedback_50ep_full/reports/final_report.md`
 <!-- YOLO_DEFAULT_INLOOP_FEEDBACK_SMOKE_END -->
+
+<!-- YOLO_DEFAULT_INLOOP_PARITY_AUDIT_START -->
+## YOLO Default In-Loop Parity Audit
+
+- Scope: parity audit only; no new 50 epoch feedback or augmentation experiment was run.
+- Reference run: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_yolo_default_diagnosis_constrained_50ep/runs/yolo_default_seed42/`.
+- In-loop no-feedback control: `outputs/experiments/yolo_default_inloop_no_feedback_control_50ep/`.
+- Finding: the selected reference run used `OnlineAugDetectionTrainer` with an empty passthrough policy, so it is not a pure native YOLO CLI/Python baseline.
+- Finding: the completed in-loop control used default trainer by command, but the old script still attached a no-op in-loop callback, as shown by `epoch_records.json`.
+- Args diff: data path absolute vs relative, plus project/save_dir; augmentation args and validation args matched.
+- close_mosaic: both runs used `close_mosaic=10` and both logs triggered `Closing dataloader mosaic`.
+- Repair: `feedback=false` and `industrial_aug=false` now enters a native passthrough branch with no custom trainer, dataset, transform, or feedback callback.
+- 1 epoch parity smoke: passed; native Python API and repaired in-loop no-feedback had identical args except output paths, identical loss/metric/lr values, and zero in-loop callback records.
+- Report: `outputs/audits/yolo_default_inloop_parity/parity_audit_report.md`
+- JSON: `outputs/audits/yolo_default_inloop_parity/parity_audit.json`
+<!-- YOLO_DEFAULT_INLOOP_PARITY_AUDIT_END -->

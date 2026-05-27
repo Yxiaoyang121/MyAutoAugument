@@ -1,0 +1,160 @@
+{
+  "reference_run": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_yolo_default_diagnosis_constrained_50ep\\runs\\yolo_default_seed42",
+  "control_run": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_inloop_no_feedback_control_50ep",
+  "reference_metrics": {
+    "images": 677,
+    "instances": 905,
+    "precision": 0.7131994837486653,
+    "recall": 0.7600146544998627,
+    "map50": 0.7758767738838886,
+    "map50_95": 0.5240624589214792
+  },
+  "control_metrics": {
+    "images": 677,
+    "instances": 905,
+    "precision": 0.7262349655719601,
+    "recall": 0.6843688238246138,
+    "map50": 0.7616313722771619,
+    "map50_95": 0.525047137970041
+  },
+  "metric_delta_control_minus_reference": {
+    "precision": 0.013035481823294837,
+    "recall": -0.07564583067524888,
+    "map50": -0.014245401606726715,
+    "map50_95": 0.0009846790485618095
+  },
+  "args_diff": [
+    {
+      "key": "data",
+      "reference": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\data.yaml",
+      "control": "outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\data.yaml"
+    },
+    {
+      "key": "project",
+      "reference": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_yolo_default_diagnosis_constrained_50ep\\runs\\yolo_default_seed42",
+      "control": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_inloop_no_feedback_control_50ep"
+    }
+  ],
+  "augmentation_args_diff": [],
+  "validation_args_diff": [],
+  "lr_curve_diff": {
+    "rows_compared": 50,
+    "max_abs_lr_delta": 0.0,
+    "reference_last_lr": {
+      "lr/pg0": "1.75224e-05",
+      "lr/pg1": "1.75224e-05",
+      "lr/pg2": "1.75224e-05"
+    },
+    "control_last_lr": {
+      "lr/pg0": "1.75224e-05",
+      "lr/pg1": "1.75224e-05",
+      "lr/pg2": "1.75224e-05"
+    }
+  },
+  "results_curve_diff": {
+    "rows_compared": 50,
+    "last_epoch": {
+      "precision": {
+        "reference": 0.73561,
+        "control": 0.68761,
+        "delta": -0.04799999999999993
+      },
+      "recall": {
+        "reference": 0.73302,
+        "control": 0.71141,
+        "delta": -0.021610000000000018
+      },
+      "map50": {
+        "reference": 0.76664,
+        "control": 0.70007,
+        "delta": -0.06657000000000002
+      },
+      "map50_95": {
+        "reference": 0.52203,
+        "control": 0.48137,
+        "delta": -0.040659999999999974
+      }
+    },
+    "max_abs_delta": {
+      "precision": 0.13337,
+      "recall": 0.14796999999999993,
+      "map50": 0.08187999999999995,
+      "map50_95": 0.057640000000000025
+    }
+  },
+  "commands": {
+    "reference_train_command": "YOLO.train model=yolo11n.pt data=E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\data.yaml policy=E:\\TJGY\\MinPaper\\MyAutoAugument\\configs\\online_policies\\yolo_default_passthrough_policy.json epochs=50 imgsz=1024 batch=2 workers=0 device=0 seed=42 project=E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_yolo_default_diagnosis_constrained_50ep\\runs\\yolo_default_seed42 name=train trainer=OnlineAugDetectionTrainer",
+    "control_train_command": "YOLO.train model=yolo11n.pt data=outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\data.yaml epochs=50 imgsz=1024 batch=2 workers=0 device=0 seed=42 project=E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_inloop_no_feedback_control_50ep name=train UltralyticsDefaultDetectionTrainer yolo_default_augmentation_enabled=True disable_yolo_aug=False feedback_enabled=False industrial_aug_enabled=False",
+    "reference_val_command": "YOLO.val model=E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_yolo_default_diagnosis_constrained_50ep\\runs\\yolo_default_seed42\\train\\weights\\best.pt data=E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\data.yaml imgsz=1024 batch=2 workers=0 device=0 project=E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_yolo_default_diagnosis_constrained_50ep\\runs\\yolo_default_seed42 name=val exist_ok=True",
+    "control_val_command": "",
+    "reference_uses_online_trainer": true,
+    "control_uses_inloop_or_online_trainer": false,
+    "control_declares_default_trainer": true
+  },
+  "ultralytics": {
+    "reference": "8.3.221",
+    "control": "8.3.221"
+  },
+  "close_mosaic": {
+    "reference_close_mosaic_arg": 10,
+    "control_close_mosaic_arg": 10,
+    "reference_log_triggered": true,
+    "control_log_triggered": true
+  },
+  "best_pt_selection": {
+    "reference_best_pt": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_yolo_default_diagnosis_constrained_50ep\\runs\\yolo_default_seed42\\train\\weights\\best.pt",
+    "control_best_pt": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_inloop_no_feedback_control_50ep\\train\\weights\\best.pt",
+    "reference_val_uses_best_pt": true,
+    "control_val_uses_best_pt": true
+  },
+  "industrial_aug_stats": {
+    "reference_samples_augmented": 0,
+    "control_samples_augmented": 0,
+    "reference_ops": {},
+    "control_ops": {}
+  },
+  "custom_entry_changed_behavior": true,
+  "root_cause": {
+    "custom_entry_changed_behavior": true,
+    "primary": "parity baseline mismatch: reference used custom passthrough OnlineAugDetectionTrainer, while the control used native trainer plus a no-op callback in the old script",
+    "reasons": [
+      "The selected reference run is not a pure native CLI run; it used OnlineAugDetectionTrainer with an empty passthrough policy.",
+      "The completed in-loop control recorded epoch callback evidence, so the old no-feedback branch still attached a no-op callback.",
+      "The reference used an absolute data YAML path while the control used the provided relative path.",
+      "Project/save_dir differ by design and should not affect training math."
+    ],
+    "args_diff_count": 2,
+    "augmentation_diff_count": 0,
+    "validation_diff_count": 0
+  },
+  "repair": {
+    "implemented": true,
+    "description": "feedback=false and industrial_aug=false now enters a native passthrough branch with no custom trainer, dataset, transform, or feedback callback."
+  },
+  "parity_smoke": {
+    "native_run": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\audits\\yolo_default_inloop_parity\\smoke_native_yolo_default_1ep",
+    "inloop_run": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\audits\\yolo_default_inloop_parity\\smoke_inloop_no_feedback_1ep",
+    "completed": true,
+    "args_diff_excluding_output": [],
+    "args_diff_excluding_output_count": 0,
+    "compared_result_columns": [
+      "epoch",
+      "train/box_loss",
+      "train/cls_loss",
+      "train/dfl_loss",
+      "metrics/precision(B)",
+      "metrics/recall(B)",
+      "metrics/mAP50(B)",
+      "metrics/mAP50-95(B)",
+      "val/box_loss",
+      "val/cls_loss",
+      "val/dfl_loss",
+      "lr/pg0",
+      "lr/pg1",
+      "lr/pg2"
+    ],
+    "max_abs_result_delta": 0.0,
+    "inloop_epoch_record_count": 0,
+    "passed": true
+  }
+}

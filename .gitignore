@@ -63,6 +63,7 @@ outputs/archive/**
 outputs/audits/gpu_preflight/gpu_preflight_smoke/**
 outputs/audits/gpu_preflight/ultralytics_config/**
 outputs/audits/tiling_quality/debug_truncated_bboxes/**
+outputs/audits/**/smoke_*/**
 outputs/datasets/**/images/**
 outputs/datasets/**/labels/**
 outputs/datasets/**/debug_tiling/**

@@ -1,13 +1,14 @@
 # Project Snapshot
 
-- Generated: 2026-05-27T20:38:55
+- Generated: 2026-05-27T21:31:58
 - Branch: codex/sync-latest
-- Commit: 784541086300797839e198b6fd41ca5b9dfd7f8a
+- Commit: ee04a6dc0a1e7a42df92cbb20edb92e418f96323
 - Remote: https://github.com/Yxiaoyang121/MyAutoAugument.git
 
 ## Working Tree
 
 ```text
+ M .gitignore
  M CODEX_HANDOFF.md
  M EXPERIMENT_LOG.md
  M PROJECT_STATE.md
@@ -16,8 +17,8 @@
  M scripts/export_project_snapshot.py
  M scripts/train_yolo_default_with_inloop_feedback.py
  M tests/test_inloop_feedback_training.py
-?? outputs/experiments/yolo_default_inloop_feedback_50ep_full/
-?? outputs/experiments/yolo_default_inloop_no_feedback_control_50ep/
+?? outputs/audits/yolo_default_inloop_parity/
+?? scripts/audit_yolo_default_inloop_parity.py
 ```
 
 ## Key Files
@@ -50,6 +51,7 @@
 - scripts/run_yolo_default_diagnosis_constraints.py
 - scripts/train_yolo_default_with_feedback.py
 - scripts/train_yolo_default_with_inloop_feedback.py
+- scripts/audit_yolo_default_inloop_parity.py
 - scripts/write_yolo_default_aug_50ep_reports.py
 - configs/online_policies/yolo_like_base_policy.json
 - configs/online_policies/industrial_diag_policy.json
@@ -183,6 +185,8 @@
 - outputs/experiments/yolo_default_inloop_feedback_50ep_full/reports/policy_history.json
 - outputs/experiments/yolo_default_inloop_feedback_50ep_full/reports/constraint_scoring.json
 - outputs/experiments/yolo_default_inloop_feedback_50ep_full/reports/compare_with_yolo_default_no_feedback.md
+- outputs/audits/yolo_default_inloop_parity/parity_audit_report.md
+- outputs/audits/yolo_default_inloop_parity/parity_audit.json
 - outputs/datasets/tiled/tiled_1024_ov20_smoke/dataset_summary.md
 - outputs/datasets/tiled/tiled_1024_ov20_full/data.yaml
 - outputs/datasets/tiled/tiled_1024_ov20_full/dataset_summary.md
@@ -210,7 +214,7 @@
 
 ## Tracked File Count
 
-- 1196 tracked files
+- 1225 tracked files
 
 ## Notes
 

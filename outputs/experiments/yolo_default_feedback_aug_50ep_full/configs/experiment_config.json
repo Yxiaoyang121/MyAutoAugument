@@ -1,0 +1,40 @@
+{
+  "run_id": "yolo_default_feedback_aug_50ep_full",
+  "output_dir": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full",
+  "generated_at": "2026-05-27T09:12:54",
+  "entrypoint": "scripts/train_yolo_default_with_feedback.py",
+  "model": "yolo11n.pt",
+  "data": "outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\data.yaml",
+  "epochs": 50,
+  "feedback_interval": 5,
+  "feedback_start_epoch": 5,
+  "imgsz": 1024,
+  "batch": 2,
+  "workers": 0,
+  "device": "0",
+  "seed": 42,
+  "base_augmentation": "Ultralytics YOLO default augmentation remains enabled.",
+  "custom_yolo_like_replacement": false,
+  "disabled_custom_ops": [
+    "mosaic4",
+    "randaugment_like",
+    "copy_paste"
+  ],
+  "constraint_reference": {
+    "source": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\20260518_tiled1024_safe_no_ok_position_yolo_default_diagnosis_constrained_50ep\\reports\\diagnosis_constrained_metrics.json",
+    "key": "yolo_default",
+    "metrics": {
+      "images": 677,
+      "instances": 905,
+      "precision": 0.7131994837486653,
+      "recall": 0.7600146544998627,
+      "map50": 0.7758767738838886,
+      "map50_95": 0.5240624589214792
+    }
+  },
+  "constraint_limits": {
+    "precision_min_delta": -0.01,
+    "map50_min_delta": -0.01,
+    "map50_95_min_delta": -0.01
+  }
+}

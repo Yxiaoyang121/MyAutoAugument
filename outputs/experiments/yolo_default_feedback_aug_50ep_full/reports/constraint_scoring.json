@@ -1,0 +1,27 @@
+{
+  "reference": "YOLO default seed=42",
+  "final_metrics": {
+    "images": 677,
+    "instances": 905,
+    "precision": 0.7712412117263807,
+    "recall": 0.6689285115254554,
+    "map50": 0.7439161103793795,
+    "map50_95": 0.49929812798183276
+  },
+  "delta_vs_yolo_default_seed42": {
+    "precision": 0.05804172797771545,
+    "recall": -0.09108614297440731,
+    "map50": -0.0319606635045091,
+    "map50_95": -0.024764330939646417
+  },
+  "constraints": {
+    "passed": false,
+    "constraint_failed": true,
+    "failures": [
+      "map50_drop_gt_0.01",
+      "map50_95_drop_gt_0.01"
+    ]
+  },
+  "final_strategy_accepted": false,
+  "reason": "constraint_failed_or_no_recall_gain"
+}

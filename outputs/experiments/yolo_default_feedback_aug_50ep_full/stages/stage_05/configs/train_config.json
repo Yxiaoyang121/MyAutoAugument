@@ -1,0 +1,32 @@
+{
+  "run_id": "stage_05",
+  "output_dir": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\stages\\stage_05",
+  "model": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\stages\\stage_04\\train\\weights\\last.pt",
+  "data": "outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\data.yaml",
+  "policy": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\configs\\stage_05_custom_policy.json",
+  "epochs": 5,
+  "imgsz": 1024,
+  "batch": 2,
+  "device": "0",
+  "workers": 0,
+  "seed": 42,
+  "disable_yolo_aug": false,
+  "disabled_yolo_aug_args": {},
+  "save_preview": true,
+  "preview_count": 20,
+  "online_copy_paste": false,
+  "copy_paste_bank_size": 512,
+  "feedback_enabled": false,
+  "feedback_interval": 1,
+  "feedback_start_epoch": 1,
+  "feedback_profile": "industrial",
+  "policy_state_path": null,
+  "yolo_aug_overrides": {
+    "erasing": 0.5,
+    "hsv_v": 0.2900000000000002,
+    "mosaic": 0.6000000000000001,
+    "scale": 0.45,
+    "translate": 0.05
+  },
+  "mode": "yolo_default_plus_custom_online_aug"
+}

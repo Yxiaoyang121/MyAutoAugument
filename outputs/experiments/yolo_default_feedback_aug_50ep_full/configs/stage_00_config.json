@@ -1,0 +1,18 @@
+{
+  "stage_index": 0,
+  "stage_epochs": 5,
+  "global_epoch_start": 0,
+  "global_epoch_end": 5,
+  "input_model": "yolo11n.pt",
+  "base_augmentation": "Ultralytics YOLO default enabled",
+  "yolo_aug_overrides": {},
+  "custom_policy": {
+    "policy_id": "yolo_default_feedback_extra_industrial",
+    "notes": [
+      "Ultralytics YOLO default augmentation is the base.",
+      "No custom mosaic4 or randaugment_like is used.",
+      "copy_paste is disabled pending constrained object-bank design."
+    ],
+    "operations": []
+  }
+}

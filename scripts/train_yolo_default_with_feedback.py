@@ -68,6 +68,7 @@ class StageRecord:
     global_epoch_start: int
     global_epoch_end: int
     run_dir: Path
+    input_checkpoint: str
     train_command: str
     train_success: bool
     train_error: str | None
@@ -346,6 +347,7 @@ def run_stage(
         global_epoch_start=global_epoch,
         global_epoch_end=global_epoch + stage_epochs,
         run_dir=stage_run_dir,
+        input_checkpoint=str(model),
         train_command=subprocess.list2cmdline(command),
         train_success=success,
         train_error=error,
@@ -657,8 +659,40 @@ def stage_to_dict(stage: StageRecord) -> dict[str, Any]:
 def write_outputs(output_dir: Path, payload: dict[str, Any]) -> None:
     write_json(output_dir / "reports/final_metrics.json", payload)
     write_json(output_dir / "reports/constraint_scoring.json", payload["constraint_scoring"])
+    write_json(output_dir / "reports/stage_metrics.json", build_stage_metrics_payload(payload))
     write_json(output_dir / "reports/reference_comparison.json", payload["comparisons"])
-    write_markdown(output_dir / "reports/yolo_default_feedback_smoke_report.md", build_report_markdown(payload))
+    report = build_report_markdown(payload)
+    compare = build_compare_markdown(payload)
+    write_markdown(output_dir / "reports/final_report.md", report)
+    write_markdown(output_dir / "reports/compare_with_yolo_default_baseline_diagaug_random.md", compare)
+    write_markdown(output_dir / "reports/yolo_default_feedback_smoke_report.md", report)
+
+
+def build_stage_metrics_payload(payload: dict[str, Any]) -> dict[str, Any]:
+    return {
+        "run_id": payload["run_id"],
+        "stage_count": payload["stage_count"],
+        "stages": [
+            {
+                "stage_index": stage["stage_index"],
+                "start_epoch": stage["global_epoch_start"],
+                "end_epoch": stage["global_epoch_end"],
+                "epochs": stage["epochs"],
+                "run_dir": stage["run_dir"],
+                "input_checkpoint": stage["input_checkpoint"],
+                "output_checkpoint": stage.get("weights_last") or stage.get("weights_best"),
+                "train_command": stage["train_command"],
+                "val_command": str(Path(stage["run_dir"]) / "configs" / "val_command.txt"),
+                "val_metrics": stage["val_metrics"],
+                "diagnosis_summary": str(Path(stage["run_dir"]) / "diagnosis" / "diagnosis_summary.md"),
+                "feedback_update": stage["adjustments"],
+                "old_policy": stage["policy_before"],
+                "new_policy": stage["policy_after"],
+                "constraint_status": stage["constraints"],
+            }
+            for stage in payload["stages"]
+        ],
+    }
 
 
 def write_policy_history(history_dir: Path, history: list[dict[str, Any]], latest_policy: dict[str, Any]) -> None:
@@ -706,25 +740,46 @@ def build_stage_diagnosis_report(diagnosis: dict[str, Any]) -> str:
 
 def build_report_markdown(payload: dict[str, Any]) -> str:
     scoring = payload["constraint_scoring"]
+    is_smoke = bool(payload["summary"].get("smoke_mode"))
+    title = "YOLO Default With Diagnosis Feedback Smoke" if is_smoke else "YOLO Default With Diagnosis Feedback 50 Epoch"
+    final = payload.get("final_metrics", {})
+    deltas = scoring.get("delta_vs_yolo_default_seed42", {})
+    up, down = adjustment_summary(payload.get("policy_history_count", 0), payload.get("stages", []))
+    stage_worse = detect_stage_degradation(payload.get("stages", []))
     lines = [
-        "# YOLO Default With Diagnosis Feedback Smoke",
+        f"# {title}",
         "",
         "- Base augmentation: Ultralytics YOLO default augmentation remains enabled.",
         "- Custom YOLO-like `mosaic4` / `randaugment_like`: `false`.",
         "- Fixed augmented dataset generated: `false`.",
         f"- Stage count: `{payload['stage_count']}`",
         f"- Policy history updates: `{payload['policy_history_count']}`",
+        f"- Feedback 50 epoch completed: `{str((not is_smoke) and all(stage.get('train_success') for stage in payload.get('stages', []))).lower()}`",
         "",
         "## Final Metrics",
         "",
         "| Precision | Recall | mAP50 | mAP50-95 |",
         "|---:|---:|---:|---:|",
-        metric_row(payload.get("final_metrics", {})),
+        metric_row(final),
         "",
         "## Constraint Scoring",
         "",
         f"- Accepted final strategy: `{str(scoring.get('final_strategy_accepted')).lower()}`",
         f"- Failures: `{', '.join(scoring.get('constraints', {}).get('failures', []))}`",
+        f"- Delta vs YOLO default seed=42: P `{fmt(deltas.get('precision'), signed=True)}`, R `{fmt(deltas.get('recall'), signed=True)}`, mAP50 `{fmt(deltas.get('map50'), signed=True)}`, mAP50-95 `{fmt(deltas.get('map50_95'), signed=True)}`",
+        "",
+        "## Required Answers",
+        "",
+        f"- 1. Feedback 50 epoch success: `{str((not is_smoke) and all(stage.get('train_success') for stage in payload.get('stages', []))).lower()}`",
+        f"- 2. Final P/R/mAP50/mAP50-95: `{fmt(final.get('precision'))}/{fmt(final.get('recall'))}/{fmt(final.get('map50'))}/{fmt(final.get('map50_95'))}`",
+        f"- 3. Exceeds YOLO default: `{str(all((deltas.get(key) or 0.0) > 0.0 for key in METRIC_KEYS)).lower()}`",
+        f"- 4. Recall improved without breaking P/mAP: `{str(scoring.get('final_strategy_accepted')).lower()}`",
+        f"- 5. Increased parameters: `{', '.join(up) if up else 'none'}`",
+        f"- 6. Decreased parameters: `{', '.join(down) if down else 'none'}`",
+        f"- 7. Policy updates stable: `{str(not stage_worse['severe']).lower()}`",
+        f"- 8. Stage degradation observed: `{str(stage_worse['observed']).lower()}`",
+        f"- 9. Constraint failed: `{str(scoring.get('constraints', {}).get('constraint_failed')).lower()}`",
+        f"- 10. Worthy as paper main method now: `{str(scoring.get('final_strategy_accepted')).lower()}`",
         "",
         "## Stage Summary",
         "",
@@ -740,6 +795,61 @@ def build_report_markdown(payload: dict[str, Any]) -> str:
         )
     lines.extend(["", "## Reference Comparison", "", comparison_table(payload["comparisons"])])
     return "\n".join(lines) + "\n"
+
+
+def build_compare_markdown(payload: dict[str, Any]) -> str:
+    lines = [
+        "# YOLO Default Feedback vs References",
+        "",
+        "- Reference for constraints: YOLO default seed=42.",
+        "- Constraint rule: fail if Precision, mAP50, or mAP50-95 drops by more than 0.01.",
+        "",
+        comparison_table(payload["comparisons"]),
+        "",
+        "## Conclusion",
+        "",
+        f"- Constraint failed: `{str(payload['constraint_scoring']['constraints'].get('constraint_failed')).lower()}`",
+        f"- Final strategy accepted: `{str(payload['constraint_scoring'].get('final_strategy_accepted')).lower()}`",
+    ]
+    return "\n".join(lines) + "\n"
+
+
+def adjustment_summary(_history_count: int, stages: list[dict[str, Any]]) -> tuple[list[str], list[str]]:
+    increased: list[str] = []
+    decreased: list[str] = []
+    for stage in stages:
+        for adj in stage.get("adjustments", []):
+            name = f"{adj.get('scope')}.{adj.get('name')}.{adj.get('field')}"
+            before = float(adj.get("before", 0.0))
+            after = float(adj.get("after", 0.0))
+            if after > before and name not in increased:
+                increased.append(name)
+            if after < before and name not in decreased:
+                decreased.append(name)
+    return increased, decreased
+
+
+def detect_stage_degradation(stages: list[dict[str, Any]]) -> dict[str, Any]:
+    observed = False
+    severe = False
+    previous: dict[str, Any] | None = None
+    drops: list[dict[str, Any]] = []
+    for stage in stages:
+        current = stage.get("val_metrics", {})
+        if previous:
+            delta = metric_delta(current, previous)
+            bad = {
+                key: value
+                for key, value in delta.items()
+                if value is not None and key in {"precision", "map50", "map50_95"} and value < -0.02
+            }
+            if bad:
+                observed = True
+                drops.append({"stage_index": stage.get("stage_index"), "delta": bad})
+            if any(value < -0.05 for value in bad.values()):
+                severe = True
+        previous = current
+    return {"observed": observed, "severe": severe, "drops": drops}
 
 
 def comparison_table(comparisons: dict[str, Any]) -> str:
@@ -886,25 +996,28 @@ def update_marked_section(path: Path, marker: str, content: str) -> None:
 
 
 def update_state_docs(payload: dict[str, Any]) -> None:
+    is_smoke = bool(payload["summary"].get("smoke_mode"))
+    scope = "2-stage smoke; no formal 50 epoch run in this step." if is_smoke else "formal 50 epoch segmented feedback run."
+    marker = "YOLO_DEFAULT_FEEDBACK_AUG_SMOKE" if is_smoke else "YOLO_DEFAULT_FEEDBACK_AUG_50EP_FULL"
     content = "\n".join(
         [
-            "## YOLO Default Feedback Augmentation Smoke",
+            "## YOLO Default Feedback Augmentation",
             "",
             "- Entrypoint: `scripts/train_yolo_default_with_feedback.py`.",
             "- Base: Ultralytics YOLO default augmentation remains enabled; custom YOLO-like `mosaic4` and `randaugment_like` are not used.",
-            "- Scope: 2-stage smoke when `epochs=2 feedback_interval=1`; no formal 50 epoch run in this step.",
+            f"- Scope: {scope}",
             f"- Output: `outputs/experiments/{payload['run_id']}/`",
             f"- Stage count: `{payload['stage_count']}`",
             f"- Policy history updates: `{payload['policy_history_count']}`",
             f"- Fixed augmented dataset generated: `{str(payload['fixed_augmented_dataset_generated']).lower()}`",
             f"- Final P/R/mAP50/mAP50-95: `{fmt(payload['final_metrics'].get('precision'))}/{fmt(payload['final_metrics'].get('recall'))}/{fmt(payload['final_metrics'].get('map50'))}/{fmt(payload['final_metrics'].get('map50_95'))}`",
             f"- Constraint accepted: `{str(payload['constraint_scoring'].get('final_strategy_accepted')).lower()}`",
-            f"- Report: `outputs/experiments/{payload['run_id']}/reports/yolo_default_feedback_smoke_report.md`",
+            f"- Report: `outputs/experiments/{payload['run_id']}/reports/final_report.md`",
             f"- Policy history: `outputs/experiments/{payload['run_id']}/reports/policy_history.json`",
         ]
     )
     for name in ["PROJECT_STATE.md", "CODEX_HANDOFF.md", "EXPERIMENT_LOG.md"]:
-        update_marked_section(PROJECT_ROOT / name, "YOLO_DEFAULT_FEEDBACK_AUG_SMOKE", content)
+        update_marked_section(PROJECT_ROOT / name, marker, content)
 
 
 def export_project_snapshot() -> None:

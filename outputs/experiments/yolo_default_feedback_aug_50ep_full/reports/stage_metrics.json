@@ -1,0 +1,4156 @@
+{
+  "run_id": "yolo_default_feedback_aug_50ep_full",
+  "stage_count": 10,
+  "stages": [
+    {
+      "stage_index": 0,
+      "start_epoch": 0,
+      "end_epoch": 5,
+      "epochs": 5,
+      "run_dir": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\stages\\stage_00",
+      "input_checkpoint": "yolo11n.pt",
+      "output_checkpoint": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\stages\\stage_00\\train\\weights\\last.pt",
+      "train_command": "D:\\Anaconda\\envs\\pytorch\\python.exe E:\\TJGY\\MinPaper\\MyAutoAugument\\scripts\\train_yolo_online_aug.py --model yolo11n.pt --data outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\data.yaml --policy E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\configs\\stage_00_custom_policy.json --epochs 5 --imgsz 1024 --batch 2 --workers 0 --device 0 --seed 42 --run-id stage_00 --project E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\stages --no-disable-yolo-aug --save-preview --preview-count 20 --skip-doc-update",
+      "val_command": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\stages\\stage_00\\configs\\val_command.txt",
+      "val_metrics": {
+        "images": 677,
+        "instances": 905,
+        "precision": 0.7506084172714942,
+        "recall": 0.38472404201363425,
+        "map50": 0.4370856697102006,
+        "map50_95": 0.2759889567982533
+      },
+      "diagnosis_summary": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\stages\\stage_00\\diagnosis\\diagnosis_summary.md",
+      "feedback_update": [
+        {
+          "scope": "official_yolo_aug",
+          "name": "hsv_v",
+          "field": "value",
+          "before": 0.4,
+          "after": 0.43000000000000005,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "official_yolo_aug",
+          "name": "translate",
+          "field": "value",
+          "before": 0.1,
+          "after": 0.11,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "official_yolo_aug",
+          "name": "scale",
+          "field": "value",
+          "before": 0.5,
+          "after": 0.55,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "clahe",
+          "field": "prob",
+          "before": 0.0,
+          "after": 0.05,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "clahe",
+          "field": "strength",
+          "before": 0.0,
+          "after": 0.04,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "gamma",
+          "field": "prob",
+          "before": 0.0,
+          "after": 0.05,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "gamma",
+          "field": "strength",
+          "before": 0.0,
+          "after": 0.04,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "sharpen_mild",
+          "field": "prob",
+          "before": 0.0,
+          "after": 0.05,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "sharpen_mild",
+          "field": "strength",
+          "before": 0.0,
+          "after": 0.04,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "official_yolo_aug",
+          "name": "hsv_v",
+          "field": "value",
+          "before": 0.43000000000000005,
+          "after": 0.39000000000000007,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "clahe",
+          "field": "prob",
+          "before": 0.05,
+          "after": 0.010000000000000002,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "clahe",
+          "field": "strength",
+          "before": 0.04,
+          "after": 0.010000000000000002,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "gamma",
+          "field": "prob",
+          "before": 0.05,
+          "after": 0.010000000000000002,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "gamma",
+          "field": "strength",
+          "before": 0.04,
+          "after": 0.010000000000000002,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "scope": "official_yolo_aug",
+          "name": "erasing",
+          "field": "value",
+          "before": 0.4,
+          "after": 0.44,
+          "reason": "precision_low_hard_negative_like"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "cutout_safe",
+          "field": "prob",
+          "before": 0.0,
+          "after": 0.04,
+          "reason": "precision_low_hard_negative_like"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "cutout_safe",
+          "field": "strength",
+          "before": 0.0,
+          "after": 0.03,
+          "reason": "precision_low_hard_negative_like"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "clahe",
+          "field": "prob",
+          "before": 0.010000000000000002,
+          "after": 0.060000000000000005,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "clahe",
+          "field": "strength",
+          "before": 0.010000000000000002,
+          "after": 0.05,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "gamma",
+          "field": "prob",
+          "before": 0.010000000000000002,
+          "after": 0.060000000000000005,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "gamma",
+          "field": "strength",
+          "before": 0.010000000000000002,
+          "after": 0.05,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "local_contrast",
+          "field": "prob",
+          "before": 0.0,
+          "after": 0.05,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "local_contrast",
+          "field": "strength",
+          "before": 0.0,
+          "after": 0.04,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "sharpen_mild",
+          "field": "prob",
+          "before": 0.05,
+          "after": 0.1,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "sharpen_mild",
+          "field": "strength",
+          "before": 0.04,
+          "after": 0.08,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        }
+      ],
+      "old_policy": {
+        "official_yolo_aug": {
+          "hsv_h": 0.015,
+          "hsv_s": 0.7,
+          "hsv_v": 0.4,
+          "degrees": 0.0,
+          "translate": 0.1,
+          "scale": 0.5,
+          "shear": 0.0,
+          "perspective": 0.0,
+          "flipud": 0.0,
+          "fliplr": 0.5,
+          "mosaic": 1.0,
+          "mixup": 0.0,
+          "copy_paste": 0.0,
+          "erasing": 0.4,
+          "close_mosaic": 10
+        },
+        "custom_industrial_policy": {
+          "policy_id": "yolo_default_feedback_extra_industrial",
+          "notes": [
+            "Ultralytics YOLO default augmentation is the base.",
+            "No custom mosaic4 or randaugment_like is used.",
+            "copy_paste is disabled pending constrained object-bank design."
+          ],
+          "operations": [
+            {
+              "name": "clahe",
+              "prob": 0.0,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.35,
+              "strength": 0.0,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.45,
+              "params": {}
+            },
+            {
+              "name": "gamma",
+              "prob": 0.0,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.35,
+              "strength": 0.0,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.45,
+              "params": {}
+            },
+            {
+              "name": "sharpen_mild",
+              "prob": 0.0,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.3,
+              "strength": 0.0,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.4,
+              "params": {
+                "amount": 0.6
+              }
+            },
+            {
+              "name": "local_contrast",
+              "prob": 0.0,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.3,
+              "strength": 0.0,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.4,
+              "params": {}
+            },
+            {
+              "name": "cutout_safe",
+              "prob": 0.0,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.25,
+              "strength": 0.0,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.35,
+              "params": {
+                "max_holes": 2,
+                "max_fraction": 0.12,
+                "max_bbox_overlap": 0.05
+              }
+            }
+          ]
+        }
+      },
+      "new_policy": {
+        "official_yolo_aug": {
+          "hsv_h": 0.015,
+          "hsv_s": 0.7,
+          "hsv_v": 0.39000000000000007,
+          "degrees": 0.0,
+          "translate": 0.11,
+          "scale": 0.55,
+          "shear": 0.0,
+          "perspective": 0.0,
+          "flipud": 0.0,
+          "fliplr": 0.5,
+          "mosaic": 1.0,
+          "mixup": 0.0,
+          "copy_paste": 0.0,
+          "erasing": 0.44,
+          "close_mosaic": 10
+        },
+        "custom_industrial_policy": {
+          "policy_id": "yolo_default_feedback_extra_industrial",
+          "notes": [
+            "Ultralytics YOLO default augmentation is the base.",
+            "No custom mosaic4 or randaugment_like is used.",
+            "copy_paste is disabled pending constrained object-bank design."
+          ],
+          "operations": [
+            {
+              "name": "clahe",
+              "prob": 0.060000000000000005,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.35,
+              "strength": 0.05,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.45,
+              "params": {}
+            },
+            {
+              "name": "gamma",
+              "prob": 0.060000000000000005,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.35,
+              "strength": 0.05,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.45,
+              "params": {}
+            },
+            {
+              "name": "sharpen_mild",
+              "prob": 0.1,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.3,
+              "strength": 0.08,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.4,
+              "params": {
+                "amount": 0.6
+              }
+            },
+            {
+              "name": "local_contrast",
+              "prob": 0.05,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.3,
+              "strength": 0.04,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.4,
+              "params": {}
+            },
+            {
+              "name": "cutout_safe",
+              "prob": 0.04,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.25,
+              "strength": 0.03,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.35,
+              "params": {
+                "max_holes": 2,
+                "max_fraction": 0.12,
+                "max_bbox_overlap": 0.05
+              }
+            }
+          ]
+        }
+      },
+      "constraint_status": {
+        "passed": false,
+        "constraint_failed": true,
+        "failures": [
+          "map50_drop_gt_0.01",
+          "map50_95_drop_gt_0.01"
+        ]
+      }
+    },
+    {
+      "stage_index": 1,
+      "start_epoch": 5,
+      "end_epoch": 10,
+      "epochs": 5,
+      "run_dir": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\stages\\stage_01",
+      "input_checkpoint": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\stages\\stage_00\\train\\weights\\last.pt",
+      "output_checkpoint": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\stages\\stage_01\\train\\weights\\last.pt",
+      "train_command": "D:\\Anaconda\\envs\\pytorch\\python.exe E:\\TJGY\\MinPaper\\MyAutoAugument\\scripts\\train_yolo_online_aug.py --model E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\stages\\stage_00\\train\\weights\\last.pt --data outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\data.yaml --policy E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\configs\\stage_01_custom_policy.json --epochs 5 --imgsz 1024 --batch 2 --workers 0 --device 0 --seed 42 --run-id stage_01 --project E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\stages --no-disable-yolo-aug --save-preview --preview-count 20 --skip-doc-update --yolo-aug-overrides \"{\\\"erasing\\\": 0.44, \\\"hsv_v\\\": 0.39000000000000007, \\\"scale\\\": 0.55, \\\"translate\\\": 0.11}\"",
+      "val_command": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\stages\\stage_01\\configs\\val_command.txt",
+      "val_metrics": {
+        "images": 677,
+        "instances": 905,
+        "precision": 0.4914411421475141,
+        "recall": 0.5393128477548347,
+        "map50": 0.5141560884342855,
+        "map50_95": 0.3251096322674892
+      },
+      "diagnosis_summary": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\stages\\stage_01\\diagnosis\\diagnosis_summary.md",
+      "feedback_update": [
+        {
+          "scope": "official_yolo_aug",
+          "name": "hsv_v",
+          "field": "value",
+          "before": 0.39000000000000007,
+          "after": 0.4050000000000001,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "official_yolo_aug",
+          "name": "translate",
+          "field": "value",
+          "before": 0.11,
+          "after": 0.115,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "official_yolo_aug",
+          "name": "scale",
+          "field": "value",
+          "before": 0.55,
+          "after": 0.5750000000000001,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "clahe",
+          "field": "prob",
+          "before": 0.060000000000000005,
+          "after": 0.085,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "clahe",
+          "field": "strength",
+          "before": 0.05,
+          "after": 0.07,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "gamma",
+          "field": "prob",
+          "before": 0.060000000000000005,
+          "after": 0.085,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "gamma",
+          "field": "strength",
+          "before": 0.05,
+          "after": 0.07,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "sharpen_mild",
+          "field": "prob",
+          "before": 0.1,
+          "after": 0.125,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "sharpen_mild",
+          "field": "strength",
+          "before": 0.08,
+          "after": 0.1,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "official_yolo_aug",
+          "name": "hsv_v",
+          "field": "value",
+          "before": 0.4050000000000001,
+          "after": 0.3650000000000001,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "clahe",
+          "field": "prob",
+          "before": 0.085,
+          "after": 0.045000000000000005,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "clahe",
+          "field": "strength",
+          "before": 0.07,
+          "after": 0.04000000000000001,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "gamma",
+          "field": "prob",
+          "before": 0.085,
+          "after": 0.045000000000000005,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "gamma",
+          "field": "strength",
+          "before": 0.07,
+          "after": 0.04000000000000001,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "local_contrast",
+          "field": "prob",
+          "before": 0.05,
+          "after": 0.010000000000000002,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "local_contrast",
+          "field": "strength",
+          "before": 0.04,
+          "after": 0.010000000000000002,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "scope": "official_yolo_aug",
+          "name": "erasing",
+          "field": "value",
+          "before": 0.44,
+          "after": 0.48,
+          "reason": "precision_low_hard_negative_like"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "cutout_safe",
+          "field": "prob",
+          "before": 0.04,
+          "after": 0.08,
+          "reason": "precision_low_hard_negative_like"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "cutout_safe",
+          "field": "strength",
+          "before": 0.03,
+          "after": 0.06,
+          "reason": "precision_low_hard_negative_like"
+        },
+        {
+          "scope": "official_yolo_aug",
+          "name": "translate",
+          "field": "value",
+          "before": 0.115,
+          "after": 0.095,
+          "reason": "map50_high_map95_low_reduce_geometry"
+        },
+        {
+          "scope": "official_yolo_aug",
+          "name": "scale",
+          "field": "value",
+          "before": 0.5750000000000001,
+          "after": 0.525,
+          "reason": "map50_high_map95_low_reduce_geometry"
+        },
+        {
+          "scope": "official_yolo_aug",
+          "name": "mosaic",
+          "field": "value",
+          "before": 1.0,
+          "after": 0.9,
+          "reason": "map50_high_map95_low_reduce_mosaic"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "sharpen_mild",
+          "field": "prob",
+          "before": 0.125,
+          "after": 0.175,
+          "reason": "map50_high_map95_low"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "sharpen_mild",
+          "field": "strength",
+          "before": 0.1,
+          "after": 0.14,
+          "reason": "map50_high_map95_low"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "local_contrast",
+          "field": "prob",
+          "before": 0.010000000000000002,
+          "after": 0.060000000000000005,
+          "reason": "map50_high_map95_low"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "local_contrast",
+          "field": "strength",
+          "before": 0.010000000000000002,
+          "after": 0.05,
+          "reason": "map50_high_map95_low"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "clahe",
+          "field": "prob",
+          "before": 0.045000000000000005,
+          "after": 0.07,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "clahe",
+          "field": "strength",
+          "before": 0.04000000000000001,
+          "after": 0.06000000000000001,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "gamma",
+          "field": "prob",
+          "before": 0.045000000000000005,
+          "after": 0.07,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "gamma",
+          "field": "strength",
+          "before": 0.04000000000000001,
+          "after": 0.06000000000000001,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "local_contrast",
+          "field": "prob",
+          "before": 0.060000000000000005,
+          "after": 0.085,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "local_contrast",
+          "field": "strength",
+          "before": 0.05,
+          "after": 0.07,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "sharpen_mild",
+          "field": "prob",
+          "before": 0.175,
+          "after": 0.19999999999999998,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "sharpen_mild",
+          "field": "strength",
+          "before": 0.14,
+          "after": 0.16,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        }
+      ],
+      "old_policy": {
+        "official_yolo_aug": {
+          "hsv_h": 0.015,
+          "hsv_s": 0.7,
+          "hsv_v": 0.39000000000000007,
+          "degrees": 0.0,
+          "translate": 0.11,
+          "scale": 0.55,
+          "shear": 0.0,
+          "perspective": 0.0,
+          "flipud": 0.0,
+          "fliplr": 0.5,
+          "mosaic": 1.0,
+          "mixup": 0.0,
+          "copy_paste": 0.0,
+          "erasing": 0.44,
+          "close_mosaic": 10
+        },
+        "custom_industrial_policy": {
+          "policy_id": "yolo_default_feedback_extra_industrial",
+          "notes": [
+            "Ultralytics YOLO default augmentation is the base.",
+            "No custom mosaic4 or randaugment_like is used.",
+            "copy_paste is disabled pending constrained object-bank design."
+          ],
+          "operations": [
+            {
+              "name": "clahe",
+              "prob": 0.060000000000000005,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.35,
+              "strength": 0.05,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.45,
+              "params": {}
+            },
+            {
+              "name": "gamma",
+              "prob": 0.060000000000000005,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.35,
+              "strength": 0.05,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.45,
+              "params": {}
+            },
+            {
+              "name": "sharpen_mild",
+              "prob": 0.1,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.3,
+              "strength": 0.08,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.4,
+              "params": {
+                "amount": 0.6
+              }
+            },
+            {
+              "name": "local_contrast",
+              "prob": 0.05,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.3,
+              "strength": 0.04,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.4,
+              "params": {}
+            },
+            {
+              "name": "cutout_safe",
+              "prob": 0.04,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.25,
+              "strength": 0.03,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.35,
+              "params": {
+                "max_holes": 2,
+                "max_fraction": 0.12,
+                "max_bbox_overlap": 0.05
+              }
+            }
+          ]
+        }
+      },
+      "new_policy": {
+        "official_yolo_aug": {
+          "hsv_h": 0.015,
+          "hsv_s": 0.7,
+          "hsv_v": 0.3650000000000001,
+          "degrees": 0.0,
+          "translate": 0.095,
+          "scale": 0.525,
+          "shear": 0.0,
+          "perspective": 0.0,
+          "flipud": 0.0,
+          "fliplr": 0.5,
+          "mosaic": 0.9,
+          "mixup": 0.0,
+          "copy_paste": 0.0,
+          "erasing": 0.48,
+          "close_mosaic": 10
+        },
+        "custom_industrial_policy": {
+          "policy_id": "yolo_default_feedback_extra_industrial",
+          "notes": [
+            "Ultralytics YOLO default augmentation is the base.",
+            "No custom mosaic4 or randaugment_like is used.",
+            "copy_paste is disabled pending constrained object-bank design."
+          ],
+          "operations": [
+            {
+              "name": "clahe",
+              "prob": 0.07,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.35,
+              "strength": 0.06000000000000001,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.45,
+              "params": {}
+            },
+            {
+              "name": "gamma",
+              "prob": 0.07,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.35,
+              "strength": 0.06000000000000001,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.45,
+              "params": {}
+            },
+            {
+              "name": "sharpen_mild",
+              "prob": 0.19999999999999998,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.3,
+              "strength": 0.16,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.4,
+              "params": {
+                "amount": 0.6
+              }
+            },
+            {
+              "name": "local_contrast",
+              "prob": 0.085,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.3,
+              "strength": 0.07,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.4,
+              "params": {}
+            },
+            {
+              "name": "cutout_safe",
+              "prob": 0.08,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.25,
+              "strength": 0.06,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.35,
+              "params": {
+                "max_holes": 2,
+                "max_fraction": 0.12,
+                "max_bbox_overlap": 0.05
+              }
+            }
+          ]
+        }
+      },
+      "constraint_status": {
+        "passed": false,
+        "constraint_failed": true,
+        "failures": [
+          "precision_drop_gt_0.01",
+          "map50_drop_gt_0.01",
+          "map50_95_drop_gt_0.01"
+        ]
+      }
+    },
+    {
+      "stage_index": 2,
+      "start_epoch": 10,
+      "end_epoch": 15,
+      "epochs": 5,
+      "run_dir": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\stages\\stage_02",
+      "input_checkpoint": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\stages\\stage_01\\train\\weights\\last.pt",
+      "output_checkpoint": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\stages\\stage_02\\train\\weights\\last.pt",
+      "train_command": "D:\\Anaconda\\envs\\pytorch\\python.exe E:\\TJGY\\MinPaper\\MyAutoAugument\\scripts\\train_yolo_online_aug.py --model E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\stages\\stage_01\\train\\weights\\last.pt --data outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\data.yaml --policy E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\configs\\stage_02_custom_policy.json --epochs 5 --imgsz 1024 --batch 2 --workers 0 --device 0 --seed 42 --run-id stage_02 --project E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\stages --no-disable-yolo-aug --save-preview --preview-count 20 --skip-doc-update --yolo-aug-overrides \"{\\\"erasing\\\": 0.48, \\\"hsv_v\\\": 0.3650000000000001, \\\"mosaic\\\": 0.9, \\\"scale\\\": 0.525, \\\"translate\\\": 0.095}\"",
+      "val_command": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\stages\\stage_02\\configs\\val_command.txt",
+      "val_metrics": {
+        "images": 677,
+        "instances": 905,
+        "precision": 0.5365850544920926,
+        "recall": 0.6781516640399643,
+        "map50": 0.6582163620133041,
+        "map50_95": 0.4286910173841526
+      },
+      "diagnosis_summary": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\stages\\stage_02\\diagnosis\\diagnosis_summary.md",
+      "feedback_update": [
+        {
+          "scope": "official_yolo_aug",
+          "name": "hsv_v",
+          "field": "value",
+          "before": 0.3650000000000001,
+          "after": 0.3800000000000001,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "official_yolo_aug",
+          "name": "translate",
+          "field": "value",
+          "before": 0.095,
+          "after": 0.1,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "official_yolo_aug",
+          "name": "scale",
+          "field": "value",
+          "before": 0.525,
+          "after": 0.55,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "clahe",
+          "field": "prob",
+          "before": 0.07,
+          "after": 0.095,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "clahe",
+          "field": "strength",
+          "before": 0.06000000000000001,
+          "after": 0.08000000000000002,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "gamma",
+          "field": "prob",
+          "before": 0.07,
+          "after": 0.095,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "gamma",
+          "field": "strength",
+          "before": 0.06000000000000001,
+          "after": 0.08000000000000002,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "sharpen_mild",
+          "field": "prob",
+          "before": 0.19999999999999998,
+          "after": 0.22499999999999998,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "sharpen_mild",
+          "field": "strength",
+          "before": 0.16,
+          "after": 0.18,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "official_yolo_aug",
+          "name": "hsv_v",
+          "field": "value",
+          "before": 0.3800000000000001,
+          "after": 0.34000000000000014,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "clahe",
+          "field": "prob",
+          "before": 0.095,
+          "after": 0.055,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "clahe",
+          "field": "strength",
+          "before": 0.08000000000000002,
+          "after": 0.05000000000000002,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "gamma",
+          "field": "prob",
+          "before": 0.095,
+          "after": 0.055,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "gamma",
+          "field": "strength",
+          "before": 0.08000000000000002,
+          "after": 0.05000000000000002,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "local_contrast",
+          "field": "prob",
+          "before": 0.085,
+          "after": 0.045000000000000005,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "local_contrast",
+          "field": "strength",
+          "before": 0.07,
+          "after": 0.04000000000000001,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "scope": "official_yolo_aug",
+          "name": "erasing",
+          "field": "value",
+          "before": 0.48,
+          "after": 0.5,
+          "reason": "precision_low_hard_negative_like"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "cutout_safe",
+          "field": "prob",
+          "before": 0.08,
+          "after": 0.12,
+          "reason": "precision_low_hard_negative_like"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "cutout_safe",
+          "field": "strength",
+          "before": 0.06,
+          "after": 0.09,
+          "reason": "precision_low_hard_negative_like"
+        },
+        {
+          "scope": "official_yolo_aug",
+          "name": "translate",
+          "field": "value",
+          "before": 0.1,
+          "after": 0.08,
+          "reason": "map50_high_map95_low_reduce_geometry"
+        },
+        {
+          "scope": "official_yolo_aug",
+          "name": "scale",
+          "field": "value",
+          "before": 0.55,
+          "after": 0.5,
+          "reason": "map50_high_map95_low_reduce_geometry"
+        },
+        {
+          "scope": "official_yolo_aug",
+          "name": "mosaic",
+          "field": "value",
+          "before": 0.9,
+          "after": 0.8,
+          "reason": "map50_high_map95_low_reduce_mosaic"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "sharpen_mild",
+          "field": "prob",
+          "before": 0.22499999999999998,
+          "after": 0.27499999999999997,
+          "reason": "map50_high_map95_low"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "sharpen_mild",
+          "field": "strength",
+          "before": 0.18,
+          "after": 0.22,
+          "reason": "map50_high_map95_low"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "local_contrast",
+          "field": "prob",
+          "before": 0.045000000000000005,
+          "after": 0.095,
+          "reason": "map50_high_map95_low"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "local_contrast",
+          "field": "strength",
+          "before": 0.04000000000000001,
+          "after": 0.08000000000000002,
+          "reason": "map50_high_map95_low"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "clahe",
+          "field": "prob",
+          "before": 0.055,
+          "after": 0.08,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "clahe",
+          "field": "strength",
+          "before": 0.05000000000000002,
+          "after": 0.07000000000000002,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "gamma",
+          "field": "prob",
+          "before": 0.055,
+          "after": 0.08,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "gamma",
+          "field": "strength",
+          "before": 0.05000000000000002,
+          "after": 0.07000000000000002,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "local_contrast",
+          "field": "prob",
+          "before": 0.095,
+          "after": 0.12,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "local_contrast",
+          "field": "strength",
+          "before": 0.08000000000000002,
+          "after": 0.10000000000000002,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "sharpen_mild",
+          "field": "prob",
+          "before": 0.27499999999999997,
+          "after": 0.3,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "sharpen_mild",
+          "field": "strength",
+          "before": 0.22,
+          "after": 0.24,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        }
+      ],
+      "old_policy": {
+        "official_yolo_aug": {
+          "hsv_h": 0.015,
+          "hsv_s": 0.7,
+          "hsv_v": 0.3650000000000001,
+          "degrees": 0.0,
+          "translate": 0.095,
+          "scale": 0.525,
+          "shear": 0.0,
+          "perspective": 0.0,
+          "flipud": 0.0,
+          "fliplr": 0.5,
+          "mosaic": 0.9,
+          "mixup": 0.0,
+          "copy_paste": 0.0,
+          "erasing": 0.48,
+          "close_mosaic": 10
+        },
+        "custom_industrial_policy": {
+          "policy_id": "yolo_default_feedback_extra_industrial",
+          "notes": [
+            "Ultralytics YOLO default augmentation is the base.",
+            "No custom mosaic4 or randaugment_like is used.",
+            "copy_paste is disabled pending constrained object-bank design."
+          ],
+          "operations": [
+            {
+              "name": "clahe",
+              "prob": 0.07,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.35,
+              "strength": 0.06000000000000001,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.45,
+              "params": {}
+            },
+            {
+              "name": "gamma",
+              "prob": 0.07,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.35,
+              "strength": 0.06000000000000001,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.45,
+              "params": {}
+            },
+            {
+              "name": "sharpen_mild",
+              "prob": 0.19999999999999998,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.3,
+              "strength": 0.16,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.4,
+              "params": {
+                "amount": 0.6
+              }
+            },
+            {
+              "name": "local_contrast",
+              "prob": 0.085,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.3,
+              "strength": 0.07,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.4,
+              "params": {}
+            },
+            {
+              "name": "cutout_safe",
+              "prob": 0.08,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.25,
+              "strength": 0.06,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.35,
+              "params": {
+                "max_holes": 2,
+                "max_fraction": 0.12,
+                "max_bbox_overlap": 0.05
+              }
+            }
+          ]
+        }
+      },
+      "new_policy": {
+        "official_yolo_aug": {
+          "hsv_h": 0.015,
+          "hsv_s": 0.7,
+          "hsv_v": 0.34000000000000014,
+          "degrees": 0.0,
+          "translate": 0.08,
+          "scale": 0.5,
+          "shear": 0.0,
+          "perspective": 0.0,
+          "flipud": 0.0,
+          "fliplr": 0.5,
+          "mosaic": 0.8,
+          "mixup": 0.0,
+          "copy_paste": 0.0,
+          "erasing": 0.5,
+          "close_mosaic": 10
+        },
+        "custom_industrial_policy": {
+          "policy_id": "yolo_default_feedback_extra_industrial",
+          "notes": [
+            "Ultralytics YOLO default augmentation is the base.",
+            "No custom mosaic4 or randaugment_like is used.",
+            "copy_paste is disabled pending constrained object-bank design."
+          ],
+          "operations": [
+            {
+              "name": "clahe",
+              "prob": 0.08,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.35,
+              "strength": 0.07000000000000002,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.45,
+              "params": {}
+            },
+            {
+              "name": "gamma",
+              "prob": 0.08,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.35,
+              "strength": 0.07000000000000002,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.45,
+              "params": {}
+            },
+            {
+              "name": "sharpen_mild",
+              "prob": 0.3,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.3,
+              "strength": 0.24,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.4,
+              "params": {
+                "amount": 0.6
+              }
+            },
+            {
+              "name": "local_contrast",
+              "prob": 0.12,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.3,
+              "strength": 0.10000000000000002,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.4,
+              "params": {}
+            },
+            {
+              "name": "cutout_safe",
+              "prob": 0.12,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.25,
+              "strength": 0.09,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.35,
+              "params": {
+                "max_holes": 2,
+                "max_fraction": 0.12,
+                "max_bbox_overlap": 0.05
+              }
+            }
+          ]
+        }
+      },
+      "constraint_status": {
+        "passed": false,
+        "constraint_failed": true,
+        "failures": [
+          "precision_drop_gt_0.01",
+          "map50_drop_gt_0.01",
+          "map50_95_drop_gt_0.01"
+        ]
+      }
+    },
+    {
+      "stage_index": 3,
+      "start_epoch": 15,
+      "end_epoch": 20,
+      "epochs": 5,
+      "run_dir": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\stages\\stage_03",
+      "input_checkpoint": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\stages\\stage_02\\train\\weights\\last.pt",
+      "output_checkpoint": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\stages\\stage_03\\train\\weights\\last.pt",
+      "train_command": "D:\\Anaconda\\envs\\pytorch\\python.exe E:\\TJGY\\MinPaper\\MyAutoAugument\\scripts\\train_yolo_online_aug.py --model E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\stages\\stage_02\\train\\weights\\last.pt --data outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\data.yaml --policy E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\configs\\stage_03_custom_policy.json --epochs 5 --imgsz 1024 --batch 2 --workers 0 --device 0 --seed 42 --run-id stage_03 --project E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\stages --no-disable-yolo-aug --save-preview --preview-count 20 --skip-doc-update --yolo-aug-overrides \"{\\\"erasing\\\": 0.5, \\\"hsv_v\\\": 0.34000000000000014, \\\"mosaic\\\": 0.8, \\\"translate\\\": 0.08}\"",
+      "val_command": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\stages\\stage_03\\configs\\val_command.txt",
+      "val_metrics": {
+        "images": 677,
+        "instances": 905,
+        "precision": 0.5292842561083402,
+        "recall": 0.6694001875160478,
+        "map50": 0.6469089691989467,
+        "map50_95": 0.41526011624754816
+      },
+      "diagnosis_summary": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\stages\\stage_03\\diagnosis\\diagnosis_summary.md",
+      "feedback_update": [
+        {
+          "scope": "official_yolo_aug",
+          "name": "hsv_v",
+          "field": "value",
+          "before": 0.34000000000000014,
+          "after": 0.35500000000000015,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "official_yolo_aug",
+          "name": "translate",
+          "field": "value",
+          "before": 0.08,
+          "after": 0.085,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "official_yolo_aug",
+          "name": "scale",
+          "field": "value",
+          "before": 0.5,
+          "after": 0.525,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "clahe",
+          "field": "prob",
+          "before": 0.08,
+          "after": 0.10500000000000001,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "clahe",
+          "field": "strength",
+          "before": 0.07000000000000002,
+          "after": 0.09000000000000002,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "gamma",
+          "field": "prob",
+          "before": 0.08,
+          "after": 0.10500000000000001,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "gamma",
+          "field": "strength",
+          "before": 0.07000000000000002,
+          "after": 0.09000000000000002,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "sharpen_mild",
+          "field": "strength",
+          "before": 0.24,
+          "after": 0.26,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "official_yolo_aug",
+          "name": "hsv_v",
+          "field": "value",
+          "before": 0.35500000000000015,
+          "after": 0.31500000000000017,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "clahe",
+          "field": "prob",
+          "before": 0.10500000000000001,
+          "after": 0.065,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "clahe",
+          "field": "strength",
+          "before": 0.09000000000000002,
+          "after": 0.060000000000000026,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "gamma",
+          "field": "prob",
+          "before": 0.10500000000000001,
+          "after": 0.065,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "gamma",
+          "field": "strength",
+          "before": 0.09000000000000002,
+          "after": 0.060000000000000026,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "local_contrast",
+          "field": "prob",
+          "before": 0.12,
+          "after": 0.07999999999999999,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "local_contrast",
+          "field": "strength",
+          "before": 0.10000000000000002,
+          "after": 0.07000000000000002,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "cutout_safe",
+          "field": "prob",
+          "before": 0.12,
+          "after": 0.16,
+          "reason": "precision_low_hard_negative_like"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "cutout_safe",
+          "field": "strength",
+          "before": 0.09,
+          "after": 0.12,
+          "reason": "precision_low_hard_negative_like"
+        },
+        {
+          "scope": "official_yolo_aug",
+          "name": "translate",
+          "field": "value",
+          "before": 0.085,
+          "after": 0.065,
+          "reason": "map50_high_map95_low_reduce_geometry"
+        },
+        {
+          "scope": "official_yolo_aug",
+          "name": "scale",
+          "field": "value",
+          "before": 0.525,
+          "after": 0.47500000000000003,
+          "reason": "map50_high_map95_low_reduce_geometry"
+        },
+        {
+          "scope": "official_yolo_aug",
+          "name": "mosaic",
+          "field": "value",
+          "before": 0.8,
+          "after": 0.7000000000000001,
+          "reason": "map50_high_map95_low_reduce_mosaic"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "sharpen_mild",
+          "field": "strength",
+          "before": 0.26,
+          "after": 0.3,
+          "reason": "map50_high_map95_low"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "local_contrast",
+          "field": "prob",
+          "before": 0.07999999999999999,
+          "after": 0.13,
+          "reason": "map50_high_map95_low"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "local_contrast",
+          "field": "strength",
+          "before": 0.07000000000000002,
+          "after": 0.11000000000000001,
+          "reason": "map50_high_map95_low"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "clahe",
+          "field": "prob",
+          "before": 0.065,
+          "after": 0.09,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "clahe",
+          "field": "strength",
+          "before": 0.060000000000000026,
+          "after": 0.08000000000000003,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "gamma",
+          "field": "prob",
+          "before": 0.065,
+          "after": 0.09,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "gamma",
+          "field": "strength",
+          "before": 0.060000000000000026,
+          "after": 0.08000000000000003,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "local_contrast",
+          "field": "prob",
+          "before": 0.13,
+          "after": 0.155,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "local_contrast",
+          "field": "strength",
+          "before": 0.11000000000000001,
+          "after": 0.13,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "sharpen_mild",
+          "field": "strength",
+          "before": 0.3,
+          "after": 0.32,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        }
+      ],
+      "old_policy": {
+        "official_yolo_aug": {
+          "hsv_h": 0.015,
+          "hsv_s": 0.7,
+          "hsv_v": 0.34000000000000014,
+          "degrees": 0.0,
+          "translate": 0.08,
+          "scale": 0.5,
+          "shear": 0.0,
+          "perspective": 0.0,
+          "flipud": 0.0,
+          "fliplr": 0.5,
+          "mosaic": 0.8,
+          "mixup": 0.0,
+          "copy_paste": 0.0,
+          "erasing": 0.5,
+          "close_mosaic": 10
+        },
+        "custom_industrial_policy": {
+          "policy_id": "yolo_default_feedback_extra_industrial",
+          "notes": [
+            "Ultralytics YOLO default augmentation is the base.",
+            "No custom mosaic4 or randaugment_like is used.",
+            "copy_paste is disabled pending constrained object-bank design."
+          ],
+          "operations": [
+            {
+              "name": "clahe",
+              "prob": 0.08,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.35,
+              "strength": 0.07000000000000002,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.45,
+              "params": {}
+            },
+            {
+              "name": "gamma",
+              "prob": 0.08,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.35,
+              "strength": 0.07000000000000002,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.45,
+              "params": {}
+            },
+            {
+              "name": "sharpen_mild",
+              "prob": 0.3,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.3,
+              "strength": 0.24,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.4,
+              "params": {
+                "amount": 0.6
+              }
+            },
+            {
+              "name": "local_contrast",
+              "prob": 0.12,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.3,
+              "strength": 0.10000000000000002,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.4,
+              "params": {}
+            },
+            {
+              "name": "cutout_safe",
+              "prob": 0.12,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.25,
+              "strength": 0.09,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.35,
+              "params": {
+                "max_holes": 2,
+                "max_fraction": 0.12,
+                "max_bbox_overlap": 0.05
+              }
+            }
+          ]
+        }
+      },
+      "new_policy": {
+        "official_yolo_aug": {
+          "hsv_h": 0.015,
+          "hsv_s": 0.7,
+          "hsv_v": 0.31500000000000017,
+          "degrees": 0.0,
+          "translate": 0.065,
+          "scale": 0.47500000000000003,
+          "shear": 0.0,
+          "perspective": 0.0,
+          "flipud": 0.0,
+          "fliplr": 0.5,
+          "mosaic": 0.7000000000000001,
+          "mixup": 0.0,
+          "copy_paste": 0.0,
+          "erasing": 0.5,
+          "close_mosaic": 10
+        },
+        "custom_industrial_policy": {
+          "policy_id": "yolo_default_feedback_extra_industrial",
+          "notes": [
+            "Ultralytics YOLO default augmentation is the base.",
+            "No custom mosaic4 or randaugment_like is used.",
+            "copy_paste is disabled pending constrained object-bank design."
+          ],
+          "operations": [
+            {
+              "name": "clahe",
+              "prob": 0.09,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.35,
+              "strength": 0.08000000000000003,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.45,
+              "params": {}
+            },
+            {
+              "name": "gamma",
+              "prob": 0.09,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.35,
+              "strength": 0.08000000000000003,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.45,
+              "params": {}
+            },
+            {
+              "name": "sharpen_mild",
+              "prob": 0.3,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.3,
+              "strength": 0.32,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.4,
+              "params": {
+                "amount": 0.6
+              }
+            },
+            {
+              "name": "local_contrast",
+              "prob": 0.155,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.3,
+              "strength": 0.13,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.4,
+              "params": {}
+            },
+            {
+              "name": "cutout_safe",
+              "prob": 0.16,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.25,
+              "strength": 0.12,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.35,
+              "params": {
+                "max_holes": 2,
+                "max_fraction": 0.12,
+                "max_bbox_overlap": 0.05
+              }
+            }
+          ]
+        }
+      },
+      "constraint_status": {
+        "passed": false,
+        "constraint_failed": true,
+        "failures": [
+          "precision_drop_gt_0.01",
+          "map50_drop_gt_0.01",
+          "map50_95_drop_gt_0.01"
+        ]
+      }
+    },
+    {
+      "stage_index": 4,
+      "start_epoch": 20,
+      "end_epoch": 25,
+      "epochs": 5,
+      "run_dir": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\stages\\stage_04",
+      "input_checkpoint": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\stages\\stage_03\\train\\weights\\last.pt",
+      "output_checkpoint": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\stages\\stage_04\\train\\weights\\last.pt",
+      "train_command": "D:\\Anaconda\\envs\\pytorch\\python.exe E:\\TJGY\\MinPaper\\MyAutoAugument\\scripts\\train_yolo_online_aug.py --model E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\stages\\stage_03\\train\\weights\\last.pt --data outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\data.yaml --policy E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\configs\\stage_04_custom_policy.json --epochs 5 --imgsz 1024 --batch 2 --workers 0 --device 0 --seed 42 --run-id stage_04 --project E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\stages --no-disable-yolo-aug --save-preview --preview-count 20 --skip-doc-update --yolo-aug-overrides \"{\\\"erasing\\\": 0.5, \\\"hsv_v\\\": 0.31500000000000017, \\\"mosaic\\\": 0.7000000000000001, \\\"scale\\\": 0.47500000000000003, \\\"translate\\\": 0.065}\"",
+      "val_command": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\stages\\stage_04\\configs\\val_command.txt",
+      "val_metrics": {
+        "images": 677,
+        "instances": 905,
+        "precision": 0.6623376296581853,
+        "recall": 0.6739063443078861,
+        "map50": 0.6758433917969515,
+        "map50_95": 0.4476413448149145
+      },
+      "diagnosis_summary": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\stages\\stage_04\\diagnosis\\diagnosis_summary.md",
+      "feedback_update": [
+        {
+          "scope": "official_yolo_aug",
+          "name": "hsv_v",
+          "field": "value",
+          "before": 0.31500000000000017,
+          "after": 0.3300000000000002,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "official_yolo_aug",
+          "name": "translate",
+          "field": "value",
+          "before": 0.065,
+          "after": 0.07,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "official_yolo_aug",
+          "name": "scale",
+          "field": "value",
+          "before": 0.47500000000000003,
+          "after": 0.5,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "clahe",
+          "field": "prob",
+          "before": 0.09,
+          "after": 0.11499999999999999,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "clahe",
+          "field": "strength",
+          "before": 0.08000000000000003,
+          "after": 0.10000000000000003,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "gamma",
+          "field": "prob",
+          "before": 0.09,
+          "after": 0.11499999999999999,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "gamma",
+          "field": "strength",
+          "before": 0.08000000000000003,
+          "after": 0.10000000000000003,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "sharpen_mild",
+          "field": "strength",
+          "before": 0.32,
+          "after": 0.34,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "official_yolo_aug",
+          "name": "hsv_v",
+          "field": "value",
+          "before": 0.3300000000000002,
+          "after": 0.2900000000000002,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "clahe",
+          "field": "prob",
+          "before": 0.11499999999999999,
+          "after": 0.07499999999999998,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "clahe",
+          "field": "strength",
+          "before": 0.10000000000000003,
+          "after": 0.07000000000000003,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "gamma",
+          "field": "prob",
+          "before": 0.11499999999999999,
+          "after": 0.07499999999999998,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "gamma",
+          "field": "strength",
+          "before": 0.10000000000000003,
+          "after": 0.07000000000000003,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "local_contrast",
+          "field": "prob",
+          "before": 0.155,
+          "after": 0.11499999999999999,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "local_contrast",
+          "field": "strength",
+          "before": 0.13,
+          "after": 0.1,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "cutout_safe",
+          "field": "prob",
+          "before": 0.16,
+          "after": 0.2,
+          "reason": "precision_low_hard_negative_like"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "cutout_safe",
+          "field": "strength",
+          "before": 0.12,
+          "after": 0.15,
+          "reason": "precision_low_hard_negative_like"
+        },
+        {
+          "scope": "official_yolo_aug",
+          "name": "translate",
+          "field": "value",
+          "before": 0.07,
+          "after": 0.05,
+          "reason": "map50_high_map95_low_reduce_geometry"
+        },
+        {
+          "scope": "official_yolo_aug",
+          "name": "scale",
+          "field": "value",
+          "before": 0.5,
+          "after": 0.45,
+          "reason": "map50_high_map95_low_reduce_geometry"
+        },
+        {
+          "scope": "official_yolo_aug",
+          "name": "mosaic",
+          "field": "value",
+          "before": 0.7000000000000001,
+          "after": 0.6000000000000001,
+          "reason": "map50_high_map95_low_reduce_mosaic"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "sharpen_mild",
+          "field": "strength",
+          "before": 0.34,
+          "after": 0.38,
+          "reason": "map50_high_map95_low"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "local_contrast",
+          "field": "prob",
+          "before": 0.11499999999999999,
+          "after": 0.16499999999999998,
+          "reason": "map50_high_map95_low"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "local_contrast",
+          "field": "strength",
+          "before": 0.1,
+          "after": 0.14,
+          "reason": "map50_high_map95_low"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "clahe",
+          "field": "prob",
+          "before": 0.07499999999999998,
+          "after": 0.09999999999999998,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "clahe",
+          "field": "strength",
+          "before": 0.07000000000000003,
+          "after": 0.09000000000000004,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "gamma",
+          "field": "prob",
+          "before": 0.07499999999999998,
+          "after": 0.09999999999999998,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "gamma",
+          "field": "strength",
+          "before": 0.07000000000000003,
+          "after": 0.09000000000000004,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "local_contrast",
+          "field": "prob",
+          "before": 0.16499999999999998,
+          "after": 0.18999999999999997,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "local_contrast",
+          "field": "strength",
+          "before": 0.14,
+          "after": 0.16,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "sharpen_mild",
+          "field": "strength",
+          "before": 0.38,
+          "after": 0.4,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        }
+      ],
+      "old_policy": {
+        "official_yolo_aug": {
+          "hsv_h": 0.015,
+          "hsv_s": 0.7,
+          "hsv_v": 0.31500000000000017,
+          "degrees": 0.0,
+          "translate": 0.065,
+          "scale": 0.47500000000000003,
+          "shear": 0.0,
+          "perspective": 0.0,
+          "flipud": 0.0,
+          "fliplr": 0.5,
+          "mosaic": 0.7000000000000001,
+          "mixup": 0.0,
+          "copy_paste": 0.0,
+          "erasing": 0.5,
+          "close_mosaic": 10
+        },
+        "custom_industrial_policy": {
+          "policy_id": "yolo_default_feedback_extra_industrial",
+          "notes": [
+            "Ultralytics YOLO default augmentation is the base.",
+            "No custom mosaic4 or randaugment_like is used.",
+            "copy_paste is disabled pending constrained object-bank design."
+          ],
+          "operations": [
+            {
+              "name": "clahe",
+              "prob": 0.09,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.35,
+              "strength": 0.08000000000000003,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.45,
+              "params": {}
+            },
+            {
+              "name": "gamma",
+              "prob": 0.09,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.35,
+              "strength": 0.08000000000000003,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.45,
+              "params": {}
+            },
+            {
+              "name": "sharpen_mild",
+              "prob": 0.3,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.3,
+              "strength": 0.32,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.4,
+              "params": {
+                "amount": 0.6
+              }
+            },
+            {
+              "name": "local_contrast",
+              "prob": 0.155,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.3,
+              "strength": 0.13,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.4,
+              "params": {}
+            },
+            {
+              "name": "cutout_safe",
+              "prob": 0.16,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.25,
+              "strength": 0.12,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.35,
+              "params": {
+                "max_holes": 2,
+                "max_fraction": 0.12,
+                "max_bbox_overlap": 0.05
+              }
+            }
+          ]
+        }
+      },
+      "new_policy": {
+        "official_yolo_aug": {
+          "hsv_h": 0.015,
+          "hsv_s": 0.7,
+          "hsv_v": 0.2900000000000002,
+          "degrees": 0.0,
+          "translate": 0.05,
+          "scale": 0.45,
+          "shear": 0.0,
+          "perspective": 0.0,
+          "flipud": 0.0,
+          "fliplr": 0.5,
+          "mosaic": 0.6000000000000001,
+          "mixup": 0.0,
+          "copy_paste": 0.0,
+          "erasing": 0.5,
+          "close_mosaic": 10
+        },
+        "custom_industrial_policy": {
+          "policy_id": "yolo_default_feedback_extra_industrial",
+          "notes": [
+            "Ultralytics YOLO default augmentation is the base.",
+            "No custom mosaic4 or randaugment_like is used.",
+            "copy_paste is disabled pending constrained object-bank design."
+          ],
+          "operations": [
+            {
+              "name": "clahe",
+              "prob": 0.09999999999999998,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.35,
+              "strength": 0.09000000000000004,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.45,
+              "params": {}
+            },
+            {
+              "name": "gamma",
+              "prob": 0.09999999999999998,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.35,
+              "strength": 0.09000000000000004,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.45,
+              "params": {}
+            },
+            {
+              "name": "sharpen_mild",
+              "prob": 0.3,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.3,
+              "strength": 0.4,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.4,
+              "params": {
+                "amount": 0.6
+              }
+            },
+            {
+              "name": "local_contrast",
+              "prob": 0.18999999999999997,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.3,
+              "strength": 0.16,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.4,
+              "params": {}
+            },
+            {
+              "name": "cutout_safe",
+              "prob": 0.2,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.25,
+              "strength": 0.15,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.35,
+              "params": {
+                "max_holes": 2,
+                "max_fraction": 0.12,
+                "max_bbox_overlap": 0.05
+              }
+            }
+          ]
+        }
+      },
+      "constraint_status": {
+        "passed": false,
+        "constraint_failed": true,
+        "failures": [
+          "precision_drop_gt_0.01",
+          "map50_drop_gt_0.01",
+          "map50_95_drop_gt_0.01"
+        ]
+      }
+    },
+    {
+      "stage_index": 5,
+      "start_epoch": 25,
+      "end_epoch": 30,
+      "epochs": 5,
+      "run_dir": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\stages\\stage_05",
+      "input_checkpoint": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\stages\\stage_04\\train\\weights\\last.pt",
+      "output_checkpoint": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\stages\\stage_05\\train\\weights\\last.pt",
+      "train_command": "D:\\Anaconda\\envs\\pytorch\\python.exe E:\\TJGY\\MinPaper\\MyAutoAugument\\scripts\\train_yolo_online_aug.py --model E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\stages\\stage_04\\train\\weights\\last.pt --data outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\data.yaml --policy E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\configs\\stage_05_custom_policy.json --epochs 5 --imgsz 1024 --batch 2 --workers 0 --device 0 --seed 42 --run-id stage_05 --project E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\stages --no-disable-yolo-aug --save-preview --preview-count 20 --skip-doc-update --yolo-aug-overrides \"{\\\"erasing\\\": 0.5, \\\"hsv_v\\\": 0.2900000000000002, \\\"mosaic\\\": 0.6000000000000001, \\\"scale\\\": 0.45, \\\"translate\\\": 0.05}\"",
+      "val_command": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\stages\\stage_05\\configs\\val_command.txt",
+      "val_metrics": {
+        "images": 677,
+        "instances": 905,
+        "precision": 0.6965804856266955,
+        "recall": 0.6788645224435529,
+        "map50": 0.743385324654741,
+        "map50_95": 0.5035054652271936
+      },
+      "diagnosis_summary": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\stages\\stage_05\\diagnosis\\diagnosis_summary.md",
+      "feedback_update": [
+        {
+          "scope": "official_yolo_aug",
+          "name": "hsv_v",
+          "field": "value",
+          "before": 0.2900000000000002,
+          "after": 0.3050000000000002,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "official_yolo_aug",
+          "name": "translate",
+          "field": "value",
+          "before": 0.05,
+          "after": 0.055,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "official_yolo_aug",
+          "name": "scale",
+          "field": "value",
+          "before": 0.45,
+          "after": 0.47500000000000003,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "clahe",
+          "field": "prob",
+          "before": 0.09999999999999998,
+          "after": 0.12499999999999997,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "clahe",
+          "field": "strength",
+          "before": 0.09000000000000004,
+          "after": 0.11000000000000004,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "gamma",
+          "field": "prob",
+          "before": 0.09999999999999998,
+          "after": 0.12499999999999997,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "gamma",
+          "field": "strength",
+          "before": 0.09000000000000004,
+          "after": 0.11000000000000004,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "official_yolo_aug",
+          "name": "hsv_v",
+          "field": "value",
+          "before": 0.3050000000000002,
+          "after": 0.26500000000000024,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "clahe",
+          "field": "prob",
+          "before": 0.12499999999999997,
+          "after": 0.08499999999999996,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "clahe",
+          "field": "strength",
+          "before": 0.11000000000000004,
+          "after": 0.08000000000000004,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "gamma",
+          "field": "prob",
+          "before": 0.12499999999999997,
+          "after": 0.08499999999999996,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "gamma",
+          "field": "strength",
+          "before": 0.11000000000000004,
+          "after": 0.08000000000000004,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "local_contrast",
+          "field": "prob",
+          "before": 0.18999999999999997,
+          "after": 0.14999999999999997,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "local_contrast",
+          "field": "strength",
+          "before": 0.16,
+          "after": 0.13,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "cutout_safe",
+          "field": "prob",
+          "before": 0.2,
+          "after": 0.24000000000000002,
+          "reason": "precision_low_hard_negative_like"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "cutout_safe",
+          "field": "strength",
+          "before": 0.15,
+          "after": 0.18,
+          "reason": "precision_low_hard_negative_like"
+        },
+        {
+          "scope": "official_yolo_aug",
+          "name": "translate",
+          "field": "value",
+          "before": 0.055,
+          "after": 0.04,
+          "reason": "map50_high_map95_low_reduce_geometry"
+        },
+        {
+          "scope": "official_yolo_aug",
+          "name": "scale",
+          "field": "value",
+          "before": 0.47500000000000003,
+          "after": 0.42500000000000004,
+          "reason": "map50_high_map95_low_reduce_geometry"
+        },
+        {
+          "scope": "official_yolo_aug",
+          "name": "mosaic",
+          "field": "value",
+          "before": 0.6000000000000001,
+          "after": 0.6,
+          "reason": "map50_high_map95_low_reduce_mosaic"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "local_contrast",
+          "field": "prob",
+          "before": 0.14999999999999997,
+          "after": 0.19999999999999996,
+          "reason": "map50_high_map95_low"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "local_contrast",
+          "field": "strength",
+          "before": 0.13,
+          "after": 0.17,
+          "reason": "map50_high_map95_low"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "clahe",
+          "field": "prob",
+          "before": 0.08499999999999996,
+          "after": 0.10999999999999996,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "clahe",
+          "field": "strength",
+          "before": 0.08000000000000004,
+          "after": 0.10000000000000005,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "gamma",
+          "field": "prob",
+          "before": 0.08499999999999996,
+          "after": 0.10999999999999996,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "gamma",
+          "field": "strength",
+          "before": 0.08000000000000004,
+          "after": 0.10000000000000005,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "local_contrast",
+          "field": "prob",
+          "before": 0.19999999999999996,
+          "after": 0.22499999999999995,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "local_contrast",
+          "field": "strength",
+          "before": 0.17,
+          "after": 0.19,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        }
+      ],
+      "old_policy": {
+        "official_yolo_aug": {
+          "hsv_h": 0.015,
+          "hsv_s": 0.7,
+          "hsv_v": 0.2900000000000002,
+          "degrees": 0.0,
+          "translate": 0.05,
+          "scale": 0.45,
+          "shear": 0.0,
+          "perspective": 0.0,
+          "flipud": 0.0,
+          "fliplr": 0.5,
+          "mosaic": 0.6000000000000001,
+          "mixup": 0.0,
+          "copy_paste": 0.0,
+          "erasing": 0.5,
+          "close_mosaic": 10
+        },
+        "custom_industrial_policy": {
+          "policy_id": "yolo_default_feedback_extra_industrial",
+          "notes": [
+            "Ultralytics YOLO default augmentation is the base.",
+            "No custom mosaic4 or randaugment_like is used.",
+            "copy_paste is disabled pending constrained object-bank design."
+          ],
+          "operations": [
+            {
+              "name": "clahe",
+              "prob": 0.09999999999999998,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.35,
+              "strength": 0.09000000000000004,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.45,
+              "params": {}
+            },
+            {
+              "name": "gamma",
+              "prob": 0.09999999999999998,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.35,
+              "strength": 0.09000000000000004,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.45,
+              "params": {}
+            },
+            {
+              "name": "sharpen_mild",
+              "prob": 0.3,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.3,
+              "strength": 0.4,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.4,
+              "params": {
+                "amount": 0.6
+              }
+            },
+            {
+              "name": "local_contrast",
+              "prob": 0.18999999999999997,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.3,
+              "strength": 0.16,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.4,
+              "params": {}
+            },
+            {
+              "name": "cutout_safe",
+              "prob": 0.2,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.25,
+              "strength": 0.15,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.35,
+              "params": {
+                "max_holes": 2,
+                "max_fraction": 0.12,
+                "max_bbox_overlap": 0.05
+              }
+            }
+          ]
+        }
+      },
+      "new_policy": {
+        "official_yolo_aug": {
+          "hsv_h": 0.015,
+          "hsv_s": 0.7,
+          "hsv_v": 0.26500000000000024,
+          "degrees": 0.0,
+          "translate": 0.04,
+          "scale": 0.42500000000000004,
+          "shear": 0.0,
+          "perspective": 0.0,
+          "flipud": 0.0,
+          "fliplr": 0.5,
+          "mosaic": 0.6,
+          "mixup": 0.0,
+          "copy_paste": 0.0,
+          "erasing": 0.5,
+          "close_mosaic": 10
+        },
+        "custom_industrial_policy": {
+          "policy_id": "yolo_default_feedback_extra_industrial",
+          "notes": [
+            "Ultralytics YOLO default augmentation is the base.",
+            "No custom mosaic4 or randaugment_like is used.",
+            "copy_paste is disabled pending constrained object-bank design."
+          ],
+          "operations": [
+            {
+              "name": "clahe",
+              "prob": 0.10999999999999996,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.35,
+              "strength": 0.10000000000000005,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.45,
+              "params": {}
+            },
+            {
+              "name": "gamma",
+              "prob": 0.10999999999999996,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.35,
+              "strength": 0.10000000000000005,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.45,
+              "params": {}
+            },
+            {
+              "name": "sharpen_mild",
+              "prob": 0.3,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.3,
+              "strength": 0.4,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.4,
+              "params": {
+                "amount": 0.6
+              }
+            },
+            {
+              "name": "local_contrast",
+              "prob": 0.22499999999999995,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.3,
+              "strength": 0.19,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.4,
+              "params": {}
+            },
+            {
+              "name": "cutout_safe",
+              "prob": 0.24000000000000002,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.25,
+              "strength": 0.18,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.35,
+              "params": {
+                "max_holes": 2,
+                "max_fraction": 0.12,
+                "max_bbox_overlap": 0.05
+              }
+            }
+          ]
+        }
+      },
+      "constraint_status": {
+        "passed": false,
+        "constraint_failed": true,
+        "failures": [
+          "precision_drop_gt_0.01",
+          "map50_drop_gt_0.01",
+          "map50_95_drop_gt_0.01"
+        ]
+      }
+    },
+    {
+      "stage_index": 6,
+      "start_epoch": 30,
+      "end_epoch": 35,
+      "epochs": 5,
+      "run_dir": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\stages\\stage_06",
+      "input_checkpoint": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\stages\\stage_05\\train\\weights\\last.pt",
+      "output_checkpoint": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\stages\\stage_06\\train\\weights\\last.pt",
+      "train_command": "D:\\Anaconda\\envs\\pytorch\\python.exe E:\\TJGY\\MinPaper\\MyAutoAugument\\scripts\\train_yolo_online_aug.py --model E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\stages\\stage_05\\train\\weights\\last.pt --data outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\data.yaml --policy E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\configs\\stage_06_custom_policy.json --epochs 5 --imgsz 1024 --batch 2 --workers 0 --device 0 --seed 42 --run-id stage_06 --project E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\stages --no-disable-yolo-aug --save-preview --preview-count 20 --skip-doc-update --yolo-aug-overrides \"{\\\"erasing\\\": 0.5, \\\"hsv_v\\\": 0.26500000000000024, \\\"mosaic\\\": 0.6, \\\"scale\\\": 0.42500000000000004, \\\"translate\\\": 0.04}\"",
+      "val_command": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\stages\\stage_06\\configs\\val_command.txt",
+      "val_metrics": {
+        "images": 677,
+        "instances": 905,
+        "precision": 0.7152575210052744,
+        "recall": 0.6768441780294894,
+        "map50": 0.7414634618840013,
+        "map50_95": 0.47638614188326167
+      },
+      "diagnosis_summary": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\stages\\stage_06\\diagnosis\\diagnosis_summary.md",
+      "feedback_update": [
+        {
+          "scope": "official_yolo_aug",
+          "name": "hsv_v",
+          "field": "value",
+          "before": 0.26500000000000024,
+          "after": 0.29500000000000026,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "official_yolo_aug",
+          "name": "translate",
+          "field": "value",
+          "before": 0.04,
+          "after": 0.05,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "official_yolo_aug",
+          "name": "scale",
+          "field": "value",
+          "before": 0.42500000000000004,
+          "after": 0.47500000000000003,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "clahe",
+          "field": "prob",
+          "before": 0.10999999999999996,
+          "after": 0.15999999999999998,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "clahe",
+          "field": "strength",
+          "before": 0.10000000000000005,
+          "after": 0.14000000000000004,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "gamma",
+          "field": "prob",
+          "before": 0.10999999999999996,
+          "after": 0.15999999999999998,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "gamma",
+          "field": "strength",
+          "before": 0.10000000000000005,
+          "after": 0.14000000000000004,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "official_yolo_aug",
+          "name": "hsv_v",
+          "field": "value",
+          "before": 0.29500000000000026,
+          "after": 0.2550000000000003,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "clahe",
+          "field": "prob",
+          "before": 0.15999999999999998,
+          "after": 0.11999999999999997,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "clahe",
+          "field": "strength",
+          "before": 0.14000000000000004,
+          "after": 0.11000000000000004,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "gamma",
+          "field": "prob",
+          "before": 0.15999999999999998,
+          "after": 0.11999999999999997,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "gamma",
+          "field": "strength",
+          "before": 0.14000000000000004,
+          "after": 0.11000000000000004,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "local_contrast",
+          "field": "prob",
+          "before": 0.22499999999999995,
+          "after": 0.18499999999999994,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "local_contrast",
+          "field": "strength",
+          "before": 0.19,
+          "after": 0.16,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "cutout_safe",
+          "field": "prob",
+          "before": 0.24000000000000002,
+          "after": 0.25,
+          "reason": "precision_low_hard_negative_like"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "cutout_safe",
+          "field": "strength",
+          "before": 0.18,
+          "after": 0.21,
+          "reason": "precision_low_hard_negative_like"
+        },
+        {
+          "scope": "official_yolo_aug",
+          "name": "translate",
+          "field": "value",
+          "before": 0.05,
+          "after": 0.04,
+          "reason": "map50_high_map95_low_reduce_geometry"
+        },
+        {
+          "scope": "official_yolo_aug",
+          "name": "scale",
+          "field": "value",
+          "before": 0.47500000000000003,
+          "after": 0.42500000000000004,
+          "reason": "map50_high_map95_low_reduce_geometry"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "local_contrast",
+          "field": "prob",
+          "before": 0.18499999999999994,
+          "after": 0.23499999999999993,
+          "reason": "map50_high_map95_low"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "local_contrast",
+          "field": "strength",
+          "before": 0.16,
+          "after": 0.2,
+          "reason": "map50_high_map95_low"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "clahe",
+          "field": "prob",
+          "before": 0.11999999999999997,
+          "after": 0.16999999999999998,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "clahe",
+          "field": "strength",
+          "before": 0.11000000000000004,
+          "after": 0.15000000000000005,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "gamma",
+          "field": "prob",
+          "before": 0.11999999999999997,
+          "after": 0.16999999999999998,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "gamma",
+          "field": "strength",
+          "before": 0.11000000000000004,
+          "after": 0.15000000000000005,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "local_contrast",
+          "field": "prob",
+          "before": 0.23499999999999993,
+          "after": 0.2849999999999999,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "local_contrast",
+          "field": "strength",
+          "before": 0.2,
+          "after": 0.24000000000000002,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        }
+      ],
+      "old_policy": {
+        "official_yolo_aug": {
+          "hsv_h": 0.015,
+          "hsv_s": 0.7,
+          "hsv_v": 0.26500000000000024,
+          "degrees": 0.0,
+          "translate": 0.04,
+          "scale": 0.42500000000000004,
+          "shear": 0.0,
+          "perspective": 0.0,
+          "flipud": 0.0,
+          "fliplr": 0.5,
+          "mosaic": 0.6,
+          "mixup": 0.0,
+          "copy_paste": 0.0,
+          "erasing": 0.5,
+          "close_mosaic": 10
+        },
+        "custom_industrial_policy": {
+          "policy_id": "yolo_default_feedback_extra_industrial",
+          "notes": [
+            "Ultralytics YOLO default augmentation is the base.",
+            "No custom mosaic4 or randaugment_like is used.",
+            "copy_paste is disabled pending constrained object-bank design."
+          ],
+          "operations": [
+            {
+              "name": "clahe",
+              "prob": 0.10999999999999996,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.35,
+              "strength": 0.10000000000000005,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.45,
+              "params": {}
+            },
+            {
+              "name": "gamma",
+              "prob": 0.10999999999999996,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.35,
+              "strength": 0.10000000000000005,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.45,
+              "params": {}
+            },
+            {
+              "name": "sharpen_mild",
+              "prob": 0.3,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.3,
+              "strength": 0.4,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.4,
+              "params": {
+                "amount": 0.6
+              }
+            },
+            {
+              "name": "local_contrast",
+              "prob": 0.22499999999999995,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.3,
+              "strength": 0.19,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.4,
+              "params": {}
+            },
+            {
+              "name": "cutout_safe",
+              "prob": 0.24000000000000002,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.25,
+              "strength": 0.18,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.35,
+              "params": {
+                "max_holes": 2,
+                "max_fraction": 0.12,
+                "max_bbox_overlap": 0.05
+              }
+            }
+          ]
+        }
+      },
+      "new_policy": {
+        "official_yolo_aug": {
+          "hsv_h": 0.015,
+          "hsv_s": 0.7,
+          "hsv_v": 0.2550000000000003,
+          "degrees": 0.0,
+          "translate": 0.04,
+          "scale": 0.42500000000000004,
+          "shear": 0.0,
+          "perspective": 0.0,
+          "flipud": 0.0,
+          "fliplr": 0.5,
+          "mosaic": 0.6,
+          "mixup": 0.0,
+          "copy_paste": 0.0,
+          "erasing": 0.5,
+          "close_mosaic": 10
+        },
+        "custom_industrial_policy": {
+          "policy_id": "yolo_default_feedback_extra_industrial",
+          "notes": [
+            "Ultralytics YOLO default augmentation is the base.",
+            "No custom mosaic4 or randaugment_like is used.",
+            "copy_paste is disabled pending constrained object-bank design."
+          ],
+          "operations": [
+            {
+              "name": "clahe",
+              "prob": 0.16999999999999998,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.35,
+              "strength": 0.15000000000000005,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.45,
+              "params": {}
+            },
+            {
+              "name": "gamma",
+              "prob": 0.16999999999999998,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.35,
+              "strength": 0.15000000000000005,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.45,
+              "params": {}
+            },
+            {
+              "name": "sharpen_mild",
+              "prob": 0.3,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.3,
+              "strength": 0.4,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.4,
+              "params": {
+                "amount": 0.6
+              }
+            },
+            {
+              "name": "local_contrast",
+              "prob": 0.2849999999999999,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.3,
+              "strength": 0.24000000000000002,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.4,
+              "params": {}
+            },
+            {
+              "name": "cutout_safe",
+              "prob": 0.25,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.25,
+              "strength": 0.21,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.35,
+              "params": {
+                "max_holes": 2,
+                "max_fraction": 0.12,
+                "max_bbox_overlap": 0.05
+              }
+            }
+          ]
+        }
+      },
+      "constraint_status": {
+        "passed": false,
+        "constraint_failed": true,
+        "failures": [
+          "map50_drop_gt_0.01",
+          "map50_95_drop_gt_0.01"
+        ]
+      }
+    },
+    {
+      "stage_index": 7,
+      "start_epoch": 35,
+      "end_epoch": 40,
+      "epochs": 5,
+      "run_dir": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\stages\\stage_07",
+      "input_checkpoint": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\stages\\stage_06\\train\\weights\\last.pt",
+      "output_checkpoint": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\stages\\stage_07\\train\\weights\\last.pt",
+      "train_command": "D:\\Anaconda\\envs\\pytorch\\python.exe E:\\TJGY\\MinPaper\\MyAutoAugument\\scripts\\train_yolo_online_aug.py --model E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\stages\\stage_06\\train\\weights\\last.pt --data outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\data.yaml --policy E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\configs\\stage_07_custom_policy.json --epochs 5 --imgsz 1024 --batch 2 --workers 0 --device 0 --seed 42 --run-id stage_07 --project E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\stages --no-disable-yolo-aug --save-preview --preview-count 20 --skip-doc-update --yolo-aug-overrides \"{\\\"erasing\\\": 0.5, \\\"hsv_v\\\": 0.2550000000000003, \\\"mosaic\\\": 0.6, \\\"scale\\\": 0.42500000000000004, \\\"translate\\\": 0.04}\"",
+      "val_command": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\stages\\stage_07\\configs\\val_command.txt",
+      "val_metrics": {
+        "images": 677,
+        "instances": 905,
+        "precision": 0.7474459295549334,
+        "recall": 0.6807929096618415,
+        "map50": 0.7537024811801193,
+        "map50_95": 0.5184369171102948
+      },
+      "diagnosis_summary": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\stages\\stage_07\\diagnosis\\diagnosis_summary.md",
+      "feedback_update": [
+        {
+          "scope": "official_yolo_aug",
+          "name": "hsv_v",
+          "field": "value",
+          "before": 0.2550000000000003,
+          "after": 0.28500000000000025,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "official_yolo_aug",
+          "name": "translate",
+          "field": "value",
+          "before": 0.04,
+          "after": 0.05,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "official_yolo_aug",
+          "name": "scale",
+          "field": "value",
+          "before": 0.42500000000000004,
+          "after": 0.47500000000000003,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "clahe",
+          "field": "prob",
+          "before": 0.16999999999999998,
+          "after": 0.21999999999999997,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "clahe",
+          "field": "strength",
+          "before": 0.15000000000000005,
+          "after": 0.19000000000000006,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "gamma",
+          "field": "prob",
+          "before": 0.16999999999999998,
+          "after": 0.21999999999999997,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "gamma",
+          "field": "strength",
+          "before": 0.15000000000000005,
+          "after": 0.19000000000000006,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "official_yolo_aug",
+          "name": "hsv_v",
+          "field": "value",
+          "before": 0.28500000000000025,
+          "after": 0.25,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "clahe",
+          "field": "prob",
+          "before": 0.21999999999999997,
+          "after": 0.17999999999999997,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "clahe",
+          "field": "strength",
+          "before": 0.19000000000000006,
+          "after": 0.16000000000000006,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "gamma",
+          "field": "prob",
+          "before": 0.21999999999999997,
+          "after": 0.17999999999999997,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "gamma",
+          "field": "strength",
+          "before": 0.19000000000000006,
+          "after": 0.16000000000000006,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "local_contrast",
+          "field": "prob",
+          "before": 0.2849999999999999,
+          "after": 0.2449999999999999,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "local_contrast",
+          "field": "strength",
+          "before": 0.24000000000000002,
+          "after": 0.21000000000000002,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "cutout_safe",
+          "field": "strength",
+          "before": 0.21,
+          "after": 0.24,
+          "reason": "precision_low_hard_negative_like"
+        },
+        {
+          "scope": "official_yolo_aug",
+          "name": "translate",
+          "field": "value",
+          "before": 0.05,
+          "after": 0.04,
+          "reason": "map50_high_map95_low_reduce_geometry"
+        },
+        {
+          "scope": "official_yolo_aug",
+          "name": "scale",
+          "field": "value",
+          "before": 0.47500000000000003,
+          "after": 0.42500000000000004,
+          "reason": "map50_high_map95_low_reduce_geometry"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "local_contrast",
+          "field": "prob",
+          "before": 0.2449999999999999,
+          "after": 0.29499999999999993,
+          "reason": "map50_high_map95_low"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "local_contrast",
+          "field": "strength",
+          "before": 0.21000000000000002,
+          "after": 0.25,
+          "reason": "map50_high_map95_low"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "clahe",
+          "field": "prob",
+          "before": 0.17999999999999997,
+          "after": 0.22999999999999998,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "clahe",
+          "field": "strength",
+          "before": 0.16000000000000006,
+          "after": 0.20000000000000007,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "gamma",
+          "field": "prob",
+          "before": 0.17999999999999997,
+          "after": 0.22999999999999998,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "gamma",
+          "field": "strength",
+          "before": 0.16000000000000006,
+          "after": 0.20000000000000007,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "local_contrast",
+          "field": "prob",
+          "before": 0.29499999999999993,
+          "after": 0.3,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "local_contrast",
+          "field": "strength",
+          "before": 0.25,
+          "after": 0.29,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        }
+      ],
+      "old_policy": {
+        "official_yolo_aug": {
+          "hsv_h": 0.015,
+          "hsv_s": 0.7,
+          "hsv_v": 0.2550000000000003,
+          "degrees": 0.0,
+          "translate": 0.04,
+          "scale": 0.42500000000000004,
+          "shear": 0.0,
+          "perspective": 0.0,
+          "flipud": 0.0,
+          "fliplr": 0.5,
+          "mosaic": 0.6,
+          "mixup": 0.0,
+          "copy_paste": 0.0,
+          "erasing": 0.5,
+          "close_mosaic": 10
+        },
+        "custom_industrial_policy": {
+          "policy_id": "yolo_default_feedback_extra_industrial",
+          "notes": [
+            "Ultralytics YOLO default augmentation is the base.",
+            "No custom mosaic4 or randaugment_like is used.",
+            "copy_paste is disabled pending constrained object-bank design."
+          ],
+          "operations": [
+            {
+              "name": "clahe",
+              "prob": 0.16999999999999998,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.35,
+              "strength": 0.15000000000000005,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.45,
+              "params": {}
+            },
+            {
+              "name": "gamma",
+              "prob": 0.16999999999999998,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.35,
+              "strength": 0.15000000000000005,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.45,
+              "params": {}
+            },
+            {
+              "name": "sharpen_mild",
+              "prob": 0.3,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.3,
+              "strength": 0.4,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.4,
+              "params": {
+                "amount": 0.6
+              }
+            },
+            {
+              "name": "local_contrast",
+              "prob": 0.2849999999999999,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.3,
+              "strength": 0.24000000000000002,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.4,
+              "params": {}
+            },
+            {
+              "name": "cutout_safe",
+              "prob": 0.25,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.25,
+              "strength": 0.21,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.35,
+              "params": {
+                "max_holes": 2,
+                "max_fraction": 0.12,
+                "max_bbox_overlap": 0.05
+              }
+            }
+          ]
+        }
+      },
+      "new_policy": {
+        "official_yolo_aug": {
+          "hsv_h": 0.015,
+          "hsv_s": 0.7,
+          "hsv_v": 0.25,
+          "degrees": 0.0,
+          "translate": 0.04,
+          "scale": 0.42500000000000004,
+          "shear": 0.0,
+          "perspective": 0.0,
+          "flipud": 0.0,
+          "fliplr": 0.5,
+          "mosaic": 0.6,
+          "mixup": 0.0,
+          "copy_paste": 0.0,
+          "erasing": 0.5,
+          "close_mosaic": 10
+        },
+        "custom_industrial_policy": {
+          "policy_id": "yolo_default_feedback_extra_industrial",
+          "notes": [
+            "Ultralytics YOLO default augmentation is the base.",
+            "No custom mosaic4 or randaugment_like is used.",
+            "copy_paste is disabled pending constrained object-bank design."
+          ],
+          "operations": [
+            {
+              "name": "clahe",
+              "prob": 0.22999999999999998,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.35,
+              "strength": 0.20000000000000007,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.45,
+              "params": {}
+            },
+            {
+              "name": "gamma",
+              "prob": 0.22999999999999998,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.35,
+              "strength": 0.20000000000000007,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.45,
+              "params": {}
+            },
+            {
+              "name": "sharpen_mild",
+              "prob": 0.3,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.3,
+              "strength": 0.4,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.4,
+              "params": {
+                "amount": 0.6
+              }
+            },
+            {
+              "name": "local_contrast",
+              "prob": 0.3,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.3,
+              "strength": 0.29,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.4,
+              "params": {}
+            },
+            {
+              "name": "cutout_safe",
+              "prob": 0.25,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.25,
+              "strength": 0.24,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.35,
+              "params": {
+                "max_holes": 2,
+                "max_fraction": 0.12,
+                "max_bbox_overlap": 0.05
+              }
+            }
+          ]
+        }
+      },
+      "constraint_status": {
+        "passed": false,
+        "constraint_failed": true,
+        "failures": [
+          "map50_drop_gt_0.01"
+        ]
+      }
+    },
+    {
+      "stage_index": 8,
+      "start_epoch": 40,
+      "end_epoch": 45,
+      "epochs": 5,
+      "run_dir": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\stages\\stage_08",
+      "input_checkpoint": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\stages\\stage_07\\train\\weights\\last.pt",
+      "output_checkpoint": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\stages\\stage_08\\train\\weights\\last.pt",
+      "train_command": "D:\\Anaconda\\envs\\pytorch\\python.exe E:\\TJGY\\MinPaper\\MyAutoAugument\\scripts\\train_yolo_online_aug.py --model E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\stages\\stage_07\\train\\weights\\last.pt --data outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\data.yaml --policy E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\configs\\stage_08_custom_policy.json --epochs 5 --imgsz 1024 --batch 2 --workers 0 --device 0 --seed 42 --run-id stage_08 --project E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\stages --no-disable-yolo-aug --save-preview --preview-count 20 --skip-doc-update --yolo-aug-overrides \"{\\\"erasing\\\": 0.5, \\\"hsv_v\\\": 0.25, \\\"mosaic\\\": 0.6, \\\"scale\\\": 0.42500000000000004, \\\"translate\\\": 0.04}\"",
+      "val_command": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\stages\\stage_08\\configs\\val_command.txt",
+      "val_metrics": {
+        "images": 677,
+        "instances": 905,
+        "precision": 0.6764234917531198,
+        "recall": 0.6996415359788435,
+        "map50": 0.7255204975242743,
+        "map50_95": 0.48245808500388704
+      },
+      "diagnosis_summary": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\stages\\stage_08\\diagnosis\\diagnosis_summary.md",
+      "feedback_update": [
+        {
+          "scope": "official_yolo_aug",
+          "name": "hsv_v",
+          "field": "value",
+          "before": 0.25,
+          "after": 0.265,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "official_yolo_aug",
+          "name": "translate",
+          "field": "value",
+          "before": 0.04,
+          "after": 0.045,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "official_yolo_aug",
+          "name": "scale",
+          "field": "value",
+          "before": 0.42500000000000004,
+          "after": 0.45000000000000007,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "clahe",
+          "field": "prob",
+          "before": 0.22999999999999998,
+          "after": 0.255,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "clahe",
+          "field": "strength",
+          "before": 0.20000000000000007,
+          "after": 0.22000000000000006,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "gamma",
+          "field": "prob",
+          "before": 0.22999999999999998,
+          "after": 0.255,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "gamma",
+          "field": "strength",
+          "before": 0.20000000000000007,
+          "after": 0.22000000000000006,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "scope": "official_yolo_aug",
+          "name": "hsv_v",
+          "field": "value",
+          "before": 0.265,
+          "after": 0.25,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "clahe",
+          "field": "prob",
+          "before": 0.255,
+          "after": 0.215,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "clahe",
+          "field": "strength",
+          "before": 0.22000000000000006,
+          "after": 0.19000000000000006,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "gamma",
+          "field": "prob",
+          "before": 0.255,
+          "after": 0.215,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "gamma",
+          "field": "strength",
+          "before": 0.22000000000000006,
+          "after": 0.19000000000000006,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "local_contrast",
+          "field": "prob",
+          "before": 0.3,
+          "after": 0.26,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "local_contrast",
+          "field": "strength",
+          "before": 0.29,
+          "after": 0.26,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "cutout_safe",
+          "field": "strength",
+          "before": 0.24,
+          "after": 0.27,
+          "reason": "precision_low_hard_negative_like"
+        },
+        {
+          "scope": "official_yolo_aug",
+          "name": "translate",
+          "field": "value",
+          "before": 0.045,
+          "after": 0.04,
+          "reason": "map50_high_map95_low_reduce_geometry"
+        },
+        {
+          "scope": "official_yolo_aug",
+          "name": "scale",
+          "field": "value",
+          "before": 0.45000000000000007,
+          "after": 0.4000000000000001,
+          "reason": "map50_high_map95_low_reduce_geometry"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "local_contrast",
+          "field": "prob",
+          "before": 0.26,
+          "after": 0.3,
+          "reason": "map50_high_map95_low"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "local_contrast",
+          "field": "strength",
+          "before": 0.26,
+          "after": 0.3,
+          "reason": "map50_high_map95_low"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "clahe",
+          "field": "prob",
+          "before": 0.215,
+          "after": 0.24,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "clahe",
+          "field": "strength",
+          "before": 0.19000000000000006,
+          "after": 0.21000000000000005,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "gamma",
+          "field": "prob",
+          "before": 0.215,
+          "after": 0.24,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "gamma",
+          "field": "strength",
+          "before": 0.19000000000000006,
+          "after": 0.21000000000000005,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "scope": "custom_industrial_policy",
+          "name": "local_contrast",
+          "field": "strength",
+          "before": 0.3,
+          "after": 0.32,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        }
+      ],
+      "old_policy": {
+        "official_yolo_aug": {
+          "hsv_h": 0.015,
+          "hsv_s": 0.7,
+          "hsv_v": 0.25,
+          "degrees": 0.0,
+          "translate": 0.04,
+          "scale": 0.42500000000000004,
+          "shear": 0.0,
+          "perspective": 0.0,
+          "flipud": 0.0,
+          "fliplr": 0.5,
+          "mosaic": 0.6,
+          "mixup": 0.0,
+          "copy_paste": 0.0,
+          "erasing": 0.5,
+          "close_mosaic": 10
+        },
+        "custom_industrial_policy": {
+          "policy_id": "yolo_default_feedback_extra_industrial",
+          "notes": [
+            "Ultralytics YOLO default augmentation is the base.",
+            "No custom mosaic4 or randaugment_like is used.",
+            "copy_paste is disabled pending constrained object-bank design."
+          ],
+          "operations": [
+            {
+              "name": "clahe",
+              "prob": 0.22999999999999998,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.35,
+              "strength": 0.20000000000000007,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.45,
+              "params": {}
+            },
+            {
+              "name": "gamma",
+              "prob": 0.22999999999999998,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.35,
+              "strength": 0.20000000000000007,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.45,
+              "params": {}
+            },
+            {
+              "name": "sharpen_mild",
+              "prob": 0.3,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.3,
+              "strength": 0.4,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.4,
+              "params": {
+                "amount": 0.6
+              }
+            },
+            {
+              "name": "local_contrast",
+              "prob": 0.3,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.3,
+              "strength": 0.29,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.4,
+              "params": {}
+            },
+            {
+              "name": "cutout_safe",
+              "prob": 0.25,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.25,
+              "strength": 0.24,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.35,
+              "params": {
+                "max_holes": 2,
+                "max_fraction": 0.12,
+                "max_bbox_overlap": 0.05
+              }
+            }
+          ]
+        }
+      },
+      "new_policy": {
+        "official_yolo_aug": {
+          "hsv_h": 0.015,
+          "hsv_s": 0.7,
+          "hsv_v": 0.25,
+          "degrees": 0.0,
+          "translate": 0.04,
+          "scale": 0.4000000000000001,
+          "shear": 0.0,
+          "perspective": 0.0,
+          "flipud": 0.0,
+          "fliplr": 0.5,
+          "mosaic": 0.6,
+          "mixup": 0.0,
+          "copy_paste": 0.0,
+          "erasing": 0.5,
+          "close_mosaic": 10
+        },
+        "custom_industrial_policy": {
+          "policy_id": "yolo_default_feedback_extra_industrial",
+          "notes": [
+            "Ultralytics YOLO default augmentation is the base.",
+            "No custom mosaic4 or randaugment_like is used.",
+            "copy_paste is disabled pending constrained object-bank design."
+          ],
+          "operations": [
+            {
+              "name": "clahe",
+              "prob": 0.24,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.35,
+              "strength": 0.21000000000000005,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.45,
+              "params": {}
+            },
+            {
+              "name": "gamma",
+              "prob": 0.24,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.35,
+              "strength": 0.21000000000000005,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.45,
+              "params": {}
+            },
+            {
+              "name": "sharpen_mild",
+              "prob": 0.3,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.3,
+              "strength": 0.4,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.4,
+              "params": {
+                "amount": 0.6
+              }
+            },
+            {
+              "name": "local_contrast",
+              "prob": 0.3,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.3,
+              "strength": 0.32,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.4,
+              "params": {}
+            },
+            {
+              "name": "cutout_safe",
+              "prob": 0.25,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.25,
+              "strength": 0.27,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.35,
+              "params": {
+                "max_holes": 2,
+                "max_fraction": 0.12,
+                "max_bbox_overlap": 0.05
+              }
+            }
+          ]
+        }
+      },
+      "constraint_status": {
+        "passed": false,
+        "constraint_failed": true,
+        "failures": [
+          "precision_drop_gt_0.01",
+          "map50_drop_gt_0.01",
+          "map50_95_drop_gt_0.01"
+        ]
+      }
+    },
+    {
+      "stage_index": 9,
+      "start_epoch": 45,
+      "end_epoch": 50,
+      "epochs": 5,
+      "run_dir": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\stages\\stage_09",
+      "input_checkpoint": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\stages\\stage_08\\train\\weights\\last.pt",
+      "output_checkpoint": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\stages\\stage_09\\train\\weights\\last.pt",
+      "train_command": "D:\\Anaconda\\envs\\pytorch\\python.exe E:\\TJGY\\MinPaper\\MyAutoAugument\\scripts\\train_yolo_online_aug.py --model E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\stages\\stage_08\\train\\weights\\last.pt --data outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\data.yaml --policy E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\configs\\stage_09_custom_policy.json --epochs 5 --imgsz 1024 --batch 2 --workers 0 --device 0 --seed 42 --run-id stage_09 --project E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\stages --no-disable-yolo-aug --save-preview --preview-count 20 --skip-doc-update --yolo-aug-overrides \"{\\\"erasing\\\": 0.5, \\\"hsv_v\\\": 0.25, \\\"mosaic\\\": 0.6, \\\"scale\\\": 0.4000000000000001, \\\"translate\\\": 0.04}\"",
+      "val_command": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\stages\\stage_09\\configs\\val_command.txt",
+      "val_metrics": {
+        "images": 677,
+        "instances": 905,
+        "precision": 0.7712412117263807,
+        "recall": 0.6689285115254554,
+        "map50": 0.7439161103793795,
+        "map50_95": 0.49929812798183276
+      },
+      "diagnosis_summary": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\stages\\stage_09\\diagnosis\\diagnosis_summary.md",
+      "feedback_update": [],
+      "old_policy": {
+        "official_yolo_aug": {
+          "hsv_h": 0.015,
+          "hsv_s": 0.7,
+          "hsv_v": 0.25,
+          "degrees": 0.0,
+          "translate": 0.04,
+          "scale": 0.4000000000000001,
+          "shear": 0.0,
+          "perspective": 0.0,
+          "flipud": 0.0,
+          "fliplr": 0.5,
+          "mosaic": 0.6,
+          "mixup": 0.0,
+          "copy_paste": 0.0,
+          "erasing": 0.5,
+          "close_mosaic": 10
+        },
+        "custom_industrial_policy": {
+          "policy_id": "yolo_default_feedback_extra_industrial",
+          "notes": [
+            "Ultralytics YOLO default augmentation is the base.",
+            "No custom mosaic4 or randaugment_like is used.",
+            "copy_paste is disabled pending constrained object-bank design."
+          ],
+          "operations": [
+            {
+              "name": "clahe",
+              "prob": 0.24,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.35,
+              "strength": 0.21000000000000005,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.45,
+              "params": {}
+            },
+            {
+              "name": "gamma",
+              "prob": 0.24,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.35,
+              "strength": 0.21000000000000005,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.45,
+              "params": {}
+            },
+            {
+              "name": "sharpen_mild",
+              "prob": 0.3,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.3,
+              "strength": 0.4,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.4,
+              "params": {
+                "amount": 0.6
+              }
+            },
+            {
+              "name": "local_contrast",
+              "prob": 0.3,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.3,
+              "strength": 0.32,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.4,
+              "params": {}
+            },
+            {
+              "name": "cutout_safe",
+              "prob": 0.25,
+              "base_prob": 0.0,
+              "min_prob": 0.0,
+              "max_prob": 0.25,
+              "strength": 0.27,
+              "base_strength": 0.0,
+              "min_strength": 0.0,
+              "max_strength": 0.35,
+              "params": {
+                "max_holes": 2,
+                "max_fraction": 0.12,
+                "max_bbox_overlap": 0.05
+              }
+            }
+          ]
+        }
+      },
+      "new_policy": null,
+      "constraint_status": {
+        "passed": false,
+        "constraint_failed": true,
+        "failures": [
+          "map50_drop_gt_0.01",
+          "map50_95_drop_gt_0.01"
+        ]
+      }
+    }
+  ]
+}

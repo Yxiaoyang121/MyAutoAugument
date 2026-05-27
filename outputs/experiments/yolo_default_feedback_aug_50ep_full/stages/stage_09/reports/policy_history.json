@@ -1,0 +1,81 @@
+{
+  "feedback_applied": false,
+  "note": "no feedback applied for this base policy run",
+  "history": [],
+  "latest_policy": {
+    "policy_id": "yolo_default_feedback_extra_industrial",
+    "notes": [
+      "Ultralytics YOLO default augmentation is the base.",
+      "No custom mosaic4 or randaugment_like is used.",
+      "copy_paste is disabled pending constrained object-bank design."
+    ],
+    "operations": [
+      {
+        "name": "clahe",
+        "prob": 0.24,
+        "base_prob": 0.0,
+        "min_prob": 0.0,
+        "max_prob": 0.35,
+        "strength": 0.21000000000000005,
+        "base_strength": 0.0,
+        "min_strength": 0.0,
+        "max_strength": 0.45,
+        "params": {}
+      },
+      {
+        "name": "gamma",
+        "prob": 0.24,
+        "base_prob": 0.0,
+        "min_prob": 0.0,
+        "max_prob": 0.35,
+        "strength": 0.21000000000000005,
+        "base_strength": 0.0,
+        "min_strength": 0.0,
+        "max_strength": 0.45,
+        "params": {}
+      },
+      {
+        "name": "sharpen_mild",
+        "prob": 0.3,
+        "base_prob": 0.0,
+        "min_prob": 0.0,
+        "max_prob": 0.3,
+        "strength": 0.4,
+        "base_strength": 0.0,
+        "min_strength": 0.0,
+        "max_strength": 0.4,
+        "params": {
+          "amount": 0.6
+        }
+      },
+      {
+        "name": "local_contrast",
+        "prob": 0.3,
+        "base_prob": 0.0,
+        "min_prob": 0.0,
+        "max_prob": 0.3,
+        "strength": 0.32,
+        "base_strength": 0.0,
+        "min_strength": 0.0,
+        "max_strength": 0.4,
+        "params": {}
+      },
+      {
+        "name": "cutout_safe",
+        "prob": 0.25,
+        "base_prob": 0.0,
+        "min_prob": 0.0,
+        "max_prob": 0.25,
+        "strength": 0.27,
+        "base_strength": 0.0,
+        "min_strength": 0.0,
+        "max_strength": 0.35,
+        "params": {
+          "max_holes": 2,
+          "max_fraction": 0.12,
+          "max_bbox_overlap": 0.05
+        }
+      }
+    ]
+  }
+}

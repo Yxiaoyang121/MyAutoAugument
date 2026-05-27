@@ -1,0 +1,90 @@
+{
+  "stage_index": 1,
+  "stage_epochs": 5,
+  "global_epoch_start": 5,
+  "global_epoch_end": 10,
+  "input_model": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\stages\\stage_00\\train\\weights\\last.pt",
+  "base_augmentation": "Ultralytics YOLO default enabled",
+  "yolo_aug_overrides": {
+    "hsv_v": 0.39000000000000007,
+    "translate": 0.11,
+    "scale": 0.55,
+    "erasing": 0.44
+  },
+  "custom_policy": {
+    "policy_id": "yolo_default_feedback_extra_industrial",
+    "notes": [
+      "Ultralytics YOLO default augmentation is the base.",
+      "No custom mosaic4 or randaugment_like is used.",
+      "copy_paste is disabled pending constrained object-bank design."
+    ],
+    "operations": [
+      {
+        "name": "clahe",
+        "prob": 0.060000000000000005,
+        "base_prob": 0.0,
+        "min_prob": 0.0,
+        "max_prob": 0.35,
+        "strength": 0.05,
+        "base_strength": 0.0,
+        "min_strength": 0.0,
+        "max_strength": 0.45,
+        "params": {}
+      },
+      {
+        "name": "gamma",
+        "prob": 0.060000000000000005,
+        "base_prob": 0.0,
+        "min_prob": 0.0,
+        "max_prob": 0.35,
+        "strength": 0.05,
+        "base_strength": 0.0,
+        "min_strength": 0.0,
+        "max_strength": 0.45,
+        "params": {}
+      },
+      {
+        "name": "sharpen_mild",
+        "prob": 0.1,
+        "base_prob": 0.0,
+        "min_prob": 0.0,
+        "max_prob": 0.3,
+        "strength": 0.08,
+        "base_strength": 0.0,
+        "min_strength": 0.0,
+        "max_strength": 0.4,
+        "params": {
+          "amount": 0.6
+        }
+      },
+      {
+        "name": "local_contrast",
+        "prob": 0.05,
+        "base_prob": 0.0,
+        "min_prob": 0.0,
+        "max_prob": 0.3,
+        "strength": 0.04,
+        "base_strength": 0.0,
+        "min_strength": 0.0,
+        "max_strength": 0.4,
+        "params": {}
+      },
+      {
+        "name": "cutout_safe",
+        "prob": 0.04,
+        "base_prob": 0.0,
+        "min_prob": 0.0,
+        "max_prob": 0.25,
+        "strength": 0.03,
+        "base_strength": 0.0,
+        "min_strength": 0.0,
+        "max_strength": 0.35,
+        "params": {
+          "max_holes": 2,
+          "max_fraction": 0.12,
+          "max_bbox_overlap": 0.05
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "feedback_applied": false,
+  "note": "no feedback applied for this base policy run",
+  "history": [],
+  "latest_policy": {
+    "policy_id": "yolo_default_feedback_extra_industrial",
+    "notes": [
+      "Ultralytics YOLO default augmentation is the base.",
+      "No custom mosaic4 or randaugment_like is used.",
+      "copy_paste is disabled pending constrained object-bank design."
+    ],
+    "operations": []
+  }
+}

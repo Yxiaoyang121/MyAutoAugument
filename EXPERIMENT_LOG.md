@@ -781,3 +781,19 @@ Key conclusions from that archived smoke:
 - Report: `outputs/experiments/yolo_default_feedback_aug_50ep/reports/yolo_default_feedback_smoke_report.md`
 - Policy history: `outputs/experiments/yolo_default_feedback_aug_50ep/reports/policy_history.json`
 <!-- YOLO_DEFAULT_FEEDBACK_AUG_SMOKE_END -->
+
+<!-- YOLO_DEFAULT_FEEDBACK_AUG_50EP_FULL_START -->
+## YOLO Default Feedback Augmentation
+
+- Entrypoint: `scripts/train_yolo_default_with_feedback.py`.
+- Base: Ultralytics YOLO default augmentation remains enabled; custom YOLO-like `mosaic4` and `randaugment_like` are not used.
+- Scope: formal 50 epoch segmented feedback run.
+- Output: `outputs/experiments/yolo_default_feedback_aug_50ep_full/`
+- Stage count: `10`
+- Policy history updates: `9`
+- Fixed augmented dataset generated: `false`
+- Final P/R/mAP50/mAP50-95: `0.7712/0.6689/0.7439/0.4993`
+- Constraint accepted: `false`
+- Report: `outputs/experiments/yolo_default_feedback_aug_50ep_full/reports/final_report.md`
+- Policy history: `outputs/experiments/yolo_default_feedback_aug_50ep_full/reports/policy_history.json`
+<!-- YOLO_DEFAULT_FEEDBACK_AUG_50EP_FULL_END -->

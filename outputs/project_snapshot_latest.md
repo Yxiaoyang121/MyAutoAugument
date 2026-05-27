@@ -1,8 +1,8 @@
 # Project Snapshot
 
-- Generated: 2026-05-27T01:05:36
+- Generated: 2026-05-27T13:54:20
 - Branch: codex/sync-latest
-- Commit: 370ad23317004f89cabdfe820ef8c92c92c02b46
+- Commit: 57ea80671f7ee1b7376b799921c038c78938ded2
 - Remote: https://github.com/Yxiaoyang121/MyAutoAugument.git
 
 ## Working Tree
@@ -12,9 +12,8 @@
  M EXPERIMENT_LOG.md
  M PROJECT_STATE.md
  M scripts/export_project_snapshot.py
- M scripts/train_yolo_online_aug.py
-?? outputs/experiments/yolo_default_feedback_aug_50ep/
-?? scripts/train_yolo_default_with_feedback.py
+ M scripts/train_yolo_default_with_feedback.py
+?? outputs/experiments/yolo_default_feedback_aug_50ep_full/
 ```
 
 ## Key Files
@@ -160,6 +159,12 @@
 - outputs/experiments/yolo_default_feedback_aug_50ep/reports/final_metrics.json
 - outputs/experiments/yolo_default_feedback_aug_50ep/reports/policy_history.json
 - outputs/experiments/yolo_default_feedback_aug_50ep/reports/constraint_scoring.json
+- outputs/experiments/yolo_default_feedback_aug_50ep_full/reports/final_report.md
+- outputs/experiments/yolo_default_feedback_aug_50ep_full/reports/final_metrics.json
+- outputs/experiments/yolo_default_feedback_aug_50ep_full/reports/stage_metrics.json
+- outputs/experiments/yolo_default_feedback_aug_50ep_full/reports/policy_history.json
+- outputs/experiments/yolo_default_feedback_aug_50ep_full/reports/constraint_scoring.json
+- outputs/experiments/yolo_default_feedback_aug_50ep_full/reports/compare_with_yolo_default_baseline_diagaug_random.md
 - outputs/datasets/tiled/tiled_1024_ov20_smoke/dataset_summary.md
 - outputs/datasets/tiled/tiled_1024_ov20_full/data.yaml
 - outputs/datasets/tiled/tiled_1024_ov20_full/dataset_summary.md
@@ -187,7 +192,7 @@
 
 ## Tracked File Count
 
-- 815 tracked files
+- 880 tracked files
 
 ## Notes
 

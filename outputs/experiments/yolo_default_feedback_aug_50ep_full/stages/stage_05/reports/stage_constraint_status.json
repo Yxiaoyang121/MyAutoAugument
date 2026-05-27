@@ -1,0 +1,20 @@
+{
+  "reference": "YOLO default seed=42",
+  "metrics": {
+    "images": 677,
+    "instances": 905,
+    "precision": 0.6965804856266955,
+    "recall": 0.6788645224435529,
+    "map50": 0.743385324654741,
+    "map50_95": 0.5035054652271936
+  },
+  "constraints": {
+    "passed": false,
+    "constraint_failed": true,
+    "failures": [
+      "precision_drop_gt_0.01",
+      "map50_drop_gt_0.01",
+      "map50_95_drop_gt_0.01"
+    ]
+  }
+}

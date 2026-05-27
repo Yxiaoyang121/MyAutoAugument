@@ -1,0 +1,231 @@
+{
+  "supported_ops": [
+    "blur_mild",
+    "brightness",
+    "clahe",
+    "contrast",
+    "cutout",
+    "cutout_safe",
+    "gamma",
+    "gaussian_noise",
+    "horizontal_flip",
+    "hsv_jitter",
+    "local_contrast",
+    "mild_scale",
+    "mild_translate",
+    "mosaic4",
+    "randaugment_like",
+    "random_erasing",
+    "random_scale_translate",
+    "scale",
+    "sharpen",
+    "sharpen_mild",
+    "translate"
+  ],
+  "copy_paste_status": "pending_object_bank_design",
+  "samples_seen": 11505,
+  "samples_augmented": 7675,
+  "input_bbox_count": 15910,
+  "output_bbox_count": 15910,
+  "invalid_bbox_count": 0,
+  "bbox_oob_count": 25,
+  "class_id_oob_count": 0,
+  "preview_saved": 20,
+  "ops": {
+    "clahe": {
+      "seen": 11505,
+      "skipped_probability": 10302,
+      "applied": 1203
+    },
+    "cutout_safe": {
+      "seen": 11505,
+      "applied": 2776,
+      "skipped_probability": 8729
+    },
+    "gamma": {
+      "seen": 11505,
+      "skipped_probability": 10238,
+      "applied": 1267
+    },
+    "local_contrast": {
+      "seen": 11505,
+      "skipped_probability": 9005,
+      "applied": 2500
+    },
+    "sharpen_mild": {
+      "seen": 11505,
+      "skipped_probability": 8077,
+      "applied": 3428
+    }
+  },
+  "cutout_safe": {
+    "op_attempted": 2776,
+    "holes_requested": 5552,
+    "holes_applied": 5552,
+    "holes_skipped_center": 0,
+    "holes_skipped_overlap": 0,
+    "holes_skipped_no_safe_region": 0
+  },
+  "mosaic4": {},
+  "randaugment_like": {},
+  "copy_paste": {},
+  "run_id": "stage_06",
+  "generated_at": "2026-05-27T12:25:34",
+  "online_augmentation": true,
+  "train_image_count": 2301,
+  "expected_original_train_images": 2301,
+  "train_image_count_matches_original": true,
+  "fixed_augmented_dataset_generated": false,
+  "policy_id": "yolo_default_feedback_extra_industrial",
+  "copy_paste_online_supported": false,
+  "copy_paste_note": "online copy-paste is pending object-bank implementation; copy_paste ops are skipped safely.",
+  "train_success": true,
+  "train_error": null,
+  "val_success": true,
+  "val_error": null,
+  "val_metrics": {
+    "images": 677,
+    "instances": 905,
+    "precision": 0.7152575210052744,
+    "recall": 0.6768441780294894,
+    "map50": 0.7414634618840013,
+    "map50_95": 0.47638614188326167,
+    "per_class": [
+      {
+        "class_id": 0,
+        "name": "OK2",
+        "images": 64,
+        "instances": 64,
+        "precision": 0.8654390780839264,
+        "recall": 1.0,
+        "ap50": 0.9948461538461538,
+        "ap50_95": 0.8294882418880226
+      },
+      {
+        "class_id": 1,
+        "name": "OK3",
+        "images": 274,
+        "instances": 274,
+        "precision": 0.9817860757324894,
+        "recall": 0.9836356251409357,
+        "ap50": 0.9944163011080872,
+        "ap50_95": 0.8286687965542884
+      },
+      {
+        "class_id": 2,
+        "name": "加强筋打伤",
+        "images": 8,
+        "instances": 8,
+        "precision": 0.8635593579453095,
+        "recall": 1.0,
+        "ap50": 0.9816666666666668,
+        "ap50_95": 0.5967988797533403
+      },
+      {
+        "class_id": 3,
+        "name": "开裂",
+        "images": 2,
+        "instances": 2,
+        "precision": 0.427738649022454,
+        "recall": 1.0,
+        "ap50": 0.995,
+        "ap50_95": 0.7215648148148148
+      },
+      {
+        "class_id": 4,
+        "name": "油污",
+        "images": 14,
+        "instances": 18,
+        "precision": 0.4255543141999909,
+        "recall": 0.3888888888888889,
+        "ap50": 0.382656751196479,
+        "ap50_95": 0.19815892308206212
+      },
+      {
+        "class_id": 5,
+        "name": "浅划伤",
+        "images": 11,
+        "instances": 13,
+        "precision": 0.6439051744270302,
+        "recall": 0.38461538461538464,
+        "ap50": 0.4211749681793492,
+        "ap50_95": 0.14269723976713589
+      },
+      {
+        "class_id": 6,
+        "name": "漏背锡",
+        "images": 36,
+        "instances": 46,
+        "precision": 0.6142216774514219,
+        "recall": 0.4782608695652174,
+        "ap50": 0.5764965468225057,
+        "ap50_95": 0.296348833169573
+      },
+      {
+        "class_id": 7,
+        "name": "碰伤",
+        "images": 229,
+        "instances": 269,
+        "precision": 0.8039784063409896,
+        "recall": 0.550185873605948,
+        "ap50": 0.6672247518282859,
+        "ap50_95": 0.3851604474498135
+      },
+      {
+        "class_id": 8,
+        "name": "脏污",
+        "images": 33,
+        "instances": 42,
+        "precision": 0.6241393033257163,
+        "recall": 0.4523809523809524,
+        "ap50": 0.5146846556159044,
+        "ap50_95": 0.279845316800253
+      },
+      {
+        "class_id": 9,
+        "name": "轮廓划伤",
+        "images": 69,
+        "instances": 84,
+        "precision": 0.7072574303925274,
+        "recall": 0.5119047619047619,
+        "ap50": 0.6861204986155104,
+        "ap50_95": 0.34135259634933013
+      },
+      {
+        "class_id": 10,
+        "name": "锡丝残留",
+        "images": 12,
+        "instances": 12,
+        "precision": 0.6704527006544493,
+        "recall": 0.5094650849694566,
+        "ap50": 0.7093780193236715,
+        "ap50_95": 0.4045147790269489
+      },
+      {
+        "class_id": 11,
+        "name": "锡尖",
+        "images": 25,
+        "instances": 27,
+        "precision": 0.8525040461718221,
+        "recall": 0.8564172120916437,
+        "ap50": 0.9392080884232047,
+        "ap50_95": 0.6632231044639882
+      },
+      {
+        "class_id": 12,
+        "name": "锡膏",
+        "images": 41,
+        "instances": 46,
+        "precision": 0.817811559320442,
+        "recall": 0.6832196612201712,
+        "ap50": 0.7761516028661972,
+        "ap50_95": 0.5051978713628301
+      }
+    ]
+  },
+  "feedback_enabled": false,
+  "policy_history_count": 0,
+  "policy_history_json": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\stages\\stage_06\\reports\\policy_history.json",
+  "policy_history_md": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\stages\\stage_06\\reports\\policy_history.md",
+  "policy_history_csv": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_feedback_aug_50ep_full\\stages\\stage_06\\reports\\policy_history.csv"
+}

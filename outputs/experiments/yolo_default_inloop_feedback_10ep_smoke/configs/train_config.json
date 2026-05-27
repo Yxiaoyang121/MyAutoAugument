@@ -1,0 +1,21 @@
+{
+  "entrypoint": "scripts/train_yolo_default_with_inloop_feedback.py",
+  "run_id": "yolo_default_inloop_feedback_10ep_smoke",
+  "output_dir": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\yolo_default_inloop_feedback_10ep_smoke",
+  "model": "yolo11n.pt",
+  "data": "outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\data.yaml",
+  "epochs": 10,
+  "imgsz": 1024,
+  "batch": 2,
+  "workers": 0,
+  "device": "0",
+  "seed": 42,
+  "feedback_enabled": true,
+  "feedback_interval": 5,
+  "feedback_start_epoch": 5,
+  "yolo_default_augmentation_enabled": true,
+  "disable_yolo_aug": false,
+  "custom_mosaic4_used": false,
+  "custom_randaugment_like_used": false,
+  "copy_paste_status": "pending_object_bank_design"
+}

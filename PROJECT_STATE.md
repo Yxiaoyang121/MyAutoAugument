@@ -581,3 +581,20 @@ The repository is centered on diagnosis-driven augmentation for industrial defec
 - Report: `outputs/experiments/yolo_default_feedback_aug_50ep_full/reports/final_report.md`
 - Policy history: `outputs/experiments/yolo_default_feedback_aug_50ep_full/reports/policy_history.json`
 <!-- YOLO_DEFAULT_FEEDBACK_AUG_50EP_FULL_END -->
+
+<!-- YOLO_DEFAULT_INLOOP_FEEDBACK_SMOKE_START -->
+## YOLO Default In-Loop Feedback Smoke
+
+- Entrypoint: `scripts/train_yolo_default_with_inloop_feedback.py`.
+- The previous `yolo_default_feedback_aug_50ep_full` run is a segmented fine-tune experiment, not strict continuous feedback.
+- New direction: one `YOLO.train()` run with in-loop feedback callbacks; optimizer/scheduler/EMA/epoch/close_mosaic remain under one Ultralytics trainer.
+- Output: `outputs/experiments/yolo_default_inloop_feedback_10ep_smoke/`
+- Epochs: `10`
+- Feedback epochs: `[5]`
+- Stage restart count: `0`
+- Epoch continuous: `true`
+- Train image count: `2301`
+- Fixed augmented dataset generated: `false`
+- Report: `outputs/experiments/yolo_default_inloop_feedback_10ep_smoke/reports/inloop_feedback_smoke_report.md`
+- Policy history: `outputs/experiments/yolo_default_inloop_feedback_10ep_smoke/reports/policy_history.json`
+<!-- YOLO_DEFAULT_INLOOP_FEEDBACK_SMOKE_END -->

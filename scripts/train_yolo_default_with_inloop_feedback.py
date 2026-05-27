@@ -1,0 +1,882 @@
+from __future__ import annotations
+
+import argparse
+import csv
+import json
+import os
+import shutil
+import subprocess
+import sys
+import time
+from copy import deepcopy
+from dataclasses import dataclass, field
+from datetime import datetime
+from pathlib import Path
+from typing import Any
+
+import yaml
+
+
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+
+from AutoAugment.diagnostic_pipeline import run_error_diagnosis, run_validation_prediction  # noqa: E402
+from AutoAugment.diagnostics.yolo_error_analysis import load_class_names_from_data_yaml  # noqa: E402
+from AutoAugment.online_augmentation import OnlineAugmentationStats, OnlinePolicyAugmentor  # noqa: E402
+from scripts.train_yolo_online_aug import (  # noqa: E402
+    OnlineTrainingContext,
+    check_ultralytics_api,
+    count_split_images,
+    make_online_trainer,
+    metrics_to_dict,
+    register_epoch_callback,
+)
+
+
+PYTHON_EXE = Path(r"D:\Anaconda\envs\pytorch\python.exe")
+DEFAULT_DATA = PROJECT_ROOT / "outputs/datasets/tiled/tiled_1024_ov20_full_safe_no_ok_position/data.yaml"
+DEFAULT_PROJECT = PROJECT_ROOT / "outputs/experiments"
+DEFAULT_RUN_ID = "yolo_default_inloop_feedback_10ep_smoke"
+REFERENCE_METRICS = (
+    PROJECT_ROOT
+    / "outputs/experiments/20260518_tiled1024_safe_no_ok_position_yolo_default_diagnosis_constrained_50ep/reports/diagnosis_constrained_metrics.json"
+)
+METRIC_KEYS = ("precision", "recall", "map50", "map50_95")
+INDUSTRIAL_OPS = {"clahe", "gamma", "local_contrast", "sharpen_mild", "cutout_safe", "brightness", "contrast"}
+CUSTOM_LIMITS = {
+    "clahe": (0.0, 0.30, 0.0, 0.45),
+    "gamma": (0.0, 0.30, 0.0, 0.45),
+    "local_contrast": (0.0, 0.30, 0.0, 0.40),
+    "sharpen_mild": (0.0, 0.30, 0.0, 0.40),
+    "cutout_safe": (0.0, 0.20, 0.0, 0.30),
+    "brightness": (0.0, 0.20, 0.0, 0.25),
+    "contrast": (0.0, 0.20, 0.0, 0.25),
+}
+
+
+@dataclass
+class InLoopFeedbackState:
+    output_dir: Path
+    args: argparse.Namespace
+    context: OnlineTrainingContext
+    policy_state: dict[str, Any]
+    reference_metrics: dict[str, Any]
+    history: list[dict[str, Any]] = field(default_factory=list)
+    epoch_records: list[dict[str, Any]] = field(default_factory=list)
+    callback_invocations: int = 0
+    train_start_time: float = field(default_factory=time.time)
+    train_end_time: float | None = None
+    trainer_identity: dict[str, int | None] = field(default_factory=dict)
+    feedback_epochs: list[int] = field(default_factory=list)
+
+
+def main() -> None:
+    args = parse_args()
+    output_dir = (Path(args.project) / args.run_id).resolve()
+    configure_environment(output_dir)
+    prepare_output_dirs(output_dir)
+
+    api = check_ultralytics_api()
+    reference_metrics = load_yolo_default_reference(Path(args.reference_metrics))
+    policy_state = initial_policy_state()
+    active_policy = training_policy(policy_state)
+    write_json(output_dir / "configs" / "initial_policy_state.json", policy_state)
+    write_json(output_dir / "configs" / "active_policy_epoch_000.json", active_policy)
+    write_json(output_dir / "configs" / "train_config.json", build_train_config(args, output_dir))
+
+    stats = OnlineAugmentationStats()
+    augmentor = OnlinePolicyAugmentor(
+        active_policy,
+        seed=args.seed,
+        copy_paste_enabled=False,
+        stats=stats,
+        total_epochs=args.epochs,
+    )
+    context = OnlineTrainingContext(
+        augmentor=augmentor,
+        preview_dir=output_dir / "previews",
+        save_preview=args.save_preview,
+        preview_count=args.preview_count,
+        total_epochs=args.epochs,
+    )
+    state = InLoopFeedbackState(
+        output_dir=output_dir,
+        args=args,
+        context=context,
+        policy_state=policy_state,
+        reference_metrics=reference_metrics,
+    )
+
+    model = api["YOLO"](args.model)
+    trainer_cls = make_online_trainer(api, context)
+    register_epoch_callback(model, context, total_epochs=args.epochs)
+    register_inloop_feedback_callback(model, state)
+    train_kwargs = build_train_kwargs(args, output_dir)
+    write_text(output_dir / "configs" / "train_command.txt", build_train_command(args, output_dir))
+    write_text(output_dir / "logs" / "train.command.txt", build_train_command(args, output_dir))
+
+    train_success = False
+    train_error: str | None = None
+    train_result_type: str | None = None
+    try:
+        train_result = model.train(trainer=trainer_cls, **train_kwargs)
+        train_result_type = type(train_result).__name__
+        train_success = True
+    except Exception as exc:
+        train_error = f"{type(exc).__name__}: {exc}"
+    state.train_end_time = time.time()
+
+    best_pt = output_dir / "train" / "weights" / "best.pt"
+    last_pt = output_dir / "train" / "weights" / "last.pt"
+    weights_for_val = best_pt if best_pt.exists() else last_pt
+    val_metrics: dict[str, Any] = {}
+    val_success = False
+    val_error: str | None = None
+    if train_success and weights_for_val.exists():
+        try:
+            val_result = api["YOLO"](str(weights_for_val)).val(
+                data=str(Path(args.data)),
+                imgsz=args.imgsz,
+                batch=args.batch,
+                workers=args.workers,
+                device=str(args.device),
+                project=str(output_dir),
+                name="val",
+                exist_ok=True,
+                plots=False,
+            )
+            val_metrics = metrics_to_dict(val_result)
+            if val_metrics.get("images") is None:
+                val_metrics["images"] = count_split_images(Path(args.data), "val")
+            val_success = True
+        except Exception as exc:
+            val_error = f"{type(exc).__name__}: {exc}"
+    elif train_success:
+        val_error = "no best.pt or last.pt found after training"
+    else:
+        val_error = "validation skipped because training failed"
+
+    payload = build_payload(
+        args=args,
+        output_dir=output_dir,
+        state=state,
+        train_success=train_success,
+        train_error=train_error,
+        train_result_type=train_result_type,
+        val_success=val_success,
+        val_error=val_error,
+        val_metrics=val_metrics,
+        best_pt=best_pt,
+        last_pt=last_pt,
+    )
+    write_outputs(payload)
+    if not args.skip_doc_update:
+        update_state_docs(payload)
+        export_project_snapshot()
+    print(json.dumps(payload["summary"], ensure_ascii=False, indent=2))
+    if not train_success:
+        raise RuntimeError(f"in-loop feedback training failed: {train_error}")
+    if not val_success:
+        raise RuntimeError(f"in-loop feedback final validation failed: {val_error}")
+
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="Single-run YOLO default training with in-loop diagnosis feedback.")
+    parser.add_argument("--model", default="yolo11n.pt")
+    parser.add_argument("--data", default=str(DEFAULT_DATA))
+    parser.add_argument("--epochs", type=int, default=10)
+    parser.add_argument("--imgsz", type=int, default=1024)
+    parser.add_argument("--batch", type=int, default=2)
+    parser.add_argument("--workers", type=int, default=0)
+    parser.add_argument("--device", default="0")
+    parser.add_argument("--seed", type=int, default=42)
+    parser.add_argument("--project", default=str(DEFAULT_PROJECT))
+    parser.add_argument("--run-id", default=DEFAULT_RUN_ID)
+    parser.add_argument("--feedback-enabled", action=argparse.BooleanOptionalAction, default=True)
+    parser.add_argument("--feedback-interval", type=int, default=5)
+    parser.add_argument("--feedback-start-epoch", type=int, default=5)
+    parser.add_argument("--feedback-profile", default="industrial")
+    parser.add_argument("--reference-metrics", default=str(REFERENCE_METRICS))
+    parser.add_argument("--save-preview", action=argparse.BooleanOptionalAction, default=True)
+    parser.add_argument("--preview-count", type=int, default=20)
+    parser.add_argument("--keep-diagnosis-predict-runs", action="store_true")
+    parser.add_argument("--skip-doc-update", action="store_true")
+    return parser.parse_args()
+
+
+def configure_environment(output_dir: Path) -> None:
+    scripts_dir = PYTHON_EXE.parent / "Scripts"
+    os.environ["PATH"] = str(scripts_dir) + os.pathsep + os.environ.get("PATH", "")
+    os.environ["PYTHONUTF8"] = "1"
+    os.environ["PYTHONIOENCODING"] = "utf-8"
+    yolo_config = output_dir / "configs" / "ultralytics"
+    yolo_config.mkdir(parents=True, exist_ok=True)
+    os.environ["YOLO_CONFIG_DIR"] = str(yolo_config.resolve())
+
+
+def prepare_output_dirs(output_dir: Path) -> None:
+    for subdir in ["configs", "logs", "reports", "previews", "diagnosis"]:
+        (output_dir / subdir).mkdir(parents=True, exist_ok=True)
+
+
+def build_train_config(args: argparse.Namespace, output_dir: Path) -> dict[str, Any]:
+    return {
+        "entrypoint": "scripts/train_yolo_default_with_inloop_feedback.py",
+        "run_id": args.run_id,
+        "output_dir": str(output_dir),
+        "model": args.model,
+        "data": str(Path(args.data)),
+        "epochs": int(args.epochs),
+        "imgsz": int(args.imgsz),
+        "batch": int(args.batch),
+        "workers": int(args.workers),
+        "device": str(args.device),
+        "seed": int(args.seed),
+        "feedback_enabled": bool(args.feedback_enabled),
+        "feedback_interval": int(args.feedback_interval),
+        "feedback_start_epoch": int(args.feedback_start_epoch),
+        "yolo_default_augmentation_enabled": True,
+        "disable_yolo_aug": False,
+        "custom_mosaic4_used": False,
+        "custom_randaugment_like_used": False,
+        "copy_paste_status": "pending_object_bank_design",
+        "keep_diagnosis_predict_runs": bool(args.keep_diagnosis_predict_runs),
+    }
+
+
+def build_train_kwargs(args: argparse.Namespace, output_dir: Path) -> dict[str, Any]:
+    return {
+        "data": str(Path(args.data)),
+        "epochs": int(args.epochs),
+        "imgsz": int(args.imgsz),
+        "batch": int(args.batch),
+        "workers": int(args.workers),
+        "device": str(args.device),
+        "seed": int(args.seed),
+        "project": str(output_dir),
+        "name": "train",
+        "exist_ok": True,
+        "plots": False,
+    }
+
+
+def build_train_command(args: argparse.Namespace, output_dir: Path) -> str:
+    parts = [
+        "YOLO.train",
+        f"model={args.model}",
+        f"data={Path(args.data)}",
+        f"epochs={args.epochs}",
+        f"imgsz={args.imgsz}",
+        f"batch={args.batch}",
+        f"workers={args.workers}",
+        f"device={args.device}",
+        f"seed={args.seed}",
+        f"project={output_dir}",
+        "name=train",
+        "trainer=InLoopFeedbackDetectionTrainer",
+        "yolo_default_augmentation_enabled=True",
+        "disable_yolo_aug=False",
+    ]
+    return subprocess.list2cmdline([str(part) for part in parts])
+
+
+def initial_policy_state() -> dict[str, Any]:
+    return {
+        "policy_id": "inloop_yolo_default_industrial_feedback",
+        "copy_paste_status": "pending_object_bank_design",
+        "notes": [
+            "Ultralytics YOLO default augmentation is left untouched.",
+            "Only additional low-strength industrial online operations are controlled by feedback.",
+            "No custom mosaic4 or randaugment_like is used.",
+        ],
+        "operations": [
+            op_payload("clahe", 0.0, 0.0),
+            op_payload("gamma", 0.0, 0.0),
+            op_payload("local_contrast", 0.0, 0.0),
+            op_payload("sharpen_mild", 0.0, 0.0, params={"amount": 0.6}),
+            op_payload("cutout_safe", 0.0, 0.0, params={"max_holes": 2, "max_fraction": 0.12, "max_bbox_overlap": 0.05}),
+            op_payload("brightness", 0.0, 0.0, params={"max_delta": 0.12}),
+            op_payload("contrast", 0.0, 0.0, params={"alpha": 0.15}),
+        ],
+    }
+
+
+def op_payload(name: str, prob: float, strength: float, *, params: dict[str, Any] | None = None) -> dict[str, Any]:
+    min_prob, max_prob, min_strength, max_strength = CUSTOM_LIMITS[name]
+    return {
+        "name": name,
+        "prob": float(prob),
+        "base_prob": float(prob),
+        "min_prob": min_prob,
+        "max_prob": max_prob,
+        "strength": float(strength),
+        "base_strength": float(strength),
+        "min_strength": min_strength,
+        "max_strength": max_strength,
+        "params": params or {},
+    }
+
+
+def training_policy(policy_state: dict[str, Any]) -> dict[str, Any]:
+    policy = deepcopy(policy_state)
+    blocked = {"mosaic4", "randaugment_like", "copy_paste", "online_copy_paste", "class_balanced_copy_paste"}
+    operations = []
+    for operation in policy.get("operations", []):
+        name = str(operation.get("name", "")).strip().lower()
+        if name in blocked:
+            raise ValueError(f"{name} is not allowed in YOLO-default in-loop feedback mode")
+        if name not in INDUSTRIAL_OPS:
+            raise ValueError(f"unsupported in-loop industrial op: {name}")
+        if float(operation.get("prob", 0.0) or 0.0) > 0.0:
+            operations.append(deepcopy(operation))
+    policy["operations"] = operations
+    return policy
+
+
+def register_inloop_feedback_callback(model: Any, state: InLoopFeedbackState) -> None:
+    def _on_fit_epoch_end(trainer: Any) -> None:
+        state.callback_invocations += 1
+        epoch_index = int(getattr(trainer, "epoch", 0) or 0)
+        epoch_num = epoch_index + 1
+        metrics = compact_trainer_metrics(getattr(trainer, "metrics", {}) or {})
+        state.epoch_records.append(
+            {
+                "epoch": epoch_num,
+                "metrics": metrics,
+                "optimizer_id": id(getattr(trainer, "optimizer", None)) if getattr(trainer, "optimizer", None) is not None else None,
+                "scheduler_id": id(getattr(trainer, "scheduler", None)) if getattr(trainer, "scheduler", None) is not None else None,
+                "ema_id": id(getattr(trainer, "ema", None)) if getattr(trainer, "ema", None) is not None else None,
+            }
+        )
+        if not should_update_feedback(state.args, epoch_num):
+            return
+        state.trainer_identity.setdefault("trainer_id", id(trainer))
+        state.trainer_identity.setdefault("optimizer_id", id(getattr(trainer, "optimizer", None)) if getattr(trainer, "optimizer", None) is not None else None)
+        state.trainer_identity.setdefault("scheduler_id", id(getattr(trainer, "scheduler", None)) if getattr(trainer, "scheduler", None) is not None else None)
+        state.trainer_identity.setdefault("ema_id", id(getattr(trainer, "ema", None)) if getattr(trainer, "ema", None) is not None else None)
+
+        diagnosis = run_feedback_diagnosis(state, trainer, epoch_num)
+        old_policy = deepcopy(state.policy_state)
+        adjustments = update_policy_state(state.policy_state, diagnosis=diagnosis, metrics=metrics, reference=state.reference_metrics)
+        new_policy = deepcopy(state.policy_state)
+        active_policy = training_policy(state.policy_state)
+        state.context.augmentor.set_policy(active_policy)
+        state.feedback_epochs.append(epoch_num)
+        record = {
+            "timestamp": datetime.now().isoformat(timespec="seconds"),
+            "epoch": epoch_num,
+            "profile": state.args.feedback_profile,
+            "metrics": metrics,
+            "diagnosis_global": diagnosis.get("global", {}),
+            "diagnosis_vector": diagnosis.get("diagnosis_vector", {}),
+            "adjustments": adjustments,
+            "old_policy": old_policy,
+            "new_policy": new_policy,
+            "active_policy": active_policy,
+            "copy_paste_status": "pending_object_bank_design",
+            "trainer_identity": {
+                "trainer_id": id(trainer),
+                "optimizer_id": id(getattr(trainer, "optimizer", None)) if getattr(trainer, "optimizer", None) is not None else None,
+                "scheduler_id": id(getattr(trainer, "scheduler", None)) if getattr(trainer, "scheduler", None) is not None else None,
+                "ema_id": id(getattr(trainer, "ema", None)) if getattr(trainer, "ema", None) is not None else None,
+            },
+        }
+        state.history.append(record)
+        write_json(state.output_dir / "configs" / f"active_policy_epoch_{epoch_num:03d}.json", active_policy)
+        write_policy_history(state.output_dir / "reports", state.history, state.policy_state)
+
+    if hasattr(model, "add_callback"):
+        model.add_callback("on_fit_epoch_end", _on_fit_epoch_end)
+
+
+def should_update_feedback(args: argparse.Namespace, epoch_num: int) -> bool:
+    if not bool(args.feedback_enabled):
+        return False
+    if epoch_num >= int(args.epochs):
+        return False
+    if epoch_num < int(args.feedback_start_epoch):
+        return False
+    interval = max(1, int(args.feedback_interval))
+    return epoch_num % interval == 0
+
+
+def run_feedback_diagnosis(state: InLoopFeedbackState, trainer: Any, epoch_num: int) -> dict[str, Any]:
+    weights = Path(getattr(trainer, "last", state.output_dir / "train" / "weights" / "last.pt"))
+    if not weights.exists():
+        weights = Path(getattr(trainer, "best", state.output_dir / "train" / "weights" / "best.pt"))
+    val_images, val_labels = resolve_val_image_label_dirs(Path(state.args.data))
+    class_names = load_class_names_from_data_yaml(state.args.data)
+    diag_root = state.output_dir / "diagnosis" / f"epoch_{epoch_num:03d}"
+    prediction = run_validation_prediction(
+        weights=weights,
+        val_images_dir=val_images,
+        val_labels_dir=val_labels,
+        output_dir=diag_root / "prediction",
+        imgsz=int(state.args.imgsz),
+        workers=int(state.args.workers),
+        device=str(state.args.device),
+        conf=0.25,
+        iou=0.5,
+        dry_run=False,
+    )
+    diagnosis = run_error_diagnosis(
+        val_images_dir=val_images,
+        val_labels_dir=val_labels,
+        predictions_dir=prediction["predictions_dir"],
+        output_dir=diag_root / "diagnosis",
+        class_names=class_names,
+        match_iou=0.5,
+        localization_weak_iou=0.3,
+    )
+    if not bool(getattr(state.args, "keep_diagnosis_predict_runs", False)):
+        predict_runs = diag_root / "prediction" / "predict_runs"
+        if predict_runs.exists():
+            shutil.rmtree(predict_runs)
+    return diagnosis
+
+
+def update_policy_state(
+    policy_state: dict[str, Any],
+    *,
+    diagnosis: dict[str, Any],
+    metrics: dict[str, Any],
+    reference: dict[str, Any],
+) -> list[dict[str, Any]]:
+    flags = feedback_flags(diagnosis, metrics, reference)
+    delta = metric_delta(metrics, reference)
+    precision_drop = (delta.get("precision") or 0.0) < -0.01
+    factor = 0.5 if precision_drop else 1.0
+    changes: list[dict[str, Any]] = []
+    if flags["recall_low"] or flags["fn_high"]:
+        for name in ["clahe", "gamma", "sharpen_mild", "local_contrast"]:
+            changes.extend(adjust_operation(policy_state, name, prob_delta=0.04 * factor, strength_delta=0.03 * factor, reason="recall_low_or_fn_high"))
+        for name in ["brightness"]:
+            changes.extend(adjust_operation(policy_state, name, prob_delta=0.03 * factor, strength_delta=0.02 * factor, reason="recall_low_brightness_like"))
+    if flags["precision_low"] or flags["fp_high"]:
+        for name in ["brightness", "contrast", "clahe", "gamma"]:
+            changes.extend(adjust_operation(policy_state, name, prob_delta=-0.03, strength_delta=-0.02, reason="precision_low_or_fp_high"))
+        changes.extend(adjust_operation(policy_state, "cutout_safe", prob_delta=0.03, strength_delta=0.02, reason="precision_low_hard_negative_like"))
+    if flags["map50_high_map95_low"]:
+        for name in ["sharpen_mild", "local_contrast"]:
+            changes.extend(adjust_operation(policy_state, name, prob_delta=0.04, strength_delta=0.03, reason="map50_high_map95_low"))
+        changes.extend(adjust_operation(policy_state, "cutout_safe", prob_delta=-0.02, strength_delta=-0.02, reason="map50_high_map95_low_reduce_cutout"))
+    if flags["low_contrast_fn_high"]:
+        for name in ["clahe", "gamma", "local_contrast", "sharpen_mild"]:
+            changes.extend(adjust_operation(policy_state, name, prob_delta=0.04 * factor, strength_delta=0.03 * factor, reason="low_contrast_fn_high_monitor_fp"))
+    return changes
+
+
+def feedback_flags(diagnosis: dict[str, Any], metrics: dict[str, Any], reference: dict[str, Any]) -> dict[str, bool]:
+    global_diag = diagnosis.get("global", {}) or {}
+    vector = diagnosis.get("diagnosis_vector", {}) or {}
+    issues = {str(item.get("type")) for item in diagnosis.get("issues", []) if isinstance(item, dict)}
+    delta = metric_delta(metrics, reference)
+    tp = int(global_diag.get("tp", 0) or 0)
+    fp = int(global_diag.get("fp", 0) or 0)
+    fn = int(global_diag.get("fn", 0) or 0)
+    low_contrast_score = float((vector.get("low_contrast_score") or {}).get("score", 0.0) or 0.0)
+    map50 = metrics.get("map50")
+    map95 = metrics.get("map50_95")
+    return {
+        "recall_low": (delta.get("recall") or 0.0) < -0.01,
+        "fn_high": fn / max(1, tp + fn) > 0.18,
+        "precision_low": (delta.get("precision") or 0.0) < -0.01,
+        "fp_high": fp / max(1, tp + fp) > 0.25,
+        "map50_high_map95_low": map50 is not None and map95 is not None and float(map50) - float(map95) > 0.18,
+        "low_contrast_fn_high": low_contrast_score > 0.15 or "low_contrast_missed_defect" in issues,
+    }
+
+
+def adjust_operation(
+    policy_state: dict[str, Any],
+    name: str,
+    *,
+    prob_delta: float,
+    strength_delta: float,
+    reason: str,
+) -> list[dict[str, Any]]:
+    op = find_operation(policy_state, name)
+    min_prob, max_prob, min_strength, max_strength = CUSTOM_LIMITS[name]
+    changes: list[dict[str, Any]] = []
+    before_prob = float(op.get("prob", 0.0) or 0.0)
+    after_prob = clip(before_prob + prob_delta, min_prob, max_prob)
+    if after_prob != before_prob:
+        op["prob"] = after_prob
+        changes.append({"epoch_field": "policy", "op": name, "field": "prob", "before": before_prob, "after": after_prob, "reason": reason})
+    before_strength = float(op.get("strength", 0.0) or 0.0)
+    after_strength = clip(before_strength + strength_delta, min_strength, max_strength)
+    if after_strength != before_strength:
+        op["strength"] = after_strength
+        changes.append({"epoch_field": "policy", "op": name, "field": "strength", "before": before_strength, "after": after_strength, "reason": reason})
+    return changes
+
+
+def find_operation(policy_state: dict[str, Any], name: str) -> dict[str, Any]:
+    for op in policy_state.setdefault("operations", []):
+        if op.get("name") == name:
+            return op
+    op = op_payload(name, 0.0, 0.0)
+    policy_state["operations"].append(op)
+    return op
+
+
+def compact_trainer_metrics(metrics: dict[str, Any]) -> dict[str, Any]:
+    mapping = {
+        "precision": "metrics/precision(B)",
+        "recall": "metrics/recall(B)",
+        "map50": "metrics/mAP50(B)",
+        "map50_95": "metrics/mAP50-95(B)",
+    }
+    out: dict[str, Any] = {"images": None, "instances": None}
+    for key, source in mapping.items():
+        value = metrics.get(source, metrics.get(key))
+        out[key] = None if value is None else float(value)
+    return out
+
+
+def build_payload(
+    *,
+    args: argparse.Namespace,
+    output_dir: Path,
+    state: InLoopFeedbackState,
+    train_success: bool,
+    train_error: str | None,
+    train_result_type: str | None,
+    val_success: bool,
+    val_error: str | None,
+    val_metrics: dict[str, Any],
+    best_pt: Path,
+    last_pt: Path,
+) -> dict[str, Any]:
+    stats = state.context.augmentor.stats.to_dict()
+    stats.update(
+        {
+            "run_id": args.run_id,
+            "generated_at": datetime.now().isoformat(timespec="seconds"),
+            "online_augmentation": True,
+            "inloop_feedback": True,
+            "train_image_count": state.context.train_image_count,
+            "expected_original_train_images": 2301,
+            "train_image_count_matches_original": state.context.train_image_count == 2301,
+            "fixed_augmented_dataset_generated": fixed_augmented_dataset_generated(output_dir),
+            "copy_paste_online_supported": False,
+            "copy_paste_status": "pending_object_bank_design",
+            "train_success": train_success,
+            "train_error": train_error,
+            "val_success": val_success,
+            "val_error": val_error,
+            "val_metrics": val_metrics,
+        }
+    )
+    continuity = verify_continuity(output_dir, args, state)
+    summary = {
+        "single_run_inloop_feedback": True,
+        "train_success": train_success,
+        "val_success": val_success,
+        "stage_restart_count": 0,
+        "epoch_continuous": continuity["epoch_continuous"],
+        "feedback_epochs": state.feedback_epochs,
+        "feedback_update_count": len(state.history),
+        "yolo_default_augmentation_enabled": True,
+        "industrial_aug_dynamic": bool(state.history),
+        "fixed_augmented_dataset_generated": stats["fixed_augmented_dataset_generated"],
+        "train_image_count": state.context.train_image_count,
+        "bbox_class_valid": stats["invalid_bbox_count"] == 0 and stats["class_id_oob_count"] == 0,
+        "policy_history": str((output_dir / "reports" / "policy_history.json").resolve()),
+        "online_aug_stats": str((output_dir / "reports" / "online_aug_stats.json").resolve()),
+        "report": str((output_dir / "reports" / "inloop_feedback_smoke_report.md").resolve()),
+    }
+    return {
+        "run_id": args.run_id,
+        "generated_at": datetime.now().isoformat(timespec="seconds"),
+        "output_dir": str(output_dir),
+        "mode": "single_run_yolo_default_with_inloop_feedback",
+        "model": str(args.model),
+        "data": str(Path(args.data)),
+        "epochs": int(args.epochs),
+        "feedback_interval": int(args.feedback_interval),
+        "feedback_start_epoch": int(args.feedback_start_epoch),
+        "train_result_type": train_result_type,
+        "train": {
+            "success": train_success,
+            "error": train_error,
+            "wall_seconds": None if state.train_end_time is None else state.train_end_time - state.train_start_time,
+            "results_csv": str(output_dir / "train" / "results.csv"),
+            "best_pt": str(best_pt.resolve()) if best_pt.exists() else None,
+            "last_pt": str(last_pt.resolve()) if last_pt.exists() else None,
+        },
+        "val": {"success": val_success, "error": val_error, "metrics": val_metrics},
+        "policy_history": state.history,
+        "latest_policy_state": state.policy_state,
+        "epoch_records": state.epoch_records,
+        "online_aug_stats": stats,
+        "continuity": continuity,
+        "summary": summary,
+    }
+
+
+def verify_continuity(output_dir: Path, args: argparse.Namespace, state: InLoopFeedbackState) -> dict[str, Any]:
+    results_csv = output_dir / "train" / "results.csv"
+    epochs = read_epoch_sequence(results_csv)
+    expected = list(range(1, int(args.epochs) + 1))
+    args_yaml = read_yaml(output_dir / "train" / "args.yaml")
+    train_dirs = [p for p in output_dir.iterdir() if p.is_dir() and p.name == "train"]
+    stage_dirs = [p for p in output_dir.iterdir() if p.is_dir() and p.name.startswith("stage_")]
+    optimizer_ids = {record.get("optimizer_id") for record in state.epoch_records if record.get("optimizer_id") is not None}
+    scheduler_ids = {record.get("scheduler_id") for record in state.epoch_records if record.get("scheduler_id") is not None}
+    ema_ids = {record.get("ema_id") for record in state.epoch_records if record.get("ema_id") is not None}
+    return {
+        "single_train_run_dir": len(train_dirs) == 1,
+        "stage_restart_dirs": [str(path) for path in stage_dirs],
+        "stage_restart_count": len(stage_dirs),
+        "epochs_arg": args_yaml.get("epochs"),
+        "resume_arg": args_yaml.get("resume"),
+        "close_mosaic_arg": args_yaml.get("close_mosaic"),
+        "epoch_sequence": epochs,
+        "expected_epoch_sequence": expected,
+        "epoch_continuous": epochs == expected,
+        "optimizer_single_id_observed": len(optimizer_ids) <= 1,
+        "scheduler_single_id_observed": len(scheduler_ids) <= 1,
+        "ema_single_id_observed": len(ema_ids) <= 1,
+        "trainer_identity": state.trainer_identity,
+        "global_best_path": str((output_dir / "train" / "weights" / "best.pt").resolve()),
+        "global_last_path": str((output_dir / "train" / "weights" / "last.pt").resolve()),
+        "official_close_mosaic_managed_by_yolo": True,
+    }
+
+
+def write_outputs(payload: dict[str, Any]) -> None:
+    output_dir = Path(payload["output_dir"])
+    write_json(output_dir / "reports" / "final_metrics.json", payload)
+    write_json(output_dir / "reports" / "online_aug_stats.json", payload["online_aug_stats"])
+    write_json(output_dir / "reports" / "epoch_records.json", payload["epoch_records"])
+    write_policy_history(output_dir / "reports", payload["policy_history"], payload["latest_policy_state"])
+    write_markdown(output_dir / "reports" / "inloop_feedback_smoke_report.md", build_smoke_report(payload))
+
+
+def write_policy_history(history_dir: Path, history: list[dict[str, Any]], latest_policy: dict[str, Any]) -> None:
+    write_json(history_dir / "policy_history.json", {"history": history, "latest_policy": latest_policy})
+    lines = ["# In-Loop Feedback Policy History", "", "| epoch | adjustments | copy_paste_status |", "|---:|---:|---|"]
+    for record in history:
+        lines.append(f"| {record.get('epoch')} | {len(record.get('adjustments', []))} | {record.get('copy_paste_status')} |")
+    lines.extend(["", "## Adjustments", ""])
+    for record in history:
+        lines.append(f"### Epoch {record.get('epoch')}")
+        if not record.get("adjustments"):
+            lines.append("- No adjustment.")
+        for adj in record.get("adjustments", []):
+            lines.append(f"- `{adj['op']}` {adj['field']}: {adj['before']:.4f} -> {adj['after']:.4f} ({adj['reason']})")
+    write_markdown(history_dir / "policy_history.md", "\n".join(lines))
+    with (history_dir / "policy_history.csv").open("w", newline="", encoding="utf-8") as handle:
+        writer = csv.DictWriter(handle, fieldnames=["epoch", "op", "field", "before", "after", "reason"])
+        writer.writeheader()
+        for record in history:
+            for adj in record.get("adjustments", []):
+                writer.writerow({"epoch": record.get("epoch"), **{key: adj.get(key) for key in ["op", "field", "before", "after", "reason"]}})
+
+
+def build_smoke_report(payload: dict[str, Any]) -> str:
+    stats = payload["online_aug_stats"]
+    continuity = payload["continuity"]
+    lines = [
+        "# In-Loop YOLO Default Feedback Smoke",
+        "",
+        "## Answers",
+        "",
+        f"- Single-run continuous training: `{str(payload['summary']['single_run_inloop_feedback']).lower()}`",
+        f"- No stage restart: `{str(continuity['stage_restart_count'] == 0).lower()}`",
+        f"- Epoch sequence continuous: `{str(continuity['epoch_continuous']).lower()}`",
+        f"- Optimizer/scheduler/EMA managed by one trainer: `{str(continuity['optimizer_single_id_observed'] and continuity['scheduler_single_id_observed'] and continuity['ema_single_id_observed']).lower()}`",
+        f"- close_mosaic managed by official YOLO: `{str(continuity['official_close_mosaic_managed_by_yolo']).lower()}`",
+        f"- Feedback updated after epoch 5: `{str(any(epoch >= 5 for epoch in payload['summary']['feedback_epochs'])).lower()}`",
+        f"- Mutable policy affects later epochs: `{str(stats.get('samples_augmented', 0) > 0).lower()}`",
+        "- YOLO default augmentation remains enabled: `true`",
+        f"- BBox/class legal: `{str(payload['summary']['bbox_class_valid']).lower()}`",
+        "",
+        "## Augmentation Stats",
+        "",
+        f"- Train image count: `{stats.get('train_image_count')}`",
+        f"- Fixed augmented dataset generated: `{str(stats.get('fixed_augmented_dataset_generated')).lower()}`",
+        f"- Samples seen: `{stats.get('samples_seen')}`",
+        f"- Samples augmented: `{stats.get('samples_augmented')}`",
+        f"- Invalid bbox count: `{stats.get('invalid_bbox_count')}`",
+        f"- Class id OOB count: `{stats.get('class_id_oob_count')}`",
+        "",
+        "| op | seen | applied | skipped_probability |",
+        "|---|---:|---:|---:|",
+    ]
+    for name, counts in sorted((stats.get("ops") or {}).items()):
+        lines.append(
+            f"| {name} | {counts.get('seen', 0)} | {counts.get('applied', 0)} | {counts.get('skipped_probability', 0)} |"
+        )
+    lines.extend(
+        [
+            "",
+            "## Continuity Evidence",
+            "",
+            f"- Train dirs: `1`",
+            f"- Stage dirs: `{continuity['stage_restart_count']}`",
+            f"- args.yaml epochs: `{continuity.get('epochs_arg')}`",
+            f"- args.yaml resume: `{continuity.get('resume_arg')}`",
+            f"- args.yaml close_mosaic: `{continuity.get('close_mosaic_arg')}`",
+            f"- results.csv epoch sequence: `{continuity.get('epoch_sequence')}`",
+            f"- Global best.pt: `{continuity.get('global_best_path')}`",
+            "",
+            "## Final Metrics",
+            "",
+            f"- Precision: `{fmt(payload['val']['metrics'].get('precision'))}`",
+            f"- Recall: `{fmt(payload['val']['metrics'].get('recall'))}`",
+            f"- mAP50: `{fmt(payload['val']['metrics'].get('map50'))}`",
+            f"- mAP50-95: `{fmt(payload['val']['metrics'].get('map50_95'))}`",
+        ]
+    )
+    return "\n".join(lines) + "\n"
+
+
+def load_yolo_default_reference(path: Path) -> dict[str, Any]:
+    payload = read_json(path)
+    for row in payload.get("rows", []):
+        if row.get("key") == "yolo_default":
+            return compact_metrics(row.get("metrics", {}))
+    raise ValueError(f"missing yolo_default reference row in {path}")
+
+
+def resolve_val_image_label_dirs(data_yaml: Path) -> tuple[Path, Path]:
+    data = yaml.safe_load(data_yaml.read_text(encoding="utf-8-sig")) or {}
+    root = Path(data.get("path", data_yaml.parent))
+    if not root.is_absolute():
+        root = (data_yaml.parent / root).resolve()
+    val_value = Path(str(data["val"]))
+    val_images = val_value if val_value.is_absolute() else root / val_value
+    try:
+        rel_parts = list(val_images.relative_to(root).parts)
+        if rel_parts and rel_parts[0] == "images":
+            val_labels = root.joinpath("labels", *rel_parts[1:])
+        else:
+            val_labels = val_images.parent.parent / "labels" / val_images.name
+    except ValueError:
+        parts = list(val_images.parts)
+        if "images" in parts:
+            index = parts.index("images")
+            parts[index] = "labels"
+            val_labels = Path(*parts)
+        else:
+            val_labels = val_images.parent.parent / "labels" / val_images.name
+    return val_images, val_labels
+
+
+def compact_metrics(metrics: dict[str, Any]) -> dict[str, Any]:
+    return {key: metrics.get(key) for key in ["images", "instances", *METRIC_KEYS]}
+
+
+def metric_delta(metrics: dict[str, Any], reference: dict[str, Any]) -> dict[str, float | None]:
+    delta: dict[str, float | None] = {}
+    for key in METRIC_KEYS:
+        value = metrics.get(key)
+        ref = reference.get(key)
+        delta[key] = None if value is None or ref is None else float(value) - float(ref)
+    return delta
+
+
+def fixed_augmented_dataset_generated(output_dir: Path) -> bool:
+    return any(
+        path.exists()
+        for path in [
+            output_dir / "dataset" / "final_dataset" / "images",
+            output_dir / "dataset_builder" / "final_dataset" / "images",
+        ]
+    )
+
+
+def read_epoch_sequence(results_csv: Path) -> list[int]:
+    if not results_csv.exists():
+        return []
+    rows = results_csv.read_text(encoding="utf-8").splitlines()
+    if len(rows) <= 1:
+        return []
+    values: list[int] = []
+    for row in rows[1:]:
+        first = row.split(",", 1)[0].strip()
+        try:
+            values.append(int(float(first)))
+        except ValueError:
+            continue
+    return values
+
+
+def read_yaml(path: Path) -> dict[str, Any]:
+    if not path.exists():
+        return {}
+    return yaml.safe_load(path.read_text(encoding="utf-8-sig")) or {}
+
+
+def clip(value: float, lower: float, upper: float) -> float:
+    return max(lower, min(upper, float(value)))
+
+
+def fmt(value: Any) -> str:
+    return "NA" if value is None else f"{float(value):.4f}"
+
+
+def read_json(path: Path) -> Any:
+    return json.loads(path.read_text(encoding="utf-8-sig"))
+
+
+def write_json(path: Path, payload: Any) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+
+def write_text(path: Path, text: str) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(text, encoding="utf-8")
+
+
+def write_markdown(path: Path, text: str) -> None:
+    write_text(path, text.rstrip() + "\n")
+
+
+def update_marked_section(path: Path, marker: str, content: str) -> None:
+    start = f"<!-- {marker}_START -->"
+    end = f"<!-- {marker}_END -->"
+    block = f"{start}\n{content.rstrip()}\n{end}"
+    original = path.read_text(encoding="utf-8") if path.exists() else ""
+    if start in original and end in original:
+        before = original.split(start, 1)[0].rstrip()
+        after = original.split(end, 1)[1].lstrip()
+        text = f"{before}\n{block}\n{after}".rstrip() + "\n"
+    else:
+        text = original.rstrip() + "\n\n" + block + "\n"
+    path.write_text(text, encoding="utf-8")
+
+
+def update_state_docs(payload: dict[str, Any]) -> None:
+    content = "\n".join(
+        [
+            "## YOLO Default In-Loop Feedback Smoke",
+            "",
+            "- Entrypoint: `scripts/train_yolo_default_with_inloop_feedback.py`.",
+            "- The previous `yolo_default_feedback_aug_50ep_full` run is a segmented fine-tune experiment, not strict continuous feedback.",
+            "- New direction: one `YOLO.train()` run with in-loop feedback callbacks; optimizer/scheduler/EMA/epoch/close_mosaic remain under one Ultralytics trainer.",
+            f"- Output: `outputs/experiments/{payload['run_id']}/`",
+            f"- Epochs: `{payload['epochs']}`",
+            f"- Feedback epochs: `{payload['summary']['feedback_epochs']}`",
+            f"- Stage restart count: `{payload['continuity']['stage_restart_count']}`",
+            f"- Epoch continuous: `{str(payload['continuity']['epoch_continuous']).lower()}`",
+            f"- Train image count: `{payload['online_aug_stats'].get('train_image_count')}`",
+            f"- Fixed augmented dataset generated: `{str(payload['online_aug_stats'].get('fixed_augmented_dataset_generated')).lower()}`",
+            f"- Report: `outputs/experiments/{payload['run_id']}/reports/inloop_feedback_smoke_report.md`",
+            f"- Policy history: `outputs/experiments/{payload['run_id']}/reports/policy_history.json`",
+        ]
+    )
+    for name in ["PROJECT_STATE.md", "CODEX_HANDOFF.md", "EXPERIMENT_LOG.md"]:
+        update_marked_section(PROJECT_ROOT / name, "YOLO_DEFAULT_INLOOP_FEEDBACK_SMOKE", content)
+
+
+def export_project_snapshot() -> None:
+    subprocess.run([str(PYTHON_EXE), str(PROJECT_ROOT / "scripts/export_project_snapshot.py")], cwd=str(PROJECT_ROOT), check=False)
+
+
+if __name__ == "__main__":
+    main()

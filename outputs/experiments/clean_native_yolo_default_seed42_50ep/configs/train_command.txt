@@ -1,0 +1,1 @@
+YOLO.train model=yolo11n.pt data=E:\TJGY\MinPaper\MyAutoAugument\outputs\datasets\tiled\tiled_1024_ov20_full_safe_no_ok_position\data.yaml epochs=50 imgsz=1024 batch=2 workers=0 device=0 seed=42 project=E:\TJGY\MinPaper\MyAutoAugument\outputs\experiments\clean_native_yolo_default_seed42_50ep name=train exist_ok=True plots=False trainer=native_ultralytics_default

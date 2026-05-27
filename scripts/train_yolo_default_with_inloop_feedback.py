@@ -744,7 +744,8 @@ def build_payload(
     reference_for_constraints = control_metrics or state.reference_metrics
     delta_vs_reference = metric_delta(val_metrics, state.reference_metrics)
     delta_vs_control = metric_delta(val_metrics, control_metrics) if control_metrics else {}
-    constraint_scoring = build_constraint_scoring(val_metrics, reference_for_constraints, baseline_name="no_feedback_control" if control_metrics else "yolo_default_reference")
+    baseline_name = baseline_name_from_path(Path(args.control_metrics)) if control_metrics else baseline_name_from_path(Path(args.reference_metrics))
+    constraint_scoring = build_constraint_scoring(val_metrics, reference_for_constraints, baseline_name=baseline_name)
     summary = {
         "single_run_inloop_feedback": True,
         "train_success": train_success,
@@ -793,6 +794,8 @@ def build_payload(
         "continuity": continuity,
         "reference_metrics": state.reference_metrics,
         "control_metrics": control_metrics,
+        "control_metrics_path": str(Path(args.control_metrics).resolve()) if control_metrics else None,
+        "reference_metrics_path": str(Path(args.reference_metrics).resolve()),
         "delta_vs_reference": delta_vs_reference,
         "delta_vs_control": delta_vs_control,
         "constraint_scoring": constraint_scoring,
@@ -845,6 +848,8 @@ def write_outputs(payload: dict[str, Any]) -> None:
         write_markdown(output_dir / "reports" / "compare_with_yolo_default_reference.md", build_reference_comparison_report(payload))
     if payload["feedback_enabled"]:
         write_markdown(output_dir / "reports" / "compare_with_yolo_default_no_feedback.md", build_feedback_comparison_report(payload))
+        if payload.get("control_metrics_path") and "clean_native_yolo_default" in payload["control_metrics_path"]:
+            write_markdown(output_dir / "reports" / "compare_with_clean_native_yolo_default.md", build_feedback_comparison_report(payload))
 
 
 def write_policy_history(history_dir: Path, history: list[dict[str, Any]], latest_policy: dict[str, Any]) -> None:
@@ -939,6 +944,13 @@ def build_final_report(payload: dict[str, Any]) -> str:
     continuity = payload["continuity"]
     stats = payload["online_aug_stats"]
     scoring = payload["constraint_scoring"]
+    baseline = scoring["baseline_metrics"]
+    deltas = scoring["deltas"]
+    adjustment_counts = adjustment_direction_counts(payload.get("policy_history", []))
+    improved_p = (deltas.get("precision") or 0.0) > 0
+    improved_r = (deltas.get("recall") or 0.0) > 0
+    improved_map50 = (deltas.get("map50") or 0.0) > 0
+    map95_within_constraint = (deltas.get("map50_95") or 0.0) >= -0.01
     lines = [
         "# In-Loop YOLO Default Feedback Report",
         "",
@@ -964,12 +976,34 @@ def build_final_report(payload: dict[str, Any]) -> str:
         f"- mAP50: `{fmt(metrics.get('map50'))}`",
         f"- mAP50-95: `{fmt(metrics.get('map50_95'))}`",
         "",
+        "## Clean Native Reference",
+        "",
+        f"- Baseline: `{scoring['baseline_name']}`",
+        f"- Precision: `{fmt(baseline.get('precision'))}`",
+        f"- Recall: `{fmt(baseline.get('recall'))}`",
+        f"- mAP50: `{fmt(baseline.get('map50'))}`",
+        f"- mAP50-95: `{fmt(baseline.get('map50_95'))}`",
+        "",
         "## Feedback",
         "",
         f"- Feedback enabled: `{str(payload['feedback_enabled']).lower()}`",
         f"- Feedback epochs: `{payload['summary']['feedback_epochs']}`",
         f"- Policy updates: `{payload['summary']['feedback_update_count']}`",
         f"- copy_paste status: `pending_object_bank_design`",
+        f"- Ops upregulated: `{format_adjustment_counts(adjustment_counts['up'])}`",
+        f"- Ops downregulated: `{format_adjustment_counts(adjustment_counts['down'])}`",
+        "",
+        "## Industrial Augmentation Stats",
+        "",
+        "| op | seen | applied | skipped_probability |",
+        "|---|---:|---:|---:|",
+    ]
+    for name, counts in sorted((stats.get("ops") or {}).items()):
+        lines.append(
+            f"| {name} | {counts.get('seen', 0)} | {counts.get('applied', 0)} | {counts.get('skipped_probability', 0)} |"
+        )
+    lines.extend(
+        [
         "",
         "## Constraint Scoring",
         "",
@@ -982,9 +1016,34 @@ def build_final_report(payload: dict[str, Any]) -> str:
         "",
         "## Verdict",
         "",
+        f"- Exceeds clean native reference on Precision: `{str(improved_p).lower()}`",
+        f"- Exceeds clean native reference on Recall: `{str(improved_r).lower()}`",
+        f"- Exceeds clean native reference on mAP50: `{str(improved_map50).lower()}`",
+        f"- mAP50-95 remains within constraint: `{str(map95_within_constraint).lower()}`",
         feedback_worthy_verdict(payload),
-    ]
+        ]
+    )
     return "\n".join(lines) + "\n"
+
+
+def adjustment_direction_counts(history: list[dict[str, Any]]) -> dict[str, dict[str, int]]:
+    counts: dict[str, dict[str, int]] = {"up": {}, "down": {}}
+    for record in history:
+        for adjustment in record.get("adjustments", []):
+            op = str(adjustment.get("op"))
+            before = float(adjustment.get("before") or 0.0)
+            after = float(adjustment.get("after") or 0.0)
+            if after > before:
+                counts["up"][op] = counts["up"].get(op, 0) + 1
+            elif after < before:
+                counts["down"][op] = counts["down"].get(op, 0) + 1
+    return counts
+
+
+def format_adjustment_counts(counts: dict[str, int]) -> str:
+    if not counts:
+        return "none"
+    return ", ".join(f"{op}:{count}" for op, count in sorted(counts.items()))
 
 
 def build_no_feedback_control_report(payload: dict[str, Any]) -> str:
@@ -1100,8 +1159,13 @@ def feedback_worthy_verdict(payload: dict[str, Any]) -> str:
 
 def load_yolo_default_reference(path: Path) -> dict[str, Any]:
     payload = read_json(path)
+    if isinstance(payload, dict):
+        if isinstance(payload.get("metrics"), dict):
+            return compact_metrics(payload["metrics"])
+        if isinstance(payload.get("val"), dict) and isinstance(payload["val"].get("metrics"), dict):
+            return compact_metrics(payload["val"]["metrics"])
     for row in payload.get("rows", []):
-        if row.get("key") == "yolo_default":
+        if row.get("key") in {"yolo_default", "clean_native_yolo_default"}:
             return compact_metrics(row.get("metrics", {}))
     raise ValueError(f"missing yolo_default reference row in {path}")
 
@@ -1116,6 +1180,15 @@ def load_control_metrics(path: Path) -> dict[str, Any] | None:
         if isinstance(payload.get("val"), dict) and isinstance(payload["val"].get("metrics"), dict):
             return compact_metrics(payload["val"]["metrics"])
     return None
+
+
+def baseline_name_from_path(path: Path) -> str:
+    normalized = str(path).replace("\\", "/").lower()
+    if "clean_native_yolo_default" in normalized:
+        return "clean_native_yolo_default"
+    if "no_feedback" in normalized:
+        return "no_feedback_control"
+    return "yolo_default_reference"
 
 
 def resolve_val_image_label_dirs(data_yaml: Path) -> tuple[Path, Path]:
@@ -1272,6 +1345,7 @@ def update_state_docs(payload: dict[str, Any]) -> None:
             "- The previous `yolo_default_feedback_aug_50ep_full` run is a segmented fine-tune experiment, not strict continuous feedback.",
             "- New direction: one `YOLO.train()` run with in-loop feedback callbacks; optimizer/scheduler/EMA/epoch/close_mosaic remain under one Ultralytics trainer.",
             "- No-feedback control disables both feedback and industrial augmentation, using Ultralytics YOLO default augmentation as the behavior check.",
+            "- The old YOLO default reference is not the final baseline after parity audit; feedback comparisons should use `clean_native_yolo_default_seed42_50ep`.",
             f"- Output: `outputs/experiments/{payload['run_id']}/`",
             f"- Epochs: `{payload['epochs']}`",
             f"- Feedback enabled: `{str(payload['feedback_enabled']).lower()}`",
@@ -1281,6 +1355,8 @@ def update_state_docs(payload: dict[str, Any]) -> None:
             f"- Epoch continuous: `{str(payload['continuity']['epoch_continuous']).lower()}`",
             f"- Train image count: `{payload['online_aug_stats'].get('train_image_count')}`",
             f"- Fixed augmented dataset generated: `{str(payload['online_aug_stats'].get('fixed_augmented_dataset_generated')).lower()}`",
+            f"- Constraint baseline: `{payload['constraint_scoring']['baseline_name']}`",
+            f"- Constraint failed: `{payload['summary']['constraint_failed']}`",
             f"- Report: `{report_rel}`",
             f"- Policy history: `{policy_rel}`",
         ]

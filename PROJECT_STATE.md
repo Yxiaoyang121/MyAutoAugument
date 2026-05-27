@@ -588,24 +588,21 @@ The repository is centered on diagnosis-driven augmentation for industrial defec
 - The previous `yolo_default_feedback_aug_50ep_full` run is a segmented fine-tune experiment, not strict continuous feedback.
 - New direction: one `YOLO.train()` run with in-loop feedback callbacks; optimizer/scheduler/EMA/epoch/close_mosaic remain under one Ultralytics trainer.
 - No-feedback control disables both feedback and industrial augmentation, using Ultralytics YOLO default augmentation as the behavior check.
-- Output: `outputs/experiments/yolo_default_inloop_no_feedback_control_50ep/`
+- The old YOLO default reference is not the final baseline after parity audit; feedback comparisons should use `clean_native_yolo_default_seed42_50ep`.
+- Output: `outputs/experiments/yolo_default_inloop_feedback_clean_reference_50ep/`
 - Epochs: `50`
-- Feedback enabled: `false`
-- Industrial augmentation enabled: `false`
-- Feedback epochs: `[]`
+- Feedback enabled: `true`
+- Industrial augmentation enabled: `true`
+- Feedback epochs: `[5, 10, 15, 20, 25, 30, 35, 40, 45]`
 - Stage restart count: `0`
 - Epoch continuous: `true`
 - Train image count: `2301`
 - Fixed augmented dataset generated: `false`
-- Control P/R/mAP50/mAP50-95: `0.7262/0.6844/0.7616/0.5250`
-- Delta vs YOLO default reference: `+0.0130/-0.0756/-0.0142/+0.0010`
-- Close to YOLO default reference: `false`
-- Feedback 50ep status: `skipped`; reason: no-feedback control did not reproduce YOLO default closely enough.
-- Report: `outputs/experiments/yolo_default_inloop_no_feedback_control_50ep/reports/inloop_no_feedback_control_report.md`
-- Policy history: `outputs/experiments/yolo_default_inloop_no_feedback_control_50ep/reports/policy_history.json`
-- Feedback skip report: `outputs/experiments/yolo_default_inloop_feedback_50ep_full/reports/final_report.md`
+- Constraint baseline: `clean_native_yolo_default`
+- Constraint failed: `False`
+- Report: `outputs/experiments/yolo_default_inloop_feedback_clean_reference_50ep/reports/final_report.md`
+- Policy history: `outputs/experiments/yolo_default_inloop_feedback_clean_reference_50ep/reports/policy_history.json`
 <!-- YOLO_DEFAULT_INLOOP_FEEDBACK_SMOKE_END -->
-
 <!-- YOLO_DEFAULT_INLOOP_PARITY_AUDIT_START -->
 ## YOLO Default In-Loop Parity Audit
 
@@ -621,3 +618,18 @@ The repository is centered on diagnosis-driven augmentation for industrial defec
 - Report: `outputs/audits/yolo_default_inloop_parity/parity_audit_report.md`
 - JSON: `outputs/audits/yolo_default_inloop_parity/parity_audit.json`
 <!-- YOLO_DEFAULT_INLOOP_PARITY_AUDIT_END -->
+<!-- CLEAN_NATIVE_YOLO_DEFAULT_REFERENCE_START -->
+## Clean Native YOLO Default Reference
+
+- The old YOLO default reference is no longer treated as the final baseline because parity audit found it used `OnlineAugDetectionTrainer` with an empty passthrough policy.
+- New baseline: `outputs/experiments/clean_native_yolo_default_seed42_50ep/`.
+- Training mode: pure native Ultralytics `YOLO.train(**same_args)`.
+- Custom trainer / callback / dataset / transform / industrial augmentation: `false`.
+- Train image count: `2301`
+- Precision/Recall/mAP50/mAP50-95: `0.7262/0.6844/0.7616/0.5250`
+- close_mosaic official schedule expected: `true`
+- close_mosaic expected start epoch: `41`
+- Future feedback experiments should compare only against this clean native reference.
+- Report: `outputs/experiments/clean_native_yolo_default_seed42_50ep/reports/clean_native_yolo_default_report.md`
+- Metrics JSON: `outputs/experiments/clean_native_yolo_default_seed42_50ep/reports/clean_native_yolo_default_metrics.json`
+<!-- CLEAN_NATIVE_YOLO_DEFAULT_REFERENCE_END -->

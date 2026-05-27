@@ -1,14 +1,13 @@
 # Project Snapshot
 
-- Generated: 2026-05-27T21:31:58
+- Generated: 2026-05-28T06:37:36
 - Branch: codex/sync-latest
-- Commit: ee04a6dc0a1e7a42df92cbb20edb92e418f96323
+- Commit: 09e412b2ae5fbfa7d0c635bcbb3652e818b923c8
 - Remote: https://github.com/Yxiaoyang121/MyAutoAugument.git
 
 ## Working Tree
 
 ```text
- M .gitignore
  M CODEX_HANDOFF.md
  M EXPERIMENT_LOG.md
  M PROJECT_STATE.md
@@ -16,9 +15,9 @@
  M outputs/snapshots/project_snapshot_latest.md
  M scripts/export_project_snapshot.py
  M scripts/train_yolo_default_with_inloop_feedback.py
- M tests/test_inloop_feedback_training.py
-?? outputs/audits/yolo_default_inloop_parity/
-?? scripts/audit_yolo_default_inloop_parity.py
+?? outputs/experiments/clean_native_yolo_default_seed42_50ep/
+?? outputs/experiments/yolo_default_inloop_feedback_clean_reference_50ep/
+?? scripts/run_clean_native_yolo_default.py
 ```
 
 ## Key Files
@@ -52,6 +51,7 @@
 - scripts/train_yolo_default_with_feedback.py
 - scripts/train_yolo_default_with_inloop_feedback.py
 - scripts/audit_yolo_default_inloop_parity.py
+- scripts/run_clean_native_yolo_default.py
 - scripts/write_yolo_default_aug_50ep_reports.py
 - configs/online_policies/yolo_like_base_policy.json
 - configs/online_policies/industrial_diag_policy.json
@@ -187,6 +187,14 @@
 - outputs/experiments/yolo_default_inloop_feedback_50ep_full/reports/compare_with_yolo_default_no_feedback.md
 - outputs/audits/yolo_default_inloop_parity/parity_audit_report.md
 - outputs/audits/yolo_default_inloop_parity/parity_audit.json
+- outputs/experiments/clean_native_yolo_default_seed42_50ep/reports/clean_native_yolo_default_report.md
+- outputs/experiments/clean_native_yolo_default_seed42_50ep/reports/clean_native_yolo_default_metrics.json
+- outputs/experiments/yolo_default_inloop_feedback_clean_reference_50ep/reports/final_report.md
+- outputs/experiments/yolo_default_inloop_feedback_clean_reference_50ep/reports/final_metrics.json
+- outputs/experiments/yolo_default_inloop_feedback_clean_reference_50ep/reports/policy_history.json
+- outputs/experiments/yolo_default_inloop_feedback_clean_reference_50ep/reports/policy_history.md
+- outputs/experiments/yolo_default_inloop_feedback_clean_reference_50ep/reports/constraint_scoring.json
+- outputs/experiments/yolo_default_inloop_feedback_clean_reference_50ep/reports/compare_with_clean_native_yolo_default.md
 - outputs/datasets/tiled/tiled_1024_ov20_smoke/dataset_summary.md
 - outputs/datasets/tiled/tiled_1024_ov20_full/data.yaml
 - outputs/datasets/tiled/tiled_1024_ov20_full/dataset_summary.md
@@ -214,7 +222,7 @@
 
 ## Tracked File Count
 
-- 1225 tracked files
+- 1228 tracked files
 
 ## Notes
 

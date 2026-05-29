@@ -807,20 +807,20 @@ Key conclusions from that archived smoke:
 - CATF uses the clean native YOLO default reference curve at matching feedback epochs, trust-region step limits, group budgets, delayed acceptance, rollback, cooldown, and epoch>=40 freeze.
 - No-feedback control disables both feedback and industrial augmentation, using Ultralytics YOLO default augmentation as the behavior check.
 - The old YOLO default reference is not the final baseline after parity audit; feedback comparisons should use `clean_native_yolo_default_seed42_50ep`.
-- Output: `outputs/experiments/catf_feedback_controller_10ep_smoke/`
-- Epochs: `10`
+- Output: `outputs/experiments/catf_feedback_seed42_50ep/`
+- Epochs: `50`
 - Feedback enabled: `true`
 - Industrial augmentation enabled: `true`
 - Reference curve loaded: `true`
-- Feedback epochs: `[5]`
+- Feedback epochs: `[5, 10, 15, 20, 25, 30, 35, 40, 45]`
 - Stage restart count: `0`
 - Epoch continuous: `true`
 - Train image count: `2301`
 - Fixed augmented dataset generated: `false`
-- Constraint baseline: `no_feedback_control`
-- Constraint failed: `True`
-- Report: `outputs/experiments/catf_feedback_controller_10ep_smoke/reports/catf_smoke_report.md`
-- Policy history: `outputs/experiments/catf_feedback_controller_10ep_smoke/reports/policy_history.json`
+- Constraint baseline: `clean_native_yolo_default_seed42`
+- Constraint failed: `False`
+- Report: `outputs/experiments/catf_feedback_seed42_50ep/reports/final_report.md`
+- Policy history: `outputs/experiments/catf_feedback_seed42_50ep/reports/policy_history.json`
 <!-- YOLO_DEFAULT_INLOOP_FEEDBACK_SMOKE_END -->
 <!-- YOLO_DEFAULT_INLOOP_PARITY_AUDIT_START -->
 ## YOLO Default In-Loop Parity Audit

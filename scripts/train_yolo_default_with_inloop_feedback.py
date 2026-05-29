@@ -40,7 +40,7 @@ PYTHON_EXE = Path(r"D:\Anaconda\envs\pytorch\python.exe")
 DEFAULT_DATA = PROJECT_ROOT / "outputs/datasets/tiled/tiled_1024_ov20_full_safe_no_ok_position/data.yaml"
 DEFAULT_PROJECT = PROJECT_ROOT / "outputs/experiments"
 DEFAULT_RUN_ID = "yolo_default_inloop_feedback_10ep_smoke"
-DEFAULT_CONTROL_METRICS = DEFAULT_PROJECT / "yolo_default_inloop_no_feedback_control_50ep/reports/inloop_no_feedback_control_metrics.json"
+DEFAULT_CONTROL_METRICS = DEFAULT_PROJECT / "clean_native_yolo_default_seed42_50ep/reports/clean_native_yolo_default_metrics.json"
 DEFAULT_REFERENCE_CURVE = DEFAULT_PROJECT / "clean_native_yolo_default_seed42_50ep/train/results.csv"
 REFERENCE_METRICS = (
     PROJECT_ROOT
@@ -1118,11 +1118,18 @@ def build_final_report(payload: dict[str, Any]) -> str:
         "## Feedback",
         "",
         f"- Feedback enabled: `{str(payload['feedback_enabled']).lower()}`",
+        f"- Feedback controller: `{payload.get('feedback_controller', 'CATF')}`",
+        f"- Reference curve loaded: `{str(payload.get('reference_curve_loaded', False)).lower()}`",
+        f"- Reference curve path: `{payload.get('reference_curve_path')}`",
         f"- Feedback epochs: `{payload['summary']['feedback_epochs']}`",
         f"- Policy updates: `{payload['summary']['feedback_update_count']}`",
         f"- copy_paste status: `pending_object_bank_design`",
         f"- Ops upregulated: `{format_adjustment_counts(adjustment_counts['up'])}`",
         f"- Ops downregulated: `{format_adjustment_counts(adjustment_counts['down'])}`",
+        f"- Guard-triggered epochs: `{format_guard_epochs(payload.get('policy_history', []))}`",
+        f"- Rollback triggered: `{str(any(record.get('action') == 'rollback' for record in payload.get('policy_history', []))).lower()}`",
+        f"- Cooldown triggered: `{str(any(record.get('action') == 'cooldown' or int(record.get('cooldown_remaining') or 0) > 0 for record in payload.get('policy_history', []))).lower()}`",
+        f"- Freeze triggered: `{str(any(record.get('frozen') for record in payload.get('policy_history', []))).lower()}`",
         "",
         "## Industrial Augmentation Stats",
         "",
@@ -1175,6 +1182,15 @@ def format_adjustment_counts(counts: dict[str, int]) -> str:
     if not counts:
         return "none"
     return ", ".join(f"{op}:{count}" for op, count in sorted(counts.items()))
+
+
+def format_guard_epochs(history: list[dict[str, Any]]) -> str:
+    items = []
+    for record in history:
+        guards = record.get("guard_triggered") or []
+        if guards:
+            items.append(f"{record.get('epoch')}:{'/'.join(str(guard) for guard in guards)}")
+    return ", ".join(items) if items else "none"
 
 
 def build_no_feedback_control_report(payload: dict[str, Any]) -> str:

@@ -1,0 +1,68 @@
+{
+  "policy_id": "catf_yolo_default_industrial_feedback",
+  "controller": "CATF",
+  "copy_paste_status": "pending_object_bank_design",
+  "notes": [
+    "Ultralytics YOLO default augmentation remains enabled.",
+    "CATF controls only additional low-strength industrial online operations.",
+    "Policy updates are constrained by reference curve, trust region, group budgets, delayed acceptance, rollback, cooldown, and freeze."
+  ],
+  "operations": [
+    {
+      "name": "clahe",
+      "prob": 0.010000000000000002,
+      "base_prob": 0.05,
+      "min_prob": 0.0,
+      "max_prob": 0.15,
+      "strength": 0.14,
+      "base_strength": 0.2,
+      "min_strength": 0.0,
+      "max_strength": 0.45,
+      "params": {
+        "clip_limit": 2.0,
+        "tile_grid_size": [
+          8,
+          8
+        ]
+      }
+    },
+    {
+      "name": "gamma",
+      "prob": 0.010000000000000002,
+      "base_prob": 0.05,
+      "min_prob": 0.0,
+      "max_prob": 0.15,
+      "strength": 0.14,
+      "base_strength": 0.2,
+      "min_strength": 0.0,
+      "max_strength": 0.45,
+      "params": {}
+    },
+    {
+      "name": "sharpen_mild",
+      "prob": 0.08,
+      "base_prob": 0.08,
+      "min_prob": 0.0,
+      "max_prob": 0.2,
+      "strength": 0.25,
+      "base_strength": 0.25,
+      "min_strength": 0.0,
+      "max_strength": 0.45,
+      "params": {
+        "amount": 0.6
+      }
+    },
+    {
+      "name": "local_contrast",
+      "prob": 0.06,
+      "base_prob": 0.06,
+      "min_prob": 0.0,
+      "max_prob": 0.18,
+      "strength": 0.2,
+      "base_strength": 0.2,
+      "min_strength": 0.0,
+      "max_strength": 0.4,
+      "params": {}
+    }
+  ]
+}

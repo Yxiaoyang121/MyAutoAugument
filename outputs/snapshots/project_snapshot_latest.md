@@ -1,23 +1,24 @@
 # Project Snapshot
 
-- Generated: 2026-05-28T06:37:36
+- Generated: 2026-05-29T10:35:45
 - Branch: codex/sync-latest
-- Commit: 09e412b2ae5fbfa7d0c635bcbb3652e818b923c8
+- Commit: 955f6f1ffd2bce5f07b4f0f0ffe1f0ee771d1163
 - Remote: https://github.com/Yxiaoyang121/MyAutoAugument.git
 
 ## Working Tree
 
 ```text
+ M AutoAugment/feedback_policy_controller.py
  M CODEX_HANDOFF.md
  M EXPERIMENT_LOG.md
  M PROJECT_STATE.md
  M outputs/project_snapshot_latest.md
  M outputs/snapshots/project_snapshot_latest.md
- M scripts/export_project_snapshot.py
  M scripts/train_yolo_default_with_inloop_feedback.py
-?? outputs/experiments/clean_native_yolo_default_seed42_50ep/
-?? outputs/experiments/yolo_default_inloop_feedback_clean_reference_50ep/
-?? scripts/run_clean_native_yolo_default.py
+ M tests/test_feedback_policy_controller.py
+ M tests/test_inloop_feedback_training.py
+?? outputs/experiments/catf_feedback_controller_10ep_smoke/
+?? tests/test_feedback_policy_guard.py
 ```
 
 ## Key Files
@@ -222,24 +223,9 @@
 
 ## Tracked File Count
 
-- 1228 tracked files
+- 1627 tracked files
 
 ## Notes
 
 - This snapshot reflects the current local repository state.
 - It does not invent benchmark results.
-
-<!-- MULTISEED_CLEAN_YOLO_DEFAULT_VS_INLOOP_FEEDBACK_START -->
-## Multiseed Clean YOLO Default vs In-Loop Feedback
-
-- Scope: seeds `0, 1, 2`; seed 42 is not included in the multiseed mean.
-- Output: `outputs/experiments/multiseed_clean_yolo_default_vs_inloop_feedback/`.
-- Clean group uses pure native Ultralytics `YOLO.train`; feedback group uses single-run in-loop feedback with YOLO default augmentation still enabled.
-- Train images: `2301`; fixed augmented dataset generated: `false`; copy_paste remains pending/not enabled.
-- Feedback wins under industrial constraints: `1/3`.
-- Constraint failed seeds: `2/3`.
-- Mean delta P/R/mAP50/mAP50-95: `-0.0275/0.0254/0.0093/0.0211`.
-- Verdict: not stable enough to claim as the paper main result yet; use as diagnostic/ablation unless a stricter controller passes multiseed constraints.
-- Report: `outputs/experiments/multiseed_clean_yolo_default_vs_inloop_feedback/reports/multiseed_summary.md`.
-- JSON: `outputs/experiments/multiseed_clean_yolo_default_vs_inloop_feedback/reports/multiseed_summary.json`.
-<!-- MULTISEED_CLEAN_YOLO_DEFAULT_VS_INLOOP_FEEDBACK_END -->

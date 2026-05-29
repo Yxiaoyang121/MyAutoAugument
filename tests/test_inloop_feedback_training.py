@@ -47,7 +47,7 @@ def test_feedback_update_modifies_policy_state() -> None:
         "diagnosis_vector": {"low_contrast_score": {"score": 0.5}},
         "issues": [{"type": "low_contrast_missed_defect"}],
     }
-    metrics = {"precision": 0.65, "recall": 0.50, "map50": 0.70, "map50_95": 0.45}
+    metrics = {"precision": 0.72, "recall": 0.50, "map50": 0.78, "map50_95": 0.53}
 
     changes = update_policy_state(policy, diagnosis=diagnosis, metrics=metrics, reference=REFERENCE)
     active = training_policy(policy)
@@ -71,7 +71,7 @@ def test_policy_history_records_epoch_not_stage(tmp_path) -> None:
     payload = json.loads((tmp_path / "policy_history.json").read_text(encoding="utf-8"))
     assert payload["history"][0]["epoch"] == 5
     assert "stage_index" not in payload["history"][0]
-    assert "5,gamma,prob" in (tmp_path / "policy_history.csv").read_text(encoding="utf-8")
+    assert "5,,gamma,prob" in (tmp_path / "policy_history.csv").read_text(encoding="utf-8")
 
 
 def test_industrial_augmentation_keeps_labels_legal() -> None:

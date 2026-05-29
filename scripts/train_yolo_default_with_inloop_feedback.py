@@ -7,6 +7,7 @@ import os
 import shutil
 import subprocess
 import sys
+import tempfile
 import time
 from copy import deepcopy
 from dataclasses import dataclass, field
@@ -23,6 +24,7 @@ if str(PROJECT_ROOT) not in sys.path:
 
 from AutoAugment.diagnostic_pipeline import run_error_diagnosis, run_validation_prediction  # noqa: E402
 from AutoAugment.diagnostics.yolo_error_analysis import load_class_names_from_data_yaml  # noqa: E402
+from AutoAugment.feedback_policy_controller import FeedbackPolicyController, default_catf_policy  # noqa: E402
 from AutoAugment.online_augmentation import OnlineAugmentationStats, OnlinePolicyAugmentor  # noqa: E402
 from scripts.train_yolo_online_aug import (  # noqa: E402
     OnlineTrainingContext,
@@ -39,6 +41,7 @@ DEFAULT_DATA = PROJECT_ROOT / "outputs/datasets/tiled/tiled_1024_ov20_full_safe_
 DEFAULT_PROJECT = PROJECT_ROOT / "outputs/experiments"
 DEFAULT_RUN_ID = "yolo_default_inloop_feedback_10ep_smoke"
 DEFAULT_CONTROL_METRICS = DEFAULT_PROJECT / "yolo_default_inloop_no_feedback_control_50ep/reports/inloop_no_feedback_control_metrics.json"
+DEFAULT_REFERENCE_CURVE = DEFAULT_PROJECT / "clean_native_yolo_default_seed42_50ep/train/results.csv"
 REFERENCE_METRICS = (
     PROJECT_ROOT
     / "outputs/experiments/20260518_tiled1024_safe_no_ok_position_yolo_default_diagnosis_constrained_50ep/reports/diagnosis_constrained_metrics.json"
@@ -46,13 +49,13 @@ REFERENCE_METRICS = (
 METRIC_KEYS = ("precision", "recall", "map50", "map50_95")
 INDUSTRIAL_OPS = {"clahe", "gamma", "local_contrast", "sharpen_mild", "cutout_safe", "brightness", "contrast"}
 CUSTOM_LIMITS = {
-    "clahe": (0.0, 0.30, 0.0, 0.45),
-    "gamma": (0.0, 0.30, 0.0, 0.45),
-    "local_contrast": (0.0, 0.30, 0.0, 0.40),
-    "sharpen_mild": (0.0, 0.30, 0.0, 0.40),
-    "cutout_safe": (0.0, 0.20, 0.0, 0.30),
-    "brightness": (0.0, 0.20, 0.0, 0.25),
-    "contrast": (0.0, 0.20, 0.0, 0.25),
+    "clahe": (0.0, 0.15, 0.0, 0.45),
+    "gamma": (0.0, 0.15, 0.0, 0.45),
+    "local_contrast": (0.0, 0.18, 0.0, 0.40),
+    "sharpen_mild": (0.0, 0.20, 0.0, 0.45),
+    "cutout_safe": (0.0, 0.08, 0.0, 0.20),
+    "brightness": (0.0, 0.10, 0.0, 0.25),
+    "contrast": (0.0, 0.10, 0.0, 0.25),
 }
 
 
@@ -63,6 +66,8 @@ class InLoopFeedbackState:
     context: OnlineTrainingContext
     policy_state: dict[str, Any]
     reference_metrics: dict[str, Any]
+    reference_curve: dict[int, dict[str, Any]] = field(default_factory=dict)
+    feedback_controller: FeedbackPolicyController | None = None
     history: list[dict[str, Any]] = field(default_factory=list)
     epoch_records: list[dict[str, Any]] = field(default_factory=list)
     callback_invocations: int = 0
@@ -80,6 +85,7 @@ def main() -> None:
 
     api = check_ultralytics_api()
     reference_metrics = load_yolo_default_reference(Path(args.reference_metrics))
+    reference_curve = load_reference_curve(Path(args.reference_curve))
     if is_native_no_feedback_mode(args):
         payload = run_native_no_feedback_control(args, output_dir, api, reference_metrics)
         write_outputs(payload)
@@ -120,6 +126,16 @@ def main() -> None:
         context=context,
         policy_state=policy_state,
         reference_metrics=reference_metrics,
+        reference_curve=reference_curve,
+    )
+    state.feedback_controller = FeedbackPolicyController(
+        policy_state,
+        history_dir=output_dir / "reports",
+        policy_state_path=output_dir / "configs" / "current_policy_state.json",
+        profile=args.feedback_profile,
+        reference_curve=reference_curve,
+        freeze_epoch=40,
+        feedback_interval=int(args.feedback_interval),
     )
 
     model = api["YOLO"](args.model)
@@ -237,6 +253,7 @@ def run_native_no_feedback_control(
         context=context,
         policy_state=empty_native_policy_state(),
         reference_metrics=reference_metrics,
+        reference_curve=load_reference_curve(Path(args.reference_curve)),
     )
 
     train_command = build_train_command(args, output_dir)
@@ -324,6 +341,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--feedback-profile", default="industrial")
     parser.add_argument("--industrial-aug-enabled", action=argparse.BooleanOptionalAction, default=True)
     parser.add_argument("--reference-metrics", default=str(REFERENCE_METRICS))
+    parser.add_argument("--reference-curve", default=str(DEFAULT_REFERENCE_CURVE))
     parser.add_argument("--control-metrics", default=str(DEFAULT_CONTROL_METRICS))
     parser.add_argument("--save-preview", action=argparse.BooleanOptionalAction, default=True)
     parser.add_argument("--preview-count", type=int, default=20)
@@ -364,6 +382,8 @@ def build_train_config(args: argparse.Namespace, output_dir: Path) -> dict[str, 
         "feedback_interval": int(args.feedback_interval),
         "feedback_start_epoch": int(args.feedback_start_epoch),
         "industrial_aug_enabled": bool(args.industrial_aug_enabled),
+        "feedback_controller": "CATF",
+        "reference_curve": str(Path(args.reference_curve).resolve()),
         "native_no_feedback_passthrough": is_native_no_feedback_mode(args),
         "yolo_default_augmentation_enabled": True,
         "disable_yolo_aug": False,
@@ -408,6 +428,8 @@ def build_train_command(args: argparse.Namespace, output_dir: Path) -> str:
         "disable_yolo_aug=False",
         f"feedback_enabled={bool(args.feedback_enabled)}",
         f"industrial_aug_enabled={bool(args.industrial_aug_enabled)}",
+        f"feedback_controller=CATF",
+        f"reference_curve={Path(getattr(args, 'reference_curve', DEFAULT_REFERENCE_CURVE)).resolve()}",
     ]
     return subprocess.list2cmdline([str(part) for part in parts])
 
@@ -430,24 +452,7 @@ def build_val_command(args: argparse.Namespace, output_dir: Path, weights: Path)
 
 
 def initial_policy_state() -> dict[str, Any]:
-    return {
-        "policy_id": "inloop_yolo_default_industrial_feedback",
-        "copy_paste_status": "pending_object_bank_design",
-        "notes": [
-            "Ultralytics YOLO default augmentation is left untouched.",
-            "Only additional low-strength industrial online operations are controlled by feedback.",
-            "No custom mosaic4 or randaugment_like is used.",
-        ],
-        "operations": [
-            op_payload("clahe", 0.0, 0.0),
-            op_payload("gamma", 0.0, 0.0),
-            op_payload("local_contrast", 0.0, 0.0),
-            op_payload("sharpen_mild", 0.0, 0.0, params={"amount": 0.6}),
-            op_payload("cutout_safe", 0.0, 0.0, params={"max_holes": 2, "max_fraction": 0.12, "max_bbox_overlap": 0.05}),
-            op_payload("brightness", 0.0, 0.0, params={"max_delta": 0.12}),
-            op_payload("contrast", 0.0, 0.0, params={"alpha": 0.15}),
-        ],
-    }
+    return default_catf_policy()
 
 
 def empty_native_policy_state() -> dict[str, Any]:
@@ -522,31 +527,44 @@ def register_inloop_feedback_callback(model: Any, state: InLoopFeedbackState) ->
 
         diagnosis = run_feedback_diagnosis(state, trainer, epoch_num)
         old_policy = deepcopy(state.policy_state)
-        adjustments = update_policy_state(state.policy_state, diagnosis=diagnosis, metrics=metrics, reference=state.reference_metrics)
-        new_policy = deepcopy(state.policy_state)
+        controller = state.feedback_controller
+        if controller is None:
+            controller = FeedbackPolicyController(
+                state.policy_state,
+                history_dir=state.output_dir / "reports",
+                policy_state_path=state.output_dir / "configs" / "current_policy_state.json",
+                profile=state.args.feedback_profile,
+                reference_curve=state.reference_curve,
+                freeze_epoch=40,
+                feedback_interval=int(state.args.feedback_interval),
+            )
+            state.feedback_controller = controller
+        reference_metrics = reference_metrics_for_epoch(state, epoch_num)
+        new_policy = controller.update(diagnosis, epoch=epoch_num, metrics=metrics, reference_metrics=reference_metrics)
+        state.policy_state.clear()
+        state.policy_state.update(deepcopy(new_policy))
         active_policy = training_policy(state.policy_state, enabled=bool(state.args.industrial_aug_enabled))
         state.context.augmentor.set_policy(active_policy)
         state.feedback_epochs.append(epoch_num)
-        record = {
-            "timestamp": datetime.now().isoformat(timespec="seconds"),
-            "epoch": epoch_num,
-            "profile": state.args.feedback_profile,
-            "metrics": metrics,
-            "diagnosis_global": diagnosis.get("global", {}),
-            "diagnosis_vector": diagnosis.get("diagnosis_vector", {}),
-            "adjustments": adjustments,
-            "old_policy": old_policy,
-            "new_policy": new_policy,
-            "active_policy": active_policy,
-            "copy_paste_status": "pending_object_bank_design",
-            "trainer_identity": {
-                "trainer_id": id(trainer),
-                "optimizer_id": id(getattr(trainer, "optimizer", None)) if getattr(trainer, "optimizer", None) is not None else None,
-                "scheduler_id": id(getattr(trainer, "scheduler", None)) if getattr(trainer, "scheduler", None) is not None else None,
-                "ema_id": id(getattr(trainer, "ema", None)) if getattr(trainer, "ema", None) is not None else None,
-            },
-        }
-        state.history.append(record)
+        record = deepcopy(controller.history[-1])
+        record.update(
+            {
+                "diagnosis_global": diagnosis.get("global", {}),
+                "diagnosis_vector": diagnosis.get("diagnosis_vector", {}),
+                "old_policy_before_callback": old_policy,
+                "new_policy": deepcopy(state.policy_state),
+                "active_policy": active_policy,
+                "copy_paste_status": "pending_object_bank_design",
+                "trainer_identity": {
+                    "trainer_id": id(trainer),
+                    "optimizer_id": id(getattr(trainer, "optimizer", None)) if getattr(trainer, "optimizer", None) is not None else None,
+                    "scheduler_id": id(getattr(trainer, "scheduler", None)) if getattr(trainer, "scheduler", None) is not None else None,
+                    "ema_id": id(getattr(trainer, "ema", None)) if getattr(trainer, "ema", None) is not None else None,
+                },
+            }
+        )
+        controller.history[-1] = deepcopy(record)
+        state.history = deepcopy(controller.history)
         write_json(state.output_dir / "configs" / f"active_policy_epoch_{epoch_num:03d}.json", active_policy)
         write_policy_history(state.output_dir / "reports", state.history, state.policy_state)
 
@@ -565,6 +583,16 @@ def should_update_feedback(args: argparse.Namespace, epoch_num: int) -> bool:
         return False
     interval = max(1, int(args.feedback_interval))
     return epoch_num % interval == 0
+
+
+def reference_metrics_for_epoch(state: InLoopFeedbackState, epoch_num: int) -> dict[str, Any]:
+    if state.reference_curve:
+        if epoch_num in state.reference_curve:
+            return state.reference_curve[epoch_num]
+        earlier_epochs = [epoch for epoch in state.reference_curve if epoch <= epoch_num]
+        if earlier_epochs:
+            return state.reference_curve[max(earlier_epochs)]
+    return state.reference_metrics
 
 
 def run_feedback_diagnosis(state: InLoopFeedbackState, trainer: Any, epoch_num: int) -> dict[str, Any]:
@@ -609,28 +637,12 @@ def update_policy_state(
     metrics: dict[str, Any],
     reference: dict[str, Any],
 ) -> list[dict[str, Any]]:
-    flags = feedback_flags(diagnosis, metrics, reference)
-    delta = metric_delta(metrics, reference)
-    precision_drop = (delta.get("precision") or 0.0) < -0.01
-    factor = 0.5 if precision_drop else 1.0
-    changes: list[dict[str, Any]] = []
-    if flags["recall_low"] or flags["fn_high"]:
-        for name in ["clahe", "gamma", "sharpen_mild", "local_contrast"]:
-            changes.extend(adjust_operation(policy_state, name, prob_delta=0.04 * factor, strength_delta=0.03 * factor, reason="recall_low_or_fn_high"))
-        for name in ["brightness"]:
-            changes.extend(adjust_operation(policy_state, name, prob_delta=0.03 * factor, strength_delta=0.02 * factor, reason="recall_low_brightness_like"))
-    if flags["precision_low"] or flags["fp_high"]:
-        for name in ["brightness", "contrast", "clahe", "gamma"]:
-            changes.extend(adjust_operation(policy_state, name, prob_delta=-0.03, strength_delta=-0.02, reason="precision_low_or_fp_high"))
-        changes.extend(adjust_operation(policy_state, "cutout_safe", prob_delta=0.03, strength_delta=0.02, reason="precision_low_hard_negative_like"))
-    if flags["map50_high_map95_low"]:
-        for name in ["sharpen_mild", "local_contrast"]:
-            changes.extend(adjust_operation(policy_state, name, prob_delta=0.04, strength_delta=0.03, reason="map50_high_map95_low"))
-        changes.extend(adjust_operation(policy_state, "cutout_safe", prob_delta=-0.02, strength_delta=-0.02, reason="map50_high_map95_low_reduce_cutout"))
-    if flags["low_contrast_fn_high"]:
-        for name in ["clahe", "gamma", "local_contrast", "sharpen_mild"]:
-            changes.extend(adjust_operation(policy_state, name, prob_delta=0.04 * factor, strength_delta=0.03 * factor, reason="low_contrast_fn_high_monitor_fp"))
-    return changes
+    with tempfile.TemporaryDirectory(prefix="catf_policy_update_") as temp_dir:
+        controller = FeedbackPolicyController(policy_state, history_dir=Path(temp_dir), profile="industrial")
+        updated = controller.update(diagnosis, epoch=0, metrics=metrics, reference_metrics=reference)
+        policy_state.clear()
+        policy_state.update(deepcopy(updated))
+        return deepcopy(controller.history[-1].get("adjustments", []))
 
 
 def feedback_flags(diagnosis: dict[str, Any], metrics: dict[str, Any], reference: dict[str, Any]) -> dict[str, bool]:
@@ -754,6 +766,8 @@ def build_payload(
         "epoch_continuous": continuity["epoch_continuous"],
         "feedback_epochs": state.feedback_epochs,
         "feedback_update_count": len(state.history),
+        "feedback_controller": "CATF",
+        "reference_curve_loaded": bool(state.reference_curve),
         "yolo_default_augmentation_enabled": True,
         "industrial_aug_enabled": bool(args.industrial_aug_enabled),
         "industrial_aug_dynamic": bool(args.industrial_aug_enabled and int(stats.get("samples_augmented", 0) or 0) > 0),
@@ -777,6 +791,9 @@ def build_payload(
         "feedback_start_epoch": int(args.feedback_start_epoch),
         "feedback_enabled": bool(args.feedback_enabled),
         "industrial_aug_enabled": bool(args.industrial_aug_enabled),
+        "feedback_controller": "CATF",
+        "reference_curve_path": str(Path(args.reference_curve).resolve()),
+        "reference_curve_loaded": bool(state.reference_curve),
         "train_result_type": train_result_type,
         "train": {
             "success": train_success,
@@ -793,6 +810,8 @@ def build_payload(
         "online_aug_stats": stats,
         "continuity": continuity,
         "reference_metrics": state.reference_metrics,
+        "reference_curve_path": str(Path(args.reference_curve).resolve()),
+        "reference_curve_epochs": sorted(state.reference_curve.keys()),
         "control_metrics": control_metrics,
         "control_metrics_path": str(Path(args.control_metrics).resolve()) if control_metrics else None,
         "reference_metrics_path": str(Path(args.reference_metrics).resolve()),
@@ -842,6 +861,8 @@ def write_outputs(payload: dict[str, Any]) -> None:
     write_policy_history(output_dir / "reports", payload["policy_history"], payload["latest_policy_state"])
     write_markdown(output_dir / "reports" / "final_report.md", build_final_report(payload))
     write_markdown(output_dir / "reports" / "inloop_feedback_smoke_report.md", build_smoke_report(payload))
+    if payload["feedback_enabled"] and int(payload["epochs"]) <= 10:
+        write_markdown(output_dir / "reports" / "catf_smoke_report.md", build_catf_smoke_report(payload))
     if not payload["feedback_enabled"] and not payload["industrial_aug_enabled"]:
         write_json(output_dir / "reports" / "inloop_no_feedback_control_metrics.json", build_control_metrics_payload(payload))
         write_markdown(output_dir / "reports" / "inloop_no_feedback_control_report.md", build_no_feedback_control_report(payload))
@@ -854,23 +875,70 @@ def write_outputs(payload: dict[str, Any]) -> None:
 
 def write_policy_history(history_dir: Path, history: list[dict[str, Any]], latest_policy: dict[str, Any]) -> None:
     write_json(history_dir / "policy_history.json", {"history": history, "latest_policy": latest_policy})
-    lines = ["# In-Loop Feedback Policy History", "", "| epoch | adjustments | copy_paste_status |", "|---:|---:|---|"]
+    lines = ["# CATF In-Loop Feedback Policy History", "", "| epoch | action | guards | adjustments | frozen | copy_paste_status |", "|---:|---|---|---:|---|---|"]
     for record in history:
-        lines.append(f"| {record.get('epoch')} | {len(record.get('adjustments', []))} | {record.get('copy_paste_status')} |")
+        lines.append(
+            f"| {record.get('epoch')} | {record.get('action', 'accept')} | "
+            f"{','.join(record.get('guard_triggered', [])) or 'none'} | {len(record.get('adjustments', []))} | "
+            f"{str(record.get('frozen', False)).lower()} | {record.get('copy_paste_status')} |"
+        )
     lines.extend(["", "## Adjustments", ""])
     for record in history:
-        lines.append(f"### Epoch {record.get('epoch')}")
+        lines.append(f"### Epoch {record.get('epoch')} - {record.get('action', 'accept')}")
+        lines.append(f"- Reference metrics: `{record.get('reference_metrics', {})}`")
+        lines.append(f"- Delta metrics: `{record.get('delta_metrics', {})}`")
+        lines.append(f"- Last safe policy id: `{record.get('last_safe_policy_id')}`")
+        lines.append(f"- Rollback reason: `{record.get('rollback_reason')}`")
+        lines.append(f"- Group budget before: `{record.get('group_budget_before', {})}`")
+        lines.append(f"- Group budget after: `{record.get('group_budget_after', {})}`")
+        lines.append(f"- Trust-region clipping: `{record.get('trust_region_clipping', [])}`")
         if not record.get("adjustments"):
             lines.append("- No adjustment.")
         for adj in record.get("adjustments", []):
             lines.append(f"- `{adj['op']}` {adj['field']}: {adj['before']:.4f} -> {adj['after']:.4f} ({adj['reason']})")
     write_markdown(history_dir / "policy_history.md", "\n".join(lines))
     with (history_dir / "policy_history.csv").open("w", newline="", encoding="utf-8") as handle:
-        writer = csv.DictWriter(handle, fieldnames=["epoch", "op", "field", "before", "after", "reason"])
+        writer = csv.DictWriter(
+            handle,
+            fieldnames=[
+                "epoch",
+                "action",
+                "op",
+                "field",
+                "before",
+                "after",
+                "reason",
+                "delta_precision",
+                "delta_recall",
+                "delta_map50",
+                "delta_map50_95",
+                "guard_triggered",
+                "rollback_reason",
+                "frozen",
+            ],
+        )
         writer.writeheader()
         for record in history:
-            for adj in record.get("adjustments", []):
-                writer.writerow({"epoch": record.get("epoch"), **{key: adj.get(key) for key in ["op", "field", "before", "after", "reason"]}})
+            adjustments = record.get("adjustments") or [{}]
+            for adj in adjustments:
+                writer.writerow(
+                    {
+                        "epoch": record.get("epoch"),
+                        "action": record.get("action"),
+                        "op": adj.get("op"),
+                        "field": adj.get("field"),
+                        "before": adj.get("before"),
+                        "after": adj.get("after"),
+                        "reason": adj.get("reason"),
+                        "delta_precision": (record.get("delta_metrics") or {}).get("precision"),
+                        "delta_recall": (record.get("delta_metrics") or {}).get("recall"),
+                        "delta_map50": (record.get("delta_metrics") or {}).get("map50"),
+                        "delta_map50_95": (record.get("delta_metrics") or {}).get("map50_95"),
+                        "guard_triggered": ",".join(record.get("guard_triggered", [])),
+                        "rollback_reason": record.get("rollback_reason"),
+                        "frozen": record.get("frozen"),
+                    }
+                )
 
 
 def build_smoke_report(payload: dict[str, Any]) -> str:
@@ -931,11 +999,74 @@ def build_smoke_report(payload: dict[str, Any]) -> str:
     return "\n".join(lines) + "\n"
 
 
+def build_catf_smoke_report(payload: dict[str, Any]) -> str:
+    history = payload.get("policy_history", [])
+    first_update = history[0] if history else {}
+    stats = payload["online_aug_stats"]
+    lines = [
+        "# CATF Feedback Controller Smoke Report",
+        "",
+        "## Answers",
+        "",
+        f"- CATF enabled: `{str(payload['feedback_enabled'] and payload['industrial_aug_enabled']).lower()}`",
+        f"- Reference curve loaded: `{str(bool(payload.get('reference_curve_epochs'))).lower()}`",
+        f"- Reference curve path: `{payload.get('reference_curve_path')}`",
+        f"- Epoch 5 update happened: `{str(5 in payload['summary']['feedback_epochs']).lower()}`",
+        f"- Trust-region active: `{str(all_trust_region_steps_within_limit(history)).lower()}`",
+        f"- Group budget active: `{str(all_group_budgets_within_limit(history)).lower()}`",
+        f"- Proposed policy recorded: `{str(bool(first_update.get('proposed_policy'))).lower()}`",
+        f"- Accepted policy recorded: `{str(bool(first_update.get('accepted_policy'))).lower()}`",
+        f"- Guard triggered: `{first_update.get('guard_triggered', [])}`",
+        f"- Rollback triggered: `{str(any(item.get('action') == 'rollback' for item in history)).lower()}`",
+        f"- Freeze triggered: `{str(any(item.get('frozen') for item in history)).lower()}`",
+        f"- BBox/class legal: `{str(payload['summary']['bbox_class_valid']).lower()}`",
+        f"- Train image count: `{stats.get('train_image_count')}`",
+        f"- Fixed augmented dataset generated: `{str(stats.get('fixed_augmented_dataset_generated')).lower()}`",
+        "",
+        "## Policy History",
+        "",
+        "| epoch | action | guards | adjustments | frozen |",
+        "|---:|---|---|---:|---|",
+    ]
+    for record in history:
+        lines.append(
+            f"| {record.get('epoch')} | {record.get('action')} | "
+            f"{','.join(record.get('guard_triggered', [])) or 'none'} | "
+            f"{len(record.get('adjustments', []))} | {str(record.get('frozen')).lower()} |"
+        )
+    lines.extend(
+        [
+            "",
+            "## Next Step",
+            "",
+            "- The smoke is sufficient for a multi-seed 50ep CATF recheck only if training succeeded, bbox/class remained legal, and the first update recorded proposed/accepted policies with trust-region and budget evidence.",
+        ]
+    )
+    return "\n".join(lines) + "\n"
+
+
+def all_trust_region_steps_within_limit(history: list[dict[str, Any]]) -> bool:
+    for record in history:
+        for adjustment in record.get("adjustments", []):
+            limit = 0.02 if adjustment.get("field") == "prob" else 0.03
+            if abs(float(adjustment.get("after", 0.0)) - float(adjustment.get("before", 0.0))) > limit + 1e-9:
+                return False
+    return True
+
+
+def all_group_budgets_within_limit(history: list[dict[str, Any]]) -> bool:
+    for record in history:
+        for payload in (record.get("group_budget_after") or {}).values():
+            if not payload.get("within_budget", False):
+                return False
+    return True
+
+
 def primary_report_path(output_dir: Path, args: argparse.Namespace) -> Path:
     if not bool(args.feedback_enabled) and not bool(args.industrial_aug_enabled):
         return output_dir / "reports" / "inloop_no_feedback_control_report.md"
     if int(args.epochs) <= 10:
-        return output_dir / "reports" / "inloop_feedback_smoke_report.md"
+        return output_dir / "reports" / "catf_smoke_report.md"
     return output_dir / "reports" / "final_report.md"
 
 
@@ -1170,6 +1301,59 @@ def load_yolo_default_reference(path: Path) -> dict[str, Any]:
     raise ValueError(f"missing yolo_default reference row in {path}")
 
 
+def load_reference_curve(path: Path) -> dict[int, dict[str, Any]]:
+    if not path.exists():
+        return {}
+    if path.suffix.lower() == ".csv":
+        rows = path.read_text(encoding="utf-8-sig").splitlines()
+        if not rows:
+            return {}
+        reader = csv.DictReader(rows)
+        curve: dict[int, dict[str, Any]] = {}
+        for row in reader:
+            epoch_value = row.get("epoch") or row.get("Epoch") or row.get("epoch_index")
+            try:
+                epoch = int(float(str(epoch_value).strip()))
+            except (TypeError, ValueError):
+                continue
+            curve[epoch] = {
+                "precision": _csv_float(row, "metrics/precision(B)", "precision"),
+                "recall": _csv_float(row, "metrics/recall(B)", "recall"),
+                "map50": _csv_float(row, "metrics/mAP50(B)", "map50"),
+                "map50_95": _csv_float(row, "metrics/mAP50-95(B)", "map50_95"),
+            }
+        return {epoch: compact_metrics(metrics) for epoch, metrics in curve.items()}
+    payload = read_json(path)
+    if isinstance(payload, dict):
+        source = payload.get("epoch_records") or payload.get("curve") or payload.get("history") or []
+        curve: dict[int, dict[str, Any]] = {}
+        if isinstance(source, list):
+            for record in source:
+                if not isinstance(record, dict):
+                    continue
+                epoch_value = record.get("epoch")
+                try:
+                    epoch = int(float(epoch_value))
+                except (TypeError, ValueError):
+                    continue
+                metrics = record.get("metrics", record)
+                if isinstance(metrics, dict):
+                    curve[epoch] = compact_metrics(metrics)
+        return curve
+    return {}
+
+
+def _csv_float(row: dict[str, str], *keys: str) -> float | None:
+    for key in keys:
+        if key not in row:
+            continue
+        try:
+            return float(row[key])
+        except (TypeError, ValueError):
+            continue
+    return None
+
+
 def load_control_metrics(path: Path) -> dict[str, Any] | None:
     if not path.exists():
         return None
@@ -1344,12 +1528,15 @@ def update_state_docs(payload: dict[str, Any]) -> None:
             "- Entrypoint: `scripts/train_yolo_default_with_inloop_feedback.py`.",
             "- The previous `yolo_default_feedback_aug_50ep_full` run is a segmented fine-tune experiment, not strict continuous feedback.",
             "- New direction: one `YOLO.train()` run with in-loop feedback callbacks; optimizer/scheduler/EMA/epoch/close_mosaic remain under one Ultralytics trainer.",
+            "- Feedback controller: `CATF` (Constraint-Aware Trust-region Feedback Controller).",
+            "- CATF uses the clean native YOLO default reference curve at matching feedback epochs, trust-region step limits, group budgets, delayed acceptance, rollback, cooldown, and epoch>=40 freeze.",
             "- No-feedback control disables both feedback and industrial augmentation, using Ultralytics YOLO default augmentation as the behavior check.",
             "- The old YOLO default reference is not the final baseline after parity audit; feedback comparisons should use `clean_native_yolo_default_seed42_50ep`.",
             f"- Output: `outputs/experiments/{payload['run_id']}/`",
             f"- Epochs: `{payload['epochs']}`",
             f"- Feedback enabled: `{str(payload['feedback_enabled']).lower()}`",
             f"- Industrial augmentation enabled: `{str(payload['industrial_aug_enabled']).lower()}`",
+            f"- Reference curve loaded: `{str(payload.get('reference_curve_loaded', False)).lower()}`",
             f"- Feedback epochs: `{payload['summary']['feedback_epochs']}`",
             f"- Stage restart count: `{payload['continuity']['stage_restart_count']}`",
             f"- Epoch continuous: `{str(payload['continuity']['epoch_continuous']).lower()}`",

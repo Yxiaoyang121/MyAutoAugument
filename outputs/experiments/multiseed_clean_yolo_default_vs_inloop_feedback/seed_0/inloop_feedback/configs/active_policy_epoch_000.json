@@ -1,0 +1,10 @@
+{
+  "policy_id": "inloop_yolo_default_industrial_feedback",
+  "copy_paste_status": "pending_object_bank_design",
+  "notes": [
+    "Ultralytics YOLO default augmentation is left untouched.",
+    "Only additional low-strength industrial online operations are controlled by feedback.",
+    "No custom mosaic4 or randaugment_like is used."
+  ],
+  "operations": []
+}

@@ -1,0 +1,1 @@
+D:\Anaconda\envs\pytorch\python.exe scripts\run_clean_native_yolo_default.py --model yolo11n.pt --data outputs\datasets\tiled\tiled_1024_ov20_full_safe_no_ok_position\data.yaml --epochs 50 --imgsz 1024 --batch 2 --workers 0 --device 0 --seed 0 --project outputs\experiments\multiseed_clean_yolo_default_vs_inloop_feedback\seed_0 --run-id clean_native_yolo_default --skip-doc-update

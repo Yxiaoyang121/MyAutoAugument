@@ -1,0 +1,353 @@
+{
+  "generated_at": "2026-05-29T08:38:39",
+  "experiment_root": "outputs\\experiments\\multiseed_clean_yolo_default_vs_inloop_feedback",
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "config": {
+    "model": "yolo11n.pt",
+    "data": "outputs/datasets/tiled/tiled_1024_ov20_full_safe_no_ok_position/data.yaml",
+    "epochs": 50,
+    "imgsz": 1024,
+    "batch": 2,
+    "workers": 0,
+    "device": 0,
+    "train_images": 2301,
+    "fixed_augmented_dataset_generated": false,
+    "feedback_interval": 5,
+    "feedback_start_epoch": 5,
+    "industrial_aug_enabled": true,
+    "copy_paste": "pending_not_enabled"
+  },
+  "rows": [
+    {
+      "seed": 0,
+      "clean": {
+        "precision": 0.7845544620314738,
+        "recall": 0.6764566929659848,
+        "map50": 0.7346955158165702,
+        "map50_95": 0.4758941249341509
+      },
+      "feedback": {
+        "precision": 0.7187684558522474,
+        "recall": 0.727326973399103,
+        "map50": 0.768663804874916,
+        "map50_95": 0.5275560959422143
+      },
+      "delta": {
+        "precision": -0.06578600617922647,
+        "recall": 0.05087028043311825,
+        "map50": 0.03396828905834581,
+        "map50_95": 0.05166197100806341
+      },
+      "constraint_failed": true,
+      "failure_reasons": [
+        "precision_drop_gt_0.01"
+      ],
+      "classification": "mixed_constraint_failed",
+      "paths": {
+        "clean_metrics": "outputs\\experiments\\multiseed_clean_yolo_default_vs_inloop_feedback\\seed_0\\clean_native_yolo_default\\reports\\clean_native_yolo_default_metrics.json",
+        "feedback_metrics": "outputs\\experiments\\multiseed_clean_yolo_default_vs_inloop_feedback\\seed_0\\inloop_feedback\\reports\\final_metrics.json",
+        "policy_history": "outputs\\experiments\\multiseed_clean_yolo_default_vs_inloop_feedback\\seed_0\\inloop_feedback\\reports\\policy_history.json",
+        "constraint_scoring": "outputs\\experiments\\multiseed_clean_yolo_default_vs_inloop_feedback\\seed_0\\inloop_feedback\\reports\\constraint_scoring.json",
+        "clean_best_pt": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\multiseed_clean_yolo_default_vs_inloop_feedback\\seed_0\\clean_native_yolo_default\\train\\weights\\best.pt",
+        "feedback_best_pt": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\multiseed_clean_yolo_default_vs_inloop_feedback\\seed_0\\inloop_feedback\\train\\weights\\best.pt"
+      }
+    },
+    {
+      "seed": 1,
+      "clean": {
+        "precision": 0.7725246158861973,
+        "recall": 0.6476798989752319,
+        "map50": 0.7541905909810253,
+        "map50_95": 0.4799185559746686
+      },
+      "feedback": {
+        "precision": 0.7756330755980794,
+        "recall": 0.7275967267027672,
+        "map50": 0.7763095068170246,
+        "map50_95": 0.5146660778062995
+      },
+      "delta": {
+        "precision": 0.0031084597118821167,
+        "recall": 0.07991682772753528,
+        "map50": 0.022118915835999342,
+        "map50_95": 0.03474752183163088
+      },
+      "constraint_failed": false,
+      "failure_reasons": [],
+      "classification": "win_under_constraints",
+      "paths": {
+        "clean_metrics": "outputs\\experiments\\multiseed_clean_yolo_default_vs_inloop_feedback\\seed_1\\clean_native_yolo_default\\reports\\clean_native_yolo_default_metrics.json",
+        "feedback_metrics": "outputs\\experiments\\multiseed_clean_yolo_default_vs_inloop_feedback\\seed_1\\inloop_feedback\\reports\\final_metrics.json",
+        "policy_history": "outputs\\experiments\\multiseed_clean_yolo_default_vs_inloop_feedback\\seed_1\\inloop_feedback\\reports\\policy_history.json",
+        "constraint_scoring": "outputs\\experiments\\multiseed_clean_yolo_default_vs_inloop_feedback\\seed_1\\inloop_feedback\\reports\\constraint_scoring.json",
+        "clean_best_pt": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\multiseed_clean_yolo_default_vs_inloop_feedback\\seed_1\\clean_native_yolo_default\\train\\weights\\best.pt",
+        "feedback_best_pt": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\multiseed_clean_yolo_default_vs_inloop_feedback\\seed_1\\inloop_feedback\\train\\weights\\best.pt"
+      }
+    },
+    {
+      "seed": 2,
+      "clean": {
+        "precision": 0.6962390186664107,
+        "recall": 0.728629640010866,
+        "map50": 0.7692030787336794,
+        "map50_95": 0.5223713770570699
+      },
+      "feedback": {
+        "precision": 0.6765057424427494,
+        "recall": 0.6740541624655668,
+        "map50": 0.7410616705994293,
+        "map50_95": 0.4992576350601453
+      },
+      "delta": {
+        "precision": -0.019733276223661278,
+        "recall": -0.054575477545299234,
+        "map50": -0.028141408134250145,
+        "map50_95": -0.02311374199692462
+      },
+      "constraint_failed": true,
+      "failure_reasons": [
+        "precision_drop_gt_0.01",
+        "map50_drop_gt_0.01",
+        "map50_95_drop_gt_0.01"
+      ],
+      "classification": "regressed",
+      "paths": {
+        "clean_metrics": "outputs\\experiments\\multiseed_clean_yolo_default_vs_inloop_feedback\\seed_2\\clean_native_yolo_default\\reports\\clean_native_yolo_default_metrics.json",
+        "feedback_metrics": "outputs\\experiments\\multiseed_clean_yolo_default_vs_inloop_feedback\\seed_2\\inloop_feedback\\reports\\final_metrics.json",
+        "policy_history": "outputs\\experiments\\multiseed_clean_yolo_default_vs_inloop_feedback\\seed_2\\inloop_feedback\\reports\\policy_history.json",
+        "constraint_scoring": "outputs\\experiments\\multiseed_clean_yolo_default_vs_inloop_feedback\\seed_2\\inloop_feedback\\reports\\constraint_scoring.json",
+        "clean_best_pt": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\multiseed_clean_yolo_default_vs_inloop_feedback\\seed_2\\clean_native_yolo_default\\train\\weights\\best.pt",
+        "feedback_best_pt": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\multiseed_clean_yolo_default_vs_inloop_feedback\\seed_2\\inloop_feedback\\train\\weights\\best.pt"
+      }
+    }
+  ],
+  "aggregate": {
+    "clean": {
+      "precision": {
+        "mean": 0.751106032194694,
+        "std": 0.047895419193325454,
+        "n": 3
+      },
+      "recall": {
+        "mean": 0.6842554106506943,
+        "std": 0.04103449940694302,
+        "n": 3
+      },
+      "map50": {
+        "mean": 0.7526963951770916,
+        "std": 0.01730223801838746,
+        "n": 3
+      },
+      "map50_95": {
+        "mean": 0.49272801932196314,
+        "std": 0.025750640859182657,
+        "n": 3
+      }
+    },
+    "feedback": {
+      "precision": {
+        "mean": 0.7236357579643588,
+        "std": 0.049742587558448015,
+        "n": 3
+      },
+      "recall": {
+        "mean": 0.709659287522479,
+        "std": 0.030835237788121188,
+        "n": 3
+      },
+      "map50": {
+        "mean": 0.76201166076379,
+        "std": 0.01854159527823854,
+        "n": 3
+      },
+      "map50_95": {
+        "mean": 0.5138266029362197,
+        "std": 0.014167895419455174,
+        "n": 3
+      }
+    },
+    "delta": {
+      "precision": {
+        "mean": -0.027470274230335212,
+        "std": 0.03509284415976765,
+        "n": 3
+      },
+      "recall": {
+        "mean": 0.025403876871784765,
+        "std": 0.07077039159960789,
+        "n": 3
+      },
+      "map50": {
+        "mean": 0.009315265586698337,
+        "std": 0.03297504687060823,
+        "n": 3
+      },
+      "map50_95": {
+        "mean": 0.021098583614256556,
+        "std": 0.03921188531169293,
+        "n": 3
+      }
+    }
+  },
+  "metric_win_counts": {
+    "precision": 1,
+    "recall": 2,
+    "map50": 2,
+    "map50_95": 2
+  },
+  "all_metric_win_count": 1,
+  "industrial_win_count": 1,
+  "constraint_failed_count": 2,
+  "obvious_harm": [
+    {
+      "seed": 0,
+      "harms": [
+        "Precision -0.0658"
+      ]
+    },
+    {
+      "seed": 2,
+      "harms": [
+        "Precision -0.0197",
+        "mAP50 -0.0281",
+        "mAP50-95 -0.0231",
+        "Recall -0.0546"
+      ]
+    }
+  ],
+  "policy_summary": {
+    "most_upregulated": [
+      [
+        "clahe",
+        104
+      ],
+      [
+        "gamma",
+        104
+      ],
+      [
+        "sharpen_mild",
+        95
+      ],
+      [
+        "local_contrast",
+        95
+      ],
+      [
+        "cutout_safe",
+        54
+      ],
+      [
+        "brightness",
+        50
+      ]
+    ],
+    "most_downregulated": [
+      [
+        "clahe",
+        54
+      ],
+      [
+        "gamma",
+        54
+      ],
+      [
+        "brightness",
+        50
+      ],
+      [
+        "cutout_safe",
+        46
+      ]
+    ],
+    "by_seed": {
+      "0": {
+        "up": {
+          "clahe": 36,
+          "gamma": 36,
+          "sharpen_mild": 33,
+          "local_contrast": 33,
+          "brightness": 18,
+          "cutout_safe": 18
+        },
+        "down": {
+          "brightness": 18,
+          "clahe": 18,
+          "gamma": 18,
+          "cutout_safe": 16
+        },
+        "update_epochs": [
+          5,
+          10,
+          15,
+          20,
+          25,
+          30,
+          35,
+          40,
+          45
+        ]
+      },
+      "1": {
+        "up": {
+          "clahe": 32,
+          "gamma": 32,
+          "sharpen_mild": 33,
+          "local_contrast": 33,
+          "brightness": 14,
+          "cutout_safe": 18
+        },
+        "down": {
+          "brightness": 14,
+          "clahe": 18,
+          "gamma": 18,
+          "cutout_safe": 14
+        },
+        "update_epochs": [
+          5,
+          10,
+          15,
+          20,
+          25,
+          30,
+          35,
+          40,
+          45
+        ]
+      },
+      "2": {
+        "up": {
+          "clahe": 36,
+          "gamma": 36,
+          "sharpen_mild": 29,
+          "local_contrast": 29,
+          "brightness": 18,
+          "cutout_safe": 18
+        },
+        "down": {
+          "brightness": 18,
+          "clahe": 18,
+          "gamma": 18,
+          "cutout_safe": 16
+        },
+        "update_epochs": [
+          5,
+          10,
+          15,
+          20,
+          25,
+          30,
+          35,
+          40,
+          45
+        ]
+      }
+    }
+  },
+  "recommendation": "not_main_result_yet",
+  "recommendation_text": "Do not claim in-loop feedback as the paper main result yet. It improves the 3-seed mean Recall/mAP50/mAP50-95, but only 1/3 seeds pass industrial constraints; seed 0 fails on Precision and seed 2 regresses across all metrics."
+}

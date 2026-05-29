@@ -1,0 +1,5571 @@
+{
+  "history": [
+    {
+      "timestamp": "2026-05-28T13:35:10",
+      "epoch": 5,
+      "profile": "industrial",
+      "metrics": {
+        "images": null,
+        "instances": null,
+        "precision": 0.57943,
+        "recall": 0.37686,
+        "map50": 0.36005,
+        "map50_95": 0.22636
+      },
+      "diagnosis_global": {
+        "tp": 592,
+        "fp": 393,
+        "fn": 280,
+        "precision": 0.601015228426396,
+        "recall": 0.6541436464088398,
+        "localization_weak": 33,
+        "gt": 905
+      },
+      "diagnosis_vector": {
+        "small_object_score": {
+          "score": 0.4176570458404074,
+          "basis": {
+            "tiny_gt": 177,
+            "small_gt": 412,
+            "small_total_gt": 589,
+            "small_total_tp": 343,
+            "small_recall": 0.5823429541595926
+          }
+        },
+        "low_contrast_score": {
+          "score": 0.4916071428571429,
+          "basis": {
+            "fn_low_contrast_rate": 0.5821428571428572,
+            "fn_dark_rate": 0.45,
+            "fn_bright_rate": 0.007142857142857143
+          }
+        },
+        "class_imbalance_score": {
+          "score": 0.9952554744525548,
+          "basis": {
+            "gt_counts": [
+              64,
+              274,
+              8,
+              2,
+              18,
+              13,
+              46,
+              269,
+              42,
+              84,
+              12,
+              27,
+              46
+            ],
+            "recalls": [
+              1.0,
+              0.9927007299270073,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.2608695652173913,
+              0.5836431226765799,
+              0.38095238095238093,
+              0.2976190476190476,
+              0.0,
+              0.8888888888888888,
+              0.4782608695652174
+            ],
+            "count_imbalance": 0.9927007299270073,
+            "recall_spread": 1.0
+          }
+        },
+        "localization_score": {
+          "score": 0.036464088397790057,
+          "basis": {
+            "gt": 905,
+            "localization_weak": 33
+          }
+        },
+        "false_positive_score": {
+          "score": 0.39898477157360407,
+          "basis": {
+            "tp": 592,
+            "fp": 393,
+            "precision": 0.601015228426396
+          }
+        }
+      },
+      "adjustments": [
+        {
+          "epoch_field": "policy",
+          "op": "clahe",
+          "field": "prob",
+          "before": 0.0,
+          "after": 0.02,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "clahe",
+          "field": "strength",
+          "before": 0.0,
+          "after": 0.015,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "gamma",
+          "field": "prob",
+          "before": 0.0,
+          "after": 0.02,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "gamma",
+          "field": "strength",
+          "before": 0.0,
+          "after": 0.015,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "sharpen_mild",
+          "field": "prob",
+          "before": 0.0,
+          "after": 0.02,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "sharpen_mild",
+          "field": "strength",
+          "before": 0.0,
+          "after": 0.015,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "local_contrast",
+          "field": "prob",
+          "before": 0.0,
+          "after": 0.02,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "local_contrast",
+          "field": "strength",
+          "before": 0.0,
+          "after": 0.015,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "brightness",
+          "field": "prob",
+          "before": 0.0,
+          "after": 0.015,
+          "reason": "recall_low_brightness_like"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "brightness",
+          "field": "strength",
+          "before": 0.0,
+          "after": 0.01,
+          "reason": "recall_low_brightness_like"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "brightness",
+          "field": "prob",
+          "before": 0.015,
+          "after": 0.0,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "brightness",
+          "field": "strength",
+          "before": 0.01,
+          "after": 0.0,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "clahe",
+          "field": "prob",
+          "before": 0.02,
+          "after": 0.0,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "clahe",
+          "field": "strength",
+          "before": 0.015,
+          "after": 0.0,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "gamma",
+          "field": "prob",
+          "before": 0.02,
+          "after": 0.0,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "gamma",
+          "field": "strength",
+          "before": 0.015,
+          "after": 0.0,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "cutout_safe",
+          "field": "prob",
+          "before": 0.0,
+          "after": 0.03,
+          "reason": "precision_low_hard_negative_like"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "cutout_safe",
+          "field": "strength",
+          "before": 0.0,
+          "after": 0.02,
+          "reason": "precision_low_hard_negative_like"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "clahe",
+          "field": "prob",
+          "before": 0.0,
+          "after": 0.02,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "clahe",
+          "field": "strength",
+          "before": 0.0,
+          "after": 0.015,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "gamma",
+          "field": "prob",
+          "before": 0.0,
+          "after": 0.02,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "gamma",
+          "field": "strength",
+          "before": 0.0,
+          "after": 0.015,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "local_contrast",
+          "field": "prob",
+          "before": 0.02,
+          "after": 0.04,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "local_contrast",
+          "field": "strength",
+          "before": 0.015,
+          "after": 0.03,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "sharpen_mild",
+          "field": "prob",
+          "before": 0.02,
+          "after": 0.04,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "sharpen_mild",
+          "field": "strength",
+          "before": 0.015,
+          "after": 0.03,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        }
+      ],
+      "old_policy": {
+        "policy_id": "inloop_yolo_default_industrial_feedback",
+        "copy_paste_status": "pending_object_bank_design",
+        "notes": [
+          "Ultralytics YOLO default augmentation is left untouched.",
+          "Only additional low-strength industrial online operations are controlled by feedback.",
+          "No custom mosaic4 or randaugment_like is used."
+        ],
+        "operations": [
+          {
+            "name": "clahe",
+            "prob": 0.0,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.0,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.45,
+            "params": {}
+          },
+          {
+            "name": "gamma",
+            "prob": 0.0,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.0,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.45,
+            "params": {}
+          },
+          {
+            "name": "local_contrast",
+            "prob": 0.0,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.0,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.4,
+            "params": {}
+          },
+          {
+            "name": "sharpen_mild",
+            "prob": 0.0,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.0,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.4,
+            "params": {
+              "amount": 0.6
+            }
+          },
+          {
+            "name": "cutout_safe",
+            "prob": 0.0,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.2,
+            "strength": 0.0,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.3,
+            "params": {
+              "max_holes": 2,
+              "max_fraction": 0.12,
+              "max_bbox_overlap": 0.05
+            }
+          },
+          {
+            "name": "brightness",
+            "prob": 0.0,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.2,
+            "strength": 0.0,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.25,
+            "params": {
+              "max_delta": 0.12
+            }
+          },
+          {
+            "name": "contrast",
+            "prob": 0.0,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.2,
+            "strength": 0.0,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.25,
+            "params": {
+              "alpha": 0.15
+            }
+          }
+        ]
+      },
+      "new_policy": {
+        "policy_id": "inloop_yolo_default_industrial_feedback",
+        "copy_paste_status": "pending_object_bank_design",
+        "notes": [
+          "Ultralytics YOLO default augmentation is left untouched.",
+          "Only additional low-strength industrial online operations are controlled by feedback.",
+          "No custom mosaic4 or randaugment_like is used."
+        ],
+        "operations": [
+          {
+            "name": "clahe",
+            "prob": 0.02,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.015,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.45,
+            "params": {}
+          },
+          {
+            "name": "gamma",
+            "prob": 0.02,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.015,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.45,
+            "params": {}
+          },
+          {
+            "name": "local_contrast",
+            "prob": 0.04,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.03,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.4,
+            "params": {}
+          },
+          {
+            "name": "sharpen_mild",
+            "prob": 0.04,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.03,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.4,
+            "params": {
+              "amount": 0.6
+            }
+          },
+          {
+            "name": "cutout_safe",
+            "prob": 0.03,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.2,
+            "strength": 0.02,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.3,
+            "params": {
+              "max_holes": 2,
+              "max_fraction": 0.12,
+              "max_bbox_overlap": 0.05
+            }
+          },
+          {
+            "name": "brightness",
+            "prob": 0.0,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.2,
+            "strength": 0.0,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.25,
+            "params": {
+              "max_delta": 0.12
+            }
+          },
+          {
+            "name": "contrast",
+            "prob": 0.0,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.2,
+            "strength": 0.0,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.25,
+            "params": {
+              "alpha": 0.15
+            }
+          }
+        ]
+      },
+      "active_policy": {
+        "policy_id": "inloop_yolo_default_industrial_feedback",
+        "copy_paste_status": "pending_object_bank_design",
+        "notes": [
+          "Ultralytics YOLO default augmentation is left untouched.",
+          "Only additional low-strength industrial online operations are controlled by feedback.",
+          "No custom mosaic4 or randaugment_like is used."
+        ],
+        "operations": [
+          {
+            "name": "clahe",
+            "prob": 0.02,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.015,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.45,
+            "params": {}
+          },
+          {
+            "name": "gamma",
+            "prob": 0.02,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.015,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.45,
+            "params": {}
+          },
+          {
+            "name": "local_contrast",
+            "prob": 0.04,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.03,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.4,
+            "params": {}
+          },
+          {
+            "name": "sharpen_mild",
+            "prob": 0.04,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.03,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.4,
+            "params": {
+              "amount": 0.6
+            }
+          },
+          {
+            "name": "cutout_safe",
+            "prob": 0.03,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.2,
+            "strength": 0.02,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.3,
+            "params": {
+              "max_holes": 2,
+              "max_fraction": 0.12,
+              "max_bbox_overlap": 0.05
+            }
+          }
+        ]
+      },
+      "copy_paste_status": "pending_object_bank_design",
+      "trainer_identity": {
+        "trainer_id": 1561083750144,
+        "optimizer_id": 1560073436032,
+        "scheduler_id": 1559392101232,
+        "ema_id": 1559392102432
+      }
+    },
+    {
+      "timestamp": "2026-05-28T13:55:59",
+      "epoch": 10,
+      "profile": "industrial",
+      "metrics": {
+        "images": null,
+        "instances": null,
+        "precision": 0.50776,
+        "recall": 0.61247,
+        "map50": 0.51689,
+        "map50_95": 0.32468
+      },
+      "diagnosis_global": {
+        "tp": 645,
+        "fp": 547,
+        "fn": 239,
+        "precision": 0.5411073825503355,
+        "recall": 0.712707182320442,
+        "localization_weak": 21,
+        "gt": 905
+      },
+      "diagnosis_vector": {
+        "small_object_score": {
+          "score": 0.3616298811544991,
+          "basis": {
+            "tiny_gt": 177,
+            "small_gt": 412,
+            "small_total_gt": 589,
+            "small_total_tp": 376,
+            "small_recall": 0.6383701188455009
+          }
+        },
+        "low_contrast_score": {
+          "score": 0.5248953974895397,
+          "basis": {
+            "fn_low_contrast_rate": 0.6276150627615062,
+            "fn_dark_rate": 0.46443514644351463,
+            "fn_bright_rate": 0.008368200836820083
+          }
+        },
+        "class_imbalance_score": {
+          "score": 0.9952554744525548,
+          "basis": {
+            "gt_counts": [
+              64,
+              274,
+              8,
+              2,
+              18,
+              13,
+              46,
+              269,
+              42,
+              84,
+              12,
+              27,
+              46
+            ],
+            "recalls": [
+              1.0,
+              0.9963503649635036,
+              0.0,
+              0.0,
+              0.3333333333333333,
+              0.38461538461538464,
+              0.391304347826087,
+              0.6133828996282528,
+              0.5952380952380952,
+              0.38095238095238093,
+              0.08333333333333333,
+              0.6666666666666666,
+              0.8260869565217391
+            ],
+            "count_imbalance": 0.9927007299270073,
+            "recall_spread": 1.0
+          }
+        },
+        "localization_score": {
+          "score": 0.023204419889502764,
+          "basis": {
+            "gt": 905,
+            "localization_weak": 21
+          }
+        },
+        "false_positive_score": {
+          "score": 0.4588926174496644,
+          "basis": {
+            "tp": 645,
+            "fp": 547,
+            "precision": 0.5411073825503355
+          }
+        }
+      },
+      "adjustments": [
+        {
+          "epoch_field": "policy",
+          "op": "clahe",
+          "field": "prob",
+          "before": 0.02,
+          "after": 0.04,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "clahe",
+          "field": "strength",
+          "before": 0.015,
+          "after": 0.03,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "gamma",
+          "field": "prob",
+          "before": 0.02,
+          "after": 0.04,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "gamma",
+          "field": "strength",
+          "before": 0.015,
+          "after": 0.03,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "sharpen_mild",
+          "field": "prob",
+          "before": 0.04,
+          "after": 0.06,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "sharpen_mild",
+          "field": "strength",
+          "before": 0.03,
+          "after": 0.045,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "local_contrast",
+          "field": "prob",
+          "before": 0.04,
+          "after": 0.06,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "local_contrast",
+          "field": "strength",
+          "before": 0.03,
+          "after": 0.045,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "brightness",
+          "field": "prob",
+          "before": 0.0,
+          "after": 0.015,
+          "reason": "recall_low_brightness_like"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "brightness",
+          "field": "strength",
+          "before": 0.0,
+          "after": 0.01,
+          "reason": "recall_low_brightness_like"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "brightness",
+          "field": "prob",
+          "before": 0.015,
+          "after": 0.0,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "brightness",
+          "field": "strength",
+          "before": 0.01,
+          "after": 0.0,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "clahe",
+          "field": "prob",
+          "before": 0.04,
+          "after": 0.010000000000000002,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "clahe",
+          "field": "strength",
+          "before": 0.03,
+          "after": 0.009999999999999998,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "gamma",
+          "field": "prob",
+          "before": 0.04,
+          "after": 0.010000000000000002,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "gamma",
+          "field": "strength",
+          "before": 0.03,
+          "after": 0.009999999999999998,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "cutout_safe",
+          "field": "prob",
+          "before": 0.03,
+          "after": 0.06,
+          "reason": "precision_low_hard_negative_like"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "cutout_safe",
+          "field": "strength",
+          "before": 0.02,
+          "after": 0.04,
+          "reason": "precision_low_hard_negative_like"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "sharpen_mild",
+          "field": "prob",
+          "before": 0.06,
+          "after": 0.1,
+          "reason": "map50_high_map95_low"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "sharpen_mild",
+          "field": "strength",
+          "before": 0.045,
+          "after": 0.075,
+          "reason": "map50_high_map95_low"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "local_contrast",
+          "field": "prob",
+          "before": 0.06,
+          "after": 0.1,
+          "reason": "map50_high_map95_low"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "local_contrast",
+          "field": "strength",
+          "before": 0.045,
+          "after": 0.075,
+          "reason": "map50_high_map95_low"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "cutout_safe",
+          "field": "prob",
+          "before": 0.06,
+          "after": 0.039999999999999994,
+          "reason": "map50_high_map95_low_reduce_cutout"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "cutout_safe",
+          "field": "strength",
+          "before": 0.04,
+          "after": 0.02,
+          "reason": "map50_high_map95_low_reduce_cutout"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "clahe",
+          "field": "prob",
+          "before": 0.010000000000000002,
+          "after": 0.030000000000000002,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "clahe",
+          "field": "strength",
+          "before": 0.009999999999999998,
+          "after": 0.024999999999999998,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "gamma",
+          "field": "prob",
+          "before": 0.010000000000000002,
+          "after": 0.030000000000000002,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "gamma",
+          "field": "strength",
+          "before": 0.009999999999999998,
+          "after": 0.024999999999999998,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "local_contrast",
+          "field": "prob",
+          "before": 0.1,
+          "after": 0.12000000000000001,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "local_contrast",
+          "field": "strength",
+          "before": 0.075,
+          "after": 0.09,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "sharpen_mild",
+          "field": "prob",
+          "before": 0.1,
+          "after": 0.12000000000000001,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "sharpen_mild",
+          "field": "strength",
+          "before": 0.075,
+          "after": 0.09,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        }
+      ],
+      "old_policy": {
+        "policy_id": "inloop_yolo_default_industrial_feedback",
+        "copy_paste_status": "pending_object_bank_design",
+        "notes": [
+          "Ultralytics YOLO default augmentation is left untouched.",
+          "Only additional low-strength industrial online operations are controlled by feedback.",
+          "No custom mosaic4 or randaugment_like is used."
+        ],
+        "operations": [
+          {
+            "name": "clahe",
+            "prob": 0.02,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.015,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.45,
+            "params": {}
+          },
+          {
+            "name": "gamma",
+            "prob": 0.02,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.015,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.45,
+            "params": {}
+          },
+          {
+            "name": "local_contrast",
+            "prob": 0.04,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.03,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.4,
+            "params": {}
+          },
+          {
+            "name": "sharpen_mild",
+            "prob": 0.04,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.03,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.4,
+            "params": {
+              "amount": 0.6
+            }
+          },
+          {
+            "name": "cutout_safe",
+            "prob": 0.03,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.2,
+            "strength": 0.02,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.3,
+            "params": {
+              "max_holes": 2,
+              "max_fraction": 0.12,
+              "max_bbox_overlap": 0.05
+            }
+          },
+          {
+            "name": "brightness",
+            "prob": 0.0,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.2,
+            "strength": 0.0,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.25,
+            "params": {
+              "max_delta": 0.12
+            }
+          },
+          {
+            "name": "contrast",
+            "prob": 0.0,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.2,
+            "strength": 0.0,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.25,
+            "params": {
+              "alpha": 0.15
+            }
+          }
+        ]
+      },
+      "new_policy": {
+        "policy_id": "inloop_yolo_default_industrial_feedback",
+        "copy_paste_status": "pending_object_bank_design",
+        "notes": [
+          "Ultralytics YOLO default augmentation is left untouched.",
+          "Only additional low-strength industrial online operations are controlled by feedback.",
+          "No custom mosaic4 or randaugment_like is used."
+        ],
+        "operations": [
+          {
+            "name": "clahe",
+            "prob": 0.030000000000000002,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.024999999999999998,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.45,
+            "params": {}
+          },
+          {
+            "name": "gamma",
+            "prob": 0.030000000000000002,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.024999999999999998,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.45,
+            "params": {}
+          },
+          {
+            "name": "local_contrast",
+            "prob": 0.12000000000000001,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.09,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.4,
+            "params": {}
+          },
+          {
+            "name": "sharpen_mild",
+            "prob": 0.12000000000000001,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.09,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.4,
+            "params": {
+              "amount": 0.6
+            }
+          },
+          {
+            "name": "cutout_safe",
+            "prob": 0.039999999999999994,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.2,
+            "strength": 0.02,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.3,
+            "params": {
+              "max_holes": 2,
+              "max_fraction": 0.12,
+              "max_bbox_overlap": 0.05
+            }
+          },
+          {
+            "name": "brightness",
+            "prob": 0.0,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.2,
+            "strength": 0.0,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.25,
+            "params": {
+              "max_delta": 0.12
+            }
+          },
+          {
+            "name": "contrast",
+            "prob": 0.0,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.2,
+            "strength": 0.0,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.25,
+            "params": {
+              "alpha": 0.15
+            }
+          }
+        ]
+      },
+      "active_policy": {
+        "policy_id": "inloop_yolo_default_industrial_feedback",
+        "copy_paste_status": "pending_object_bank_design",
+        "notes": [
+          "Ultralytics YOLO default augmentation is left untouched.",
+          "Only additional low-strength industrial online operations are controlled by feedback.",
+          "No custom mosaic4 or randaugment_like is used."
+        ],
+        "operations": [
+          {
+            "name": "clahe",
+            "prob": 0.030000000000000002,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.024999999999999998,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.45,
+            "params": {}
+          },
+          {
+            "name": "gamma",
+            "prob": 0.030000000000000002,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.024999999999999998,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.45,
+            "params": {}
+          },
+          {
+            "name": "local_contrast",
+            "prob": 0.12000000000000001,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.09,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.4,
+            "params": {}
+          },
+          {
+            "name": "sharpen_mild",
+            "prob": 0.12000000000000001,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.09,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.4,
+            "params": {
+              "amount": 0.6
+            }
+          },
+          {
+            "name": "cutout_safe",
+            "prob": 0.039999999999999994,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.2,
+            "strength": 0.02,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.3,
+            "params": {
+              "max_holes": 2,
+              "max_fraction": 0.12,
+              "max_bbox_overlap": 0.05
+            }
+          }
+        ]
+      },
+      "copy_paste_status": "pending_object_bank_design",
+      "trainer_identity": {
+        "trainer_id": 1561083750144,
+        "optimizer_id": 1560073436032,
+        "scheduler_id": 1559392101232,
+        "ema_id": 1559392102432
+      }
+    },
+    {
+      "timestamp": "2026-05-28T14:18:02",
+      "epoch": 15,
+      "profile": "industrial",
+      "metrics": {
+        "images": null,
+        "instances": null,
+        "precision": 0.52663,
+        "recall": 0.57503,
+        "map50": 0.54305,
+        "map50_95": 0.3299
+      },
+      "diagnosis_global": {
+        "tp": 686,
+        "fp": 417,
+        "fn": 197,
+        "precision": 0.6219401631912964,
+        "recall": 0.7580110497237569,
+        "localization_weak": 22,
+        "gt": 905
+      },
+      "diagnosis_vector": {
+        "small_object_score": {
+          "score": 0.28522920203735147,
+          "basis": {
+            "tiny_gt": 177,
+            "small_gt": 412,
+            "small_total_gt": 589,
+            "small_total_tp": 421,
+            "small_recall": 0.7147707979626485
+          }
+        },
+        "low_contrast_score": {
+          "score": 0.47182741116751276,
+          "basis": {
+            "fn_low_contrast_rate": 0.5329949238578681,
+            "fn_dark_rate": 0.49746192893401014,
+            "fn_bright_rate": 0.01015228426395939
+          }
+        },
+        "class_imbalance_score": {
+          "score": 0.9952554744525548,
+          "basis": {
+            "gt_counts": [
+              64,
+              274,
+              8,
+              2,
+              18,
+              13,
+              46,
+              269,
+              42,
+              84,
+              12,
+              27,
+              46
+            ],
+            "recalls": [
+              1.0,
+              1.0,
+              0.875,
+              0.0,
+              0.2777777777777778,
+              0.0,
+              0.43478260869565216,
+              0.7063197026022305,
+              0.47619047619047616,
+              0.6071428571428571,
+              0.3333333333333333,
+              0.8518518518518519,
+              0.6086956521739131
+            ],
+            "count_imbalance": 0.9927007299270073,
+            "recall_spread": 1.0
+          }
+        },
+        "localization_score": {
+          "score": 0.02430939226519337,
+          "basis": {
+            "gt": 905,
+            "localization_weak": 22
+          }
+        },
+        "false_positive_score": {
+          "score": 0.37805983680870353,
+          "basis": {
+            "tp": 686,
+            "fp": 417,
+            "precision": 0.6219401631912964
+          }
+        }
+      },
+      "adjustments": [
+        {
+          "epoch_field": "policy",
+          "op": "clahe",
+          "field": "prob",
+          "before": 0.030000000000000002,
+          "after": 0.05,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "clahe",
+          "field": "strength",
+          "before": 0.024999999999999998,
+          "after": 0.039999999999999994,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "gamma",
+          "field": "prob",
+          "before": 0.030000000000000002,
+          "after": 0.05,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "gamma",
+          "field": "strength",
+          "before": 0.024999999999999998,
+          "after": 0.039999999999999994,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "sharpen_mild",
+          "field": "prob",
+          "before": 0.12000000000000001,
+          "after": 0.14,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "sharpen_mild",
+          "field": "strength",
+          "before": 0.09,
+          "after": 0.105,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "local_contrast",
+          "field": "prob",
+          "before": 0.12000000000000001,
+          "after": 0.14,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "local_contrast",
+          "field": "strength",
+          "before": 0.09,
+          "after": 0.105,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "brightness",
+          "field": "prob",
+          "before": 0.0,
+          "after": 0.015,
+          "reason": "recall_low_brightness_like"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "brightness",
+          "field": "strength",
+          "before": 0.0,
+          "after": 0.01,
+          "reason": "recall_low_brightness_like"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "brightness",
+          "field": "prob",
+          "before": 0.015,
+          "after": 0.0,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "brightness",
+          "field": "strength",
+          "before": 0.01,
+          "after": 0.0,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "clahe",
+          "field": "prob",
+          "before": 0.05,
+          "after": 0.020000000000000004,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "clahe",
+          "field": "strength",
+          "before": 0.039999999999999994,
+          "after": 0.019999999999999993,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "gamma",
+          "field": "prob",
+          "before": 0.05,
+          "after": 0.020000000000000004,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "gamma",
+          "field": "strength",
+          "before": 0.039999999999999994,
+          "after": 0.019999999999999993,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "cutout_safe",
+          "field": "prob",
+          "before": 0.039999999999999994,
+          "after": 0.06999999999999999,
+          "reason": "precision_low_hard_negative_like"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "cutout_safe",
+          "field": "strength",
+          "before": 0.02,
+          "after": 0.04,
+          "reason": "precision_low_hard_negative_like"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "sharpen_mild",
+          "field": "prob",
+          "before": 0.14,
+          "after": 0.18000000000000002,
+          "reason": "map50_high_map95_low"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "sharpen_mild",
+          "field": "strength",
+          "before": 0.105,
+          "after": 0.135,
+          "reason": "map50_high_map95_low"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "local_contrast",
+          "field": "prob",
+          "before": 0.14,
+          "after": 0.18000000000000002,
+          "reason": "map50_high_map95_low"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "local_contrast",
+          "field": "strength",
+          "before": 0.105,
+          "after": 0.135,
+          "reason": "map50_high_map95_low"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "cutout_safe",
+          "field": "prob",
+          "before": 0.06999999999999999,
+          "after": 0.04999999999999999,
+          "reason": "map50_high_map95_low_reduce_cutout"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "cutout_safe",
+          "field": "strength",
+          "before": 0.04,
+          "after": 0.02,
+          "reason": "map50_high_map95_low_reduce_cutout"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "clahe",
+          "field": "prob",
+          "before": 0.020000000000000004,
+          "after": 0.04000000000000001,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "clahe",
+          "field": "strength",
+          "before": 0.019999999999999993,
+          "after": 0.03499999999999999,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "gamma",
+          "field": "prob",
+          "before": 0.020000000000000004,
+          "after": 0.04000000000000001,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "gamma",
+          "field": "strength",
+          "before": 0.019999999999999993,
+          "after": 0.03499999999999999,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "local_contrast",
+          "field": "prob",
+          "before": 0.18000000000000002,
+          "after": 0.2,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "local_contrast",
+          "field": "strength",
+          "before": 0.135,
+          "after": 0.15000000000000002,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "sharpen_mild",
+          "field": "prob",
+          "before": 0.18000000000000002,
+          "after": 0.2,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "sharpen_mild",
+          "field": "strength",
+          "before": 0.135,
+          "after": 0.15000000000000002,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        }
+      ],
+      "old_policy": {
+        "policy_id": "inloop_yolo_default_industrial_feedback",
+        "copy_paste_status": "pending_object_bank_design",
+        "notes": [
+          "Ultralytics YOLO default augmentation is left untouched.",
+          "Only additional low-strength industrial online operations are controlled by feedback.",
+          "No custom mosaic4 or randaugment_like is used."
+        ],
+        "operations": [
+          {
+            "name": "clahe",
+            "prob": 0.030000000000000002,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.024999999999999998,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.45,
+            "params": {}
+          },
+          {
+            "name": "gamma",
+            "prob": 0.030000000000000002,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.024999999999999998,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.45,
+            "params": {}
+          },
+          {
+            "name": "local_contrast",
+            "prob": 0.12000000000000001,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.09,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.4,
+            "params": {}
+          },
+          {
+            "name": "sharpen_mild",
+            "prob": 0.12000000000000001,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.09,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.4,
+            "params": {
+              "amount": 0.6
+            }
+          },
+          {
+            "name": "cutout_safe",
+            "prob": 0.039999999999999994,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.2,
+            "strength": 0.02,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.3,
+            "params": {
+              "max_holes": 2,
+              "max_fraction": 0.12,
+              "max_bbox_overlap": 0.05
+            }
+          },
+          {
+            "name": "brightness",
+            "prob": 0.0,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.2,
+            "strength": 0.0,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.25,
+            "params": {
+              "max_delta": 0.12
+            }
+          },
+          {
+            "name": "contrast",
+            "prob": 0.0,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.2,
+            "strength": 0.0,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.25,
+            "params": {
+              "alpha": 0.15
+            }
+          }
+        ]
+      },
+      "new_policy": {
+        "policy_id": "inloop_yolo_default_industrial_feedback",
+        "copy_paste_status": "pending_object_bank_design",
+        "notes": [
+          "Ultralytics YOLO default augmentation is left untouched.",
+          "Only additional low-strength industrial online operations are controlled by feedback.",
+          "No custom mosaic4 or randaugment_like is used."
+        ],
+        "operations": [
+          {
+            "name": "clahe",
+            "prob": 0.04000000000000001,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.03499999999999999,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.45,
+            "params": {}
+          },
+          {
+            "name": "gamma",
+            "prob": 0.04000000000000001,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.03499999999999999,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.45,
+            "params": {}
+          },
+          {
+            "name": "local_contrast",
+            "prob": 0.2,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.15000000000000002,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.4,
+            "params": {}
+          },
+          {
+            "name": "sharpen_mild",
+            "prob": 0.2,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.15000000000000002,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.4,
+            "params": {
+              "amount": 0.6
+            }
+          },
+          {
+            "name": "cutout_safe",
+            "prob": 0.04999999999999999,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.2,
+            "strength": 0.02,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.3,
+            "params": {
+              "max_holes": 2,
+              "max_fraction": 0.12,
+              "max_bbox_overlap": 0.05
+            }
+          },
+          {
+            "name": "brightness",
+            "prob": 0.0,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.2,
+            "strength": 0.0,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.25,
+            "params": {
+              "max_delta": 0.12
+            }
+          },
+          {
+            "name": "contrast",
+            "prob": 0.0,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.2,
+            "strength": 0.0,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.25,
+            "params": {
+              "alpha": 0.15
+            }
+          }
+        ]
+      },
+      "active_policy": {
+        "policy_id": "inloop_yolo_default_industrial_feedback",
+        "copy_paste_status": "pending_object_bank_design",
+        "notes": [
+          "Ultralytics YOLO default augmentation is left untouched.",
+          "Only additional low-strength industrial online operations are controlled by feedback.",
+          "No custom mosaic4 or randaugment_like is used."
+        ],
+        "operations": [
+          {
+            "name": "clahe",
+            "prob": 0.04000000000000001,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.03499999999999999,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.45,
+            "params": {}
+          },
+          {
+            "name": "gamma",
+            "prob": 0.04000000000000001,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.03499999999999999,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.45,
+            "params": {}
+          },
+          {
+            "name": "local_contrast",
+            "prob": 0.2,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.15000000000000002,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.4,
+            "params": {}
+          },
+          {
+            "name": "sharpen_mild",
+            "prob": 0.2,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.15000000000000002,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.4,
+            "params": {
+              "amount": 0.6
+            }
+          },
+          {
+            "name": "cutout_safe",
+            "prob": 0.04999999999999999,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.2,
+            "strength": 0.02,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.3,
+            "params": {
+              "max_holes": 2,
+              "max_fraction": 0.12,
+              "max_bbox_overlap": 0.05
+            }
+          }
+        ]
+      },
+      "copy_paste_status": "pending_object_bank_design",
+      "trainer_identity": {
+        "trainer_id": 1561083750144,
+        "optimizer_id": 1560073436032,
+        "scheduler_id": 1559392101232,
+        "ema_id": 1559392102432
+      }
+    },
+    {
+      "timestamp": "2026-05-28T14:40:54",
+      "epoch": 20,
+      "profile": "industrial",
+      "metrics": {
+        "images": null,
+        "instances": null,
+        "precision": 0.61129,
+        "recall": 0.60121,
+        "map50": 0.6014,
+        "map50_95": 0.36785
+      },
+      "diagnosis_global": {
+        "tp": 717,
+        "fp": 433,
+        "fn": 164,
+        "precision": 0.6234782608695653,
+        "recall": 0.7922651933701658,
+        "localization_weak": 24,
+        "gt": 905
+      },
+      "diagnosis_vector": {
+        "small_object_score": {
+          "score": 0.2546689303904923,
+          "basis": {
+            "tiny_gt": 177,
+            "small_gt": 412,
+            "small_total_gt": 589,
+            "small_total_tp": 439,
+            "small_recall": 0.7453310696095077
+          }
+        },
+        "low_contrast_score": {
+          "score": 0.5585365853658537,
+          "basis": {
+            "fn_low_contrast_rate": 0.6463414634146342,
+            "fn_dark_rate": 0.5487804878048781,
+            "fn_bright_rate": 0.012195121951219513
+          }
+        },
+        "class_imbalance_score": {
+          "score": 0.9952554744525548,
+          "basis": {
+            "gt_counts": [
+              64,
+              274,
+              8,
+              2,
+              18,
+              13,
+              46,
+              269,
+              42,
+              84,
+              12,
+              27,
+              46
+            ],
+            "recalls": [
+              1.0,
+              1.0,
+              0.875,
+              0.0,
+              0.3333333333333333,
+              0.3076923076923077,
+              0.6086956521739131,
+              0.7100371747211895,
+              0.5238095238095238,
+              0.6190476190476191,
+              0.5833333333333334,
+              0.9629629629629629,
+              0.782608695652174
+            ],
+            "count_imbalance": 0.9927007299270073,
+            "recall_spread": 1.0
+          }
+        },
+        "localization_score": {
+          "score": 0.026519337016574586,
+          "basis": {
+            "gt": 905,
+            "localization_weak": 24
+          }
+        },
+        "false_positive_score": {
+          "score": 0.3765217391304348,
+          "basis": {
+            "tp": 717,
+            "fp": 433,
+            "precision": 0.6234782608695653
+          }
+        }
+      },
+      "adjustments": [
+        {
+          "epoch_field": "policy",
+          "op": "clahe",
+          "field": "prob",
+          "before": 0.04000000000000001,
+          "after": 0.06000000000000001,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "clahe",
+          "field": "strength",
+          "before": 0.03499999999999999,
+          "after": 0.04999999999999999,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "gamma",
+          "field": "prob",
+          "before": 0.04000000000000001,
+          "after": 0.06000000000000001,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "gamma",
+          "field": "strength",
+          "before": 0.03499999999999999,
+          "after": 0.04999999999999999,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "sharpen_mild",
+          "field": "prob",
+          "before": 0.2,
+          "after": 0.22,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "sharpen_mild",
+          "field": "strength",
+          "before": 0.15000000000000002,
+          "after": 0.16500000000000004,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "local_contrast",
+          "field": "prob",
+          "before": 0.2,
+          "after": 0.22,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "local_contrast",
+          "field": "strength",
+          "before": 0.15000000000000002,
+          "after": 0.16500000000000004,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "brightness",
+          "field": "prob",
+          "before": 0.0,
+          "after": 0.015,
+          "reason": "recall_low_brightness_like"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "brightness",
+          "field": "strength",
+          "before": 0.0,
+          "after": 0.01,
+          "reason": "recall_low_brightness_like"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "brightness",
+          "field": "prob",
+          "before": 0.015,
+          "after": 0.0,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "brightness",
+          "field": "strength",
+          "before": 0.01,
+          "after": 0.0,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "clahe",
+          "field": "prob",
+          "before": 0.06000000000000001,
+          "after": 0.030000000000000013,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "clahe",
+          "field": "strength",
+          "before": 0.04999999999999999,
+          "after": 0.02999999999999999,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "gamma",
+          "field": "prob",
+          "before": 0.06000000000000001,
+          "after": 0.030000000000000013,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "gamma",
+          "field": "strength",
+          "before": 0.04999999999999999,
+          "after": 0.02999999999999999,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "cutout_safe",
+          "field": "prob",
+          "before": 0.04999999999999999,
+          "after": 0.07999999999999999,
+          "reason": "precision_low_hard_negative_like"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "cutout_safe",
+          "field": "strength",
+          "before": 0.02,
+          "after": 0.04,
+          "reason": "precision_low_hard_negative_like"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "sharpen_mild",
+          "field": "prob",
+          "before": 0.22,
+          "after": 0.26,
+          "reason": "map50_high_map95_low"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "sharpen_mild",
+          "field": "strength",
+          "before": 0.16500000000000004,
+          "after": 0.19500000000000003,
+          "reason": "map50_high_map95_low"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "local_contrast",
+          "field": "prob",
+          "before": 0.22,
+          "after": 0.26,
+          "reason": "map50_high_map95_low"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "local_contrast",
+          "field": "strength",
+          "before": 0.16500000000000004,
+          "after": 0.19500000000000003,
+          "reason": "map50_high_map95_low"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "cutout_safe",
+          "field": "prob",
+          "before": 0.07999999999999999,
+          "after": 0.059999999999999984,
+          "reason": "map50_high_map95_low_reduce_cutout"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "cutout_safe",
+          "field": "strength",
+          "before": 0.04,
+          "after": 0.02,
+          "reason": "map50_high_map95_low_reduce_cutout"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "clahe",
+          "field": "prob",
+          "before": 0.030000000000000013,
+          "after": 0.05000000000000002,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "clahe",
+          "field": "strength",
+          "before": 0.02999999999999999,
+          "after": 0.044999999999999984,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "gamma",
+          "field": "prob",
+          "before": 0.030000000000000013,
+          "after": 0.05000000000000002,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "gamma",
+          "field": "strength",
+          "before": 0.02999999999999999,
+          "after": 0.044999999999999984,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "local_contrast",
+          "field": "prob",
+          "before": 0.26,
+          "after": 0.28,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "local_contrast",
+          "field": "strength",
+          "before": 0.19500000000000003,
+          "after": 0.21000000000000002,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "sharpen_mild",
+          "field": "prob",
+          "before": 0.26,
+          "after": 0.28,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "sharpen_mild",
+          "field": "strength",
+          "before": 0.19500000000000003,
+          "after": 0.21000000000000002,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        }
+      ],
+      "old_policy": {
+        "policy_id": "inloop_yolo_default_industrial_feedback",
+        "copy_paste_status": "pending_object_bank_design",
+        "notes": [
+          "Ultralytics YOLO default augmentation is left untouched.",
+          "Only additional low-strength industrial online operations are controlled by feedback.",
+          "No custom mosaic4 or randaugment_like is used."
+        ],
+        "operations": [
+          {
+            "name": "clahe",
+            "prob": 0.04000000000000001,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.03499999999999999,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.45,
+            "params": {}
+          },
+          {
+            "name": "gamma",
+            "prob": 0.04000000000000001,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.03499999999999999,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.45,
+            "params": {}
+          },
+          {
+            "name": "local_contrast",
+            "prob": 0.2,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.15000000000000002,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.4,
+            "params": {}
+          },
+          {
+            "name": "sharpen_mild",
+            "prob": 0.2,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.15000000000000002,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.4,
+            "params": {
+              "amount": 0.6
+            }
+          },
+          {
+            "name": "cutout_safe",
+            "prob": 0.04999999999999999,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.2,
+            "strength": 0.02,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.3,
+            "params": {
+              "max_holes": 2,
+              "max_fraction": 0.12,
+              "max_bbox_overlap": 0.05
+            }
+          },
+          {
+            "name": "brightness",
+            "prob": 0.0,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.2,
+            "strength": 0.0,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.25,
+            "params": {
+              "max_delta": 0.12
+            }
+          },
+          {
+            "name": "contrast",
+            "prob": 0.0,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.2,
+            "strength": 0.0,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.25,
+            "params": {
+              "alpha": 0.15
+            }
+          }
+        ]
+      },
+      "new_policy": {
+        "policy_id": "inloop_yolo_default_industrial_feedback",
+        "copy_paste_status": "pending_object_bank_design",
+        "notes": [
+          "Ultralytics YOLO default augmentation is left untouched.",
+          "Only additional low-strength industrial online operations are controlled by feedback.",
+          "No custom mosaic4 or randaugment_like is used."
+        ],
+        "operations": [
+          {
+            "name": "clahe",
+            "prob": 0.05000000000000002,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.044999999999999984,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.45,
+            "params": {}
+          },
+          {
+            "name": "gamma",
+            "prob": 0.05000000000000002,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.044999999999999984,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.45,
+            "params": {}
+          },
+          {
+            "name": "local_contrast",
+            "prob": 0.28,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.21000000000000002,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.4,
+            "params": {}
+          },
+          {
+            "name": "sharpen_mild",
+            "prob": 0.28,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.21000000000000002,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.4,
+            "params": {
+              "amount": 0.6
+            }
+          },
+          {
+            "name": "cutout_safe",
+            "prob": 0.059999999999999984,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.2,
+            "strength": 0.02,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.3,
+            "params": {
+              "max_holes": 2,
+              "max_fraction": 0.12,
+              "max_bbox_overlap": 0.05
+            }
+          },
+          {
+            "name": "brightness",
+            "prob": 0.0,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.2,
+            "strength": 0.0,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.25,
+            "params": {
+              "max_delta": 0.12
+            }
+          },
+          {
+            "name": "contrast",
+            "prob": 0.0,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.2,
+            "strength": 0.0,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.25,
+            "params": {
+              "alpha": 0.15
+            }
+          }
+        ]
+      },
+      "active_policy": {
+        "policy_id": "inloop_yolo_default_industrial_feedback",
+        "copy_paste_status": "pending_object_bank_design",
+        "notes": [
+          "Ultralytics YOLO default augmentation is left untouched.",
+          "Only additional low-strength industrial online operations are controlled by feedback.",
+          "No custom mosaic4 or randaugment_like is used."
+        ],
+        "operations": [
+          {
+            "name": "clahe",
+            "prob": 0.05000000000000002,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.044999999999999984,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.45,
+            "params": {}
+          },
+          {
+            "name": "gamma",
+            "prob": 0.05000000000000002,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.044999999999999984,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.45,
+            "params": {}
+          },
+          {
+            "name": "local_contrast",
+            "prob": 0.28,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.21000000000000002,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.4,
+            "params": {}
+          },
+          {
+            "name": "sharpen_mild",
+            "prob": 0.28,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.21000000000000002,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.4,
+            "params": {
+              "amount": 0.6
+            }
+          },
+          {
+            "name": "cutout_safe",
+            "prob": 0.059999999999999984,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.2,
+            "strength": 0.02,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.3,
+            "params": {
+              "max_holes": 2,
+              "max_fraction": 0.12,
+              "max_bbox_overlap": 0.05
+            }
+          }
+        ]
+      },
+      "copy_paste_status": "pending_object_bank_design",
+      "trainer_identity": {
+        "trainer_id": 1561083750144,
+        "optimizer_id": 1560073436032,
+        "scheduler_id": 1559392101232,
+        "ema_id": 1559392102432
+      }
+    },
+    {
+      "timestamp": "2026-05-28T15:04:29",
+      "epoch": 25,
+      "profile": "industrial",
+      "metrics": {
+        "images": null,
+        "instances": null,
+        "precision": 0.71327,
+        "recall": 0.59443,
+        "map50": 0.68034,
+        "map50_95": 0.45175
+      },
+      "diagnosis_global": {
+        "tp": 715,
+        "fp": 397,
+        "fn": 170,
+        "precision": 0.6429856115107914,
+        "recall": 0.7900552486187845,
+        "localization_weak": 20,
+        "gt": 905
+      },
+      "diagnosis_vector": {
+        "small_object_score": {
+          "score": 0.2699490662139219,
+          "basis": {
+            "tiny_gt": 177,
+            "small_gt": 412,
+            "small_total_gt": 589,
+            "small_total_tp": 430,
+            "small_recall": 0.7300509337860781
+          }
+        },
+        "low_contrast_score": {
+          "score": 0.5314705882352941,
+          "basis": {
+            "fn_low_contrast_rate": 0.6235294117647059,
+            "fn_dark_rate": 0.5,
+            "fn_bright_rate": 0.011764705882352941
+          }
+        },
+        "class_imbalance_score": {
+          "score": 0.8591443633414437,
+          "basis": {
+            "gt_counts": [
+              64,
+              274,
+              8,
+              2,
+              18,
+              13,
+              46,
+              269,
+              42,
+              84,
+              12,
+              27,
+              46
+            ],
+            "recalls": [
+              1.0,
+              1.0,
+              0.875,
+              1.0,
+              0.3888888888888889,
+              0.46153846153846156,
+              0.7608695652173914,
+              0.7286245353159851,
+              0.5,
+              0.4880952380952381,
+              0.5833333333333334,
+              0.7037037037037037,
+              0.782608695652174
+            ],
+            "count_imbalance": 0.9927007299270073,
+            "recall_spread": 0.6111111111111112
+          }
+        },
+        "localization_score": {
+          "score": 0.022099447513812154,
+          "basis": {
+            "gt": 905,
+            "localization_weak": 20
+          }
+        },
+        "false_positive_score": {
+          "score": 0.35701438848920863,
+          "basis": {
+            "tp": 715,
+            "fp": 397,
+            "precision": 0.6429856115107914
+          }
+        }
+      },
+      "adjustments": [
+        {
+          "epoch_field": "policy",
+          "op": "clahe",
+          "field": "prob",
+          "before": 0.05000000000000002,
+          "after": 0.07000000000000002,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "clahe",
+          "field": "strength",
+          "before": 0.044999999999999984,
+          "after": 0.059999999999999984,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "gamma",
+          "field": "prob",
+          "before": 0.05000000000000002,
+          "after": 0.07000000000000002,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "gamma",
+          "field": "strength",
+          "before": 0.044999999999999984,
+          "after": 0.059999999999999984,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "sharpen_mild",
+          "field": "prob",
+          "before": 0.28,
+          "after": 0.3,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "sharpen_mild",
+          "field": "strength",
+          "before": 0.21000000000000002,
+          "after": 0.22500000000000003,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "local_contrast",
+          "field": "prob",
+          "before": 0.28,
+          "after": 0.3,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "local_contrast",
+          "field": "strength",
+          "before": 0.21000000000000002,
+          "after": 0.22500000000000003,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "brightness",
+          "field": "prob",
+          "before": 0.0,
+          "after": 0.015,
+          "reason": "recall_low_brightness_like"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "brightness",
+          "field": "strength",
+          "before": 0.0,
+          "after": 0.01,
+          "reason": "recall_low_brightness_like"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "brightness",
+          "field": "prob",
+          "before": 0.015,
+          "after": 0.0,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "brightness",
+          "field": "strength",
+          "before": 0.01,
+          "after": 0.0,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "clahe",
+          "field": "prob",
+          "before": 0.07000000000000002,
+          "after": 0.04000000000000002,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "clahe",
+          "field": "strength",
+          "before": 0.059999999999999984,
+          "after": 0.03999999999999998,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "gamma",
+          "field": "prob",
+          "before": 0.07000000000000002,
+          "after": 0.04000000000000002,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "gamma",
+          "field": "strength",
+          "before": 0.059999999999999984,
+          "after": 0.03999999999999998,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "cutout_safe",
+          "field": "prob",
+          "before": 0.059999999999999984,
+          "after": 0.08999999999999998,
+          "reason": "precision_low_hard_negative_like"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "cutout_safe",
+          "field": "strength",
+          "before": 0.02,
+          "after": 0.04,
+          "reason": "precision_low_hard_negative_like"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "sharpen_mild",
+          "field": "strength",
+          "before": 0.22500000000000003,
+          "after": 0.255,
+          "reason": "map50_high_map95_low"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "local_contrast",
+          "field": "strength",
+          "before": 0.22500000000000003,
+          "after": 0.255,
+          "reason": "map50_high_map95_low"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "cutout_safe",
+          "field": "prob",
+          "before": 0.08999999999999998,
+          "after": 0.06999999999999998,
+          "reason": "map50_high_map95_low_reduce_cutout"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "cutout_safe",
+          "field": "strength",
+          "before": 0.04,
+          "after": 0.02,
+          "reason": "map50_high_map95_low_reduce_cutout"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "clahe",
+          "field": "prob",
+          "before": 0.04000000000000002,
+          "after": 0.060000000000000026,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "clahe",
+          "field": "strength",
+          "before": 0.03999999999999998,
+          "after": 0.05499999999999998,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "gamma",
+          "field": "prob",
+          "before": 0.04000000000000002,
+          "after": 0.060000000000000026,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "gamma",
+          "field": "strength",
+          "before": 0.03999999999999998,
+          "after": 0.05499999999999998,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "local_contrast",
+          "field": "strength",
+          "before": 0.255,
+          "after": 0.27,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "sharpen_mild",
+          "field": "strength",
+          "before": 0.255,
+          "after": 0.27,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        }
+      ],
+      "old_policy": {
+        "policy_id": "inloop_yolo_default_industrial_feedback",
+        "copy_paste_status": "pending_object_bank_design",
+        "notes": [
+          "Ultralytics YOLO default augmentation is left untouched.",
+          "Only additional low-strength industrial online operations are controlled by feedback.",
+          "No custom mosaic4 or randaugment_like is used."
+        ],
+        "operations": [
+          {
+            "name": "clahe",
+            "prob": 0.05000000000000002,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.044999999999999984,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.45,
+            "params": {}
+          },
+          {
+            "name": "gamma",
+            "prob": 0.05000000000000002,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.044999999999999984,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.45,
+            "params": {}
+          },
+          {
+            "name": "local_contrast",
+            "prob": 0.28,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.21000000000000002,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.4,
+            "params": {}
+          },
+          {
+            "name": "sharpen_mild",
+            "prob": 0.28,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.21000000000000002,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.4,
+            "params": {
+              "amount": 0.6
+            }
+          },
+          {
+            "name": "cutout_safe",
+            "prob": 0.059999999999999984,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.2,
+            "strength": 0.02,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.3,
+            "params": {
+              "max_holes": 2,
+              "max_fraction": 0.12,
+              "max_bbox_overlap": 0.05
+            }
+          },
+          {
+            "name": "brightness",
+            "prob": 0.0,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.2,
+            "strength": 0.0,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.25,
+            "params": {
+              "max_delta": 0.12
+            }
+          },
+          {
+            "name": "contrast",
+            "prob": 0.0,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.2,
+            "strength": 0.0,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.25,
+            "params": {
+              "alpha": 0.15
+            }
+          }
+        ]
+      },
+      "new_policy": {
+        "policy_id": "inloop_yolo_default_industrial_feedback",
+        "copy_paste_status": "pending_object_bank_design",
+        "notes": [
+          "Ultralytics YOLO default augmentation is left untouched.",
+          "Only additional low-strength industrial online operations are controlled by feedback.",
+          "No custom mosaic4 or randaugment_like is used."
+        ],
+        "operations": [
+          {
+            "name": "clahe",
+            "prob": 0.060000000000000026,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.05499999999999998,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.45,
+            "params": {}
+          },
+          {
+            "name": "gamma",
+            "prob": 0.060000000000000026,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.05499999999999998,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.45,
+            "params": {}
+          },
+          {
+            "name": "local_contrast",
+            "prob": 0.3,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.27,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.4,
+            "params": {}
+          },
+          {
+            "name": "sharpen_mild",
+            "prob": 0.3,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.27,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.4,
+            "params": {
+              "amount": 0.6
+            }
+          },
+          {
+            "name": "cutout_safe",
+            "prob": 0.06999999999999998,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.2,
+            "strength": 0.02,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.3,
+            "params": {
+              "max_holes": 2,
+              "max_fraction": 0.12,
+              "max_bbox_overlap": 0.05
+            }
+          },
+          {
+            "name": "brightness",
+            "prob": 0.0,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.2,
+            "strength": 0.0,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.25,
+            "params": {
+              "max_delta": 0.12
+            }
+          },
+          {
+            "name": "contrast",
+            "prob": 0.0,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.2,
+            "strength": 0.0,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.25,
+            "params": {
+              "alpha": 0.15
+            }
+          }
+        ]
+      },
+      "active_policy": {
+        "policy_id": "inloop_yolo_default_industrial_feedback",
+        "copy_paste_status": "pending_object_bank_design",
+        "notes": [
+          "Ultralytics YOLO default augmentation is left untouched.",
+          "Only additional low-strength industrial online operations are controlled by feedback.",
+          "No custom mosaic4 or randaugment_like is used."
+        ],
+        "operations": [
+          {
+            "name": "clahe",
+            "prob": 0.060000000000000026,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.05499999999999998,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.45,
+            "params": {}
+          },
+          {
+            "name": "gamma",
+            "prob": 0.060000000000000026,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.05499999999999998,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.45,
+            "params": {}
+          },
+          {
+            "name": "local_contrast",
+            "prob": 0.3,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.27,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.4,
+            "params": {}
+          },
+          {
+            "name": "sharpen_mild",
+            "prob": 0.3,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.27,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.4,
+            "params": {
+              "amount": 0.6
+            }
+          },
+          {
+            "name": "cutout_safe",
+            "prob": 0.06999999999999998,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.2,
+            "strength": 0.02,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.3,
+            "params": {
+              "max_holes": 2,
+              "max_fraction": 0.12,
+              "max_bbox_overlap": 0.05
+            }
+          }
+        ]
+      },
+      "copy_paste_status": "pending_object_bank_design",
+      "trainer_identity": {
+        "trainer_id": 1561083750144,
+        "optimizer_id": 1560073436032,
+        "scheduler_id": 1559392101232,
+        "ema_id": 1559392102432
+      }
+    },
+    {
+      "timestamp": "2026-05-28T15:29:38",
+      "epoch": 30,
+      "profile": "industrial",
+      "metrics": {
+        "images": null,
+        "instances": null,
+        "precision": 0.60578,
+        "recall": 0.69892,
+        "map50": 0.68587,
+        "map50_95": 0.44432
+      },
+      "diagnosis_global": {
+        "tp": 713,
+        "fp": 370,
+        "fn": 172,
+        "precision": 0.6583564173591875,
+        "recall": 0.7878453038674034,
+        "localization_weak": 20,
+        "gt": 905
+      },
+      "diagnosis_vector": {
+        "small_object_score": {
+          "score": 0.27164685908319186,
+          "basis": {
+            "tiny_gt": 177,
+            "small_gt": 412,
+            "small_total_gt": 589,
+            "small_total_tp": 429,
+            "small_recall": 0.7283531409168081
+          }
+        },
+        "low_contrast_score": {
+          "score": 0.55,
+          "basis": {
+            "fn_low_contrast_rate": 0.6453488372093024,
+            "fn_dark_rate": 0.5174418604651163,
+            "fn_bright_rate": 0.011627906976744186
+          }
+        },
+        "class_imbalance_score": {
+          "score": 0.8337170129140933,
+          "basis": {
+            "gt_counts": [
+              64,
+              274,
+              8,
+              2,
+              18,
+              13,
+              46,
+              269,
+              42,
+              84,
+              12,
+              27,
+              46
+            ],
+            "recalls": [
+              1.0,
+              1.0,
+              0.875,
+              1.0,
+              0.5,
+              0.46153846153846156,
+              0.6739130434782609,
+              0.6877323420074349,
+              0.5476190476190477,
+              0.5238095238095238,
+              0.6666666666666666,
+              0.8888888888888888,
+              0.782608695652174
+            ],
+            "count_imbalance": 0.9927007299270073,
+            "recall_spread": 0.5384615384615384
+          }
+        },
+        "localization_score": {
+          "score": 0.022099447513812154,
+          "basis": {
+            "gt": 905,
+            "localization_weak": 20
+          }
+        },
+        "false_positive_score": {
+          "score": 0.34164358264081257,
+          "basis": {
+            "tp": 713,
+            "fp": 370,
+            "precision": 0.6583564173591875
+          }
+        }
+      },
+      "adjustments": [
+        {
+          "epoch_field": "policy",
+          "op": "clahe",
+          "field": "prob",
+          "before": 0.060000000000000026,
+          "after": 0.08000000000000003,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "clahe",
+          "field": "strength",
+          "before": 0.05499999999999998,
+          "after": 0.06999999999999998,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "gamma",
+          "field": "prob",
+          "before": 0.060000000000000026,
+          "after": 0.08000000000000003,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "gamma",
+          "field": "strength",
+          "before": 0.05499999999999998,
+          "after": 0.06999999999999998,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "sharpen_mild",
+          "field": "strength",
+          "before": 0.27,
+          "after": 0.28500000000000003,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "local_contrast",
+          "field": "strength",
+          "before": 0.27,
+          "after": 0.28500000000000003,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "brightness",
+          "field": "prob",
+          "before": 0.0,
+          "after": 0.015,
+          "reason": "recall_low_brightness_like"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "brightness",
+          "field": "strength",
+          "before": 0.0,
+          "after": 0.01,
+          "reason": "recall_low_brightness_like"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "brightness",
+          "field": "prob",
+          "before": 0.015,
+          "after": 0.0,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "brightness",
+          "field": "strength",
+          "before": 0.01,
+          "after": 0.0,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "clahe",
+          "field": "prob",
+          "before": 0.08000000000000003,
+          "after": 0.05000000000000003,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "clahe",
+          "field": "strength",
+          "before": 0.06999999999999998,
+          "after": 0.049999999999999975,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "gamma",
+          "field": "prob",
+          "before": 0.08000000000000003,
+          "after": 0.05000000000000003,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "gamma",
+          "field": "strength",
+          "before": 0.06999999999999998,
+          "after": 0.049999999999999975,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "cutout_safe",
+          "field": "prob",
+          "before": 0.06999999999999998,
+          "after": 0.09999999999999998,
+          "reason": "precision_low_hard_negative_like"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "cutout_safe",
+          "field": "strength",
+          "before": 0.02,
+          "after": 0.04,
+          "reason": "precision_low_hard_negative_like"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "sharpen_mild",
+          "field": "strength",
+          "before": 0.28500000000000003,
+          "after": 0.31500000000000006,
+          "reason": "map50_high_map95_low"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "local_contrast",
+          "field": "strength",
+          "before": 0.28500000000000003,
+          "after": 0.31500000000000006,
+          "reason": "map50_high_map95_low"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "cutout_safe",
+          "field": "prob",
+          "before": 0.09999999999999998,
+          "after": 0.07999999999999997,
+          "reason": "map50_high_map95_low_reduce_cutout"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "cutout_safe",
+          "field": "strength",
+          "before": 0.04,
+          "after": 0.02,
+          "reason": "map50_high_map95_low_reduce_cutout"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "clahe",
+          "field": "prob",
+          "before": 0.05000000000000003,
+          "after": 0.07000000000000003,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "clahe",
+          "field": "strength",
+          "before": 0.049999999999999975,
+          "after": 0.06499999999999997,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "gamma",
+          "field": "prob",
+          "before": 0.05000000000000003,
+          "after": 0.07000000000000003,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "gamma",
+          "field": "strength",
+          "before": 0.049999999999999975,
+          "after": 0.06499999999999997,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "local_contrast",
+          "field": "strength",
+          "before": 0.31500000000000006,
+          "after": 0.33000000000000007,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "sharpen_mild",
+          "field": "strength",
+          "before": 0.31500000000000006,
+          "after": 0.33000000000000007,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        }
+      ],
+      "old_policy": {
+        "policy_id": "inloop_yolo_default_industrial_feedback",
+        "copy_paste_status": "pending_object_bank_design",
+        "notes": [
+          "Ultralytics YOLO default augmentation is left untouched.",
+          "Only additional low-strength industrial online operations are controlled by feedback.",
+          "No custom mosaic4 or randaugment_like is used."
+        ],
+        "operations": [
+          {
+            "name": "clahe",
+            "prob": 0.060000000000000026,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.05499999999999998,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.45,
+            "params": {}
+          },
+          {
+            "name": "gamma",
+            "prob": 0.060000000000000026,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.05499999999999998,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.45,
+            "params": {}
+          },
+          {
+            "name": "local_contrast",
+            "prob": 0.3,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.27,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.4,
+            "params": {}
+          },
+          {
+            "name": "sharpen_mild",
+            "prob": 0.3,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.27,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.4,
+            "params": {
+              "amount": 0.6
+            }
+          },
+          {
+            "name": "cutout_safe",
+            "prob": 0.06999999999999998,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.2,
+            "strength": 0.02,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.3,
+            "params": {
+              "max_holes": 2,
+              "max_fraction": 0.12,
+              "max_bbox_overlap": 0.05
+            }
+          },
+          {
+            "name": "brightness",
+            "prob": 0.0,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.2,
+            "strength": 0.0,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.25,
+            "params": {
+              "max_delta": 0.12
+            }
+          },
+          {
+            "name": "contrast",
+            "prob": 0.0,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.2,
+            "strength": 0.0,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.25,
+            "params": {
+              "alpha": 0.15
+            }
+          }
+        ]
+      },
+      "new_policy": {
+        "policy_id": "inloop_yolo_default_industrial_feedback",
+        "copy_paste_status": "pending_object_bank_design",
+        "notes": [
+          "Ultralytics YOLO default augmentation is left untouched.",
+          "Only additional low-strength industrial online operations are controlled by feedback.",
+          "No custom mosaic4 or randaugment_like is used."
+        ],
+        "operations": [
+          {
+            "name": "clahe",
+            "prob": 0.07000000000000003,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.06499999999999997,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.45,
+            "params": {}
+          },
+          {
+            "name": "gamma",
+            "prob": 0.07000000000000003,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.06499999999999997,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.45,
+            "params": {}
+          },
+          {
+            "name": "local_contrast",
+            "prob": 0.3,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.33000000000000007,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.4,
+            "params": {}
+          },
+          {
+            "name": "sharpen_mild",
+            "prob": 0.3,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.33000000000000007,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.4,
+            "params": {
+              "amount": 0.6
+            }
+          },
+          {
+            "name": "cutout_safe",
+            "prob": 0.07999999999999997,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.2,
+            "strength": 0.02,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.3,
+            "params": {
+              "max_holes": 2,
+              "max_fraction": 0.12,
+              "max_bbox_overlap": 0.05
+            }
+          },
+          {
+            "name": "brightness",
+            "prob": 0.0,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.2,
+            "strength": 0.0,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.25,
+            "params": {
+              "max_delta": 0.12
+            }
+          },
+          {
+            "name": "contrast",
+            "prob": 0.0,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.2,
+            "strength": 0.0,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.25,
+            "params": {
+              "alpha": 0.15
+            }
+          }
+        ]
+      },
+      "active_policy": {
+        "policy_id": "inloop_yolo_default_industrial_feedback",
+        "copy_paste_status": "pending_object_bank_design",
+        "notes": [
+          "Ultralytics YOLO default augmentation is left untouched.",
+          "Only additional low-strength industrial online operations are controlled by feedback.",
+          "No custom mosaic4 or randaugment_like is used."
+        ],
+        "operations": [
+          {
+            "name": "clahe",
+            "prob": 0.07000000000000003,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.06499999999999997,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.45,
+            "params": {}
+          },
+          {
+            "name": "gamma",
+            "prob": 0.07000000000000003,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.06499999999999997,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.45,
+            "params": {}
+          },
+          {
+            "name": "local_contrast",
+            "prob": 0.3,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.33000000000000007,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.4,
+            "params": {}
+          },
+          {
+            "name": "sharpen_mild",
+            "prob": 0.3,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.33000000000000007,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.4,
+            "params": {
+              "amount": 0.6
+            }
+          },
+          {
+            "name": "cutout_safe",
+            "prob": 0.07999999999999997,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.2,
+            "strength": 0.02,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.3,
+            "params": {
+              "max_holes": 2,
+              "max_fraction": 0.12,
+              "max_bbox_overlap": 0.05
+            }
+          }
+        ]
+      },
+      "copy_paste_status": "pending_object_bank_design",
+      "trainer_identity": {
+        "trainer_id": 1561083750144,
+        "optimizer_id": 1560073436032,
+        "scheduler_id": 1559392101232,
+        "ema_id": 1559392102432
+      }
+    },
+    {
+      "timestamp": "2026-05-28T15:53:43",
+      "epoch": 35,
+      "profile": "industrial",
+      "metrics": {
+        "images": null,
+        "instances": null,
+        "precision": 0.66818,
+        "recall": 0.75872,
+        "map50": 0.7586,
+        "map50_95": 0.51494
+      },
+      "diagnosis_global": {
+        "tp": 717,
+        "fp": 280,
+        "fn": 175,
+        "precision": 0.7191574724172518,
+        "recall": 0.7922651933701658,
+        "localization_weak": 13,
+        "gt": 905
+      },
+      "diagnosis_vector": {
+        "small_object_score": {
+          "score": 0.26825127334465193,
+          "basis": {
+            "tiny_gt": 177,
+            "small_gt": 412,
+            "small_total_gt": 589,
+            "small_total_tp": 431,
+            "small_recall": 0.7317487266553481
+          }
+        },
+        "low_contrast_score": {
+          "score": 0.5731428571428572,
+          "basis": {
+            "fn_low_contrast_rate": 0.68,
+            "fn_dark_rate": 0.52,
+            "fn_bright_rate": 0.011428571428571429
+          }
+        },
+        "class_imbalance_score": {
+          "score": 0.8591443633414437,
+          "basis": {
+            "gt_counts": [
+              64,
+              274,
+              8,
+              2,
+              18,
+              13,
+              46,
+              269,
+              42,
+              84,
+              12,
+              27,
+              46
+            ],
+            "recalls": [
+              1.0,
+              1.0,
+              0.875,
+              1.0,
+              0.3888888888888889,
+              0.6923076923076923,
+              0.717391304347826,
+              0.654275092936803,
+              0.5476190476190477,
+              0.6428571428571429,
+              0.6666666666666666,
+              0.9629629629629629,
+              0.7391304347826086
+            ],
+            "count_imbalance": 0.9927007299270073,
+            "recall_spread": 0.6111111111111112
+          }
+        },
+        "localization_score": {
+          "score": 0.014364640883977901,
+          "basis": {
+            "gt": 905,
+            "localization_weak": 13
+          }
+        },
+        "false_positive_score": {
+          "score": 0.28084252758274825,
+          "basis": {
+            "tp": 717,
+            "fp": 280,
+            "precision": 0.7191574724172518
+          }
+        }
+      },
+      "adjustments": [
+        {
+          "epoch_field": "policy",
+          "op": "clahe",
+          "field": "prob",
+          "before": 0.07000000000000003,
+          "after": 0.09000000000000004,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "clahe",
+          "field": "strength",
+          "before": 0.06499999999999997,
+          "after": 0.07999999999999997,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "gamma",
+          "field": "prob",
+          "before": 0.07000000000000003,
+          "after": 0.09000000000000004,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "gamma",
+          "field": "strength",
+          "before": 0.06499999999999997,
+          "after": 0.07999999999999997,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "sharpen_mild",
+          "field": "strength",
+          "before": 0.33000000000000007,
+          "after": 0.3450000000000001,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "local_contrast",
+          "field": "strength",
+          "before": 0.33000000000000007,
+          "after": 0.3450000000000001,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "brightness",
+          "field": "prob",
+          "before": 0.0,
+          "after": 0.015,
+          "reason": "recall_low_brightness_like"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "brightness",
+          "field": "strength",
+          "before": 0.0,
+          "after": 0.01,
+          "reason": "recall_low_brightness_like"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "brightness",
+          "field": "prob",
+          "before": 0.015,
+          "after": 0.0,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "brightness",
+          "field": "strength",
+          "before": 0.01,
+          "after": 0.0,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "clahe",
+          "field": "prob",
+          "before": 0.09000000000000004,
+          "after": 0.06000000000000004,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "clahe",
+          "field": "strength",
+          "before": 0.07999999999999997,
+          "after": 0.05999999999999997,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "gamma",
+          "field": "prob",
+          "before": 0.09000000000000004,
+          "after": 0.06000000000000004,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "gamma",
+          "field": "strength",
+          "before": 0.07999999999999997,
+          "after": 0.05999999999999997,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "cutout_safe",
+          "field": "prob",
+          "before": 0.07999999999999997,
+          "after": 0.10999999999999997,
+          "reason": "precision_low_hard_negative_like"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "cutout_safe",
+          "field": "strength",
+          "before": 0.02,
+          "after": 0.04,
+          "reason": "precision_low_hard_negative_like"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "sharpen_mild",
+          "field": "strength",
+          "before": 0.3450000000000001,
+          "after": 0.3750000000000001,
+          "reason": "map50_high_map95_low"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "local_contrast",
+          "field": "strength",
+          "before": 0.3450000000000001,
+          "after": 0.3750000000000001,
+          "reason": "map50_high_map95_low"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "cutout_safe",
+          "field": "prob",
+          "before": 0.10999999999999997,
+          "after": 0.08999999999999997,
+          "reason": "map50_high_map95_low_reduce_cutout"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "cutout_safe",
+          "field": "strength",
+          "before": 0.04,
+          "after": 0.02,
+          "reason": "map50_high_map95_low_reduce_cutout"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "clahe",
+          "field": "prob",
+          "before": 0.06000000000000004,
+          "after": 0.08000000000000004,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "clahe",
+          "field": "strength",
+          "before": 0.05999999999999997,
+          "after": 0.07499999999999997,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "gamma",
+          "field": "prob",
+          "before": 0.06000000000000004,
+          "after": 0.08000000000000004,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "gamma",
+          "field": "strength",
+          "before": 0.05999999999999997,
+          "after": 0.07499999999999997,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "local_contrast",
+          "field": "strength",
+          "before": 0.3750000000000001,
+          "after": 0.3900000000000001,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "sharpen_mild",
+          "field": "strength",
+          "before": 0.3750000000000001,
+          "after": 0.3900000000000001,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        }
+      ],
+      "old_policy": {
+        "policy_id": "inloop_yolo_default_industrial_feedback",
+        "copy_paste_status": "pending_object_bank_design",
+        "notes": [
+          "Ultralytics YOLO default augmentation is left untouched.",
+          "Only additional low-strength industrial online operations are controlled by feedback.",
+          "No custom mosaic4 or randaugment_like is used."
+        ],
+        "operations": [
+          {
+            "name": "clahe",
+            "prob": 0.07000000000000003,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.06499999999999997,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.45,
+            "params": {}
+          },
+          {
+            "name": "gamma",
+            "prob": 0.07000000000000003,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.06499999999999997,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.45,
+            "params": {}
+          },
+          {
+            "name": "local_contrast",
+            "prob": 0.3,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.33000000000000007,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.4,
+            "params": {}
+          },
+          {
+            "name": "sharpen_mild",
+            "prob": 0.3,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.33000000000000007,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.4,
+            "params": {
+              "amount": 0.6
+            }
+          },
+          {
+            "name": "cutout_safe",
+            "prob": 0.07999999999999997,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.2,
+            "strength": 0.02,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.3,
+            "params": {
+              "max_holes": 2,
+              "max_fraction": 0.12,
+              "max_bbox_overlap": 0.05
+            }
+          },
+          {
+            "name": "brightness",
+            "prob": 0.0,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.2,
+            "strength": 0.0,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.25,
+            "params": {
+              "max_delta": 0.12
+            }
+          },
+          {
+            "name": "contrast",
+            "prob": 0.0,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.2,
+            "strength": 0.0,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.25,
+            "params": {
+              "alpha": 0.15
+            }
+          }
+        ]
+      },
+      "new_policy": {
+        "policy_id": "inloop_yolo_default_industrial_feedback",
+        "copy_paste_status": "pending_object_bank_design",
+        "notes": [
+          "Ultralytics YOLO default augmentation is left untouched.",
+          "Only additional low-strength industrial online operations are controlled by feedback.",
+          "No custom mosaic4 or randaugment_like is used."
+        ],
+        "operations": [
+          {
+            "name": "clahe",
+            "prob": 0.08000000000000004,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.07499999999999997,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.45,
+            "params": {}
+          },
+          {
+            "name": "gamma",
+            "prob": 0.08000000000000004,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.07499999999999997,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.45,
+            "params": {}
+          },
+          {
+            "name": "local_contrast",
+            "prob": 0.3,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.3900000000000001,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.4,
+            "params": {}
+          },
+          {
+            "name": "sharpen_mild",
+            "prob": 0.3,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.3900000000000001,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.4,
+            "params": {
+              "amount": 0.6
+            }
+          },
+          {
+            "name": "cutout_safe",
+            "prob": 0.08999999999999997,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.2,
+            "strength": 0.02,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.3,
+            "params": {
+              "max_holes": 2,
+              "max_fraction": 0.12,
+              "max_bbox_overlap": 0.05
+            }
+          },
+          {
+            "name": "brightness",
+            "prob": 0.0,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.2,
+            "strength": 0.0,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.25,
+            "params": {
+              "max_delta": 0.12
+            }
+          },
+          {
+            "name": "contrast",
+            "prob": 0.0,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.2,
+            "strength": 0.0,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.25,
+            "params": {
+              "alpha": 0.15
+            }
+          }
+        ]
+      },
+      "active_policy": {
+        "policy_id": "inloop_yolo_default_industrial_feedback",
+        "copy_paste_status": "pending_object_bank_design",
+        "notes": [
+          "Ultralytics YOLO default augmentation is left untouched.",
+          "Only additional low-strength industrial online operations are controlled by feedback.",
+          "No custom mosaic4 or randaugment_like is used."
+        ],
+        "operations": [
+          {
+            "name": "clahe",
+            "prob": 0.08000000000000004,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.07499999999999997,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.45,
+            "params": {}
+          },
+          {
+            "name": "gamma",
+            "prob": 0.08000000000000004,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.07499999999999997,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.45,
+            "params": {}
+          },
+          {
+            "name": "local_contrast",
+            "prob": 0.3,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.3900000000000001,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.4,
+            "params": {}
+          },
+          {
+            "name": "sharpen_mild",
+            "prob": 0.3,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.3900000000000001,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.4,
+            "params": {
+              "amount": 0.6
+            }
+          },
+          {
+            "name": "cutout_safe",
+            "prob": 0.08999999999999997,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.2,
+            "strength": 0.02,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.3,
+            "params": {
+              "max_holes": 2,
+              "max_fraction": 0.12,
+              "max_bbox_overlap": 0.05
+            }
+          }
+        ]
+      },
+      "copy_paste_status": "pending_object_bank_design",
+      "trainer_identity": {
+        "trainer_id": 1561083750144,
+        "optimizer_id": 1560073436032,
+        "scheduler_id": 1559392101232,
+        "ema_id": 1559392102432
+      }
+    },
+    {
+      "timestamp": "2026-05-28T16:17:49",
+      "epoch": 40,
+      "profile": "industrial",
+      "metrics": {
+        "images": null,
+        "instances": null,
+        "precision": 0.67506,
+        "recall": 0.70389,
+        "map50": 0.75453,
+        "map50_95": 0.51438
+      },
+      "diagnosis_global": {
+        "tp": 730,
+        "fp": 313,
+        "fn": 161,
+        "precision": 0.6999041227229147,
+        "recall": 0.8066298342541437,
+        "localization_weak": 14,
+        "gt": 905
+      },
+      "diagnosis_vector": {
+        "small_object_score": {
+          "score": 0.24108658743633282,
+          "basis": {
+            "tiny_gt": 177,
+            "small_gt": 412,
+            "small_total_gt": 589,
+            "small_total_tp": 447,
+            "small_recall": 0.7589134125636672
+          }
+        },
+        "low_contrast_score": {
+          "score": 0.5354037267080746,
+          "basis": {
+            "fn_low_contrast_rate": 0.6211180124223602,
+            "fn_dark_rate": 0.5217391304347826,
+            "fn_bright_rate": 0.012422360248447204
+          }
+        },
+        "class_imbalance_score": {
+          "score": 0.8396999188969992,
+          "basis": {
+            "gt_counts": [
+              64,
+              274,
+              8,
+              2,
+              18,
+              13,
+              46,
+              269,
+              42,
+              84,
+              12,
+              27,
+              46
+            ],
+            "recalls": [
+              1.0,
+              1.0,
+              0.875,
+              1.0,
+              0.4444444444444444,
+              0.6923076923076923,
+              0.6304347826086957,
+              0.7397769516728625,
+              0.5,
+              0.5595238095238095,
+              0.75,
+              1.0,
+              0.7391304347826086
+            ],
+            "count_imbalance": 0.9927007299270073,
+            "recall_spread": 0.5555555555555556
+          }
+        },
+        "localization_score": {
+          "score": 0.015469613259668509,
+          "basis": {
+            "gt": 905,
+            "localization_weak": 14
+          }
+        },
+        "false_positive_score": {
+          "score": 0.3000958772770853,
+          "basis": {
+            "tp": 730,
+            "fp": 313,
+            "precision": 0.6999041227229147
+          }
+        }
+      },
+      "adjustments": [
+        {
+          "epoch_field": "policy",
+          "op": "clahe",
+          "field": "prob",
+          "before": 0.08000000000000004,
+          "after": 0.10000000000000005,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "clahe",
+          "field": "strength",
+          "before": 0.07499999999999997,
+          "after": 0.08999999999999997,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "gamma",
+          "field": "prob",
+          "before": 0.08000000000000004,
+          "after": 0.10000000000000005,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "gamma",
+          "field": "strength",
+          "before": 0.07499999999999997,
+          "after": 0.08999999999999997,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "sharpen_mild",
+          "field": "strength",
+          "before": 0.3900000000000001,
+          "after": 0.4,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "local_contrast",
+          "field": "strength",
+          "before": 0.3900000000000001,
+          "after": 0.4,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "brightness",
+          "field": "prob",
+          "before": 0.0,
+          "after": 0.015,
+          "reason": "recall_low_brightness_like"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "brightness",
+          "field": "strength",
+          "before": 0.0,
+          "after": 0.01,
+          "reason": "recall_low_brightness_like"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "brightness",
+          "field": "prob",
+          "before": 0.015,
+          "after": 0.0,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "brightness",
+          "field": "strength",
+          "before": 0.01,
+          "after": 0.0,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "clahe",
+          "field": "prob",
+          "before": 0.10000000000000005,
+          "after": 0.07000000000000005,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "clahe",
+          "field": "strength",
+          "before": 0.08999999999999997,
+          "after": 0.06999999999999997,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "gamma",
+          "field": "prob",
+          "before": 0.10000000000000005,
+          "after": 0.07000000000000005,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "gamma",
+          "field": "strength",
+          "before": 0.08999999999999997,
+          "after": 0.06999999999999997,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "cutout_safe",
+          "field": "prob",
+          "before": 0.08999999999999997,
+          "after": 0.11999999999999997,
+          "reason": "precision_low_hard_negative_like"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "cutout_safe",
+          "field": "strength",
+          "before": 0.02,
+          "after": 0.04,
+          "reason": "precision_low_hard_negative_like"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "cutout_safe",
+          "field": "prob",
+          "before": 0.11999999999999997,
+          "after": 0.09999999999999996,
+          "reason": "map50_high_map95_low_reduce_cutout"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "cutout_safe",
+          "field": "strength",
+          "before": 0.04,
+          "after": 0.02,
+          "reason": "map50_high_map95_low_reduce_cutout"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "clahe",
+          "field": "prob",
+          "before": 0.07000000000000005,
+          "after": 0.09000000000000005,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "clahe",
+          "field": "strength",
+          "before": 0.06999999999999997,
+          "after": 0.08499999999999996,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "gamma",
+          "field": "prob",
+          "before": 0.07000000000000005,
+          "after": 0.09000000000000005,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "gamma",
+          "field": "strength",
+          "before": 0.06999999999999997,
+          "after": 0.08499999999999996,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        }
+      ],
+      "old_policy": {
+        "policy_id": "inloop_yolo_default_industrial_feedback",
+        "copy_paste_status": "pending_object_bank_design",
+        "notes": [
+          "Ultralytics YOLO default augmentation is left untouched.",
+          "Only additional low-strength industrial online operations are controlled by feedback.",
+          "No custom mosaic4 or randaugment_like is used."
+        ],
+        "operations": [
+          {
+            "name": "clahe",
+            "prob": 0.08000000000000004,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.07499999999999997,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.45,
+            "params": {}
+          },
+          {
+            "name": "gamma",
+            "prob": 0.08000000000000004,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.07499999999999997,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.45,
+            "params": {}
+          },
+          {
+            "name": "local_contrast",
+            "prob": 0.3,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.3900000000000001,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.4,
+            "params": {}
+          },
+          {
+            "name": "sharpen_mild",
+            "prob": 0.3,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.3900000000000001,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.4,
+            "params": {
+              "amount": 0.6
+            }
+          },
+          {
+            "name": "cutout_safe",
+            "prob": 0.08999999999999997,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.2,
+            "strength": 0.02,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.3,
+            "params": {
+              "max_holes": 2,
+              "max_fraction": 0.12,
+              "max_bbox_overlap": 0.05
+            }
+          },
+          {
+            "name": "brightness",
+            "prob": 0.0,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.2,
+            "strength": 0.0,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.25,
+            "params": {
+              "max_delta": 0.12
+            }
+          },
+          {
+            "name": "contrast",
+            "prob": 0.0,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.2,
+            "strength": 0.0,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.25,
+            "params": {
+              "alpha": 0.15
+            }
+          }
+        ]
+      },
+      "new_policy": {
+        "policy_id": "inloop_yolo_default_industrial_feedback",
+        "copy_paste_status": "pending_object_bank_design",
+        "notes": [
+          "Ultralytics YOLO default augmentation is left untouched.",
+          "Only additional low-strength industrial online operations are controlled by feedback.",
+          "No custom mosaic4 or randaugment_like is used."
+        ],
+        "operations": [
+          {
+            "name": "clahe",
+            "prob": 0.09000000000000005,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.08499999999999996,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.45,
+            "params": {}
+          },
+          {
+            "name": "gamma",
+            "prob": 0.09000000000000005,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.08499999999999996,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.45,
+            "params": {}
+          },
+          {
+            "name": "local_contrast",
+            "prob": 0.3,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.4,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.4,
+            "params": {}
+          },
+          {
+            "name": "sharpen_mild",
+            "prob": 0.3,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.4,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.4,
+            "params": {
+              "amount": 0.6
+            }
+          },
+          {
+            "name": "cutout_safe",
+            "prob": 0.09999999999999996,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.2,
+            "strength": 0.02,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.3,
+            "params": {
+              "max_holes": 2,
+              "max_fraction": 0.12,
+              "max_bbox_overlap": 0.05
+            }
+          },
+          {
+            "name": "brightness",
+            "prob": 0.0,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.2,
+            "strength": 0.0,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.25,
+            "params": {
+              "max_delta": 0.12
+            }
+          },
+          {
+            "name": "contrast",
+            "prob": 0.0,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.2,
+            "strength": 0.0,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.25,
+            "params": {
+              "alpha": 0.15
+            }
+          }
+        ]
+      },
+      "active_policy": {
+        "policy_id": "inloop_yolo_default_industrial_feedback",
+        "copy_paste_status": "pending_object_bank_design",
+        "notes": [
+          "Ultralytics YOLO default augmentation is left untouched.",
+          "Only additional low-strength industrial online operations are controlled by feedback.",
+          "No custom mosaic4 or randaugment_like is used."
+        ],
+        "operations": [
+          {
+            "name": "clahe",
+            "prob": 0.09000000000000005,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.08499999999999996,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.45,
+            "params": {}
+          },
+          {
+            "name": "gamma",
+            "prob": 0.09000000000000005,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.08499999999999996,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.45,
+            "params": {}
+          },
+          {
+            "name": "local_contrast",
+            "prob": 0.3,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.4,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.4,
+            "params": {}
+          },
+          {
+            "name": "sharpen_mild",
+            "prob": 0.3,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.4,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.4,
+            "params": {
+              "amount": 0.6
+            }
+          },
+          {
+            "name": "cutout_safe",
+            "prob": 0.09999999999999996,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.2,
+            "strength": 0.02,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.3,
+            "params": {
+              "max_holes": 2,
+              "max_fraction": 0.12,
+              "max_bbox_overlap": 0.05
+            }
+          }
+        ]
+      },
+      "copy_paste_status": "pending_object_bank_design",
+      "trainer_identity": {
+        "trainer_id": 1561083750144,
+        "optimizer_id": 1560073436032,
+        "scheduler_id": 1559392101232,
+        "ema_id": 1559392102432
+      }
+    },
+    {
+      "timestamp": "2026-05-28T16:41:43",
+      "epoch": 45,
+      "profile": "industrial",
+      "metrics": {
+        "images": null,
+        "instances": null,
+        "precision": 0.70834,
+        "recall": 0.73733,
+        "map50": 0.76747,
+        "map50_95": 0.5142
+      },
+      "diagnosis_global": {
+        "tp": 725,
+        "fp": 286,
+        "fn": 167,
+        "precision": 0.7171117705242335,
+        "recall": 0.8011049723756906,
+        "localization_weak": 13,
+        "gt": 905
+      },
+      "diagnosis_vector": {
+        "small_object_score": {
+          "score": 0.2563667232597623,
+          "basis": {
+            "tiny_gt": 177,
+            "small_gt": 412,
+            "small_total_gt": 589,
+            "small_total_tp": 438,
+            "small_recall": 0.7436332767402377
+          }
+        },
+        "low_contrast_score": {
+          "score": 0.5718562874251497,
+          "basis": {
+            "fn_low_contrast_rate": 0.6706586826347305,
+            "fn_dark_rate": 0.5389221556886228,
+            "fn_bright_rate": 0.011976047904191617
+          }
+        },
+        "class_imbalance_score": {
+          "score": 0.8785888077858881,
+          "basis": {
+            "gt_counts": [
+              64,
+              274,
+              8,
+              2,
+              18,
+              13,
+              46,
+              269,
+              42,
+              84,
+              12,
+              27,
+              46
+            ],
+            "recalls": [
+              1.0,
+              0.9963503649635036,
+              0.875,
+              1.0,
+              0.3333333333333333,
+              0.5384615384615384,
+              0.782608695652174,
+              0.6951672862453532,
+              0.5714285714285714,
+              0.6071428571428571,
+              0.75,
+              1.0,
+              0.6956521739130435
+            ],
+            "count_imbalance": 0.9927007299270073,
+            "recall_spread": 0.6666666666666667
+          }
+        },
+        "localization_score": {
+          "score": 0.014364640883977901,
+          "basis": {
+            "gt": 905,
+            "localization_weak": 13
+          }
+        },
+        "false_positive_score": {
+          "score": 0.2828882294757666,
+          "basis": {
+            "tp": 725,
+            "fp": 286,
+            "precision": 0.7171117705242335
+          }
+        }
+      },
+      "adjustments": [
+        {
+          "epoch_field": "policy",
+          "op": "clahe",
+          "field": "prob",
+          "before": 0.09000000000000005,
+          "after": 0.11000000000000006,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "clahe",
+          "field": "strength",
+          "before": 0.08499999999999996,
+          "after": 0.09999999999999996,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "gamma",
+          "field": "prob",
+          "before": 0.09000000000000005,
+          "after": 0.11000000000000006,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "gamma",
+          "field": "strength",
+          "before": 0.08499999999999996,
+          "after": 0.09999999999999996,
+          "reason": "recall_low_or_fn_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "brightness",
+          "field": "prob",
+          "before": 0.0,
+          "after": 0.015,
+          "reason": "recall_low_brightness_like"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "brightness",
+          "field": "strength",
+          "before": 0.0,
+          "after": 0.01,
+          "reason": "recall_low_brightness_like"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "brightness",
+          "field": "prob",
+          "before": 0.015,
+          "after": 0.0,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "brightness",
+          "field": "strength",
+          "before": 0.01,
+          "after": 0.0,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "clahe",
+          "field": "prob",
+          "before": 0.11000000000000006,
+          "after": 0.08000000000000006,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "clahe",
+          "field": "strength",
+          "before": 0.09999999999999996,
+          "after": 0.07999999999999996,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "gamma",
+          "field": "prob",
+          "before": 0.11000000000000006,
+          "after": 0.08000000000000006,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "gamma",
+          "field": "strength",
+          "before": 0.09999999999999996,
+          "after": 0.07999999999999996,
+          "reason": "precision_low_or_fp_high"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "cutout_safe",
+          "field": "prob",
+          "before": 0.09999999999999996,
+          "after": 0.12999999999999995,
+          "reason": "precision_low_hard_negative_like"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "cutout_safe",
+          "field": "strength",
+          "before": 0.02,
+          "after": 0.04,
+          "reason": "precision_low_hard_negative_like"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "cutout_safe",
+          "field": "prob",
+          "before": 0.12999999999999995,
+          "after": 0.10999999999999995,
+          "reason": "map50_high_map95_low_reduce_cutout"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "cutout_safe",
+          "field": "strength",
+          "before": 0.04,
+          "after": 0.02,
+          "reason": "map50_high_map95_low_reduce_cutout"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "clahe",
+          "field": "prob",
+          "before": 0.08000000000000006,
+          "after": 0.10000000000000006,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "clahe",
+          "field": "strength",
+          "before": 0.07999999999999996,
+          "after": 0.09499999999999996,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "gamma",
+          "field": "prob",
+          "before": 0.08000000000000006,
+          "after": 0.10000000000000006,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        },
+        {
+          "epoch_field": "policy",
+          "op": "gamma",
+          "field": "strength",
+          "before": 0.07999999999999996,
+          "after": 0.09499999999999996,
+          "reason": "low_contrast_fn_high_monitor_fp"
+        }
+      ],
+      "old_policy": {
+        "policy_id": "inloop_yolo_default_industrial_feedback",
+        "copy_paste_status": "pending_object_bank_design",
+        "notes": [
+          "Ultralytics YOLO default augmentation is left untouched.",
+          "Only additional low-strength industrial online operations are controlled by feedback.",
+          "No custom mosaic4 or randaugment_like is used."
+        ],
+        "operations": [
+          {
+            "name": "clahe",
+            "prob": 0.09000000000000005,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.08499999999999996,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.45,
+            "params": {}
+          },
+          {
+            "name": "gamma",
+            "prob": 0.09000000000000005,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.08499999999999996,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.45,
+            "params": {}
+          },
+          {
+            "name": "local_contrast",
+            "prob": 0.3,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.4,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.4,
+            "params": {}
+          },
+          {
+            "name": "sharpen_mild",
+            "prob": 0.3,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.4,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.4,
+            "params": {
+              "amount": 0.6
+            }
+          },
+          {
+            "name": "cutout_safe",
+            "prob": 0.09999999999999996,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.2,
+            "strength": 0.02,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.3,
+            "params": {
+              "max_holes": 2,
+              "max_fraction": 0.12,
+              "max_bbox_overlap": 0.05
+            }
+          },
+          {
+            "name": "brightness",
+            "prob": 0.0,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.2,
+            "strength": 0.0,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.25,
+            "params": {
+              "max_delta": 0.12
+            }
+          },
+          {
+            "name": "contrast",
+            "prob": 0.0,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.2,
+            "strength": 0.0,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.25,
+            "params": {
+              "alpha": 0.15
+            }
+          }
+        ]
+      },
+      "new_policy": {
+        "policy_id": "inloop_yolo_default_industrial_feedback",
+        "copy_paste_status": "pending_object_bank_design",
+        "notes": [
+          "Ultralytics YOLO default augmentation is left untouched.",
+          "Only additional low-strength industrial online operations are controlled by feedback.",
+          "No custom mosaic4 or randaugment_like is used."
+        ],
+        "operations": [
+          {
+            "name": "clahe",
+            "prob": 0.10000000000000006,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.09499999999999996,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.45,
+            "params": {}
+          },
+          {
+            "name": "gamma",
+            "prob": 0.10000000000000006,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.09499999999999996,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.45,
+            "params": {}
+          },
+          {
+            "name": "local_contrast",
+            "prob": 0.3,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.4,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.4,
+            "params": {}
+          },
+          {
+            "name": "sharpen_mild",
+            "prob": 0.3,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.4,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.4,
+            "params": {
+              "amount": 0.6
+            }
+          },
+          {
+            "name": "cutout_safe",
+            "prob": 0.10999999999999995,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.2,
+            "strength": 0.02,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.3,
+            "params": {
+              "max_holes": 2,
+              "max_fraction": 0.12,
+              "max_bbox_overlap": 0.05
+            }
+          },
+          {
+            "name": "brightness",
+            "prob": 0.0,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.2,
+            "strength": 0.0,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.25,
+            "params": {
+              "max_delta": 0.12
+            }
+          },
+          {
+            "name": "contrast",
+            "prob": 0.0,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.2,
+            "strength": 0.0,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.25,
+            "params": {
+              "alpha": 0.15
+            }
+          }
+        ]
+      },
+      "active_policy": {
+        "policy_id": "inloop_yolo_default_industrial_feedback",
+        "copy_paste_status": "pending_object_bank_design",
+        "notes": [
+          "Ultralytics YOLO default augmentation is left untouched.",
+          "Only additional low-strength industrial online operations are controlled by feedback.",
+          "No custom mosaic4 or randaugment_like is used."
+        ],
+        "operations": [
+          {
+            "name": "clahe",
+            "prob": 0.10000000000000006,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.09499999999999996,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.45,
+            "params": {}
+          },
+          {
+            "name": "gamma",
+            "prob": 0.10000000000000006,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.09499999999999996,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.45,
+            "params": {}
+          },
+          {
+            "name": "local_contrast",
+            "prob": 0.3,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.4,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.4,
+            "params": {}
+          },
+          {
+            "name": "sharpen_mild",
+            "prob": 0.3,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.3,
+            "strength": 0.4,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.4,
+            "params": {
+              "amount": 0.6
+            }
+          },
+          {
+            "name": "cutout_safe",
+            "prob": 0.10999999999999995,
+            "base_prob": 0.0,
+            "min_prob": 0.0,
+            "max_prob": 0.2,
+            "strength": 0.02,
+            "base_strength": 0.0,
+            "min_strength": 0.0,
+            "max_strength": 0.3,
+            "params": {
+              "max_holes": 2,
+              "max_fraction": 0.12,
+              "max_bbox_overlap": 0.05
+            }
+          }
+        ]
+      },
+      "copy_paste_status": "pending_object_bank_design",
+      "trainer_identity": {
+        "trainer_id": 1561083750144,
+        "optimizer_id": 1560073436032,
+        "scheduler_id": 1559392101232,
+        "ema_id": 1559392102432
+      }
+    }
+  ],
+  "latest_policy": {
+    "policy_id": "inloop_yolo_default_industrial_feedback",
+    "copy_paste_status": "pending_object_bank_design",
+    "notes": [
+      "Ultralytics YOLO default augmentation is left untouched.",
+      "Only additional low-strength industrial online operations are controlled by feedback.",
+      "No custom mosaic4 or randaugment_like is used."
+    ],
+    "operations": [
+      {
+        "name": "clahe",
+        "prob": 0.10000000000000006,
+        "base_prob": 0.0,
+        "min_prob": 0.0,
+        "max_prob": 0.3,
+        "strength": 0.09499999999999996,
+        "base_strength": 0.0,
+        "min_strength": 0.0,
+        "max_strength": 0.45,
+        "params": {}
+      },
+      {
+        "name": "gamma",
+        "prob": 0.10000000000000006,
+        "base_prob": 0.0,
+        "min_prob": 0.0,
+        "max_prob": 0.3,
+        "strength": 0.09499999999999996,
+        "base_strength": 0.0,
+        "min_strength": 0.0,
+        "max_strength": 0.45,
+        "params": {}
+      },
+      {
+        "name": "local_contrast",
+        "prob": 0.3,
+        "base_prob": 0.0,
+        "min_prob": 0.0,
+        "max_prob": 0.3,
+        "strength": 0.4,
+        "base_strength": 0.0,
+        "min_strength": 0.0,
+        "max_strength": 0.4,
+        "params": {}
+      },
+      {
+        "name": "sharpen_mild",
+        "prob": 0.3,
+        "base_prob": 0.0,
+        "min_prob": 0.0,
+        "max_prob": 0.3,
+        "strength": 0.4,
+        "base_strength": 0.0,
+        "min_strength": 0.0,
+        "max_strength": 0.4,
+        "params": {
+          "amount": 0.6
+        }
+      },
+      {
+        "name": "cutout_safe",
+        "prob": 0.10999999999999995,
+        "base_prob": 0.0,
+        "min_prob": 0.0,
+        "max_prob": 0.2,
+        "strength": 0.02,
+        "base_strength": 0.0,
+        "min_strength": 0.0,
+        "max_strength": 0.3,
+        "params": {
+          "max_holes": 2,
+          "max_fraction": 0.12,
+          "max_bbox_overlap": 0.05
+        }
+      },
+      {
+        "name": "brightness",
+        "prob": 0.0,
+        "base_prob": 0.0,
+        "min_prob": 0.0,
+        "max_prob": 0.2,
+        "strength": 0.0,
+        "base_strength": 0.0,
+        "min_strength": 0.0,
+        "max_strength": 0.25,
+        "params": {
+          "max_delta": 0.12
+        }
+      },
+      {
+        "name": "contrast",
+        "prob": 0.0,
+        "base_prob": 0.0,
+        "min_prob": 0.0,
+        "max_prob": 0.2,
+        "strength": 0.0,
+        "base_strength": 0.0,
+        "min_strength": 0.0,
+        "max_strength": 0.25,
+        "params": {
+          "alpha": 0.15
+        }
+      }
+    ]
+  }
+}

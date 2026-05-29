@@ -1,0 +1,77 @@
+{
+  "policy_id": "inloop_yolo_default_industrial_feedback",
+  "copy_paste_status": "pending_object_bank_design",
+  "notes": [
+    "Ultralytics YOLO default augmentation is left untouched.",
+    "Only additional low-strength industrial online operations are controlled by feedback.",
+    "No custom mosaic4 or randaugment_like is used."
+  ],
+  "operations": [
+    {
+      "name": "clahe",
+      "prob": 0.07000000000000003,
+      "base_prob": 0.0,
+      "min_prob": 0.0,
+      "max_prob": 0.3,
+      "strength": 0.06499999999999997,
+      "base_strength": 0.0,
+      "min_strength": 0.0,
+      "max_strength": 0.45,
+      "params": {}
+    },
+    {
+      "name": "gamma",
+      "prob": 0.07000000000000003,
+      "base_prob": 0.0,
+      "min_prob": 0.0,
+      "max_prob": 0.3,
+      "strength": 0.06499999999999997,
+      "base_strength": 0.0,
+      "min_strength": 0.0,
+      "max_strength": 0.45,
+      "params": {}
+    },
+    {
+      "name": "local_contrast",
+      "prob": 0.3,
+      "base_prob": 0.0,
+      "min_prob": 0.0,
+      "max_prob": 0.3,
+      "strength": 0.30000000000000004,
+      "base_strength": 0.0,
+      "min_strength": 0.0,
+      "max_strength": 0.4,
+      "params": {}
+    },
+    {
+      "name": "sharpen_mild",
+      "prob": 0.3,
+      "base_prob": 0.0,
+      "min_prob": 0.0,
+      "max_prob": 0.3,
+      "strength": 0.30000000000000004,
+      "base_strength": 0.0,
+      "min_strength": 0.0,
+      "max_strength": 0.4,
+      "params": {
+        "amount": 0.6
+      }
+    },
+    {
+      "name": "cutout_safe",
+      "prob": 0.09999999999999998,
+      "base_prob": 0.0,
+      "min_prob": 0.0,
+      "max_prob": 0.2,
+      "strength": 0.039999999999999994,
+      "base_strength": 0.0,
+      "min_strength": 0.0,
+      "max_strength": 0.3,
+      "params": {
+        "max_holes": 2,
+        "max_fraction": 0.12,
+        "max_bbox_overlap": 0.05
+      }
+    }
+  ]
+}

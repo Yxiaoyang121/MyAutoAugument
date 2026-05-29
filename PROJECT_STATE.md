@@ -633,3 +633,18 @@ The repository is centered on diagnosis-driven augmentation for industrial defec
 - Report: `outputs/experiments/clean_native_yolo_default_seed42_50ep/reports/clean_native_yolo_default_report.md`
 - Metrics JSON: `outputs/experiments/clean_native_yolo_default_seed42_50ep/reports/clean_native_yolo_default_metrics.json`
 <!-- CLEAN_NATIVE_YOLO_DEFAULT_REFERENCE_END -->
+
+<!-- MULTISEED_CLEAN_YOLO_DEFAULT_VS_INLOOP_FEEDBACK_START -->
+## Multiseed Clean YOLO Default vs In-Loop Feedback
+
+- Scope: seeds `0, 1, 2`; seed 42 is not included in the multiseed mean.
+- Output: `outputs/experiments/multiseed_clean_yolo_default_vs_inloop_feedback/`.
+- Clean group uses pure native Ultralytics `YOLO.train`; feedback group uses single-run in-loop feedback with YOLO default augmentation still enabled.
+- Train images: `2301`; fixed augmented dataset generated: `false`; copy_paste remains pending/not enabled.
+- Feedback wins under industrial constraints: `1/3`.
+- Constraint failed seeds: `2/3`.
+- Mean delta P/R/mAP50/mAP50-95: `-0.0275/0.0254/0.0093/0.0211`.
+- Verdict: not stable enough to claim as the paper main result yet; use as diagnostic/ablation unless a stricter controller passes multiseed constraints.
+- Report: `outputs/experiments/multiseed_clean_yolo_default_vs_inloop_feedback/reports/multiseed_summary.md`.
+- JSON: `outputs/experiments/multiseed_clean_yolo_default_vs_inloop_feedback/reports/multiseed_summary.json`.
+<!-- MULTISEED_CLEAN_YOLO_DEFAULT_VS_INLOOP_FEEDBACK_END -->

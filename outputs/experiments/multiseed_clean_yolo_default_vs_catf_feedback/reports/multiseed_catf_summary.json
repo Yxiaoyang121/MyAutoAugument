@@ -1,0 +1,269 @@
+{
+  "generated_at": "2026-05-30T13:16:10",
+  "output_dir": "outputs\\experiments\\multiseed_clean_yolo_default_vs_catf_feedback",
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "setup": {
+    "model": "yolo11n.pt",
+    "data": "outputs/datasets/tiled/tiled_1024_ov20_full_safe_no_ok_position/data.yaml",
+    "epochs": 50,
+    "imgsz": 1024,
+    "batch": 2,
+    "workers": 0,
+    "device": 0,
+    "train_images": 2301,
+    "fixed_augmented_dataset_generated": false,
+    "yolo_default_augmentation_enabled": true,
+    "feedback_controller": "CATF",
+    "feedback_interval": 5,
+    "feedback_start_epoch": 5,
+    "copy_paste": "pending_object_bank_design",
+    "reference_curve": "per-seed clean native YOLO default train/results.csv"
+  },
+  "rows": [
+    {
+      "seed": 0,
+      "clean_metrics": {
+        "precision": 0.7845544620314738,
+        "recall": 0.6764566929659848,
+        "map50": 0.7346955158165702,
+        "map50_95": 0.4758941249341509
+      },
+      "catf_metrics": {
+        "precision": 0.7573717343967608,
+        "recall": 0.6750820082467535,
+        "map50": 0.75259831274689,
+        "map50_95": 0.5203841979865216
+      },
+      "delta": {
+        "precision": -0.027182727634713078,
+        "recall": -0.0013746847192313005,
+        "map50": 0.01790279693031982,
+        "map50_95": 0.04449007305237068
+      },
+      "constraint_failed": true,
+      "catf_better_under_constraints": false,
+      "all_metric_win": false,
+      "metric_wins": {
+        "precision": false,
+        "recall": false,
+        "map50": true,
+        "map50_95": true
+      },
+      "policy_history_path": "outputs\\experiments\\multiseed_clean_yolo_default_vs_catf_feedback\\seed_0\\catf_feedback\\reports\\policy_history.json",
+      "final_metrics_path": "outputs\\experiments\\multiseed_clean_yolo_default_vs_catf_feedback\\seed_0\\catf_feedback\\reports\\final_metrics.json",
+      "rollback_count": 3,
+      "cooldown_count": 2,
+      "freeze_count": 1,
+      "accept_count": 3,
+      "frozen_record_count": 2,
+      "feedback_epochs": [
+        5,
+        10,
+        15,
+        20,
+        25,
+        30,
+        35,
+        40,
+        45
+      ],
+      "actions": {
+        "rollback": 3,
+        "cooldown": 2,
+        "accept": 3,
+        "freeze": 1
+      }
+    },
+    {
+      "seed": 1,
+      "clean_metrics": {
+        "precision": 0.7725246158861973,
+        "recall": 0.6476798989752319,
+        "map50": 0.7541905909810253,
+        "map50_95": 0.4799185559746686
+      },
+      "catf_metrics": {
+        "precision": 0.7376226553744301,
+        "recall": 0.7098205286007104,
+        "map50": 0.7549589528579943,
+        "map50_95": 0.5185471396462294
+      },
+      "delta": {
+        "precision": -0.034901960511767194,
+        "recall": 0.062140629625478505,
+        "map50": 0.0007683618769690481,
+        "map50_95": 0.03862858367156086
+      },
+      "constraint_failed": true,
+      "catf_better_under_constraints": false,
+      "all_metric_win": false,
+      "metric_wins": {
+        "precision": false,
+        "recall": true,
+        "map50": true,
+        "map50_95": true
+      },
+      "policy_history_path": "outputs\\experiments\\multiseed_clean_yolo_default_vs_catf_feedback\\seed_1\\catf_feedback\\reports\\policy_history.json",
+      "final_metrics_path": "outputs\\experiments\\multiseed_clean_yolo_default_vs_catf_feedback\\seed_1\\catf_feedback\\reports\\final_metrics.json",
+      "rollback_count": 5,
+      "cooldown_count": 1,
+      "freeze_count": 2,
+      "accept_count": 1,
+      "frozen_record_count": 5,
+      "feedback_epochs": [
+        5,
+        10,
+        15,
+        20,
+        25,
+        30,
+        35,
+        40,
+        45
+      ],
+      "actions": {
+        "accept": 1,
+        "rollback": 5,
+        "cooldown": 1,
+        "freeze": 2
+      }
+    },
+    {
+      "seed": 2,
+      "clean_metrics": {
+        "precision": 0.6962390186664107,
+        "recall": 0.728629640010866,
+        "map50": 0.7692030787336794,
+        "map50_95": 0.5223713770570699
+      },
+      "catf_metrics": {
+        "precision": 0.6845909568859212,
+        "recall": 0.7166380273126023,
+        "map50": 0.7608320955044691,
+        "map50_95": 0.4799542958853146
+      },
+      "delta": {
+        "precision": -0.011648061780489494,
+        "recall": -0.011991612698263765,
+        "map50": -0.008370983229210371,
+        "map50_95": -0.042417081171755355
+      },
+      "constraint_failed": true,
+      "catf_better_under_constraints": false,
+      "all_metric_win": false,
+      "metric_wins": {
+        "precision": false,
+        "recall": false,
+        "map50": false,
+        "map50_95": false
+      },
+      "policy_history_path": "outputs\\experiments\\multiseed_clean_yolo_default_vs_catf_feedback\\seed_2\\catf_feedback\\reports\\policy_history.json",
+      "final_metrics_path": "outputs\\experiments\\multiseed_clean_yolo_default_vs_catf_feedback\\seed_2\\catf_feedback\\reports\\final_metrics.json",
+      "rollback_count": 9,
+      "cooldown_count": 0,
+      "freeze_count": 0,
+      "accept_count": 0,
+      "frozen_record_count": 8,
+      "feedback_epochs": [
+        5,
+        10,
+        15,
+        20,
+        25,
+        30,
+        35,
+        40,
+        45
+      ],
+      "actions": {
+        "rollback": 9
+      }
+    }
+  ],
+  "aggregate": {
+    "clean": {
+      "precision": {
+        "mean": 0.751106032194694,
+        "std": 0.047895419193325454
+      },
+      "recall": {
+        "mean": 0.6842554106506942,
+        "std": 0.04103449940694302
+      },
+      "map50": {
+        "mean": 0.7526963951770916,
+        "std": 0.01730223801838746
+      },
+      "map50_95": {
+        "mean": 0.49272801932196314,
+        "std": 0.025750640859182657
+      }
+    },
+    "catf": {
+      "precision": {
+        "mean": 0.7265284488857041,
+        "std": 0.037637367827485634
+      },
+      "recall": {
+        "mean": 0.7005135213866888,
+        "std": 0.022286564733302594
+      },
+      "map50": {
+        "mean": 0.7561297870364512,
+        "std": 0.004239921476847586
+      },
+      "map50_95": {
+        "mean": 0.5062952111726885,
+        "std": 0.022830386756883196
+      }
+    },
+    "delta": {
+      "precision": {
+        "mean": -0.02457758330898992,
+        "std": 0.011843818399043247
+      },
+      "recall": {
+        "mean": 0.01625811073599448,
+        "std": 0.04008845151238551
+      },
+      "map50": {
+        "mean": 0.003433391859359499,
+        "std": 0.01333809092685721
+      },
+      "map50_95": {
+        "mean": 0.013567191850725394,
+        "std": 0.04857230058204044
+      }
+    },
+    "catf_better_under_constraints_count": 0,
+    "constraint_failed_count": 3,
+    "all_metric_win_count": 0,
+    "metric_win_counts": {
+      "precision": 0,
+      "recall": 1,
+      "map50": 2,
+      "map50_95": 2
+    },
+    "policy_action_counts": {
+      "rollback": 17,
+      "cooldown": 3,
+      "accept": 4,
+      "freeze": 3
+    },
+    "policy_updates_total": 27,
+    "policy_frozen_record_count": 15,
+    "policy_guard_record_count": 27
+  },
+  "comparison_to_old_feedback": {
+    "old_constraint_failed_count": 2,
+    "old_feedback_wins_under_constraints": 1,
+    "catf_constraint_failed_count": 3,
+    "catf_feedback_wins_under_constraints": 0,
+    "verdict": "CATF seed42 was positive, but seeds 0/1/2 did not improve stability versus old feedback because all three violated constraints."
+  },
+  "recommendation": "not_paper_main_method"
+}

@@ -1,0 +1,36 @@
+{
+  "baseline_name": "clean_native_yolo_default",
+  "baseline_metrics": {
+    "images": 677,
+    "instances": 905,
+    "precision": 0.6962390186664107,
+    "recall": 0.728629640010866,
+    "map50": 0.7692030787336794,
+    "map50_95": 0.5223713770570699
+  },
+  "metrics": {
+    "images": 677,
+    "instances": 905,
+    "precision": 0.6845909568859212,
+    "recall": 0.7166380273126023,
+    "map50": 0.7608320955044691,
+    "map50_95": 0.4799542958853146
+  },
+  "deltas": {
+    "precision": -0.011648061780489494,
+    "recall": -0.011991612698263765,
+    "map50": -0.008370983229210371,
+    "map50_95": -0.042417081171755355
+  },
+  "failure_reasons": [
+    "precision_drop_gt_0.01",
+    "map50_95_drop_gt_0.01"
+  ],
+  "constraint_failed": true,
+  "rules": {
+    "precision_drop_gt_0.01": true,
+    "map50_drop_gt_0.01": true,
+    "map50_95_drop_gt_0.01": true,
+    "recall_gain_alone_is_not_success": true
+  }
+}

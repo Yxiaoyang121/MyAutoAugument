@@ -1,0 +1,38 @@
+{
+  "policy_id": "catf_yolo_default_industrial_feedback",
+  "controller": "CATF",
+  "copy_paste_status": "pending_object_bank_design",
+  "notes": [
+    "Ultralytics YOLO default augmentation remains enabled.",
+    "CATF controls only additional low-strength industrial online operations.",
+    "Policy updates are constrained by reference curve, trust region, group budgets, delayed acceptance, rollback, cooldown, and freeze."
+  ],
+  "operations": [
+    {
+      "name": "sharpen_mild",
+      "prob": 0.09000000000000001,
+      "base_prob": 0.08,
+      "min_prob": 0.0,
+      "max_prob": 0.2,
+      "strength": 0.26,
+      "base_strength": 0.25,
+      "min_strength": 0.0,
+      "max_strength": 0.45,
+      "params": {
+        "amount": 0.6
+      }
+    },
+    {
+      "name": "local_contrast",
+      "prob": 0.07,
+      "base_prob": 0.06,
+      "min_prob": 0.0,
+      "max_prob": 0.18,
+      "strength": 0.21000000000000002,
+      "base_strength": 0.2,
+      "min_strength": 0.0,
+      "max_strength": 0.4,
+      "params": {}
+    }
+  ]
+}

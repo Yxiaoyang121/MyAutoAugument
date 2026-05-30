@@ -628,3 +628,18 @@ No training was run after building or auditing these datasets.
 - Report: `outputs/experiments/multiseed_clean_yolo_default_vs_catf_feedback/reports/multiseed_catf_summary.md`.
 - JSON: `outputs/experiments/multiseed_clean_yolo_default_vs_catf_feedback/reports/multiseed_catf_summary.json`.
 <!-- MULTISEED_CLEAN_YOLO_DEFAULT_VS_CATF_FEEDBACK_END -->
+
+<!-- CATF_V2_ACTIVATION_AUDIT_START -->
+## CATF-v2 Activation Audit
+
+- Scope: `outputs/experiments/catf_v2_class_aware_10ep_smoke/reports/`.
+- No training was run; this is a report-only audit of epoch 5 CATF-v2 activation.
+- Audit outputs: `outputs/experiments/catf_v2_class_aware_10ep_smoke/reports/catf_v2_activation_audit.md` and `.json`.
+- Active classes from smoke: class `1` OK3, class `6` ???, class `8` ??.
+- OK3 activation is judged not reasonable for a formal run: Recall is already high (`0.9891`), FN count is only `2`, FP count is `49`, and OK-like classes should default to stable/no_aug unless evidence is very strong.
+- ??? activation is judged reasonable: low Recall (`0.2826`), many FN (`32`), low-contrast evidence, and conservative ROI `sharpen_mild`/`local_contrast` ops.
+- ?? activation is partially reasonable as low Recall, but should be guarded by stain/dirty high-FP domain priors and should not lower threshold or escalate photometric before FP behavior is known.
+- Low-support classes `2` and `3` did not trigger strong photometric augmentation; they remain oversampling/copy-paste pending candidates.
+- ROI augmentation applied `150` times, including OK3 (`122`), which is the main activation-rule concern.
+- Recommendation: do not enter CATF-v2 seed42 50ep until activation rules are tightened with OK2/OK3 no_aug, stronger activation threshold, domain high-FP guards for stain/oil/dirty classes, and likely top_k reduced from `3` to `2`.
+<!-- CATF_V2_ACTIVATION_AUDIT_END -->

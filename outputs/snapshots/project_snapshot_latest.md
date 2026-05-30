@@ -1,8 +1,8 @@
 # Project Snapshot
 
-- Generated: 2026-05-30T18:40:02
+- Generated: 2026-05-30T20:29:31
 - Branch: codex/sync-latest
-- Commit: 7cc4a83e986c656950aa07403d1f46c753d24388
+- Commit: d5457627794b901a270920136702e94db25ae298
 - Remote: https://github.com/Yxiaoyang121/MyAutoAugument.git
 
 ## Working Tree
@@ -11,16 +11,8 @@
  M CODEX_HANDOFF.md
  M EXPERIMENT_LOG.md
  M PROJECT_STATE.md
- M outputs/project_snapshot_latest.md
- M outputs/snapshots/project_snapshot_latest.md
- M scripts/train_yolo_default_with_inloop_feedback.py
-?? AutoAugment/catf_v2/
-?? outputs/experiments/catf_v2_class_aware_10ep_smoke/
-?? tests/test_catf_v2_per_class_diagnosis.py
-?? tests/test_catf_v2_policy_matrix.py
-?? tests/test_catf_v2_roi_augmentation.py
-?? tests/test_catf_v2_sample_router.py
-?? tests/test_catf_v2_threshold_calibration.py
+?? outputs/experiments/catf_v2_class_aware_10ep_smoke/reports/catf_v2_activation_audit.json
+?? outputs/experiments/catf_v2_class_aware_10ep_smoke/reports/catf_v2_activation_audit.md
 ```
 
 ## Key Files
@@ -225,9 +217,21 @@
 
 ## Tracked File Count
 
-- 1996 tracked files
+- 2053 tracked files
 
 ## Notes
 
 - This snapshot reflects the current local repository state.
 - It does not invent benchmark results.
+
+<!-- CATF_V2_ACTIVATION_AUDIT_START -->
+## CATF-v2 Activation Audit
+
+- Scope: `outputs/experiments/catf_v2_class_aware_10ep_smoke/reports/`.
+- No training was run; this is a report-only audit of epoch 5 CATF-v2 activation.
+- Audit outputs: `outputs/experiments/catf_v2_class_aware_10ep_smoke/reports/catf_v2_activation_audit.md` and `.json`.
+- OK3 activation is judged not reasonable for a formal run: high Recall (`0.9891`), only `2` FN, `49` FP, and OK-like classes should default to stable/no_aug.
+- ??? activation is judged reasonable: low Recall (`0.2826`), `32` FN, low-contrast evidence, and conservative ROI sharpen/local-contrast ops.
+- ?? activation is partially reasonable as low Recall but should get a stain/dirty high-FP domain guard before formal training.
+- Recommendation: do not enter CATF-v2 seed42 50ep until activation rules are tightened.
+<!-- CATF_V2_ACTIVATION_AUDIT_END -->

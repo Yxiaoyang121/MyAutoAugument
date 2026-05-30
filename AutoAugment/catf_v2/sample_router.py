@@ -1,0 +1,289 @@
+from __future__ import annotations
+
+from copy import deepcopy
+from dataclasses import dataclass, field
+from typing import Any
+
+import cv2
+import numpy as np
+
+from AutoAugment.online_augmentation import (
+    OnlineAugmentationStats,
+    OnlineAugmentResult,
+    cutout_safe,
+    validate_detection_sample,
+)
+
+
+PHOTOMETRIC_OPS = {"clahe", "gamma", "brightness", "contrast"}
+ROI_OPS = {"sharpen_mild", "local_contrast", "gamma", "clahe"}
+
+
+@dataclass
+class ROIStats:
+    roi_aug_applied: int = 0
+    roi_aug_skipped_small_roi: int = 0
+    roi_aug_skipped_conflict: int = 0
+    affected_classes: dict[str, int] = field(default_factory=dict)
+
+    def record_applied(self, class_id: int) -> None:
+        self.roi_aug_applied += 1
+        key = str(int(class_id))
+        self.affected_classes[key] = int(self.affected_classes.get(key, 0)) + 1
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "roi_aug_applied": int(self.roi_aug_applied),
+            "roi_aug_skipped_small_roi": int(self.roi_aug_skipped_small_roi),
+            "roi_aug_skipped_conflict": int(self.roi_aug_skipped_conflict),
+            "affected_classes": dict(sorted(self.affected_classes.items(), key=lambda item: int(item[0]))),
+        }
+
+
+class SampleAwareAugmentationRouter:
+    """Route industrial augmentation by classes present in the current image."""
+
+    def __init__(
+        self,
+        policy_matrix: dict[str, Any],
+        *,
+        seed: int = 42,
+        num_classes: int | None = None,
+        stats: OnlineAugmentationStats | None = None,
+        roi_stats: ROIStats | None = None,
+        roi_aware: bool = True,
+        sample_aware: bool = True,
+        total_epochs: int | None = None,
+    ) -> None:
+        self.policy_matrix = deepcopy(policy_matrix)
+        self.rng = np.random.default_rng(int(seed))
+        self.num_classes = num_classes
+        self.stats = stats if stats is not None else OnlineAugmentationStats()
+        self.roi_stats = roi_stats if roi_stats is not None else ROIStats()
+        self.roi_aware = bool(roi_aware)
+        self.sample_aware = bool(sample_aware)
+        self.sample_provider = None
+        self.current_epoch = 0
+        self.total_epochs = total_epochs
+
+    def set_policy(self, policy_matrix: dict[str, Any]) -> None:
+        self.policy_matrix = deepcopy(policy_matrix)
+
+    def set_sample_provider(self, sample_provider: Any | None) -> None:
+        self.sample_provider = sample_provider
+
+    def set_epoch(self, epoch: int, total_epochs: int | None = None) -> None:
+        self.current_epoch = max(0, int(epoch))
+        if total_epochs is not None:
+            self.total_epochs = int(total_epochs)
+
+    def apply(
+        self,
+        image: np.ndarray,
+        labels: np.ndarray,
+        bboxes: np.ndarray,
+        *,
+        rng: np.random.Generator | None = None,
+    ) -> OnlineAugmentResult:
+        generator = rng if rng is not None else self.rng
+        current_image = np.asarray(image).copy()
+        current_labels = np.asarray(labels, dtype=np.int64).reshape(-1).copy()
+        current_bboxes = np.asarray(bboxes, dtype=np.float32).reshape(-1, 4).copy()
+        input_bbox_count = int(len(current_bboxes))
+        audit: dict[str, Any] = {"operations": [], "applied_ops": [], "skipped_ops": [], "router": {}}
+        present = sorted({int(value) for value in current_labels.tolist()})
+        class_policies = self.policy_matrix.get("classes", {}) or {}
+        if not present:
+            return self._finish(current_image, current_labels, current_bboxes, input_bbox_count, audit)
+
+        present_policies = [class_policies.get(str(class_id), {}) for class_id in present]
+        all_stable = bool(present_policies) and all(_is_stable(item) for item in present_policies)
+        if all_stable:
+            audit["router"]["skip_reason"] = "stable_classes_only"
+            return self._finish(current_image, current_labels, current_bboxes, input_bbox_count, audit)
+
+        high_fp_present = any(_is_high_fp_guarded(item) for item in present_policies)
+        active_targets = [class_id for class_id in present if _has_active_ops(class_policies.get(str(class_id), {}))]
+        if not active_targets:
+            audit["router"]["skip_reason"] = "no_active_target_class"
+            return self._finish(current_image, current_labels, current_bboxes, input_bbox_count, audit)
+
+        for class_id in active_targets:
+            policy = class_policies.get(str(class_id), {})
+            if _is_high_fp_guarded(policy) and len(present) == 1:
+                self.roi_stats.roi_aug_skipped_conflict += 1
+                continue
+            for op_name, op in sorted((policy.get("ops") or {}).items()):
+                prob = float(op.get("prob", 0.0) or 0.0)
+                strength = float(op.get("strength", 0.0) or 0.0)
+                if prob <= 0.0 or strength <= 0.0:
+                    continue
+                routed_prob = prob
+                if high_fp_present and op_name in PHOTOMETRIC_OPS:
+                    routed_prob *= 0.5
+                draw = float(generator.random())
+                self.stats.record_op(op_name, "seen")
+                op_audit = {
+                    "name": op_name,
+                    "class_id": int(class_id),
+                    "prob": prob,
+                    "routed_prob": routed_prob,
+                    "strength": strength,
+                    "draw": draw,
+                    "applied": False,
+                    "skip_reason": None,
+                }
+                if draw > routed_prob:
+                    op_audit["skip_reason"] = "probability"
+                    audit["skipped_ops"].append(op_audit)
+                    self.stats.record_op(op_name, "skipped_probability")
+                    audit["operations"].append(op_audit)
+                    continue
+                if self.roi_aware and op_name in ROI_OPS:
+                    applied = self._apply_roi_op(current_image, current_labels, current_bboxes, class_id, op_name, strength)
+                    if applied:
+                        op_audit["applied"] = True
+                        audit["applied_ops"].append(op_audit)
+                        self.stats.record_op(op_name, "applied")
+                    else:
+                        op_audit["skip_reason"] = "roi_unavailable"
+                        audit["skipped_ops"].append(op_audit)
+                        self.stats.record_op(op_name, "skipped_roi_unavailable")
+                    audit["operations"].append(op_audit)
+                    continue
+                if op_name == "cutout_safe":
+                    result = cutout_safe(
+                        current_image,
+                        current_bboxes,
+                        params={"max_holes": 1, "max_fraction": 0.08, "max_overlap_ratio": 0.10},
+                        strength=strength,
+                        rng=generator,
+                    )
+                    current_image = result.image
+                    for key, value in result.stats.items():
+                        self.stats.cutout[key] += int(value)
+                    applied = bool(result.stats.get("holes_applied", 0))
+                    op_audit["applied"] = applied
+                    if applied:
+                        audit["applied_ops"].append(op_audit)
+                        self.stats.record_op(op_name, "applied")
+                    else:
+                        op_audit["skip_reason"] = "cutout_safety"
+                        audit["skipped_ops"].append(op_audit)
+                        self.stats.record_op(op_name, "skipped_safety")
+                    audit["operations"].append(op_audit)
+                    continue
+                op_audit["skip_reason"] = "unsupported_router_op"
+                audit["skipped_ops"].append(op_audit)
+                self.stats.record_op(op_name, "skipped_unsupported_router_op")
+                audit["operations"].append(op_audit)
+        return self._finish(current_image, current_labels, current_bboxes, input_bbox_count, audit)
+
+    def _apply_roi_op(
+        self,
+        image: np.ndarray,
+        labels: np.ndarray,
+        bboxes: np.ndarray,
+        class_id: int,
+        op_name: str,
+        strength: float,
+    ) -> bool:
+        applied = False
+        height, width = image.shape[:2]
+        for bbox in bboxes[labels == int(class_id)]:
+            x1, y1, x2, y2 = expand_box(bbox, width=width, height=height, factor=1.5)
+            if x2 - x1 < 8 or y2 - y1 < 8:
+                self.roi_stats.roi_aug_skipped_small_roi += 1
+                continue
+            roi = image[y1:y2, x1:x2].copy()
+            augmented = apply_roi_operation(roi, op_name, strength)
+            blend_roi(image, augmented, x1, y1, x2, y2)
+            self.roi_stats.record_applied(class_id)
+            applied = True
+        return applied
+
+    def _finish(
+        self,
+        image: np.ndarray,
+        labels: np.ndarray,
+        bboxes: np.ndarray,
+        input_bbox_count: int,
+        audit: dict[str, Any],
+    ) -> OnlineAugmentResult:
+        height, width = image.shape[:2]
+        labels, bboxes, validation = validate_detection_sample(labels, bboxes, width=width, height=height, num_classes=self.num_classes)
+        audit["validation"] = validation
+        self.stats.record_validation(validation)
+        self.stats.record_sample(input_count=input_bbox_count, output_count=len(bboxes), augmented=bool(audit.get("applied_ops")))
+        return OnlineAugmentResult(image=image, labels=labels, bboxes=bboxes, audit=audit)
+
+
+def expand_box(bbox: np.ndarray, *, width: int, height: int, factor: float = 1.5) -> tuple[int, int, int, int]:
+    x1, y1, x2, y2 = [float(value) for value in bbox]
+    cx = 0.5 * (x1 + x2)
+    cy = 0.5 * (y1 + y2)
+    box_w = max(1.0, (x2 - x1) * factor)
+    box_h = max(1.0, (y2 - y1) * factor)
+    nx1 = max(0, int(round(cx - 0.5 * box_w)))
+    ny1 = max(0, int(round(cy - 0.5 * box_h)))
+    nx2 = min(width, int(round(cx + 0.5 * box_w)))
+    ny2 = min(height, int(round(cy + 0.5 * box_h)))
+    return nx1, ny1, nx2, ny2
+
+
+def apply_roi_operation(roi: np.ndarray, op_name: str, strength: float) -> np.ndarray:
+    s = float(np.clip(strength, 0.0, 1.0))
+    if op_name == "gamma":
+        gamma = 1.0 + (0.6 * (s - 0.5))
+        inv = 1.0 / max(0.1, gamma)
+        table = np.array([((i / 255.0) ** inv) * 255.0 for i in range(256)], dtype=np.uint8)
+        return cv2.LUT(roi, table)
+    if op_name == "clahe":
+        lab = cv2.cvtColor(roi, cv2.COLOR_BGR2LAB)
+        l, a, b = cv2.split(lab)
+        clip_limit = 1.5 + 2.0 * s
+        l = cv2.createCLAHE(clipLimit=clip_limit, tileGridSize=(8, 8)).apply(l)
+        return cv2.cvtColor(cv2.merge([l, a, b]), cv2.COLOR_LAB2BGR)
+    if op_name == "local_contrast":
+        lab = cv2.cvtColor(roi, cv2.COLOR_BGR2LAB)
+        l, a, b = cv2.split(lab)
+        enhanced = cv2.createCLAHE(clipLimit=1.5 + 1.5 * s, tileGridSize=(8, 8)).apply(l)
+        mixed = cv2.addWeighted(l, 1.0 - 0.5 * s, enhanced, 0.5 * s, 0)
+        return cv2.cvtColor(cv2.merge([mixed, a, b]), cv2.COLOR_LAB2BGR)
+    if op_name == "sharpen_mild":
+        blurred = cv2.GaussianBlur(roi, (0, 0), sigmaX=1.0)
+        return cv2.addWeighted(roi, 1.0 + 0.8 * s, blurred, -0.8 * s, 0)
+    return roi.copy()
+
+
+def blend_roi(image: np.ndarray, augmented: np.ndarray, x1: int, y1: int, x2: int, y2: int) -> None:
+    roi = image[y1:y2, x1:x2]
+    h, w = roi.shape[:2]
+    feather = max(2, min(h, w) // 8)
+    mask = np.ones((h, w), dtype=np.float32)
+    if feather > 0:
+        ramp_x = np.minimum(np.linspace(0, 1, feather), 1.0)
+        ramp_y = np.minimum(np.linspace(0, 1, feather), 1.0)
+        mask[:, :feather] *= ramp_x[None, :]
+        mask[:, -feather:] *= ramp_x[::-1][None, :]
+        mask[:feather, :] *= ramp_y[:, None]
+        mask[-feather:, :] *= ramp_y[::-1][:, None]
+    mask3 = mask[:, :, None]
+    image[y1:y2, x1:x2] = np.clip(augmented.astype(np.float32) * mask3 + roi.astype(np.float32) * (1.0 - mask3), 0, 255).astype(
+        np.uint8
+    )
+
+
+def _is_stable(policy: dict[str, Any]) -> bool:
+    return policy.get("status") == "frozen" or policy.get("state") == "frozen" or policy.get("dominant_issue") == "stable_class"
+
+
+def _is_high_fp_guarded(policy: dict[str, Any]) -> bool:
+    guards = policy.get("guards", {}) or {}
+    return bool(guards.get("high_fp_guarded") or policy.get("dominant_issue") == "high_fp")
+
+
+def _has_active_ops(policy: dict[str, Any]) -> bool:
+    if policy.get("status") not in {"active", "pending", "accepted"}:
+        return False
+    return any(float(op.get("prob", 0.0) or 0.0) > 0.0 for op in (policy.get("ops") or {}).values())

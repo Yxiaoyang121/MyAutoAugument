@@ -1,0 +1,31 @@
+{
+  "history": [
+    {
+      "epoch": 5,
+      "class_id": 1,
+      "action": "propose",
+      "adjustment_count": 4,
+      "before_status": "inactive",
+      "after_status": "active",
+      "dominant_issue": "low_contrast_fn"
+    },
+    {
+      "epoch": 5,
+      "class_id": 6,
+      "action": "propose",
+      "adjustment_count": 4,
+      "before_status": "inactive",
+      "after_status": "active",
+      "dominant_issue": "texture_boundary_weak"
+    },
+    {
+      "epoch": 5,
+      "class_id": 8,
+      "action": "propose",
+      "adjustment_count": 4,
+      "before_status": "inactive",
+      "after_status": "active",
+      "dominant_issue": "low_recall"
+    }
+  ]
+}

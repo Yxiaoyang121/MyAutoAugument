@@ -26,6 +26,13 @@ from AutoAugment.diagnostic_pipeline import run_error_diagnosis, run_validation_
 from AutoAugment.diagnostics.yolo_error_analysis import load_class_names_from_data_yaml  # noqa: E402
 from AutoAugment.feedback_policy_controller import FeedbackPolicyController, default_catf_policy  # noqa: E402
 from AutoAugment.online_augmentation import OnlineAugmentationStats, OnlinePolicyAugmentor  # noqa: E402
+from AutoAugment.catf_v2 import (  # noqa: E402
+    ClassAwareCATFController,
+    ROIStats,
+    SampleAwareAugmentationRouter,
+    count_train_instances,
+    initial_policy_matrix,
+)
 from scripts.train_yolo_online_aug import (  # noqa: E402
     OnlineTrainingContext,
     check_ultralytics_api,
@@ -67,7 +74,7 @@ class InLoopFeedbackState:
     policy_state: dict[str, Any]
     reference_metrics: dict[str, Any]
     reference_curve: dict[int, dict[str, Any]] = field(default_factory=dict)
-    feedback_controller: FeedbackPolicyController | None = None
+    feedback_controller: Any | None = None
     history: list[dict[str, Any]] = field(default_factory=list)
     epoch_records: list[dict[str, Any]] = field(default_factory=list)
     callback_invocations: int = 0
@@ -99,20 +106,35 @@ def main() -> None:
             raise RuntimeError(f"native no-feedback final validation failed: {payload['val']['error']}")
         return
 
-    policy_state = initial_policy_state()
-    active_policy = training_policy(policy_state, enabled=bool(args.industrial_aug_enabled))
+    catf_v2_enabled = is_catf_v2(args)
+    class_names = load_class_names_from_data_yaml(args.data) if catf_v2_enabled else {}
+    train_instances = count_train_instances(args.data) if catf_v2_enabled else {}
+    policy_state = initial_catf_v2_policy_state(class_names) if catf_v2_enabled else initial_policy_state()
+    active_policy = training_policy(policy_state, enabled=bool(args.industrial_aug_enabled)) if not catf_v2_enabled else deepcopy(policy_state)
     write_json(output_dir / "configs" / "initial_policy_state.json", policy_state)
     write_json(output_dir / "configs" / "active_policy_epoch_000.json", active_policy)
     write_json(output_dir / "configs" / "train_config.json", build_train_config(args, output_dir))
 
     stats = OnlineAugmentationStats()
-    augmentor = OnlinePolicyAugmentor(
-        active_policy,
-        seed=args.seed,
-        copy_paste_enabled=False,
-        stats=stats,
-        total_epochs=args.epochs,
-    )
+    if catf_v2_enabled:
+        augmentor = SampleAwareAugmentationRouter(
+            active_policy,
+            seed=args.seed,
+            num_classes=len(class_names) if class_names else None,
+            stats=stats,
+            roi_stats=ROIStats(),
+            roi_aware=bool(args.roi_aware_aug),
+            sample_aware=bool(args.sample_aware_routing),
+            total_epochs=args.epochs,
+        )
+    else:
+        augmentor = OnlinePolicyAugmentor(
+            active_policy,
+            seed=args.seed,
+            copy_paste_enabled=False,
+            stats=stats,
+            total_epochs=args.epochs,
+        )
     context = OnlineTrainingContext(
         augmentor=augmentor,
         preview_dir=output_dir / "previews",
@@ -128,15 +150,27 @@ def main() -> None:
         reference_metrics=reference_metrics,
         reference_curve=reference_curve,
     )
-    state.feedback_controller = FeedbackPolicyController(
-        policy_state,
-        history_dir=output_dir / "reports",
-        policy_state_path=output_dir / "configs" / "current_policy_state.json",
-        profile=args.feedback_profile,
-        reference_curve=reference_curve,
-        freeze_epoch=40,
-        feedback_interval=int(args.feedback_interval),
-    )
+    if catf_v2_enabled:
+        state.feedback_controller = ClassAwareCATFController(
+            policy_state,
+            history_dir=output_dir / "reports",
+            class_names=class_names,
+            train_instances=train_instances,
+            top_k_active_classes=int(args.top_k_active_classes),
+            top_m_ops_per_class=int(args.top_m_ops_per_class),
+            freeze_epoch=40,
+            threshold_calibration_report=bool(args.threshold_calibration_report),
+        )
+    else:
+        state.feedback_controller = FeedbackPolicyController(
+            policy_state,
+            history_dir=output_dir / "reports",
+            policy_state_path=output_dir / "configs" / "current_policy_state.json",
+            profile=args.feedback_profile,
+            reference_curve=reference_curve,
+            freeze_epoch=40,
+            feedback_interval=int(args.feedback_interval),
+        )
 
     model = api["YOLO"](args.model)
     trainer_cls = make_online_trainer(api, context) if args.industrial_aug_enabled else None
@@ -219,6 +253,10 @@ def main() -> None:
 
 def is_native_no_feedback_mode(args: argparse.Namespace) -> bool:
     return not bool(args.feedback_enabled) and not bool(args.industrial_aug_enabled)
+
+
+def is_catf_v2(args: argparse.Namespace) -> bool:
+    return str(getattr(args, "catf_version", "v1")).lower() == "v2"
 
 
 def run_native_no_feedback_control(
@@ -340,6 +378,13 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--feedback-start-epoch", type=int, default=5)
     parser.add_argument("--feedback-profile", default="industrial")
     parser.add_argument("--industrial-aug-enabled", action=argparse.BooleanOptionalAction, default=True)
+    parser.add_argument("--catf-version", choices=["v1", "v2"], default="v1")
+    parser.add_argument("--class-aware-feedback", action=argparse.BooleanOptionalAction, default=False)
+    parser.add_argument("--roi-aware-aug", action=argparse.BooleanOptionalAction, default=False)
+    parser.add_argument("--sample-aware-routing", action=argparse.BooleanOptionalAction, default=False)
+    parser.add_argument("--threshold-calibration-report", action=argparse.BooleanOptionalAction, default=False)
+    parser.add_argument("--top-k-active-classes", type=int, default=3)
+    parser.add_argument("--top-m-ops-per-class", type=int, default=2)
     parser.add_argument("--reference-metrics", default=str(REFERENCE_METRICS))
     parser.add_argument("--reference-curve", default=str(DEFAULT_REFERENCE_CURVE))
     parser.add_argument("--control-metrics", default=str(DEFAULT_CONTROL_METRICS))
@@ -382,7 +427,14 @@ def build_train_config(args: argparse.Namespace, output_dir: Path) -> dict[str, 
         "feedback_interval": int(args.feedback_interval),
         "feedback_start_epoch": int(args.feedback_start_epoch),
         "industrial_aug_enabled": bool(args.industrial_aug_enabled),
-        "feedback_controller": "CATF",
+        "feedback_controller": "CATF-v2" if is_catf_v2(args) else "CATF",
+        "catf_version": str(args.catf_version),
+        "class_aware_feedback": bool(args.class_aware_feedback),
+        "roi_aware_aug": bool(args.roi_aware_aug),
+        "sample_aware_routing": bool(args.sample_aware_routing),
+        "threshold_calibration_report": bool(args.threshold_calibration_report),
+        "top_k_active_classes": int(args.top_k_active_classes),
+        "top_m_ops_per_class": int(args.top_m_ops_per_class),
         "reference_curve": str(Path(args.reference_curve).resolve()),
         "native_no_feedback_passthrough": is_native_no_feedback_mode(args),
         "yolo_default_augmentation_enabled": True,
@@ -428,7 +480,11 @@ def build_train_command(args: argparse.Namespace, output_dir: Path) -> str:
         "disable_yolo_aug=False",
         f"feedback_enabled={bool(args.feedback_enabled)}",
         f"industrial_aug_enabled={bool(args.industrial_aug_enabled)}",
-        f"feedback_controller=CATF",
+        f"feedback_controller={'CATF-v2' if is_catf_v2(args) else 'CATF'}",
+        f"catf_version={getattr(args, 'catf_version', 'v1')}",
+        f"class_aware_feedback={bool(getattr(args, 'class_aware_feedback', False))}",
+        f"roi_aware_aug={bool(getattr(args, 'roi_aware_aug', False))}",
+        f"sample_aware_routing={bool(getattr(args, 'sample_aware_routing', False))}",
         f"reference_curve={Path(getattr(args, 'reference_curve', DEFAULT_REFERENCE_CURVE)).resolve()}",
     ]
     return subprocess.list2cmdline([str(part) for part in parts])
@@ -453,6 +509,10 @@ def build_val_command(args: argparse.Namespace, output_dir: Path, weights: Path)
 
 def initial_policy_state() -> dict[str, Any]:
     return default_catf_policy()
+
+
+def initial_catf_v2_policy_state(class_names: dict[int, str]) -> dict[str, Any]:
+    return initial_policy_matrix(class_names)
 
 
 def empty_native_policy_state() -> dict[str, Any]:
@@ -527,6 +587,42 @@ def register_inloop_feedback_callback(model: Any, state: InLoopFeedbackState) ->
 
         diagnosis = run_feedback_diagnosis(state, trainer, epoch_num)
         old_policy = deepcopy(state.policy_state)
+        reference_metrics = reference_metrics_for_epoch(state, epoch_num)
+        if is_catf_v2(state.args):
+            controller = state.feedback_controller
+            if not isinstance(controller, ClassAwareCATFController):
+                class_names = load_class_names_from_data_yaml(state.args.data)
+                controller = ClassAwareCATFController(
+                    state.policy_state,
+                    history_dir=state.output_dir / "reports",
+                    class_names=class_names,
+                    train_instances=count_train_instances(state.args.data),
+                    top_k_active_classes=int(state.args.top_k_active_classes),
+                    top_m_ops_per_class=int(state.args.top_m_ops_per_class),
+                    freeze_epoch=40,
+                    threshold_calibration_report=bool(state.args.threshold_calibration_report),
+                )
+                state.feedback_controller = controller
+            new_policy = controller.update(diagnosis, epoch=epoch_num, metrics=metrics, reference_metrics=reference_metrics)
+            state.policy_state.clear()
+            state.policy_state.update(deepcopy(new_policy))
+            state.context.augmentor.set_policy(new_policy)
+            state.feedback_epochs.append(epoch_num)
+            state.history = deepcopy(controller.history)
+            if state.history:
+                state.history[-1]["diagnosis_global"] = diagnosis.get("global", {})
+                state.history[-1]["diagnosis_vector"] = diagnosis.get("diagnosis_vector", {})
+                state.history[-1]["old_policy_before_callback"] = old_policy
+                state.history[-1]["new_policy"] = deepcopy(state.policy_state)
+                state.history[-1]["copy_paste_status"] = "pending_object_bank_design"
+                state.history[-1]["trainer_identity"] = {
+                    "trainer_id": id(trainer),
+                    "optimizer_id": id(getattr(trainer, "optimizer", None)) if getattr(trainer, "optimizer", None) is not None else None,
+                    "scheduler_id": id(getattr(trainer, "scheduler", None)) if getattr(trainer, "scheduler", None) is not None else None,
+                    "ema_id": id(getattr(trainer, "ema", None)) if getattr(trainer, "ema", None) is not None else None,
+                }
+            write_json(state.output_dir / "configs" / f"active_policy_epoch_{epoch_num:03d}.json", new_policy)
+            return
         controller = state.feedback_controller
         if controller is None:
             controller = FeedbackPolicyController(
@@ -539,7 +635,6 @@ def register_inloop_feedback_callback(model: Any, state: InLoopFeedbackState) ->
                 feedback_interval=int(state.args.feedback_interval),
             )
             state.feedback_controller = controller
-        reference_metrics = reference_metrics_for_epoch(state, epoch_num)
         new_policy = controller.update(diagnosis, epoch=epoch_num, metrics=metrics, reference_metrics=reference_metrics)
         state.policy_state.clear()
         state.policy_state.update(deepcopy(new_policy))
@@ -728,6 +823,11 @@ def build_payload(
     last_pt: Path,
 ) -> dict[str, Any]:
     stats = state.context.augmentor.stats.to_dict()
+    roi_aug_stats = (
+        state.context.augmentor.roi_stats.to_dict()
+        if hasattr(state.context.augmentor, "roi_stats") and state.context.augmentor.roi_stats is not None
+        else {}
+    )
     train_image_count = state.context.train_image_count
     if train_image_count is None:
         train_image_count = count_split_images(Path(args.data).resolve(), "train")
@@ -766,7 +866,12 @@ def build_payload(
         "epoch_continuous": continuity["epoch_continuous"],
         "feedback_epochs": state.feedback_epochs,
         "feedback_update_count": len(state.history),
-        "feedback_controller": "CATF",
+        "feedback_controller": "CATF-v2" if is_catf_v2(args) else "CATF",
+        "catf_version": str(getattr(args, "catf_version", "v1")),
+        "class_aware_feedback": bool(getattr(args, "class_aware_feedback", False)),
+        "roi_aware_aug": bool(getattr(args, "roi_aware_aug", False)),
+        "sample_aware_routing": bool(getattr(args, "sample_aware_routing", False)),
+        "threshold_calibration_report": bool(getattr(args, "threshold_calibration_report", False)),
         "reference_curve_loaded": bool(state.reference_curve),
         "yolo_default_augmentation_enabled": True,
         "industrial_aug_enabled": bool(args.industrial_aug_enabled),
@@ -776,9 +881,11 @@ def build_payload(
         "bbox_class_valid": stats["invalid_bbox_count"] == 0 and stats["class_id_oob_count"] == 0,
         "policy_history": str((output_dir / "reports" / "policy_history.json").resolve()),
         "online_aug_stats": str((output_dir / "reports" / "online_aug_stats.json").resolve()),
+        "roi_aug_stats": str((output_dir / "reports" / "roi_aug_stats.json").resolve()) if roi_aug_stats else None,
         "report": str(primary_report_path(output_dir, args).resolve()),
         "constraint_failed": constraint_scoring["constraint_failed"] if args.feedback_enabled else None,
     }
+    catf_v2_summary = state.feedback_controller.summary() if is_catf_v2(args) and hasattr(state.feedback_controller, "summary") else {}
     return {
         "run_id": args.run_id,
         "generated_at": datetime.now().isoformat(timespec="seconds"),
@@ -791,7 +898,12 @@ def build_payload(
         "feedback_start_epoch": int(args.feedback_start_epoch),
         "feedback_enabled": bool(args.feedback_enabled),
         "industrial_aug_enabled": bool(args.industrial_aug_enabled),
-        "feedback_controller": "CATF",
+        "feedback_controller": "CATF-v2" if is_catf_v2(args) else "CATF",
+        "catf_version": str(getattr(args, "catf_version", "v1")),
+        "class_aware_feedback": bool(getattr(args, "class_aware_feedback", False)),
+        "roi_aware_aug": bool(getattr(args, "roi_aware_aug", False)),
+        "sample_aware_routing": bool(getattr(args, "sample_aware_routing", False)),
+        "threshold_calibration_report": bool(getattr(args, "threshold_calibration_report", False)),
         "reference_curve_path": str(Path(args.reference_curve).resolve()),
         "reference_curve_loaded": bool(state.reference_curve),
         "train_result_type": train_result_type,
@@ -808,6 +920,8 @@ def build_payload(
         "latest_policy_state": state.policy_state,
         "epoch_records": state.epoch_records,
         "online_aug_stats": stats,
+        "roi_aug_stats": roi_aug_stats,
+        "catf_v2": catf_v2_summary,
         "continuity": continuity,
         "reference_metrics": state.reference_metrics,
         "reference_curve_path": str(Path(args.reference_curve).resolve()),
@@ -856,13 +970,21 @@ def write_outputs(payload: dict[str, Any]) -> None:
     output_dir = Path(payload["output_dir"])
     write_json(output_dir / "reports" / "final_metrics.json", payload)
     write_json(output_dir / "reports" / "online_aug_stats.json", payload["online_aug_stats"])
+    if payload.get("roi_aug_stats"):
+        write_json(output_dir / "reports" / "roi_aug_stats.json", payload["roi_aug_stats"])
     write_json(output_dir / "reports" / "epoch_records.json", payload["epoch_records"])
     write_json(output_dir / "reports" / "constraint_scoring.json", payload["constraint_scoring"])
-    write_policy_history(output_dir / "reports", payload["policy_history"], payload["latest_policy_state"])
+    if payload.get("catf_version") == "v2":
+        write_catf_v2_history(output_dir / "reports", payload)
+    else:
+        write_policy_history(output_dir / "reports", payload["policy_history"], payload["latest_policy_state"])
     write_markdown(output_dir / "reports" / "final_report.md", build_final_report(payload))
     write_markdown(output_dir / "reports" / "inloop_feedback_smoke_report.md", build_smoke_report(payload))
     if payload["feedback_enabled"] and int(payload["epochs"]) <= 10:
-        write_markdown(output_dir / "reports" / "catf_smoke_report.md", build_catf_smoke_report(payload))
+        if payload.get("catf_version") == "v2":
+            write_markdown(output_dir / "reports" / "catf_v2_smoke_report.md", build_catf_v2_smoke_report(payload))
+        else:
+            write_markdown(output_dir / "reports" / "catf_smoke_report.md", build_catf_smoke_report(payload))
     if not payload["feedback_enabled"] and not payload["industrial_aug_enabled"]:
         write_json(output_dir / "reports" / "inloop_no_feedback_control_metrics.json", build_control_metrics_payload(payload))
         write_markdown(output_dir / "reports" / "inloop_no_feedback_control_report.md", build_no_feedback_control_report(payload))
@@ -937,6 +1059,70 @@ def write_policy_history(history_dir: Path, history: list[dict[str, Any]], lates
                         "guard_triggered": ",".join(record.get("guard_triggered", [])),
                         "rollback_reason": record.get("rollback_reason"),
                         "frozen": record.get("frozen"),
+                    }
+                )
+
+
+def write_catf_v2_history(history_dir: Path, payload: dict[str, Any]) -> None:
+    history = payload.get("policy_history", [])
+    latest_policy = payload.get("latest_policy_state", {})
+    write_json(history_dir / "policy_history.json", {"history": history, "latest_policy": latest_policy})
+    class_rows = []
+    for record in history:
+        for action in record.get("class_actions", []) or []:
+            class_rows.append(
+                {
+                    "epoch": int(record.get("epoch", 0) or 0),
+                    "class_id": int(action.get("class_id", -1)),
+                    "action": action.get("action"),
+                    "adjustment_count": len(action.get("adjustments", []) or []),
+                    "before_status": (action.get("before") or {}).get("status"),
+                    "after_status": (action.get("after") or {}).get("status"),
+                    "dominant_issue": (action.get("after") or {}).get("dominant_issue"),
+                }
+            )
+    write_json(history_dir / "class_policy_history.json", {"history": class_rows})
+    lines = [
+        "# CATF-v2 Class-Aware Policy History",
+        "",
+        "| epoch | action | active_classes | frozen_classes | high_fp_guarded | adjustments |",
+        "|---:|---|---|---|---|---:|",
+    ]
+    for record in history:
+        lines.append(
+            f"| {record.get('epoch')} | {record.get('action')} | {record.get('active_classes', [])} | "
+            f"{record.get('frozen_classes', [])} | {record.get('high_fp_guarded_classes', [])} | {len(record.get('adjustments', []) or [])} |"
+        )
+    write_markdown(history_dir / "policy_history.md", "\n".join(lines))
+    with (history_dir / "policy_history.csv").open("w", newline="", encoding="utf-8") as handle:
+        writer = csv.DictWriter(
+            handle,
+            fieldnames=[
+                "epoch",
+                "class_id",
+                "action",
+                "op",
+                "field",
+                "before",
+                "after",
+                "reason",
+                "guard_triggered",
+            ],
+        )
+        writer.writeheader()
+        for record in history:
+            for adjustment in record.get("adjustments", []) or [{}]:
+                writer.writerow(
+                    {
+                        "epoch": record.get("epoch"),
+                        "class_id": adjustment.get("class_id"),
+                        "action": record.get("action"),
+                        "op": adjustment.get("op"),
+                        "field": adjustment.get("field"),
+                        "before": adjustment.get("before"),
+                        "after": adjustment.get("after"),
+                        "reason": adjustment.get("reason"),
+                        "guard_triggered": ",".join(record.get("guard_triggered", []) or []),
                     }
                 )
 
@@ -1045,6 +1231,62 @@ def build_catf_smoke_report(payload: dict[str, Any]) -> str:
     return "\n".join(lines) + "\n"
 
 
+def build_catf_v2_smoke_report(payload: dict[str, Any]) -> str:
+    history = payload.get("policy_history", [])
+    stats = payload["online_aug_stats"]
+    roi_stats = payload.get("roi_aug_stats") or {}
+    catf = payload.get("catf_v2") or {}
+    last = history[-1] if history else {}
+    lines = [
+        "# CATF-v2 Class-Aware Smoke Report",
+        "",
+        "## Answers",
+        "",
+        f"- CATF-v2 implemented: `{str(payload.get('catf_version') == 'v2').lower()}`",
+        f"- Per-class diagnosis generated: `{str(bool(last.get('per_class_diagnosis_path'))).lower()}`",
+        f"- Issue attribution generated: `{str(bool(last.get('issue_attribution_path'))).lower()}`",
+        f"- Policy matrix active: `{str(bool(payload.get('latest_policy_state', {}).get('classes'))).lower()}`",
+        f"- Sample-aware routing enabled: `{str(payload.get('sample_aware_routing')).lower()}`",
+        f"- ROI-aware augmentation enabled: `{str(payload.get('roi_aware_aug')).lower()}`",
+        f"- Threshold calibration report enabled: `{str(payload.get('threshold_calibration_report', True)).lower()}`",
+        f"- Reference curve loaded: `{str(bool(payload.get('reference_curve_epochs'))).lower()}`",
+        f"- Epoch 5 update happened: `{str(5 in payload['summary']['feedback_epochs']).lower()}`",
+        f"- BBox/class legal: `{str(payload['summary']['bbox_class_valid']).lower()}`",
+        f"- Fixed augmented dataset generated: `{str(stats.get('fixed_augmented_dataset_generated')).lower()}`",
+        "",
+        "## Class-Aware State",
+        "",
+        f"- Active classes: `{catf.get('active_classes', [])}`",
+        f"- Frozen classes: `{catf.get('frozen_classes', [])}`",
+        f"- High-FP guarded classes: `{catf.get('high_fp_guarded_classes', [])}`",
+        f"- Low-contrast classes: `{last.get('low_contrast_classes', [])}`",
+        f"- Texture classes: `{last.get('texture_classes', [])}`",
+        f"- Low-support only classes: `{last.get('low_support_classes', [])}`",
+        f"- Stable classes avoided: `{str(bool(catf.get('frozen_classes'))).lower()}`",
+        "",
+        "## ROI Augmentation",
+        "",
+        f"- ROI-aware applied count: `{roi_stats.get('roi_aug_applied', 0)}`",
+        f"- ROI skipped small ROI: `{roi_stats.get('roi_aug_skipped_small_roi', 0)}`",
+        f"- ROI skipped conflict: `{roi_stats.get('roi_aug_skipped_conflict', 0)}`",
+        f"- Affected classes: `{roi_stats.get('affected_classes', {})}`",
+        "",
+        "## Required Artifacts",
+        "",
+        f"- Per-class diagnosis: `{last.get('per_class_diagnosis_path')}`",
+        f"- Issue attribution: `{last.get('issue_attribution_path')}`",
+        f"- Sample weight map: `{last.get('sample_weight_map_path')}`",
+        f"- Policy history: `{payload['summary']['policy_history']}`",
+        f"- Online aug stats: `{payload['summary']['online_aug_stats']}`",
+        f"- ROI aug stats: `{payload['summary'].get('roi_aug_stats')}`",
+        "",
+        "## Next Step",
+        "",
+        "- This smoke only validates the CATF-v2 control path. It is not a 50 epoch result.",
+    ]
+    return "\n".join(lines) + "\n"
+
+
 def all_trust_region_steps_within_limit(history: list[dict[str, Any]]) -> bool:
     for record in history:
         for adjustment in record.get("adjustments", []):
@@ -1066,6 +1308,8 @@ def primary_report_path(output_dir: Path, args: argparse.Namespace) -> Path:
     if not bool(args.feedback_enabled) and not bool(args.industrial_aug_enabled):
         return output_dir / "reports" / "inloop_no_feedback_control_report.md"
     if int(args.epochs) <= 10:
+        if is_catf_v2(args):
+            return output_dir / "reports" / "catf_v2_smoke_report.md"
         return output_dir / "reports" / "catf_smoke_report.md"
     return output_dir / "reports" / "final_report.md"
 
@@ -1546,12 +1790,19 @@ def update_state_docs(payload: dict[str, Any]) -> None:
             "- New direction: one `YOLO.train()` run with in-loop feedback callbacks; optimizer/scheduler/EMA/epoch/close_mosaic remain under one Ultralytics trainer.",
             "- Feedback controller: `CATF` (Constraint-Aware Trust-region Feedback Controller).",
             "- CATF uses the clean native YOLO default reference curve at matching feedback epochs, trust-region step limits, group budgets, delayed acceptance, rollback, cooldown, and epoch>=40 freeze.",
+            "- CATF-v1 is global feedback; CATF-v2 is class-aware, issue-aware, and sample-aware feedback with ROI-aware industrial augmentation.",
+            "- CATF-v2 current goal is to reduce CATF-v1 Precision instability by activating only diagnosed classes and freezing stable classes.",
+            "- Current CATF-v2 work is smoke-only; no formal 50 epoch CATF-v2 run should be inferred from it.",
             "- No-feedback control disables both feedback and industrial augmentation, using Ultralytics YOLO default augmentation as the behavior check.",
             "- The old YOLO default reference is not the final baseline after parity audit; feedback comparisons should use `clean_native_yolo_default_seed42_50ep`.",
             f"- Output: `outputs/experiments/{payload['run_id']}/`",
             f"- Epochs: `{payload['epochs']}`",
             f"- Feedback enabled: `{str(payload['feedback_enabled']).lower()}`",
             f"- Industrial augmentation enabled: `{str(payload['industrial_aug_enabled']).lower()}`",
+            f"- CATF version: `{payload.get('catf_version', 'v1')}`",
+            f"- Class-aware feedback: `{str(payload.get('class_aware_feedback', False)).lower()}`",
+            f"- ROI-aware augmentation: `{str(payload.get('roi_aware_aug', False)).lower()}`",
+            f"- Sample-aware routing: `{str(payload.get('sample_aware_routing', False)).lower()}`",
             f"- Reference curve loaded: `{str(payload.get('reference_curve_loaded', False)).lower()}`",
             f"- Feedback epochs: `{payload['summary']['feedback_epochs']}`",
             f"- Stage restart count: `{payload['continuity']['stage_restart_count']}`",

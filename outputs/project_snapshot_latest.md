@@ -1,8 +1,8 @@
 # Project Snapshot
 
-- Generated: 2026-05-30T13:05:15
+- Generated: 2026-05-30T18:40:02
 - Branch: codex/sync-latest
-- Commit: 09faa8c9da182c7bc7952bd4ce5b415054cb3742
+- Commit: 7cc4a83e986c656950aa07403d1f46c753d24388
 - Remote: https://github.com/Yxiaoyang121/MyAutoAugument.git
 
 ## Working Tree
@@ -13,7 +13,14 @@
  M PROJECT_STATE.md
  M outputs/project_snapshot_latest.md
  M outputs/snapshots/project_snapshot_latest.md
-?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_feedback/
+ M scripts/train_yolo_default_with_inloop_feedback.py
+?? AutoAugment/catf_v2/
+?? outputs/experiments/catf_v2_class_aware_10ep_smoke/
+?? tests/test_catf_v2_per_class_diagnosis.py
+?? tests/test_catf_v2_policy_matrix.py
+?? tests/test_catf_v2_roi_augmentation.py
+?? tests/test_catf_v2_sample_router.py
+?? tests/test_catf_v2_threshold_calibration.py
 ```
 
 ## Key Files
@@ -218,30 +225,9 @@
 
 ## Tracked File Count
 
-- 1739 tracked files
+- 1996 tracked files
 
 ## Notes
 
 - This snapshot reflects the current local repository state.
 - It does not invent benchmark results.
-
-<!-- MULTISEED_CLEAN_YOLO_DEFAULT_VS_CATF_FEEDBACK_START -->
-## Multiseed Clean YOLO Default vs CATF Feedback
-
-- Scope: seeds `0, 1, 2`; seed 42 is retained as a positive single-seed case but is not included in this multiseed mean.
-- Output: `outputs/experiments/multiseed_clean_yolo_default_vs_catf_feedback/`.
-- Clean native results were reused from `outputs/experiments/multiseed_clean_yolo_default_vs_inloop_feedback/seed_*/clean_native_yolo_default/`; no duplicate clean native training was run.
-- CATF group uses single-run in-loop feedback with YOLO default augmentation still enabled, per-seed clean native reference curves, industrial online augmentation enabled, and copy_paste pending/not enabled.
-- Train images: `2301`; fixed augmented dataset generated: `false`; val uses original val tiles.
-- Per-seed deltas P/R/mAP50/mAP50-95:
-  - seed 0: `-0.0272/-0.0014/+0.0179/+0.0445`, constraint_failed=`true`.
-  - seed 1: `-0.0349/+0.0621/+0.0008/+0.0386`, constraint_failed=`true`.
-  - seed 2: `-0.0116/-0.0120/-0.0084/-0.0424`, constraint_failed=`true`.
-- Mean delta P/R/mAP50/mAP50-95: `-0.0246/+0.0163/+0.0034/+0.0136`.
-- CATF wins under industrial constraints: `0/3`; constraint failed seeds: `3/3`.
-- Control statistics across seeds: rollback `17`, cooldown `3`, freeze `3`; frozen policy records `15`.
-- Compared with old in-loop feedback, CATF is more conservative in logs but not more stable by the industrial constraint criterion: old feedback failed `2/3`, CATF failed `3/3`.
-- Verdict: CATF is not recommended as the paper main method based on seeds `0/1/2`; keep seed42 as a positive case and report this as an ablation/controller attempt unless a later controller passes multiseed constraints.
-- Report: `outputs/experiments/multiseed_clean_yolo_default_vs_catf_feedback/reports/multiseed_catf_summary.md`.
-- JSON: `outputs/experiments/multiseed_clean_yolo_default_vs_catf_feedback/reports/multiseed_catf_summary.json`.
-<!-- MULTISEED_CLEAN_YOLO_DEFAULT_VS_CATF_FEEDBACK_END -->

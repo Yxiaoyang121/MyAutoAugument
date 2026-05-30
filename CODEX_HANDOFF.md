@@ -538,22 +538,29 @@ No training was run after building or auditing these datasets.
 - New direction: one `YOLO.train()` run with in-loop feedback callbacks; optimizer/scheduler/EMA/epoch/close_mosaic remain under one Ultralytics trainer.
 - Feedback controller: `CATF` (Constraint-Aware Trust-region Feedback Controller).
 - CATF uses the clean native YOLO default reference curve at matching feedback epochs, trust-region step limits, group budgets, delayed acceptance, rollback, cooldown, and epoch>=40 freeze.
+- CATF-v1 is global feedback; CATF-v2 is class-aware, issue-aware, and sample-aware feedback with ROI-aware industrial augmentation.
+- CATF-v2 current goal is to reduce CATF-v1 Precision instability by activating only diagnosed classes and freezing stable classes.
+- Current CATF-v2 work is smoke-only; no formal 50 epoch CATF-v2 run should be inferred from it.
 - No-feedback control disables both feedback and industrial augmentation, using Ultralytics YOLO default augmentation as the behavior check.
 - The old YOLO default reference is not the final baseline after parity audit; feedback comparisons should use `clean_native_yolo_default_seed42_50ep`.
-- Output: `outputs/experiments/multiseed_clean_yolo_default_vs_catf_feedback/seed_2/catf_feedback/`
-- Epochs: `50`
+- Output: `outputs/experiments/catf_v2_class_aware_10ep_smoke/`
+- Epochs: `10`
 - Feedback enabled: `true`
 - Industrial augmentation enabled: `true`
+- CATF version: `v2`
+- Class-aware feedback: `true`
+- ROI-aware augmentation: `true`
+- Sample-aware routing: `true`
 - Reference curve loaded: `true`
-- Feedback epochs: `[5, 10, 15, 20, 25, 30, 35, 40, 45]`
+- Feedback epochs: `[5]`
 - Stage restart count: `0`
 - Epoch continuous: `true`
 - Train image count: `2301`
 - Fixed augmented dataset generated: `false`
 - Constraint baseline: `clean_native_yolo_default`
 - Constraint failed: `True`
-- Report: `outputs/experiments/multiseed_clean_yolo_default_vs_catf_feedback/seed_2/catf_feedback/reports/final_report.md`
-- Policy history: `outputs/experiments/multiseed_clean_yolo_default_vs_catf_feedback/seed_2/catf_feedback/reports/policy_history.json`
+- Report: `outputs/experiments/catf_v2_class_aware_10ep_smoke/reports/catf_v2_smoke_report.md`
+- Policy history: `outputs/experiments/catf_v2_class_aware_10ep_smoke/reports/policy_history.json`
 <!-- YOLO_DEFAULT_INLOOP_FEEDBACK_SMOKE_END -->
 <!-- YOLO_DEFAULT_INLOOP_PARITY_AUDIT_START -->
 ## YOLO Default In-Loop Parity Audit

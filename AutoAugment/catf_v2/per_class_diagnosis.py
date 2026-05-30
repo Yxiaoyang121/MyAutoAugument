@@ -1,14 +1,16 @@
 from __future__ import annotations
 
-from collections import Counter, defaultdict
+from collections import Counter
 from pathlib import Path
 from typing import Any
 
 import yaml
 
 
-TEXTURE_NAME_TOKENS = ("scratch", "edge", "dent", "bruise", "crack", "碰", "划", "伤", "轮廓")
-LOW_CONTRAST_NAME_TOKENS = ("low", "dark", "dirty", "oil", "锡", "污", "脏", "油")
+NO_AUG_CLASS_NAMES = ("OK2", "OK3")
+DOMAIN_HIGH_FP_PRIOR_CLASS_NAMES = ("OK2", "OK3", "\u6cb9\u6c61", "\u810f\u6c61")
+TEXTURE_NAME_TOKENS = ("scratch", "edge", "dent", "bruise", "crack", "\u78b0", "\u5212", "\u4f24", "\u8f6e\u5ed3")
+LOW_CONTRAST_NAME_TOKENS = ("low", "dark", "dirty", "oil", "\u9521", "\u6c61", "\u810f", "\u6cb9")
 
 
 def count_train_instances(data_yaml: str | Path) -> dict[int, int]:
@@ -81,20 +83,42 @@ def build_per_class_diagnosis(
         evidence_count = int(fn + fp + weak_loc)
         low_contrast_fn = _class_low_contrast_count(global_low_contrast_count, fn, class_name)
         dark_fn = _class_low_contrast_count(global_dark_count, fn, class_name)
+        diagnosis_confidence = confidence(val_count, evidence_count)
         support_level = support_bucket(train_count, val_count)
+        no_aug_class = is_no_aug_class(class_name)
+        domain_high_fp_prior = has_domain_high_fp_prior(class_name)
         low_support = val_count < 10 or train_count < 20
         low_recall = recall < 0.60 or fn_rate > 0.35
-        high_fp = fp_rate > 0.35 or (precision < 0.55 and fp > 0)
+        high_fp = fp >= 10 or fp_rate > 0.35 or (precision < 0.55 and fp > 0)
+        no_aug_exception_allowed = bool(
+            no_aug_class
+            and recall < 0.90
+            and fn >= 10
+            and diagnosis_confidence >= 0.70
+            and low_contrast_fn >= 5
+            and not high_fp
+        )
+        high_fp_guarded = bool(high_fp or (no_aug_class and fp >= 10))
         weak_localization = (ap50 - ap95) > 0.18 or weak_loc > 0
         texture_boundary = weak_localization or _name_has(class_name, TEXTURE_NAME_TOKENS)
         low_contrast = (low_contrast_fn >= max(2, int(0.30 * max(1, fn)))) or _name_has(class_name, LOW_CONTRAST_NAME_TOKENS)
         stable = (
             not low_support
-            and precision >= 0.75
-            and recall >= 0.75
-            and ap95 >= 0.50
-            and fp <= max(1, int(0.10 * max(1, tp + fp)))
-            and fn <= max(1, int(0.10 * max(1, val_count)))
+            and not high_fp_guarded
+            and precision >= 0.90
+            and recall >= 0.90
+            and ap50 >= 0.90
+            and fn <= 3
+        )
+        stable = stable or bool(no_aug_class and not no_aug_exception_allowed and not high_fp_guarded)
+        strong_update_allowed = bool(
+            val_count >= 10
+            and evidence_count >= 5
+            and diagnosis_confidence >= 0.50
+            and not low_support
+            and not stable
+            and not high_fp_guarded
+            and (not no_aug_class or no_aug_exception_allowed)
         )
         classes[str(class_id)] = {
             "class_id": class_id,
@@ -124,6 +148,10 @@ def build_per_class_diagnosis(
             "class_confusion": bool(item.get("confused_with_classes")),
             "low_support": bool(low_support),
             "low_support_class": bool(val_count < 10),
+            "no_aug_class": bool(no_aug_class),
+            "no_aug_exception_allowed": bool(no_aug_exception_allowed),
+            "domain_high_fp_prior": bool(domain_high_fp_prior),
+            "high_fp_guarded": bool(high_fp_guarded),
             "stable_class": bool(stable),
             "evidence_count": evidence_count,
             "low_contrast_fn_count": int(low_contrast_fn),
@@ -137,10 +165,10 @@ def build_per_class_diagnosis(
             "mean_fn_contrast": _nullable_float(item.get("mean_fn_contrast")),
             "mean_tp_conf": _nullable_float(item.get("mean_tp_conf")),
             "mean_fp_conf": _nullable_float(item.get("mean_fp_conf")),
-            "diagnosis_confidence": confidence(val_count, evidence_count),
+            "diagnosis_confidence": diagnosis_confidence,
             "support_confidence": confidence(val_count, val_count),
             "evidence_confidence": confidence(evidence_count, evidence_count),
-            "strong_update_allowed": bool(val_count >= 10 and evidence_count >= 5 and not low_support),
+            "strong_update_allowed": strong_update_allowed,
         }
     return {
         "epoch": epoch,
@@ -149,6 +177,8 @@ def build_per_class_diagnosis(
             "class_count": len(classes),
             "low_support_count": sum(1 for row in classes.values() if row["low_support"]),
             "stable_count": sum(1 for row in classes.values() if row["stable_class"]),
+            "no_aug_count": sum(1 for row in classes.values() if row["no_aug_class"]),
+            "domain_high_fp_prior_count": sum(1 for row in classes.values() if row["domain_high_fp_prior"]),
             "strong_update_allowed_count": sum(1 for row in classes.values() if row["strong_update_allowed"]),
         },
     }
@@ -167,6 +197,20 @@ def confidence(val_instances: int, evidence_count: int) -> float:
     support = min(1.0, max(0.0, float(val_instances) / 50.0))
     evidence = min(1.0, max(0.0, float(evidence_count) / 20.0))
     return round(0.5 * support + 0.5 * evidence, 4)
+
+
+def is_no_aug_class(name: str) -> bool:
+    normalized = str(name).strip().upper()
+    return normalized in {item.upper() for item in NO_AUG_CLASS_NAMES}
+
+
+def has_domain_high_fp_prior(name: str) -> bool:
+    stripped = str(name).strip()
+    upper = stripped.upper()
+    for item in DOMAIN_HIGH_FP_PRIOR_CLASS_NAMES:
+        if upper == item.upper() or item in stripped:
+            return True
+    return False
 
 
 def _image_dir_to_label_dir(images_dir: Path, root: Path) -> Path:

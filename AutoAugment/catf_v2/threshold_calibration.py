@@ -24,11 +24,15 @@ class ThresholdCalibrationAnalyzer:
         rows: dict[str, Any] = {}
         for class_id, row in (per_class_diagnosis.get("classes") or {}).items():
             attr = (issue_attribution.get("classes") or {}).get(str(class_id), {})
-            high_fp = bool(row.get("high_fp") or attr.get("dominant_issue") == "high_fp")
+            high_fp = bool(row.get("high_fp") or row.get("high_fp_guarded") or attr.get("dominant_issue") == "high_fp")
+            domain_prior = bool(row.get("domain_high_fp_prior") or row.get("no_aug_class"))
             low_recall = bool(row.get("low_recall") or attr.get("dominant_issue") in {"low_recall", "low_contrast_fn"})
             if high_fp:
                 recommended = min(0.70, self.default_threshold + 0.15)
                 reason = "high_fp_raise_threshold"
+            elif domain_prior:
+                recommended = self.default_threshold
+                reason = "domain_high_fp_prior_keep_threshold"
             elif low_recall and not high_fp:
                 recommended = max(0.10, self.default_threshold - 0.10)
                 reason = "low_recall_lower_threshold"

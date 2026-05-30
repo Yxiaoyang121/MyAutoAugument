@@ -1,0 +1,64 @@
+{
+  "generated_at": "2026-05-31T00:40:43",
+  "train_success": true,
+  "val_success": true,
+  "train_images": 2301,
+  "fixed_augmented_dataset_generated": false,
+  "top_k_active_classes": 2,
+  "active_classes": [
+    {
+      "class_id": 6,
+      "class_name": "漏背锡",
+      "dominant_issue": "texture_boundary_weak"
+    },
+    {
+      "class_id": 8,
+      "class_name": "脏污",
+      "dominant_issue": "low_recall"
+    }
+  ],
+  "ok3_active": false,
+  "ok3_roi_applied": 0,
+  "leak_back_solder_active": true,
+  "dirty_domain_high_fp_prior": true,
+  "dirty_photometric_probs": {
+    "clahe": 0.0,
+    "gamma": 0.0,
+    "brightness": 0.0,
+    "contrast": 0.0
+  },
+  "dirty_threshold": {
+    "class_id": 8,
+    "class_name": "脏污",
+    "default_threshold": 0.25,
+    "recommended_threshold": 0.25,
+    "threshold_range": [
+      0.1,
+      0.15,
+      0.2,
+      0.25,
+      0.3,
+      0.35,
+      0.4,
+      0.45,
+      0.5,
+      0.55,
+      0.6,
+      0.65,
+      0.7
+    ],
+    "reason": "domain_high_fp_prior_keep_threshold",
+    "analysis_only": true
+  },
+  "roi_stats": {
+    "roi_aug_applied": 23,
+    "roi_aug_skipped_small_roi": 0,
+    "roi_aug_skipped_conflict": 2,
+    "affected_classes": {
+      "6": 20,
+      "8": 3
+    }
+  },
+  "bbox_class_valid": true,
+  "recommend_seed42_50ep": true
+}

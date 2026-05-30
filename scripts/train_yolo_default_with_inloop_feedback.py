@@ -383,7 +383,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--roi-aware-aug", action=argparse.BooleanOptionalAction, default=False)
     parser.add_argument("--sample-aware-routing", action=argparse.BooleanOptionalAction, default=False)
     parser.add_argument("--threshold-calibration-report", action=argparse.BooleanOptionalAction, default=False)
-    parser.add_argument("--top-k-active-classes", type=int, default=3)
+    parser.add_argument("--top-k-active-classes", type=int, default=2)
     parser.add_argument("--top-m-ops-per-class", type=int, default=2)
     parser.add_argument("--reference-metrics", default=str(REFERENCE_METRICS))
     parser.add_argument("--reference-curve", default=str(DEFAULT_REFERENCE_CURVE))

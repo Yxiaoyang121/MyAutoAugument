@@ -17,6 +17,7 @@ from AutoAugment.online_augmentation import (
 
 PHOTOMETRIC_OPS = {"clahe", "gamma", "brightness", "contrast"}
 ROI_OPS = {"sharpen_mild", "local_contrast", "gamma", "clahe"}
+DOMAIN_PRIOR_BLOCKED_ROI_OPS = {"gamma", "clahe"}
 
 
 @dataclass
@@ -103,6 +104,11 @@ class SampleAwareAugmentationRouter:
             return self._finish(current_image, current_labels, current_bboxes, input_bbox_count, audit)
 
         high_fp_present = any(_is_high_fp_guarded(item) for item in present_policies)
+        guarded_or_no_aug_classes = {
+            class_id
+            for class_id in present
+            if _is_high_fp_guarded(class_policies.get(str(class_id), {})) or _is_no_aug(class_policies.get(str(class_id), {}))
+        }
         active_targets = [class_id for class_id in present if _has_active_ops(class_policies.get(str(class_id), {}))]
         if not active_targets:
             audit["router"]["skip_reason"] = "no_active_target_class"
@@ -110,9 +116,10 @@ class SampleAwareAugmentationRouter:
 
         for class_id in active_targets:
             policy = class_policies.get(str(class_id), {})
-            if _is_high_fp_guarded(policy) and len(present) == 1:
+            if _is_high_fp_guarded(policy) or _is_no_aug(policy):
                 self.roi_stats.roi_aug_skipped_conflict += 1
                 continue
+            conflict_bboxes = current_bboxes[np.isin(current_labels, list(guarded_or_no_aug_classes - {class_id}))]
             for op_name, op in sorted((policy.get("ops") or {}).items()):
                 prob = float(op.get("prob", 0.0) or 0.0)
                 strength = float(op.get("strength", 0.0) or 0.0)
@@ -139,8 +146,22 @@ class SampleAwareAugmentationRouter:
                     self.stats.record_op(op_name, "skipped_probability")
                     audit["operations"].append(op_audit)
                     continue
+                if _is_domain_prior(policy) and op_name in DOMAIN_PRIOR_BLOCKED_ROI_OPS:
+                    op_audit["skip_reason"] = "domain_prior_blocks_roi_photometric"
+                    audit["skipped_ops"].append(op_audit)
+                    self.stats.record_op(op_name, "skipped_domain_prior")
+                    audit["operations"].append(op_audit)
+                    continue
                 if self.roi_aware and op_name in ROI_OPS:
-                    applied = self._apply_roi_op(current_image, current_labels, current_bboxes, class_id, op_name, strength)
+                    applied = self._apply_roi_op(
+                        current_image,
+                        current_labels,
+                        current_bboxes,
+                        class_id,
+                        op_name,
+                        strength,
+                        conflict_bboxes=conflict_bboxes,
+                    )
                     if applied:
                         op_audit["applied"] = True
                         audit["applied_ops"].append(op_audit)
@@ -187,11 +208,15 @@ class SampleAwareAugmentationRouter:
         class_id: int,
         op_name: str,
         strength: float,
+        conflict_bboxes: np.ndarray | None = None,
     ) -> bool:
         applied = False
         height, width = image.shape[:2]
         for bbox in bboxes[labels == int(class_id)]:
             x1, y1, x2, y2 = expand_box(bbox, width=width, height=height, factor=1.5)
+            if conflict_bboxes is not None and len(conflict_bboxes) and any(overlaps((x1, y1, x2, y2), other) for other in conflict_bboxes):
+                self.roi_stats.roi_aug_skipped_conflict += 1
+                continue
             if x2 - x1 < 8 or y2 - y1 < 8:
                 self.roi_stats.roi_aug_skipped_small_roi += 1
                 continue
@@ -283,7 +308,25 @@ def _is_high_fp_guarded(policy: dict[str, Any]) -> bool:
     return bool(guards.get("high_fp_guarded") or policy.get("dominant_issue") == "high_fp")
 
 
+def _is_no_aug(policy: dict[str, Any]) -> bool:
+    return bool(policy.get("no_aug_class", False))
+
+
+def _is_domain_prior(policy: dict[str, Any]) -> bool:
+    return bool(policy.get("domain_high_fp_prior", False))
+
+
 def _has_active_ops(policy: dict[str, Any]) -> bool:
+    if _is_no_aug(policy) or _is_high_fp_guarded(policy):
+        return False
     if policy.get("status") not in {"active", "pending", "accepted"}:
         return False
     return any(float(op.get("prob", 0.0) or 0.0) > 0.0 for op in (policy.get("ops") or {}).values())
+
+
+def overlaps(box: tuple[int, int, int, int], other: np.ndarray) -> bool:
+    x1, y1, x2, y2 = box
+    ox1, oy1, ox2, oy2 = [float(value) for value in other]
+    inter_w = max(0.0, min(float(x2), ox2) - max(float(x1), ox1))
+    inter_h = max(0.0, min(float(y2), oy2) - max(float(y1), oy1))
+    return inter_w * inter_h > 0.0

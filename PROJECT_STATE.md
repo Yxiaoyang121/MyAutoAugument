@@ -594,7 +594,7 @@ The repository is centered on diagnosis-driven augmentation for industrial defec
 - Current CATF-v2 work is smoke-only; no formal 50 epoch CATF-v2 run should be inferred from it.
 - No-feedback control disables both feedback and industrial augmentation, using Ultralytics YOLO default augmentation as the behavior check.
 - The old YOLO default reference is not the final baseline after parity audit; feedback comparisons should use `clean_native_yolo_default_seed42_50ep`.
-- Output: `outputs/experiments/catf_v2_class_aware_10ep_smoke/`
+- Output: `outputs/experiments/catf_v2_activation_fixed_10ep_smoke/`
 - Epochs: `10`
 - Feedback enabled: `true`
 - Industrial augmentation enabled: `true`
@@ -610,8 +610,8 @@ The repository is centered on diagnosis-driven augmentation for industrial defec
 - Fixed augmented dataset generated: `false`
 - Constraint baseline: `clean_native_yolo_default`
 - Constraint failed: `True`
-- Report: `outputs/experiments/catf_v2_class_aware_10ep_smoke/reports/catf_v2_smoke_report.md`
-- Policy history: `outputs/experiments/catf_v2_class_aware_10ep_smoke/reports/policy_history.json`
+- Report: `outputs/experiments/catf_v2_activation_fixed_10ep_smoke/reports/catf_v2_smoke_report.md`
+- Policy history: `outputs/experiments/catf_v2_activation_fixed_10ep_smoke/reports/policy_history.json`
 <!-- YOLO_DEFAULT_INLOOP_FEEDBACK_SMOKE_END -->
 <!-- YOLO_DEFAULT_INLOOP_PARITY_AUDIT_START -->
 ## YOLO Default In-Loop Parity Audit
@@ -686,11 +686,28 @@ The repository is centered on diagnosis-driven augmentation for industrial defec
 - Scope: `outputs/experiments/catf_v2_class_aware_10ep_smoke/reports/`.
 - No training was run; this is a report-only audit of epoch 5 CATF-v2 activation.
 - Audit outputs: `outputs/experiments/catf_v2_class_aware_10ep_smoke/reports/catf_v2_activation_audit.md` and `.json`.
-- Active classes from smoke: class `1` OK3, class `6` ???, class `8` ??.
+- Active classes from smoke: class `1` OK3, class `6` 漏背锡, class `8` 脏污.
 - OK3 activation is judged not reasonable for a formal run: Recall is already high (`0.9891`), FN count is only `2`, FP count is `49`, and OK-like classes should default to stable/no_aug unless evidence is very strong.
-- ??? activation is judged reasonable: low Recall (`0.2826`), many FN (`32`), low-contrast evidence, and conservative ROI `sharpen_mild`/`local_contrast` ops.
-- ?? activation is partially reasonable as low Recall, but should be guarded by stain/dirty high-FP domain priors and should not lower threshold or escalate photometric before FP behavior is known.
+- 漏背锡 activation is judged reasonable: low Recall (`0.2826`), many FN (`32`), low-contrast evidence, and conservative ROI `sharpen_mild`/`local_contrast` ops.
+- 脏污 activation is partially reasonable as low Recall, but should be guarded by stain/dirty high-FP domain priors and should not lower threshold or escalate photometric before FP behavior is known.
 - Low-support classes `2` and `3` did not trigger strong photometric augmentation; they remain oversampling/copy-paste pending candidates.
 - ROI augmentation applied `150` times, including OK3 (`122`), which is the main activation-rule concern.
 - Recommendation: do not enter CATF-v2 seed42 50ep until activation rules are tightened with OK2/OK3 no_aug, stronger activation threshold, domain high-FP guards for stain/oil/dirty classes, and likely top_k reduced from `3` to `2`.
 <!-- CATF_V2_ACTIVATION_AUDIT_END -->
+
+<!-- CATF_V2_ACTIVATION_FIXED_START -->
+## CATF-v2 Activation Rule Fix
+
+- Scope: no 50 epoch training; only rule changes, tests, and a 10 epoch smoke run.
+- Output: `outputs/experiments/catf_v2_activation_fixed_10ep_smoke/`.
+- Report: `outputs/experiments/catf_v2_activation_fixed_10ep_smoke/reports/catf_v2_activation_fixed_report.md`.
+- Rule changes: OK2/OK3 default no_aug, stricter activation thresholds, domain high-FP prior for OK2/OK3/oil/dirty classes, top_k_active_classes=`2`, ROI blocks no_aug/high-FP conflict classes.
+- Smoke result: train_success=`true`, val_success=`true`, train_images=`2301`, fixed_augmented_dataset_generated=`false`.
+- Active classes after fix: class `6` 漏背锡 (texture_boundary_weak), class `8` 脏污 (low_recall).
+- OK3 active=`false`; OK3 ROI applied=`0`.
+- 漏背锡 active=`true` with conservative ROI sharpen/local_contrast.
+- 脏污 domain_high_fp_prior=`true`; photometric probs `{'clahe': 0.0, 'gamma': 0.0, 'brightness': 0.0, 'contrast': 0.0}`; threshold recommendation `0.25` with reason `domain_high_fp_prior_keep_threshold`.
+- ROI stats: `{'roi_aug_applied': 23, 'roi_aug_skipped_small_roi': 0, 'roi_aug_skipped_conflict': 2, 'affected_classes': {'6': 20, '8': 3}}`.
+- BBox/class valid: `true`.
+- Recommendation: proceed to CATF-v2 seed42 50 epoch validation only after this fixed activation rule set; do not use the earlier CATF-v2 smoke as formal evidence.
+<!-- CATF_V2_ACTIVATION_FIXED_END -->

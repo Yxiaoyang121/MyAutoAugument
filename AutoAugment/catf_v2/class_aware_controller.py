@@ -26,7 +26,7 @@ class ClassAwareCATFController:
         history_dir: str | Path,
         class_names: dict[int, str],
         train_instances: dict[int, int] | None = None,
-        top_k_active_classes: int = 3,
+        top_k_active_classes: int = 2,
         top_m_ops_per_class: int = 2,
         freeze_epoch: int = 40,
         threshold_calibration_report: bool = True,
@@ -161,9 +161,9 @@ def build_sample_weight_map(per_class: dict[str, Any], attribution: dict[str, An
         if row.get("low_recall"):
             weight += 0.15
             reasons.append("low_recall")
-        if row.get("high_fp"):
+        if row.get("high_fp") or row.get("high_fp_guarded") or row.get("domain_high_fp_prior"):
             weight = min(weight, 1.0)
-            reasons.append("high_fp_no_oversampling")
+            reasons.append("high_fp_or_domain_prior_no_oversampling")
         if row.get("stable_class"):
             weight = 1.0
             reasons.append("stable_class")

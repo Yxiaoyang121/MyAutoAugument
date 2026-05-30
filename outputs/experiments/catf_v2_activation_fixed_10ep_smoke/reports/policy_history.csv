@@ -1,0 +1,9 @@
+epoch,class_id,action,op,field,before,after,reason,guard_triggered
+5,6,accept,sharpen_mild,prob,0.0,0.015,texture_boundary_weak,
+5,6,accept,sharpen_mild,strength,0.0,0.02,texture_boundary_weak,
+5,6,accept,local_contrast,prob,0.0,0.015,texture_boundary_weak,
+5,6,accept,local_contrast,strength,0.0,0.02,texture_boundary_weak,
+5,8,accept,sharpen_mild,prob,0.0,0.005,low_recall_domain_prior,
+5,8,accept,sharpen_mild,strength,0.0,0.01,low_recall_domain_prior,
+5,8,accept,local_contrast,prob,0.0,0.005,low_recall_domain_prior,
+5,8,accept,local_contrast,strength,0.0,0.01,low_recall_domain_prior,

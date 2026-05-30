@@ -9,6 +9,8 @@ CATF_V2_OPS = ("clahe", "gamma", "brightness", "contrast", "sharpen_mild", "loca
 PHOTOMETRIC_OPS = ("clahe", "gamma", "brightness", "contrast")
 TEXTURE_OPS = ("sharpen_mild", "local_contrast")
 OCCLUSION_OPS = ("cutout_safe",)
+NO_AUG_CLASS_NAMES = ("OK2", "OK3")
+DOMAIN_HIGH_FP_PRIOR_CLASS_NAMES = ("OK2", "OK3", "\u6cb9\u6c61", "\u810f\u6c61")
 TRUST_REGION_PROB = 0.015
 TRUST_REGION_STRENGTH = 0.025
 DEFAULT_STRENGTHS = {
@@ -45,11 +47,14 @@ def initial_policy_matrix(class_names: dict[int, str]) -> dict[str, Any]:
 
     classes: dict[str, Any] = {}
     for class_id in sorted(class_names):
+        class_name = str(class_names[class_id])
+        no_aug = is_no_aug_name(class_name)
+        domain_prior = has_domain_high_fp_prior_name(class_name)
         classes[str(class_id)] = {
             "class_id": int(class_id),
-            "class_name": class_names[class_id],
-            "status": "inactive",
-            "state": "accepted",
+            "class_name": class_name,
+            "status": "frozen" if no_aug else "inactive",
+            "state": "frozen" if no_aug else "accepted",
             "version": 0,
             "dominant_issue": None,
             "secondary_issues": [],
@@ -71,10 +76,12 @@ def initial_policy_matrix(class_names: dict[int, str]) -> dict[str, Any]:
             "oversampling_candidate": False,
             "copy_paste_candidate": False,
             "copy_paste_status": "pending_object_bank_design",
+            "no_aug_class": bool(no_aug),
+            "domain_high_fp_prior": bool(domain_prior),
+            "frozen_reason": "no_aug_class" if no_aug else None,
             "last_safe_policy": None,
             "failed_update_count": 0,
             "pending_since_epoch": None,
-            "frozen_reason": None,
         }
     return {
         "policy_id": "catf_v2_class_aware",
@@ -89,7 +96,7 @@ def initial_policy_matrix(class_names: dict[int, str]) -> dict[str, Any]:
 @dataclass
 class ClassAwarePolicyMatrix:
     matrix: dict[str, Any]
-    top_k: int = 3
+    top_k: int = 2
     top_m: int = 2
     freeze_epoch: int = 40
     last_safe_matrix: dict[str, Any] = field(init=False)
@@ -149,19 +156,52 @@ class ClassAwarePolicyMatrix:
         for raw_id, row in rows.items():
             class_id = int(raw_id)
             matrix_row = self.matrix["classes"].setdefault(str(class_id), _blank_class(class_id, row.get("class_name", str(class_id))))
+            sync_class_guards(matrix_row, row)
+            if row.get("no_aug_class") and not row.get("no_aug_exception_allowed"):
+                if row.get("high_fp_guarded"):
+                    matrix_row["status"] = "guarded"
+                    matrix_row["state"] = "accepted"
+                    matrix_row["guards"]["precision_guard"] = True
+                    matrix_row["guards"]["high_fp_guarded"] = True
+                    matrix_row["threshold_calibration_candidate"] = True
+                else:
+                    matrix_row["status"] = "frozen"
+                    matrix_row["state"] = "frozen"
+                    matrix_row["frozen_reason"] = "no_aug_class"
+                continue
             if matrix_row.get("status") == "frozen" or row.get("stable_class"):
                 matrix_row["status"] = "frozen"
                 matrix_row["state"] = "frozen"
                 matrix_row["frozen_reason"] = matrix_row.get("frozen_reason") or "stable_class"
                 continue
+            if row.get("low_support"):
+                matrix_row["status"] = "observe"
+                matrix_row["state"] = "accepted"
+                matrix_row["oversampling_candidate"] = True
+                matrix_row["copy_paste_candidate"] = True
+                matrix_row["copy_paste_status"] = "pending_object_bank_design"
+                continue
+            if row.get("high_fp_guarded") or row.get("high_fp"):
+                matrix_row["status"] = "guarded"
+                matrix_row["state"] = "accepted"
+                matrix_row["guards"]["precision_guard"] = True
+                matrix_row["guards"]["high_fp_guarded"] = True
+                matrix_row["threshold_calibration_candidate"] = True
+                shrink_risky_ops(matrix_row)
+                continue
+            if not activation_allowed(row):
+                continue
             attr = attrs.get(str(class_id), {})
             scores = attr.get("issue_scores", {}) or {}
-            if row.get("low_support"):
-                scored.append((0.85, class_id))
-                continue
             dominant_score = float(scores.get(attr.get("dominant_issue", ""), 0.0) or 0.0)
             evidence = min(1.0, float(row.get("evidence_count", 0) or 0) / 20.0)
-            scored.append((dominant_score + 0.15 * evidence, class_id))
+            priority = issue_priority(str(attr.get("dominant_issue", "")))
+            if row.get("domain_high_fp_prior"):
+                # Domain high-FP prior classes can be routed conservatively, but
+                # they should not consume top-k ahead of non-prior defect classes
+                # with comparable evidence.
+                priority -= 2.5
+            scored.append((priority + dominant_score + 0.15 * evidence, class_id))
         scored.sort(reverse=True)
         return [class_id for _, class_id in scored]
 
@@ -178,6 +218,7 @@ class ClassAwarePolicyMatrix:
         policy = self.matrix["classes"].setdefault(class_key, _blank_class(class_id, row.get("class_name", str(class_id))))
         before = deepcopy(policy)
         adjustments: list[dict[str, Any]] = []
+        sync_class_guards(policy, row)
         pending_action = self._resolve_pending_policy(policy, row)
         if pending_action == "rollback":
             return {"class_id": class_id, "action": "rollback", "adjustments": [], "before": before, "after": deepcopy(policy)}
@@ -190,19 +231,34 @@ class ClassAwarePolicyMatrix:
         policy["oversampling_candidate"] = bool(attr.get("oversampling_candidate", False))
         policy["copy_paste_candidate"] = bool(attr.get("copy_paste_candidate", False))
 
+        if row.get("no_aug_class") and not row.get("no_aug_exception_allowed"):
+            if row.get("high_fp_guarded"):
+                policy["status"] = "guarded"
+                policy["state"] = "accepted"
+                policy["guards"]["precision_guard"] = True
+                policy["guards"]["high_fp_guarded"] = True
+                policy["threshold_calibration_candidate"] = True
+                self._zero_ops(policy)
+                return {"class_id": class_id, "action": "guard_no_aug", "adjustments": [], "before": before, "after": deepcopy(policy)}
+            policy["status"] = "frozen"
+            policy["state"] = "frozen"
+            policy["frozen_reason"] = "no_aug_class"
+            self._zero_ops(policy)
+            return {"class_id": class_id, "action": "freeze_no_aug", "adjustments": [], "before": before, "after": deepcopy(policy)}
+
         if row.get("stable_class"):
             policy["status"] = "frozen"
             policy["state"] = "frozen"
             policy["frozen_reason"] = "stable_class"
             return {"class_id": class_id, "action": "freeze", "adjustments": [], "before": before, "after": deepcopy(policy)}
 
-        if row.get("high_fp") or dominant == "high_fp":
+        if row.get("high_fp_guarded") or row.get("high_fp") or dominant == "high_fp":
             policy["guards"]["precision_guard"] = True
             policy["guards"]["high_fp_guarded"] = True
             adjustments.extend(self._adjust_ops(policy, PHOTOMETRIC_OPS, -TRUST_REGION_PROB, -TRUST_REGION_STRENGTH, "high_fp_guard"))
             adjustments.extend(self._adjust_ops(policy, OCCLUSION_OPS, -TRUST_REGION_PROB, -TRUST_REGION_STRENGTH, "high_fp_cutout_guard"))
-            policy["status"] = "active"
-            policy["state"] = "pending"
+            policy["status"] = "guarded"
+            policy["state"] = "accepted"
             policy["pending_since_epoch"] = epoch
             return {"class_id": class_id, "action": "guard", "adjustments": adjustments, "before": before, "after": deepcopy(policy)}
 
@@ -213,6 +269,9 @@ class ClassAwarePolicyMatrix:
             policy["copy_paste_candidate"] = True
             policy["copy_paste_status"] = "pending_object_bank_design"
             return {"class_id": class_id, "action": "observe_low_support", "adjustments": [], "before": before, "after": deepcopy(policy)}
+
+        if not activation_allowed(row):
+            return {"class_id": class_id, "action": "observe_threshold", "adjustments": [], "before": before, "after": deepcopy(policy)}
 
         op_plan = op_plan_for_issue(dominant, row)
         if global_guards:
@@ -228,6 +287,11 @@ class ClassAwarePolicyMatrix:
             policy["last_safe_policy"] = before
             policy["last_safe_metrics"] = class_metric_snapshot(row)
         return {"class_id": class_id, "action": "propose" if adjustments else "observe", "adjustments": adjustments, "before": before, "after": deepcopy(policy)}
+
+    def _zero_ops(self, policy: dict[str, Any]) -> None:
+        for op in policy.get("ops", {}).values():
+            op["prob"] = 0.0
+            op["strength"] = 0.0
 
     def _adjust_ops(
         self,
@@ -359,6 +423,13 @@ class ClassAwarePolicyMatrix:
 
 
 def op_plan_for_issue(issue: str, row: dict[str, Any]) -> list[tuple[str, float, float, str]]:
+    if row.get("domain_high_fp_prior"):
+        if issue in {"low_recall", "low_contrast_fn", "texture_boundary_weak", "weak_localization"}:
+            return [
+                ("sharpen_mild", 0.005, 0.010, issue + "_domain_prior"),
+                ("local_contrast", 0.005, 0.010, issue + "_domain_prior"),
+            ]
+        return []
     if issue == "low_contrast_fn":
         return [
             ("local_contrast", 0.020, 0.020, "low_contrast_fn"),
@@ -379,6 +450,68 @@ def op_plan_for_issue(issue: str, row: dict[str, Any]) -> list[tuple[str, float,
             ("gamma", 0.005, 0.010, "low_recall"),
         ]
     return []
+
+
+def activation_allowed(row: dict[str, Any]) -> bool:
+    if not bool(row.get("strong_update_allowed", False)):
+        return False
+    if bool(row.get("no_aug_class", False)) and not bool(row.get("no_aug_exception_allowed", False)):
+        return False
+    if bool(row.get("stable_class", False)):
+        return False
+    if bool(row.get("high_fp_guarded", False)) or bool(row.get("high_fp", False)):
+        return False
+    if bool(row.get("low_support", False)) or int(row.get("val_instances", 10) or 10) < 10:
+        return False
+    if float(row.get("diagnosis_confidence", 0.0) or 0.0) < 0.50:
+        return False
+    if int(row.get("evidence_count", 0) or 0) < 5:
+        return False
+    fn = int(row.get("FN", 0) or 0)
+    ap50 = float(row.get("AP50", 0.0) or 0.0)
+    ap95 = float(row.get("AP50_95", 0.0) or 0.0)
+    return fn >= 5 or ap95 < 0.45 or (ap50 - ap95) > 0.18
+
+
+def issue_priority(issue: str) -> float:
+    order = {
+        "low_recall": 4.0,
+        "low_contrast_fn": 3.0,
+        "texture_boundary_weak": 2.0,
+        "weak_localization": 1.0,
+    }
+    return order.get(issue, 0.0)
+
+
+def sync_class_guards(policy: dict[str, Any], row: dict[str, Any]) -> None:
+    policy["no_aug_class"] = bool(row.get("no_aug_class", policy.get("no_aug_class", False)))
+    policy["domain_high_fp_prior"] = bool(row.get("domain_high_fp_prior", policy.get("domain_high_fp_prior", False)))
+    if row.get("high_fp_guarded"):
+        policy.setdefault("guards", {})["precision_guard"] = True
+        policy.setdefault("guards", {})["high_fp_guarded"] = True
+        policy["threshold_calibration_candidate"] = True
+
+
+def shrink_risky_ops(policy: dict[str, Any]) -> None:
+    for op_name in (*PHOTOMETRIC_OPS, *OCCLUSION_OPS):
+        op = policy.get("ops", {}).get(op_name)
+        if not isinstance(op, dict):
+            continue
+        op["prob"] = round(max(0.0, float(op.get("prob", 0.0) or 0.0) - TRUST_REGION_PROB), 6)
+        op["strength"] = round(max(0.0, float(op.get("strength", 0.0) or 0.0) - TRUST_REGION_STRENGTH), 6)
+
+
+def is_no_aug_name(name: str) -> bool:
+    return str(name).strip().upper() in {item.upper() for item in NO_AUG_CLASS_NAMES}
+
+
+def has_domain_high_fp_prior_name(name: str) -> bool:
+    stripped = str(name).strip()
+    upper = stripped.upper()
+    for item in DOMAIN_HIGH_FP_PRIOR_CLASS_NAMES:
+        if upper == item.upper() or item in stripped:
+            return True
+    return False
 
 
 def active_class_ids(matrix: dict[str, Any]) -> list[int]:

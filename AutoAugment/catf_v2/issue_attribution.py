@@ -53,10 +53,11 @@ def score_class_issues(row: dict[str, Any]) -> dict[str, float]:
     confidence = float(row.get("diagnosis_confidence", 0.0) or 0.0)
     low_support = bool(row.get("low_support", False))
     stable = bool(row.get("stable_class", False))
+    high_fp_guarded = bool(row.get("high_fp_guarded", False))
     raw_scores = {
         "texture_boundary_weak": max(0.0, min(1.0, (ap50 - ap95) / 0.30)) if row.get("texture_boundary_weak") else 0.0,
         "low_contrast_fn": max(0.0, min(1.0, row.get("low_contrast_fn_count", 0) / max(1, row.get("FN", 0)))) if row.get("low_contrast_fn") else 0.0,
-        "high_fp": max(fp_rate, max(0.0, (0.70 - precision) / 0.70)) if row.get("high_fp") else 0.0,
+        "high_fp": max(fp_rate, max(0.0, (0.70 - precision) / 0.70), 1.0 if high_fp_guarded else 0.0) if row.get("high_fp") or high_fp_guarded else 0.0,
         "low_support": 1.0 if low_support else 0.0,
         "weak_localization": max(0.0, min(1.0, (ap50 - ap95) / 0.25)) if row.get("weak_localization") else 0.0,
         "low_recall": max(fn_rate, max(0.0, (0.70 - recall) / 0.70)) if row.get("low_recall") else 0.0,
@@ -69,6 +70,9 @@ def score_class_issues(row: dict[str, Any]) -> dict[str, float]:
         for name in ISSUE_TYPES:
             if name != "stable_class":
                 raw_scores[name] = min(raw_scores[name], 0.10)
+    if high_fp_guarded:
+        raw_scores["high_fp"] = 1.0
+        raw_scores["stable_class"] = 0.0
     weighted = {name: round(float(score) * max(0.25, confidence), 4) for name, score in raw_scores.items()}
     if low_support:
         weighted["low_support"] = 1.0

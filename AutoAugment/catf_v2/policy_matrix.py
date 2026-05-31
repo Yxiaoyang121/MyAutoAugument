@@ -486,10 +486,14 @@ def issue_priority(issue: str) -> float:
 def sync_class_guards(policy: dict[str, Any], row: dict[str, Any]) -> None:
     policy["no_aug_class"] = bool(row.get("no_aug_class", policy.get("no_aug_class", False)))
     policy["domain_high_fp_prior"] = bool(row.get("domain_high_fp_prior", policy.get("domain_high_fp_prior", False)))
-    if row.get("high_fp_guarded"):
-        policy.setdefault("guards", {})["precision_guard"] = True
-        policy.setdefault("guards", {})["high_fp_guarded"] = True
+    guards = policy.setdefault("guards", {})
+    high_fp_guarded = bool(row.get("high_fp_guarded", False))
+    guards["high_fp_guarded"] = high_fp_guarded
+    guards["precision_guard"] = bool(high_fp_guarded)
+    if high_fp_guarded:
         policy["threshold_calibration_candidate"] = True
+    elif policy.get("status") == "guarded" and not policy.get("no_aug_class", False):
+        policy["status"] = "inactive"
 
 
 def shrink_risky_ops(policy: dict[str, Any]) -> None:

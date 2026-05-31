@@ -115,6 +115,35 @@ def test_ok_class_high_fp_becomes_guard_not_enhancement() -> None:
     assert all(op["prob"] == 0 for op in updated["classes"]["1"]["ops"].values())
 
 
+def test_recovered_defect_clears_stale_high_fp_guard() -> None:
+    matrix = ClassAwarePolicyMatrix(initial_policy_matrix({6: "漏背锡"}), top_k=1, top_m=2)
+    high_fp_rows = {
+        "6": row(6, "漏背锡", precision=0.18, recall=0.65, tp=30, fp=137, fn=7, evidence=145),
+    }
+    guarded = matrix.update(
+        epoch=5,
+        per_class_diagnosis=make_per_class(high_fp_rows),
+        issue_attribution=attribute_class_issues(make_per_class(high_fp_rows)),
+        metrics={},
+        reference_metrics={},
+    )
+    recovered_rows = {
+        "6": row(6, "漏背锡", precision=0.81, recall=0.28, tp=13, fp=3, fn=31, evidence=34),
+    }
+    updated = matrix.update(
+        epoch=10,
+        per_class_diagnosis=make_per_class(recovered_rows),
+        issue_attribution=attribute_class_issues(make_per_class(recovered_rows)),
+        metrics={},
+        reference_metrics={},
+    )
+
+    assert guarded["classes"]["6"]["guards"]["high_fp_guarded"] is True
+    assert updated["classes"]["6"]["status"] == "active"
+    assert updated["classes"]["6"]["guards"]["high_fp_guarded"] is False
+    assert updated["classes"]["6"]["ops"]["sharpen_mild"]["prob"] > 0
+
+
 def test_stable_class_does_not_enter_active_top_k() -> None:
     rows = {
         "0": row(0, "stable", precision=0.95, recall=0.95, ap50=0.95, ap95=0.7, fn=1, evidence=8),

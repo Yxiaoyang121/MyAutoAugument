@@ -660,3 +660,25 @@ No training was run after building or auditing these datasets.
 - BBox/class valid: `true`.
 - Recommendation: proceed to CATF-v2 seed42 50 epoch validation only after this fixed activation rule set; do not use the earlier CATF-v2 smoke as formal evidence.
 <!-- CATF_V2_ACTIVATION_FIXED_END -->
+
+<!-- CATF_V2_SEED42_50EP_START -->
+## CATF-v2 Seed42 50 Epoch
+
+- Output: `outputs/experiments/catf_v2_seed42_50ep/`.
+- Entry: `scripts/train_yolo_default_with_inloop_feedback.py` with `--catf-version v2`, class-aware feedback, ROI-aware augmentation, sample-aware routing, threshold calibration report, top_k=`2`, top_m=`2`.
+- Training mode: single-run continuous YOLO default training with official YOLO augmentation kept enabled; no stage restart; no self-implemented mosaic/randaugment replacement.
+- Train images: `2301`; fixed augmented dataset generated: `false`; copy_paste remains `pending_object_bank_design`.
+- Epoch continuity: `1..50` continuous.
+- Final metrics P/R/mAP50/mAP50-95: `0.7498/0.7257/0.7679/0.5212`.
+- Delta vs clean native seed42 P/R/mAP50/mAP50-95: `+0.0236/+0.0413/+0.0062/-0.0039`.
+- constraint_failed: `false`.
+- OK2/OK3 active epochs: `[]`; OK3 ROI applied: `0`.
+- Active class counts: `{'6:漏背锡': 1, '12:锡膏': 1}`.
+- ROI stats: `{'roi_aug_applied': 37, 'roi_aug_skipped_small_roi': 0, 'roi_aug_skipped_conflict': 0, 'affected_classes': {'6': 18, '12': 19}}`.
+- Feedback actions: `{'observe': 2, 'accept': 1, 'shrink': 4, 'freeze': 2}`; class actions: `{'propose': 2, 'observe': 3}`; rollback/cooldown/freeze: `0/0/4`.
+- Report: `outputs/experiments/catf_v2_seed42_50ep/reports/final_report.md`.
+- Metrics JSON: `outputs/experiments/catf_v2_seed42_50ep/reports/final_metrics.json`.
+- Policy history: `outputs/experiments/catf_v2_seed42_50ep/reports/policy_history.json`.
+- Best checkpoint: `outputs/experiments/catf_v2_seed42_50ep/train/weights/best.pt`.
+- Verdict: seed42 passes industrial constraints and is suitable for CATF-v2 multiseed validation; do not claim final method before multiseed passes.
+<!-- CATF_V2_SEED42_50EP_END -->

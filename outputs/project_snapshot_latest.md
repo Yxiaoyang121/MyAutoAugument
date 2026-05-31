@@ -1,27 +1,19 @@
 # Project Snapshot
 
-- Generated: 2026-05-31T00:42:36
+- Generated: 2026-05-31T16:15:03
 - Branch: codex/sync-latest
-- Commit: 5a0a83fc81aea7b9d80c5bf13a766532c4070371
+- Commit: 7cff0976bb7866e9907af2b5f580b696ab914ce6
 - Remote: https://github.com/Yxiaoyang121/MyAutoAugument.git
 
 ## Working Tree
 
 ```text
- M AutoAugment/catf_v2/class_aware_controller.py
- M AutoAugment/catf_v2/issue_attribution.py
- M AutoAugment/catf_v2/per_class_diagnosis.py
  M AutoAugment/catf_v2/policy_matrix.py
- M AutoAugment/catf_v2/sample_router.py
- M AutoAugment/catf_v2/threshold_calibration.py
  M CODEX_HANDOFF.md
  M EXPERIMENT_LOG.md
  M PROJECT_STATE.md
- M outputs/project_snapshot_latest.md
- M outputs/snapshots/project_snapshot_latest.md
- M scripts/train_yolo_default_with_inloop_feedback.py
-?? outputs/experiments/catf_v2_activation_fixed_10ep_smoke/
-?? tests/test_catf_v2_activation_rules.py
+ M tests/test_catf_v2_activation_rules.py
+?? outputs/experiments/catf_v2_seed42_50ep/
 ```
 
 ## Key Files
@@ -226,7 +218,7 @@
 
 ## Tracked File Count
 
-- 2055 tracked files
+- 2103 tracked files
 
 ## Notes
 

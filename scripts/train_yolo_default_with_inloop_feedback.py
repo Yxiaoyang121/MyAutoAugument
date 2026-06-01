@@ -33,6 +33,10 @@ from AutoAugment.catf_v2 import (  # noqa: E402
     count_train_instances,
     initial_policy_matrix,
 )
+from AutoAugment.catf_v2.class_aware_controller import build_sample_weight_map  # noqa: E402
+from AutoAugment.catf_v2.issue_attribution import attribute_class_issues  # noqa: E402
+from AutoAugment.catf_v2.per_class_diagnosis import build_per_class_diagnosis  # noqa: E402
+from AutoAugment.catf_v2.threshold_calibration import ThresholdCalibrationAnalyzer  # noqa: E402
 from scripts.train_yolo_online_aug import (  # noqa: E402
     OnlineTrainingContext,
     check_ultralytics_api,
@@ -374,6 +378,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--project", default=str(DEFAULT_PROJECT))
     parser.add_argument("--run-id", default=DEFAULT_RUN_ID)
     parser.add_argument("--feedback-enabled", action=argparse.BooleanOptionalAction, default=True)
+    parser.add_argument("--diagnosis-only", action=argparse.BooleanOptionalAction, default=False)
     parser.add_argument("--feedback-interval", type=int, default=5)
     parser.add_argument("--feedback-start-epoch", type=int, default=5)
     parser.add_argument("--feedback-profile", default="industrial")
@@ -424,6 +429,7 @@ def build_train_config(args: argparse.Namespace, output_dir: Path) -> dict[str, 
         "device": str(args.device),
         "seed": int(args.seed),
         "feedback_enabled": bool(args.feedback_enabled),
+        "diagnosis_only": bool(args.diagnosis_only),
         "feedback_interval": int(args.feedback_interval),
         "feedback_start_epoch": int(args.feedback_start_epoch),
         "industrial_aug_enabled": bool(args.industrial_aug_enabled),
@@ -479,6 +485,7 @@ def build_train_command(args: argparse.Namespace, output_dir: Path) -> str:
         "yolo_default_augmentation_enabled=True",
         "disable_yolo_aug=False",
         f"feedback_enabled={bool(args.feedback_enabled)}",
+        f"diagnosis_only={bool(getattr(args, 'diagnosis_only', False))}",
         f"industrial_aug_enabled={bool(args.industrial_aug_enabled)}",
         f"feedback_controller={'CATF-v2' if is_catf_v2(args) else 'CATF'}",
         f"catf_version={getattr(args, 'catf_version', 'v1')}",
@@ -588,6 +595,9 @@ def register_inloop_feedback_callback(model: Any, state: InLoopFeedbackState) ->
         diagnosis = run_feedback_diagnosis(state, trainer, epoch_num)
         old_policy = deepcopy(state.policy_state)
         reference_metrics = reference_metrics_for_epoch(state, epoch_num)
+        if bool(getattr(state.args, "diagnosis_only", False)):
+            record_diagnosis_only_feedback(state, trainer, epoch_num, metrics, reference_metrics, diagnosis, old_policy)
+            return
         if is_catf_v2(state.args):
             controller = state.feedback_controller
             if not isinstance(controller, ClassAwareCATFController):
@@ -670,7 +680,7 @@ def register_inloop_feedback_callback(model: Any, state: InLoopFeedbackState) ->
 def should_update_feedback(args: argparse.Namespace, epoch_num: int) -> bool:
     if not bool(args.feedback_enabled):
         return False
-    if not bool(getattr(args, "industrial_aug_enabled", True)):
+    if not bool(getattr(args, "industrial_aug_enabled", True)) and not bool(getattr(args, "diagnosis_only", False)):
         return False
     if epoch_num >= int(args.epochs):
         return False
@@ -678,6 +688,84 @@ def should_update_feedback(args: argparse.Namespace, epoch_num: int) -> bool:
         return False
     interval = max(1, int(args.feedback_interval))
     return epoch_num % interval == 0
+
+
+def record_diagnosis_only_feedback(
+    state: InLoopFeedbackState,
+    trainer: Any,
+    epoch_num: int,
+    metrics: dict[str, Any],
+    reference_metrics: dict[str, Any],
+    diagnosis: dict[str, Any],
+    old_policy: dict[str, Any],
+) -> None:
+    """Record in-loop diagnosis without mutating policy_state or augmentation."""
+
+    record: dict[str, Any] = {
+        "epoch": epoch_num,
+        "action": "diagnosis_only",
+        "metrics": metrics,
+        "reference_metrics": reference_metrics,
+        "delta_metrics": metric_delta(metrics, reference_metrics),
+        "diagnosis_global": diagnosis.get("global", {}),
+        "diagnosis_vector": diagnosis.get("diagnosis_vector", {}),
+        "old_policy_before_callback": deepcopy(old_policy),
+        "new_policy": deepcopy(old_policy),
+        "policy_update_applied": False,
+        "industrial_aug_applied": False,
+        "roi_aug_applied": False,
+        "guard_triggered": [],
+        "rollback_reason": None,
+        "frozen": False,
+        "adjustments": [],
+        "class_actions": [],
+        "active_classes": [],
+        "frozen_classes": [],
+        "high_fp_guarded_classes": [],
+        "copy_paste_status": "pending_object_bank_design",
+        "trainer_identity": {
+            "trainer_id": id(trainer),
+            "optimizer_id": id(getattr(trainer, "optimizer", None)) if getattr(trainer, "optimizer", None) is not None else None,
+            "scheduler_id": id(getattr(trainer, "scheduler", None)) if getattr(trainer, "scheduler", None) is not None else None,
+            "ema_id": id(getattr(trainer, "ema", None)) if getattr(trainer, "ema", None) is not None else None,
+        },
+    }
+    if is_catf_v2(state.args):
+        class_names = load_class_names_from_data_yaml(state.args.data)
+        per_class = build_per_class_diagnosis(
+            diagnosis,
+            class_names=class_names,
+            train_instances=count_train_instances(state.args.data),
+            epoch=epoch_num,
+        )
+        attribution = attribute_class_issues(per_class)
+        sample_weight_map = build_sample_weight_map(per_class, attribution)
+        catf_dir = state.output_dir / "reports" / "catf_v2"
+        for base in (state.output_dir / "reports", catf_dir):
+            write_json(base / f"per_class_diagnosis_epoch_{epoch_num}.json", per_class)
+            write_json(base / f"issue_attribution_epoch_{epoch_num}.json", attribution)
+            write_json(base / f"policy_matrix_epoch_{epoch_num}_before.json", old_policy)
+            write_json(base / f"policy_matrix_epoch_{epoch_num}_after.json", old_policy)
+            write_json(base / f"sample_weight_map_epoch_{epoch_num}.json", sample_weight_map)
+        if bool(getattr(state.args, "threshold_calibration_report", False)):
+            threshold_payload = ThresholdCalibrationAnalyzer().analyze(per_class, attribution)
+            ThresholdCalibrationAnalyzer().write(state.output_dir / "reports" / "threshold_calibration.json", threshold_payload)
+            ThresholdCalibrationAnalyzer().write(catf_dir / "threshold_calibration.json", threshold_payload)
+        record["diagnosis_summary"] = {
+            "per_class": per_class.get("summary", {}),
+            "issue_attribution": attribution.get("summary", {}),
+        }
+        record["per_class_diagnosis_path"] = str(state.output_dir / "reports" / f"per_class_diagnosis_epoch_{epoch_num}.json")
+        record["issue_attribution_path"] = str(state.output_dir / "reports" / f"issue_attribution_epoch_{epoch_num}.json")
+        record["sample_weight_map_path"] = str(state.output_dir / "reports" / f"sample_weight_map_epoch_{epoch_num}.json")
+    state.feedback_epochs.append(epoch_num)
+    state.history.append(record)
+    write_json(state.output_dir / "configs" / f"active_policy_epoch_{epoch_num:03d}.json", old_policy)
+    if is_catf_v2(state.args):
+        write_json(state.output_dir / "reports" / "policy_history.json", {"history": state.history, "latest_policy": old_policy})
+        write_json(state.output_dir / "reports" / "class_policy_history.json", {"history": []})
+    else:
+        write_policy_history(state.output_dir / "reports", state.history, old_policy)
 
 
 def reference_metrics_for_epoch(state: InLoopFeedbackState, epoch_num: int) -> dict[str, Any]:
@@ -838,6 +926,7 @@ def build_payload(
             "online_augmentation": bool(args.industrial_aug_enabled),
             "industrial_online_augmentation": bool(args.industrial_aug_enabled),
             "inloop_feedback": bool(args.feedback_enabled),
+            "diagnosis_only": bool(getattr(args, "diagnosis_only", False)),
             "train_image_count": train_image_count,
             "expected_original_train_images": 2301,
             "train_image_count_matches_original": train_image_count == 2301,
@@ -866,6 +955,8 @@ def build_payload(
         "epoch_continuous": continuity["epoch_continuous"],
         "feedback_epochs": state.feedback_epochs,
         "feedback_update_count": len(state.history),
+        "diagnosis_only": bool(getattr(args, "diagnosis_only", False)),
+        "policy_update_applied_count": sum(1 for record in state.history if record.get("policy_update_applied", True)),
         "feedback_controller": "CATF-v2" if is_catf_v2(args) else "CATF",
         "catf_version": str(getattr(args, "catf_version", "v1")),
         "class_aware_feedback": bool(getattr(args, "class_aware_feedback", False)),
@@ -897,6 +988,7 @@ def build_payload(
         "feedback_interval": int(args.feedback_interval),
         "feedback_start_epoch": int(args.feedback_start_epoch),
         "feedback_enabled": bool(args.feedback_enabled),
+        "diagnosis_only": bool(getattr(args, "diagnosis_only", False)),
         "industrial_aug_enabled": bool(args.industrial_aug_enabled),
         "feedback_controller": "CATF-v2" if is_catf_v2(args) else "CATF",
         "catf_version": str(getattr(args, "catf_version", "v1")),
@@ -985,6 +1077,8 @@ def write_outputs(payload: dict[str, Any]) -> None:
             write_markdown(output_dir / "reports" / "catf_v2_smoke_report.md", build_catf_v2_smoke_report(payload))
         else:
             write_markdown(output_dir / "reports" / "catf_smoke_report.md", build_catf_smoke_report(payload))
+    if payload.get("diagnosis_only") and int(payload["epochs"]) <= 10:
+        write_markdown(output_dir / "reports" / "diagnosis_only_smoke_report.md", build_diagnosis_only_smoke_report(payload))
     if not payload["feedback_enabled"] and not payload["industrial_aug_enabled"]:
         write_json(output_dir / "reports" / "inloop_no_feedback_control_metrics.json", build_control_metrics_payload(payload))
         write_markdown(output_dir / "reports" / "inloop_no_feedback_control_report.md", build_no_feedback_control_report(payload))
@@ -1287,6 +1381,47 @@ def build_catf_v2_smoke_report(payload: dict[str, Any]) -> str:
     return "\n".join(lines) + "\n"
 
 
+def build_diagnosis_only_smoke_report(payload: dict[str, Any]) -> str:
+    stats = payload.get("online_aug_stats") or {}
+    roi_stats = payload.get("roi_aug_stats") or {}
+    continuity = payload.get("continuity") or {}
+    history = payload.get("policy_history") or []
+    diagnosis_callbacks = len(history)
+    policy_updates = sum(1 for record in history if record.get("policy_update_applied", True))
+    lines = [
+        "# Diagnosis-Only In-Loop Control Smoke Report",
+        "",
+        "## Run Integrity",
+        "",
+        f"- Training success: `{str(payload['train']['success']).lower()}`",
+        f"- Diagnosis-only enabled: `{str(payload.get('diagnosis_only', False)).lower()}`",
+        f"- YOLO default augmentation enabled: `{str(payload['summary']['yolo_default_augmentation_enabled']).lower()}`",
+        f"- Industrial augmentation enabled: `{str(payload['industrial_aug_enabled']).lower()}`",
+        f"- Single-run continuous training: `{str(payload['summary']['single_run_inloop_feedback']).lower()}`",
+        f"- Stage restart count: `{continuity.get('stage_restart_count')}`",
+        f"- Epoch sequence continuous: `{str(continuity.get('epoch_continuous')).lower()}`",
+        f"- Epoch sequence: `{continuity.get('epoch_sequence')}`",
+        f"- Train image count: `{stats.get('train_image_count')}`",
+        f"- Fixed augmented dataset generated: `{str(stats.get('fixed_augmented_dataset_generated')).lower()}`",
+        f"- BBox/class legal: `{str(payload['summary']['bbox_class_valid']).lower()}`",
+        "",
+        "## Diagnosis Control Checks",
+        "",
+        f"- Diagnosis callback count: `{diagnosis_callbacks}`",
+        f"- Feedback epochs: `{payload['summary'].get('feedback_epochs')}`",
+        f"- Industrial samples augmented: `{stats.get('samples_augmented', 0)}`",
+        f"- Industrial op stats: `{stats.get('ops', {})}`",
+        f"- ROI applied: `{roi_stats.get('roi_aug_applied', 0)}`",
+        f"- Policy update applied count: `{policy_updates}`",
+        f"- Policy history path: `{payload['summary'].get('policy_history')}`",
+        "",
+        "## Conclusion",
+        "",
+        "- This smoke validates diagnosis callback execution without industrial augmentation, ROI augmentation, sample routing, threshold mutation, or policy-state mutation.",
+    ]
+    return "\n".join(lines) + "\n"
+
+
 def all_trust_region_steps_within_limit(history: list[dict[str, Any]]) -> bool:
     for record in history:
         for adjustment in record.get("adjustments", []):
@@ -1305,6 +1440,8 @@ def all_group_budgets_within_limit(history: list[dict[str, Any]]) -> bool:
 
 
 def primary_report_path(output_dir: Path, args: argparse.Namespace) -> Path:
+    if bool(getattr(args, "diagnosis_only", False)):
+        return output_dir / "reports" / "diagnosis_only_smoke_report.md"
     if not bool(args.feedback_enabled) and not bool(args.industrial_aug_enabled):
         return output_dir / "reports" / "inloop_no_feedback_control_report.md"
     if int(args.epochs) <= 10:

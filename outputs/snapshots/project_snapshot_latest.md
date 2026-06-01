@@ -1,8 +1,8 @@
 # Project Snapshot
 
-- Generated: 2026-06-01T13:07:22
+- Generated: 2026-06-01T15:21:29
 - Branch: codex/sync-latest
-- Commit: 5803bef6de76fa96327310c4bbf8460dc5c61826
+- Commit: ddbf0ab9fff16874042241bacb810ad13f463d0f
 - Remote: https://github.com/Yxiaoyang121/MyAutoAugument.git
 
 ## Working Tree
@@ -11,21 +11,13 @@
  M CODEX_HANDOFF.md
  M EXPERIMENT_LOG.md
  M PROJECT_STATE.md
-?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2/reports/active_class_effect_analysis.json
-?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2/reports/active_class_effect_analysis.md
-?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2/reports/catf_v2_failure_mode_summary.json
-?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2/reports/catf_v2_failure_mode_summary.md
-?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2/reports/controller_behavior_analysis.json
-?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2/reports/controller_behavior_analysis.md
-?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2/reports/curve_diagnosis.json
-?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2/reports/curve_diagnosis.md
-?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2/reports/precision_drop_analysis.json
-?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2/reports/precision_drop_analysis.md
-?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2/reports/recall_drop_analysis.json
-?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2/reports/recall_drop_analysis.md
-?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2/reports/threshold_calibration_analysis.json
-?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2/reports/threshold_calibration_analysis.md
-?? scripts/analyze_catf_v2_multiseed_failure_modes.py
+ M scripts/train_yolo_default_with_inloop_feedback.py
+?? outputs/experiments/diagnosis_only_inloop_control_10ep_smoke/
+?? outputs/experiments/diagnosis_only_inloop_control_plan.md
+?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2/reports/threshold_calibration_posthoc.json
+?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2/reports/threshold_calibration_posthoc.md
+?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2/reports/threshold_posthoc_predictions/
+?? scripts/evaluate_catf_v2_threshold_posthoc.py
 ```
 
 ## Key Files
@@ -230,7 +222,7 @@
 
 ## Tracked File Count
 
-- 2838 tracked files
+- 2853 tracked files
 
 ## Notes
 

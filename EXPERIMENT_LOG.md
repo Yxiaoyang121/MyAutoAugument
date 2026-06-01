@@ -993,3 +993,20 @@ Key conclusions from that archived smoke:
 - Controller behavior: shrink-dominant (`14` shrink vs `2` accept), zero rollback/cooldown, and freeze at epoch 40/45; negative-effect attribution is missing.
 - Recommendation: do not claim CATF-v2 as paper main method yet; next step should be diagnosis-only in-loop control plus per-class threshold calibration analysis before more 50 epoch training.
 <!-- CATF_V2_FAILURE_MODE_ANALYSIS_END -->
+
+<!-- THRESHOLD_CALIBRATION_DIAGNOSIS_ONLY_START -->
+## CATF-v2 Threshold Calibration and Diagnosis-Only Control
+
+- Scope: no new 50 epoch training and no CATF-v2 rule changes.
+- Post-hoc threshold report: `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2/reports/threshold_calibration_posthoc.md`.
+- Post-hoc JSON: `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2/reports/threshold_calibration_posthoc.json`.
+- Prediction-only inputs: cached/generated validation predictions for clean native and CATF-v2 seeds `0/1/2`; no training was run.
+- Threshold grid: per-class confidence threshold `0.10..0.70` step `0.05`; objectives `constrained_score`, `balanced_score`, `industrial_score`.
+- Constrained post-hoc result: CATF-v2 passes industrial constraints for `2/3` seeds after calibration.
+- Seed 0: Precision/constraint failure is repairable by threshold calibration in the post-hoc evaluator; precision-oriented objectives raise thresholds for OK/oil/dirty-like and stable classes while lowering difficult defect classes.
+- Seed 2: Recall/mAP failure is not repaired by threshold lowering; this remains a training/trajectory degradation, not a pure confidence-threshold issue.
+- Diagnosis-only smoke: `outputs/experiments/diagnosis_only_inloop_control_10ep_smoke/`.
+- Diagnosis-only plan: `outputs/experiments/diagnosis_only_inloop_control_plan.md`.
+- Smoke result: diagnosis callback executed at epoch `5`; industrial samples augmented=`0`, ROI applied=`0`, policy update applied=`0`, train images=`2301`, fixed augmented dataset generated=`false`, epoch sequence `1..10` continuous, bbox/class legal.
+- Interpretation: threshold calibration can be a deployment/post-processing companion, but seed 2 shows it cannot substitute for robust training feedback.
+<!-- THRESHOLD_CALIBRATION_DIAGNOSIS_ONLY_END -->

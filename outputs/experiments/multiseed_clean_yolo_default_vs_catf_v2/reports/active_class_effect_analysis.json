@@ -1,0 +1,390 @@
+{
+  "generated_at": "2026-06-01T13:08:26",
+  "active_events": [
+    {
+      "seed": 0,
+      "epoch": 10,
+      "class_id": 11,
+      "class_name": "锡尖",
+      "dominant_issue": "texture_boundary_weak",
+      "secondary_issues": [
+        "weak_localization",
+        "low_recall",
+        "low_contrast_fn"
+      ],
+      "diagnosis_confidence": 0.77,
+      "issue_scores": {
+        "texture_boundary_weak": 0.77,
+        "low_contrast_fn": 0.4053,
+        "high_fp": 0.0,
+        "low_support": 0.0,
+        "weak_localization": 0.77,
+        "low_recall": 0.5419,
+        "stable_class": 0.0
+      },
+      "policy_action": "accept",
+      "roi_applied_total_for_class": 20,
+      "final_class_delta": {
+        "precision": -0.12807792033810306,
+        "recall": 0.15258723248375994,
+        "ap50": 0.02362654768000394,
+        "ap50_95": 0.07834717107078382,
+        "tp": 4.119855277061518,
+        "fp": 3.6722868741828285,
+        "fn": -4.119855277061518,
+        "pred": 7.792142151244345
+      },
+      "class_instances": 27,
+      "global_delta": {
+        "precision": -0.04168839428048343,
+        "recall": 0.021775380491564467,
+        "map50": 0.02233787277852406,
+        "map50_95": 0.026359270887641395
+      },
+      "positive_global_contribution": false,
+      "ops": {
+        "clahe": {
+          "prob": 0.0,
+          "strength": 0.0,
+          "max_prob": 0.15,
+          "max_strength": 0.45
+        },
+        "gamma": {
+          "prob": 0.0,
+          "strength": 0.0,
+          "max_prob": 0.15,
+          "max_strength": 0.45
+        },
+        "brightness": {
+          "prob": 0.0,
+          "strength": 0.0,
+          "max_prob": 0.1,
+          "max_strength": 0.25
+        },
+        "contrast": {
+          "prob": 0.0,
+          "strength": 0.0,
+          "max_prob": 0.1,
+          "max_strength": 0.25
+        },
+        "sharpen_mild": {
+          "prob": 0.015,
+          "strength": 0.02,
+          "max_prob": 0.2,
+          "max_strength": 0.45
+        },
+        "local_contrast": {
+          "prob": 0.015,
+          "strength": 0.02,
+          "max_prob": 0.18,
+          "max_strength": 0.45
+        },
+        "cutout_safe": {
+          "prob": 0.0,
+          "strength": 0.0,
+          "max_prob": 0.08,
+          "max_strength": 0.25
+        }
+      }
+    },
+    {
+      "seed": 2,
+      "epoch": 25,
+      "class_id": 8,
+      "class_name": "脏污",
+      "dominant_issue": "texture_boundary_weak",
+      "secondary_issues": [
+        "weak_localization",
+        "low_contrast_fn",
+        "low_recall"
+      ],
+      "diagnosis_confidence": 0.92,
+      "issue_scores": {
+        "texture_boundary_weak": 0.92,
+        "low_contrast_fn": 0.46,
+        "high_fp": 0.0,
+        "low_support": 0.0,
+        "weak_localization": 0.92,
+        "low_recall": 0.4381,
+        "stable_class": 0.0
+      },
+      "policy_action": "accept",
+      "roi_applied_total_for_class": 3,
+      "final_class_delta": {
+        "precision": -0.0057332853119589355,
+        "recall": -0.1439201020853368,
+        "ap50": -0.04203088315399173,
+        "ap50_95": -0.03580608584067568,
+        "tp": -6.044644287584145,
+        "fp": -1.9989664274589733,
+        "fn": 6.044644287584145,
+        "pred": -8.043610715043119
+      },
+      "class_instances": 42,
+      "global_delta": {
+        "precision": 0.13952309041062705,
+        "recall": -0.12472577997179835,
+        "map50": -0.02687862011804454,
+        "map50_95": -0.028530055882823868
+      },
+      "positive_global_contribution": false,
+      "ops": {
+        "clahe": {
+          "prob": 0.0,
+          "strength": 0.0,
+          "max_prob": 0.15,
+          "max_strength": 0.45
+        },
+        "gamma": {
+          "prob": 0.0,
+          "strength": 0.0,
+          "max_prob": 0.15,
+          "max_strength": 0.45
+        },
+        "brightness": {
+          "prob": 0.0,
+          "strength": 0.0,
+          "max_prob": 0.1,
+          "max_strength": 0.25
+        },
+        "contrast": {
+          "prob": 0.0,
+          "strength": 0.0,
+          "max_prob": 0.1,
+          "max_strength": 0.25
+        },
+        "sharpen_mild": {
+          "prob": 0.005,
+          "strength": 0.01,
+          "max_prob": 0.2,
+          "max_strength": 0.45
+        },
+        "local_contrast": {
+          "prob": 0.005,
+          "strength": 0.01,
+          "max_prob": 0.18,
+          "max_strength": 0.45
+        },
+        "cutout_safe": {
+          "prob": 0.0,
+          "strength": 0.0,
+          "max_prob": 0.08,
+          "max_strength": 0.25
+        }
+      }
+    }
+  ],
+  "per_seed_active_class_counts": {
+    "0": {
+      "11:锡尖": {
+        "seed": 0,
+        "epoch": 10,
+        "class_id": 11,
+        "class_name": "锡尖",
+        "dominant_issue": "texture_boundary_weak",
+        "secondary_issues": [
+          "weak_localization",
+          "low_recall",
+          "low_contrast_fn"
+        ],
+        "diagnosis_confidence": 0.77,
+        "issue_scores": {
+          "texture_boundary_weak": 0.77,
+          "low_contrast_fn": 0.4053,
+          "high_fp": 0.0,
+          "low_support": 0.0,
+          "weak_localization": 0.77,
+          "low_recall": 0.5419,
+          "stable_class": 0.0
+        },
+        "policy_action": "accept",
+        "roi_applied_total_for_class": 20,
+        "final_class_delta": {
+          "precision": -0.12807792033810306,
+          "recall": 0.15258723248375994,
+          "ap50": 0.02362654768000394,
+          "ap50_95": 0.07834717107078382,
+          "tp": 4.119855277061518,
+          "fp": 3.6722868741828285,
+          "fn": -4.119855277061518,
+          "pred": 7.792142151244345
+        },
+        "class_instances": 27,
+        "global_delta": {
+          "precision": -0.04168839428048343,
+          "recall": 0.021775380491564467,
+          "map50": 0.02233787277852406,
+          "map50_95": 0.026359270887641395
+        },
+        "positive_global_contribution": false,
+        "ops": {
+          "clahe": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.15,
+            "max_strength": 0.45
+          },
+          "gamma": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.15,
+            "max_strength": 0.45
+          },
+          "brightness": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.1,
+            "max_strength": 0.25
+          },
+          "contrast": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.1,
+            "max_strength": 0.25
+          },
+          "sharpen_mild": {
+            "prob": 0.015,
+            "strength": 0.02,
+            "max_prob": 0.2,
+            "max_strength": 0.45
+          },
+          "local_contrast": {
+            "prob": 0.015,
+            "strength": 0.02,
+            "max_prob": 0.18,
+            "max_strength": 0.45
+          },
+          "cutout_safe": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.08,
+            "max_strength": 0.25
+          }
+        }
+      }
+    },
+    "1": {},
+    "2": {
+      "8:脏污": {
+        "seed": 2,
+        "epoch": 25,
+        "class_id": 8,
+        "class_name": "脏污",
+        "dominant_issue": "texture_boundary_weak",
+        "secondary_issues": [
+          "weak_localization",
+          "low_contrast_fn",
+          "low_recall"
+        ],
+        "diagnosis_confidence": 0.92,
+        "issue_scores": {
+          "texture_boundary_weak": 0.92,
+          "low_contrast_fn": 0.46,
+          "high_fp": 0.0,
+          "low_support": 0.0,
+          "weak_localization": 0.92,
+          "low_recall": 0.4381,
+          "stable_class": 0.0
+        },
+        "policy_action": "accept",
+        "roi_applied_total_for_class": 3,
+        "final_class_delta": {
+          "precision": -0.0057332853119589355,
+          "recall": -0.1439201020853368,
+          "ap50": -0.04203088315399173,
+          "ap50_95": -0.03580608584067568,
+          "tp": -6.044644287584145,
+          "fp": -1.9989664274589733,
+          "fn": 6.044644287584145,
+          "pred": -8.043610715043119
+        },
+        "class_instances": 42,
+        "global_delta": {
+          "precision": 0.13952309041062705,
+          "recall": -0.12472577997179835,
+          "map50": -0.02687862011804454,
+          "map50_95": -0.028530055882823868
+        },
+        "positive_global_contribution": false,
+        "ops": {
+          "clahe": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.15,
+            "max_strength": 0.45
+          },
+          "gamma": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.15,
+            "max_strength": 0.45
+          },
+          "brightness": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.1,
+            "max_strength": 0.25
+          },
+          "contrast": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.1,
+            "max_strength": 0.25
+          },
+          "sharpen_mild": {
+            "prob": 0.005,
+            "strength": 0.01,
+            "max_prob": 0.2,
+            "max_strength": 0.45
+          },
+          "local_contrast": {
+            "prob": 0.005,
+            "strength": 0.01,
+            "max_prob": 0.18,
+            "max_strength": 0.45
+          },
+          "cutout_safe": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.08,
+            "max_strength": 0.25
+          }
+        }
+      }
+    }
+  },
+  "seed42_context": {
+    "path": "outputs\\experiments\\catf_v2_seed42_50ep",
+    "roi_stats": {
+      "roi_aug_applied": 37,
+      "roi_aug_skipped_small_roi": 0,
+      "roi_aug_skipped_conflict": 0,
+      "affected_classes": {
+        "6": 18,
+        "12": 19
+      }
+    },
+    "policy_action_counts": {
+      "observe": 2,
+      "accept": 1,
+      "shrink": 4,
+      "freeze": 2
+    },
+    "active_class_epoch_counts": {
+      "6": 1,
+      "12": 1
+    },
+    "final_metrics": {
+      "precision": 0.7498331862568374,
+      "recall": 0.7256886976471708,
+      "map50": 0.7678741681322381,
+      "map50_95": 0.5211715769324723
+    }
+  },
+  "answers": {
+    "xijian_effect": "Seed 0 activated class 11 (锡尖). Final class Recall and AP50/AP50-95 improved, but global Precision still failed because other classes accumulated FP.",
+    "zangwu_effect": "Seed 2 activated class 8 (脏污) with only 3 ROI applications. Class 8 Recall/AP declined while FP declined, matching the seed-level conservative high-P/low-R pattern.",
+    "active_too_sparse": "Yes. Across seeds 0/1/2, only two class activation events occurred and seed1 had no ROI application, so intervention is too sparse to reliably move global metrics.",
+    "wrong_target": "Partly. Activated classes were not the main final failure classes in seed2, and seed0 Precision loss was not limited to the active class."
+  }
+}

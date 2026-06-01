@@ -1,8 +1,8 @@
 # Project Snapshot
 
-- Generated: 2026-06-01T08:56:04
+- Generated: 2026-06-01T13:07:22
 - Branch: codex/sync-latest
-- Commit: e4981080e7b17a56032eb5dc631afd284cdc5416
+- Commit: 5803bef6de76fa96327310c4bbf8460dc5c61826
 - Remote: https://github.com/Yxiaoyang121/MyAutoAugument.git
 
 ## Working Tree
@@ -11,7 +11,21 @@
  M CODEX_HANDOFF.md
  M EXPERIMENT_LOG.md
  M PROJECT_STATE.md
-?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2/
+?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2/reports/active_class_effect_analysis.json
+?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2/reports/active_class_effect_analysis.md
+?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2/reports/catf_v2_failure_mode_summary.json
+?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2/reports/catf_v2_failure_mode_summary.md
+?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2/reports/controller_behavior_analysis.json
+?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2/reports/controller_behavior_analysis.md
+?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2/reports/curve_diagnosis.json
+?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2/reports/curve_diagnosis.md
+?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2/reports/precision_drop_analysis.json
+?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2/reports/precision_drop_analysis.md
+?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2/reports/recall_drop_analysis.json
+?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2/reports/recall_drop_analysis.md
+?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2/reports/threshold_calibration_analysis.json
+?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2/reports/threshold_calibration_analysis.md
+?? scripts/analyze_catf_v2_multiseed_failure_modes.py
 ```
 
 ## Key Files
@@ -216,7 +230,7 @@
 
 ## Tracked File Count
 
-- 2284 tracked files
+- 2838 tracked files
 
 ## Notes
 

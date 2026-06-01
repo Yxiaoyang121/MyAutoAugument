@@ -1,0 +1,135 @@
+{
+  "generated_at": "2026-06-01T13:08:26",
+  "main_failure_modes": [
+    "intervention too weak",
+    "intervention wrong target",
+    "precision threshold issue",
+    "over-conservative freeze",
+    "per-class diagnosis trajectory sensitive",
+    "in-loop diagnosis/callback side effect not isolated"
+  ],
+  "seed_0_failure_main_cause": "Precision threshold / FP control issue. Recall and AP improve, but FP increases across several classes, not only the active class.",
+  "seed_1_success_main_cause": "Conservative/no-op behavior. No ROI or industrial augmentation was applied, so the pass is not evidence that CATF-v2 augmentation helped; it may include in-loop diagnosis/callback RNG effects.",
+  "seed_2_failure_main_cause": "Conservative confidence/recall collapse on a clean seed that already had high Recall. CATF-v2 did not target the final degraded classes.",
+  "catf_v2_positioning": "Promising class-aware diagnostic controller and ablation, not yet a paper main method.",
+  "next_step_priority": [
+    "Add analysis-stage per-class threshold calibration validation before more training changes.",
+    "Add negative-effect attribution and class-level rollback logic before changing activation thresholds again.",
+    "Use clean-reference-aware gating: if a seed/run already has high Recall/mAP, reduce training intervention.",
+    "Improve per-class diagnosis stability with evidence accumulated across multiple feedback epochs."
+  ],
+  "supporting_reports": {
+    "curve": "outputs\\experiments\\multiseed_clean_yolo_default_vs_catf_v2\\reports\\curve_diagnosis.md",
+    "active_class_effect": "outputs\\experiments\\multiseed_clean_yolo_default_vs_catf_v2\\reports\\active_class_effect_analysis.md",
+    "precision_drop": "outputs\\experiments\\multiseed_clean_yolo_default_vs_catf_v2\\reports\\precision_drop_analysis.md",
+    "recall_drop": "outputs\\experiments\\multiseed_clean_yolo_default_vs_catf_v2\\reports\\recall_drop_analysis.md",
+    "threshold_calibration": "outputs\\experiments\\multiseed_clean_yolo_default_vs_catf_v2\\reports\\threshold_calibration_analysis.md",
+    "controller_behavior": "outputs\\experiments\\multiseed_clean_yolo_default_vs_catf_v2\\reports\\controller_behavior_analysis.md"
+  },
+  "searched_artifacts": {
+    "confusion_or_pr_curve_files": [],
+    "validation_prediction_files_found": 27,
+    "validation_prediction_examples": [
+      "outputs\\experiments\\multiseed_clean_yolo_default_vs_catf_v2\\seed_0\\catf_v2\\diagnosis\\epoch_005\\prediction\\validation_predictions.json",
+      "outputs\\experiments\\multiseed_clean_yolo_default_vs_catf_v2\\seed_0\\catf_v2\\diagnosis\\epoch_010\\prediction\\validation_predictions.json",
+      "outputs\\experiments\\multiseed_clean_yolo_default_vs_catf_v2\\seed_0\\catf_v2\\diagnosis\\epoch_015\\prediction\\validation_predictions.json",
+      "outputs\\experiments\\multiseed_clean_yolo_default_vs_catf_v2\\seed_0\\catf_v2\\diagnosis\\epoch_020\\prediction\\validation_predictions.json",
+      "outputs\\experiments\\multiseed_clean_yolo_default_vs_catf_v2\\seed_0\\catf_v2\\diagnosis\\epoch_025\\prediction\\validation_predictions.json"
+    ]
+  },
+  "headline_metrics": {
+    "clean": {
+      "precision": {
+        "mean": 0.751106032194694,
+        "std": 0.047895419193325454
+      },
+      "recall": {
+        "mean": 0.6842554106506943,
+        "std": 0.04103449940694302
+      },
+      "map50": {
+        "mean": 0.7526963951770916,
+        "std": 0.01730223801838746
+      },
+      "map50_95": {
+        "mean": 0.49272801932196314,
+        "std": 0.025750640859182657
+      }
+    },
+    "catf_v2": {
+      "precision": {
+        "mean": 0.7825779312794015,
+        "std": 0.04789098101249599
+      },
+      "recall": {
+        "mean": 0.6657230853607691,
+        "std": 0.053560904270899996
+      },
+      "map50": {
+        "mean": 0.7514237207607947,
+        "std": 0.007951170141931993
+      },
+      "map50_95": {
+        "mean": 0.495302948042291,
+        "std": 0.006347134488688799
+      }
+    },
+    "delta": {
+      "precision": {
+        "mean": 0.03147189908470752,
+        "std": 0.0955114213922535
+      },
+      "recall": {
+        "mean": -0.01853232528992521,
+        "std": 0.09285120589093757
+      },
+      "map50": {
+        "mean": -0.0012726744162969335,
+        "std": 0.024668846844969883
+      },
+      "map50_95": {
+        "mean": 0.002574928720327866,
+        "std": 0.02816741739286325
+      }
+    },
+    "catf_v2_better_under_constraints_count": 1,
+    "constraint_failed_count": 2,
+    "all_metric_win_count": 0,
+    "metric_win_counts": {
+      "precision": 1,
+      "recall": 2,
+      "map50": 2,
+      "map50_95": 2
+    },
+    "ok2_ever_active": false,
+    "ok3_ever_active": false,
+    "ok3_roi_total": 0,
+    "active_class_counts_total": {
+      "8:脏污": 1,
+      "11:锡尖": 1
+    },
+    "roi_affected_classes_total": {
+      "8:脏污": 3,
+      "11:锡尖": 20
+    },
+    "policy_action_counts_total": {
+      "shrink": 14,
+      "accept": 2,
+      "observe": 5,
+      "freeze": 6
+    },
+    "class_action_counts_total": {
+      "propose": 2,
+      "observe": 8
+    },
+    "rollback_count_total": 0,
+    "cooldown_count_total": 0,
+    "freeze_event_count_total": 12,
+    "frozen_class_events_total": 78,
+    "train_images_all_2301": true,
+    "fixed_augmented_dataset_generated_any": false,
+    "single_run_all": true,
+    "epoch_continuous_all": true,
+    "bbox_class_valid_all": true
+  }
+}

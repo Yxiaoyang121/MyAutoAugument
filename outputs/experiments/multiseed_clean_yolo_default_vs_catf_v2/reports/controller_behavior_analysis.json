@@ -1,0 +1,88 @@
+{
+  "generated_at": "2026-06-01T13:08:26",
+  "per_seed": {
+    "0": {
+      "actions": {
+        "shrink": 2,
+        "accept": 1,
+        "observe": 4,
+        "freeze": 2
+      },
+      "class_actions": {
+        "propose": 1
+      },
+      "freeze_policy_action_count": 2,
+      "freeze_marker_count_including_frozen_flag": 2,
+      "constraint_failed": true,
+      "final_delta": {
+        "precision": -0.04168839428048343,
+        "recall": 0.021775380491564467,
+        "map50": 0.02233787277852406,
+        "map50_95": 0.026359270887641395
+      }
+    },
+    "1": {
+      "actions": {
+        "shrink": 7,
+        "freeze": 2
+      },
+      "class_actions": {
+        "observe": 4
+      },
+      "freeze_policy_action_count": 2,
+      "freeze_marker_count_including_frozen_flag": 2,
+      "constraint_failed": false,
+      "final_delta": {
+        "precision": -0.00341899887602104,
+        "recall": 0.047353423610458245,
+        "map50": 0.0007227240906296784,
+        "map50_95": 0.009895571156166072
+      }
+    },
+    "2": {
+      "actions": {
+        "shrink": 5,
+        "accept": 1,
+        "observe": 1,
+        "freeze": 2
+      },
+      "class_actions": {
+        "observe": 4,
+        "propose": 1
+      },
+      "freeze_policy_action_count": 2,
+      "freeze_marker_count_including_frozen_flag": 2,
+      "constraint_failed": true,
+      "final_delta": {
+        "precision": 0.13952309041062705,
+        "recall": -0.12472577997179835,
+        "map50": -0.02687862011804454,
+        "map50_95": -0.028530055882823868
+      }
+    }
+  },
+  "aggregate": {
+    "actions": {
+      "shrink": 14,
+      "accept": 2,
+      "observe": 5,
+      "freeze": 6
+    },
+    "class_actions": {
+      "propose": 2,
+      "observe": 8
+    },
+    "rollback": 0,
+    "cooldown": 0,
+    "freeze_policy_actions": 6,
+    "freeze_markers_including_frozen_flag": 6
+  },
+  "answers": {
+    "shrink_too_many": "Yes. 14 shrink actions versus only 2 accepts indicates a controller that mostly suppresses itself instead of learning a useful policy.",
+    "accept_too_few": "Yes. Only two accepted/proposed class policies across three full runs is too sparse for a feedback augmentation method.",
+    "freeze_too_early": "Freeze at epoch 40 is intended for close_mosaic convergence, but with sparse accepted actions it locks in weak or wrong directions.",
+    "rollback_zero_reason": "Most failures appear as global/final metric trade-offs or non-active-class degradation, not as the controller's current class-level rollback trigger.",
+    "need_negative_attribution": "Yes. The controller needs to attribute final/per-epoch harm to class policies or to global confidence shift, then rollback/shrink that specific source.",
+    "diagnosis_side_effect_control_needed": "Seed1 applied zero industrial augmentation but still diverged from clean, so a diagnosis-only in-loop control is needed before attributing gains to CATF-v2 augmentation."
+  }
+}

@@ -1,0 +1,257 @@
+{
+  "run_id": "clean_native_yolo_default",
+  "generated_at": "2026-05-28T20:46:25",
+  "output_dir": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\multiseed_clean_yolo_default_vs_inloop_feedback\\seed_1\\clean_native_yolo_default",
+  "dataset": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\data.yaml",
+  "model": "yolo11n.pt",
+  "mode": "clean_native_ultralytics_yolo_default",
+  "pure_native_yolo_train": true,
+  "custom_trainer_used": false,
+  "online_aug_detection_trainer_used": false,
+  "feedback_callback_registered": false,
+  "industrial_augmentation_registered": false,
+  "fixed_augmented_dataset_generated": false,
+  "train_image_count": 2301,
+  "train_image_count_matches_original": true,
+  "train_settings": {
+    "epochs": 50,
+    "imgsz": 1024,
+    "batch": 2,
+    "workers": 0,
+    "device": "0",
+    "seed": 1,
+    "yolo_default_augmentations_enabled": true,
+    "actual_augmentation_params_from_args_yaml": {
+      "hsv_h": 0.015,
+      "hsv_s": 0.7,
+      "hsv_v": 0.4,
+      "degrees": 0.0,
+      "translate": 0.1,
+      "scale": 0.5,
+      "shear": 0.0,
+      "perspective": 0.0,
+      "flipud": 0.0,
+      "fliplr": 0.5,
+      "bgr": 0.0,
+      "mosaic": 1.0,
+      "mixup": 0.0,
+      "cutmix": 0.0,
+      "copy_paste": 0.0,
+      "copy_paste_mode": "flip",
+      "auto_augment": "randaugment",
+      "erasing": 0.4,
+      "close_mosaic": 10
+    }
+  },
+  "commands": {
+    "train_command": "YOLO.train model=yolo11n.pt data=E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\data.yaml epochs=50 imgsz=1024 batch=2 workers=0 device=0 seed=1 project=E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\multiseed_clean_yolo_default_vs_inloop_feedback\\seed_1\\clean_native_yolo_default name=train exist_ok=True plots=False trainer=native_ultralytics_default",
+    "val_command": "YOLO.val model=E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\multiseed_clean_yolo_default_vs_inloop_feedback\\seed_1\\clean_native_yolo_default\\train\\weights\\best.pt data=E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\data.yaml imgsz=1024 batch=2 workers=0 device=0 project=E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\multiseed_clean_yolo_default_vs_inloop_feedback\\seed_1\\clean_native_yolo_default name=val exist_ok=True plots=False"
+  },
+  "time": {
+    "train_start": 1779959702.3034744,
+    "train_end": 1779972364.352643,
+    "train_wall_seconds": 12662.049168586731,
+    "val_start": 1779972364.3553522,
+    "val_end": 1779972385.4790041,
+    "val_wall_seconds": 21.12365198135376
+  },
+  "artifacts": {
+    "args_yaml": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\multiseed_clean_yolo_default_vs_inloop_feedback\\seed_1\\clean_native_yolo_default\\train\\args.yaml",
+    "results_csv": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\multiseed_clean_yolo_default_vs_inloop_feedback\\seed_1\\clean_native_yolo_default\\train\\results.csv",
+    "best_pt": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\multiseed_clean_yolo_default_vs_inloop_feedback\\seed_1\\clean_native_yolo_default\\train\\weights\\best.pt",
+    "last_pt": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\multiseed_clean_yolo_default_vs_inloop_feedback\\seed_1\\clean_native_yolo_default\\train\\weights\\last.pt",
+    "train_log": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\multiseed_clean_yolo_default_vs_inloop_feedback\\seed_1\\clean_native_yolo_default\\logs\\train.stdout.log",
+    "val_log": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\multiseed_clean_yolo_default_vs_inloop_feedback\\seed_1\\clean_native_yolo_default\\logs\\val.stdout.log"
+  },
+  "train": {
+    "success": true,
+    "error": null,
+    "result_type": "DetMetrics"
+  },
+  "val": {
+    "success": true,
+    "error": null,
+    "metrics": {
+      "images": 677,
+      "instances": 905,
+      "precision": 0.7725246158861973,
+      "recall": 0.6476798989752319,
+      "map50": 0.7541905909810253,
+      "map50_95": 0.4799185559746686,
+      "per_class": [
+        {
+          "class_id": 0,
+          "name": "OK2",
+          "images": 64,
+          "instances": 64,
+          "precision": 0.8285387698702414,
+          "recall": 1.0,
+          "ap50": 0.9832259446498047,
+          "ap50_95": 0.8471731999945697
+        },
+        {
+          "class_id": 1,
+          "name": "OK3",
+          "images": 274,
+          "instances": 274,
+          "precision": 1.0,
+          "recall": 0.9636834621578664,
+          "ap50": 0.9938484848484849,
+          "ap50_95": 0.8259277070927649
+        },
+        {
+          "class_id": 2,
+          "name": "加强筋打伤",
+          "images": 8,
+          "instances": 8,
+          "precision": 0.6333325400325596,
+          "recall": 0.6499976200976788,
+          "ap50": 0.7717333333333333,
+          "ap50_95": 0.34848439576995505
+        },
+        {
+          "class_id": 3,
+          "name": "开裂",
+          "images": 2,
+          "instances": 2,
+          "precision": 0.9456405291655224,
+          "recall": 1.0,
+          "ap50": 0.995,
+          "ap50_95": 0.6965
+        },
+        {
+          "class_id": 4,
+          "name": "油污",
+          "images": 14,
+          "instances": 18,
+          "precision": 0.592558576675847,
+          "recall": 0.16253254259769276,
+          "ap50": 0.23557761979666633,
+          "ap50_95": 0.11251591100259636
+        },
+        {
+          "class_id": 5,
+          "name": "浅划伤",
+          "images": 11,
+          "instances": 13,
+          "precision": 0.7266396555271051,
+          "recall": 0.46153846153846156,
+          "ap50": 0.5883279805550783,
+          "ap50_95": 0.3346250843258327
+        },
+        {
+          "class_id": 6,
+          "name": "漏背锡",
+          "images": 36,
+          "instances": 46,
+          "precision": 0.6101540165219149,
+          "recall": 0.5869565217391305,
+          "ap50": 0.7133916702112076,
+          "ap50_95": 0.37706594319498893
+        },
+        {
+          "class_id": 7,
+          "name": "碰伤",
+          "images": 229,
+          "instances": 269,
+          "precision": 0.830751063761774,
+          "recall": 0.47442901978194435,
+          "ap50": 0.6930307353753415,
+          "ap50_95": 0.4301714369407815
+        },
+        {
+          "class_id": 8,
+          "name": "脏污",
+          "images": 33,
+          "instances": 42,
+          "precision": 0.6493427102299412,
+          "recall": 0.40476190476190477,
+          "ap50": 0.5105737138751957,
+          "ap50_95": 0.2393365037214119
+        },
+        {
+          "class_id": 9,
+          "name": "轮廓划伤",
+          "images": 69,
+          "instances": 84,
+          "precision": 0.8186291039895295,
+          "recall": 0.4836525195427874,
+          "ap50": 0.6977658522172674,
+          "ap50_95": 0.34785936245799387
+        },
+        {
+          "class_id": 10,
+          "name": "锡丝残留",
+          "images": 12,
+          "instances": 12,
+          "precision": 0.7140491655638611,
+          "recall": 0.75,
+          "ap50": 0.9035767359575408,
+          "ap50_95": 0.6122865936497883
+        },
+        {
+          "class_id": 11,
+          "name": "锡尖",
+          "images": 25,
+          "instances": 27,
+          "precision": 0.8621363341009329,
+          "recall": 0.8518518518518519,
+          "ap50": 0.9417550125313284,
+          "ap50_95": 0.5776446788367253
+        },
+        {
+          "class_id": 12,
+          "name": "锡膏",
+          "images": 41,
+          "instances": 46,
+          "precision": 0.8310475410813367,
+          "recall": 0.6304347826086957,
+          "ap50": 0.776670599402079,
+          "ap50_95": 0.4893504106832829
+        }
+      ]
+    }
+  },
+  "metrics": {
+    "images": 677,
+    "instances": 905,
+    "precision": 0.7725246158861973,
+    "recall": 0.6476798989752319,
+    "map50": 0.7541905909810253,
+    "map50_95": 0.4799185559746686
+  },
+  "rows": [
+    {
+      "key": "clean_native_yolo_default",
+      "label": "Clean native YOLO default seed42",
+      "run_dir": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\multiseed_clean_yolo_default_vs_inloop_feedback\\seed_1\\clean_native_yolo_default",
+      "metrics": {
+        "images": 677,
+        "instances": 905,
+        "precision": 0.7725246158861973,
+        "recall": 0.6476798989752319,
+        "map50": 0.7541905909810253,
+        "map50_95": 0.4799185559746686
+      }
+    }
+  ],
+  "close_mosaic": {
+    "arg": 10,
+    "official_schedule_expected": true,
+    "official_schedule_last_n_epochs": 10,
+    "expected_start_epoch": 41,
+    "log_triggered": false
+  },
+  "summary": {
+    "train_success": true,
+    "val_success": true,
+    "train_image_count": 2301,
+    "fixed_augmented_dataset_generated": false,
+    "precision": 0.7725246158861973,
+    "recall": 0.6476798989752319,
+    "map50": 0.7541905909810253,
+    "map50_95": 0.4799185559746686,
+    "report": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\multiseed_clean_yolo_default_vs_inloop_feedback\\seed_1\\clean_native_yolo_default\\reports\\clean_native_yolo_default_report.md",
+    "metrics_json": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\multiseed_clean_yolo_default_vs_inloop_feedback\\seed_1\\clean_native_yolo_default\\reports\\clean_native_yolo_default_metrics.json"
+  }
+}

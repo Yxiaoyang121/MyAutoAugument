@@ -1,0 +1,337 @@
+{
+  "epoch": 20,
+  "classes": {
+    "0": {
+      "class_id": 0,
+      "class_name": "OK2",
+      "dominant_issue": "high_fp",
+      "secondary_issues": [],
+      "issue_scores": {
+        "texture_boundary_weak": 0.0,
+        "low_contrast_fn": 0.0,
+        "high_fp": 1.0,
+        "low_support": 0.0,
+        "weak_localization": 0.0,
+        "low_recall": 0.0,
+        "stable_class": 0.0
+      },
+      "diagnosis_confidence": 1.0,
+      "strong_update_allowed": false,
+      "threshold_calibration_candidate": true,
+      "oversampling_candidate": false,
+      "copy_paste_candidate": false,
+      "copy_paste_status": "pending_object_bank_design"
+    },
+    "1": {
+      "class_id": 1,
+      "class_name": "OK3",
+      "dominant_issue": "high_fp",
+      "secondary_issues": [],
+      "issue_scores": {
+        "texture_boundary_weak": 0.0,
+        "low_contrast_fn": 0.0,
+        "high_fp": 1.0,
+        "low_support": 0.0,
+        "weak_localization": 0.0,
+        "low_recall": 0.0,
+        "stable_class": 0.0
+      },
+      "diagnosis_confidence": 1.0,
+      "strong_update_allowed": false,
+      "threshold_calibration_candidate": true,
+      "oversampling_candidate": false,
+      "copy_paste_candidate": false,
+      "copy_paste_status": "pending_object_bank_design"
+    },
+    "2": {
+      "class_id": 2,
+      "class_name": "加强筋打伤",
+      "dominant_issue": "low_support",
+      "secondary_issues": [
+        "high_fp"
+      ],
+      "issue_scores": {
+        "texture_boundary_weak": 0.0,
+        "low_contrast_fn": 0.07,
+        "high_fp": 0.28,
+        "low_support": 1.0,
+        "weak_localization": 0.0,
+        "low_recall": 0.0,
+        "stable_class": 0.0
+      },
+      "diagnosis_confidence": 0.28,
+      "strong_update_allowed": false,
+      "threshold_calibration_candidate": false,
+      "oversampling_candidate": true,
+      "copy_paste_candidate": true,
+      "copy_paste_status": "pending_object_bank_design"
+    },
+    "3": {
+      "class_id": 3,
+      "class_name": "开裂",
+      "dominant_issue": "low_support",
+      "secondary_issues": [
+        "low_recall"
+      ],
+      "issue_scores": {
+        "texture_boundary_weak": 0.0,
+        "low_contrast_fn": 0.0625,
+        "high_fp": 0.0,
+        "low_support": 1.0,
+        "weak_localization": 0.0,
+        "low_recall": 0.25,
+        "stable_class": 0.0
+      },
+      "diagnosis_confidence": 0.07,
+      "strong_update_allowed": false,
+      "threshold_calibration_candidate": false,
+      "oversampling_candidate": true,
+      "copy_paste_candidate": true,
+      "copy_paste_status": "pending_object_bank_design"
+    },
+    "4": {
+      "class_id": 4,
+      "class_name": "油污",
+      "dominant_issue": "high_fp",
+      "secondary_issues": [
+        "low_recall",
+        "low_contrast_fn"
+      ],
+      "issue_scores": {
+        "texture_boundary_weak": 0.0,
+        "low_contrast_fn": 0.3709,
+        "high_fp": 0.68,
+        "low_support": 0.0,
+        "weak_localization": 0.0,
+        "low_recall": 0.4156,
+        "stable_class": 0.0
+      },
+      "diagnosis_confidence": 0.68,
+      "strong_update_allowed": false,
+      "threshold_calibration_candidate": true,
+      "oversampling_candidate": false,
+      "copy_paste_candidate": false,
+      "copy_paste_status": "pending_object_bank_design"
+    },
+    "5": {
+      "class_id": 5,
+      "class_name": "浅划伤",
+      "dominant_issue": "low_contrast_fn",
+      "secondary_issues": [
+        "high_fp",
+        "low_recall"
+      ],
+      "issue_scores": {
+        "texture_boundary_weak": 0.0,
+        "low_contrast_fn": 0.63,
+        "high_fp": 0.63,
+        "low_support": 0.0,
+        "weak_localization": 0.0,
+        "low_recall": 0.2423,
+        "stable_class": 0.0
+      },
+      "diagnosis_confidence": 0.63,
+      "strong_update_allowed": false,
+      "threshold_calibration_candidate": true,
+      "oversampling_candidate": false,
+      "copy_paste_candidate": false,
+      "copy_paste_status": "pending_object_bank_design"
+    },
+    "6": {
+      "class_id": 6,
+      "class_name": "漏背锡",
+      "dominant_issue": "high_fp",
+      "secondary_issues": [
+        "low_contrast_fn"
+      ],
+      "issue_scores": {
+        "texture_boundary_weak": 0.0,
+        "low_contrast_fn": 0.48,
+        "high_fp": 0.96,
+        "low_support": 0.0,
+        "weak_localization": 0.0,
+        "low_recall": 0.0,
+        "stable_class": 0.0
+      },
+      "diagnosis_confidence": 0.96,
+      "strong_update_allowed": false,
+      "threshold_calibration_candidate": true,
+      "oversampling_candidate": false,
+      "copy_paste_candidate": false,
+      "copy_paste_status": "pending_object_bank_design"
+    },
+    "7": {
+      "class_id": 7,
+      "class_name": "碰伤",
+      "dominant_issue": "high_fp",
+      "secondary_issues": [
+        "low_contrast_fn"
+      ],
+      "issue_scores": {
+        "texture_boundary_weak": 0.0,
+        "low_contrast_fn": 0.5692,
+        "high_fp": 1.0,
+        "low_support": 0.0,
+        "weak_localization": 0.0,
+        "low_recall": 0.0,
+        "stable_class": 0.0
+      },
+      "diagnosis_confidence": 1.0,
+      "strong_update_allowed": false,
+      "threshold_calibration_candidate": true,
+      "oversampling_candidate": false,
+      "copy_paste_candidate": false,
+      "copy_paste_status": "pending_object_bank_design"
+    },
+    "8": {
+      "class_id": 8,
+      "class_name": "脏污",
+      "dominant_issue": "high_fp",
+      "secondary_issues": [
+        "low_contrast_fn",
+        "low_recall"
+      ],
+      "issue_scores": {
+        "texture_boundary_weak": 0.0,
+        "low_contrast_fn": 0.4246,
+        "high_fp": 0.92,
+        "low_support": 0.0,
+        "weak_localization": 0.0,
+        "low_recall": 0.2848,
+        "stable_class": 0.0
+      },
+      "diagnosis_confidence": 0.92,
+      "strong_update_allowed": false,
+      "threshold_calibration_candidate": true,
+      "oversampling_candidate": false,
+      "copy_paste_candidate": false,
+      "copy_paste_status": "pending_object_bank_design"
+    },
+    "9": {
+      "class_id": 9,
+      "class_name": "轮廓划伤",
+      "dominant_issue": "high_fp",
+      "secondary_issues": [
+        "low_contrast_fn"
+      ],
+      "issue_scores": {
+        "texture_boundary_weak": 0.0,
+        "low_contrast_fn": 0.7826,
+        "high_fp": 1.0,
+        "low_support": 0.0,
+        "weak_localization": 0.0,
+        "low_recall": 0.0,
+        "stable_class": 0.0
+      },
+      "diagnosis_confidence": 1.0,
+      "strong_update_allowed": false,
+      "threshold_calibration_candidate": true,
+      "oversampling_candidate": false,
+      "copy_paste_candidate": false,
+      "copy_paste_status": "pending_object_bank_design"
+    },
+    "10": {
+      "class_id": 10,
+      "class_name": "锡丝残留",
+      "dominant_issue": "high_fp",
+      "secondary_issues": [
+        "low_recall",
+        "low_contrast_fn"
+      ],
+      "issue_scores": {
+        "texture_boundary_weak": 0.0,
+        "low_contrast_fn": 0.285,
+        "high_fp": 0.57,
+        "low_support": 0.0,
+        "weak_localization": 0.0,
+        "low_recall": 0.38,
+        "stable_class": 0.0
+      },
+      "diagnosis_confidence": 0.57,
+      "strong_update_allowed": false,
+      "threshold_calibration_candidate": true,
+      "oversampling_candidate": false,
+      "copy_paste_candidate": false,
+      "copy_paste_status": "pending_object_bank_design"
+    },
+    "11": {
+      "class_id": 11,
+      "class_name": "锡尖",
+      "dominant_issue": "high_fp",
+      "secondary_issues": [
+        "low_contrast_fn"
+      ],
+      "issue_scores": {
+        "texture_boundary_weak": 0.0,
+        "low_contrast_fn": 0.3225,
+        "high_fp": 0.645,
+        "low_support": 0.0,
+        "weak_localization": 0.0,
+        "low_recall": 0.0,
+        "stable_class": 0.0
+      },
+      "diagnosis_confidence": 0.645,
+      "strong_update_allowed": false,
+      "threshold_calibration_candidate": true,
+      "oversampling_candidate": false,
+      "copy_paste_candidate": false,
+      "copy_paste_status": "pending_object_bank_design"
+    },
+    "12": {
+      "class_id": 12,
+      "class_name": "锡膏",
+      "dominant_issue": "high_fp",
+      "secondary_issues": [
+        "low_contrast_fn"
+      ],
+      "issue_scores": {
+        "texture_boundary_weak": 0.0,
+        "low_contrast_fn": 0.48,
+        "high_fp": 0.96,
+        "low_support": 0.0,
+        "weak_localization": 0.0,
+        "low_recall": 0.0,
+        "stable_class": 0.0
+      },
+      "diagnosis_confidence": 0.96,
+      "strong_update_allowed": false,
+      "threshold_calibration_candidate": true,
+      "oversampling_candidate": false,
+      "copy_paste_candidate": false,
+      "copy_paste_status": "pending_object_bank_design"
+    }
+  },
+  "summary": {
+    "class_count": 13,
+    "dominant_issue_counts": {
+      "texture_boundary_weak": 0,
+      "low_contrast_fn": 1,
+      "high_fp": 10,
+      "low_support": 2,
+      "weak_localization": 0,
+      "low_recall": 0,
+      "stable_class": 0
+    },
+    "threshold_calibration_candidates": [
+      0,
+      1,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12
+    ],
+    "oversampling_candidates": [
+      2,
+      3
+    ],
+    "copy_paste_candidates": [
+      2,
+      3
+    ]
+  }
+}

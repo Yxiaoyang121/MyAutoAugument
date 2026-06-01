@@ -1,0 +1,157 @@
+{
+  "class_weights": {
+    "0": {
+      "class_id": 0,
+      "class_name": "OK2",
+      "weight": 1.0,
+      "reasons": [
+        "high_fp_or_domain_prior_no_oversampling"
+      ],
+      "oversampling_candidate": false,
+      "copy_paste_candidate": false,
+      "copy_paste_status": "pending_object_bank_design"
+    },
+    "1": {
+      "class_id": 1,
+      "class_name": "OK3",
+      "weight": 1.0,
+      "reasons": [
+        "high_fp_or_domain_prior_no_oversampling"
+      ],
+      "oversampling_candidate": false,
+      "copy_paste_candidate": false,
+      "copy_paste_status": "pending_object_bank_design"
+    },
+    "2": {
+      "class_id": 2,
+      "class_name": "加强筋打伤",
+      "weight": 1.2,
+      "reasons": [
+        "low_support"
+      ],
+      "oversampling_candidate": true,
+      "copy_paste_candidate": true,
+      "copy_paste_status": "pending_object_bank_design"
+    },
+    "3": {
+      "class_id": 3,
+      "class_name": "开裂",
+      "weight": 1.35,
+      "reasons": [
+        "low_support",
+        "low_recall"
+      ],
+      "oversampling_candidate": true,
+      "copy_paste_candidate": true,
+      "copy_paste_status": "pending_object_bank_design"
+    },
+    "4": {
+      "class_id": 4,
+      "class_name": "油污",
+      "weight": 1.0,
+      "reasons": [
+        "low_recall",
+        "high_fp_or_domain_prior_no_oversampling"
+      ],
+      "oversampling_candidate": false,
+      "copy_paste_candidate": false,
+      "copy_paste_status": "pending_object_bank_design"
+    },
+    "5": {
+      "class_id": 5,
+      "class_name": "浅划伤",
+      "weight": 1.15,
+      "reasons": [
+        "low_recall"
+      ],
+      "oversampling_candidate": false,
+      "copy_paste_candidate": false,
+      "copy_paste_status": "pending_object_bank_design"
+    },
+    "6": {
+      "class_id": 6,
+      "class_name": "漏背锡",
+      "weight": 1.0,
+      "reasons": [
+        "high_fp_or_domain_prior_no_oversampling"
+      ],
+      "oversampling_candidate": false,
+      "copy_paste_candidate": false,
+      "copy_paste_status": "pending_object_bank_design"
+    },
+    "7": {
+      "class_id": 7,
+      "class_name": "碰伤",
+      "weight": 1.0,
+      "reasons": [
+        "low_recall",
+        "high_fp_or_domain_prior_no_oversampling"
+      ],
+      "oversampling_candidate": false,
+      "copy_paste_candidate": false,
+      "copy_paste_status": "pending_object_bank_design"
+    },
+    "8": {
+      "class_id": 8,
+      "class_name": "脏污",
+      "weight": 1.0,
+      "reasons": [
+        "low_recall",
+        "high_fp_or_domain_prior_no_oversampling"
+      ],
+      "oversampling_candidate": false,
+      "copy_paste_candidate": false,
+      "copy_paste_status": "pending_object_bank_design"
+    },
+    "9": {
+      "class_id": 9,
+      "class_name": "轮廓划伤",
+      "weight": 1.0,
+      "reasons": [
+        "low_recall",
+        "high_fp_or_domain_prior_no_oversampling"
+      ],
+      "oversampling_candidate": false,
+      "copy_paste_candidate": false,
+      "copy_paste_status": "pending_object_bank_design"
+    },
+    "10": {
+      "class_id": 10,
+      "class_name": "锡丝残留",
+      "weight": 1.0,
+      "reasons": [
+        "high_fp_or_domain_prior_no_oversampling"
+      ],
+      "oversampling_candidate": false,
+      "copy_paste_candidate": false,
+      "copy_paste_status": "pending_object_bank_design"
+    },
+    "11": {
+      "class_id": 11,
+      "class_name": "锡尖",
+      "weight": 1.0,
+      "reasons": [],
+      "oversampling_candidate": false,
+      "copy_paste_candidate": false,
+      "copy_paste_status": "pending_object_bank_design"
+    },
+    "12": {
+      "class_id": 12,
+      "class_name": "锡膏",
+      "weight": 1.0,
+      "reasons": [],
+      "oversampling_candidate": false,
+      "copy_paste_candidate": false,
+      "copy_paste_status": "pending_object_bank_design"
+    }
+  },
+  "image_weights": {},
+  "weighted_sampler_integration": "pending",
+  "rules": {
+    "low_support": "+0.2",
+    "low_recall": "+0.15",
+    "high_fp": "no increase",
+    "stable_class": "1.0",
+    "max_weight": 1.5
+  }
+}

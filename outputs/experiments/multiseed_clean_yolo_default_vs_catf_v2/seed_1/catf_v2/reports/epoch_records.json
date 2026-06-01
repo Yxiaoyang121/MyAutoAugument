@@ -1,0 +1,716 @@
+[
+  {
+    "epoch": 1,
+    "metrics": {
+      "images": null,
+      "instances": null,
+      "precision": 0.83222,
+      "recall": 0.20863,
+      "map50": 0.22603,
+      "map50_95": 0.15408
+    },
+    "optimizer_id": 2247560502480,
+    "scheduler_id": 2247560736576,
+    "ema_id": 2246585135264
+  },
+  {
+    "epoch": 2,
+    "metrics": {
+      "images": null,
+      "instances": null,
+      "precision": 0.84344,
+      "recall": 0.25422,
+      "map50": 0.27338,
+      "map50_95": 0.17311
+    },
+    "optimizer_id": 2247560502480,
+    "scheduler_id": 2247560736576,
+    "ema_id": 2246585135264
+  },
+  {
+    "epoch": 3,
+    "metrics": {
+      "images": null,
+      "instances": null,
+      "precision": 0.63305,
+      "recall": 0.27276,
+      "map50": 0.27935,
+      "map50_95": 0.16299
+    },
+    "optimizer_id": 2247560502480,
+    "scheduler_id": 2247560736576,
+    "ema_id": 2246585135264
+  },
+  {
+    "epoch": 4,
+    "metrics": {
+      "images": null,
+      "instances": null,
+      "precision": 0.70711,
+      "recall": 0.30113,
+      "map50": 0.33629,
+      "map50_95": 0.2076
+    },
+    "optimizer_id": 2247560502480,
+    "scheduler_id": 2247560736576,
+    "ema_id": 2246585135264
+  },
+  {
+    "epoch": 5,
+    "metrics": {
+      "images": null,
+      "instances": null,
+      "precision": 0.53177,
+      "recall": 0.3262,
+      "map50": 0.32121,
+      "map50_95": 0.20361
+    },
+    "optimizer_id": 2247560502480,
+    "scheduler_id": 2247560736576,
+    "ema_id": 2246585135264
+  },
+  {
+    "epoch": 6,
+    "metrics": {
+      "images": null,
+      "instances": null,
+      "precision": 0.65547,
+      "recall": 0.38485,
+      "map50": 0.38953,
+      "map50_95": 0.2318
+    },
+    "optimizer_id": 2247560502480,
+    "scheduler_id": 2247560736576,
+    "ema_id": 2246585135264
+  },
+  {
+    "epoch": 7,
+    "metrics": {
+      "images": null,
+      "instances": null,
+      "precision": 0.68463,
+      "recall": 0.34738,
+      "map50": 0.37337,
+      "map50_95": 0.22643
+    },
+    "optimizer_id": 2247560502480,
+    "scheduler_id": 2247560736576,
+    "ema_id": 2246585135264
+  },
+  {
+    "epoch": 8,
+    "metrics": {
+      "images": null,
+      "instances": null,
+      "precision": 0.64327,
+      "recall": 0.3664,
+      "map50": 0.4007,
+      "map50_95": 0.24587
+    },
+    "optimizer_id": 2247560502480,
+    "scheduler_id": 2247560736576,
+    "ema_id": 2246585135264
+  },
+  {
+    "epoch": 9,
+    "metrics": {
+      "images": null,
+      "instances": null,
+      "precision": 0.65857,
+      "recall": 0.42455,
+      "map50": 0.44526,
+      "map50_95": 0.26857
+    },
+    "optimizer_id": 2247560502480,
+    "scheduler_id": 2247560736576,
+    "ema_id": 2246585135264
+  },
+  {
+    "epoch": 10,
+    "metrics": {
+      "images": null,
+      "instances": null,
+      "precision": 0.67539,
+      "recall": 0.40422,
+      "map50": 0.43117,
+      "map50_95": 0.26899
+    },
+    "optimizer_id": 2247560502480,
+    "scheduler_id": 2247560736576,
+    "ema_id": 2246585135264
+  },
+  {
+    "epoch": 11,
+    "metrics": {
+      "images": null,
+      "instances": null,
+      "precision": 0.67824,
+      "recall": 0.45001,
+      "map50": 0.50572,
+      "map50_95": 0.31652
+    },
+    "optimizer_id": 2247560502480,
+    "scheduler_id": 2247560736576,
+    "ema_id": 2246585135264
+  },
+  {
+    "epoch": 12,
+    "metrics": {
+      "images": null,
+      "instances": null,
+      "precision": 0.46628,
+      "recall": 0.5621,
+      "map50": 0.51403,
+      "map50_95": 0.30848
+    },
+    "optimizer_id": 2247560502480,
+    "scheduler_id": 2247560736576,
+    "ema_id": 2246585135264
+  },
+  {
+    "epoch": 13,
+    "metrics": {
+      "images": null,
+      "instances": null,
+      "precision": 0.66227,
+      "recall": 0.47778,
+      "map50": 0.54166,
+      "map50_95": 0.33046
+    },
+    "optimizer_id": 2247560502480,
+    "scheduler_id": 2247560736576,
+    "ema_id": 2246585135264
+  },
+  {
+    "epoch": 14,
+    "metrics": {
+      "images": null,
+      "instances": null,
+      "precision": 0.59636,
+      "recall": 0.52883,
+      "map50": 0.51387,
+      "map50_95": 0.30571
+    },
+    "optimizer_id": 2247560502480,
+    "scheduler_id": 2247560736576,
+    "ema_id": 2246585135264
+  },
+  {
+    "epoch": 15,
+    "metrics": {
+      "images": null,
+      "instances": null,
+      "precision": 0.52228,
+      "recall": 0.59067,
+      "map50": 0.54925,
+      "map50_95": 0.3477
+    },
+    "optimizer_id": 2247560502480,
+    "scheduler_id": 2247560736576,
+    "ema_id": 2246585135264
+  },
+  {
+    "epoch": 16,
+    "metrics": {
+      "images": null,
+      "instances": null,
+      "precision": 0.60728,
+      "recall": 0.58743,
+      "map50": 0.56936,
+      "map50_95": 0.33932
+    },
+    "optimizer_id": 2247560502480,
+    "scheduler_id": 2247560736576,
+    "ema_id": 2246585135264
+  },
+  {
+    "epoch": 17,
+    "metrics": {
+      "images": null,
+      "instances": null,
+      "precision": 0.58846,
+      "recall": 0.61775,
+      "map50": 0.58654,
+      "map50_95": 0.34876
+    },
+    "optimizer_id": 2247560502480,
+    "scheduler_id": 2247560736576,
+    "ema_id": 2246585135264
+  },
+  {
+    "epoch": 18,
+    "metrics": {
+      "images": null,
+      "instances": null,
+      "precision": 0.63965,
+      "recall": 0.56751,
+      "map50": 0.5684,
+      "map50_95": 0.34517
+    },
+    "optimizer_id": 2247560502480,
+    "scheduler_id": 2247560736576,
+    "ema_id": 2246585135264
+  },
+  {
+    "epoch": 19,
+    "metrics": {
+      "images": null,
+      "instances": null,
+      "precision": 0.68533,
+      "recall": 0.56309,
+      "map50": 0.60758,
+      "map50_95": 0.38661
+    },
+    "optimizer_id": 2247560502480,
+    "scheduler_id": 2247560736576,
+    "ema_id": 2246585135264
+  },
+  {
+    "epoch": 20,
+    "metrics": {
+      "images": null,
+      "instances": null,
+      "precision": 0.67007,
+      "recall": 0.55798,
+      "map50": 0.58083,
+      "map50_95": 0.34598
+    },
+    "optimizer_id": 2247560502480,
+    "scheduler_id": 2247560736576,
+    "ema_id": 2246585135264
+  },
+  {
+    "epoch": 21,
+    "metrics": {
+      "images": null,
+      "instances": null,
+      "precision": 0.69688,
+      "recall": 0.57388,
+      "map50": 0.59703,
+      "map50_95": 0.36952
+    },
+    "optimizer_id": 2247560502480,
+    "scheduler_id": 2247560736576,
+    "ema_id": 2246585135264
+  },
+  {
+    "epoch": 22,
+    "metrics": {
+      "images": null,
+      "instances": null,
+      "precision": 0.72318,
+      "recall": 0.582,
+      "map50": 0.62636,
+      "map50_95": 0.39359
+    },
+    "optimizer_id": 2247560502480,
+    "scheduler_id": 2247560736576,
+    "ema_id": 2246585135264
+  },
+  {
+    "epoch": 23,
+    "metrics": {
+      "images": null,
+      "instances": null,
+      "precision": 0.66393,
+      "recall": 0.53636,
+      "map50": 0.58096,
+      "map50_95": 0.35419
+    },
+    "optimizer_id": 2247560502480,
+    "scheduler_id": 2247560736576,
+    "ema_id": 2246585135264
+  },
+  {
+    "epoch": 24,
+    "metrics": {
+      "images": null,
+      "instances": null,
+      "precision": 0.66202,
+      "recall": 0.60316,
+      "map50": 0.61718,
+      "map50_95": 0.38712
+    },
+    "optimizer_id": 2247560502480,
+    "scheduler_id": 2247560736576,
+    "ema_id": 2246585135264
+  },
+  {
+    "epoch": 25,
+    "metrics": {
+      "images": null,
+      "instances": null,
+      "precision": 0.58124,
+      "recall": 0.62153,
+      "map50": 0.6334,
+      "map50_95": 0.39547
+    },
+    "optimizer_id": 2247560502480,
+    "scheduler_id": 2247560736576,
+    "ema_id": 2246585135264
+  },
+  {
+    "epoch": 26,
+    "metrics": {
+      "images": null,
+      "instances": null,
+      "precision": 0.56361,
+      "recall": 0.62751,
+      "map50": 0.631,
+      "map50_95": 0.39111
+    },
+    "optimizer_id": 2247560502480,
+    "scheduler_id": 2247560736576,
+    "ema_id": 2246585135264
+  },
+  {
+    "epoch": 27,
+    "metrics": {
+      "images": null,
+      "instances": null,
+      "precision": 0.66446,
+      "recall": 0.60196,
+      "map50": 0.6003,
+      "map50_95": 0.37148
+    },
+    "optimizer_id": 2247560502480,
+    "scheduler_id": 2247560736576,
+    "ema_id": 2246585135264
+  },
+  {
+    "epoch": 28,
+    "metrics": {
+      "images": null,
+      "instances": null,
+      "precision": 0.57326,
+      "recall": 0.62824,
+      "map50": 0.64051,
+      "map50_95": 0.40656
+    },
+    "optimizer_id": 2247560502480,
+    "scheduler_id": 2247560736576,
+    "ema_id": 2246585135264
+  },
+  {
+    "epoch": 29,
+    "metrics": {
+      "images": null,
+      "instances": null,
+      "precision": 0.71288,
+      "recall": 0.59414,
+      "map50": 0.62334,
+      "map50_95": 0.3858
+    },
+    "optimizer_id": 2247560502480,
+    "scheduler_id": 2247560736576,
+    "ema_id": 2246585135264
+  },
+  {
+    "epoch": 30,
+    "metrics": {
+      "images": null,
+      "instances": null,
+      "precision": 0.62949,
+      "recall": 0.65466,
+      "map50": 0.6793,
+      "map50_95": 0.42471
+    },
+    "optimizer_id": 2247560502480,
+    "scheduler_id": 2247560736576,
+    "ema_id": 2246585135264
+  },
+  {
+    "epoch": 31,
+    "metrics": {
+      "images": null,
+      "instances": null,
+      "precision": 0.62003,
+      "recall": 0.68082,
+      "map50": 0.6248,
+      "map50_95": 0.40988
+    },
+    "optimizer_id": 2247560502480,
+    "scheduler_id": 2247560736576,
+    "ema_id": 2246585135264
+  },
+  {
+    "epoch": 32,
+    "metrics": {
+      "images": null,
+      "instances": null,
+      "precision": 0.53499,
+      "recall": 0.73296,
+      "map50": 0.65268,
+      "map50_95": 0.41659
+    },
+    "optimizer_id": 2247560502480,
+    "scheduler_id": 2247560736576,
+    "ema_id": 2246585135264
+  },
+  {
+    "epoch": 33,
+    "metrics": {
+      "images": null,
+      "instances": null,
+      "precision": 0.64045,
+      "recall": 0.75061,
+      "map50": 0.71243,
+      "map50_95": 0.44569
+    },
+    "optimizer_id": 2247560502480,
+    "scheduler_id": 2247560736576,
+    "ema_id": 2246585135264
+  },
+  {
+    "epoch": 34,
+    "metrics": {
+      "images": null,
+      "instances": null,
+      "precision": 0.55749,
+      "recall": 0.72643,
+      "map50": 0.65265,
+      "map50_95": 0.40521
+    },
+    "optimizer_id": 2247560502480,
+    "scheduler_id": 2247560736576,
+    "ema_id": 2246585135264
+  },
+  {
+    "epoch": 35,
+    "metrics": {
+      "images": null,
+      "instances": null,
+      "precision": 0.69414,
+      "recall": 0.68389,
+      "map50": 0.71825,
+      "map50_95": 0.46419
+    },
+    "optimizer_id": 2247560502480,
+    "scheduler_id": 2247560736576,
+    "ema_id": 2246585135264
+  },
+  {
+    "epoch": 36,
+    "metrics": {
+      "images": null,
+      "instances": null,
+      "precision": 0.68352,
+      "recall": 0.73743,
+      "map50": 0.73287,
+      "map50_95": 0.47454
+    },
+    "optimizer_id": 2247560502480,
+    "scheduler_id": 2247560736576,
+    "ema_id": 2246585135264
+  },
+  {
+    "epoch": 37,
+    "metrics": {
+      "images": null,
+      "instances": null,
+      "precision": 0.71256,
+      "recall": 0.64313,
+      "map50": 0.65333,
+      "map50_95": 0.41784
+    },
+    "optimizer_id": 2247560502480,
+    "scheduler_id": 2247560736576,
+    "ema_id": 2246585135264
+  },
+  {
+    "epoch": 38,
+    "metrics": {
+      "images": null,
+      "instances": null,
+      "precision": 0.68932,
+      "recall": 0.74626,
+      "map50": 0.75382,
+      "map50_95": 0.4807
+    },
+    "optimizer_id": 2247560502480,
+    "scheduler_id": 2247560736576,
+    "ema_id": 2246585135264
+  },
+  {
+    "epoch": 39,
+    "metrics": {
+      "images": null,
+      "instances": null,
+      "precision": 0.71067,
+      "recall": 0.72089,
+      "map50": 0.72919,
+      "map50_95": 0.4653
+    },
+    "optimizer_id": 2247560502480,
+    "scheduler_id": 2247560736576,
+    "ema_id": 2246585135264
+  },
+  {
+    "epoch": 40,
+    "metrics": {
+      "images": null,
+      "instances": null,
+      "precision": 0.63282,
+      "recall": 0.74312,
+      "map50": 0.69812,
+      "map50_95": 0.45493
+    },
+    "optimizer_id": 2247560502480,
+    "scheduler_id": 2247560736576,
+    "ema_id": 2246585135264
+  },
+  {
+    "epoch": 41,
+    "metrics": {
+      "images": null,
+      "instances": null,
+      "precision": 0.69123,
+      "recall": 0.73302,
+      "map50": 0.71811,
+      "map50_95": 0.46229
+    },
+    "optimizer_id": 2247560502480,
+    "scheduler_id": 2247560736576,
+    "ema_id": 2246585135264
+  },
+  {
+    "epoch": 42,
+    "metrics": {
+      "images": null,
+      "instances": null,
+      "precision": 0.70603,
+      "recall": 0.72038,
+      "map50": 0.71946,
+      "map50_95": 0.46121
+    },
+    "optimizer_id": 2247560502480,
+    "scheduler_id": 2247560736576,
+    "ema_id": 2246585135264
+  },
+  {
+    "epoch": 43,
+    "metrics": {
+      "images": null,
+      "instances": null,
+      "precision": 0.71047,
+      "recall": 0.72113,
+      "map50": 0.74338,
+      "map50_95": 0.48101
+    },
+    "optimizer_id": 2247560502480,
+    "scheduler_id": 2247560736576,
+    "ema_id": 2246585135264
+  },
+  {
+    "epoch": 44,
+    "metrics": {
+      "images": null,
+      "instances": null,
+      "precision": 0.77589,
+      "recall": 0.68492,
+      "map50": 0.75092,
+      "map50_95": 0.48313
+    },
+    "optimizer_id": 2247560502480,
+    "scheduler_id": 2247560736576,
+    "ema_id": 2246585135264
+  },
+  {
+    "epoch": 45,
+    "metrics": {
+      "images": null,
+      "instances": null,
+      "precision": 0.7212,
+      "recall": 0.71906,
+      "map50": 0.73917,
+      "map50_95": 0.48562
+    },
+    "optimizer_id": 2247560502480,
+    "scheduler_id": 2247560736576,
+    "ema_id": 2246585135264
+  },
+  {
+    "epoch": 46,
+    "metrics": {
+      "images": null,
+      "instances": null,
+      "precision": 0.74671,
+      "recall": 0.71205,
+      "map50": 0.75724,
+      "map50_95": 0.48831
+    },
+    "optimizer_id": 2247560502480,
+    "scheduler_id": 2247560736576,
+    "ema_id": 2246585135264
+  },
+  {
+    "epoch": 47,
+    "metrics": {
+      "images": null,
+      "instances": null,
+      "precision": 0.76025,
+      "recall": 0.69818,
+      "map50": 0.75578,
+      "map50_95": 0.48409
+    },
+    "optimizer_id": 2247560502480,
+    "scheduler_id": 2247560736576,
+    "ema_id": 2246585135264
+  },
+  {
+    "epoch": 48,
+    "metrics": {
+      "images": null,
+      "instances": null,
+      "precision": 0.76323,
+      "recall": 0.69546,
+      "map50": 0.7528,
+      "map50_95": 0.48859
+    },
+    "optimizer_id": 2247560502480,
+    "scheduler_id": 2247560736576,
+    "ema_id": 2246585135264
+  },
+  {
+    "epoch": 49,
+    "metrics": {
+      "images": null,
+      "instances": null,
+      "precision": 0.74489,
+      "recall": 0.70507,
+      "map50": 0.75883,
+      "map50_95": 0.48645
+    },
+    "optimizer_id": 2247560502480,
+    "scheduler_id": 2247560736576,
+    "ema_id": 2246585135264
+  },
+  {
+    "epoch": 50,
+    "metrics": {
+      "images": null,
+      "instances": null,
+      "precision": 0.72864,
+      "recall": 0.70984,
+      "map50": 0.75397,
+      "map50_95": 0.48319
+    },
+    "optimizer_id": 2247560502480,
+    "scheduler_id": 2247560736576,
+    "ema_id": 2246585135264
+  },
+  {
+    "epoch": 50,
+    "metrics": {
+      "images": null,
+      "instances": null,
+      "precision": 0.7621985131931616,
+      "recall": 0.6948352919000482,
+      "map50": 0.7518805255636227,
+      "map50_95": 0.48917601908115815
+    },
+    "optimizer_id": 2247560502480,
+    "scheduler_id": 2247560736576,
+    "ema_id": 2246585135264
+  }
+]

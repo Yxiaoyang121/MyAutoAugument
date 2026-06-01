@@ -733,3 +733,25 @@ The repository is centered on diagnosis-driven augmentation for industrial defec
 - Best checkpoint: `outputs/experiments/catf_v2_seed42_50ep/train/weights/best.pt`.
 - Verdict: seed42 passes industrial constraints and is suitable for CATF-v2 multiseed validation; do not claim final method before multiseed passes.
 <!-- CATF_V2_SEED42_50EP_END -->
+
+<!-- MULTISEED_CLEAN_YOLO_DEFAULT_VS_CATF_V2_START -->
+## Multiseed Clean YOLO Default vs CATF-v2
+
+- Scope: seeds `0, 1, 2`; seed 42 remains a positive single-seed validation and is not included in the multiseed mean.
+- Output: `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2/`.
+- Clean native results were reused from existing per-seed clean YOLO default runs; CATF-v2 was newly trained for each seed.
+- CATF-v2 settings: official YOLO default augmentation kept enabled, class-aware feedback, ROI-aware augmentation, sample-aware routing, threshold calibration report, top_k=`2`, top_m=`2`, feedback interval=`5`.
+- Train images: `2301`; fixed augmented dataset generated: `false`; copy_paste remains `pending_object_bank_design`.
+- Per-seed deltas P/R/mAP50/mAP50-95:
+  - seed 0: `-0.0417/+0.0218/+0.0223/+0.0264`, constraint_failed=`true` due Precision drop.
+  - seed 1: `-0.0034/+0.0474/+0.0007/+0.0099`, constraint_failed=`false`.
+  - seed 2: `+0.1395/-0.1247/-0.0269/-0.0285`, constraint_failed=`true` due mAP50 and mAP50-95 drops.
+- Mean delta P/R/mAP50/mAP50-95: `+0.0315/-0.0185/-0.0013/+0.0026`.
+- CATF-v2 wins under industrial constraints: `1/3`; constraint failed seeds: `2/3`.
+- OK2/OK3 were never active; OK3 ROI applied total: `0`.
+- Active class counts: `{'8:脏污': 1, '11:锡尖': 1}`; ROI affected totals: `{'8:脏污': 3, '11:锡尖': 20}`.
+- Control statistics across seeds: rollback `0`, cooldown `0`, freeze events `12`; policy actions `{'shrink': 14, 'accept': 2, 'observe': 5, 'freeze': 6}`.
+- Compared with CATF-v1, CATF-v2 improves activation discipline and reduces constraint failures from `3/3` to `2/3`, but is still not stable enough for the paper main method.
+- Report: `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2/reports/multiseed_catf_v2_summary.md`.
+- JSON: `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2/reports/multiseed_catf_v2_summary.json`.
+<!-- MULTISEED_CLEAN_YOLO_DEFAULT_VS_CATF_V2_END -->

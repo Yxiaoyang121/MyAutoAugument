@@ -1,0 +1,302 @@
+{
+  "generated_at": "2026-06-02T19:04:47",
+  "output_dir": "outputs\\experiments\\diagnosis_only_inloop_control_50ep",
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "diagnosis_only_constraint_pass_count": 3,
+  "catf_v2_constraint_pass_count": 1,
+  "catf_v2_threshold_constraint_pass_count": 2,
+  "diagnosis_only_delta_vs_clean_mean_std": {
+    "precision": {
+      "mean": 0.0,
+      "std": 0.0
+    },
+    "recall": {
+      "mean": 0.0,
+      "std": 0.0
+    },
+    "map50": {
+      "mean": 0.0,
+      "std": 0.0
+    },
+    "map50_95": {
+      "mean": 0.0,
+      "std": 0.0
+    }
+  },
+  "diagnosis_only_changes_training_result": false,
+  "seed1_catf_success_callback_rng_interpretation": "unlikely_as_diagnosis_callback_alone",
+  "interpretation": {
+    "diagnosis_only_vs_clean": "Diagnosis-only reproduced clean native metrics exactly for seeds 0/1/2.",
+    "seed1": "Seed 1 CATF-v2 success is not explained by diagnosis callback alone; CATF-v2 industrial-enabled path still needs caution because augmentation counters were zero.",
+    "catf_v2_threshold": "CATF-v2 plus post-hoc threshold calibration improves constraint pass count to 2/3, but seed 2 remains a training trajectory failure."
+  },
+  "rows": [
+    {
+      "seed": 0,
+      "clean_native_metrics": {
+        "precision": 0.7845544620314738,
+        "recall": 0.6764566929659848,
+        "map50": 0.7346955158165702,
+        "map50_95": 0.4758941249341509
+      },
+      "catf_v2_metrics": {
+        "precision": 0.7428660677509904,
+        "recall": 0.6982320734575492,
+        "map50": 0.7570333885950943,
+        "map50_95": 0.5022533958217923
+      },
+      "diagnosis_only_metrics": {
+        "precision": 0.7845544620314738,
+        "recall": 0.6764566929659848,
+        "map50": 0.7346955158165702,
+        "map50_95": 0.4758941249341509
+      },
+      "diagnosis_only_delta_vs_clean": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "map50": 0.0,
+        "map50_95": 0.0
+      },
+      "diagnosis_only_delta_vs_catf_v2": {
+        "precision": 0.04168839428048343,
+        "recall": -0.021775380491564467,
+        "map50": -0.02233787277852406,
+        "map50_95": -0.026359270887641395
+      },
+      "diagnosis_only_constraint_failed": false,
+      "diagnosis_only_failure_reasons": [],
+      "catf_v2_constraint_failed": true,
+      "catf_v2_failure_reasons": [
+        "precision_drop_gt_0.01"
+      ],
+      "catf_v2_samples_augmented": 20,
+      "catf_v2_roi_aug_applied": 20,
+      "catf_v2_threshold_constrained_metrics": {
+        "precision": 0.6164979215347641,
+        "recall": 0.8089078040014246,
+        "map50": 0.7255121412036852,
+        "map50_95": 0.4753214056706853
+      },
+      "catf_v2_threshold_delta_vs_clean_posthoc": {
+        "precision": -0.007419531391987921,
+        "recall": 0.044368557774844164,
+        "map50": 0.055703076771776106,
+        "map50_95": 0.03519284765864972
+      },
+      "catf_v2_threshold_constraint_failed": false,
+      "catf_v2_threshold_failure_reasons": [],
+      "diagnosis_history_path": "outputs\\experiments\\diagnosis_only_inloop_control_50ep\\seed_0\\reports\\diagnosis_history.json",
+      "final_metrics_path": "outputs\\experiments\\diagnosis_only_inloop_control_50ep\\seed_0\\reports\\final_metrics.json",
+      "final_report_path": "outputs\\experiments\\diagnosis_only_inloop_control_50ep\\seed_0\\reports\\final_report.md",
+      "results_csv": "outputs\\experiments\\diagnosis_only_inloop_control_50ep\\seed_0\\train\\results.csv",
+      "epoch_count": 50,
+      "first_epoch": 1,
+      "last_epoch": 50,
+      "epoch_continuous": true,
+      "feedback_epochs": [
+        5,
+        10,
+        15,
+        20,
+        25,
+        30,
+        35,
+        40,
+        45
+      ],
+      "policy_update_applied_count": 0,
+      "industrial_aug_enabled": false,
+      "roi_aware_aug": false,
+      "sample_aware_routing": false,
+      "industrial_samples_augmented": 0,
+      "industrial_ops": {},
+      "roi_aug_applied": 0,
+      "train_image_count": 2301,
+      "fixed_augmented_dataset_generated": false,
+      "bbox_class_valid": true,
+      "policy_actions": {
+        "diagnosis_only": 9
+      }
+    },
+    {
+      "seed": 1,
+      "clean_native_metrics": {
+        "precision": 0.7725246158861973,
+        "recall": 0.6476798989752319,
+        "map50": 0.7541905909810253,
+        "map50_95": 0.4799185559746686
+      },
+      "catf_v2_metrics": {
+        "precision": 0.7691056170101762,
+        "recall": 0.6950333225856902,
+        "map50": 0.7549133150716549,
+        "map50_95": 0.48981412713083466
+      },
+      "diagnosis_only_metrics": {
+        "precision": 0.7725246158861973,
+        "recall": 0.6476798989752319,
+        "map50": 0.7541905909810253,
+        "map50_95": 0.4799185559746686
+      },
+      "diagnosis_only_delta_vs_clean": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "map50": 0.0,
+        "map50_95": 0.0
+      },
+      "diagnosis_only_delta_vs_catf_v2": {
+        "precision": 0.00341899887602104,
+        "recall": -0.047353423610458245,
+        "map50": -0.0007227240906296784,
+        "map50_95": -0.009895571156166072
+      },
+      "diagnosis_only_constraint_failed": false,
+      "diagnosis_only_failure_reasons": [],
+      "catf_v2_constraint_failed": false,
+      "catf_v2_failure_reasons": [],
+      "catf_v2_samples_augmented": 0,
+      "catf_v2_roi_aug_applied": 0,
+      "catf_v2_threshold_constrained_metrics": {
+        "precision": 0.5954501171312687,
+        "recall": 0.8298762871158402,
+        "map50": 0.7049637199902685,
+        "map50_95": 0.45655417302008117
+      },
+      "catf_v2_threshold_delta_vs_clean_posthoc": {
+        "precision": 0.02822601035480876,
+        "recall": 0.0568765685463164,
+        "map50": 0.022681443605023333,
+        "map50_95": 0.011969488860782529
+      },
+      "catf_v2_threshold_constraint_failed": false,
+      "catf_v2_threshold_failure_reasons": [],
+      "diagnosis_history_path": "outputs\\experiments\\diagnosis_only_inloop_control_50ep\\seed_1\\reports\\diagnosis_history.json",
+      "final_metrics_path": "outputs\\experiments\\diagnosis_only_inloop_control_50ep\\seed_1\\reports\\final_metrics.json",
+      "final_report_path": "outputs\\experiments\\diagnosis_only_inloop_control_50ep\\seed_1\\reports\\final_report.md",
+      "results_csv": "outputs\\experiments\\diagnosis_only_inloop_control_50ep\\seed_1\\train\\results.csv",
+      "epoch_count": 50,
+      "first_epoch": 1,
+      "last_epoch": 50,
+      "epoch_continuous": true,
+      "feedback_epochs": [
+        5,
+        10,
+        15,
+        20,
+        25,
+        30,
+        35,
+        40,
+        45
+      ],
+      "policy_update_applied_count": 0,
+      "industrial_aug_enabled": false,
+      "roi_aware_aug": false,
+      "sample_aware_routing": false,
+      "industrial_samples_augmented": 0,
+      "industrial_ops": {},
+      "roi_aug_applied": 0,
+      "train_image_count": 2301,
+      "fixed_augmented_dataset_generated": false,
+      "bbox_class_valid": true,
+      "policy_actions": {
+        "diagnosis_only": 9
+      }
+    },
+    {
+      "seed": 2,
+      "clean_native_metrics": {
+        "precision": 0.6962390186664107,
+        "recall": 0.728629640010866,
+        "map50": 0.7692030787336794,
+        "map50_95": 0.5223713770570699
+      },
+      "catf_v2_metrics": {
+        "precision": 0.8357621090770377,
+        "recall": 0.6039038600390677,
+        "map50": 0.7423244586156349,
+        "map50_95": 0.49384132117424606
+      },
+      "diagnosis_only_metrics": {
+        "precision": 0.6962390186664107,
+        "recall": 0.728629640010866,
+        "map50": 0.7692030787336794,
+        "map50_95": 0.5223713770570699
+      },
+      "diagnosis_only_delta_vs_clean": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "map50": 0.0,
+        "map50_95": 0.0
+      },
+      "diagnosis_only_delta_vs_catf_v2": {
+        "precision": -0.13952309041062705,
+        "recall": 0.12472577997179835,
+        "map50": 0.02687862011804454,
+        "map50_95": 0.028530055882823868
+      },
+      "diagnosis_only_constraint_failed": false,
+      "diagnosis_only_failure_reasons": [],
+      "catf_v2_constraint_failed": true,
+      "catf_v2_failure_reasons": [
+        "map50_drop_gt_0.01",
+        "map50_95_drop_gt_0.01"
+      ],
+      "catf_v2_samples_augmented": 3,
+      "catf_v2_roi_aug_applied": 3,
+      "catf_v2_threshold_constrained_metrics": {
+        "precision": 0.5944460852476968,
+        "recall": 0.7387729735223239,
+        "map50": 0.6252825905464349,
+        "map50_95": 0.4020488333631268
+      },
+      "catf_v2_threshold_delta_vs_clean_posthoc": {
+        "precision": -0.004915419962260081,
+        "recall": -0.017500573464691804,
+        "map50": -0.06079081382761187,
+        "map50_95": -0.057883235923503806
+      },
+      "catf_v2_threshold_constraint_failed": true,
+      "catf_v2_threshold_failure_reasons": [
+        "map50_drop_gt_0.01",
+        "map50_95_drop_gt_0.01"
+      ],
+      "diagnosis_history_path": "outputs\\experiments\\diagnosis_only_inloop_control_50ep\\seed_2\\reports\\diagnosis_history.json",
+      "final_metrics_path": "outputs\\experiments\\diagnosis_only_inloop_control_50ep\\seed_2\\reports\\final_metrics.json",
+      "final_report_path": "outputs\\experiments\\diagnosis_only_inloop_control_50ep\\seed_2\\reports\\final_report.md",
+      "results_csv": "outputs\\experiments\\diagnosis_only_inloop_control_50ep\\seed_2\\train\\results.csv",
+      "epoch_count": 50,
+      "first_epoch": 1,
+      "last_epoch": 50,
+      "epoch_continuous": true,
+      "feedback_epochs": [
+        5,
+        10,
+        15,
+        20,
+        25,
+        30,
+        35,
+        40,
+        45
+      ],
+      "policy_update_applied_count": 0,
+      "industrial_aug_enabled": false,
+      "roi_aware_aug": false,
+      "sample_aware_routing": false,
+      "industrial_samples_augmented": 0,
+      "industrial_ops": {},
+      "roi_aug_applied": 0,
+      "train_image_count": 2301,
+      "fixed_augmented_dataset_generated": false,
+      "bbox_class_valid": true,
+      "policy_actions": {
+        "diagnosis_only": 9
+      }
+    }
+  ]
+}

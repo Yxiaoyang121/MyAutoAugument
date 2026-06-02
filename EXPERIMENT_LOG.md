@@ -1010,3 +1010,23 @@ Key conclusions from that archived smoke:
 - Smoke result: diagnosis callback executed at epoch `5`; industrial samples augmented=`0`, ROI applied=`0`, policy update applied=`0`, train images=`2301`, fixed augmented dataset generated=`false`, epoch sequence `1..10` continuous, bbox/class legal.
 - Interpretation: threshold calibration can be a deployment/post-processing companion, but seed 2 shows it cannot substitute for robust training feedback.
 <!-- THRESHOLD_CALIBRATION_DIAGNOSIS_ONLY_END -->
+
+<!-- DIAGNOSIS_ONLY_CONTROL_50EP_START -->
+## Diagnosis-Only In-Loop Control 50 Epoch
+
+- Scope: seeds `0, 1, 2`; this is the control for in-loop diagnosis callback/RNG/training-path effects.
+- Output: `outputs/experiments/diagnosis_only_inloop_control_50ep/`.
+- Entry: `scripts/train_yolo_default_with_inloop_feedback.py`.
+- Configuration: YOLO default augmentation enabled, feedback diagnosis enabled, `diagnosis_only=true`, `industrial_aug_enabled=false`, ROI-aware augmentation disabled, sample-aware routing disabled, threshold mutation disabled, copy_paste not enabled.
+- Train images: `2301`; fixed augmented dataset generated: `false`; results.csv epoch `1..50` continuous for all seeds.
+- Control counters for all seeds: industrial samples augmented=`0`, ROI applied=`0`, policy update applied=`0`, bbox/class legal=`true`.
+- Final diagnosis-only metrics P/R/mAP50/mAP50-95:
+  - seed 0: `0.7846/0.6765/0.7347/0.4759`.
+  - seed 1: `0.7725/0.6477/0.7542/0.4799`.
+  - seed 2: `0.6962/0.7286/0.7692/0.5224`.
+- Delta vs clean native for all seeds and all four metrics: `0.0000`; diagnosis-only constraint pass count: `3/3`.
+- Interpretation: the diagnosis callback alone did not change training results. Seed 1 CATF-v2 success is not explained by callback/RNG alone, though CATF-v2 industrial-enabled training-path differences still need caution because that seed reported zero actual industrial/ROI augmentation.
+- CATF-v2 + post-hoc threshold calibration retains independent value as a deployment/post-processing companion: pass count improves from `1/3` to `2/3`, but seed 2 remains unrepaired.
+- Summary report: `outputs/experiments/diagnosis_only_inloop_control_50ep/reports/diagnosis_only_multiseed_summary.md`.
+- Summary JSON: `outputs/experiments/diagnosis_only_inloop_control_50ep/reports/diagnosis_only_multiseed_summary.json`.
+<!-- DIAGNOSIS_ONLY_CONTROL_50EP_END -->

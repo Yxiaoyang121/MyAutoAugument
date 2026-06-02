@@ -1,8 +1,8 @@
 # Project Snapshot
 
-- Generated: 2026-06-01T15:21:29
+- Generated: 2026-06-02T19:05:44
 - Branch: codex/sync-latest
-- Commit: ddbf0ab9fff16874042241bacb810ad13f463d0f
+- Commit: 56b518176fc71346cf169347358412f3de9543a9
 - Remote: https://github.com/Yxiaoyang121/MyAutoAugument.git
 
 ## Working Tree
@@ -11,13 +11,8 @@
  M CODEX_HANDOFF.md
  M EXPERIMENT_LOG.md
  M PROJECT_STATE.md
- M scripts/train_yolo_default_with_inloop_feedback.py
-?? outputs/experiments/diagnosis_only_inloop_control_10ep_smoke/
-?? outputs/experiments/diagnosis_only_inloop_control_plan.md
-?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2/reports/threshold_calibration_posthoc.json
-?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2/reports/threshold_calibration_posthoc.md
-?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2/reports/threshold_posthoc_predictions/
-?? scripts/evaluate_catf_v2_threshold_posthoc.py
+?? outputs/experiments/diagnosis_only_inloop_control_50ep/
+?? scripts/summarize_diagnosis_only_control.py
 ```
 
 ## Key Files
@@ -222,7 +217,7 @@
 
 ## Tracked File Count
 
-- 2853 tracked files
+- 2912 tracked files
 
 ## Notes
 

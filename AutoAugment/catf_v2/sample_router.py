@@ -66,6 +66,7 @@ class SampleAwareAugmentationRouter:
         self.sample_provider = None
         self.current_epoch = 0
         self.total_epochs = total_epochs
+        self.random_draw_count = 0
 
     def set_policy(self, policy_matrix: dict[str, Any]) -> None:
         self.policy_matrix = deepcopy(policy_matrix)
@@ -128,6 +129,7 @@ class SampleAwareAugmentationRouter:
                 routed_prob = prob
                 if high_fp_present and op_name in PHOTOMETRIC_OPS:
                     routed_prob *= 0.5
+                self.random_draw_count += 1
                 draw = float(generator.random())
                 self.stats.record_op(op_name, "seen")
                 op_audit = {

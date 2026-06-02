@@ -1,0 +1,19 @@
+{
+  "catf_noop": true,
+  "sample_router_built": true,
+  "noop_transform_calls": 2301,
+  "router_apply_calls": 0,
+  "router_random_draw_count": 0,
+  "industrial_samples_augmented": 0,
+  "roi_aug_applied": 0,
+  "policy_update_applied_count": 0,
+  "static_path_assessment": {
+    "transform_short_circuits_before_label_rewrite": true,
+    "sample_router_probability_draws_skipped": true,
+    "roi_random_selection_skipped": true,
+    "policy_matrix_update_skipped": true,
+    "sample_order_mutation_supported": false,
+    "dataloader_workers": 0
+  },
+  "conclusion": "CATF-v2 noop did not consume router augmentation RNG in the smoke."
+}

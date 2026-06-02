@@ -85,6 +85,8 @@ class OnlineTrainingContext:
     train_img_path: str | None = None
     global_epoch_offset: int = 0
     total_epochs: int | None = None
+    catf_noop: bool = False
+    noop_transform_calls: int = 0
 
 
 def main() -> None:
@@ -678,6 +680,10 @@ class UltralyticsOnlinePolicyTransform:
         self.instances_cls = instances_cls
 
     def __call__(self, labels: dict[str, Any]) -> dict[str, Any]:
+        if getattr(self.context, "catf_noop", False):
+            self.context.noop_transform_calls += 1
+            return labels
+
         image = labels.get("img")
         instances = labels.get("instances")
         if image is None or instances is None:

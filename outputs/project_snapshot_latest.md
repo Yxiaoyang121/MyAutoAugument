@@ -1,18 +1,22 @@
 # Project Snapshot
 
-- Generated: 2026-06-02T19:05:44
+- Generated: 2026-06-03T01:53:28
 - Branch: codex/sync-latest
-- Commit: 56b518176fc71346cf169347358412f3de9543a9
+- Commit: ae019a735a216b01a0cc68edf9d21112986a5ffe
 - Remote: https://github.com/Yxiaoyang121/MyAutoAugument.git
 
 ## Working Tree
 
 ```text
+ M AutoAugment/catf_v2/sample_router.py
  M CODEX_HANDOFF.md
  M EXPERIMENT_LOG.md
  M PROJECT_STATE.md
-?? outputs/experiments/diagnosis_only_inloop_control_50ep/
-?? scripts/summarize_diagnosis_only_control.py
+ M scripts/train_yolo_default_with_inloop_feedback.py
+ M scripts/train_yolo_online_aug.py
+?? outputs/experiments/catf_v2_noop_control_50ep/
+?? outputs/experiments/catf_v2_noop_parity_smoke/
+?? scripts/audit_catf_v2_noop_parity.py
 ```
 
 ## Key Files
@@ -217,7 +221,7 @@
 
 ## Tracked File Count
 
-- 2912 tracked files
+- 3449 tracked files
 
 ## Notes
 

@@ -145,6 +145,7 @@ def main() -> None:
         save_preview=args.save_preview,
         preview_count=args.preview_count,
         total_epochs=args.epochs,
+        catf_noop=bool(getattr(args, "catf_noop", False)),
     )
     state = InLoopFeedbackState(
         output_dir=output_dir,
@@ -384,6 +385,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--feedback-profile", default="industrial")
     parser.add_argument("--industrial-aug-enabled", action=argparse.BooleanOptionalAction, default=True)
     parser.add_argument("--catf-version", choices=["v1", "v2"], default="v1")
+    parser.add_argument("--catf-noop", action=argparse.BooleanOptionalAction, default=False)
     parser.add_argument("--class-aware-feedback", action=argparse.BooleanOptionalAction, default=False)
     parser.add_argument("--roi-aware-aug", action=argparse.BooleanOptionalAction, default=False)
     parser.add_argument("--sample-aware-routing", action=argparse.BooleanOptionalAction, default=False)
@@ -435,6 +437,7 @@ def build_train_config(args: argparse.Namespace, output_dir: Path) -> dict[str, 
         "industrial_aug_enabled": bool(args.industrial_aug_enabled),
         "feedback_controller": "CATF-v2" if is_catf_v2(args) else "CATF",
         "catf_version": str(args.catf_version),
+        "catf_noop": bool(args.catf_noop),
         "class_aware_feedback": bool(args.class_aware_feedback),
         "roi_aware_aug": bool(args.roi_aware_aug),
         "sample_aware_routing": bool(args.sample_aware_routing),
@@ -489,6 +492,7 @@ def build_train_command(args: argparse.Namespace, output_dir: Path) -> str:
         f"industrial_aug_enabled={bool(args.industrial_aug_enabled)}",
         f"feedback_controller={'CATF-v2' if is_catf_v2(args) else 'CATF'}",
         f"catf_version={getattr(args, 'catf_version', 'v1')}",
+        f"catf_noop={bool(getattr(args, 'catf_noop', False))}",
         f"class_aware_feedback={bool(getattr(args, 'class_aware_feedback', False))}",
         f"roi_aware_aug={bool(getattr(args, 'roi_aware_aug', False))}",
         f"sample_aware_routing={bool(getattr(args, 'sample_aware_routing', False))}",
@@ -598,6 +602,19 @@ def register_inloop_feedback_callback(model: Any, state: InLoopFeedbackState) ->
         if bool(getattr(state.args, "diagnosis_only", False)):
             record_diagnosis_only_feedback(state, trainer, epoch_num, metrics, reference_metrics, diagnosis, old_policy)
             return
+        if bool(getattr(state.args, "catf_noop", False)):
+            record_diagnosis_only_feedback(
+                state,
+                trainer,
+                epoch_num,
+                metrics,
+                reference_metrics,
+                diagnosis,
+                old_policy,
+                action="observe",
+                catf_noop=True,
+            )
+            return
         if is_catf_v2(state.args):
             controller = state.feedback_controller
             if not isinstance(controller, ClassAwareCATFController):
@@ -698,12 +715,16 @@ def record_diagnosis_only_feedback(
     reference_metrics: dict[str, Any],
     diagnosis: dict[str, Any],
     old_policy: dict[str, Any],
+    *,
+    action: str = "diagnosis_only",
+    catf_noop: bool = False,
 ) -> None:
     """Record in-loop diagnosis without mutating policy_state or augmentation."""
 
     record: dict[str, Any] = {
         "epoch": epoch_num,
-        "action": "diagnosis_only",
+        "action": action,
+        "catf_noop": bool(catf_noop),
         "metrics": metrics,
         "reference_metrics": reference_metrics,
         "delta_metrics": metric_delta(metrics, reference_metrics),
@@ -714,6 +735,8 @@ def record_diagnosis_only_feedback(
         "policy_update_applied": False,
         "industrial_aug_applied": False,
         "roi_aug_applied": False,
+        "random_draws_allowed": False if catf_noop else None,
+        "sample_routing_changes_sample_order": False if catf_noop else None,
         "guard_triggered": [],
         "rollback_reason": None,
         "frozen": False,
@@ -923,6 +946,10 @@ def build_payload(
         {
             "run_id": args.run_id,
             "generated_at": datetime.now().isoformat(timespec="seconds"),
+            "catf_noop": bool(getattr(args, "catf_noop", False)),
+            "noop_transform_calls": int(getattr(state.context, "noop_transform_calls", 0) or 0),
+            "router_random_draw_count": int(getattr(state.context.augmentor, "random_draw_count", 0) or 0),
+            "sample_router_built": bool(is_catf_v2(args)),
             "online_augmentation": bool(args.industrial_aug_enabled),
             "industrial_online_augmentation": bool(args.industrial_aug_enabled),
             "inloop_feedback": bool(args.feedback_enabled),
@@ -959,6 +986,7 @@ def build_payload(
         "policy_update_applied_count": sum(1 for record in state.history if record.get("policy_update_applied", True)),
         "feedback_controller": "CATF-v2" if is_catf_v2(args) else "CATF",
         "catf_version": str(getattr(args, "catf_version", "v1")),
+        "catf_noop": bool(getattr(args, "catf_noop", False)),
         "class_aware_feedback": bool(getattr(args, "class_aware_feedback", False)),
         "roi_aware_aug": bool(getattr(args, "roi_aware_aug", False)),
         "sample_aware_routing": bool(getattr(args, "sample_aware_routing", False)),
@@ -992,6 +1020,7 @@ def build_payload(
         "industrial_aug_enabled": bool(args.industrial_aug_enabled),
         "feedback_controller": "CATF-v2" if is_catf_v2(args) else "CATF",
         "catf_version": str(getattr(args, "catf_version", "v1")),
+        "catf_noop": bool(getattr(args, "catf_noop", False)),
         "class_aware_feedback": bool(getattr(args, "class_aware_feedback", False)),
         "roi_aware_aug": bool(getattr(args, "roi_aware_aug", False)),
         "sample_aware_routing": bool(getattr(args, "sample_aware_routing", False)),

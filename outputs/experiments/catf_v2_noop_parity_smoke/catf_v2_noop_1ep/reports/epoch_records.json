@@ -1,0 +1,30 @@
+[
+  {
+    "epoch": 1,
+    "metrics": {
+      "images": null,
+      "instances": null,
+      "precision": 0.8278,
+      "recall": 0.19843,
+      "map50": 0.21309,
+      "map50_95": 0.14562
+    },
+    "optimizer_id": 1659250693936,
+    "scheduler_id": 1659255618624,
+    "ema_id": 1658554950272
+  },
+  {
+    "epoch": 1,
+    "metrics": {
+      "images": null,
+      "instances": null,
+      "precision": 0.8271159914933954,
+      "recall": 0.19905436392128767,
+      "map50": 0.21208159200966198,
+      "map50_95": 0.14495772710663365
+    },
+    "optimizer_id": 1659250693936,
+    "scheduler_id": 1659255618624,
+    "ema_id": 1658554950272
+  }
+]

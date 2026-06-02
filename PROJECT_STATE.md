@@ -1,4 +1,4 @@
-# Project State
+﻿# Project State
 
 Last updated: 2026-06-03
 
@@ -6,25 +6,29 @@ Last updated: 2026-06-03
 
 The repository is centered on diagnosis-driven augmentation for industrial defect detection. The active path still keeps YOLO network architecture unchanged and focuses on dataset construction, validation-error diagnosis, policy generation, proxy safety, short training, and auditable reporting.
 
-## CATF-v2 Transform-Level Parity Audit (2026-06-03)
+## CATF-v2 Strict No-Augmentation Bypass Fix (2026-06-03)
 
 - No training was run.
-- Added `scripts/audit_catf_v2_transform_parity.py`.
+- Fixed CATF-v2 formal transform no-augmentation paths so they return the native YOLO label object unchanged unless an industrial/ROI op is actually applied.
+- Added `tests/test_catf_v2_transform_bypass.py`.
 - Audit path: `outputs/audits/catf_v2_transform_parity/`.
 - Dataset: `outputs/datasets/tiled/tiled_1024_ov20_full_safe_no_ok_position/data.yaml`.
-- Compared 100 deterministic train samples across:
+- Re-ran `scripts/audit_catf_v2_transform_parity.py` on 100 deterministic train samples across:
   - clean native YOLO default transform output,
   - CATF-v2 noop transform output,
   - CATF-v2 formal path with all industrial/ROI ops force-skipped by zero probability.
 - Result:
   - clean vs CATF-v2 noop final output: exact match.
-  - clean vs CATF-v2 formal-force-skip final output: 1/100 mismatch.
-  - formal-force-skip rewrote image/cls/Instances objects on all 100 samples despite zero applied augmentation.
+  - clean vs CATF-v2 formal-force-skip final output: exact match.
+  - bbox hash mismatch: 0/100.
+  - formal-force-skip image/cls/Instances rewrites: 0/100.
   - router random draw count: 0.
   - applied industrial/ROI ops: 0.
-  - one class-4 `油污` sample had `bbox_oob_count=1`; router validation clipped `y2` from `1024.00048828125` to `1024.0`, which propagated to a final bbox hash difference.
-- Root cause: CATF-v2 formal transform path is not a strict no-op when no augmentation is selected, because it still converts, validates, clips, and rebuilds labels/Instances.
-- Recommended fix direction: bypass CATF-v2 transform before label/Instances conversion unless a concrete op is selected for application; no_aug/stable/high-FP force-skip samples should return the native YOLO label object unchanged.
+  - router bbox_oob/invalid/class-oob count under force-skip: 0.
+- The previous root cause was confirmed and removed: CATF-v2 formal transform used to convert, validate, clip, and rebuild labels/Instances even when no augmentation was selected. It now bypasses rewrite/validation when `applied_any_aug=false`.
+- Validation:
+  - `tests/test_catf_v2_transform_bypass.py` passed.
+  - Full targeted suite passed: 81 tests.
 - Reports:
   - `outputs/audits/catf_v2_transform_parity/transform_parity_report.md`
   - `outputs/audits/catf_v2_transform_parity/transform_parity.json`
@@ -34,13 +38,13 @@ The repository is centered on diagnosis-driven augmentation for industrial defec
 - Run ID: `20260518_tiled1024_safe_no_ok_position_baseline_yolo11n_50ep`
 - Dataset: `outputs/datasets/tiled/tiled_1024_ov20_full_safe_no_ok_position/data.yaml`
 - Safe tiled dataset: true; safe source config used `tile_size=1024`, `overlap=0.2`, `min_visibility=0.7`, `large_object_min_visibility=0.9`, `drop_border_truncated=True`, `border_margin=2.0`, `require_box_center_inside=True`, `keep_empty_ratio=0.1`.
-- Removed classes: `OK`, `定位`; retained classes: `OK2`, `OK3`, `加强筋打伤`, `开裂`, `油污`, `浅划伤`, `漏背锡`, `碰伤`, `脏污`, `轮廓划伤`, `锡丝残留`, `锡尖`, `锡膏`.
+- Removed classes: `OK`, `瀹氫綅`; retained classes: `OK2`, `OK3`, `鍔犲己绛嬫墦浼, `寮€瑁俙, `娌规薄`, `娴呭垝浼, `婕忚儗閿, `纰颁激`, `鑴忔薄`, `杞粨鍒掍激`, `閿′笣娈嬬暀`, `閿″皷`, `閿¤啅`.
 - Train/val tiles: 2301 / 677; bboxes: 4087.
 - Model: `yolo11n.pt`; epochs: 50; imgsz: 1024; batch: 2; device: 0; workers: 0.
 - YOLO augmentation switches requested for shutdown were all set to `0`: `mosaic=0 mixup=0 copy_paste=0 hsv_h=0 hsv_s=0 hsv_v=0 degrees=0 translate=0 scale=0 shear=0 perspective=0 fliplr=0 flipud=0`.
 - Completed 50 epochs: true; OOM: false; training time: 2.826 hours.
 - Validation metrics from `best.pt`: Precision=0.690, Recall=0.615, mAP50=0.669, mAP50-95=0.434.
-- Lowest per-class Recall: `开裂` (0.000).
+- Lowest per-class Recall: `寮€瑁俙 (0.000).
 - Report: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_baseline_yolo11n_50ep/reports/baseline_50ep_report.md`.
 - Metrics JSON: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_baseline_yolo11n_50ep/reports/baseline_50ep_metrics.json`.
 - best.pt: `outputs/experiments/20260518_tiled1024_safe_no_ok_position_baseline_yolo11n_50ep/train/weights/best.pt`.
@@ -49,7 +53,7 @@ The repository is centered on diagnosis-driven augmentation for industrial defec
 ## Implemented In This Update
 
 - Added `scripts/filter_tiled_dataset.py` and built the filtered dataset at `outputs/datasets/tiled/tiled_1024_ov20_full_safe_no_ok_position/`.
-- The filtered dataset removes only `OK` and `定位`, keeps `OK2` and `OK3`, and remaps class ids to `0..12` with Chinese names preserved.
+- The filtered dataset removes only `OK` and `瀹氫綅`, keeps `OK2` and `OK3`, and remaps class ids to `0..12` with Chinese names preserved.
 - The filtered dataset reports:
   - source train/val images: 2452 / 677
   - filtered train/val images: 2301 / 677
@@ -105,8 +109,8 @@ The repository is centered on diagnosis-driven augmentation for industrial defec
 - Formal safe tiled YOLO11n baseline training and validation completed for `20260518_tiled1024_safe_no_ok_position_baseline_yolo11n_50ep`.
 - Filtered no-OK/no-position dataset build completed with no training:
   - Output dataset: `outputs/datasets/tiled/tiled_1024_ov20_full_safe_no_ok_position/`
-  - Deleted classes: `OK`, `定位`
-  - Kept classes: `OK2`, `OK3`, `加强筋打伤`, `开裂`, `油污`, `浅划伤`, `漏背锡`, `碰伤`, `脏污`, `轮廓划伤`, `锡丝残留`, `锡尖`, `锡膏`
+  - Deleted classes: `OK`, `瀹氫綅`
+  - Kept classes: `OK2`, `OK3`, `鍔犲己绛嬫墦浼, `寮€瑁俙, `娌规薄`, `娴呭垝浼, `婕忚儗閿, `纰颁激`, `鑴忔薄`, `杞粨鍒掍激`, `閿′笣娈嬬暀`, `閿″皷`, `閿¤啅`
   - New class id mapping: `0..12` in the order above
   - Source train/val images: 2452 / 677
   - Filtered train/val images: 2301 / 677
@@ -144,7 +148,7 @@ The repository is centered on diagnosis-driven augmentation for industrial defec
   - Obvious half-target bbox remains: false
   - Debug tile visualizations: 100
   - Class ids remain in range and Chinese names remain intact.
-  - Note: class `定位` has 0 retained bboxes under the strict large-structure rule; use this as an explicit audit caveat if that class must be evaluated.
+  - Note: class `瀹氫綅` has 0 retained bboxes under the strict large-structure rule; use this as an explicit audit caveat if that class must be evaluated.
 - Full tiled dataset build completed with no training:
   - Command used no `--max-images-per-split`.
   - Source dataset: `E:\TJGY\DataSet2_fixed`
@@ -192,7 +196,7 @@ The repository is centered on diagnosis-driven augmentation for industrial defec
   - Tiled smoke names now match original names exactly.
   - Tiled smoke is not a formal baseline dataset because it uses only 16 source images, matching the capped smoke build.
   - The 20 epoch `blank-or-unrendered` rows came from the earlier corrupted/non-renderable tiled class names in the saved val log/metrics, not from out-of-range class IDs.
-  - Low mAP is mainly driven by the smoke split and class imbalance: OK and OK3 have high AP50, while 开裂, 漏背锡, 碰伤, 轮廓划伤, 锡丝残留, and 锡膏 have recall 0 in the smoke val metrics.
+  - Low mAP is mainly driven by the smoke split and class imbalance: OK and OK3 have high AP50, while 寮€瑁? 婕忚儗閿? 纰颁激, 杞粨鍒掍激, 閿′笣娈嬬暀, and 閿¤啅 have recall 0 in the smoke val metrics.
 - Ran tiled baseline 20 epoch on GPU:
   - Command target: `outputs/experiments/20260517_tiled_baseline_20epoch`
   - Dataset: `outputs/datasets/tiled/tiled_1024_ov20_smoke/data.yaml`
@@ -709,10 +713,10 @@ The repository is centered on diagnosis-driven augmentation for industrial defec
 - Scope: `outputs/experiments/catf_v2_class_aware_10ep_smoke/reports/`.
 - No training was run; this is a report-only audit of epoch 5 CATF-v2 activation.
 - Audit outputs: `outputs/experiments/catf_v2_class_aware_10ep_smoke/reports/catf_v2_activation_audit.md` and `.json`.
-- Active classes from smoke: class `1` OK3, class `6` 漏背锡, class `8` 脏污.
+- Active classes from smoke: class `1` OK3, class `6` 婕忚儗閿? class `8` 鑴忔薄.
 - OK3 activation is judged not reasonable for a formal run: Recall is already high (`0.9891`), FN count is only `2`, FP count is `49`, and OK-like classes should default to stable/no_aug unless evidence is very strong.
-- 漏背锡 activation is judged reasonable: low Recall (`0.2826`), many FN (`32`), low-contrast evidence, and conservative ROI `sharpen_mild`/`local_contrast` ops.
-- 脏污 activation is partially reasonable as low Recall, but should be guarded by stain/dirty high-FP domain priors and should not lower threshold or escalate photometric before FP behavior is known.
+- 婕忚儗閿?activation is judged reasonable: low Recall (`0.2826`), many FN (`32`), low-contrast evidence, and conservative ROI `sharpen_mild`/`local_contrast` ops.
+- 鑴忔薄 activation is partially reasonable as low Recall, but should be guarded by stain/dirty high-FP domain priors and should not lower threshold or escalate photometric before FP behavior is known.
 - Low-support classes `2` and `3` did not trigger strong photometric augmentation; they remain oversampling/copy-paste pending candidates.
 - ROI augmentation applied `150` times, including OK3 (`122`), which is the main activation-rule concern.
 - Recommendation: do not enter CATF-v2 seed42 50ep until activation rules are tightened with OK2/OK3 no_aug, stronger activation threshold, domain high-FP guards for stain/oil/dirty classes, and likely top_k reduced from `3` to `2`.
@@ -726,10 +730,10 @@ The repository is centered on diagnosis-driven augmentation for industrial defec
 - Report: `outputs/experiments/catf_v2_activation_fixed_10ep_smoke/reports/catf_v2_activation_fixed_report.md`.
 - Rule changes: OK2/OK3 default no_aug, stricter activation thresholds, domain high-FP prior for OK2/OK3/oil/dirty classes, top_k_active_classes=`2`, ROI blocks no_aug/high-FP conflict classes.
 - Smoke result: train_success=`true`, val_success=`true`, train_images=`2301`, fixed_augmented_dataset_generated=`false`.
-- Active classes after fix: class `6` 漏背锡 (texture_boundary_weak), class `8` 脏污 (low_recall).
+- Active classes after fix: class `6` 婕忚儗閿?(texture_boundary_weak), class `8` 鑴忔薄 (low_recall).
 - OK3 active=`false`; OK3 ROI applied=`0`.
-- 漏背锡 active=`true` with conservative ROI sharpen/local_contrast.
-- 脏污 domain_high_fp_prior=`true`; photometric probs `{'clahe': 0.0, 'gamma': 0.0, 'brightness': 0.0, 'contrast': 0.0}`; threshold recommendation `0.25` with reason `domain_high_fp_prior_keep_threshold`.
+- 婕忚儗閿?active=`true` with conservative ROI sharpen/local_contrast.
+- 鑴忔薄 domain_high_fp_prior=`true`; photometric probs `{'clahe': 0.0, 'gamma': 0.0, 'brightness': 0.0, 'contrast': 0.0}`; threshold recommendation `0.25` with reason `domain_high_fp_prior_keep_threshold`.
 - ROI stats: `{'roi_aug_applied': 23, 'roi_aug_skipped_small_roi': 0, 'roi_aug_skipped_conflict': 2, 'affected_classes': {'6': 20, '8': 3}}`.
 - BBox/class valid: `true`.
 - Recommendation: proceed to CATF-v2 seed42 50 epoch validation only after this fixed activation rule set; do not use the earlier CATF-v2 smoke as formal evidence.
@@ -747,7 +751,7 @@ The repository is centered on diagnosis-driven augmentation for industrial defec
 - Delta vs clean native seed42 P/R/mAP50/mAP50-95: `+0.0236/+0.0413/+0.0062/-0.0039`.
 - constraint_failed: `false`.
 - OK2/OK3 active epochs: `[]`; OK3 ROI applied: `0`.
-- Active class counts: `{'6:漏背锡': 1, '12:锡膏': 1}`.
+- Active class counts: `{'6:婕忚儗閿?: 1, '12:閿¤啅': 1}`.
 - ROI stats: `{'roi_aug_applied': 37, 'roi_aug_skipped_small_roi': 0, 'roi_aug_skipped_conflict': 0, 'affected_classes': {'6': 18, '12': 19}}`.
 - Feedback actions: `{'observe': 2, 'accept': 1, 'shrink': 4, 'freeze': 2}`; class actions: `{'propose': 2, 'observe': 3}`; rollback/cooldown/freeze: `0/0/4`.
 - Report: `outputs/experiments/catf_v2_seed42_50ep/reports/final_report.md`.
@@ -772,7 +776,7 @@ The repository is centered on diagnosis-driven augmentation for industrial defec
 - Mean delta P/R/mAP50/mAP50-95: `+0.0315/-0.0185/-0.0013/+0.0026`.
 - CATF-v2 wins under industrial constraints: `1/3`; constraint failed seeds: `2/3`.
 - OK2/OK3 were never active; OK3 ROI applied total: `0`.
-- Active class counts: `{'8:脏污': 1, '11:锡尖': 1}`; ROI affected totals: `{'8:脏污': 3, '11:锡尖': 20}`.
+- Active class counts: `{'8:鑴忔薄': 1, '11:閿″皷': 1}`; ROI affected totals: `{'8:鑴忔薄': 3, '11:閿″皷': 20}`.
 - Control statistics across seeds: rollback `0`, cooldown `0`, freeze events `12`; policy actions `{'shrink': 14, 'accept': 2, 'observe': 5, 'freeze': 6}`.
 - Compared with CATF-v1, CATF-v2 improves activation discipline and reduces constraint failures from `3/3` to `2/3`, but is still not stable enough for the paper main method.
 - Report: `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2/reports/multiseed_catf_v2_summary.md`.

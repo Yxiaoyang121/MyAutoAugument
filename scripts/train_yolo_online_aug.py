@@ -699,6 +699,9 @@ class UltralyticsOnlinePolicyTransform:
         before_labels = class_values.astype(np.int64, copy=True) if before_image is not None else None
 
         result = self.context.augmentor.apply(image, class_values.astype(np.int64), bboxes)
+        applied_any_aug = bool(result.audit.get("applied_any_aug", bool(result.audit.get("applied_ops"))))
+        if not applied_any_aug:
+            return labels
         labels["img"] = result.image
         labels["cls"] = result.labels.reshape(-1, 1).astype(np.float32)
         labels["instances"] = make_instances(

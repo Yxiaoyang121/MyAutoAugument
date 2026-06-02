@@ -19,46 +19,47 @@
 ## Parity Results
 
 - clean vs CATF-v2 noop final output identical: `true`
-- clean vs CATF-v2 formal-force-skip final output identical: `false`
+- clean vs CATF-v2 formal-force-skip final output identical: `true`
 - raw vs CATF-v2 noop intermediate identical: `true`
-- raw vs CATF-v2 formal-force-skip intermediate identical: `false`
+- raw vs CATF-v2 formal-force-skip intermediate identical: `true`
 - clean vs noop final mismatches: `0`
-- clean vs formal-force-skip final mismatches: `1`
-- raw vs formal-force-skip intermediate mismatches: `89`
+- clean vs formal-force-skip final mismatches: `0`
+- raw vs formal-force-skip intermediate mismatches: `0`
 
 ## Rewrite And Random Audit
 
 - CATF-v2 noop instance rewrites: `0`
-- CATF-v2 formal-force-skip instance rewrites: `100`
-- CATF-v2 formal-force-skip image rewrites: `100`
-- CATF-v2 formal-force-skip cls rewrites: `100`
+- CATF-v2 formal-force-skip instance rewrites: `0`
+- CATF-v2 formal-force-skip image rewrites: `0`
+- CATF-v2 formal-force-skip cls rewrites: `0`
 - CATF-v2 formal-force-skip router random draws: `0`
 - CATF-v2 formal-force-skip random state changed samples: `0`
 - CATF-v2 formal-force-skip applied ops: `0`
 - CATF-v2 formal-force-skip samples seen by router: `100`
-- CATF-v2 formal-force-skip bbox_oob_count: `1`
+- CATF-v2 formal-force-skip bbox_oob_count: `0`
 - CATF-v2 formal-force-skip invalid_bbox_count: `0`
 - CATF-v2 formal-force-skip class_id_oob_count: `0`
 
 ## Answers
 
 1. clean vs CATF-v2 noop is fully identical: `true`.
-2. clean vs CATF-v2 formal-force-skip final output is fully identical: `false`.
-3. Formal-force-skip does replace image/cls/Instances objects before the native YOLO transform, because the online transform converts boxes through the router and rebuilds `Instances` even when no op is applied.
-4. That rewrite did not change final image hash, class order, bbox hash, dtype, shape, or sample order in the sampled paths: `false`.
+2. clean vs CATF-v2 formal-force-skip final output is fully identical: `true`.
+3. Formal-force-skip does not replace image/cls/Instances objects before the native YOLO transform.
+4. Final image hash, class order, bbox hash, dtype, shape, and sample order match clean native: `true`.
 5. Router random draws under formal-force-skip: `0`.
-6. no_aug/stable/high-FP samples can enter router validation in formal-force-skip, but no industrial or ROI operation is applied and no probability draw is consumed.
-7. Router validation clipped or flagged out-of-bound boxes in `1` sampled case(s), which is enough to change a final YOLO training sample even with zero applied augmentation.
+6. no_aug/stable/high-FP force-skip samples do not apply industrial/ROI operations and do not consume probability draws.
+7. Router validation clipped or flagged out-of-bound boxes in `0` sampled case(s).
 
 ## Interpretation
 
-- Root cause classification: `formal_force_skip_changes_final_training_sample`.
-- The final training sample differs under force-skip; CATF-v2 should bypass the online transform unless an op is actually selected.
+- Root cause classification: `no_transform_level_difference_detected`.
+- This audit does not support transform-level label rewrite as the explanation for seed1 CATF-v2 ROI/industrial=0 but different final metrics.
+- The formal-force-skip path now removes the previously identified mechanism risk: it does not rewrite labels or clip boxes when no augmentation is applied.
 
-## Fix Suggestions
+## Bypass Guardrails
 
 - Keep `catf_noop=true` bypass as the strict parity path.
-- For formal CATF-v2, add an early bypass when sample routing finds no active op before converting/rebuilding `Instances`.
+- Formal CATF-v2 should continue to bypass rewrite when sample routing finds no active op before converting/rebuilding `Instances`.
 - Only copy image, cls, and `Instances` after a specific ROI/industrial op is selected for application.
 - Force-skip paths should continue to avoid random draws and should not call validation that can clip/filter boxes.
 

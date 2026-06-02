@@ -2,6 +2,39 @@
 
 ## 2026-06-03
 
+### CATF-v2 Strict No-Augmentation Bypass Fix
+
+No training was run. Fixed CATF-v2 formal transform no-augmentation paths so they bypass label conversion, bbox validation/clip, and `Instances` rebuild unless an industrial/ROI augmentation is actually applied.
+
+Implementation summary:
+
+- `SampleAwareAugmentationRouter` now records `applied_any_aug`.
+- No-active, empty-label, no_aug/stable-only, high-FP guarded-only, all-prob-zero, and ROI-unavailable paths return bypass results without bbox validation/clip.
+- `UltralyticsOnlinePolicyTransform` returns the original YOLO label dict unchanged when `applied_any_aug=false`.
+- ROI-unavailable precheck avoids probability draws when a ROI op cannot be applied.
+
+Re-run transform parity audit:
+
+- clean vs CATF-v2 noop final output identical: true
+- clean vs CATF-v2 formal-force-skip final output identical: true
+- bbox hash mismatches: 0 / 100
+- raw vs formal-force-skip intermediate mismatches: 0 / 100
+- formal-force-skip image/cls/Instances rewrites: 0 / 100
+- router random draws: 0
+- industrial/ROI applied ops: 0
+- router bbox_oob/invalid/class-oob count: 0
+
+Validation:
+
+- `pytest -q tests/test_catf_v2_transform_bypass.py ... tests/test_copy_paste.py`: 81 passed.
+- Syntax checks passed for CATF-v2 router/policy/threshold modules and in-loop training entrypoint.
+
+Outputs:
+
+- `outputs/audits/catf_v2_transform_parity/transform_parity_report.md`
+- `outputs/audits/catf_v2_transform_parity/transform_parity.json`
+- `outputs/audits/catf_v2_transform_parity/diff_samples/README.md`
+
 ### CATF-v2 Transform-Level Parity Audit
 
 No training was run. Added and executed `scripts/audit_catf_v2_transform_parity.py` to compare clean native YOLO default transform output, CATF-v2 noop output, and CATF-v2 formal-force-skip output on 100 deterministic train samples from `outputs/datasets/tiled/tiled_1024_ov20_full_safe_no_ok_position/data.yaml`.

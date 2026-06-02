@@ -71,6 +71,11 @@ def main() -> None:
     report_dir = output_dir
     diff_dir = output_dir / "diff_samples"
     diff_dir.mkdir(parents=True, exist_ok=True)
+    for stale in diff_dir.glob("*.json"):
+        stale.unlink()
+    readme = diff_dir / "README.md"
+    if readme.exists():
+        readme.unlink()
     os.environ["PYTHONUTF8"] = "1"
     os.environ["PYTHONIOENCODING"] = "utf-8"
 
@@ -617,6 +622,7 @@ def root_cause_statement(final_mismatches: int, intermediate_mismatches: int, in
 
 
 def write_diff_samples(diff_dir: Path, samples: list[dict[str, Any]]) -> None:
+    written = 0
     for sample in samples:
         has_diff = any(
             not sample[key]["equal"]
@@ -631,6 +637,9 @@ def write_diff_samples(diff_dir: Path, samples: list[dict[str, Any]]) -> None:
         if has_diff or rewrote:
             filename = diff_dir / f"sample_{sample['ordinal']:03d}_idx_{sample['index']}.json"
             write_json(filename, sample)
+            written += 1
+    if written == 0:
+        write_text(diff_dir / "README.md", "No transform parity diffs were detected in the sampled paths.\n")
 
 
 def write_report(path: Path, payload: dict[str, Any]) -> None:
@@ -681,11 +690,15 @@ def write_report(path: Path, payload: dict[str, Any]) -> None:
             "",
             f"1. clean vs CATF-v2 noop is fully identical: `{str(summary['clean_vs_noop_final_equal']).lower()}`.",
             f"2. clean vs CATF-v2 formal-force-skip final output is fully identical: `{str(summary['clean_vs_force_skip_final_equal']).lower()}`.",
-            "3. Formal-force-skip does replace image/cls/Instances objects before the native YOLO transform, because the online transform converts boxes through the router and rebuilds `Instances` even when no op is applied.",
-            f"4. That rewrite did not change final image hash, class order, bbox hash, dtype, shape, or sample order in the sampled paths: `{str(summary['clean_vs_force_skip_final_equal']).lower()}`.",
+            (
+                "3. Formal-force-skip does not replace image/cls/Instances objects before the native YOLO transform."
+                if summary["formal_force_skip_instance_rewrite_count"] == 0
+                else "3. Formal-force-skip replaces image/cls/Instances objects before the native YOLO transform."
+            ),
+            f"4. Final image hash, class order, bbox hash, dtype, shape, and sample order match clean native: `{str(summary['clean_vs_force_skip_final_equal']).lower()}`.",
             f"5. Router random draws under formal-force-skip: `{summary['formal_force_skip_router_random_draw_count']}`.",
-            "6. no_aug/stable/high-FP samples can enter router validation in formal-force-skip, but no industrial or ROI operation is applied and no probability draw is consumed.",
-            f"7. Router validation clipped or flagged out-of-bound boxes in `{summary['formal_force_skip_bbox_oob_count']}` sampled case(s), which is enough to change a final YOLO training sample even with zero applied augmentation.",
+            "6. no_aug/stable/high-FP force-skip samples do not apply industrial/ROI operations and do not consume probability draws.",
+            f"7. Router validation clipped or flagged out-of-bound boxes in `{summary['formal_force_skip_bbox_oob_count']}` sampled case(s).",
             "",
             "## Interpretation",
             "",
@@ -697,17 +710,17 @@ def write_report(path: Path, payload: dict[str, Any]) -> None:
             "- This audit does not support transform-level label rewrite as the explanation for seed1 CATF-v2 ROI/industrial=0 but different final metrics."
         )
         lines.append(
-            "- Remaining explanations should focus on epochs where CATF-v2 was not a strict force-skip path, metric selection, checkpoint selection, or active-path random/validation side effects outside this no-op transform comparison."
+            "- The formal-force-skip path now removes the previously identified mechanism risk: it does not rewrite labels or clip boxes when no augmentation is applied."
         )
     else:
         lines.append("- The final training sample differs under force-skip; CATF-v2 should bypass the online transform unless an op is actually selected.")
     lines.extend(
         [
             "",
-            "## Fix Suggestions",
+            "## Bypass Guardrails",
             "",
             "- Keep `catf_noop=true` bypass as the strict parity path.",
-            "- For formal CATF-v2, add an early bypass when sample routing finds no active op before converting/rebuilding `Instances`.",
+            "- Formal CATF-v2 should continue to bypass rewrite when sample routing finds no active op before converting/rebuilding `Instances`.",
             "- Only copy image, cls, and `Instances` after a specific ROI/industrial op is selected for application.",
             "- Force-skip paths should continue to avoid random draws and should not call validation that can clip/filter boxes.",
             "",

@@ -88,21 +88,30 @@ class SampleAwareAugmentationRouter:
         rng: np.random.Generator | None = None,
     ) -> OnlineAugmentResult:
         generator = rng if rng is not None else self.rng
-        current_image = np.asarray(image).copy()
-        current_labels = np.asarray(labels, dtype=np.int64).reshape(-1).copy()
-        current_bboxes = np.asarray(bboxes, dtype=np.float32).reshape(-1, 4).copy()
-        input_bbox_count = int(len(current_bboxes))
-        audit: dict[str, Any] = {"operations": [], "applied_ops": [], "skipped_ops": [], "router": {}}
-        present = sorted({int(value) for value in current_labels.tolist()})
+        original_image = image
+        original_labels = labels
+        original_bboxes = bboxes
+        labels_arr = np.asarray(labels, dtype=np.int64).reshape(-1)
+        bboxes_arr = np.asarray(bboxes, dtype=np.float32).reshape(-1, 4)
+        input_bbox_count = int(len(bboxes_arr))
+        audit: dict[str, Any] = {
+            "operations": [],
+            "applied_ops": [],
+            "skipped_ops": [],
+            "router": {},
+            "applied_any_aug": False,
+        }
+        present = sorted({int(value) for value in labels_arr.tolist()})
         class_policies = self.policy_matrix.get("classes", {}) or {}
         if not present:
-            return self._finish(current_image, current_labels, current_bboxes, input_bbox_count, audit)
+            audit["router"]["skip_reason"] = "empty_labels"
+            return self._bypass(original_image, original_labels, original_bboxes, input_bbox_count, audit)
 
         present_policies = [class_policies.get(str(class_id), {}) for class_id in present]
         all_stable = bool(present_policies) and all(_is_stable(item) for item in present_policies)
         if all_stable:
             audit["router"]["skip_reason"] = "stable_classes_only"
-            return self._finish(current_image, current_labels, current_bboxes, input_bbox_count, audit)
+            return self._bypass(original_image, original_labels, original_bboxes, input_bbox_count, audit)
 
         high_fp_present = any(_is_high_fp_guarded(item) for item in present_policies)
         guarded_or_no_aug_classes = {
@@ -113,8 +122,11 @@ class SampleAwareAugmentationRouter:
         active_targets = [class_id for class_id in present if _has_active_ops(class_policies.get(str(class_id), {}))]
         if not active_targets:
             audit["router"]["skip_reason"] = "no_active_target_class"
-            return self._finish(current_image, current_labels, current_bboxes, input_bbox_count, audit)
+            return self._bypass(original_image, original_labels, original_bboxes, input_bbox_count, audit)
 
+        current_image = np.asarray(image).copy()
+        current_labels = labels_arr.copy()
+        current_bboxes = bboxes_arr.copy()
         for class_id in active_targets:
             policy = class_policies.get(str(class_id), {})
             if _is_high_fp_guarded(policy) or _is_no_aug(policy):
@@ -129,8 +141,6 @@ class SampleAwareAugmentationRouter:
                 routed_prob = prob
                 if high_fp_present and op_name in PHOTOMETRIC_OPS:
                     routed_prob *= 0.5
-                self.random_draw_count += 1
-                draw = float(generator.random())
                 self.stats.record_op(op_name, "seen")
                 op_audit = {
                     "name": op_name,
@@ -138,20 +148,35 @@ class SampleAwareAugmentationRouter:
                     "prob": prob,
                     "routed_prob": routed_prob,
                     "strength": strength,
-                    "draw": draw,
+                    "draw": None,
                     "applied": False,
                     "skip_reason": None,
                 }
-                if draw > routed_prob:
-                    op_audit["skip_reason"] = "probability"
-                    audit["skipped_ops"].append(op_audit)
-                    self.stats.record_op(op_name, "skipped_probability")
-                    audit["operations"].append(op_audit)
-                    continue
                 if _is_domain_prior(policy) and op_name in DOMAIN_PRIOR_BLOCKED_ROI_OPS:
                     op_audit["skip_reason"] = "domain_prior_blocks_roi_photometric"
                     audit["skipped_ops"].append(op_audit)
                     self.stats.record_op(op_name, "skipped_domain_prior")
+                    audit["operations"].append(op_audit)
+                    continue
+                if self.roi_aware and op_name in ROI_OPS and not self._roi_op_available(
+                    current_labels,
+                    current_bboxes,
+                    class_id,
+                    conflict_bboxes=conflict_bboxes,
+                    image_shape=current_image.shape,
+                ):
+                    op_audit["skip_reason"] = "roi_unavailable"
+                    audit["skipped_ops"].append(op_audit)
+                    self.stats.record_op(op_name, "skipped_roi_unavailable")
+                    audit["operations"].append(op_audit)
+                    continue
+                self.random_draw_count += 1
+                draw = float(generator.random())
+                op_audit["draw"] = draw
+                if draw > routed_prob:
+                    op_audit["skip_reason"] = "probability"
+                    audit["skipped_ops"].append(op_audit)
+                    self.stats.record_op(op_name, "skipped_probability")
                     audit["operations"].append(op_audit)
                     continue
                 if self.roi_aware and op_name in ROI_OPS:
@@ -200,6 +225,9 @@ class SampleAwareAugmentationRouter:
                 audit["skipped_ops"].append(op_audit)
                 self.stats.record_op(op_name, "skipped_unsupported_router_op")
                 audit["operations"].append(op_audit)
+        if not audit.get("applied_ops"):
+            audit["router"]["skip_reason"] = audit["router"].get("skip_reason") or "no_operation_applied"
+            return self._bypass(original_image, original_labels, original_bboxes, input_bbox_count, audit)
         return self._finish(current_image, current_labels, current_bboxes, input_bbox_count, audit)
 
     def _apply_roi_op(
@@ -229,6 +257,48 @@ class SampleAwareAugmentationRouter:
             applied = True
         return applied
 
+    def _roi_op_available(
+        self,
+        labels: np.ndarray,
+        bboxes: np.ndarray,
+        class_id: int,
+        *,
+        conflict_bboxes: np.ndarray | None = None,
+        image_shape: tuple[int, ...],
+    ) -> bool:
+        height, width = image_shape[:2]
+        available = False
+        for bbox in bboxes[labels == int(class_id)]:
+            x1, y1, x2, y2 = expand_box(bbox, width=width, height=height, factor=1.5)
+            if conflict_bboxes is not None and len(conflict_bboxes) and any(overlaps((x1, y1, x2, y2), other) for other in conflict_bboxes):
+                self.roi_stats.roi_aug_skipped_conflict += 1
+                continue
+            if x2 - x1 < 8 or y2 - y1 < 8:
+                self.roi_stats.roi_aug_skipped_small_roi += 1
+                continue
+            available = True
+        return available
+
+    def _bypass(
+        self,
+        image: np.ndarray,
+        labels: np.ndarray,
+        bboxes: np.ndarray,
+        input_bbox_count: int,
+        audit: dict[str, Any],
+    ) -> OnlineAugmentResult:
+        audit["applied_any_aug"] = False
+        audit["validation"] = {
+            "skipped": True,
+            "reason": "no_augmentation_applied",
+            "invalid_bbox_count": 0,
+            "bbox_oob_count": 0,
+            "class_id_oob_count": 0,
+        }
+        output_count = int(len(np.asarray(bboxes).reshape(-1, 4))) if np.asarray(bboxes).size else 0
+        self.stats.record_sample(input_count=input_bbox_count, output_count=output_count, augmented=False)
+        return OnlineAugmentResult(image=image, labels=labels, bboxes=bboxes, audit=audit)
+
     def _finish(
         self,
         image: np.ndarray,
@@ -239,6 +309,7 @@ class SampleAwareAugmentationRouter:
     ) -> OnlineAugmentResult:
         height, width = image.shape[:2]
         labels, bboxes, validation = validate_detection_sample(labels, bboxes, width=width, height=height, num_classes=self.num_classes)
+        audit["applied_any_aug"] = bool(audit.get("applied_ops"))
         audit["validation"] = validation
         self.stats.record_validation(validation)
         self.stats.record_sample(input_count=input_bbox_count, output_count=len(bboxes), augmented=bool(audit.get("applied_ops")))

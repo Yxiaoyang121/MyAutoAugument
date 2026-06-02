@@ -1,10 +1,33 @@
 # Project State
 
-Last updated: 2026-05-18
+Last updated: 2026-06-03
 
 ## Current Position
 
 The repository is centered on diagnosis-driven augmentation for industrial defect detection. The active path still keeps YOLO network architecture unchanged and focuses on dataset construction, validation-error diagnosis, policy generation, proxy safety, short training, and auditable reporting.
+
+## CATF-v2 Transform-Level Parity Audit (2026-06-03)
+
+- No training was run.
+- Added `scripts/audit_catf_v2_transform_parity.py`.
+- Audit path: `outputs/audits/catf_v2_transform_parity/`.
+- Dataset: `outputs/datasets/tiled/tiled_1024_ov20_full_safe_no_ok_position/data.yaml`.
+- Compared 100 deterministic train samples across:
+  - clean native YOLO default transform output,
+  - CATF-v2 noop transform output,
+  - CATF-v2 formal path with all industrial/ROI ops force-skipped by zero probability.
+- Result:
+  - clean vs CATF-v2 noop final output: exact match.
+  - clean vs CATF-v2 formal-force-skip final output: 1/100 mismatch.
+  - formal-force-skip rewrote image/cls/Instances objects on all 100 samples despite zero applied augmentation.
+  - router random draw count: 0.
+  - applied industrial/ROI ops: 0.
+  - one class-4 `油污` sample had `bbox_oob_count=1`; router validation clipped `y2` from `1024.00048828125` to `1024.0`, which propagated to a final bbox hash difference.
+- Root cause: CATF-v2 formal transform path is not a strict no-op when no augmentation is selected, because it still converts, validates, clips, and rebuilds labels/Instances.
+- Recommended fix direction: bypass CATF-v2 transform before label/Instances conversion unless a concrete op is selected for application; no_aug/stable/high-FP force-skip samples should return the native YOLO label object unchanged.
+- Reports:
+  - `outputs/audits/catf_v2_transform_parity/transform_parity_report.md`
+  - `outputs/audits/catf_v2_transform_parity/transform_parity.json`
 
 ## Formal Safe Tiled Baseline Result (2026-05-18)
 

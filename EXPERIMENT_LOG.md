@@ -1,5 +1,41 @@
 # Experiment Log
 
+## 2026-06-03
+
+### CATF-v2 Transform-Level Parity Audit
+
+No training was run. Added and executed `scripts/audit_catf_v2_transform_parity.py` to compare clean native YOLO default transform output, CATF-v2 noop output, and CATF-v2 formal-force-skip output on 100 deterministic train samples from `outputs/datasets/tiled/tiled_1024_ov20_full_safe_no_ok_position/data.yaml`.
+
+Coverage:
+
+- stable/no_aug samples: 42
+- active defect samples: 23
+- domain high-FP prior samples: 23
+- low-support samples: 10
+- multi-class samples: 38
+- empty-label samples: 10
+
+Result:
+
+- clean vs CATF-v2 noop final output identical: true
+- clean vs CATF-v2 formal-force-skip final output identical: false
+- clean vs formal-force-skip final mismatches: 1 / 100
+- raw vs formal-force-skip intermediate mismatches: 89 / 100
+- formal-force-skip image/cls/Instances rewrites: 100 / 100
+- router random draws: 0
+- industrial/ROI applied ops: 0
+- router `bbox_oob_count`: 1
+
+The final mismatch was a class 4 `油污` sample where the raw bbox had `y2=1024.00048828125`; formal-force-skip route ran validation and clipped it to `1024.0`, causing a downstream final bbox hash difference even without applied augmentation. This can explain residual CATF-v2 path effects that are not reflected by applied-op statistics.
+
+Outputs:
+
+- `outputs/audits/catf_v2_transform_parity/transform_parity_report.md`
+- `outputs/audits/catf_v2_transform_parity/transform_parity.json`
+- `outputs/audits/catf_v2_transform_parity/diff_samples/`
+
+Recommended next fix: bypass CATF-v2 transform before label conversion/validation unless an actual op is selected; force-skip/no-active/no_aug/stable/high-FP samples should return the native YOLO transform input unchanged.
+
 ## 2026-05-18
 
 ### Safe Tiled No OK/Position Baseline YOLO11n 50 Epoch

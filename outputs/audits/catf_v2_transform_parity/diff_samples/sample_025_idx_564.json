@@ -1,0 +1,760 @@
+{
+  "ordinal": 25,
+  "index": 564,
+  "image": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\train\\2025-06-11-13-48-22ps5_NGyuan_tile_0014.jpg",
+  "classes": [
+    1
+  ],
+  "groups": [
+    "stable_no_aug"
+  ],
+  "raw_vs_noop_intermediate": {
+    "equal": true,
+    "mismatches": [],
+    "checks": {
+      "image_shape_equal": true,
+      "image_dtype_equal": true,
+      "image_hash_equal": true,
+      "labels_shape_equal": true,
+      "class_id_sequence_equal": true,
+      "bbox_shape_equal": true,
+      "bbox_hash_equal": true,
+      "bbox_dtype_equal": true,
+      "bbox_order_equal": true,
+      "instances_fields_equal": true,
+      "normalized_state_equal": true,
+      "bbox_format_equal": true,
+      "keys_equal": true,
+      "empty_label_handling_equal": true,
+      "sample_index_order_equal": true
+    },
+    "numeric_diff": {
+      "bbox_max_abs_diff": 0.0,
+      "cls_max_abs_diff": 0.0,
+      "image_hash_diff": 0.0
+    }
+  },
+  "raw_vs_force_skip_intermediate": {
+    "equal": false,
+    "mismatches": [
+      "bbox_hash_equal",
+      "bbox_order_equal",
+      "instances_fields_equal"
+    ],
+    "checks": {
+      "image_shape_equal": true,
+      "image_dtype_equal": true,
+      "image_hash_equal": true,
+      "labels_shape_equal": true,
+      "class_id_sequence_equal": true,
+      "bbox_shape_equal": true,
+      "bbox_hash_equal": false,
+      "bbox_dtype_equal": true,
+      "bbox_order_equal": false,
+      "instances_fields_equal": false,
+      "normalized_state_equal": true,
+      "bbox_format_equal": true,
+      "keys_equal": true,
+      "empty_label_handling_equal": true,
+      "sample_index_order_equal": true
+    },
+    "numeric_diff": {
+      "bbox_max_abs_diff": 3.0517578125e-05,
+      "cls_max_abs_diff": 0.0,
+      "image_hash_diff": 0.0
+    }
+  },
+  "clean_vs_noop_final": {
+    "equal": true,
+    "mismatches": [],
+    "checks": {
+      "image_shape_equal": true,
+      "image_dtype_equal": true,
+      "image_hash_equal": true,
+      "labels_shape_equal": true,
+      "class_id_sequence_equal": true,
+      "bbox_shape_equal": true,
+      "bbox_hash_equal": true,
+      "bbox_dtype_equal": true,
+      "bbox_order_equal": true,
+      "instances_fields_equal": true,
+      "normalized_state_equal": true,
+      "bbox_format_equal": true,
+      "keys_equal": true,
+      "empty_label_handling_equal": true,
+      "sample_index_order_equal": true
+    },
+    "numeric_diff": {
+      "bbox_max_abs_diff": 0.0,
+      "cls_max_abs_diff": 0.0,
+      "image_hash_diff": 0.0
+    }
+  },
+  "clean_vs_force_skip_final": {
+    "equal": true,
+    "mismatches": [],
+    "checks": {
+      "image_shape_equal": true,
+      "image_dtype_equal": true,
+      "image_hash_equal": true,
+      "labels_shape_equal": true,
+      "class_id_sequence_equal": true,
+      "bbox_shape_equal": true,
+      "bbox_hash_equal": true,
+      "bbox_dtype_equal": true,
+      "bbox_order_equal": true,
+      "instances_fields_equal": true,
+      "normalized_state_equal": true,
+      "bbox_format_equal": true,
+      "keys_equal": true,
+      "empty_label_handling_equal": true,
+      "sample_index_order_equal": true
+    },
+    "numeric_diff": {
+      "bbox_max_abs_diff": 0.0,
+      "cls_max_abs_diff": 0.0,
+      "image_hash_diff": 0.0
+    }
+  },
+  "signatures": {
+    "clean_raw": {
+      "stage": "raw",
+      "keys": [
+        "cls",
+        "im_file",
+        "img",
+        "instances",
+        "ori_shape",
+        "ratio_pad",
+        "resized_shape"
+      ],
+      "im_file": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\train\\2025-06-11-13-48-22ps5_NGyuan_tile_0014.jpg",
+      "image": {
+        "exists": true,
+        "shape": [
+          1024,
+          1024,
+          3
+        ],
+        "dtype": "uint8",
+        "hash": "3352b8a9aaefe5a9efa0e361f3a258e252b070da9beb7e1786bace93c7963169",
+        "sum": 107308944.0
+      },
+      "cls": {
+        "exists": true,
+        "shape": [
+          1,
+          1
+        ],
+        "dtype": "float32",
+        "hash": "e00e5eb9444182f352323374ef4e08ebcb784725fdd4fd612d7730540b3e0c8c",
+        "sum": 1.0,
+        "values": [
+          [
+            1.0
+          ]
+        ]
+      },
+      "class_id_sequence": [
+        1
+      ],
+      "bboxes": {
+        "exists": true,
+        "shape": [
+          1,
+          4
+        ],
+        "dtype": "float32",
+        "hash": "5c7c665286c8ed8ddccf72fe46600e1b603c8383e9ebc0e56b6baedd7033ee87",
+        "sum": 1282.9983673095703,
+        "values": [
+          [
+            21.000198364257812,
+            506.9998474121094,
+            185.99935913085938,
+            568.9989624023438
+          ]
+        ]
+      },
+      "bbox_count": 1,
+      "instances": {
+        "exists": true,
+        "class": "Instances",
+        "bbox_format": "xywh",
+        "normalized": true,
+        "bboxes": {
+          "exists": true,
+          "shape": [
+            1,
+            4
+          ],
+          "dtype": "float32",
+          "hash": "6e497798ac5b839c384f463b5c1aeafada063651cd33851416344e20bf58a32c",
+          "sum": 0.8481420241296291,
+          "values": [
+            [
+              0.10107400268316269,
+              0.5253900289535522,
+              0.16113199293613434,
+              0.06054599955677986
+            ]
+          ]
+        },
+        "segments": {
+          "exists": true,
+          "shape": [
+            0,
+            1000,
+            2
+          ],
+          "dtype": "float32",
+          "hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "sum": 0.0
+        },
+        "keypoints": {
+          "exists": false
+        }
+      },
+      "ori_shape": [
+        1024,
+        1024
+      ],
+      "resized_shape": [
+        1024,
+        1024
+      ],
+      "batch_idx": {
+        "exists": false
+      }
+    },
+    "catf_v2_noop_intermediate": {
+      "stage": "intermediate",
+      "keys": [
+        "cls",
+        "im_file",
+        "img",
+        "instances",
+        "ori_shape",
+        "ratio_pad",
+        "resized_shape"
+      ],
+      "im_file": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\train\\2025-06-11-13-48-22ps5_NGyuan_tile_0014.jpg",
+      "image": {
+        "exists": true,
+        "shape": [
+          1024,
+          1024,
+          3
+        ],
+        "dtype": "uint8",
+        "hash": "3352b8a9aaefe5a9efa0e361f3a258e252b070da9beb7e1786bace93c7963169",
+        "sum": 107308944.0
+      },
+      "cls": {
+        "exists": true,
+        "shape": [
+          1,
+          1
+        ],
+        "dtype": "float32",
+        "hash": "e00e5eb9444182f352323374ef4e08ebcb784725fdd4fd612d7730540b3e0c8c",
+        "sum": 1.0,
+        "values": [
+          [
+            1.0
+          ]
+        ]
+      },
+      "class_id_sequence": [
+        1
+      ],
+      "bboxes": {
+        "exists": true,
+        "shape": [
+          1,
+          4
+        ],
+        "dtype": "float32",
+        "hash": "5c7c665286c8ed8ddccf72fe46600e1b603c8383e9ebc0e56b6baedd7033ee87",
+        "sum": 1282.9983673095703,
+        "values": [
+          [
+            21.000198364257812,
+            506.9998474121094,
+            185.99935913085938,
+            568.9989624023438
+          ]
+        ]
+      },
+      "bbox_count": 1,
+      "instances": {
+        "exists": true,
+        "class": "Instances",
+        "bbox_format": "xywh",
+        "normalized": true,
+        "bboxes": {
+          "exists": true,
+          "shape": [
+            1,
+            4
+          ],
+          "dtype": "float32",
+          "hash": "6e497798ac5b839c384f463b5c1aeafada063651cd33851416344e20bf58a32c",
+          "sum": 0.8481420241296291,
+          "values": [
+            [
+              0.10107400268316269,
+              0.5253900289535522,
+              0.16113199293613434,
+              0.06054599955677986
+            ]
+          ]
+        },
+        "segments": {
+          "exists": true,
+          "shape": [
+            0,
+            1000,
+            2
+          ],
+          "dtype": "float32",
+          "hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "sum": 0.0
+        },
+        "keypoints": {
+          "exists": false
+        }
+      },
+      "ori_shape": [
+        1024,
+        1024
+      ],
+      "resized_shape": [
+        1024,
+        1024
+      ],
+      "batch_idx": {
+        "exists": false
+      }
+    },
+    "catf_v2_formal_force_skip_intermediate": {
+      "stage": "intermediate",
+      "keys": [
+        "cls",
+        "im_file",
+        "img",
+        "instances",
+        "ori_shape",
+        "ratio_pad",
+        "resized_shape"
+      ],
+      "im_file": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\train\\2025-06-11-13-48-22ps5_NGyuan_tile_0014.jpg",
+      "image": {
+        "exists": true,
+        "shape": [
+          1024,
+          1024,
+          3
+        ],
+        "dtype": "uint8",
+        "hash": "3352b8a9aaefe5a9efa0e361f3a258e252b070da9beb7e1786bace93c7963169",
+        "sum": 107308944.0
+      },
+      "cls": {
+        "exists": true,
+        "shape": [
+          1,
+          1
+        ],
+        "dtype": "float32",
+        "hash": "e00e5eb9444182f352323374ef4e08ebcb784725fdd4fd612d7730540b3e0c8c",
+        "sum": 1.0,
+        "values": [
+          [
+            1.0
+          ]
+        ]
+      },
+      "class_id_sequence": [
+        1
+      ],
+      "bboxes": {
+        "exists": true,
+        "shape": [
+          1,
+          4
+        ],
+        "dtype": "float32",
+        "hash": "e003d03fbdc1673b00085816bc14a71469d39cb55163c5642338fad6b486d554",
+        "sum": 1282.9983367919922,
+        "values": [
+          [
+            21.000198364257812,
+            506.99981689453125,
+            185.99935913085938,
+            568.9989624023438
+          ]
+        ]
+      },
+      "bbox_count": 1,
+      "instances": {
+        "exists": true,
+        "class": "Instances",
+        "bbox_format": "xywh",
+        "normalized": true,
+        "bboxes": {
+          "exists": true,
+          "shape": [
+            1,
+            4
+          ],
+          "dtype": "float32",
+          "hash": "deb3aea7bd8eb021e86b5d62582249e718f3fdd73e12d86336a508ce98ce62b7",
+          "sum": 0.8481420353055,
+          "values": [
+            [
+              0.10107400268316269,
+              0.5253900289535522,
+              0.16113199293613434,
+              0.06054601073265076
+            ]
+          ]
+        },
+        "segments": {
+          "exists": true,
+          "shape": [
+            0,
+            1000,
+            2
+          ],
+          "dtype": "float32",
+          "hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "sum": 0.0
+        },
+        "keypoints": {
+          "exists": false
+        }
+      },
+      "ori_shape": [
+        1024,
+        1024
+      ],
+      "resized_shape": [
+        1024,
+        1024
+      ],
+      "batch_idx": {
+        "exists": false
+      }
+    },
+    "clean_final": {
+      "stage": "final",
+      "keys": [
+        "batch_idx",
+        "bboxes",
+        "cls",
+        "im_file",
+        "img",
+        "ori_shape",
+        "resized_shape"
+      ],
+      "im_file": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\train\\2025-06-11-13-48-22ps5_NGyuan_tile_0014.jpg",
+      "image": {
+        "exists": true,
+        "shape": [
+          3,
+          1024,
+          1024
+        ],
+        "dtype": "uint8",
+        "hash": "fedf515ccf9f53baff68ee361810f596d0306c8a565325c3f72e993bf77f31dc",
+        "sum": 129576408.0
+      },
+      "cls": {
+        "exists": true,
+        "shape": [
+          1,
+          1
+        ],
+        "dtype": "float32",
+        "hash": "e00e5eb9444182f352323374ef4e08ebcb784725fdd4fd612d7730540b3e0c8c",
+        "sum": 1.0,
+        "values": [
+          [
+            1.0
+          ]
+        ]
+      },
+      "class_id_sequence": [
+        1
+      ],
+      "bboxes": {
+        "exists": true,
+        "shape": [
+          1,
+          4
+        ],
+        "dtype": "float32",
+        "hash": "8f464f2cea2ae8ac5bc9d44b799c4bf8cb6130a06488e26df3a957f8f5793ed6",
+        "sum": 1.260238230228424,
+        "values": [
+          [
+            0.6068389415740967,
+            0.4495503306388855,
+            0.1481724977493286,
+            0.05567646026611328
+          ]
+        ]
+      },
+      "bbox_count": 1,
+      "instances": {
+        "exists": false
+      },
+      "ori_shape": [
+        1024,
+        1024
+      ],
+      "resized_shape": [
+        1024,
+        1024
+      ],
+      "batch_idx": {
+        "exists": true,
+        "shape": [
+          1
+        ],
+        "dtype": "float32",
+        "hash": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+        "sum": 0.0,
+        "values": [
+          0.0
+        ]
+      }
+    },
+    "catf_v2_noop_final": {
+      "stage": "final",
+      "keys": [
+        "batch_idx",
+        "bboxes",
+        "cls",
+        "im_file",
+        "img",
+        "ori_shape",
+        "resized_shape"
+      ],
+      "im_file": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\train\\2025-06-11-13-48-22ps5_NGyuan_tile_0014.jpg",
+      "image": {
+        "exists": true,
+        "shape": [
+          3,
+          1024,
+          1024
+        ],
+        "dtype": "uint8",
+        "hash": "fedf515ccf9f53baff68ee361810f596d0306c8a565325c3f72e993bf77f31dc",
+        "sum": 129576408.0
+      },
+      "cls": {
+        "exists": true,
+        "shape": [
+          1,
+          1
+        ],
+        "dtype": "float32",
+        "hash": "e00e5eb9444182f352323374ef4e08ebcb784725fdd4fd612d7730540b3e0c8c",
+        "sum": 1.0,
+        "values": [
+          [
+            1.0
+          ]
+        ]
+      },
+      "class_id_sequence": [
+        1
+      ],
+      "bboxes": {
+        "exists": true,
+        "shape": [
+          1,
+          4
+        ],
+        "dtype": "float32",
+        "hash": "8f464f2cea2ae8ac5bc9d44b799c4bf8cb6130a06488e26df3a957f8f5793ed6",
+        "sum": 1.260238230228424,
+        "values": [
+          [
+            0.6068389415740967,
+            0.4495503306388855,
+            0.1481724977493286,
+            0.05567646026611328
+          ]
+        ]
+      },
+      "bbox_count": 1,
+      "instances": {
+        "exists": false
+      },
+      "ori_shape": [
+        1024,
+        1024
+      ],
+      "resized_shape": [
+        1024,
+        1024
+      ],
+      "batch_idx": {
+        "exists": true,
+        "shape": [
+          1
+        ],
+        "dtype": "float32",
+        "hash": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+        "sum": 0.0,
+        "values": [
+          0.0
+        ]
+      }
+    },
+    "catf_v2_formal_force_skip_final": {
+      "stage": "final",
+      "keys": [
+        "batch_idx",
+        "bboxes",
+        "cls",
+        "im_file",
+        "img",
+        "ori_shape",
+        "resized_shape"
+      ],
+      "im_file": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\train\\2025-06-11-13-48-22ps5_NGyuan_tile_0014.jpg",
+      "image": {
+        "exists": true,
+        "shape": [
+          3,
+          1024,
+          1024
+        ],
+        "dtype": "uint8",
+        "hash": "fedf515ccf9f53baff68ee361810f596d0306c8a565325c3f72e993bf77f31dc",
+        "sum": 129576408.0
+      },
+      "cls": {
+        "exists": true,
+        "shape": [
+          1,
+          1
+        ],
+        "dtype": "float32",
+        "hash": "e00e5eb9444182f352323374ef4e08ebcb784725fdd4fd612d7730540b3e0c8c",
+        "sum": 1.0,
+        "values": [
+          [
+            1.0
+          ]
+        ]
+      },
+      "class_id_sequence": [
+        1
+      ],
+      "bboxes": {
+        "exists": true,
+        "shape": [
+          1,
+          4
+        ],
+        "dtype": "float32",
+        "hash": "8f464f2cea2ae8ac5bc9d44b799c4bf8cb6130a06488e26df3a957f8f5793ed6",
+        "sum": 1.260238230228424,
+        "values": [
+          [
+            0.6068389415740967,
+            0.4495503306388855,
+            0.1481724977493286,
+            0.05567646026611328
+          ]
+        ]
+      },
+      "bbox_count": 1,
+      "instances": {
+        "exists": false
+      },
+      "ori_shape": [
+        1024,
+        1024
+      ],
+      "resized_shape": [
+        1024,
+        1024
+      ],
+      "batch_idx": {
+        "exists": true,
+        "shape": [
+          1
+        ],
+        "dtype": "float32",
+        "hash": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+        "sum": 0.0,
+        "values": [
+          0.0
+        ]
+      }
+    }
+  },
+  "path_details": {
+    "clean": {
+      "sample_index": 564,
+      "im_file": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\train\\2025-06-11-13-48-22ps5_NGyuan_tile_0014.jpg",
+      "online_transform": false,
+      "catf_noop": false,
+      "instance_replaced_by_online_transform": false,
+      "image_replaced_by_online_transform": false,
+      "cls_replaced_by_online_transform": false,
+      "random_state_changed_by_online_transform": false,
+      "router_random_draw_delta": 0,
+      "router_skip_reason": null,
+      "router_applied_ops": [],
+      "router_skipped_ops": [],
+      "online_aug_stats_delta": {},
+      "roi_aug_stats_delta": {},
+      "noop_transform_calls_delta": 0
+    },
+    "catf_v2_noop": {
+      "sample_index": 564,
+      "im_file": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\train\\2025-06-11-13-48-22ps5_NGyuan_tile_0014.jpg",
+      "online_transform": true,
+      "catf_noop": true,
+      "instance_replaced_by_online_transform": false,
+      "image_replaced_by_online_transform": false,
+      "cls_replaced_by_online_transform": false,
+      "random_state_changed_by_online_transform": false,
+      "router_random_draw_delta": 0,
+      "router_skip_reason": null,
+      "router_applied_ops": [],
+      "router_skipped_ops": [],
+      "online_aug_stats_delta": {},
+      "roi_aug_stats_delta": {},
+      "noop_transform_calls_delta": 1
+    },
+    "catf_v2_formal_force_skip": {
+      "sample_index": 564,
+      "im_file": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\train\\2025-06-11-13-48-22ps5_NGyuan_tile_0014.jpg",
+      "online_transform": true,
+      "catf_noop": false,
+      "instance_replaced_by_online_transform": true,
+      "image_replaced_by_online_transform": true,
+      "cls_replaced_by_online_transform": true,
+      "random_state_changed_by_online_transform": false,
+      "router_random_draw_delta": 0,
+      "router_skip_reason": "stable_classes_only",
+      "router_applied_ops": [],
+      "router_skipped_ops": [],
+      "online_aug_stats_delta": {
+        "input_bbox_count": 1,
+        "output_bbox_count": 1,
+        "samples_seen": 1
+      },
+      "roi_aug_stats_delta": {},
+      "noop_transform_calls_delta": 0
+    }
+  }
+}

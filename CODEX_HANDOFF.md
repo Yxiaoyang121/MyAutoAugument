@@ -10,6 +10,22 @@
 
 The project is a diagnosis-driven augmentation pipeline for industrial defect detection. Keep work centered on dataset construction, tiling, validation-error diagnosis, policy generation, proxy safety, short-training validation, and auditable artifacts. Do not reframe this as YOLO backbone, neck, or head redesign.
 
+## Current CATF-v2 Finding
+
+- CATF-v2 no-op trainer parity is clean, and diagnosis-only parity is clean.
+- The remaining issue is inside the formal CATF-v2 transform path.
+- `scripts/audit_catf_v2_transform_parity.py` compares clean YOLO default, CATF-v2 noop, and CATF-v2 formal-force-skip on 100 deterministic train samples.
+- Audit output:
+  - `outputs/audits/catf_v2_transform_parity/transform_parity_report.md`
+  - `outputs/audits/catf_v2_transform_parity/transform_parity.json`
+  - `outputs/audits/catf_v2_transform_parity/diff_samples/`
+- Result:
+  - clean vs CATF-v2 noop final output is exact.
+  - clean vs CATF-v2 formal-force-skip final output has 1/100 bbox hash mismatch.
+  - formal-force-skip rewrites image/cls/Instances for all samples and runs router validation even when applied ops and random draws are zero.
+  - The final mismatch was class 4 `油污`, where `bbox_oob_count=1` and `y2` was clipped from `1024.00048828125` to `1024.0`.
+- Next fix should make force-skip/no-active-op paths return the native YOLO label object unchanged before any bbox validation, clipping, or `Instances` rebuild.
+
 ## Output Layout Status
 
 - Legacy root-level outputs were archived to `outputs/archive/old_outputs_20260517/`.

@@ -2,6 +2,57 @@
 
 ## 2026-06-03
 
+### CATF-v2 Fixed Seed1 50 Epoch Rerun
+
+Reran the critical seed1 CATF-v2 validation after fixing the formal no-augmentation transform bypass. This run is important because the old CATF-v2 seed1 result passed constraints while recording `ROI applied=0` and `industrial samples augmented=0`.
+
+Run:
+
+- Output: `outputs/experiments/catf_v2_fixed_seed1_50ep/`
+- Entry: `scripts/train_yolo_default_with_inloop_feedback.py`
+- Model: `yolo11n.pt`
+- Dataset: `outputs/datasets/tiled/tiled_1024_ov20_full_safe_no_ok_position/data.yaml`
+- Epochs: 50
+- Seed: 1
+- Batch: 2
+- Workers: 0
+- YOLO default augmentation: enabled
+- CATF-v2: enabled
+- Class-aware feedback, ROI-aware augmentation, sample-aware routing, and threshold calibration report: enabled
+- Fixed augmented dataset generated: false
+- Train images: 2301
+- Epoch continuity: 1..50
+
+Reference and result:
+
+- Clean native seed1: Precision=0.7725, Recall=0.6477, mAP50=0.7542, mAP50-95=0.4799.
+- Old CATF-v2 seed1: Precision=0.7691, Recall=0.6950, mAP50=0.7549, mAP50-95=0.4898.
+- Fixed CATF-v2 seed1: Precision=0.7852, Recall=0.7005, mAP50=0.7826, mAP50-95=0.5189.
+- Delta vs clean native seed1: Precision +0.0127, Recall +0.0528, mAP50 +0.0284, mAP50-95 +0.0390.
+- Delta vs old CATF-v2 seed1: Precision +0.0161, Recall +0.0055, mAP50 +0.0277, mAP50-95 +0.0291.
+- Constraint status: `constraint_failed=false`.
+
+Augmentation and activation:
+
+- Industrial samples augmented: 55.
+- ROI applied: 56.
+- ROI affected classes: class 11 (51), class 4 (5).
+- Industrial ops applied: `local_contrast=28`, `sharpen_mild=27`.
+- OK3 active: false.
+- OK3 ROI applied: 0.
+- Invalid bbox count: 0.
+- Bbox out-of-bounds count: 0.
+- Class id out-of-bounds count: 0.
+- Policy actions: shrink=5, freeze=2, accept=1, observe=1.
+
+Interpretation: the fixed seed1 improvement is not explained by the previously identified no-op label/Instances rewrite issue, because this rerun recorded actual CATF-v2 ROI/industrial augmentation.
+
+Reports:
+
+- `outputs/experiments/catf_v2_fixed_seed1_50ep/reports/final_report.md`
+- `outputs/experiments/catf_v2_fixed_seed1_50ep/reports/final_metrics.json`
+- `outputs/experiments/catf_v2_fixed_seed1_50ep/reports/compare_with_clean_native_seed1.md`
+
 ### CATF-v2 Strict No-Augmentation Bypass Fix
 
 No training was run. Fixed CATF-v2 formal transform no-augmentation paths so they bypass label conversion, bbox validation/clip, and `Instances` rebuild unless an industrial/ROI augmentation is actually applied.
@@ -879,8 +930,8 @@ Key conclusions from that archived smoke:
 - Current CATF-v2 work is smoke-only; no formal 50 epoch CATF-v2 run should be inferred from it.
 - No-feedback control disables both feedback and industrial augmentation, using Ultralytics YOLO default augmentation as the behavior check.
 - The old YOLO default reference is not the final baseline after parity audit; feedback comparisons should use `clean_native_yolo_default_seed42_50ep`.
-- Output: `outputs/experiments/catf_v2_activation_fixed_10ep_smoke/`
-- Epochs: `10`
+- Output: `outputs/experiments/catf_v2_fixed_seed1_50ep/`
+- Epochs: `50`
 - Feedback enabled: `true`
 - Industrial augmentation enabled: `true`
 - CATF version: `v2`
@@ -888,15 +939,15 @@ Key conclusions from that archived smoke:
 - ROI-aware augmentation: `true`
 - Sample-aware routing: `true`
 - Reference curve loaded: `true`
-- Feedback epochs: `[5]`
+- Feedback epochs: `[5, 10, 15, 20, 25, 30, 35, 40, 45]`
 - Stage restart count: `0`
 - Epoch continuous: `true`
 - Train image count: `2301`
 - Fixed augmented dataset generated: `false`
 - Constraint baseline: `clean_native_yolo_default`
-- Constraint failed: `True`
-- Report: `outputs/experiments/catf_v2_activation_fixed_10ep_smoke/reports/catf_v2_smoke_report.md`
-- Policy history: `outputs/experiments/catf_v2_activation_fixed_10ep_smoke/reports/policy_history.json`
+- Constraint failed: `False`
+- Report: `outputs/experiments/catf_v2_fixed_seed1_50ep/reports/final_report.md`
+- Policy history: `outputs/experiments/catf_v2_fixed_seed1_50ep/reports/policy_history.json`
 <!-- YOLO_DEFAULT_INLOOP_FEEDBACK_SMOKE_END -->
 <!-- YOLO_DEFAULT_INLOOP_PARITY_AUDIT_START -->
 ## YOLO Default In-Loop Parity Audit

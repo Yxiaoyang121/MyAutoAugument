@@ -1,125 +1,19 @@
 # Project Snapshot
 
-- Generated: 2026-06-03T03:09:08
+- Generated: 2026-06-03T17:35:58
 - Branch: codex/sync-latest
-- Commit: 554865753e3cb7971ee10aacf1be01f5c5c361f2
+- Commit: c8fbc9ef1f518e98709b8c5e443c0a7c00d81936
 - Remote: https://github.com/Yxiaoyang121/MyAutoAugument.git
 
 ## Working Tree
 
 ```text
- M AutoAugment/catf_v2/sample_router.py
  M CODEX_HANDOFF.md
  M EXPERIMENT_LOG.md
  M PROJECT_STATE.md
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_000_idx_8.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_001_idx_53.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_002_idx_66.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_003_idx_79.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_004_idx_83.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_005_idx_96.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_006_idx_102.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_007_idx_105.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_008_idx_131.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_009_idx_142.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_010_idx_145.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_011_idx_178.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_012_idx_184.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_013_idx_203.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_014_idx_206.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_015_idx_208.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_016_idx_224.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_017_idx_268.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_018_idx_340.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_019_idx_423.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_020_idx_456.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_021_idx_470.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_022_idx_474.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_023_idx_476.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_024_idx_485.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_025_idx_564.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_026_idx_599.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_027_idx_622.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_028_idx_634.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_029_idx_645.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_030_idx_675.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_031_idx_696.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_032_idx_731.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_033_idx_762.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_034_idx_767.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_035_idx_770.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_036_idx_773.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_037_idx_776.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_038_idx_779.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_039_idx_845.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_040_idx_853.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_041_idx_858.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_042_idx_891.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_043_idx_976.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_044_idx_977.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_045_idx_992.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_046_idx_1019.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_047_idx_1032.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_048_idx_1042.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_049_idx_1065.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_050_idx_1132.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_051_idx_1133.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_052_idx_1143.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_053_idx_1170.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_054_idx_1173.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_055_idx_1191.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_056_idx_1236.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_057_idx_1248.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_058_idx_1270.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_059_idx_1295.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_060_idx_1299.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_061_idx_1325.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_062_idx_1332.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_063_idx_1353.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_064_idx_1357.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_065_idx_1388.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_066_idx_1393.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_067_idx_1409.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_068_idx_1534.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_069_idx_1548.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_070_idx_1554.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_071_idx_1562.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_072_idx_1576.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_073_idx_1579.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_074_idx_1580.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_075_idx_1619.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_076_idx_1648.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_077_idx_1657.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_078_idx_1690.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_079_idx_1699.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_080_idx_1780.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_081_idx_1802.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_082_idx_1835.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_083_idx_1838.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_084_idx_1844.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_085_idx_1871.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_086_idx_2049.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_087_idx_2093.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_088_idx_2116.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_089_idx_2124.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_090_idx_2132.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_091_idx_2173.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_092_idx_2200.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_093_idx_2207.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_094_idx_2232.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_095_idx_2239.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_096_idx_2258.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_097_idx_2260.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_098_idx_2263.json
- D outputs/audits/catf_v2_transform_parity/diff_samples/sample_099_idx_2275.json
- M outputs/audits/catf_v2_transform_parity/transform_parity.json
- M outputs/audits/catf_v2_transform_parity/transform_parity_report.md
  M outputs/project_snapshot_latest.md
  M outputs/snapshots/project_snapshot_latest.md
- M scripts/audit_catf_v2_transform_parity.py
- M scripts/train_yolo_online_aug.py
-?? outputs/audits/catf_v2_transform_parity/diff_samples/README.md
-?? tests/test_catf_v2_transform_bypass.py
+?? outputs/experiments/catf_v2_fixed_seed1_50ep/
 ```
 
 ## Key Files
@@ -324,7 +218,7 @@
 
 ## Tracked File Count
 
-- 3724 tracked files
+- 3626 tracked files
 
 ## Notes
 

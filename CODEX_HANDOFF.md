@@ -27,6 +27,12 @@ The project is a diagnosis-driven augmentation pipeline for industrial defect de
   - router random draw count: 0.
   - applied industrial/ROI ops: 0.
 - Force-skip/no-active/no_aug/stable/high-FP paths now return the native YOLO label object unchanged before bbox validation, clipping, or `Instances` rebuild.
+- The critical fixed seed1 50-epoch rerun completed at `outputs/experiments/catf_v2_fixed_seed1_50ep/`.
+- Fixed seed1 metrics: Precision=0.7852, Recall=0.7005, mAP50=0.7826, mAP50-95=0.5189.
+- Relative to clean native seed1, fixed CATF-v2 improved Precision by +0.0127, Recall by +0.0528, mAP50 by +0.0284, and mAP50-95 by +0.0390; `constraint_failed=false`.
+- Unlike the old seed1 CATF-v2 run, this fixed rerun applied actual augmentation: industrial samples augmented=55 and ROI applied=56.
+- ROI affected class 11 for 51 applications and class 4 for 5 applications; OK3 remained inactive with OK3 ROI applied=0.
+- The fixed seed1 result is no longer attributable to no-op transform perturbation; it should be treated as a valid CATF-v2 seed1 rerun after strict bypass repair.
 
 ## Output Layout Status
 
@@ -561,8 +567,8 @@ No training was run after building or auditing these datasets.
 - Current CATF-v2 work is smoke-only; no formal 50 epoch CATF-v2 run should be inferred from it.
 - No-feedback control disables both feedback and industrial augmentation, using Ultralytics YOLO default augmentation as the behavior check.
 - The old YOLO default reference is not the final baseline after parity audit; feedback comparisons should use `clean_native_yolo_default_seed42_50ep`.
-- Output: `outputs/experiments/catf_v2_activation_fixed_10ep_smoke/`
-- Epochs: `10`
+- Output: `outputs/experiments/catf_v2_fixed_seed1_50ep/`
+- Epochs: `50`
 - Feedback enabled: `true`
 - Industrial augmentation enabled: `true`
 - CATF version: `v2`
@@ -570,15 +576,15 @@ No training was run after building or auditing these datasets.
 - ROI-aware augmentation: `true`
 - Sample-aware routing: `true`
 - Reference curve loaded: `true`
-- Feedback epochs: `[5]`
+- Feedback epochs: `[5, 10, 15, 20, 25, 30, 35, 40, 45]`
 - Stage restart count: `0`
 - Epoch continuous: `true`
 - Train image count: `2301`
 - Fixed augmented dataset generated: `false`
 - Constraint baseline: `clean_native_yolo_default`
-- Constraint failed: `True`
-- Report: `outputs/experiments/catf_v2_activation_fixed_10ep_smoke/reports/catf_v2_smoke_report.md`
-- Policy history: `outputs/experiments/catf_v2_activation_fixed_10ep_smoke/reports/policy_history.json`
+- Constraint failed: `False`
+- Report: `outputs/experiments/catf_v2_fixed_seed1_50ep/reports/final_report.md`
+- Policy history: `outputs/experiments/catf_v2_fixed_seed1_50ep/reports/policy_history.json`
 <!-- YOLO_DEFAULT_INLOOP_FEEDBACK_SMOKE_END -->
 <!-- YOLO_DEFAULT_INLOOP_PARITY_AUDIT_START -->
 ## YOLO Default In-Loop Parity Audit

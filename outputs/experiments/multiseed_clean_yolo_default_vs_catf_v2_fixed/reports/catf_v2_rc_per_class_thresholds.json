@@ -1,0 +1,71 @@
+{
+  "type": "per_class_threshold_config",
+  "default_threshold": 0.25,
+  "classes": {
+    "0": {
+      "class_id": 0,
+      "class_name": "OK2",
+      "threshold": 0.25
+    },
+    "1": {
+      "class_id": 1,
+      "class_name": "OK3",
+      "threshold": 0.1
+    },
+    "2": {
+      "class_id": 2,
+      "class_name": "加强筋打伤",
+      "threshold": 0.25
+    },
+    "3": {
+      "class_id": 3,
+      "class_name": "开裂",
+      "threshold": 0.25
+    },
+    "4": {
+      "class_id": 4,
+      "class_name": "油污",
+      "threshold": 0.1
+    },
+    "5": {
+      "class_id": 5,
+      "class_name": "浅划伤",
+      "threshold": 0.1
+    },
+    "6": {
+      "class_id": 6,
+      "class_name": "漏背锡",
+      "threshold": 0.1
+    },
+    "7": {
+      "class_id": 7,
+      "class_name": "碰伤",
+      "threshold": 0.1
+    },
+    "8": {
+      "class_id": 8,
+      "class_name": "脏污",
+      "threshold": 0.1
+    },
+    "9": {
+      "class_id": 9,
+      "class_name": "轮廓划伤",
+      "threshold": 0.1
+    },
+    "10": {
+      "class_id": 10,
+      "class_name": "锡丝残留",
+      "threshold": 0.25
+    },
+    "11": {
+      "class_id": 11,
+      "class_name": "锡尖",
+      "threshold": 0.25
+    },
+    "12": {
+      "class_id": 12,
+      "class_name": "锡膏",
+      "threshold": 0.1
+    }
+  }
+}

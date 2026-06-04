@@ -1247,3 +1247,25 @@ Key conclusions from that archived smoke:
 - Post-hoc threshold calibration repairs seed2 in the analysis evaluator, but fixed CATF-v2 calibrated pass count remains `2/3` because seed0 still fails mAP50-95.
 - Conclusion: fixed CATF-v2 is a strong candidate and threshold calibration is useful, but the method should not yet be described as stably superior to clean YOLO default.
 <!-- FIXED_CATF_V2_SEED2_THRESHOLD_ANALYSIS_END -->
+
+<!-- CATF_V2_RC_SEED0_CALIBRATION_ROLLBACK_START -->
+## CATF-v2-RC Seed0 Calibration and Rollback Analysis
+
+- Date: `2026-06-04`.
+- Scope: analysis-only; no train command was run.
+- Script: `D:\Anaconda\envs\pytorch\python.exe scripts\refine_fixed_catf_v2_seed0_calibration_and_rollback.py`.
+- Added module: `AutoAugment/catf_v2/per_class_thresholds.py`.
+- Reports:
+  - `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/seed0_failure_analysis.md`
+  - `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/seed0_threshold_calibration_posthoc.md`
+  - `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/fixed_catf_v2_threshold_calibration_all_seeds.md`
+  - `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/fixed_catf_v2_class_level_rollback_simulation.md`
+  - `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/catf_v2_rc_final_candidate_plan.md`
+  - `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/fixed_catf_v2_ready_for_paper_summary.md`
+- Seed0 official fixed CATF-v2 already passes constraints; the remaining failure was the earlier post-hoc threshold evaluator mAP50-95 deficit.
+- Seed0 RC threshold objective result in post-hoc evaluator: P/R/mAP50/mAP50-95 `0.6636/0.7915/0.6737/0.4303`, constraint_failed=`false`.
+- RC threshold calibration pass count: `3/3`.
+- Recommended threshold table saved to `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/catf_v2_rc_per_class_thresholds.json`.
+- Rollback candidates: `加强筋打伤`, `锡丝残留`; high-risk classes: `轮廓划伤`, `锡膏`; threshold-only class: `脏污`.
+- Conclusion: CATF-v2-RC is the current paper-candidate framing, but official validation/export confirmation of the threshold table is still required.
+<!-- CATF_V2_RC_SEED0_CALIBRATION_ROLLBACK_END -->

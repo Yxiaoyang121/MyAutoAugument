@@ -921,3 +921,26 @@ The repository is centered on diagnosis-driven augmentation for industrial defec
 - Calibrated fixed CATF-v2 constraint pass count remains `2/3` under the post-hoc evaluator because seed0 still violates the mAP50-95 tolerance.
 - Recommendation: fixed CATF-v2 is a strong candidate, but not yet a finalized stable paper main method. Next implementation work should prioritize class-level rollback, negative-effect attribution, high-recall baseline protection, and a more conservative threshold-calibration objective.
 <!-- FIXED_CATF_V2_SEED2_THRESHOLD_ANALYSIS_END -->
+
+<!-- CATF_V2_RC_SEED0_CALIBRATION_ROLLBACK_START -->
+## CATF-v2-RC Seed0 Calibration and Rollback Analysis
+
+- Scope: analysis only; no training was run and CATF-v2 augmentation rules were not rewritten.
+- Source experiment: `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/`.
+- Added formal deployment/post-processing helper: `AutoAugment/catf_v2/per_class_thresholds.py`.
+- Analysis script: `scripts/refine_fixed_catf_v2_seed0_calibration_and_rollback.py`.
+- New reports:
+  - `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/seed0_failure_analysis.md`
+  - `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/seed0_threshold_calibration_posthoc.md`
+  - `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/fixed_catf_v2_threshold_calibration_all_seeds.md`
+  - `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/fixed_catf_v2_class_level_rollback_simulation.md`
+  - `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/catf_v2_rc_final_candidate_plan.md`
+  - `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/fixed_catf_v2_ready_for_paper_summary.md`
+- Seed0 status: official fixed CATF-v2 seed0 already passes constraints; the remaining seed0 issue was the earlier post-hoc evaluator/threshold-search mAP50-95 failure.
+- Seed0 RC calibration result in post-hoc evaluator: P/R/mAP50/mAP50-95 `0.6636/0.7915/0.6737/0.4303`, deltas vs clean default evaluator `+0.0397/+0.0269/+0.0038/-0.0099`, constraint_failed=`false`.
+- RC threshold calibration pass count: `3/3` seeds in the post-hoc evaluator.
+- Recommended per-class thresholds: OK2 `0.25`, OK3 `0.10`, 加强筋打伤 `0.25`, 开裂 `0.25`, 油污 `0.10`, 浅划伤 `0.10`, 漏背锡 `0.10`, 碰伤 `0.10`, 脏污 `0.10`, 轮廓划伤 `0.10`, 锡丝残留 `0.25`, 锡尖 `0.25`, 锡膏 `0.10`.
+- Rollback simulation buckets: keep fixed CATF-v2 for `油污`, `锡尖`; threshold calibration only for `脏污`; rollback candidates `加强筋打伤`, `锡丝残留`; high-risk negative-effect classes `轮廓划伤`, `锡膏`.
+- CATF-v2-RC definition: fixed CATF-v2 + per-class constrained threshold calibration + class-level rollback/high-recall protection.
+- Caveat: RC calibration metrics are post-hoc prediction-evaluator metrics and must be confirmed against the official validation/export path before final paper claims.
+<!-- CATF_V2_RC_SEED0_CALIBRATION_ROLLBACK_END -->

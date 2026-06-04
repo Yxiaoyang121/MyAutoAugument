@@ -830,3 +830,24 @@ No training was run after building or auditing these datasets.
 - Post-hoc per-class threshold calibration repairs seed2 in the analysis evaluator, but total calibrated pass count is still `2/3` because seed0 remains below the mAP50-95 constraint.
 - Handoff recommendation: do not call fixed CATF-v2 a fully stable main method yet. Next code work should target class-level rollback, negative-effect attribution, high-recall baseline protection, and better calibration constraints.
 <!-- FIXED_CATF_V2_SEED2_THRESHOLD_ANALYSIS_END -->
+
+<!-- CATF_V2_RC_SEED0_CALIBRATION_ROLLBACK_START -->
+## CATF-v2-RC Seed0 Calibration and Rollback Analysis
+
+- Scope: analysis only; no training was run and CATF-v2 augmentation rules were not rewritten.
+- New helper module: `AutoAugment/catf_v2/per_class_thresholds.py`.
+- Analysis script: `scripts/refine_fixed_catf_v2_seed0_calibration_and_rollback.py`.
+- Reports:
+  - `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/seed0_failure_analysis.md`
+  - `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/seed0_threshold_calibration_posthoc.md`
+  - `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/fixed_catf_v2_threshold_calibration_all_seeds.md`
+  - `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/fixed_catf_v2_class_level_rollback_simulation.md`
+  - `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/catf_v2_rc_final_candidate_plan.md`
+  - `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/fixed_catf_v2_ready_for_paper_summary.md`
+- Important correction: seed0 is not an official fixed-training failure. Official fixed seed0 passes constraints; the remaining seed0 failure was in the post-hoc threshold evaluator.
+- Seed0 was repaired by the RC threshold objective in the post-hoc evaluator; RC calibration reaches `3/3` seeds passing constraints.
+- Recommended threshold table: `{OK2:0.25, OK3:0.10, 加强筋打伤:0.25, 开裂:0.25, 油污:0.10, 浅划伤:0.10, 漏背锡:0.10, 碰伤:0.10, 脏污:0.10, 轮廓划伤:0.10, 锡丝残留:0.25, 锡尖:0.25, 锡膏:0.10}`.
+- Rollback simulation: keep fixed CATF-v2 for `油污`, `锡尖`; threshold-only for `脏污`; rollback candidates `加强筋打伤`, `锡丝残留`; high-risk negative-effect classes `轮廓划伤`, `锡膏`.
+- Recommended method name: `CATF-v2-RC = fixed CATF-v2 + per-class constrained threshold calibration + class-level rollback/high-recall protection`.
+- Next safest verification: confirm the RC threshold table in the official validation/export path before making final paper claims; do not run broad new multiseed training unless official threshold validation exposes a mismatch.
+<!-- CATF_V2_RC_SEED0_CALIBRATION_ROLLBACK_END -->

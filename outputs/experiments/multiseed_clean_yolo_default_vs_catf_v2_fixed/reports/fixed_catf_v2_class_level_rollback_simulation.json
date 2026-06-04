@@ -1,0 +1,633 @@
+{
+  "generated_at": "2026-06-04T12:01:12",
+  "rules": {
+    "recall_negative": "fixed Recall delta < -0.02",
+    "localization_or_ap_negative": "fixed AP50-95 delta < -0.01",
+    "rollback_candidate": "repeated negative or threshold cannot fix AP50-95"
+  },
+  "classes": {
+    "0": {
+      "class_id": 0,
+      "class_name": "OK2",
+      "seed_evidence": {
+        "0": {
+          "fixed_delta_recall": 0.0,
+          "fixed_delta_ap50_95": 0.0350052271877318,
+          "old_delta_recall": 0.015625,
+          "old_delta_ap50_95": 0.0261072824656281,
+          "selected_threshold_delta_recall": 0.0,
+          "selected_threshold_delta_ap50_95": -0.0049369827146773515,
+          "recall_negative": false,
+          "localization_or_ap_negative": false,
+          "threshold_helps": true,
+          "rollback_candidate": false
+        },
+        "1": {
+          "fixed_delta_recall": -0.03125,
+          "fixed_delta_ap50_95": 0.005948448440119769,
+          "old_delta_recall": -0.03125,
+          "old_delta_ap50_95": 0.01579941836216059,
+          "selected_threshold_delta_recall": 0.0,
+          "selected_threshold_delta_ap50_95": 0.05882931957880977,
+          "recall_negative": true,
+          "localization_or_ap_negative": false,
+          "threshold_helps": true,
+          "rollback_candidate": false
+        },
+        "2": {
+          "fixed_delta_recall": 0.0,
+          "fixed_delta_ap50_95": -0.004444028958900503,
+          "old_delta_recall": 0.0,
+          "old_delta_ap50_95": -0.0014152746156028684,
+          "selected_threshold_delta_recall": 0.0,
+          "selected_threshold_delta_ap50_95": 0.062362387852342716,
+          "recall_negative": false,
+          "localization_or_ap_negative": false,
+          "threshold_helps": true,
+          "rollback_candidate": false
+        }
+      },
+      "negative_seed_count": 1,
+      "threshold_help_seed_count": 3,
+      "rollback_seed_count": 0,
+      "recommended_action": "unstable_not_mandatory_rollback"
+    },
+    "1": {
+      "class_id": 1,
+      "class_name": "OK3",
+      "seed_evidence": {
+        "0": {
+          "fixed_delta_recall": 0.0010948438467833776,
+          "fixed_delta_ap50_95": -0.003058026096031008,
+          "old_delta_recall": 0.0037821534235599197,
+          "old_delta_ap50_95": 0.01208311301175724,
+          "selected_threshold_delta_recall": 0.007299270072992692,
+          "selected_threshold_delta_ap50_95": 0.016579410207961942,
+          "recall_negative": false,
+          "localization_or_ap_negative": false,
+          "threshold_helps": true,
+          "rollback_candidate": false
+        },
+        "1": {
+          "fixed_delta_recall": 0.014949054771622006,
+          "fixed_delta_ap50_95": -0.0014527223813820545,
+          "old_delta_recall": 0.013551741589865052,
+          "old_delta_ap50_95": 0.006814233580311191,
+          "selected_threshold_delta_recall": 0.0,
+          "selected_threshold_delta_ap50_95": 0.021096223120423807,
+          "recall_negative": false,
+          "localization_or_ap_negative": false,
+          "threshold_helps": true,
+          "rollback_candidate": false
+        },
+        "2": {
+          "fixed_delta_recall": 0.018163422617386682,
+          "fixed_delta_ap50_95": -0.010449468493350156,
+          "old_delta_recall": 0.003904918210401953,
+          "old_delta_ap50_95": 0.0019708620182301573,
+          "selected_threshold_delta_recall": 0.0,
+          "selected_threshold_delta_ap50_95": -0.01334265886243069,
+          "recall_negative": false,
+          "localization_or_ap_negative": true,
+          "threshold_helps": false,
+          "rollback_candidate": true
+        }
+      },
+      "negative_seed_count": 1,
+      "threshold_help_seed_count": 2,
+      "rollback_seed_count": 1,
+      "recommended_action": "unstable_not_mandatory_rollback"
+    },
+    "2": {
+      "class_id": 2,
+      "class_name": "加强筋打伤",
+      "seed_evidence": {
+        "0": {
+          "fixed_delta_recall": -0.25,
+          "fixed_delta_ap50_95": -0.1133240251678147,
+          "old_delta_recall": 0.0,
+          "old_delta_ap50_95": -0.03058102776351379,
+          "selected_threshold_delta_recall": 0.0,
+          "selected_threshold_delta_ap50_95": -0.07202380952380949,
+          "recall_negative": true,
+          "localization_or_ap_negative": true,
+          "threshold_helps": false,
+          "rollback_candidate": true
+        },
+        "1": {
+          "fixed_delta_recall": 0.2250023799023212,
+          "fixed_delta_ap50_95": 0.18408684761628824,
+          "old_delta_recall": 0.2250023799023212,
+          "old_delta_ap50_95": 0.07934449311893382,
+          "selected_threshold_delta_recall": 0.0,
+          "selected_threshold_delta_ap50_95": 0.08075892857142852,
+          "recall_negative": false,
+          "localization_or_ap_negative": false,
+          "threshold_helps": true,
+          "rollback_candidate": false
+        },
+        "2": {
+          "fixed_delta_recall": -0.125,
+          "fixed_delta_ap50_95": -0.04634977490547165,
+          "old_delta_recall": -0.5,
+          "old_delta_ap50_95": -0.23115396501962604,
+          "selected_threshold_delta_recall": 0.0,
+          "selected_threshold_delta_ap50_95": -0.07383928571428572,
+          "recall_negative": true,
+          "localization_or_ap_negative": true,
+          "threshold_helps": false,
+          "rollback_candidate": true
+        }
+      },
+      "negative_seed_count": 2,
+      "threshold_help_seed_count": 1,
+      "rollback_seed_count": 2,
+      "recommended_action": "rollback_candidate"
+    },
+    "3": {
+      "class_id": 3,
+      "class_name": "开裂",
+      "seed_evidence": {
+        "0": {
+          "fixed_delta_recall": 0.0,
+          "fixed_delta_ap50_95": 0.06633333333333324,
+          "old_delta_recall": 0.0,
+          "old_delta_ap50_95": 0.21521393034825853,
+          "selected_threshold_delta_recall": 0.0,
+          "selected_threshold_delta_ap50_95": -0.26333333333333325,
+          "recall_negative": false,
+          "localization_or_ap_negative": false,
+          "threshold_helps": false,
+          "rollback_candidate": false
+        },
+        "1": {
+          "fixed_delta_recall": 0.0,
+          "fixed_delta_ap50_95": 0.09950000000000003,
+          "old_delta_recall": 0.0,
+          "old_delta_ap50_95": 0.09950000000000003,
+          "selected_threshold_delta_recall": 0.0,
+          "selected_threshold_delta_ap50_95": 0.050000000000000044,
+          "recall_negative": false,
+          "localization_or_ap_negative": false,
+          "threshold_helps": true,
+          "rollback_candidate": false
+        },
+        "2": {
+          "fixed_delta_recall": 0.0,
+          "fixed_delta_ap50_95": -0.14915068493150674,
+          "old_delta_recall": 0.0,
+          "old_delta_ap50_95": -0.09949999999999992,
+          "selected_threshold_delta_recall": 0.0,
+          "selected_threshold_delta_ap50_95": -0.02499999999999991,
+          "recall_negative": false,
+          "localization_or_ap_negative": true,
+          "threshold_helps": false,
+          "rollback_candidate": true
+        }
+      },
+      "negative_seed_count": 1,
+      "threshold_help_seed_count": 1,
+      "rollback_seed_count": 1,
+      "recommended_action": "unstable_not_mandatory_rollback"
+    },
+    "4": {
+      "class_id": 4,
+      "class_name": "油污",
+      "seed_evidence": {
+        "0": {
+          "fixed_delta_recall": 0.055555555555555525,
+          "fixed_delta_ap50_95": 0.044399648530996066,
+          "old_delta_recall": 0.16666666666666663,
+          "old_delta_ap50_95": -0.005243101776292086,
+          "selected_threshold_delta_recall": -0.05555555555555558,
+          "selected_threshold_delta_ap50_95": 0.02125420875420872,
+          "recall_negative": false,
+          "localization_or_ap_negative": false,
+          "threshold_helps": false,
+          "rollback_candidate": false
+        },
+        "1": {
+          "fixed_delta_recall": 0.004134124068973899,
+          "fixed_delta_ap50_95": 0.052198687117161385,
+          "old_delta_recall": 0.05299601804406989,
+          "old_delta_ap50_95": 0.05269058743249408,
+          "selected_threshold_delta_recall": 0.2222222222222222,
+          "selected_threshold_delta_ap50_95": 0.06190510999721524,
+          "recall_negative": false,
+          "localization_or_ap_negative": false,
+          "threshold_helps": true,
+          "rollback_candidate": false
+        },
+        "2": {
+          "fixed_delta_recall": 0.012351649554611044,
+          "fixed_delta_ap50_95": -0.00452560011496371,
+          "old_delta_recall": -0.04320390600094451,
+          "old_delta_ap50_95": 0.015896040291478425,
+          "selected_threshold_delta_recall": 0.2222222222222222,
+          "selected_threshold_delta_ap50_95": -0.0006429375837720686,
+          "recall_negative": false,
+          "localization_or_ap_negative": false,
+          "threshold_helps": true,
+          "rollback_candidate": false
+        }
+      },
+      "negative_seed_count": 0,
+      "threshold_help_seed_count": 2,
+      "rollback_seed_count": 0,
+      "recommended_action": "keep_fixed_catf_v2"
+    },
+    "5": {
+      "class_id": 5,
+      "class_name": "浅划伤",
+      "seed_evidence": {
+        "0": {
+          "fixed_delta_recall": 0.0,
+          "fixed_delta_ap50_95": 0.023332267905399606,
+          "old_delta_recall": 0.0,
+          "old_delta_ap50_95": 0.014369334252635535,
+          "selected_threshold_delta_recall": 0.15384615384615385,
+          "selected_threshold_delta_ap50_95": -0.005716633793556858,
+          "recall_negative": false,
+          "localization_or_ap_negative": false,
+          "threshold_helps": true,
+          "rollback_candidate": false
+        },
+        "1": {
+          "fixed_delta_recall": 0.0,
+          "fixed_delta_ap50_95": 0.007478439534747527,
+          "old_delta_recall": 0.0,
+          "old_delta_ap50_95": -0.043813105311543366,
+          "selected_threshold_delta_recall": 0.0,
+          "selected_threshold_delta_ap50_95": 0.03509451019066406,
+          "recall_negative": false,
+          "localization_or_ap_negative": false,
+          "threshold_helps": true,
+          "rollback_candidate": false
+        },
+        "2": {
+          "fixed_delta_recall": -0.270410847317367,
+          "fixed_delta_ap50_95": 0.10104604112255888,
+          "old_delta_recall": -0.2863202846692221,
+          "old_delta_ap50_95": 0.04380115996854067,
+          "selected_threshold_delta_recall": 0.15384615384615385,
+          "selected_threshold_delta_ap50_95": 0.16015817515817518,
+          "recall_negative": true,
+          "localization_or_ap_negative": false,
+          "threshold_helps": true,
+          "rollback_candidate": false
+        }
+      },
+      "negative_seed_count": 1,
+      "threshold_help_seed_count": 3,
+      "rollback_seed_count": 0,
+      "recommended_action": "unstable_not_mandatory_rollback"
+    },
+    "6": {
+      "class_id": 6,
+      "class_name": "漏背锡",
+      "seed_evidence": {
+        "0": {
+          "fixed_delta_recall": 0.13829548194623054,
+          "fixed_delta_ap50_95": 0.040101524447242076,
+          "old_delta_recall": 0.02642514444797095,
+          "old_delta_ap50_95": 0.012690959973174265,
+          "selected_threshold_delta_recall": 0.08695652173913049,
+          "selected_threshold_delta_ap50_95": 0.04121842084453109,
+          "recall_negative": false,
+          "localization_or_ap_negative": false,
+          "threshold_helps": true,
+          "rollback_candidate": false
+        },
+        "1": {
+          "fixed_delta_recall": 0.10869565217391297,
+          "fixed_delta_ap50_95": 0.05165149533488034,
+          "old_delta_recall": 0.0324377180481471,
+          "old_delta_ap50_95": -0.0189359326547216,
+          "selected_threshold_delta_recall": 0.10869565217391308,
+          "selected_threshold_delta_ap50_95": 0.03840948735599742,
+          "recall_negative": false,
+          "localization_or_ap_negative": false,
+          "threshold_helps": true,
+          "rollback_candidate": false
+        },
+        "2": {
+          "fixed_delta_recall": -0.07452493042126296,
+          "fixed_delta_ap50_95": 0.01964523327317058,
+          "old_delta_recall": -0.15217391304347827,
+          "old_delta_ap50_95": 0.01631386829557696,
+          "selected_threshold_delta_recall": 0.0,
+          "selected_threshold_delta_ap50_95": 0.03223194767168891,
+          "recall_negative": true,
+          "localization_or_ap_negative": false,
+          "threshold_helps": true,
+          "rollback_candidate": false
+        }
+      },
+      "negative_seed_count": 1,
+      "threshold_help_seed_count": 3,
+      "rollback_seed_count": 0,
+      "recommended_action": "unstable_not_mandatory_rollback"
+    },
+    "7": {
+      "class_id": 7,
+      "class_name": "碰伤",
+      "seed_evidence": {
+        "0": {
+          "fixed_delta_recall": -0.04702137195901901,
+          "fixed_delta_ap50_95": 0.017184493378686605,
+          "old_delta_recall": -0.04585292371564731,
+          "old_delta_ap50_95": -0.01768255591967627,
+          "selected_threshold_delta_recall": 0.044609665427509326,
+          "selected_threshold_delta_ap50_95": 0.0397442608574603,
+          "recall_negative": true,
+          "localization_or_ap_negative": false,
+          "threshold_helps": true,
+          "rollback_candidate": false
+        },
+        "1": {
+          "fixed_delta_recall": 0.0569568422205225,
+          "fixed_delta_ap50_95": 0.019522491229730987,
+          "old_delta_recall": 0.0757568538240036,
+          "old_delta_ap50_95": 0.012121312844087628,
+          "selected_threshold_delta_recall": 0.055762081784386575,
+          "selected_threshold_delta_ap50_95": 0.022868483145794594,
+          "recall_negative": false,
+          "localization_or_ap_negative": false,
+          "threshold_helps": true,
+          "rollback_candidate": false
+        },
+        "2": {
+          "fixed_delta_recall": 0.026022304832713727,
+          "fixed_delta_ap50_95": -0.00771300854790008,
+          "old_delta_recall": -0.10598265121010464,
+          "old_delta_ap50_95": 0.03078968533937182,
+          "selected_threshold_delta_recall": 0.12639405204460963,
+          "selected_threshold_delta_ap50_95": 0.03902626911092666,
+          "recall_negative": false,
+          "localization_or_ap_negative": false,
+          "threshold_helps": true,
+          "rollback_candidate": false
+        }
+      },
+      "negative_seed_count": 1,
+      "threshold_help_seed_count": 3,
+      "rollback_seed_count": 0,
+      "recommended_action": "unstable_not_mandatory_rollback"
+    },
+    "8": {
+      "class_id": 8,
+      "class_name": "脏污",
+      "seed_evidence": {
+        "0": {
+          "fixed_delta_recall": -0.023809523809523836,
+          "fixed_delta_ap50_95": 0.013781096571959917,
+          "old_delta_recall": -0.09523809523809523,
+          "old_delta_ap50_95": -0.01080677948605202,
+          "selected_threshold_delta_recall": 0.0714285714285714,
+          "selected_threshold_delta_ap50_95": 0.017074429529388008,
+          "recall_negative": true,
+          "localization_or_ap_negative": false,
+          "threshold_helps": true,
+          "rollback_candidate": false
+        },
+        "1": {
+          "fixed_delta_recall": 0.06715579084151291,
+          "fixed_delta_ap50_95": 0.03160530711030052,
+          "old_delta_recall": 0.12286181587549094,
+          "old_delta_ap50_95": 0.0634991854935893,
+          "selected_threshold_delta_recall": 0.2142857142857142,
+          "selected_threshold_delta_ap50_95": 0.0416557380877311,
+          "recall_negative": false,
+          "localization_or_ap_negative": false,
+          "threshold_helps": true,
+          "rollback_candidate": false
+        },
+        "2": {
+          "fixed_delta_recall": 0.03011416147853918,
+          "fixed_delta_ap50_95": -0.05019176047769974,
+          "old_delta_recall": -0.1439201020853368,
+          "old_delta_ap50_95": -0.03580608584067568,
+          "selected_threshold_delta_recall": 0.2142857142857143,
+          "selected_threshold_delta_ap50_95": 0.01302578590106418,
+          "recall_negative": false,
+          "localization_or_ap_negative": true,
+          "threshold_helps": true,
+          "rollback_candidate": false
+        }
+      },
+      "negative_seed_count": 2,
+      "threshold_help_seed_count": 3,
+      "rollback_seed_count": 0,
+      "recommended_action": "threshold_calibration_only"
+    },
+    "9": {
+      "class_id": 9,
+      "class_name": "轮廓划伤",
+      "seed_evidence": {
+        "0": {
+          "fixed_delta_recall": -0.10220569235482069,
+          "fixed_delta_ap50_95": -0.0013120944323852246,
+          "old_delta_recall": -0.011904761904761862,
+          "old_delta_ap50_95": -0.06540907494992648,
+          "selected_threshold_delta_recall": 0.0357142857142857,
+          "selected_threshold_delta_ap50_95": 0.0038143602548116884,
+          "recall_negative": true,
+          "localization_or_ap_negative": false,
+          "threshold_helps": true,
+          "rollback_candidate": false
+        },
+        "1": {
+          "fixed_delta_recall": 0.04015700426673646,
+          "fixed_delta_ap50_95": 0.01045327477021929,
+          "old_delta_recall": 0.016347480457212626,
+          "old_delta_ap50_95": -0.0031654651465775063,
+          "selected_threshold_delta_recall": -0.023809523809523836,
+          "selected_threshold_delta_ap50_95": -0.0034317986974680137,
+          "recall_negative": false,
+          "localization_or_ap_negative": false,
+          "threshold_helps": false,
+          "rollback_candidate": false
+        },
+        "2": {
+          "fixed_delta_recall": -0.16666666666666663,
+          "fixed_delta_ap50_95": -0.06542994880881742,
+          "old_delta_recall": -0.08333333333333326,
+          "old_delta_ap50_95": -0.026292779855778492,
+          "selected_threshold_delta_recall": 0.023809523809523725,
+          "selected_threshold_delta_ap50_95": -0.05358119652834242,
+          "recall_negative": true,
+          "localization_or_ap_negative": true,
+          "threshold_helps": false,
+          "rollback_candidate": true
+        }
+      },
+      "negative_seed_count": 2,
+      "threshold_help_seed_count": 1,
+      "rollback_seed_count": 1,
+      "recommended_action": "high_risk_negative_effect"
+    },
+    "10": {
+      "class_id": 10,
+      "class_name": "锡丝残留",
+      "seed_evidence": {
+        "0": {
+          "fixed_delta_recall": 0.10008609856311934,
+          "fixed_delta_ap50_95": 0.026107668004444307,
+          "old_delta_recall": 0.10008609856311934,
+          "old_delta_ap50_95": 0.08106519820907798,
+          "selected_threshold_delta_recall": -0.08333333333333337,
+          "selected_threshold_delta_ap50_95": 0.055138641315111925,
+          "recall_negative": false,
+          "localization_or_ap_negative": false,
+          "threshold_helps": false,
+          "rollback_candidate": false
+        },
+        "1": {
+          "fixed_delta_recall": 0.16666666666666663,
+          "fixed_delta_ap50_95": -0.07451109643000497,
+          "old_delta_recall": 0.16666666666666663,
+          "old_delta_ap50_95": -0.07045213233268877,
+          "selected_threshold_delta_recall": 0.08333333333333337,
+          "selected_threshold_delta_ap50_95": -0.09521760897341408,
+          "recall_negative": false,
+          "localization_or_ap_negative": true,
+          "threshold_helps": false,
+          "rollback_candidate": true
+        },
+        "2": {
+          "fixed_delta_recall": 0.0,
+          "fixed_delta_ap50_95": -0.08801176830971014,
+          "old_delta_recall": -0.17825278510121034,
+          "old_delta_ap50_95": -0.005886518153911058,
+          "selected_threshold_delta_recall": 0.0,
+          "selected_threshold_delta_ap50_95": -0.021555920930921013,
+          "recall_negative": false,
+          "localization_or_ap_negative": true,
+          "threshold_helps": false,
+          "rollback_candidate": true
+        }
+      },
+      "negative_seed_count": 2,
+      "threshold_help_seed_count": 0,
+      "rollback_seed_count": 2,
+      "recommended_action": "rollback_candidate"
+    },
+    "11": {
+      "class_id": 11,
+      "class_name": "锡尖",
+      "seed_evidence": {
+        "0": {
+          "fixed_delta_recall": 0.15258723248375994,
+          "fixed_delta_ap50_95": 0.015151261420200068,
+          "old_delta_recall": 0.15258723248375994,
+          "old_delta_ap50_95": 0.07834717107078382,
+          "selected_threshold_delta_recall": 0.11111111111111116,
+          "selected_threshold_delta_ap50_95": 0.04001272387079491,
+          "recall_negative": false,
+          "localization_or_ap_negative": false,
+          "threshold_helps": true,
+          "rollback_candidate": false
+        },
+        "1": {
+          "fixed_delta_recall": 0.06289356511175925,
+          "fixed_delta_ap50_95": 0.10298013089583213,
+          "old_delta_recall": -0.03703703703703709,
+          "old_delta_ap50_95": -0.027891903360302228,
+          "selected_threshold_delta_recall": 0.07407407407407407,
+          "selected_threshold_delta_ap50_95": 0.09998508774093562,
+          "recall_negative": false,
+          "localization_or_ap_negative": false,
+          "threshold_helps": true,
+          "rollback_candidate": false
+        },
+        "2": {
+          "fixed_delta_recall": 0.0046353028938956875,
+          "fixed_delta_ap50_95": 0.013306272164501198,
+          "old_delta_recall": -0.06943877118017838,
+          "old_delta_ap50_95": -0.03529025899029503,
+          "selected_threshold_delta_recall": 0.14814814814814814,
+          "selected_threshold_delta_ap50_95": 0.05062796163245942,
+          "recall_negative": false,
+          "localization_or_ap_negative": false,
+          "threshold_helps": true,
+          "rollback_candidate": false
+        }
+      },
+      "negative_seed_count": 0,
+      "threshold_help_seed_count": 3,
+      "rollback_seed_count": 0,
+      "recommended_action": "keep_fixed_catf_v2"
+    },
+    "12": {
+      "class_id": 12,
+      "class_name": "锡膏",
+      "seed_evidence": {
+        "0": {
+          "fixed_delta_recall": -0.11302037097329054,
+          "fixed_delta_ap50_95": 0.013706887744729446,
+          "old_delta_recall": -0.029096568336232864,
+          "old_delta_ap50_95": 0.032516072103482674,
+          "selected_threshold_delta_recall": -0.021739130434782594,
+          "selected_threshold_delta_ap50_95": -0.017157642741190415,
+          "recall_negative": true,
+          "localization_or_ap_negative": false,
+          "threshold_helps": false,
+          "rollback_candidate": false
+        },
+        "1": {
+          "fixed_delta_recall": -0.02857765341629337,
+          "fixed_delta_ap50_95": 0.017019052031602366,
+          "old_delta_recall": -0.021739130434782594,
+          "old_delta_ap50_95": -0.0368682669955841,
+          "selected_threshold_delta_recall": 0.0,
+          "selected_threshold_delta_ap50_95": -0.006955968336285312,
+          "recall_negative": true,
+          "localization_or_ap_negative": false,
+          "threshold_helps": true,
+          "rollback_candidate": false
+        },
+        "2": {
+          "fixed_delta_recall": -0.004390140822586153,
+          "fixed_delta_ap50_95": -0.041663725827446485,
+          "old_delta_recall": -0.0627143112199694,
+          "old_delta_ap50_95": -0.04431745991402042,
+          "selected_threshold_delta_recall": -0.021739130434782594,
+          "selected_threshold_delta_ap50_95": -0.02434178781278562,
+          "recall_negative": false,
+          "localization_or_ap_negative": true,
+          "threshold_helps": false,
+          "rollback_candidate": true
+        }
+      },
+      "negative_seed_count": 3,
+      "threshold_help_seed_count": 1,
+      "rollback_seed_count": 1,
+      "recommended_action": "high_risk_negative_effect"
+    }
+  },
+  "buckets": {
+    "unstable_not_mandatory_rollback": [
+      "0:OK2",
+      "1:OK3",
+      "3:开裂",
+      "5:浅划伤",
+      "6:漏背锡",
+      "7:碰伤"
+    ],
+    "rollback_candidate": [
+      "2:加强筋打伤",
+      "10:锡丝残留"
+    ],
+    "keep_fixed_catf_v2": [
+      "4:油污",
+      "11:锡尖"
+    ],
+    "threshold_calibration_only": [
+      "8:脏污"
+    ],
+    "high_risk_negative_effect": [
+      "9:轮廓划伤",
+      "12:锡膏"
+    ]
+  }
+}

@@ -33,6 +33,14 @@ The project is a diagnosis-driven augmentation pipeline for industrial defect de
 - Unlike the old seed1 CATF-v2 run, this fixed rerun applied actual augmentation: industrial samples augmented=55 and ROI applied=56.
 - ROI affected class 11 for 51 applications and class 4 for 5 applications; OK3 remained inactive with OK3 ROI applied=0.
 - The fixed seed1 result is no longer attributable to no-op transform perturbation; it should be treated as a valid CATF-v2 seed1 rerun after strict bypass repair.
+- Fixed multiseed validation is now available at `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/`.
+- Fixed CATF-v2 seed0/1/2 results:
+  - seed0: P=0.7785, R=0.6697, mAP50=0.7437, mAP50-95=0.4895, constraint_failed=false.
+  - seed1: P=0.7852, R=0.7005, mAP50=0.7826, mAP50-95=0.5189, constraint_failed=false.
+  - seed2: P=0.7637, R=0.6863, mAP50=0.7582, mAP50-95=0.4967, constraint_failed=true.
+- Strict bypass repair improved multiseed constraint stability from old CATF-v2 `1/3` pass to fixed CATF-v2 `2/3` pass.
+- OK3 remained clean across fixed multiseed: never active, ROI applied=0.
+- Recommendation: CATF-v2 is now a stronger candidate but not yet a fully stable sole main method because seed2 still fails mAP constraints.
 
 ## Output Layout Status
 
@@ -567,7 +575,7 @@ No training was run after building or auditing these datasets.
 - Current CATF-v2 work is smoke-only; no formal 50 epoch CATF-v2 run should be inferred from it.
 - No-feedback control disables both feedback and industrial augmentation, using Ultralytics YOLO default augmentation as the behavior check.
 - The old YOLO default reference is not the final baseline after parity audit; feedback comparisons should use `clean_native_yolo_default_seed42_50ep`.
-- Output: `outputs/experiments/catf_v2_fixed_seed1_50ep/`
+- Output: `outputs/experiments/catf_v2/`
 - Epochs: `50`
 - Feedback enabled: `true`
 - Industrial augmentation enabled: `true`
@@ -582,9 +590,9 @@ No training was run after building or auditing these datasets.
 - Train image count: `2301`
 - Fixed augmented dataset generated: `false`
 - Constraint baseline: `clean_native_yolo_default`
-- Constraint failed: `False`
-- Report: `outputs/experiments/catf_v2_fixed_seed1_50ep/reports/final_report.md`
-- Policy history: `outputs/experiments/catf_v2_fixed_seed1_50ep/reports/policy_history.json`
+- Constraint failed: `True`
+- Report: `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/seed_2/catf_v2/reports/final_report.md`
+- Policy history: `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/seed_2/catf_v2/reports/policy_history.json`
 <!-- YOLO_DEFAULT_INLOOP_FEEDBACK_SMOKE_END -->
 <!-- YOLO_DEFAULT_INLOOP_PARITY_AUDIT_START -->
 ## YOLO Default In-Loop Parity Audit

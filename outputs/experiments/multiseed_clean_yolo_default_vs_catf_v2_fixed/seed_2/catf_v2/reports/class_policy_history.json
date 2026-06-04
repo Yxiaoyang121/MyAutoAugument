@@ -1,0 +1,67 @@
+{
+  "history": [
+    {
+      "epoch": 5,
+      "class_id": 9,
+      "action": "propose",
+      "adjustment_count": 4,
+      "before_status": "inactive",
+      "after_status": "active",
+      "dominant_issue": "texture_boundary_weak"
+    },
+    {
+      "epoch": 10,
+      "class_id": 12,
+      "action": "observe",
+      "adjustment_count": 0,
+      "before_status": "inactive",
+      "after_status": "inactive",
+      "dominant_issue": "texture_boundary_weak"
+    },
+    {
+      "epoch": 10,
+      "class_id": 6,
+      "action": "observe",
+      "adjustment_count": 0,
+      "before_status": "inactive",
+      "after_status": "inactive",
+      "dominant_issue": "texture_boundary_weak"
+    },
+    {
+      "epoch": 15,
+      "class_id": 6,
+      "action": "observe",
+      "adjustment_count": 0,
+      "before_status": "inactive",
+      "after_status": "inactive",
+      "dominant_issue": "texture_boundary_weak"
+    },
+    {
+      "epoch": 20,
+      "class_id": 12,
+      "action": "observe",
+      "adjustment_count": 0,
+      "before_status": "inactive",
+      "after_status": "inactive",
+      "dominant_issue": "weak_localization"
+    },
+    {
+      "epoch": 25,
+      "class_id": 11,
+      "action": "propose",
+      "adjustment_count": 4,
+      "before_status": "inactive",
+      "after_status": "active",
+      "dominant_issue": "weak_localization"
+    },
+    {
+      "epoch": 35,
+      "class_id": 8,
+      "action": "propose",
+      "adjustment_count": 4,
+      "before_status": "inactive",
+      "after_status": "active",
+      "dominant_issue": "weak_localization"
+    }
+  ]
+}

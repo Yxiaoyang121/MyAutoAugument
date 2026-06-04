@@ -1,0 +1,362 @@
+{
+  "run_group": "multiseed_clean_yolo_default_vs_catf_v2_fixed",
+  "code_commit_used": "dfcd177fa058046073e9b8e87dc8052b7b705f9a",
+  "seeds": {
+    "0": {
+      "clean_native": {
+        "precision": 0.7845544620314738,
+        "recall": 0.6764566929659848,
+        "map50": 0.7346955158165702,
+        "map50_95": 0.4758941249341509
+      },
+      "fixed_catf_v2": {
+        "precision": 0.7785060827516979,
+        "recall": 0.6696537893735843,
+        "map50": 0.7436574966447125,
+        "map50_95": 0.4895409913055733
+      },
+      "old_catf_v2": {
+        "precision": 0.7428660677509904,
+        "recall": 0.6982320734575492,
+        "map50": 0.7570333885950943,
+        "map50_95": 0.5022533958217923
+      },
+      "delta_fixed_vs_clean": {
+        "precision": -0.006048379279775973,
+        "recall": -0.006802903592400433,
+        "map50": 0.008961980828142257,
+        "map50_95": 0.013646866371422428
+      },
+      "delta_old_vs_clean": {
+        "precision": -0.04168839428048343,
+        "recall": 0.021775380491564467,
+        "map50": 0.02233787277852406,
+        "map50_95": 0.026359270887641395
+      },
+      "fixed_constraint_failed": false,
+      "old_constraint_failed": true,
+      "fixed_all_metrics_improved": false,
+      "fixed_constraint_passed": true,
+      "fixed_run_path": "outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/seed_0/catf_v2",
+      "clean_run_path": "outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2/seed_0/clean_native_yolo_default",
+      "old_run_path": "outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2/seed_0/catf_v2",
+      "online_aug_samples_augmented": 41,
+      "online_aug_ops": {
+        "local_contrast": {
+          "seen": 1590,
+          "skipped_probability": 1502,
+          "applied": 23,
+          "skipped_roi_unavailable": 65
+        },
+        "sharpen_mild": {
+          "seen": 1590,
+          "skipped_probability": 1507,
+          "applied": 18,
+          "skipped_roi_unavailable": 65
+        }
+      },
+      "roi_aug_applied": 45,
+      "roi_affected_classes": {
+        "4": 9,
+        "11": 22,
+        "12": 14
+      },
+      "ok3_active": false,
+      "ok3_roi_applied": 0,
+      "active_classes": {
+        "11": 1,
+        "4": 1,
+        "12": 1
+      },
+      "policy_action_counts": {
+        "accept": 2,
+        "rollback": 1,
+        "shrink": 2,
+        "observe": 2,
+        "freeze": 2
+      },
+      "bbox_oob_count": 0,
+      "invalid_bbox_count": 0,
+      "class_id_oob_count": 0
+    },
+    "1": {
+      "clean_native": {
+        "precision": 0.7725246158861973,
+        "recall": 0.6476798989752319,
+        "map50": 0.7541905909810253,
+        "map50_95": 0.4799185559746686
+      },
+      "fixed_catf_v2": {
+        "precision": 0.7851989347944973,
+        "recall": 0.700509393329673,
+        "map50": 0.7826175032103642,
+        "map50_95": 0.5188785833030913
+      },
+      "old_catf_v2": {
+        "precision": 0.7691056170101762,
+        "recall": 0.6950333225856902,
+        "map50": 0.7549133150716549,
+        "map50_95": 0.48981412713083466
+      },
+      "delta_fixed_vs_clean": {
+        "precision": 0.012674318908300064,
+        "recall": 0.052829494354441064,
+        "map50": 0.028426912229338908,
+        "map50_95": 0.03896002732842274
+      },
+      "delta_old_vs_clean": {
+        "precision": -0.00341899887602104,
+        "recall": 0.047353423610458245,
+        "map50": 0.0007227240906296784,
+        "map50_95": 0.009895571156166072
+      },
+      "fixed_constraint_failed": false,
+      "old_constraint_failed": false,
+      "fixed_all_metrics_improved": true,
+      "fixed_constraint_passed": true,
+      "fixed_run_path": "outputs/experiments/catf_v2_fixed_seed1_50ep",
+      "clean_run_path": "outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2/seed_1/clean_native_yolo_default",
+      "old_run_path": "outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2/seed_1/catf_v2",
+      "online_aug_samples_augmented": 55,
+      "online_aug_ops": {
+        "local_contrast": {
+          "seen": 2130,
+          "skipped_probability": 2102,
+          "applied": 28
+        },
+        "sharpen_mild": {
+          "seen": 2130,
+          "skipped_probability": 2103,
+          "applied": 27
+        }
+      },
+      "roi_aug_applied": 56,
+      "roi_affected_classes": {
+        "4": 5,
+        "11": 51
+      },
+      "ok3_active": false,
+      "ok3_roi_applied": 0,
+      "active_classes": {
+        "11": 1,
+        "4": 1
+      },
+      "policy_action_counts": {
+        "accept": 1,
+        "observe": 1,
+        "shrink": 5,
+        "freeze": 2
+      },
+      "bbox_oob_count": 0,
+      "invalid_bbox_count": 0,
+      "class_id_oob_count": 0
+    },
+    "2": {
+      "clean_native": {
+        "precision": 0.6962390186664107,
+        "recall": 0.728629640010866,
+        "map50": 0.7692030787336794,
+        "map50_95": 0.5223713770570699
+      },
+      "fixed_catf_v2": {
+        "precision": 0.7636577080243924,
+        "recall": 0.6863445827915785,
+        "map50": 0.7582462462317862,
+        "map50_95": 0.4966842829943364
+      },
+      "old_catf_v2": {
+        "precision": 0.8357621090770377,
+        "recall": 0.6039038600390677,
+        "map50": 0.7423244586156349,
+        "map50_95": 0.49384132117424606
+      },
+      "delta_fixed_vs_clean": {
+        "precision": 0.06741868935798168,
+        "recall": -0.04228505721928755,
+        "map50": -0.010956832501893277,
+        "map50_95": -0.025687094062733506
+      },
+      "delta_old_vs_clean": {
+        "precision": 0.13952309041062705,
+        "recall": -0.12472577997179835,
+        "map50": -0.02687862011804454,
+        "map50_95": -0.028530055882823868
+      },
+      "fixed_constraint_failed": true,
+      "old_constraint_failed": true,
+      "fixed_all_metrics_improved": false,
+      "fixed_constraint_passed": false,
+      "fixed_run_path": "outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/seed_2/catf_v2",
+      "clean_run_path": "outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2/seed_2/clean_native_yolo_default",
+      "old_run_path": "outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2/seed_2/catf_v2",
+      "online_aug_samples_augmented": 86,
+      "online_aug_ops": {
+        "local_contrast": {
+          "seen": 2815,
+          "skipped_probability": 2761,
+          "applied": 44,
+          "skipped_roi_unavailable": 10
+        },
+        "sharpen_mild": {
+          "seen": 2815,
+          "skipped_probability": 2763,
+          "applied": 42,
+          "skipped_roi_unavailable": 10
+        }
+      },
+      "roi_aug_applied": 90,
+      "roi_affected_classes": {
+        "8": 6,
+        "9": 25,
+        "11": 59
+      },
+      "ok3_active": false,
+      "ok3_roi_applied": 0,
+      "active_classes": {
+        "9": 1,
+        "11": 1,
+        "8": 1
+      },
+      "policy_action_counts": {
+        "accept": 3,
+        "shrink": 4,
+        "freeze": 2
+      },
+      "bbox_oob_count": 0,
+      "invalid_bbox_count": 0,
+      "class_id_oob_count": 0
+    }
+  },
+  "aggregate": {
+    "clean_native": {
+      "precision": {
+        "mean": 0.751106032194694,
+        "std": 0.047895419193325454
+      },
+      "recall": {
+        "mean": 0.6842554106506943,
+        "std": 0.04103449940694302
+      },
+      "map50": {
+        "mean": 0.7526963951770916,
+        "std": 0.01730223801838746
+      },
+      "map50_95": {
+        "mean": 0.49272801932196314,
+        "std": 0.025750640859182657
+      }
+    },
+    "fixed_catf_v2": {
+      "precision": {
+        "mean": 0.7757875751901958,
+        "std": 0.011024918376647022
+      },
+      "recall": {
+        "mean": 0.6855025884982786,
+        "std": 0.015445024754470637
+      },
+      "map50": {
+        "mean": 0.7615070820289542,
+        "std": 0.01968363064759587
+      },
+      "map50_95": {
+        "mean": 0.501701285867667,
+        "std": 0.015298735713334741
+      }
+    },
+    "old_catf_v2": {
+      "precision": {
+        "mean": 0.7825779312794015,
+        "std": 0.04789098101249599
+      },
+      "recall": {
+        "mean": 0.6657230853607691,
+        "std": 0.053560904270899996
+      },
+      "map50": {
+        "mean": 0.7514237207607947,
+        "std": 0.007951170141931993
+      },
+      "map50_95": {
+        "mean": 0.495302948042291,
+        "std": 0.006347134488688799
+      }
+    },
+    "delta_fixed_vs_clean": {
+      "precision": {
+        "mean": 0.02468154299550192,
+        "std": 0.0381769906654055
+      },
+      "recall": {
+        "mean": 0.0012471778475843613,
+        "std": 0.04806555251591997
+      },
+      "map50": {
+        "mean": 0.008810686851862629,
+        "std": 0.01969230826145474
+      },
+      "map50_95": {
+        "mean": 0.008973266545703887,
+        "std": 0.03257598007027479
+      }
+    },
+    "delta_old_vs_clean": {
+      "precision": {
+        "mean": 0.03147189908470752,
+        "std": 0.0955114213922535
+      },
+      "recall": {
+        "mean": -0.01853232528992521,
+        "std": 0.09285120589093757
+      },
+      "map50": {
+        "mean": -0.0012726744162969335,
+        "std": 0.024668846844969883
+      },
+      "map50_95": {
+        "mean": 0.002574928720327866,
+        "std": 0.02816741739286325
+      }
+    }
+  },
+  "constraint_failed_count_fixed": 1,
+  "constraint_failed_count_old": 2,
+  "fixed_constraint_pass_count": 2,
+  "fixed_all_metrics_improved_seed_count": 1,
+  "ok3_ever_active": false,
+  "ok3_roi_total": 0,
+  "active_class_counts": {
+    "11": 3,
+    "4": 2,
+    "12": 1,
+    "9": 1,
+    "8": 1
+  },
+  "roi_affected_class_counts": {
+    "4": 14,
+    "11": 132,
+    "12": 14,
+    "8": 6,
+    "9": 25
+  },
+  "policy_action_counts_total": {
+    "accept": 6,
+    "rollback": 1,
+    "shrink": 11,
+    "observe": 3,
+    "freeze": 6
+  },
+  "comparison_with_old_catf_v2": {
+    "old_constraint_failed": 2,
+    "fixed_constraint_failed": 1,
+    "old_failed_seeds": [
+      0,
+      2
+    ],
+    "fixed_failed_seeds": [
+      2
+    ],
+    "interpretation": "Strict no-augmentation bypass repair improved multiseed constraint stability from 1/3 passing to 2/3 passing. Seed2 still fails due mAP drops, so fixed CATF-v2 is improved but not fully robust."
+  },
+  "recommendation": "Do not claim CATF-v2 as a fully stable sole main method yet. It is a stronger candidate after strict bypass repair, with 2/3 seeds passing constraints and real ROI/industrial activity, but seed2 still fails the industrial constraint. Position it as a promising constrained feedback augmentation method and continue with seed2 failure analysis or threshold-calibrated variant before making it the final?????."
+}

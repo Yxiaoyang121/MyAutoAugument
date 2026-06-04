@@ -1,5 +1,66 @@
 # Experiment Log
 
+## 2026-06-04
+
+### Fixed CATF-v2 Multiseed Validation
+
+Ran fixed CATF-v2 seed0 and seed2 after the strict no-augmentation bypass repair, reusing clean native seed0/1/2 and the already completed fixed seed1 run.
+
+Run group:
+
+- `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/`
+- Code commit used for training: `dfcd177fa058046073e9b8e87dc8052b7b705f9a`
+
+Shared configuration:
+
+- Model: `yolo11n.pt`
+- Dataset: `outputs/datasets/tiled/tiled_1024_ov20_full_safe_no_ok_position/data.yaml`
+- Epochs: 50
+- Image size: 1024
+- Batch: 2
+- Workers: 0
+- Device: 0
+- YOLO default augmentation: official Ultralytics default remained enabled
+- CATF-v2: enabled
+- Class-aware feedback, ROI-aware augmentation, sample-aware routing: enabled
+- Fixed augmented dataset generated: false
+- Train images: 2301
+- Copy-paste: not enabled
+
+Per-seed results:
+
+| Seed | Clean P | Clean R | Clean mAP50 | Clean mAP50-95 | Fixed P | Fixed R | Fixed mAP50 | Fixed mAP50-95 | constraint_failed |
+|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
+| 0 | 0.7846 | 0.6765 | 0.7347 | 0.4759 | 0.7785 | 0.6697 | 0.7437 | 0.4895 | false |
+| 1 | 0.7725 | 0.6477 | 0.7542 | 0.4799 | 0.7852 | 0.7005 | 0.7826 | 0.5189 | false |
+| 2 | 0.6962 | 0.7286 | 0.7692 | 0.5224 | 0.7637 | 0.6863 | 0.7582 | 0.4967 | true |
+
+Delta vs clean:
+
+- seed0: ΔP=-0.0060, ΔR=-0.0068, ΔmAP50=+0.0090, ΔmAP50-95=+0.0136.
+- seed1: ΔP=+0.0127, ΔR=+0.0528, ΔmAP50=+0.0284, ΔmAP50-95=+0.0390.
+- seed2: ΔP=+0.0674, ΔR=-0.0423, ΔmAP50=-0.0110, ΔmAP50-95=-0.0257.
+
+Aggregate and safety:
+
+- Fixed CATF-v2 constraint_failed count: 1/3.
+- Old CATF-v2 constraint_failed count: 2/3.
+- OK3 active across fixed seeds: false.
+- OK3 ROI applied total: 0.
+- Active class counts: class 11 x3, class 4 x2, class 12 x1, class 9 x1, class 8 x1.
+- ROI affected class counts: class 11=132, class 9=25, class 4=14, class 12=14, class 8=6.
+
+Interpretation:
+
+- Strict no-augmentation bypass repair improved multiseed constraint stability from 1/3 passing to 2/3 passing.
+- The fixed CATF-v2 path is cleaner and more credible than the old CATF-v2 multiseed result.
+- Seed2 still fails due mAP50 and mAP50-95 drops, so CATF-v2 should not yet be claimed as a fully stable sole main method.
+
+Reports:
+
+- `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/multiseed_catf_v2_fixed_summary.md`
+- `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/multiseed_catf_v2_fixed_summary.json`
+
 ## 2026-06-03
 
 ### CATF-v2 Fixed Seed1 50 Epoch Rerun
@@ -930,7 +991,7 @@ Key conclusions from that archived smoke:
 - Current CATF-v2 work is smoke-only; no formal 50 epoch CATF-v2 run should be inferred from it.
 - No-feedback control disables both feedback and industrial augmentation, using Ultralytics YOLO default augmentation as the behavior check.
 - The old YOLO default reference is not the final baseline after parity audit; feedback comparisons should use `clean_native_yolo_default_seed42_50ep`.
-- Output: `outputs/experiments/catf_v2_fixed_seed1_50ep/`
+- Output: `outputs/experiments/catf_v2/`
 - Epochs: `50`
 - Feedback enabled: `true`
 - Industrial augmentation enabled: `true`
@@ -945,9 +1006,9 @@ Key conclusions from that archived smoke:
 - Train image count: `2301`
 - Fixed augmented dataset generated: `false`
 - Constraint baseline: `clean_native_yolo_default`
-- Constraint failed: `False`
-- Report: `outputs/experiments/catf_v2_fixed_seed1_50ep/reports/final_report.md`
-- Policy history: `outputs/experiments/catf_v2_fixed_seed1_50ep/reports/policy_history.json`
+- Constraint failed: `True`
+- Report: `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/seed_2/catf_v2/reports/final_report.md`
+- Policy history: `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/seed_2/catf_v2/reports/policy_history.json`
 <!-- YOLO_DEFAULT_INLOOP_FEEDBACK_SMOKE_END -->
 <!-- YOLO_DEFAULT_INLOOP_PARITY_AUDIT_START -->
 ## YOLO Default In-Loop Parity Audit

@@ -1,0 +1,321 @@
+{
+  "events": [
+    {
+      "epoch": 5,
+      "catf_safe_mode": true,
+      "metrics": {
+        "precision": 0.55691,
+        "recall": 0.40929,
+        "map50": 0.36993,
+        "map50_95": 0.2199
+      },
+      "reference_metrics": {
+        "precision": 0.55691,
+        "recall": 0.40929,
+        "map50": 0.36993,
+        "map50_95": 0.2199
+      },
+      "delta_metrics": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "map50": 0.0,
+        "map50_95": 0.0
+      },
+      "proposed_action": "accept",
+      "active_classes": [
+        9
+      ],
+      "triggered": true,
+      "action": "no_op_freeze",
+      "reasons": [
+        "early_abstention_no_recall_or_map_gain"
+      ],
+      "affected_classes": [],
+      "safe_accept_allowed": true,
+      "fallback_active_before": false,
+      "fallback_active_after": true,
+      "industrial_aug_forced_noop": true,
+      "roi_aug_forced_noop": true
+    },
+    {
+      "epoch": 10,
+      "catf_safe_mode": true,
+      "metrics": {
+        "precision": 0.64056,
+        "recall": 0.52788,
+        "map50": 0.53959,
+        "map50_95": 0.32997
+      },
+      "reference_metrics": {
+        "precision": 0.64056,
+        "recall": 0.52788,
+        "map50": 0.53959,
+        "map50_95": 0.32997
+      },
+      "delta_metrics": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "map50": 0.0,
+        "map50_95": 0.0
+      },
+      "proposed_action": "observe",
+      "active_classes": [],
+      "triggered": true,
+      "action": "no_op_freeze",
+      "reasons": [
+        "early_abstention_no_recall_or_map_gain"
+      ],
+      "affected_classes": [],
+      "safe_accept_allowed": true,
+      "fallback_active_before": true,
+      "fallback_active_after": true,
+      "industrial_aug_forced_noop": true,
+      "roi_aug_forced_noop": true
+    },
+    {
+      "epoch": 15,
+      "catf_safe_mode": true,
+      "metrics": {
+        "precision": 0.74166,
+        "recall": 0.51226,
+        "map50": 0.57096,
+        "map50_95": 0.3514
+      },
+      "reference_metrics": {
+        "precision": 0.74166,
+        "recall": 0.51226,
+        "map50": 0.57096,
+        "map50_95": 0.3514
+      },
+      "delta_metrics": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "map50": 0.0,
+        "map50_95": 0.0
+      },
+      "proposed_action": "observe",
+      "active_classes": [],
+      "triggered": true,
+      "action": "no_op_freeze",
+      "reasons": [
+        "early_abstention_no_recall_or_map_gain"
+      ],
+      "affected_classes": [],
+      "safe_accept_allowed": true,
+      "fallback_active_before": true,
+      "fallback_active_after": true,
+      "industrial_aug_forced_noop": true,
+      "roi_aug_forced_noop": true
+    },
+    {
+      "epoch": 20,
+      "catf_safe_mode": true,
+      "metrics": {
+        "precision": 0.71946,
+        "recall": 0.56093,
+        "map50": 0.65592,
+        "map50_95": 0.40923
+      },
+      "reference_metrics": {
+        "precision": 0.71946,
+        "recall": 0.56093,
+        "map50": 0.65592,
+        "map50_95": 0.40923
+      },
+      "delta_metrics": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "map50": 0.0,
+        "map50_95": 0.0
+      },
+      "proposed_action": "observe",
+      "active_classes": [],
+      "triggered": true,
+      "action": "no_op_freeze",
+      "reasons": [
+        "early_abstention_no_recall_or_map_gain"
+      ],
+      "affected_classes": [],
+      "safe_accept_allowed": true,
+      "fallback_active_before": true,
+      "fallback_active_after": true,
+      "industrial_aug_forced_noop": true,
+      "roi_aug_forced_noop": true
+    },
+    {
+      "epoch": 25,
+      "catf_safe_mode": true,
+      "metrics": {
+        "precision": 0.58109,
+        "recall": 0.72766,
+        "map50": 0.66478,
+        "map50_95": 0.40868
+      },
+      "reference_metrics": {
+        "precision": 0.58109,
+        "recall": 0.72766,
+        "map50": 0.66478,
+        "map50_95": 0.40868
+      },
+      "delta_metrics": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "map50": 0.0,
+        "map50_95": 0.0
+      },
+      "proposed_action": "observe",
+      "active_classes": [],
+      "triggered": true,
+      "action": "no_op_freeze",
+      "reasons": [
+        "early_abstention_no_recall_or_map_gain"
+      ],
+      "affected_classes": [],
+      "safe_accept_allowed": true,
+      "fallback_active_before": true,
+      "fallback_active_after": true,
+      "industrial_aug_forced_noop": true,
+      "roi_aug_forced_noop": true
+    },
+    {
+      "epoch": 30,
+      "catf_safe_mode": true,
+      "metrics": {
+        "precision": 0.6374,
+        "recall": 0.67374,
+        "map50": 0.66525,
+        "map50_95": 0.42486
+      },
+      "reference_metrics": {
+        "precision": 0.6374,
+        "recall": 0.67374,
+        "map50": 0.66525,
+        "map50_95": 0.42486
+      },
+      "delta_metrics": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "map50": 0.0,
+        "map50_95": 0.0
+      },
+      "proposed_action": "observe",
+      "active_classes": [],
+      "triggered": true,
+      "action": "no_op_freeze",
+      "reasons": [
+        "early_abstention_no_recall_or_map_gain"
+      ],
+      "affected_classes": [],
+      "safe_accept_allowed": true,
+      "fallback_active_before": true,
+      "fallback_active_after": true,
+      "industrial_aug_forced_noop": true,
+      "roi_aug_forced_noop": true
+    },
+    {
+      "epoch": 35,
+      "catf_safe_mode": true,
+      "metrics": {
+        "precision": 0.66767,
+        "recall": 0.64721,
+        "map50": 0.68598,
+        "map50_95": 0.44703
+      },
+      "reference_metrics": {
+        "precision": 0.66767,
+        "recall": 0.64721,
+        "map50": 0.68598,
+        "map50_95": 0.44703
+      },
+      "delta_metrics": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "map50": 0.0,
+        "map50_95": 0.0
+      },
+      "proposed_action": "observe",
+      "active_classes": [],
+      "triggered": true,
+      "action": "no_op_freeze",
+      "reasons": [
+        "early_abstention_no_recall_or_map_gain"
+      ],
+      "affected_classes": [],
+      "safe_accept_allowed": true,
+      "fallback_active_before": true,
+      "fallback_active_after": true,
+      "industrial_aug_forced_noop": true,
+      "roi_aug_forced_noop": true
+    },
+    {
+      "epoch": 40,
+      "catf_safe_mode": true,
+      "metrics": {
+        "precision": 0.70408,
+        "recall": 0.71413,
+        "map50": 0.74469,
+        "map50_95": 0.48639
+      },
+      "reference_metrics": {
+        "precision": 0.70408,
+        "recall": 0.71413,
+        "map50": 0.74469,
+        "map50_95": 0.48639
+      },
+      "delta_metrics": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "map50": 0.0,
+        "map50_95": 0.0
+      },
+      "proposed_action": "freeze",
+      "active_classes": [],
+      "triggered": true,
+      "action": "no_op_freeze",
+      "reasons": [
+        "early_abstention_no_recall_or_map_gain"
+      ],
+      "affected_classes": [],
+      "safe_accept_allowed": true,
+      "fallback_active_before": true,
+      "fallback_active_after": true,
+      "industrial_aug_forced_noop": true,
+      "roi_aug_forced_noop": true
+    },
+    {
+      "epoch": 45,
+      "catf_safe_mode": true,
+      "metrics": {
+        "precision": 0.6907,
+        "recall": 0.73331,
+        "map50": 0.77009,
+        "map50_95": 0.52238
+      },
+      "reference_metrics": {
+        "precision": 0.6907,
+        "recall": 0.73331,
+        "map50": 0.77009,
+        "map50_95": 0.52238
+      },
+      "delta_metrics": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "map50": 0.0,
+        "map50_95": 0.0
+      },
+      "proposed_action": "freeze",
+      "active_classes": [],
+      "triggered": true,
+      "action": "no_op_freeze",
+      "reasons": [
+        "early_abstention_no_recall_or_map_gain"
+      ],
+      "affected_classes": [],
+      "safe_accept_allowed": true,
+      "fallback_active_before": true,
+      "fallback_active_after": true,
+      "industrial_aug_forced_noop": true,
+      "roi_aug_forced_noop": true
+    }
+  ]
+}

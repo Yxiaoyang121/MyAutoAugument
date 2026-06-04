@@ -1,0 +1,9 @@
+epoch,class_id,action,op,field,before,after,reason,guard_triggered
+5,12,safe_accept_blocked,sharpen_mild,prob,0.0,0.01,low_recall,safe_accept_metric_drop_guard
+5,12,safe_accept_blocked,sharpen_mild,strength,0.0,0.015,low_recall,safe_accept_metric_drop_guard
+5,12,safe_accept_blocked,local_contrast,prob,0.0,0.01,low_recall,safe_accept_metric_drop_guard
+5,12,safe_accept_blocked,local_contrast,strength,0.0,0.015,low_recall,safe_accept_metric_drop_guard
+5,8,safe_accept_blocked,sharpen_mild,prob,0.0,0.005,low_recall_domain_prior,safe_accept_metric_drop_guard
+5,8,safe_accept_blocked,sharpen_mild,strength,0.0,0.01,low_recall_domain_prior,safe_accept_metric_drop_guard
+5,8,safe_accept_blocked,local_contrast,prob,0.0,0.005,low_recall_domain_prior,safe_accept_metric_drop_guard
+5,8,safe_accept_blocked,local_contrast,strength,0.0,0.01,low_recall_domain_prior,safe_accept_metric_drop_guard

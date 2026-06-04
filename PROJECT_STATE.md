@@ -6,6 +6,38 @@ Last updated: 2026-06-04
 
 The repository is centered on diagnosis-driven augmentation for industrial defect detection. The active path still keeps YOLO network architecture unchanged and focuses on dataset construction, validation-error diagnosis, policy generation, proxy safety, short training, and auditable reporting.
 
+## CATF-v2-Safe Seed2 Validation (2026-06-04)
+
+- Implemented CATF-v2-Safe as a conservative protection layer over CATF-v2:
+  - high-recall baseline protection,
+  - negative-effect attribution,
+  - early abstention,
+  - safe accept guards,
+  - strict no-op fallback.
+- No seed0/seed1 retraining was run.
+- Seed2 failure localization report:
+  - `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/seed2_safe_controller_design.md`
+  - `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/seed2_safe_controller_design.json`
+- Seed2 curve finding: fixed CATF-v2 first lags clean Recall by >0.015 at epoch 6, first lags clean mAP50-95 by >0.008 at epoch 8, and shows a mAP50-95 guard by feedback epoch 10. Epoch 5 proposed class 9 (`轮廓划伤`) without positive Recall/mAP gain, so Safe should abstain.
+- 10ep smoke:
+  - Output: `outputs/experiments/catf_v2_safe_10ep_smoke/`.
+  - Training completed, train images=2301, no fixed augmented dataset, bbox/class legal.
+  - Because the smoke uses a 10ep schedule against a 50ep reference curve, Safe recorded `safe_accept_blocked` rather than no-op freeze; this validates control wiring but is not the formal seed2 behavior.
+- Seed2 50ep Safe run:
+  - Output: `outputs/experiments/catf_v2_safe_seed2_50ep/`.
+  - Single-run continuous training, epochs 1..50, YOLO default augmentation enabled.
+  - Safe triggered no-op freeze at epoch 5 via `early_abstention_no_recall_or_map_gain`.
+  - Industrial samples augmented=0, ROI applied=0, router random draws=0.
+  - Final metrics match clean seed2 exactly: Precision=0.6962, Recall=0.7286, mAP50=0.7692, mAP50-95=0.5224.
+  - Constraint failed: false.
+  - Compared with fixed CATF-v2 seed2, Safe recovers Recall by +0.0423, mAP50 by +0.0110, and mAP50-95 by +0.0257 while accepting lower Precision because the clean high-recall baseline is protected.
+- Reports:
+  - `outputs/experiments/catf_v2_safe_seed2_50ep/reports/final_report.md`
+  - `outputs/experiments/catf_v2_safe_seed2_50ep/reports/final_metrics.json`
+  - `outputs/experiments/catf_v2_safe_seed2_50ep/reports/safe_controller_events.json`
+  - `outputs/experiments/catf_v2_safe_seed2_50ep/reports/compare_with_clean_and_fixed_catf_v2.md`
+- Interpretation: CATF-v2-Safe fixes the known seed2 failure by abstaining on a strong clean baseline rather than forcing augmentation. Next step should be full multiseed CATF-v2-Safe validation only, not further threshold tuning.
+
 ## Official-Path CATF-v2 Threshold Re-optimization (2026-06-04)
 
 - No training was run.

@@ -27,6 +27,7 @@ from AutoAugment.diagnostics.yolo_error_analysis import load_class_names_from_da
 from AutoAugment.feedback_policy_controller import FeedbackPolicyController, default_catf_policy  # noqa: E402
 from AutoAugment.online_augmentation import OnlineAugmentationStats, OnlinePolicyAugmentor  # noqa: E402
 from AutoAugment.catf_v2 import (  # noqa: E402
+    CATFSafeController,
     ClassAwareCATFController,
     ROIStats,
     SampleAwareAugmentationRouter,
@@ -79,7 +80,9 @@ class InLoopFeedbackState:
     reference_metrics: dict[str, Any]
     reference_curve: dict[int, dict[str, Any]] = field(default_factory=dict)
     feedback_controller: Any | None = None
+    safe_controller: CATFSafeController | None = None
     history: list[dict[str, Any]] = field(default_factory=list)
+    safe_events: list[dict[str, Any]] = field(default_factory=list)
     epoch_records: list[dict[str, Any]] = field(default_factory=list)
     callback_invocations: int = 0
     train_start_time: float = field(default_factory=time.time)
@@ -155,6 +158,8 @@ def main() -> None:
         reference_metrics=reference_metrics,
         reference_curve=reference_curve,
     )
+    if catf_v2_enabled and bool(args.catf_safe_mode):
+        state.safe_controller = CATFSafeController()
     if catf_v2_enabled:
         state.feedback_controller = ClassAwareCATFController(
             policy_state,
@@ -386,6 +391,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--industrial-aug-enabled", action=argparse.BooleanOptionalAction, default=True)
     parser.add_argument("--catf-version", choices=["v1", "v2"], default="v1")
     parser.add_argument("--catf-noop", action=argparse.BooleanOptionalAction, default=False)
+    parser.add_argument("--catf-safe-mode", action=argparse.BooleanOptionalAction, default=False)
     parser.add_argument("--class-aware-feedback", action=argparse.BooleanOptionalAction, default=False)
     parser.add_argument("--roi-aware-aug", action=argparse.BooleanOptionalAction, default=False)
     parser.add_argument("--sample-aware-routing", action=argparse.BooleanOptionalAction, default=False)
@@ -399,7 +405,36 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--preview-count", type=int, default=20)
     parser.add_argument("--keep-diagnosis-predict-runs", action="store_true")
     parser.add_argument("--skip-doc-update", action="store_true")
-    return parser.parse_args()
+    return parser.parse_args(normalize_bool_cli_args(sys.argv[1:]))
+
+
+def normalize_bool_cli_args(argv: list[str]) -> list[str]:
+    """Accept both `--flag` and `--flag true/false` for BooleanOptionalAction flags."""
+
+    bool_flags = {
+        "--feedback-enabled",
+        "--diagnosis-only",
+        "--industrial-aug-enabled",
+        "--catf-noop",
+        "--catf-safe-mode",
+        "--class-aware-feedback",
+        "--roi-aware-aug",
+        "--sample-aware-routing",
+        "--threshold-calibration-report",
+        "--save-preview",
+    }
+    out: list[str] = []
+    index = 0
+    while index < len(argv):
+        token = argv[index]
+        if token in bool_flags and index + 1 < len(argv) and argv[index + 1].lower() in {"true", "false", "1", "0", "yes", "no"}:
+            value = argv[index + 1].lower() in {"true", "1", "yes"}
+            out.append(token if value else "--no-" + token[2:])
+            index += 2
+            continue
+        out.append(token)
+        index += 1
+    return out
 
 
 def configure_environment(output_dir: Path) -> None:
@@ -438,6 +473,7 @@ def build_train_config(args: argparse.Namespace, output_dir: Path) -> dict[str, 
         "feedback_controller": "CATF-v2" if is_catf_v2(args) else "CATF",
         "catf_version": str(args.catf_version),
         "catf_noop": bool(args.catf_noop),
+        "catf_safe_mode": bool(args.catf_safe_mode),
         "class_aware_feedback": bool(args.class_aware_feedback),
         "roi_aware_aug": bool(args.roi_aware_aug),
         "sample_aware_routing": bool(args.sample_aware_routing),
@@ -493,6 +529,7 @@ def build_train_command(args: argparse.Namespace, output_dir: Path) -> str:
         f"feedback_controller={'CATF-v2' if is_catf_v2(args) else 'CATF'}",
         f"catf_version={getattr(args, 'catf_version', 'v1')}",
         f"catf_noop={bool(getattr(args, 'catf_noop', False))}",
+        f"catf_safe_mode={bool(getattr(args, 'catf_safe_mode', False))}",
         f"class_aware_feedback={bool(getattr(args, 'class_aware_feedback', False))}",
         f"roi_aware_aug={bool(getattr(args, 'roi_aware_aug', False))}",
         f"sample_aware_routing={bool(getattr(args, 'sample_aware_routing', False))}",
@@ -631,6 +668,46 @@ def register_inloop_feedback_callback(model: Any, state: InLoopFeedbackState) ->
                 )
                 state.feedback_controller = controller
             new_policy = controller.update(diagnosis, epoch=epoch_num, metrics=metrics, reference_metrics=reference_metrics)
+            safe_event: dict[str, Any] | None = None
+            if bool(getattr(state.args, "catf_safe_mode", False)):
+                if state.safe_controller is None:
+                    state.safe_controller = CATFSafeController()
+                latest_record = controller.history[-1] if controller.history else {}
+                per_class = {}
+                per_class_path = latest_record.get("per_class_diagnosis_path")
+                if per_class_path and Path(per_class_path).exists():
+                    per_class = read_json(Path(per_class_path))
+                safe_event = state.safe_controller.evaluate(
+                    epoch=epoch_num,
+                    policy=new_policy,
+                    metrics=metrics,
+                    reference_metrics=reference_metrics,
+                    per_class_diagnosis=per_class,
+                    active_classes=latest_record.get("active_classes", []),
+                    proposed_action=latest_record.get("action"),
+                )
+                new_policy = deepcopy(safe_event.get("policy", new_policy))
+                if hasattr(controller, "policy"):
+                    controller.policy.matrix = deepcopy(new_policy)
+                if controller.history:
+                    event_for_history = deepcopy(safe_event)
+                    event_for_history.pop("policy", None)
+                    controller.history[-1]["safe_controller_event"] = event_for_history
+                    controller.history[-1]["catf_safe_mode"] = True
+                    controller.history[-1]["safe_fallback_active"] = bool(event_for_history.get("fallback_active_after"))
+                    controller.history[-1]["safe_accept_allowed"] = bool(event_for_history.get("safe_accept_allowed"))
+                    if event_for_history.get("triggered"):
+                        controller.history[-1]["action"] = event_for_history.get("action", controller.history[-1].get("action"))
+                        controller.history[-1]["accepted_policy"] = deepcopy(new_policy)
+                        controller.history[-1]["new_policy"] = deepcopy(new_policy)
+                        controller.history[-1]["guard_triggered"] = list(
+                            dict.fromkeys(
+                                list(controller.history[-1].get("guard_triggered", []) or [])
+                                + list(event_for_history.get("reasons", []) or [])
+                            )
+                        )
+                        controller.history[-1]["frozen"] = event_for_history.get("action") == "no_op_freeze"
+                state.safe_events = deepcopy(state.safe_controller.events)
             state.policy_state.clear()
             state.policy_state.update(deepcopy(new_policy))
             state.context.augmentor.set_policy(new_policy)
@@ -947,6 +1024,7 @@ def build_payload(
             "run_id": args.run_id,
             "generated_at": datetime.now().isoformat(timespec="seconds"),
             "catf_noop": bool(getattr(args, "catf_noop", False)),
+            "catf_safe_mode": bool(getattr(args, "catf_safe_mode", False)),
             "noop_transform_calls": int(getattr(state.context, "noop_transform_calls", 0) or 0),
             "router_random_draw_count": int(getattr(state.context.augmentor, "random_draw_count", 0) or 0),
             "sample_router_built": bool(is_catf_v2(args)),
@@ -987,6 +1065,7 @@ def build_payload(
         "feedback_controller": "CATF-v2" if is_catf_v2(args) else "CATF",
         "catf_version": str(getattr(args, "catf_version", "v1")),
         "catf_noop": bool(getattr(args, "catf_noop", False)),
+        "catf_safe_mode": bool(getattr(args, "catf_safe_mode", False)),
         "class_aware_feedback": bool(getattr(args, "class_aware_feedback", False)),
         "roi_aware_aug": bool(getattr(args, "roi_aware_aug", False)),
         "sample_aware_routing": bool(getattr(args, "sample_aware_routing", False)),
@@ -1003,6 +1082,8 @@ def build_payload(
         "roi_aug_stats": str((output_dir / "reports" / "roi_aug_stats.json").resolve()) if roi_aug_stats else None,
         "report": str(primary_report_path(output_dir, args).resolve()),
         "constraint_failed": constraint_scoring["constraint_failed"] if args.feedback_enabled else None,
+        "safe_fallback_triggered": any(event.get("action") == "no_op_freeze" for event in state.safe_events),
+        "safe_controller_events": str((output_dir / "reports" / "safe_controller_events.json").resolve()),
     }
     catf_v2_summary = state.feedback_controller.summary() if is_catf_v2(args) and hasattr(state.feedback_controller, "summary") else {}
     return {
@@ -1021,6 +1102,7 @@ def build_payload(
         "feedback_controller": "CATF-v2" if is_catf_v2(args) else "CATF",
         "catf_version": str(getattr(args, "catf_version", "v1")),
         "catf_noop": bool(getattr(args, "catf_noop", False)),
+        "catf_safe_mode": bool(getattr(args, "catf_safe_mode", False)),
         "class_aware_feedback": bool(getattr(args, "class_aware_feedback", False)),
         "roi_aware_aug": bool(getattr(args, "roi_aware_aug", False)),
         "sample_aware_routing": bool(getattr(args, "sample_aware_routing", False)),
@@ -1038,6 +1120,7 @@ def build_payload(
         },
         "val": {"success": val_success, "error": val_error, "metrics": val_metrics},
         "policy_history": state.history,
+        "safe_controller_events": state.safe_events,
         "latest_policy_state": state.policy_state,
         "epoch_records": state.epoch_records,
         "online_aug_stats": stats,
@@ -1095,6 +1178,8 @@ def write_outputs(payload: dict[str, Any]) -> None:
         write_json(output_dir / "reports" / "roi_aug_stats.json", payload["roi_aug_stats"])
     write_json(output_dir / "reports" / "epoch_records.json", payload["epoch_records"])
     write_json(output_dir / "reports" / "constraint_scoring.json", payload["constraint_scoring"])
+    if payload.get("catf_safe_mode"):
+        write_json(output_dir / "reports" / "safe_controller_events.json", {"events": payload.get("safe_controller_events", [])})
     if payload.get("catf_version") == "v2":
         write_catf_v2_history(output_dir / "reports", payload)
     else:
@@ -1359,6 +1444,7 @@ def build_catf_v2_smoke_report(payload: dict[str, Any]) -> str:
     stats = payload["online_aug_stats"]
     roi_stats = payload.get("roi_aug_stats") or {}
     catf = payload.get("catf_v2") or {}
+    safe_events = payload.get("safe_controller_events") or []
     last = history[-1] if history else {}
     lines = [
         "# CATF-v2 Class-Aware Smoke Report",
@@ -1372,6 +1458,10 @@ def build_catf_v2_smoke_report(payload: dict[str, Any]) -> str:
         f"- Sample-aware routing enabled: `{str(payload.get('sample_aware_routing')).lower()}`",
         f"- ROI-aware augmentation enabled: `{str(payload.get('roi_aware_aug')).lower()}`",
         f"- Threshold calibration report enabled: `{str(payload.get('threshold_calibration_report', True)).lower()}`",
+        f"- CATF-v2 safe mode enabled: `{str(payload.get('catf_safe_mode', False)).lower()}`",
+        f"- Baseline protection triggered: `{str(any('baseline_protection' in ','.join(event.get('reasons', [])) for event in safe_events)).lower()}`",
+        f"- Early abstention triggered: `{str(any('early_abstention' in ','.join(event.get('reasons', [])) for event in safe_events)).lower()}`",
+        f"- No-op freeze entered: `{str(any(event.get('action') == 'no_op_freeze' for event in safe_events)).lower()}`",
         f"- Reference curve loaded: `{str(bool(payload.get('reference_curve_epochs'))).lower()}`",
         f"- Epoch 5 update happened: `{str(5 in payload['summary']['feedback_epochs']).lower()}`",
         f"- BBox/class legal: `{str(payload['summary']['bbox_class_valid']).lower()}`",
@@ -1402,6 +1492,7 @@ def build_catf_v2_smoke_report(payload: dict[str, Any]) -> str:
         f"- Policy history: `{payload['summary']['policy_history']}`",
         f"- Online aug stats: `{payload['summary']['online_aug_stats']}`",
         f"- ROI aug stats: `{payload['summary'].get('roi_aug_stats')}`",
+        f"- Safe controller events: `{payload['summary'].get('safe_controller_events')}`",
         "",
         "## Next Step",
         "",
@@ -1488,6 +1579,7 @@ def build_final_report(payload: dict[str, Any]) -> str:
     baseline = scoring["baseline_metrics"]
     deltas = scoring["deltas"]
     adjustment_counts = adjustment_direction_counts(payload.get("policy_history", []))
+    safe_events = payload.get("safe_controller_events") or []
     improved_p = (deltas.get("precision") or 0.0) > 0
     improved_r = (deltas.get("recall") or 0.0) > 0
     improved_map50 = (deltas.get("map50") or 0.0) > 0
@@ -1529,6 +1621,9 @@ def build_final_report(payload: dict[str, Any]) -> str:
         "",
         f"- Feedback enabled: `{str(payload['feedback_enabled']).lower()}`",
         f"- Feedback controller: `{payload.get('feedback_controller', 'CATF')}`",
+        f"- CATF-v2 safe mode enabled: `{str(payload.get('catf_safe_mode', False)).lower()}`",
+        f"- Safe no-op fallback triggered: `{str(any(event.get('action') == 'no_op_freeze' for event in safe_events)).lower()}`",
+        f"- Safe controller reasons: `{safe_event_reasons(safe_events)}`",
         f"- Reference curve loaded: `{str(payload.get('reference_curve_loaded', False)).lower()}`",
         f"- Reference curve path: `{payload.get('reference_curve_path')}`",
         f"- Feedback epochs: `{payload['summary']['feedback_epochs']}`",
@@ -1600,6 +1695,15 @@ def format_guard_epochs(history: list[dict[str, Any]]) -> str:
         guards = record.get("guard_triggered") or []
         if guards:
             items.append(f"{record.get('epoch')}:{'/'.join(str(guard) for guard in guards)}")
+    return ", ".join(items) if items else "none"
+
+
+def safe_event_reasons(events: list[dict[str, Any]]) -> str:
+    items = []
+    for event in events:
+        reasons = event.get("reasons") or []
+        if reasons:
+            items.append(f"{event.get('epoch')}:{'/'.join(str(reason) for reason in reasons)}")
     return ", ".join(items) if items else "none"
 
 

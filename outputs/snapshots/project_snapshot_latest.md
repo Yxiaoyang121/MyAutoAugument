@@ -1,22 +1,25 @@
 # Project Snapshot
 
-- Generated: 2026-06-04T12:58:09
+- Generated: 2026-06-04T22:50:43
 - Branch: codex/sync-latest
-- Commit: e6acbceae994b5c5bcc395eb4e597ac607a5298c
+- Commit: 7b6d50dcfb455d0393d771814c3068dbb180ebb8
 - Remote: https://github.com/Yxiaoyang121/MyAutoAugument.git
 
 ## Working Tree
 
 ```text
+ M AutoAugment/catf_v2/__init__.py
  M CODEX_HANDOFF.md
  M EXPERIMENT_LOG.md
  M PROJECT_STATE.md
-?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/conservative_default_thresholds.json
-?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/official_threshold_reoptimization.json
-?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/official_threshold_reoptimization.md
-?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/per_seed_thresholds.json
-?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/unified_precision_guard_thresholds.json
-?? scripts/reoptimize_catf_v2_thresholds_official_path.py
+ M scripts/train_yolo_default_with_inloop_feedback.py
+?? AutoAugment/catf_v2/safe_controller.py
+?? outputs/experiments/catf_v2_safe_10ep_smoke/
+?? outputs/experiments/catf_v2_safe_seed2_50ep/
+?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/seed2_safe_controller_design.json
+?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/seed2_safe_controller_design.md
+?? scripts/design_catf_v2_safe_controller_seed2.py
+?? tests/test_catf_v2_safe_controller.py
 ```
 
 ## Key Files
@@ -221,7 +224,7 @@
 
 ## Tracked File Count
 
-- 4216 tracked files
+- 4222 tracked files
 
 ## Notes
 

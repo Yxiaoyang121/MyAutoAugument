@@ -1,0 +1,9 @@
+{
+  "roi_aug_applied": 13,
+  "roi_aug_skipped_small_roi": 0,
+  "roi_aug_skipped_conflict": 180,
+  "affected_classes": {
+    "8": 5,
+    "12": 8
+  }
+}

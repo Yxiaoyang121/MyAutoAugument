@@ -1,0 +1,13 @@
+{
+  "history": [
+    {
+      "epoch": 5,
+      "class_id": 9,
+      "action": "propose",
+      "adjustment_count": 4,
+      "before_status": "inactive",
+      "after_status": "active",
+      "dominant_issue": "texture_boundary_weak"
+    }
+  ]
+}

@@ -1,0 +1,356 @@
+{
+  "mode": "catf_v2_safe_seed2_design",
+  "inputs": {
+    "clean_results_csv": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\multiseed_clean_yolo_default_vs_catf_v2\\seed_2\\clean_native_yolo_default\\train\\results.csv",
+    "fixed_results_csv": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\multiseed_clean_yolo_default_vs_catf_v2_fixed\\seed_2\\catf_v2\\train\\results.csv",
+    "policy_history": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\multiseed_clean_yolo_default_vs_catf_v2_fixed\\seed_2\\catf_v2\\reports\\policy_history.json",
+    "class_policy_history": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\multiseed_clean_yolo_default_vs_catf_v2_fixed\\seed_2\\catf_v2\\reports\\class_policy_history.json",
+    "roi_aug_stats": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\multiseed_clean_yolo_default_vs_catf_v2_fixed\\seed_2\\catf_v2\\reports\\roi_aug_stats.json"
+  },
+  "global_metrics": {
+    "clean": {
+      "precision": 0.6962390186664107,
+      "recall": 0.728629640010866,
+      "map50": 0.7692030787336794,
+      "map50_95": 0.5223713770570699
+    },
+    "fixed_catf_v2": {
+      "images": 677,
+      "instances": 905,
+      "precision": 0.7636577080243924,
+      "recall": 0.6863445827915785,
+      "map50": 0.7582462462317862,
+      "map50_95": 0.4966842829943364
+    },
+    "delta": {
+      "precision": 0.06741868935798168,
+      "recall": -0.04228505721928755,
+      "map50": -0.010956832501893277,
+      "map50_95": -0.025687094062733506
+    }
+  },
+  "curve_analysis": {
+    "first_recall_lag_epoch": 6,
+    "first_map50_95_lag_epoch": 8,
+    "first_map50_lag_epoch": 8,
+    "feedback_epoch_deltas": [
+      {
+        "epoch": 5,
+        "delta": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "map50": 0.0,
+          "map50_95": 0.0
+        }
+      },
+      {
+        "epoch": 10,
+        "delta": {
+          "precision": 0.03676999999999997,
+          "recall": -0.04522999999999999,
+          "map50": -0.020750000000000046,
+          "map50_95": -0.018069999999999975
+        }
+      },
+      {
+        "epoch": 15,
+        "delta": {
+          "precision": -0.05237999999999998,
+          "recall": 0.02684999999999993,
+          "map50": 0.005499999999999949,
+          "map50_95": -0.0006700000000000039
+        }
+      },
+      {
+        "epoch": 20,
+        "delta": {
+          "precision": -0.01373000000000002,
+          "recall": 0.0013299999999999423,
+          "map50": -0.011880000000000002,
+          "map50_95": -0.0016399999999999748
+        }
+      },
+      {
+        "epoch": 25,
+        "delta": {
+          "precision": 0.04964000000000002,
+          "recall": -0.029919999999999947,
+          "map50": 0.05069999999999997,
+          "map50_95": 0.05242000000000002
+        }
+      },
+      {
+        "epoch": 30,
+        "delta": {
+          "precision": -0.010529999999999928,
+          "recall": 0.04852999999999996,
+          "map50": 0.04762999999999995,
+          "map50_95": 0.04110999999999998
+        }
+      },
+      {
+        "epoch": 35,
+        "delta": {
+          "precision": 0.029040000000000066,
+          "recall": 0.027940000000000076,
+          "map50": 0.021220000000000017,
+          "map50_95": 0.016720000000000013
+        }
+      },
+      {
+        "epoch": 40,
+        "delta": {
+          "precision": -0.014060000000000072,
+          "recall": -0.00607000000000002,
+          "map50": -0.0014699999999999713,
+          "map50_95": 0.005200000000000038
+        }
+      },
+      {
+        "epoch": 45,
+        "delta": {
+          "precision": 0.008079999999999976,
+          "recall": -0.037920000000000065,
+          "map50": -0.030590000000000006,
+          "map50_95": -0.03756999999999994
+        }
+      }
+    ],
+    "final_delta": {
+      "precision": -0.00025999999999992696,
+      "recall": 0.009510000000000018,
+      "map50": -0.020649999999999946,
+      "map50_95": -0.02191999999999994
+    }
+  },
+  "feedback_epochs": [
+    {
+      "epoch": 5,
+      "action": "accept",
+      "delta_metrics": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "map50": 0.0,
+        "map50_95": 0.0
+      },
+      "guard_triggered": [],
+      "active_classes": [
+        9
+      ],
+      "proposed_classes": [
+        {
+          "epoch": 5,
+          "class_id": 9,
+          "action": "propose",
+          "adjustment_count": 4,
+          "before_status": "inactive",
+          "after_status": "active",
+          "dominant_issue": "texture_boundary_weak"
+        }
+      ]
+    },
+    {
+      "epoch": 10,
+      "action": "shrink",
+      "delta_metrics": {
+        "precision": 0.03676999999999997,
+        "recall": -0.04522999999999999,
+        "map50": -0.020750000000000046,
+        "map50_95": -0.018069999999999975
+      },
+      "guard_triggered": [
+        "global_map50_guard",
+        "global_map95_guard"
+      ],
+      "active_classes": [],
+      "proposed_classes": []
+    },
+    {
+      "epoch": 15,
+      "action": "shrink",
+      "delta_metrics": {
+        "precision": -0.05237999999999998,
+        "recall": 0.02684999999999993,
+        "map50": 0.005499999999999949,
+        "map50_95": -0.0006700000000000039
+      },
+      "guard_triggered": [
+        "global_precision_guard"
+      ],
+      "active_classes": [],
+      "proposed_classes": []
+    },
+    {
+      "epoch": 20,
+      "action": "shrink",
+      "delta_metrics": {
+        "precision": -0.01373000000000002,
+        "recall": 0.0013299999999999423,
+        "map50": -0.011880000000000002,
+        "map50_95": -0.0016399999999999748
+      },
+      "guard_triggered": [
+        "global_precision_guard",
+        "global_map50_guard"
+      ],
+      "active_classes": [],
+      "proposed_classes": []
+    },
+    {
+      "epoch": 25,
+      "action": "accept",
+      "delta_metrics": {
+        "precision": 0.04964000000000002,
+        "recall": -0.029919999999999947,
+        "map50": 0.05069999999999997,
+        "map50_95": 0.05242000000000002
+      },
+      "guard_triggered": [],
+      "active_classes": [
+        11
+      ],
+      "proposed_classes": [
+        {
+          "epoch": 25,
+          "class_id": 11,
+          "action": "propose",
+          "adjustment_count": 4,
+          "before_status": "inactive",
+          "after_status": "active",
+          "dominant_issue": "weak_localization"
+        }
+      ]
+    },
+    {
+      "epoch": 30,
+      "action": "shrink",
+      "delta_metrics": {
+        "precision": -0.010529999999999928,
+        "recall": 0.04852999999999996,
+        "map50": 0.04762999999999995,
+        "map50_95": 0.04110999999999998
+      },
+      "guard_triggered": [
+        "global_precision_guard"
+      ],
+      "active_classes": [
+        11
+      ],
+      "proposed_classes": []
+    },
+    {
+      "epoch": 35,
+      "action": "accept",
+      "delta_metrics": {
+        "precision": 0.029040000000000066,
+        "recall": 0.027940000000000076,
+        "map50": 0.021220000000000017,
+        "map50_95": 0.016720000000000013
+      },
+      "guard_triggered": [],
+      "active_classes": [
+        8,
+        11
+      ],
+      "proposed_classes": [
+        {
+          "epoch": 35,
+          "class_id": 8,
+          "action": "propose",
+          "adjustment_count": 4,
+          "before_status": "inactive",
+          "after_status": "active",
+          "dominant_issue": "weak_localization"
+        }
+      ]
+    },
+    {
+      "epoch": 40,
+      "action": "freeze",
+      "delta_metrics": {
+        "precision": -0.014060000000000072,
+        "recall": -0.00607000000000002,
+        "map50": -0.0014699999999999713,
+        "map50_95": 0.005200000000000038
+      },
+      "guard_triggered": [
+        "epoch_ge_40"
+      ],
+      "active_classes": [],
+      "proposed_classes": []
+    },
+    {
+      "epoch": 45,
+      "action": "freeze",
+      "delta_metrics": {
+        "precision": 0.008079999999999976,
+        "recall": -0.037920000000000065,
+        "map50": -0.030590000000000006,
+        "map50_95": -0.03756999999999994
+      },
+      "guard_triggered": [
+        "epoch_ge_40"
+      ],
+      "active_classes": [],
+      "proposed_classes": []
+    }
+  ],
+  "roi_aug_stats": {
+    "roi_aug_applied": 90,
+    "roi_aug_skipped_small_roi": 0,
+    "roi_aug_skipped_conflict": 20,
+    "affected_classes": {
+      "8": 6,
+      "9": 25,
+      "11": 59
+    }
+  },
+  "online_aug_stats_summary": {
+    "samples_augmented": 86,
+    "router_random_draw_count": 5610,
+    "ops": {
+      "local_contrast": {
+        "seen": 2815,
+        "skipped_probability": 2761,
+        "applied": 44,
+        "skipped_roi_unavailable": 10
+      },
+      "sharpen_mild": {
+        "seen": 2815,
+        "skipped_probability": 2763,
+        "applied": 42,
+        "skipped_roi_unavailable": 10
+      }
+    }
+  },
+  "answers": {
+    "recall_lag_start_epoch": 6,
+    "map50_95_lag_start_epoch": 8,
+    "feedback_epoch_when_map95_guard_visible": 10,
+    "class_activation_at_first_update": [
+      {
+        "epoch": 5,
+        "class_id": 9,
+        "action": "propose",
+        "adjustment_count": 4,
+        "before_status": "inactive",
+        "after_status": "active",
+        "dominant_issue": "texture_boundary_weak"
+      }
+    ],
+    "roi_on_final_degraded_classes": {
+      "8": 6,
+      "9": 25,
+      "11": 59
+    },
+    "shrink_freeze_too_late": true,
+    "noop_at_epoch5_would_preserve_clean_path": true,
+    "high_recall_baseline_protection_should_trigger": true
+  },
+  "safe_controller_design": {
+    "early_abstention": "At epoch 5 the fixed path has zero positive delta vs clean; Safe should freeze to no-op before any industrial ROI augmentation is applied.",
+    "baseline_protection": "At later feedback points seed2 shows negative Recall/mAP deltas against a strong clean curve; Safe should not keep exploring when clean Recall/mAP are already high.",
+    "negative_effect_attribution": "Largest final drops include non-active classes, so non-active class regression should force shrink/no-op freeze.",
+    "expected_seed2_behavior": "Safe mode should either match clean seed2 or stay within industrial constraints by preventing ROI augmentation after epoch 5."
+  }
+}

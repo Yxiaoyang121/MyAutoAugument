@@ -2,6 +2,77 @@
 
 ## 2026-06-04
 
+### CATF-v2-Safe Seed2 Validation
+
+Implemented CATF-v2-Safe and validated the known seed2 failure case. This does not change YOLO architecture and does not modify the existing CATF-v2 activation rules except when `--catf-safe-mode true` is explicitly enabled.
+
+Safe controller mechanisms:
+
+- high-recall baseline protection
+- negative-effect attribution
+- early abstention
+- safe accept guard
+- strict no-op fallback
+
+Seed2 failure curve design report:
+
+- `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/seed2_safe_controller_design.md`
+- `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/seed2_safe_controller_design.json`
+
+Key curve finding:
+
+- fixed CATF-v2 seed2 first lags clean Recall at epoch 6.
+- fixed CATF-v2 seed2 first lags clean mAP50-95 at epoch 8.
+- feedback epoch 10 already shows mAP50-95 guard.
+- epoch 5 proposed class 9 with no positive Recall/mAP gain, so Safe should abstain before ROI/industrial augmentation affects later training.
+
+10ep smoke:
+
+- Output: `outputs/experiments/catf_v2_safe_10ep_smoke/`
+- Seed: 2
+- Epochs: 10
+- Train images: 2301
+- Fixed augmented dataset generated: false
+- BBox/class legal: true
+- Safe event: `safe_accept_blocked`; no no-op freeze was expected as a formal conclusion because this smoke uses a 10ep schedule against a 50ep clean reference curve.
+
+Seed2 50ep Safe run:
+
+- Output: `outputs/experiments/catf_v2_safe_seed2_50ep/`
+- Seed: 2
+- Epochs: 50
+- Single-run continuous: true
+- YOLO default augmentation: enabled
+- Train images: 2301
+- Fixed augmented dataset generated: false
+- Safe fallback: true
+- Trigger: `early_abstention_no_recall_or_map_gain` at epoch 5
+- Industrial samples augmented: 0
+- ROI applied: 0
+- Router random draw count: 0
+- BBox/class legal: true
+
+Metrics:
+
+| Run | Precision | Recall | mAP50 | mAP50-95 | constraint_failed |
+|---|---:|---:|---:|---:|---|
+| clean seed2 | 0.6962 | 0.7286 | 0.7692 | 0.5224 | false |
+| fixed CATF-v2 seed2 | 0.7637 | 0.6863 | 0.7582 | 0.4967 | true |
+| CATF-v2-Safe seed2 | 0.6962 | 0.7286 | 0.7692 | 0.5224 | false |
+
+Interpretation:
+
+- CATF-v2-Safe fixes the known seed2 failure by abstaining on a high-recall/high-mAP clean baseline.
+- The result intentionally matches clean seed2 rather than forcing a risky precision-biased CATF-v2 update.
+- The next validation should be full multiseed CATF-v2-Safe, not further unified RC threshold optimization.
+
+Reports:
+
+- `outputs/experiments/catf_v2_safe_seed2_50ep/reports/final_report.md`
+- `outputs/experiments/catf_v2_safe_seed2_50ep/reports/final_metrics.json`
+- `outputs/experiments/catf_v2_safe_seed2_50ep/reports/safe_controller_events.json`
+- `outputs/experiments/catf_v2_safe_seed2_50ep/reports/compare_with_clean_and_fixed_catf_v2.md`
+
 ### Official-Path CATF-v2 Threshold Re-optimization
 
 No training was run. Re-optimized per-class thresholds using existing official Ultralytics `YOLO.predict(conf=0.10)` outputs and the official-path post-processing evaluator, not the old cached post-hoc evaluator.

@@ -9,17 +9,20 @@ from AutoAugment.catf_v2.policy_matrix import (
     initial_policy_matrix,
 )
 from AutoAugment.catf_v2.sample_router import ROIStats, SampleAwareAugmentationRouter
+from AutoAugment.catf_v2.safe_controller import CATFSafeController, force_noop_policy
 from AutoAugment.catf_v2.threshold_calibration import ThresholdCalibrationAnalyzer
 
 __all__ = [
     "CATF_V2_OPS",
     "ClassAwareCATFController",
     "ClassAwarePolicyMatrix",
+    "CATFSafeController",
     "ROIStats",
     "SampleAwareAugmentationRouter",
     "ThresholdCalibrationAnalyzer",
     "attribute_class_issues",
     "build_per_class_diagnosis",
     "count_train_instances",
+    "force_noop_policy",
     "initial_policy_matrix",
 ]

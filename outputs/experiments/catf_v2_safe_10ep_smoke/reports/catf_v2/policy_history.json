@@ -1,0 +1,4764 @@
+{
+  "history": [
+    {
+      "epoch": 5,
+      "metrics": {
+        "images": null,
+        "instances": null,
+        "precision": 0.7616,
+        "recall": 0.32269,
+        "map50": 0.4059,
+        "map50_95": 0.2509
+      },
+      "reference_metrics": {
+        "images": null,
+        "instances": null,
+        "precision": 0.55691,
+        "recall": 0.40929,
+        "map50": 0.36993,
+        "map50_95": 0.2199
+      },
+      "delta_metrics": {
+        "precision": 0.20469000000000004,
+        "recall": -0.08660000000000001,
+        "map50": 0.03597,
+        "map50_95": 0.031
+      },
+      "diagnosis_summary": {
+        "per_class": {
+          "class_count": 13,
+          "low_support_count": 2,
+          "stable_count": 0,
+          "no_aug_count": 2,
+          "domain_high_fp_prior_count": 4,
+          "strong_update_allowed_count": 3
+        },
+        "issue_attribution": {
+          "class_count": 13,
+          "dominant_issue_counts": {
+            "texture_boundary_weak": 1,
+            "low_contrast_fn": 3,
+            "high_fp": 3,
+            "low_support": 2,
+            "weak_localization": 0,
+            "low_recall": 4,
+            "stable_class": 0
+          },
+          "threshold_calibration_candidates": [
+            0,
+            1,
+            5,
+            6,
+            7,
+            9
+          ],
+          "oversampling_candidates": [
+            2,
+            3,
+            4,
+            7,
+            8,
+            12
+          ],
+          "copy_paste_candidates": [
+            2,
+            3
+          ]
+        }
+      },
+      "old_policy": {
+        "policy_id": "catf_v2_class_aware",
+        "version": 0,
+        "catf_version": "v2",
+        "copy_paste_status": "pending_object_bank_design",
+        "classes": {
+          "0": {
+            "class_id": 0,
+            "class_name": "OK2",
+            "status": "frozen",
+            "state": "frozen",
+            "version": 0,
+            "dominant_issue": null,
+            "secondary_issues": [],
+            "ops": {
+              "clahe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "gamma": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "brightness": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "sharpen_mild": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.2,
+                "max_strength": 0.45
+              },
+              "local_contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.18,
+                "max_strength": 0.45
+              },
+              "cutout_safe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.08,
+                "max_strength": 0.25
+              }
+            },
+            "guards": {
+              "precision_guard": false,
+              "map95_guard": false,
+              "high_fp_guarded": false
+            },
+            "threshold_calibration_candidate": false,
+            "oversampling_candidate": false,
+            "copy_paste_candidate": false,
+            "copy_paste_status": "pending_object_bank_design",
+            "no_aug_class": true,
+            "domain_high_fp_prior": true,
+            "frozen_reason": "no_aug_class",
+            "last_safe_policy": null,
+            "failed_update_count": 0,
+            "pending_since_epoch": null
+          },
+          "1": {
+            "class_id": 1,
+            "class_name": "OK3",
+            "status": "frozen",
+            "state": "frozen",
+            "version": 0,
+            "dominant_issue": null,
+            "secondary_issues": [],
+            "ops": {
+              "clahe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "gamma": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "brightness": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "sharpen_mild": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.2,
+                "max_strength": 0.45
+              },
+              "local_contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.18,
+                "max_strength": 0.45
+              },
+              "cutout_safe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.08,
+                "max_strength": 0.25
+              }
+            },
+            "guards": {
+              "precision_guard": false,
+              "map95_guard": false,
+              "high_fp_guarded": false
+            },
+            "threshold_calibration_candidate": false,
+            "oversampling_candidate": false,
+            "copy_paste_candidate": false,
+            "copy_paste_status": "pending_object_bank_design",
+            "no_aug_class": true,
+            "domain_high_fp_prior": true,
+            "frozen_reason": "no_aug_class",
+            "last_safe_policy": null,
+            "failed_update_count": 0,
+            "pending_since_epoch": null
+          },
+          "2": {
+            "class_id": 2,
+            "class_name": "加强筋打伤",
+            "status": "inactive",
+            "state": "accepted",
+            "version": 0,
+            "dominant_issue": null,
+            "secondary_issues": [],
+            "ops": {
+              "clahe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "gamma": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "brightness": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "sharpen_mild": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.2,
+                "max_strength": 0.45
+              },
+              "local_contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.18,
+                "max_strength": 0.45
+              },
+              "cutout_safe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.08,
+                "max_strength": 0.25
+              }
+            },
+            "guards": {
+              "precision_guard": false,
+              "map95_guard": false,
+              "high_fp_guarded": false
+            },
+            "threshold_calibration_candidate": false,
+            "oversampling_candidate": false,
+            "copy_paste_candidate": false,
+            "copy_paste_status": "pending_object_bank_design",
+            "no_aug_class": false,
+            "domain_high_fp_prior": false,
+            "frozen_reason": null,
+            "last_safe_policy": null,
+            "failed_update_count": 0,
+            "pending_since_epoch": null
+          },
+          "3": {
+            "class_id": 3,
+            "class_name": "开裂",
+            "status": "inactive",
+            "state": "accepted",
+            "version": 0,
+            "dominant_issue": null,
+            "secondary_issues": [],
+            "ops": {
+              "clahe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "gamma": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "brightness": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "sharpen_mild": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.2,
+                "max_strength": 0.45
+              },
+              "local_contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.18,
+                "max_strength": 0.45
+              },
+              "cutout_safe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.08,
+                "max_strength": 0.25
+              }
+            },
+            "guards": {
+              "precision_guard": false,
+              "map95_guard": false,
+              "high_fp_guarded": false
+            },
+            "threshold_calibration_candidate": false,
+            "oversampling_candidate": false,
+            "copy_paste_candidate": false,
+            "copy_paste_status": "pending_object_bank_design",
+            "no_aug_class": false,
+            "domain_high_fp_prior": false,
+            "frozen_reason": null,
+            "last_safe_policy": null,
+            "failed_update_count": 0,
+            "pending_since_epoch": null
+          },
+          "4": {
+            "class_id": 4,
+            "class_name": "油污",
+            "status": "inactive",
+            "state": "accepted",
+            "version": 0,
+            "dominant_issue": null,
+            "secondary_issues": [],
+            "ops": {
+              "clahe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "gamma": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "brightness": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "sharpen_mild": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.2,
+                "max_strength": 0.45
+              },
+              "local_contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.18,
+                "max_strength": 0.45
+              },
+              "cutout_safe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.08,
+                "max_strength": 0.25
+              }
+            },
+            "guards": {
+              "precision_guard": false,
+              "map95_guard": false,
+              "high_fp_guarded": false
+            },
+            "threshold_calibration_candidate": false,
+            "oversampling_candidate": false,
+            "copy_paste_candidate": false,
+            "copy_paste_status": "pending_object_bank_design",
+            "no_aug_class": false,
+            "domain_high_fp_prior": true,
+            "frozen_reason": null,
+            "last_safe_policy": null,
+            "failed_update_count": 0,
+            "pending_since_epoch": null
+          },
+          "5": {
+            "class_id": 5,
+            "class_name": "浅划伤",
+            "status": "inactive",
+            "state": "accepted",
+            "version": 0,
+            "dominant_issue": null,
+            "secondary_issues": [],
+            "ops": {
+              "clahe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "gamma": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "brightness": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "sharpen_mild": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.2,
+                "max_strength": 0.45
+              },
+              "local_contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.18,
+                "max_strength": 0.45
+              },
+              "cutout_safe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.08,
+                "max_strength": 0.25
+              }
+            },
+            "guards": {
+              "precision_guard": false,
+              "map95_guard": false,
+              "high_fp_guarded": false
+            },
+            "threshold_calibration_candidate": false,
+            "oversampling_candidate": false,
+            "copy_paste_candidate": false,
+            "copy_paste_status": "pending_object_bank_design",
+            "no_aug_class": false,
+            "domain_high_fp_prior": false,
+            "frozen_reason": null,
+            "last_safe_policy": null,
+            "failed_update_count": 0,
+            "pending_since_epoch": null
+          },
+          "6": {
+            "class_id": 6,
+            "class_name": "漏背锡",
+            "status": "inactive",
+            "state": "accepted",
+            "version": 0,
+            "dominant_issue": null,
+            "secondary_issues": [],
+            "ops": {
+              "clahe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "gamma": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "brightness": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "sharpen_mild": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.2,
+                "max_strength": 0.45
+              },
+              "local_contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.18,
+                "max_strength": 0.45
+              },
+              "cutout_safe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.08,
+                "max_strength": 0.25
+              }
+            },
+            "guards": {
+              "precision_guard": false,
+              "map95_guard": false,
+              "high_fp_guarded": false
+            },
+            "threshold_calibration_candidate": false,
+            "oversampling_candidate": false,
+            "copy_paste_candidate": false,
+            "copy_paste_status": "pending_object_bank_design",
+            "no_aug_class": false,
+            "domain_high_fp_prior": false,
+            "frozen_reason": null,
+            "last_safe_policy": null,
+            "failed_update_count": 0,
+            "pending_since_epoch": null
+          },
+          "7": {
+            "class_id": 7,
+            "class_name": "碰伤",
+            "status": "inactive",
+            "state": "accepted",
+            "version": 0,
+            "dominant_issue": null,
+            "secondary_issues": [],
+            "ops": {
+              "clahe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "gamma": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "brightness": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "sharpen_mild": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.2,
+                "max_strength": 0.45
+              },
+              "local_contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.18,
+                "max_strength": 0.45
+              },
+              "cutout_safe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.08,
+                "max_strength": 0.25
+              }
+            },
+            "guards": {
+              "precision_guard": false,
+              "map95_guard": false,
+              "high_fp_guarded": false
+            },
+            "threshold_calibration_candidate": false,
+            "oversampling_candidate": false,
+            "copy_paste_candidate": false,
+            "copy_paste_status": "pending_object_bank_design",
+            "no_aug_class": false,
+            "domain_high_fp_prior": false,
+            "frozen_reason": null,
+            "last_safe_policy": null,
+            "failed_update_count": 0,
+            "pending_since_epoch": null
+          },
+          "8": {
+            "class_id": 8,
+            "class_name": "脏污",
+            "status": "inactive",
+            "state": "accepted",
+            "version": 0,
+            "dominant_issue": null,
+            "secondary_issues": [],
+            "ops": {
+              "clahe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "gamma": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "brightness": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "sharpen_mild": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.2,
+                "max_strength": 0.45
+              },
+              "local_contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.18,
+                "max_strength": 0.45
+              },
+              "cutout_safe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.08,
+                "max_strength": 0.25
+              }
+            },
+            "guards": {
+              "precision_guard": false,
+              "map95_guard": false,
+              "high_fp_guarded": false
+            },
+            "threshold_calibration_candidate": false,
+            "oversampling_candidate": false,
+            "copy_paste_candidate": false,
+            "copy_paste_status": "pending_object_bank_design",
+            "no_aug_class": false,
+            "domain_high_fp_prior": true,
+            "frozen_reason": null,
+            "last_safe_policy": null,
+            "failed_update_count": 0,
+            "pending_since_epoch": null
+          },
+          "9": {
+            "class_id": 9,
+            "class_name": "轮廓划伤",
+            "status": "inactive",
+            "state": "accepted",
+            "version": 0,
+            "dominant_issue": null,
+            "secondary_issues": [],
+            "ops": {
+              "clahe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "gamma": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "brightness": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "sharpen_mild": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.2,
+                "max_strength": 0.45
+              },
+              "local_contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.18,
+                "max_strength": 0.45
+              },
+              "cutout_safe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.08,
+                "max_strength": 0.25
+              }
+            },
+            "guards": {
+              "precision_guard": false,
+              "map95_guard": false,
+              "high_fp_guarded": false
+            },
+            "threshold_calibration_candidate": false,
+            "oversampling_candidate": false,
+            "copy_paste_candidate": false,
+            "copy_paste_status": "pending_object_bank_design",
+            "no_aug_class": false,
+            "domain_high_fp_prior": false,
+            "frozen_reason": null,
+            "last_safe_policy": null,
+            "failed_update_count": 0,
+            "pending_since_epoch": null
+          },
+          "10": {
+            "class_id": 10,
+            "class_name": "锡丝残留",
+            "status": "inactive",
+            "state": "accepted",
+            "version": 0,
+            "dominant_issue": null,
+            "secondary_issues": [],
+            "ops": {
+              "clahe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "gamma": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "brightness": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "sharpen_mild": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.2,
+                "max_strength": 0.45
+              },
+              "local_contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.18,
+                "max_strength": 0.45
+              },
+              "cutout_safe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.08,
+                "max_strength": 0.25
+              }
+            },
+            "guards": {
+              "precision_guard": false,
+              "map95_guard": false,
+              "high_fp_guarded": false
+            },
+            "threshold_calibration_candidate": false,
+            "oversampling_candidate": false,
+            "copy_paste_candidate": false,
+            "copy_paste_status": "pending_object_bank_design",
+            "no_aug_class": false,
+            "domain_high_fp_prior": false,
+            "frozen_reason": null,
+            "last_safe_policy": null,
+            "failed_update_count": 0,
+            "pending_since_epoch": null
+          },
+          "11": {
+            "class_id": 11,
+            "class_name": "锡尖",
+            "status": "inactive",
+            "state": "accepted",
+            "version": 0,
+            "dominant_issue": null,
+            "secondary_issues": [],
+            "ops": {
+              "clahe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "gamma": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "brightness": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "sharpen_mild": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.2,
+                "max_strength": 0.45
+              },
+              "local_contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.18,
+                "max_strength": 0.45
+              },
+              "cutout_safe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.08,
+                "max_strength": 0.25
+              }
+            },
+            "guards": {
+              "precision_guard": false,
+              "map95_guard": false,
+              "high_fp_guarded": false
+            },
+            "threshold_calibration_candidate": false,
+            "oversampling_candidate": false,
+            "copy_paste_candidate": false,
+            "copy_paste_status": "pending_object_bank_design",
+            "no_aug_class": false,
+            "domain_high_fp_prior": false,
+            "frozen_reason": null,
+            "last_safe_policy": null,
+            "failed_update_count": 0,
+            "pending_since_epoch": null
+          },
+          "12": {
+            "class_id": 12,
+            "class_name": "锡膏",
+            "status": "inactive",
+            "state": "accepted",
+            "version": 0,
+            "dominant_issue": null,
+            "secondary_issues": [],
+            "ops": {
+              "clahe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "gamma": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "brightness": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "sharpen_mild": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.2,
+                "max_strength": 0.45
+              },
+              "local_contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.18,
+                "max_strength": 0.45
+              },
+              "cutout_safe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.08,
+                "max_strength": 0.25
+              }
+            },
+            "guards": {
+              "precision_guard": false,
+              "map95_guard": false,
+              "high_fp_guarded": false
+            },
+            "threshold_calibration_candidate": false,
+            "oversampling_candidate": false,
+            "copy_paste_candidate": false,
+            "copy_paste_status": "pending_object_bank_design",
+            "no_aug_class": false,
+            "domain_high_fp_prior": false,
+            "frozen_reason": null,
+            "last_safe_policy": null,
+            "failed_update_count": 0,
+            "pending_since_epoch": null
+          }
+        },
+        "global_guard": {
+          "active": false,
+          "reason": null
+        }
+      },
+      "proposed_policy": {
+        "policy_id": "catf_v2_class_aware",
+        "version": 1,
+        "catf_version": "v2",
+        "copy_paste_status": "pending_object_bank_design",
+        "classes": {
+          "0": {
+            "class_id": 0,
+            "class_name": "OK2",
+            "status": "guarded",
+            "state": "accepted",
+            "version": 0,
+            "dominant_issue": null,
+            "secondary_issues": [],
+            "ops": {
+              "clahe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "gamma": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "brightness": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "sharpen_mild": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.2,
+                "max_strength": 0.45
+              },
+              "local_contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.18,
+                "max_strength": 0.45
+              },
+              "cutout_safe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.08,
+                "max_strength": 0.25
+              }
+            },
+            "guards": {
+              "precision_guard": true,
+              "map95_guard": false,
+              "high_fp_guarded": true
+            },
+            "threshold_calibration_candidate": true,
+            "oversampling_candidate": false,
+            "copy_paste_candidate": false,
+            "copy_paste_status": "pending_object_bank_design",
+            "no_aug_class": true,
+            "domain_high_fp_prior": true,
+            "frozen_reason": "no_aug_class",
+            "last_safe_policy": null,
+            "failed_update_count": 0,
+            "pending_since_epoch": null
+          },
+          "1": {
+            "class_id": 1,
+            "class_name": "OK3",
+            "status": "guarded",
+            "state": "accepted",
+            "version": 0,
+            "dominant_issue": null,
+            "secondary_issues": [],
+            "ops": {
+              "clahe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "gamma": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "brightness": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "sharpen_mild": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.2,
+                "max_strength": 0.45
+              },
+              "local_contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.18,
+                "max_strength": 0.45
+              },
+              "cutout_safe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.08,
+                "max_strength": 0.25
+              }
+            },
+            "guards": {
+              "precision_guard": true,
+              "map95_guard": false,
+              "high_fp_guarded": true
+            },
+            "threshold_calibration_candidate": true,
+            "oversampling_candidate": false,
+            "copy_paste_candidate": false,
+            "copy_paste_status": "pending_object_bank_design",
+            "no_aug_class": true,
+            "domain_high_fp_prior": true,
+            "frozen_reason": "no_aug_class",
+            "last_safe_policy": null,
+            "failed_update_count": 0,
+            "pending_since_epoch": null
+          },
+          "2": {
+            "class_id": 2,
+            "class_name": "加强筋打伤",
+            "status": "observe",
+            "state": "accepted",
+            "version": 0,
+            "dominant_issue": null,
+            "secondary_issues": [],
+            "ops": {
+              "clahe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "gamma": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "brightness": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "sharpen_mild": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.2,
+                "max_strength": 0.45
+              },
+              "local_contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.18,
+                "max_strength": 0.45
+              },
+              "cutout_safe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.08,
+                "max_strength": 0.25
+              }
+            },
+            "guards": {
+              "precision_guard": false,
+              "map95_guard": false,
+              "high_fp_guarded": false
+            },
+            "threshold_calibration_candidate": false,
+            "oversampling_candidate": true,
+            "copy_paste_candidate": true,
+            "copy_paste_status": "pending_object_bank_design",
+            "no_aug_class": false,
+            "domain_high_fp_prior": false,
+            "frozen_reason": null,
+            "last_safe_policy": null,
+            "failed_update_count": 0,
+            "pending_since_epoch": null
+          },
+          "3": {
+            "class_id": 3,
+            "class_name": "开裂",
+            "status": "observe",
+            "state": "accepted",
+            "version": 0,
+            "dominant_issue": null,
+            "secondary_issues": [],
+            "ops": {
+              "clahe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "gamma": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "brightness": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "sharpen_mild": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.2,
+                "max_strength": 0.45
+              },
+              "local_contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.18,
+                "max_strength": 0.45
+              },
+              "cutout_safe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.08,
+                "max_strength": 0.25
+              }
+            },
+            "guards": {
+              "precision_guard": false,
+              "map95_guard": false,
+              "high_fp_guarded": false
+            },
+            "threshold_calibration_candidate": false,
+            "oversampling_candidate": true,
+            "copy_paste_candidate": true,
+            "copy_paste_status": "pending_object_bank_design",
+            "no_aug_class": false,
+            "domain_high_fp_prior": false,
+            "frozen_reason": null,
+            "last_safe_policy": null,
+            "failed_update_count": 0,
+            "pending_since_epoch": null
+          },
+          "4": {
+            "class_id": 4,
+            "class_name": "油污",
+            "status": "inactive",
+            "state": "accepted",
+            "version": 0,
+            "dominant_issue": null,
+            "secondary_issues": [],
+            "ops": {
+              "clahe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "gamma": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "brightness": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "sharpen_mild": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.2,
+                "max_strength": 0.45
+              },
+              "local_contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.18,
+                "max_strength": 0.45
+              },
+              "cutout_safe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.08,
+                "max_strength": 0.25
+              }
+            },
+            "guards": {
+              "precision_guard": false,
+              "map95_guard": false,
+              "high_fp_guarded": false
+            },
+            "threshold_calibration_candidate": false,
+            "oversampling_candidate": false,
+            "copy_paste_candidate": false,
+            "copy_paste_status": "pending_object_bank_design",
+            "no_aug_class": false,
+            "domain_high_fp_prior": true,
+            "frozen_reason": null,
+            "last_safe_policy": null,
+            "failed_update_count": 0,
+            "pending_since_epoch": null
+          },
+          "5": {
+            "class_id": 5,
+            "class_name": "浅划伤",
+            "status": "guarded",
+            "state": "accepted",
+            "version": 0,
+            "dominant_issue": null,
+            "secondary_issues": [],
+            "ops": {
+              "clahe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "gamma": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "brightness": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "sharpen_mild": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.2,
+                "max_strength": 0.45
+              },
+              "local_contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.18,
+                "max_strength": 0.45
+              },
+              "cutout_safe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.08,
+                "max_strength": 0.25
+              }
+            },
+            "guards": {
+              "precision_guard": true,
+              "map95_guard": false,
+              "high_fp_guarded": true
+            },
+            "threshold_calibration_candidate": true,
+            "oversampling_candidate": false,
+            "copy_paste_candidate": false,
+            "copy_paste_status": "pending_object_bank_design",
+            "no_aug_class": false,
+            "domain_high_fp_prior": false,
+            "frozen_reason": null,
+            "last_safe_policy": null,
+            "failed_update_count": 0,
+            "pending_since_epoch": null
+          },
+          "6": {
+            "class_id": 6,
+            "class_name": "漏背锡",
+            "status": "guarded",
+            "state": "accepted",
+            "version": 0,
+            "dominant_issue": null,
+            "secondary_issues": [],
+            "ops": {
+              "clahe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "gamma": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "brightness": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "sharpen_mild": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.2,
+                "max_strength": 0.45
+              },
+              "local_contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.18,
+                "max_strength": 0.45
+              },
+              "cutout_safe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.08,
+                "max_strength": 0.25
+              }
+            },
+            "guards": {
+              "precision_guard": true,
+              "map95_guard": false,
+              "high_fp_guarded": true
+            },
+            "threshold_calibration_candidate": true,
+            "oversampling_candidate": false,
+            "copy_paste_candidate": false,
+            "copy_paste_status": "pending_object_bank_design",
+            "no_aug_class": false,
+            "domain_high_fp_prior": false,
+            "frozen_reason": null,
+            "last_safe_policy": null,
+            "failed_update_count": 0,
+            "pending_since_epoch": null
+          },
+          "7": {
+            "class_id": 7,
+            "class_name": "碰伤",
+            "status": "guarded",
+            "state": "accepted",
+            "version": 0,
+            "dominant_issue": null,
+            "secondary_issues": [],
+            "ops": {
+              "clahe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "gamma": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "brightness": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "sharpen_mild": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.2,
+                "max_strength": 0.45
+              },
+              "local_contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.18,
+                "max_strength": 0.45
+              },
+              "cutout_safe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.08,
+                "max_strength": 0.25
+              }
+            },
+            "guards": {
+              "precision_guard": true,
+              "map95_guard": false,
+              "high_fp_guarded": true
+            },
+            "threshold_calibration_candidate": true,
+            "oversampling_candidate": false,
+            "copy_paste_candidate": false,
+            "copy_paste_status": "pending_object_bank_design",
+            "no_aug_class": false,
+            "domain_high_fp_prior": false,
+            "frozen_reason": null,
+            "last_safe_policy": null,
+            "failed_update_count": 0,
+            "pending_since_epoch": null
+          },
+          "8": {
+            "class_id": 8,
+            "class_name": "脏污",
+            "status": "active",
+            "state": "pending",
+            "version": 1,
+            "dominant_issue": "low_recall",
+            "secondary_issues": [
+              "low_contrast_fn"
+            ],
+            "ops": {
+              "clahe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "gamma": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "brightness": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "sharpen_mild": {
+                "prob": 0.005,
+                "strength": 0.01,
+                "max_prob": 0.2,
+                "max_strength": 0.45
+              },
+              "local_contrast": {
+                "prob": 0.005,
+                "strength": 0.01,
+                "max_prob": 0.18,
+                "max_strength": 0.45
+              },
+              "cutout_safe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.08,
+                "max_strength": 0.25
+              }
+            },
+            "guards": {
+              "precision_guard": false,
+              "map95_guard": false,
+              "high_fp_guarded": false
+            },
+            "threshold_calibration_candidate": false,
+            "oversampling_candidate": true,
+            "copy_paste_candidate": false,
+            "copy_paste_status": "pending_object_bank_design",
+            "no_aug_class": false,
+            "domain_high_fp_prior": true,
+            "frozen_reason": null,
+            "last_safe_policy": {
+              "class_id": 8,
+              "class_name": "脏污",
+              "status": "inactive",
+              "state": "accepted",
+              "version": 0,
+              "dominant_issue": null,
+              "secondary_issues": [],
+              "ops": {
+                "clahe": {
+                  "prob": 0.0,
+                  "strength": 0.0,
+                  "max_prob": 0.15,
+                  "max_strength": 0.45
+                },
+                "gamma": {
+                  "prob": 0.0,
+                  "strength": 0.0,
+                  "max_prob": 0.15,
+                  "max_strength": 0.45
+                },
+                "brightness": {
+                  "prob": 0.0,
+                  "strength": 0.0,
+                  "max_prob": 0.1,
+                  "max_strength": 0.25
+                },
+                "contrast": {
+                  "prob": 0.0,
+                  "strength": 0.0,
+                  "max_prob": 0.1,
+                  "max_strength": 0.25
+                },
+                "sharpen_mild": {
+                  "prob": 0.0,
+                  "strength": 0.0,
+                  "max_prob": 0.2,
+                  "max_strength": 0.45
+                },
+                "local_contrast": {
+                  "prob": 0.0,
+                  "strength": 0.0,
+                  "max_prob": 0.18,
+                  "max_strength": 0.45
+                },
+                "cutout_safe": {
+                  "prob": 0.0,
+                  "strength": 0.0,
+                  "max_prob": 0.08,
+                  "max_strength": 0.25
+                }
+              },
+              "guards": {
+                "precision_guard": false,
+                "map95_guard": false,
+                "high_fp_guarded": false
+              },
+              "threshold_calibration_candidate": false,
+              "oversampling_candidate": false,
+              "copy_paste_candidate": false,
+              "copy_paste_status": "pending_object_bank_design",
+              "no_aug_class": false,
+              "domain_high_fp_prior": true,
+              "frozen_reason": null,
+              "last_safe_policy": null,
+              "failed_update_count": 0,
+              "pending_since_epoch": null
+            },
+            "failed_update_count": 0,
+            "pending_since_epoch": 5,
+            "last_safe_metrics": {
+              "Precision": 0.0,
+              "Recall": 0.0,
+              "AP50": 0.0,
+              "AP50_95": 0.0
+            }
+          },
+          "9": {
+            "class_id": 9,
+            "class_name": "轮廓划伤",
+            "status": "guarded",
+            "state": "accepted",
+            "version": 0,
+            "dominant_issue": null,
+            "secondary_issues": [],
+            "ops": {
+              "clahe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "gamma": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "brightness": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "sharpen_mild": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.2,
+                "max_strength": 0.45
+              },
+              "local_contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.18,
+                "max_strength": 0.45
+              },
+              "cutout_safe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.08,
+                "max_strength": 0.25
+              }
+            },
+            "guards": {
+              "precision_guard": true,
+              "map95_guard": false,
+              "high_fp_guarded": true
+            },
+            "threshold_calibration_candidate": true,
+            "oversampling_candidate": false,
+            "copy_paste_candidate": false,
+            "copy_paste_status": "pending_object_bank_design",
+            "no_aug_class": false,
+            "domain_high_fp_prior": false,
+            "frozen_reason": null,
+            "last_safe_policy": null,
+            "failed_update_count": 0,
+            "pending_since_epoch": null
+          },
+          "10": {
+            "class_id": 10,
+            "class_name": "锡丝残留",
+            "status": "inactive",
+            "state": "accepted",
+            "version": 0,
+            "dominant_issue": null,
+            "secondary_issues": [],
+            "ops": {
+              "clahe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "gamma": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "brightness": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "sharpen_mild": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.2,
+                "max_strength": 0.45
+              },
+              "local_contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.18,
+                "max_strength": 0.45
+              },
+              "cutout_safe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.08,
+                "max_strength": 0.25
+              }
+            },
+            "guards": {
+              "precision_guard": false,
+              "map95_guard": false,
+              "high_fp_guarded": false
+            },
+            "threshold_calibration_candidate": false,
+            "oversampling_candidate": false,
+            "copy_paste_candidate": false,
+            "copy_paste_status": "pending_object_bank_design",
+            "no_aug_class": false,
+            "domain_high_fp_prior": false,
+            "frozen_reason": null,
+            "last_safe_policy": null,
+            "failed_update_count": 0,
+            "pending_since_epoch": null
+          },
+          "11": {
+            "class_id": 11,
+            "class_name": "锡尖",
+            "status": "inactive",
+            "state": "accepted",
+            "version": 0,
+            "dominant_issue": null,
+            "secondary_issues": [],
+            "ops": {
+              "clahe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "gamma": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "brightness": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "sharpen_mild": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.2,
+                "max_strength": 0.45
+              },
+              "local_contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.18,
+                "max_strength": 0.45
+              },
+              "cutout_safe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.08,
+                "max_strength": 0.25
+              }
+            },
+            "guards": {
+              "precision_guard": false,
+              "map95_guard": false,
+              "high_fp_guarded": false
+            },
+            "threshold_calibration_candidate": false,
+            "oversampling_candidate": false,
+            "copy_paste_candidate": false,
+            "copy_paste_status": "pending_object_bank_design",
+            "no_aug_class": false,
+            "domain_high_fp_prior": false,
+            "frozen_reason": null,
+            "last_safe_policy": null,
+            "failed_update_count": 0,
+            "pending_since_epoch": null
+          },
+          "12": {
+            "class_id": 12,
+            "class_name": "锡膏",
+            "status": "active",
+            "state": "pending",
+            "version": 1,
+            "dominant_issue": "low_recall",
+            "secondary_issues": [
+              "low_contrast_fn"
+            ],
+            "ops": {
+              "clahe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "gamma": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "brightness": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "sharpen_mild": {
+                "prob": 0.01,
+                "strength": 0.015,
+                "max_prob": 0.2,
+                "max_strength": 0.45
+              },
+              "local_contrast": {
+                "prob": 0.01,
+                "strength": 0.015,
+                "max_prob": 0.18,
+                "max_strength": 0.45
+              },
+              "cutout_safe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.08,
+                "max_strength": 0.25
+              }
+            },
+            "guards": {
+              "precision_guard": false,
+              "map95_guard": false,
+              "high_fp_guarded": false
+            },
+            "threshold_calibration_candidate": false,
+            "oversampling_candidate": true,
+            "copy_paste_candidate": false,
+            "copy_paste_status": "pending_object_bank_design",
+            "no_aug_class": false,
+            "domain_high_fp_prior": false,
+            "frozen_reason": null,
+            "last_safe_policy": {
+              "class_id": 12,
+              "class_name": "锡膏",
+              "status": "inactive",
+              "state": "accepted",
+              "version": 0,
+              "dominant_issue": null,
+              "secondary_issues": [],
+              "ops": {
+                "clahe": {
+                  "prob": 0.0,
+                  "strength": 0.0,
+                  "max_prob": 0.15,
+                  "max_strength": 0.45
+                },
+                "gamma": {
+                  "prob": 0.0,
+                  "strength": 0.0,
+                  "max_prob": 0.15,
+                  "max_strength": 0.45
+                },
+                "brightness": {
+                  "prob": 0.0,
+                  "strength": 0.0,
+                  "max_prob": 0.1,
+                  "max_strength": 0.25
+                },
+                "contrast": {
+                  "prob": 0.0,
+                  "strength": 0.0,
+                  "max_prob": 0.1,
+                  "max_strength": 0.25
+                },
+                "sharpen_mild": {
+                  "prob": 0.0,
+                  "strength": 0.0,
+                  "max_prob": 0.2,
+                  "max_strength": 0.45
+                },
+                "local_contrast": {
+                  "prob": 0.0,
+                  "strength": 0.0,
+                  "max_prob": 0.18,
+                  "max_strength": 0.45
+                },
+                "cutout_safe": {
+                  "prob": 0.0,
+                  "strength": 0.0,
+                  "max_prob": 0.08,
+                  "max_strength": 0.25
+                }
+              },
+              "guards": {
+                "precision_guard": false,
+                "map95_guard": false,
+                "high_fp_guarded": false
+              },
+              "threshold_calibration_candidate": false,
+              "oversampling_candidate": false,
+              "copy_paste_candidate": false,
+              "copy_paste_status": "pending_object_bank_design",
+              "no_aug_class": false,
+              "domain_high_fp_prior": false,
+              "frozen_reason": null,
+              "last_safe_policy": null,
+              "failed_update_count": 0,
+              "pending_since_epoch": null
+            },
+            "failed_update_count": 0,
+            "pending_since_epoch": 5,
+            "last_safe_metrics": {
+              "Precision": 0.0,
+              "Recall": 0.0,
+              "AP50": 0.0,
+              "AP50_95": 0.0
+            }
+          }
+        },
+        "global_guard": {
+          "active": false,
+          "reason": null
+        }
+      },
+      "accepted_policy": {
+        "policy_id": "catf_v2_class_aware",
+        "version": 1,
+        "catf_version": "v2",
+        "copy_paste_status": "pending_object_bank_design",
+        "classes": {
+          "0": {
+            "class_id": 0,
+            "class_name": "OK2",
+            "status": "guarded",
+            "state": "accepted",
+            "version": 0,
+            "dominant_issue": null,
+            "secondary_issues": [],
+            "ops": {
+              "clahe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "gamma": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "brightness": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "sharpen_mild": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.2,
+                "max_strength": 0.45
+              },
+              "local_contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.18,
+                "max_strength": 0.45
+              },
+              "cutout_safe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.08,
+                "max_strength": 0.25
+              }
+            },
+            "guards": {
+              "precision_guard": true,
+              "map95_guard": false,
+              "high_fp_guarded": true
+            },
+            "threshold_calibration_candidate": true,
+            "oversampling_candidate": false,
+            "copy_paste_candidate": false,
+            "copy_paste_status": "pending_object_bank_design",
+            "no_aug_class": true,
+            "domain_high_fp_prior": true,
+            "frozen_reason": "no_aug_class",
+            "last_safe_policy": null,
+            "failed_update_count": 0,
+            "pending_since_epoch": null
+          },
+          "1": {
+            "class_id": 1,
+            "class_name": "OK3",
+            "status": "guarded",
+            "state": "accepted",
+            "version": 0,
+            "dominant_issue": null,
+            "secondary_issues": [],
+            "ops": {
+              "clahe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "gamma": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "brightness": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "sharpen_mild": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.2,
+                "max_strength": 0.45
+              },
+              "local_contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.18,
+                "max_strength": 0.45
+              },
+              "cutout_safe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.08,
+                "max_strength": 0.25
+              }
+            },
+            "guards": {
+              "precision_guard": true,
+              "map95_guard": false,
+              "high_fp_guarded": true
+            },
+            "threshold_calibration_candidate": true,
+            "oversampling_candidate": false,
+            "copy_paste_candidate": false,
+            "copy_paste_status": "pending_object_bank_design",
+            "no_aug_class": true,
+            "domain_high_fp_prior": true,
+            "frozen_reason": "no_aug_class",
+            "last_safe_policy": null,
+            "failed_update_count": 0,
+            "pending_since_epoch": null
+          },
+          "2": {
+            "class_id": 2,
+            "class_name": "加强筋打伤",
+            "status": "observe",
+            "state": "accepted",
+            "version": 0,
+            "dominant_issue": null,
+            "secondary_issues": [],
+            "ops": {
+              "clahe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "gamma": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "brightness": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "sharpen_mild": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.2,
+                "max_strength": 0.45
+              },
+              "local_contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.18,
+                "max_strength": 0.45
+              },
+              "cutout_safe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.08,
+                "max_strength": 0.25
+              }
+            },
+            "guards": {
+              "precision_guard": false,
+              "map95_guard": false,
+              "high_fp_guarded": false
+            },
+            "threshold_calibration_candidate": false,
+            "oversampling_candidate": true,
+            "copy_paste_candidate": true,
+            "copy_paste_status": "pending_object_bank_design",
+            "no_aug_class": false,
+            "domain_high_fp_prior": false,
+            "frozen_reason": null,
+            "last_safe_policy": null,
+            "failed_update_count": 0,
+            "pending_since_epoch": null
+          },
+          "3": {
+            "class_id": 3,
+            "class_name": "开裂",
+            "status": "observe",
+            "state": "accepted",
+            "version": 0,
+            "dominant_issue": null,
+            "secondary_issues": [],
+            "ops": {
+              "clahe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "gamma": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "brightness": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "sharpen_mild": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.2,
+                "max_strength": 0.45
+              },
+              "local_contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.18,
+                "max_strength": 0.45
+              },
+              "cutout_safe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.08,
+                "max_strength": 0.25
+              }
+            },
+            "guards": {
+              "precision_guard": false,
+              "map95_guard": false,
+              "high_fp_guarded": false
+            },
+            "threshold_calibration_candidate": false,
+            "oversampling_candidate": true,
+            "copy_paste_candidate": true,
+            "copy_paste_status": "pending_object_bank_design",
+            "no_aug_class": false,
+            "domain_high_fp_prior": false,
+            "frozen_reason": null,
+            "last_safe_policy": null,
+            "failed_update_count": 0,
+            "pending_since_epoch": null
+          },
+          "4": {
+            "class_id": 4,
+            "class_name": "油污",
+            "status": "inactive",
+            "state": "accepted",
+            "version": 0,
+            "dominant_issue": null,
+            "secondary_issues": [],
+            "ops": {
+              "clahe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "gamma": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "brightness": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "sharpen_mild": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.2,
+                "max_strength": 0.45
+              },
+              "local_contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.18,
+                "max_strength": 0.45
+              },
+              "cutout_safe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.08,
+                "max_strength": 0.25
+              }
+            },
+            "guards": {
+              "precision_guard": false,
+              "map95_guard": false,
+              "high_fp_guarded": false
+            },
+            "threshold_calibration_candidate": false,
+            "oversampling_candidate": false,
+            "copy_paste_candidate": false,
+            "copy_paste_status": "pending_object_bank_design",
+            "no_aug_class": false,
+            "domain_high_fp_prior": true,
+            "frozen_reason": null,
+            "last_safe_policy": null,
+            "failed_update_count": 0,
+            "pending_since_epoch": null
+          },
+          "5": {
+            "class_id": 5,
+            "class_name": "浅划伤",
+            "status": "guarded",
+            "state": "accepted",
+            "version": 0,
+            "dominant_issue": null,
+            "secondary_issues": [],
+            "ops": {
+              "clahe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "gamma": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "brightness": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "sharpen_mild": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.2,
+                "max_strength": 0.45
+              },
+              "local_contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.18,
+                "max_strength": 0.45
+              },
+              "cutout_safe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.08,
+                "max_strength": 0.25
+              }
+            },
+            "guards": {
+              "precision_guard": true,
+              "map95_guard": false,
+              "high_fp_guarded": true
+            },
+            "threshold_calibration_candidate": true,
+            "oversampling_candidate": false,
+            "copy_paste_candidate": false,
+            "copy_paste_status": "pending_object_bank_design",
+            "no_aug_class": false,
+            "domain_high_fp_prior": false,
+            "frozen_reason": null,
+            "last_safe_policy": null,
+            "failed_update_count": 0,
+            "pending_since_epoch": null
+          },
+          "6": {
+            "class_id": 6,
+            "class_name": "漏背锡",
+            "status": "guarded",
+            "state": "accepted",
+            "version": 0,
+            "dominant_issue": null,
+            "secondary_issues": [],
+            "ops": {
+              "clahe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "gamma": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "brightness": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "sharpen_mild": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.2,
+                "max_strength": 0.45
+              },
+              "local_contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.18,
+                "max_strength": 0.45
+              },
+              "cutout_safe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.08,
+                "max_strength": 0.25
+              }
+            },
+            "guards": {
+              "precision_guard": true,
+              "map95_guard": false,
+              "high_fp_guarded": true
+            },
+            "threshold_calibration_candidate": true,
+            "oversampling_candidate": false,
+            "copy_paste_candidate": false,
+            "copy_paste_status": "pending_object_bank_design",
+            "no_aug_class": false,
+            "domain_high_fp_prior": false,
+            "frozen_reason": null,
+            "last_safe_policy": null,
+            "failed_update_count": 0,
+            "pending_since_epoch": null
+          },
+          "7": {
+            "class_id": 7,
+            "class_name": "碰伤",
+            "status": "guarded",
+            "state": "accepted",
+            "version": 0,
+            "dominant_issue": null,
+            "secondary_issues": [],
+            "ops": {
+              "clahe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "gamma": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "brightness": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "sharpen_mild": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.2,
+                "max_strength": 0.45
+              },
+              "local_contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.18,
+                "max_strength": 0.45
+              },
+              "cutout_safe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.08,
+                "max_strength": 0.25
+              }
+            },
+            "guards": {
+              "precision_guard": true,
+              "map95_guard": false,
+              "high_fp_guarded": true
+            },
+            "threshold_calibration_candidate": true,
+            "oversampling_candidate": false,
+            "copy_paste_candidate": false,
+            "copy_paste_status": "pending_object_bank_design",
+            "no_aug_class": false,
+            "domain_high_fp_prior": false,
+            "frozen_reason": null,
+            "last_safe_policy": null,
+            "failed_update_count": 0,
+            "pending_since_epoch": null
+          },
+          "8": {
+            "class_id": 8,
+            "class_name": "脏污",
+            "status": "active",
+            "state": "pending",
+            "version": 1,
+            "dominant_issue": "low_recall",
+            "secondary_issues": [
+              "low_contrast_fn"
+            ],
+            "ops": {
+              "clahe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "gamma": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "brightness": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "sharpen_mild": {
+                "prob": 0.005,
+                "strength": 0.01,
+                "max_prob": 0.2,
+                "max_strength": 0.45
+              },
+              "local_contrast": {
+                "prob": 0.005,
+                "strength": 0.01,
+                "max_prob": 0.18,
+                "max_strength": 0.45
+              },
+              "cutout_safe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.08,
+                "max_strength": 0.25
+              }
+            },
+            "guards": {
+              "precision_guard": false,
+              "map95_guard": false,
+              "high_fp_guarded": false
+            },
+            "threshold_calibration_candidate": false,
+            "oversampling_candidate": true,
+            "copy_paste_candidate": false,
+            "copy_paste_status": "pending_object_bank_design",
+            "no_aug_class": false,
+            "domain_high_fp_prior": true,
+            "frozen_reason": null,
+            "last_safe_policy": {
+              "class_id": 8,
+              "class_name": "脏污",
+              "status": "inactive",
+              "state": "accepted",
+              "version": 0,
+              "dominant_issue": null,
+              "secondary_issues": [],
+              "ops": {
+                "clahe": {
+                  "prob": 0.0,
+                  "strength": 0.0,
+                  "max_prob": 0.15,
+                  "max_strength": 0.45
+                },
+                "gamma": {
+                  "prob": 0.0,
+                  "strength": 0.0,
+                  "max_prob": 0.15,
+                  "max_strength": 0.45
+                },
+                "brightness": {
+                  "prob": 0.0,
+                  "strength": 0.0,
+                  "max_prob": 0.1,
+                  "max_strength": 0.25
+                },
+                "contrast": {
+                  "prob": 0.0,
+                  "strength": 0.0,
+                  "max_prob": 0.1,
+                  "max_strength": 0.25
+                },
+                "sharpen_mild": {
+                  "prob": 0.0,
+                  "strength": 0.0,
+                  "max_prob": 0.2,
+                  "max_strength": 0.45
+                },
+                "local_contrast": {
+                  "prob": 0.0,
+                  "strength": 0.0,
+                  "max_prob": 0.18,
+                  "max_strength": 0.45
+                },
+                "cutout_safe": {
+                  "prob": 0.0,
+                  "strength": 0.0,
+                  "max_prob": 0.08,
+                  "max_strength": 0.25
+                }
+              },
+              "guards": {
+                "precision_guard": false,
+                "map95_guard": false,
+                "high_fp_guarded": false
+              },
+              "threshold_calibration_candidate": false,
+              "oversampling_candidate": false,
+              "copy_paste_candidate": false,
+              "copy_paste_status": "pending_object_bank_design",
+              "no_aug_class": false,
+              "domain_high_fp_prior": true,
+              "frozen_reason": null,
+              "last_safe_policy": null,
+              "failed_update_count": 0,
+              "pending_since_epoch": null
+            },
+            "failed_update_count": 0,
+            "pending_since_epoch": 5,
+            "last_safe_metrics": {
+              "Precision": 0.0,
+              "Recall": 0.0,
+              "AP50": 0.0,
+              "AP50_95": 0.0
+            }
+          },
+          "9": {
+            "class_id": 9,
+            "class_name": "轮廓划伤",
+            "status": "guarded",
+            "state": "accepted",
+            "version": 0,
+            "dominant_issue": null,
+            "secondary_issues": [],
+            "ops": {
+              "clahe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "gamma": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "brightness": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "sharpen_mild": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.2,
+                "max_strength": 0.45
+              },
+              "local_contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.18,
+                "max_strength": 0.45
+              },
+              "cutout_safe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.08,
+                "max_strength": 0.25
+              }
+            },
+            "guards": {
+              "precision_guard": true,
+              "map95_guard": false,
+              "high_fp_guarded": true
+            },
+            "threshold_calibration_candidate": true,
+            "oversampling_candidate": false,
+            "copy_paste_candidate": false,
+            "copy_paste_status": "pending_object_bank_design",
+            "no_aug_class": false,
+            "domain_high_fp_prior": false,
+            "frozen_reason": null,
+            "last_safe_policy": null,
+            "failed_update_count": 0,
+            "pending_since_epoch": null
+          },
+          "10": {
+            "class_id": 10,
+            "class_name": "锡丝残留",
+            "status": "inactive",
+            "state": "accepted",
+            "version": 0,
+            "dominant_issue": null,
+            "secondary_issues": [],
+            "ops": {
+              "clahe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "gamma": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "brightness": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "sharpen_mild": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.2,
+                "max_strength": 0.45
+              },
+              "local_contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.18,
+                "max_strength": 0.45
+              },
+              "cutout_safe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.08,
+                "max_strength": 0.25
+              }
+            },
+            "guards": {
+              "precision_guard": false,
+              "map95_guard": false,
+              "high_fp_guarded": false
+            },
+            "threshold_calibration_candidate": false,
+            "oversampling_candidate": false,
+            "copy_paste_candidate": false,
+            "copy_paste_status": "pending_object_bank_design",
+            "no_aug_class": false,
+            "domain_high_fp_prior": false,
+            "frozen_reason": null,
+            "last_safe_policy": null,
+            "failed_update_count": 0,
+            "pending_since_epoch": null
+          },
+          "11": {
+            "class_id": 11,
+            "class_name": "锡尖",
+            "status": "inactive",
+            "state": "accepted",
+            "version": 0,
+            "dominant_issue": null,
+            "secondary_issues": [],
+            "ops": {
+              "clahe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "gamma": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "brightness": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "sharpen_mild": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.2,
+                "max_strength": 0.45
+              },
+              "local_contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.18,
+                "max_strength": 0.45
+              },
+              "cutout_safe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.08,
+                "max_strength": 0.25
+              }
+            },
+            "guards": {
+              "precision_guard": false,
+              "map95_guard": false,
+              "high_fp_guarded": false
+            },
+            "threshold_calibration_candidate": false,
+            "oversampling_candidate": false,
+            "copy_paste_candidate": false,
+            "copy_paste_status": "pending_object_bank_design",
+            "no_aug_class": false,
+            "domain_high_fp_prior": false,
+            "frozen_reason": null,
+            "last_safe_policy": null,
+            "failed_update_count": 0,
+            "pending_since_epoch": null
+          },
+          "12": {
+            "class_id": 12,
+            "class_name": "锡膏",
+            "status": "active",
+            "state": "pending",
+            "version": 1,
+            "dominant_issue": "low_recall",
+            "secondary_issues": [
+              "low_contrast_fn"
+            ],
+            "ops": {
+              "clahe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "gamma": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "brightness": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "sharpen_mild": {
+                "prob": 0.01,
+                "strength": 0.015,
+                "max_prob": 0.2,
+                "max_strength": 0.45
+              },
+              "local_contrast": {
+                "prob": 0.01,
+                "strength": 0.015,
+                "max_prob": 0.18,
+                "max_strength": 0.45
+              },
+              "cutout_safe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.08,
+                "max_strength": 0.25
+              }
+            },
+            "guards": {
+              "precision_guard": false,
+              "map95_guard": false,
+              "high_fp_guarded": false
+            },
+            "threshold_calibration_candidate": false,
+            "oversampling_candidate": true,
+            "copy_paste_candidate": false,
+            "copy_paste_status": "pending_object_bank_design",
+            "no_aug_class": false,
+            "domain_high_fp_prior": false,
+            "frozen_reason": null,
+            "last_safe_policy": {
+              "class_id": 12,
+              "class_name": "锡膏",
+              "status": "inactive",
+              "state": "accepted",
+              "version": 0,
+              "dominant_issue": null,
+              "secondary_issues": [],
+              "ops": {
+                "clahe": {
+                  "prob": 0.0,
+                  "strength": 0.0,
+                  "max_prob": 0.15,
+                  "max_strength": 0.45
+                },
+                "gamma": {
+                  "prob": 0.0,
+                  "strength": 0.0,
+                  "max_prob": 0.15,
+                  "max_strength": 0.45
+                },
+                "brightness": {
+                  "prob": 0.0,
+                  "strength": 0.0,
+                  "max_prob": 0.1,
+                  "max_strength": 0.25
+                },
+                "contrast": {
+                  "prob": 0.0,
+                  "strength": 0.0,
+                  "max_prob": 0.1,
+                  "max_strength": 0.25
+                },
+                "sharpen_mild": {
+                  "prob": 0.0,
+                  "strength": 0.0,
+                  "max_prob": 0.2,
+                  "max_strength": 0.45
+                },
+                "local_contrast": {
+                  "prob": 0.0,
+                  "strength": 0.0,
+                  "max_prob": 0.18,
+                  "max_strength": 0.45
+                },
+                "cutout_safe": {
+                  "prob": 0.0,
+                  "strength": 0.0,
+                  "max_prob": 0.08,
+                  "max_strength": 0.25
+                }
+              },
+              "guards": {
+                "precision_guard": false,
+                "map95_guard": false,
+                "high_fp_guarded": false
+              },
+              "threshold_calibration_candidate": false,
+              "oversampling_candidate": false,
+              "copy_paste_candidate": false,
+              "copy_paste_status": "pending_object_bank_design",
+              "no_aug_class": false,
+              "domain_high_fp_prior": false,
+              "frozen_reason": null,
+              "last_safe_policy": null,
+              "failed_update_count": 0,
+              "pending_since_epoch": null
+            },
+            "failed_update_count": 0,
+            "pending_since_epoch": 5,
+            "last_safe_metrics": {
+              "Precision": 0.0,
+              "Recall": 0.0,
+              "AP50": 0.0,
+              "AP50_95": 0.0
+            }
+          }
+        },
+        "global_guard": {
+          "active": false,
+          "reason": null
+        }
+      },
+      "last_safe_policy_id": "catf_v2_epoch_005",
+      "action": "accept",
+      "guard_triggered": [],
+      "rollback_reason": null,
+      "frozen": false,
+      "group_budget_before": {
+        "photometric": {
+          "value": 0.0,
+          "limit": null,
+          "within_budget": true
+        },
+        "texture": {
+          "value": 0.0,
+          "limit": null,
+          "within_budget": true
+        },
+        "occlusion": {
+          "value": 0.0,
+          "limit": null,
+          "within_budget": true
+        }
+      },
+      "group_budget_after": {
+        "photometric": {
+          "value": 0.0,
+          "limit": null,
+          "within_budget": true
+        },
+        "texture": {
+          "value": 0.03,
+          "limit": null,
+          "within_budget": true
+        },
+        "occlusion": {
+          "value": 0.0,
+          "limit": null,
+          "within_budget": true
+        }
+      },
+      "trust_region_clipping": [],
+      "adjustments": [
+        {
+          "class_id": 12,
+          "op": "sharpen_mild",
+          "field": "prob",
+          "before": 0.0,
+          "after": 0.01,
+          "reason": "low_recall",
+          "trust_region_clipped": false
+        },
+        {
+          "class_id": 12,
+          "op": "sharpen_mild",
+          "field": "strength",
+          "before": 0.0,
+          "after": 0.015,
+          "reason": "low_recall",
+          "trust_region_clipped": false
+        },
+        {
+          "class_id": 12,
+          "op": "local_contrast",
+          "field": "prob",
+          "before": 0.0,
+          "after": 0.01,
+          "reason": "low_recall",
+          "trust_region_clipped": false
+        },
+        {
+          "class_id": 12,
+          "op": "local_contrast",
+          "field": "strength",
+          "before": 0.0,
+          "after": 0.015,
+          "reason": "low_recall",
+          "trust_region_clipped": false
+        },
+        {
+          "class_id": 8,
+          "op": "sharpen_mild",
+          "field": "prob",
+          "before": 0.0,
+          "after": 0.005,
+          "reason": "low_recall_domain_prior",
+          "trust_region_clipped": false
+        },
+        {
+          "class_id": 8,
+          "op": "sharpen_mild",
+          "field": "strength",
+          "before": 0.0,
+          "after": 0.01,
+          "reason": "low_recall_domain_prior",
+          "trust_region_clipped": false
+        },
+        {
+          "class_id": 8,
+          "op": "local_contrast",
+          "field": "prob",
+          "before": 0.0,
+          "after": 0.005,
+          "reason": "low_recall_domain_prior",
+          "trust_region_clipped": false
+        },
+        {
+          "class_id": 8,
+          "op": "local_contrast",
+          "field": "strength",
+          "before": 0.0,
+          "after": 0.01,
+          "reason": "low_recall_domain_prior",
+          "trust_region_clipped": false
+        }
+      ],
+      "copy_paste_status": "pending_object_bank_design",
+      "class_actions": [
+        {
+          "class_id": 12,
+          "action": "propose",
+          "adjustments": [
+            {
+              "class_id": 12,
+              "op": "sharpen_mild",
+              "field": "prob",
+              "before": 0.0,
+              "after": 0.01,
+              "reason": "low_recall",
+              "trust_region_clipped": false
+            },
+            {
+              "class_id": 12,
+              "op": "sharpen_mild",
+              "field": "strength",
+              "before": 0.0,
+              "after": 0.015,
+              "reason": "low_recall",
+              "trust_region_clipped": false
+            },
+            {
+              "class_id": 12,
+              "op": "local_contrast",
+              "field": "prob",
+              "before": 0.0,
+              "after": 0.01,
+              "reason": "low_recall",
+              "trust_region_clipped": false
+            },
+            {
+              "class_id": 12,
+              "op": "local_contrast",
+              "field": "strength",
+              "before": 0.0,
+              "after": 0.015,
+              "reason": "low_recall",
+              "trust_region_clipped": false
+            }
+          ],
+          "before": {
+            "class_id": 12,
+            "class_name": "锡膏",
+            "status": "inactive",
+            "state": "accepted",
+            "version": 0,
+            "dominant_issue": null,
+            "secondary_issues": [],
+            "ops": {
+              "clahe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "gamma": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "brightness": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "sharpen_mild": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.2,
+                "max_strength": 0.45
+              },
+              "local_contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.18,
+                "max_strength": 0.45
+              },
+              "cutout_safe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.08,
+                "max_strength": 0.25
+              }
+            },
+            "guards": {
+              "precision_guard": false,
+              "map95_guard": false,
+              "high_fp_guarded": false
+            },
+            "threshold_calibration_candidate": false,
+            "oversampling_candidate": false,
+            "copy_paste_candidate": false,
+            "copy_paste_status": "pending_object_bank_design",
+            "no_aug_class": false,
+            "domain_high_fp_prior": false,
+            "frozen_reason": null,
+            "last_safe_policy": null,
+            "failed_update_count": 0,
+            "pending_since_epoch": null
+          },
+          "after": {
+            "class_id": 12,
+            "class_name": "锡膏",
+            "status": "active",
+            "state": "pending",
+            "version": 1,
+            "dominant_issue": "low_recall",
+            "secondary_issues": [
+              "low_contrast_fn"
+            ],
+            "ops": {
+              "clahe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "gamma": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "brightness": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "sharpen_mild": {
+                "prob": 0.01,
+                "strength": 0.015,
+                "max_prob": 0.2,
+                "max_strength": 0.45
+              },
+              "local_contrast": {
+                "prob": 0.01,
+                "strength": 0.015,
+                "max_prob": 0.18,
+                "max_strength": 0.45
+              },
+              "cutout_safe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.08,
+                "max_strength": 0.25
+              }
+            },
+            "guards": {
+              "precision_guard": false,
+              "map95_guard": false,
+              "high_fp_guarded": false
+            },
+            "threshold_calibration_candidate": false,
+            "oversampling_candidate": true,
+            "copy_paste_candidate": false,
+            "copy_paste_status": "pending_object_bank_design",
+            "no_aug_class": false,
+            "domain_high_fp_prior": false,
+            "frozen_reason": null,
+            "last_safe_policy": {
+              "class_id": 12,
+              "class_name": "锡膏",
+              "status": "inactive",
+              "state": "accepted",
+              "version": 0,
+              "dominant_issue": null,
+              "secondary_issues": [],
+              "ops": {
+                "clahe": {
+                  "prob": 0.0,
+                  "strength": 0.0,
+                  "max_prob": 0.15,
+                  "max_strength": 0.45
+                },
+                "gamma": {
+                  "prob": 0.0,
+                  "strength": 0.0,
+                  "max_prob": 0.15,
+                  "max_strength": 0.45
+                },
+                "brightness": {
+                  "prob": 0.0,
+                  "strength": 0.0,
+                  "max_prob": 0.1,
+                  "max_strength": 0.25
+                },
+                "contrast": {
+                  "prob": 0.0,
+                  "strength": 0.0,
+                  "max_prob": 0.1,
+                  "max_strength": 0.25
+                },
+                "sharpen_mild": {
+                  "prob": 0.0,
+                  "strength": 0.0,
+                  "max_prob": 0.2,
+                  "max_strength": 0.45
+                },
+                "local_contrast": {
+                  "prob": 0.0,
+                  "strength": 0.0,
+                  "max_prob": 0.18,
+                  "max_strength": 0.45
+                },
+                "cutout_safe": {
+                  "prob": 0.0,
+                  "strength": 0.0,
+                  "max_prob": 0.08,
+                  "max_strength": 0.25
+                }
+              },
+              "guards": {
+                "precision_guard": false,
+                "map95_guard": false,
+                "high_fp_guarded": false
+              },
+              "threshold_calibration_candidate": false,
+              "oversampling_candidate": false,
+              "copy_paste_candidate": false,
+              "copy_paste_status": "pending_object_bank_design",
+              "no_aug_class": false,
+              "domain_high_fp_prior": false,
+              "frozen_reason": null,
+              "last_safe_policy": null,
+              "failed_update_count": 0,
+              "pending_since_epoch": null
+            },
+            "failed_update_count": 0,
+            "pending_since_epoch": 5,
+            "last_safe_metrics": {
+              "Precision": 0.0,
+              "Recall": 0.0,
+              "AP50": 0.0,
+              "AP50_95": 0.0
+            }
+          }
+        },
+        {
+          "class_id": 8,
+          "action": "propose",
+          "adjustments": [
+            {
+              "class_id": 8,
+              "op": "sharpen_mild",
+              "field": "prob",
+              "before": 0.0,
+              "after": 0.005,
+              "reason": "low_recall_domain_prior",
+              "trust_region_clipped": false
+            },
+            {
+              "class_id": 8,
+              "op": "sharpen_mild",
+              "field": "strength",
+              "before": 0.0,
+              "after": 0.01,
+              "reason": "low_recall_domain_prior",
+              "trust_region_clipped": false
+            },
+            {
+              "class_id": 8,
+              "op": "local_contrast",
+              "field": "prob",
+              "before": 0.0,
+              "after": 0.005,
+              "reason": "low_recall_domain_prior",
+              "trust_region_clipped": false
+            },
+            {
+              "class_id": 8,
+              "op": "local_contrast",
+              "field": "strength",
+              "before": 0.0,
+              "after": 0.01,
+              "reason": "low_recall_domain_prior",
+              "trust_region_clipped": false
+            }
+          ],
+          "before": {
+            "class_id": 8,
+            "class_name": "脏污",
+            "status": "inactive",
+            "state": "accepted",
+            "version": 0,
+            "dominant_issue": null,
+            "secondary_issues": [],
+            "ops": {
+              "clahe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "gamma": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "brightness": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "sharpen_mild": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.2,
+                "max_strength": 0.45
+              },
+              "local_contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.18,
+                "max_strength": 0.45
+              },
+              "cutout_safe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.08,
+                "max_strength": 0.25
+              }
+            },
+            "guards": {
+              "precision_guard": false,
+              "map95_guard": false,
+              "high_fp_guarded": false
+            },
+            "threshold_calibration_candidate": false,
+            "oversampling_candidate": false,
+            "copy_paste_candidate": false,
+            "copy_paste_status": "pending_object_bank_design",
+            "no_aug_class": false,
+            "domain_high_fp_prior": true,
+            "frozen_reason": null,
+            "last_safe_policy": null,
+            "failed_update_count": 0,
+            "pending_since_epoch": null
+          },
+          "after": {
+            "class_id": 8,
+            "class_name": "脏污",
+            "status": "active",
+            "state": "pending",
+            "version": 1,
+            "dominant_issue": "low_recall",
+            "secondary_issues": [
+              "low_contrast_fn"
+            ],
+            "ops": {
+              "clahe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "gamma": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.15,
+                "max_strength": 0.45
+              },
+              "brightness": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "contrast": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.1,
+                "max_strength": 0.25
+              },
+              "sharpen_mild": {
+                "prob": 0.005,
+                "strength": 0.01,
+                "max_prob": 0.2,
+                "max_strength": 0.45
+              },
+              "local_contrast": {
+                "prob": 0.005,
+                "strength": 0.01,
+                "max_prob": 0.18,
+                "max_strength": 0.45
+              },
+              "cutout_safe": {
+                "prob": 0.0,
+                "strength": 0.0,
+                "max_prob": 0.08,
+                "max_strength": 0.25
+              }
+            },
+            "guards": {
+              "precision_guard": false,
+              "map95_guard": false,
+              "high_fp_guarded": false
+            },
+            "threshold_calibration_candidate": false,
+            "oversampling_candidate": true,
+            "copy_paste_candidate": false,
+            "copy_paste_status": "pending_object_bank_design",
+            "no_aug_class": false,
+            "domain_high_fp_prior": true,
+            "frozen_reason": null,
+            "last_safe_policy": {
+              "class_id": 8,
+              "class_name": "脏污",
+              "status": "inactive",
+              "state": "accepted",
+              "version": 0,
+              "dominant_issue": null,
+              "secondary_issues": [],
+              "ops": {
+                "clahe": {
+                  "prob": 0.0,
+                  "strength": 0.0,
+                  "max_prob": 0.15,
+                  "max_strength": 0.45
+                },
+                "gamma": {
+                  "prob": 0.0,
+                  "strength": 0.0,
+                  "max_prob": 0.15,
+                  "max_strength": 0.45
+                },
+                "brightness": {
+                  "prob": 0.0,
+                  "strength": 0.0,
+                  "max_prob": 0.1,
+                  "max_strength": 0.25
+                },
+                "contrast": {
+                  "prob": 0.0,
+                  "strength": 0.0,
+                  "max_prob": 0.1,
+                  "max_strength": 0.25
+                },
+                "sharpen_mild": {
+                  "prob": 0.0,
+                  "strength": 0.0,
+                  "max_prob": 0.2,
+                  "max_strength": 0.45
+                },
+                "local_contrast": {
+                  "prob": 0.0,
+                  "strength": 0.0,
+                  "max_prob": 0.18,
+                  "max_strength": 0.45
+                },
+                "cutout_safe": {
+                  "prob": 0.0,
+                  "strength": 0.0,
+                  "max_prob": 0.08,
+                  "max_strength": 0.25
+                }
+              },
+              "guards": {
+                "precision_guard": false,
+                "map95_guard": false,
+                "high_fp_guarded": false
+              },
+              "threshold_calibration_candidate": false,
+              "oversampling_candidate": false,
+              "copy_paste_candidate": false,
+              "copy_paste_status": "pending_object_bank_design",
+              "no_aug_class": false,
+              "domain_high_fp_prior": true,
+              "frozen_reason": null,
+              "last_safe_policy": null,
+              "failed_update_count": 0,
+              "pending_since_epoch": null
+            },
+            "failed_update_count": 0,
+            "pending_since_epoch": 5,
+            "last_safe_metrics": {
+              "Precision": 0.0,
+              "Recall": 0.0,
+              "AP50": 0.0,
+              "AP50_95": 0.0
+            }
+          }
+        }
+      ],
+      "active_classes": [
+        8,
+        12
+      ],
+      "frozen_classes": [],
+      "per_class_diagnosis_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\catf_v2_safe_10ep_smoke\\reports\\per_class_diagnosis_epoch_5.json",
+      "issue_attribution_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\catf_v2_safe_10ep_smoke\\reports\\issue_attribution_epoch_5.json",
+      "sample_weight_map_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\catf_v2_safe_10ep_smoke\\reports\\sample_weight_map_epoch_5.json",
+      "high_fp_guarded_classes": [
+        0,
+        1,
+        5,
+        6,
+        7,
+        9
+      ],
+      "low_contrast_classes": [
+        1,
+        4,
+        5,
+        6,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "texture_classes": [
+        7,
+        7,
+        9
+      ],
+      "low_support_classes": [
+        2,
+        3
+      ]
+    }
+  ],
+  "latest_policy": {
+    "policy_id": "catf_v2_class_aware",
+    "version": 1,
+    "catf_version": "v2",
+    "copy_paste_status": "pending_object_bank_design",
+    "classes": {
+      "0": {
+        "class_id": 0,
+        "class_name": "OK2",
+        "status": "guarded",
+        "state": "accepted",
+        "version": 0,
+        "dominant_issue": null,
+        "secondary_issues": [],
+        "ops": {
+          "clahe": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.15,
+            "max_strength": 0.45
+          },
+          "gamma": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.15,
+            "max_strength": 0.45
+          },
+          "brightness": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.1,
+            "max_strength": 0.25
+          },
+          "contrast": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.1,
+            "max_strength": 0.25
+          },
+          "sharpen_mild": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.2,
+            "max_strength": 0.45
+          },
+          "local_contrast": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.18,
+            "max_strength": 0.45
+          },
+          "cutout_safe": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.08,
+            "max_strength": 0.25
+          }
+        },
+        "guards": {
+          "precision_guard": true,
+          "map95_guard": false,
+          "high_fp_guarded": true
+        },
+        "threshold_calibration_candidate": true,
+        "oversampling_candidate": false,
+        "copy_paste_candidate": false,
+        "copy_paste_status": "pending_object_bank_design",
+        "no_aug_class": true,
+        "domain_high_fp_prior": true,
+        "frozen_reason": "no_aug_class",
+        "last_safe_policy": null,
+        "failed_update_count": 0,
+        "pending_since_epoch": null
+      },
+      "1": {
+        "class_id": 1,
+        "class_name": "OK3",
+        "status": "guarded",
+        "state": "accepted",
+        "version": 0,
+        "dominant_issue": null,
+        "secondary_issues": [],
+        "ops": {
+          "clahe": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.15,
+            "max_strength": 0.45
+          },
+          "gamma": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.15,
+            "max_strength": 0.45
+          },
+          "brightness": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.1,
+            "max_strength": 0.25
+          },
+          "contrast": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.1,
+            "max_strength": 0.25
+          },
+          "sharpen_mild": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.2,
+            "max_strength": 0.45
+          },
+          "local_contrast": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.18,
+            "max_strength": 0.45
+          },
+          "cutout_safe": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.08,
+            "max_strength": 0.25
+          }
+        },
+        "guards": {
+          "precision_guard": true,
+          "map95_guard": false,
+          "high_fp_guarded": true
+        },
+        "threshold_calibration_candidate": true,
+        "oversampling_candidate": false,
+        "copy_paste_candidate": false,
+        "copy_paste_status": "pending_object_bank_design",
+        "no_aug_class": true,
+        "domain_high_fp_prior": true,
+        "frozen_reason": "no_aug_class",
+        "last_safe_policy": null,
+        "failed_update_count": 0,
+        "pending_since_epoch": null
+      },
+      "2": {
+        "class_id": 2,
+        "class_name": "加强筋打伤",
+        "status": "observe",
+        "state": "accepted",
+        "version": 0,
+        "dominant_issue": null,
+        "secondary_issues": [],
+        "ops": {
+          "clahe": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.15,
+            "max_strength": 0.45
+          },
+          "gamma": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.15,
+            "max_strength": 0.45
+          },
+          "brightness": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.1,
+            "max_strength": 0.25
+          },
+          "contrast": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.1,
+            "max_strength": 0.25
+          },
+          "sharpen_mild": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.2,
+            "max_strength": 0.45
+          },
+          "local_contrast": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.18,
+            "max_strength": 0.45
+          },
+          "cutout_safe": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.08,
+            "max_strength": 0.25
+          }
+        },
+        "guards": {
+          "precision_guard": false,
+          "map95_guard": false,
+          "high_fp_guarded": false
+        },
+        "threshold_calibration_candidate": false,
+        "oversampling_candidate": true,
+        "copy_paste_candidate": true,
+        "copy_paste_status": "pending_object_bank_design",
+        "no_aug_class": false,
+        "domain_high_fp_prior": false,
+        "frozen_reason": null,
+        "last_safe_policy": null,
+        "failed_update_count": 0,
+        "pending_since_epoch": null
+      },
+      "3": {
+        "class_id": 3,
+        "class_name": "开裂",
+        "status": "observe",
+        "state": "accepted",
+        "version": 0,
+        "dominant_issue": null,
+        "secondary_issues": [],
+        "ops": {
+          "clahe": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.15,
+            "max_strength": 0.45
+          },
+          "gamma": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.15,
+            "max_strength": 0.45
+          },
+          "brightness": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.1,
+            "max_strength": 0.25
+          },
+          "contrast": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.1,
+            "max_strength": 0.25
+          },
+          "sharpen_mild": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.2,
+            "max_strength": 0.45
+          },
+          "local_contrast": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.18,
+            "max_strength": 0.45
+          },
+          "cutout_safe": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.08,
+            "max_strength": 0.25
+          }
+        },
+        "guards": {
+          "precision_guard": false,
+          "map95_guard": false,
+          "high_fp_guarded": false
+        },
+        "threshold_calibration_candidate": false,
+        "oversampling_candidate": true,
+        "copy_paste_candidate": true,
+        "copy_paste_status": "pending_object_bank_design",
+        "no_aug_class": false,
+        "domain_high_fp_prior": false,
+        "frozen_reason": null,
+        "last_safe_policy": null,
+        "failed_update_count": 0,
+        "pending_since_epoch": null
+      },
+      "4": {
+        "class_id": 4,
+        "class_name": "油污",
+        "status": "inactive",
+        "state": "accepted",
+        "version": 0,
+        "dominant_issue": null,
+        "secondary_issues": [],
+        "ops": {
+          "clahe": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.15,
+            "max_strength": 0.45
+          },
+          "gamma": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.15,
+            "max_strength": 0.45
+          },
+          "brightness": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.1,
+            "max_strength": 0.25
+          },
+          "contrast": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.1,
+            "max_strength": 0.25
+          },
+          "sharpen_mild": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.2,
+            "max_strength": 0.45
+          },
+          "local_contrast": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.18,
+            "max_strength": 0.45
+          },
+          "cutout_safe": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.08,
+            "max_strength": 0.25
+          }
+        },
+        "guards": {
+          "precision_guard": false,
+          "map95_guard": false,
+          "high_fp_guarded": false
+        },
+        "threshold_calibration_candidate": false,
+        "oversampling_candidate": false,
+        "copy_paste_candidate": false,
+        "copy_paste_status": "pending_object_bank_design",
+        "no_aug_class": false,
+        "domain_high_fp_prior": true,
+        "frozen_reason": null,
+        "last_safe_policy": null,
+        "failed_update_count": 0,
+        "pending_since_epoch": null
+      },
+      "5": {
+        "class_id": 5,
+        "class_name": "浅划伤",
+        "status": "guarded",
+        "state": "accepted",
+        "version": 0,
+        "dominant_issue": null,
+        "secondary_issues": [],
+        "ops": {
+          "clahe": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.15,
+            "max_strength": 0.45
+          },
+          "gamma": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.15,
+            "max_strength": 0.45
+          },
+          "brightness": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.1,
+            "max_strength": 0.25
+          },
+          "contrast": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.1,
+            "max_strength": 0.25
+          },
+          "sharpen_mild": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.2,
+            "max_strength": 0.45
+          },
+          "local_contrast": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.18,
+            "max_strength": 0.45
+          },
+          "cutout_safe": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.08,
+            "max_strength": 0.25
+          }
+        },
+        "guards": {
+          "precision_guard": true,
+          "map95_guard": false,
+          "high_fp_guarded": true
+        },
+        "threshold_calibration_candidate": true,
+        "oversampling_candidate": false,
+        "copy_paste_candidate": false,
+        "copy_paste_status": "pending_object_bank_design",
+        "no_aug_class": false,
+        "domain_high_fp_prior": false,
+        "frozen_reason": null,
+        "last_safe_policy": null,
+        "failed_update_count": 0,
+        "pending_since_epoch": null
+      },
+      "6": {
+        "class_id": 6,
+        "class_name": "漏背锡",
+        "status": "guarded",
+        "state": "accepted",
+        "version": 0,
+        "dominant_issue": null,
+        "secondary_issues": [],
+        "ops": {
+          "clahe": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.15,
+            "max_strength": 0.45
+          },
+          "gamma": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.15,
+            "max_strength": 0.45
+          },
+          "brightness": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.1,
+            "max_strength": 0.25
+          },
+          "contrast": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.1,
+            "max_strength": 0.25
+          },
+          "sharpen_mild": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.2,
+            "max_strength": 0.45
+          },
+          "local_contrast": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.18,
+            "max_strength": 0.45
+          },
+          "cutout_safe": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.08,
+            "max_strength": 0.25
+          }
+        },
+        "guards": {
+          "precision_guard": true,
+          "map95_guard": false,
+          "high_fp_guarded": true
+        },
+        "threshold_calibration_candidate": true,
+        "oversampling_candidate": false,
+        "copy_paste_candidate": false,
+        "copy_paste_status": "pending_object_bank_design",
+        "no_aug_class": false,
+        "domain_high_fp_prior": false,
+        "frozen_reason": null,
+        "last_safe_policy": null,
+        "failed_update_count": 0,
+        "pending_since_epoch": null
+      },
+      "7": {
+        "class_id": 7,
+        "class_name": "碰伤",
+        "status": "guarded",
+        "state": "accepted",
+        "version": 0,
+        "dominant_issue": null,
+        "secondary_issues": [],
+        "ops": {
+          "clahe": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.15,
+            "max_strength": 0.45
+          },
+          "gamma": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.15,
+            "max_strength": 0.45
+          },
+          "brightness": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.1,
+            "max_strength": 0.25
+          },
+          "contrast": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.1,
+            "max_strength": 0.25
+          },
+          "sharpen_mild": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.2,
+            "max_strength": 0.45
+          },
+          "local_contrast": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.18,
+            "max_strength": 0.45
+          },
+          "cutout_safe": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.08,
+            "max_strength": 0.25
+          }
+        },
+        "guards": {
+          "precision_guard": true,
+          "map95_guard": false,
+          "high_fp_guarded": true
+        },
+        "threshold_calibration_candidate": true,
+        "oversampling_candidate": false,
+        "copy_paste_candidate": false,
+        "copy_paste_status": "pending_object_bank_design",
+        "no_aug_class": false,
+        "domain_high_fp_prior": false,
+        "frozen_reason": null,
+        "last_safe_policy": null,
+        "failed_update_count": 0,
+        "pending_since_epoch": null
+      },
+      "8": {
+        "class_id": 8,
+        "class_name": "脏污",
+        "status": "active",
+        "state": "pending",
+        "version": 1,
+        "dominant_issue": "low_recall",
+        "secondary_issues": [
+          "low_contrast_fn"
+        ],
+        "ops": {
+          "clahe": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.15,
+            "max_strength": 0.45
+          },
+          "gamma": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.15,
+            "max_strength": 0.45
+          },
+          "brightness": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.1,
+            "max_strength": 0.25
+          },
+          "contrast": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.1,
+            "max_strength": 0.25
+          },
+          "sharpen_mild": {
+            "prob": 0.005,
+            "strength": 0.01,
+            "max_prob": 0.2,
+            "max_strength": 0.45
+          },
+          "local_contrast": {
+            "prob": 0.005,
+            "strength": 0.01,
+            "max_prob": 0.18,
+            "max_strength": 0.45
+          },
+          "cutout_safe": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.08,
+            "max_strength": 0.25
+          }
+        },
+        "guards": {
+          "precision_guard": false,
+          "map95_guard": false,
+          "high_fp_guarded": false
+        },
+        "threshold_calibration_candidate": false,
+        "oversampling_candidate": true,
+        "copy_paste_candidate": false,
+        "copy_paste_status": "pending_object_bank_design",
+        "no_aug_class": false,
+        "domain_high_fp_prior": true,
+        "frozen_reason": null,
+        "last_safe_policy": {
+          "class_id": 8,
+          "class_name": "脏污",
+          "status": "inactive",
+          "state": "accepted",
+          "version": 0,
+          "dominant_issue": null,
+          "secondary_issues": [],
+          "ops": {
+            "clahe": {
+              "prob": 0.0,
+              "strength": 0.0,
+              "max_prob": 0.15,
+              "max_strength": 0.45
+            },
+            "gamma": {
+              "prob": 0.0,
+              "strength": 0.0,
+              "max_prob": 0.15,
+              "max_strength": 0.45
+            },
+            "brightness": {
+              "prob": 0.0,
+              "strength": 0.0,
+              "max_prob": 0.1,
+              "max_strength": 0.25
+            },
+            "contrast": {
+              "prob": 0.0,
+              "strength": 0.0,
+              "max_prob": 0.1,
+              "max_strength": 0.25
+            },
+            "sharpen_mild": {
+              "prob": 0.0,
+              "strength": 0.0,
+              "max_prob": 0.2,
+              "max_strength": 0.45
+            },
+            "local_contrast": {
+              "prob": 0.0,
+              "strength": 0.0,
+              "max_prob": 0.18,
+              "max_strength": 0.45
+            },
+            "cutout_safe": {
+              "prob": 0.0,
+              "strength": 0.0,
+              "max_prob": 0.08,
+              "max_strength": 0.25
+            }
+          },
+          "guards": {
+            "precision_guard": false,
+            "map95_guard": false,
+            "high_fp_guarded": false
+          },
+          "threshold_calibration_candidate": false,
+          "oversampling_candidate": false,
+          "copy_paste_candidate": false,
+          "copy_paste_status": "pending_object_bank_design",
+          "no_aug_class": false,
+          "domain_high_fp_prior": true,
+          "frozen_reason": null,
+          "last_safe_policy": null,
+          "failed_update_count": 0,
+          "pending_since_epoch": null
+        },
+        "failed_update_count": 0,
+        "pending_since_epoch": 5,
+        "last_safe_metrics": {
+          "Precision": 0.0,
+          "Recall": 0.0,
+          "AP50": 0.0,
+          "AP50_95": 0.0
+        }
+      },
+      "9": {
+        "class_id": 9,
+        "class_name": "轮廓划伤",
+        "status": "guarded",
+        "state": "accepted",
+        "version": 0,
+        "dominant_issue": null,
+        "secondary_issues": [],
+        "ops": {
+          "clahe": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.15,
+            "max_strength": 0.45
+          },
+          "gamma": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.15,
+            "max_strength": 0.45
+          },
+          "brightness": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.1,
+            "max_strength": 0.25
+          },
+          "contrast": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.1,
+            "max_strength": 0.25
+          },
+          "sharpen_mild": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.2,
+            "max_strength": 0.45
+          },
+          "local_contrast": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.18,
+            "max_strength": 0.45
+          },
+          "cutout_safe": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.08,
+            "max_strength": 0.25
+          }
+        },
+        "guards": {
+          "precision_guard": true,
+          "map95_guard": false,
+          "high_fp_guarded": true
+        },
+        "threshold_calibration_candidate": true,
+        "oversampling_candidate": false,
+        "copy_paste_candidate": false,
+        "copy_paste_status": "pending_object_bank_design",
+        "no_aug_class": false,
+        "domain_high_fp_prior": false,
+        "frozen_reason": null,
+        "last_safe_policy": null,
+        "failed_update_count": 0,
+        "pending_since_epoch": null
+      },
+      "10": {
+        "class_id": 10,
+        "class_name": "锡丝残留",
+        "status": "inactive",
+        "state": "accepted",
+        "version": 0,
+        "dominant_issue": null,
+        "secondary_issues": [],
+        "ops": {
+          "clahe": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.15,
+            "max_strength": 0.45
+          },
+          "gamma": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.15,
+            "max_strength": 0.45
+          },
+          "brightness": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.1,
+            "max_strength": 0.25
+          },
+          "contrast": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.1,
+            "max_strength": 0.25
+          },
+          "sharpen_mild": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.2,
+            "max_strength": 0.45
+          },
+          "local_contrast": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.18,
+            "max_strength": 0.45
+          },
+          "cutout_safe": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.08,
+            "max_strength": 0.25
+          }
+        },
+        "guards": {
+          "precision_guard": false,
+          "map95_guard": false,
+          "high_fp_guarded": false
+        },
+        "threshold_calibration_candidate": false,
+        "oversampling_candidate": false,
+        "copy_paste_candidate": false,
+        "copy_paste_status": "pending_object_bank_design",
+        "no_aug_class": false,
+        "domain_high_fp_prior": false,
+        "frozen_reason": null,
+        "last_safe_policy": null,
+        "failed_update_count": 0,
+        "pending_since_epoch": null
+      },
+      "11": {
+        "class_id": 11,
+        "class_name": "锡尖",
+        "status": "inactive",
+        "state": "accepted",
+        "version": 0,
+        "dominant_issue": null,
+        "secondary_issues": [],
+        "ops": {
+          "clahe": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.15,
+            "max_strength": 0.45
+          },
+          "gamma": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.15,
+            "max_strength": 0.45
+          },
+          "brightness": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.1,
+            "max_strength": 0.25
+          },
+          "contrast": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.1,
+            "max_strength": 0.25
+          },
+          "sharpen_mild": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.2,
+            "max_strength": 0.45
+          },
+          "local_contrast": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.18,
+            "max_strength": 0.45
+          },
+          "cutout_safe": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.08,
+            "max_strength": 0.25
+          }
+        },
+        "guards": {
+          "precision_guard": false,
+          "map95_guard": false,
+          "high_fp_guarded": false
+        },
+        "threshold_calibration_candidate": false,
+        "oversampling_candidate": false,
+        "copy_paste_candidate": false,
+        "copy_paste_status": "pending_object_bank_design",
+        "no_aug_class": false,
+        "domain_high_fp_prior": false,
+        "frozen_reason": null,
+        "last_safe_policy": null,
+        "failed_update_count": 0,
+        "pending_since_epoch": null
+      },
+      "12": {
+        "class_id": 12,
+        "class_name": "锡膏",
+        "status": "active",
+        "state": "pending",
+        "version": 1,
+        "dominant_issue": "low_recall",
+        "secondary_issues": [
+          "low_contrast_fn"
+        ],
+        "ops": {
+          "clahe": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.15,
+            "max_strength": 0.45
+          },
+          "gamma": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.15,
+            "max_strength": 0.45
+          },
+          "brightness": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.1,
+            "max_strength": 0.25
+          },
+          "contrast": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.1,
+            "max_strength": 0.25
+          },
+          "sharpen_mild": {
+            "prob": 0.01,
+            "strength": 0.015,
+            "max_prob": 0.2,
+            "max_strength": 0.45
+          },
+          "local_contrast": {
+            "prob": 0.01,
+            "strength": 0.015,
+            "max_prob": 0.18,
+            "max_strength": 0.45
+          },
+          "cutout_safe": {
+            "prob": 0.0,
+            "strength": 0.0,
+            "max_prob": 0.08,
+            "max_strength": 0.25
+          }
+        },
+        "guards": {
+          "precision_guard": false,
+          "map95_guard": false,
+          "high_fp_guarded": false
+        },
+        "threshold_calibration_candidate": false,
+        "oversampling_candidate": true,
+        "copy_paste_candidate": false,
+        "copy_paste_status": "pending_object_bank_design",
+        "no_aug_class": false,
+        "domain_high_fp_prior": false,
+        "frozen_reason": null,
+        "last_safe_policy": {
+          "class_id": 12,
+          "class_name": "锡膏",
+          "status": "inactive",
+          "state": "accepted",
+          "version": 0,
+          "dominant_issue": null,
+          "secondary_issues": [],
+          "ops": {
+            "clahe": {
+              "prob": 0.0,
+              "strength": 0.0,
+              "max_prob": 0.15,
+              "max_strength": 0.45
+            },
+            "gamma": {
+              "prob": 0.0,
+              "strength": 0.0,
+              "max_prob": 0.15,
+              "max_strength": 0.45
+            },
+            "brightness": {
+              "prob": 0.0,
+              "strength": 0.0,
+              "max_prob": 0.1,
+              "max_strength": 0.25
+            },
+            "contrast": {
+              "prob": 0.0,
+              "strength": 0.0,
+              "max_prob": 0.1,
+              "max_strength": 0.25
+            },
+            "sharpen_mild": {
+              "prob": 0.0,
+              "strength": 0.0,
+              "max_prob": 0.2,
+              "max_strength": 0.45
+            },
+            "local_contrast": {
+              "prob": 0.0,
+              "strength": 0.0,
+              "max_prob": 0.18,
+              "max_strength": 0.45
+            },
+            "cutout_safe": {
+              "prob": 0.0,
+              "strength": 0.0,
+              "max_prob": 0.08,
+              "max_strength": 0.25
+            }
+          },
+          "guards": {
+            "precision_guard": false,
+            "map95_guard": false,
+            "high_fp_guarded": false
+          },
+          "threshold_calibration_candidate": false,
+          "oversampling_candidate": false,
+          "copy_paste_candidate": false,
+          "copy_paste_status": "pending_object_bank_design",
+          "no_aug_class": false,
+          "domain_high_fp_prior": false,
+          "frozen_reason": null,
+          "last_safe_policy": null,
+          "failed_update_count": 0,
+          "pending_since_epoch": null
+        },
+        "failed_update_count": 0,
+        "pending_since_epoch": 5,
+        "last_safe_metrics": {
+          "Precision": 0.0,
+          "Recall": 0.0,
+          "AP50": 0.0,
+          "AP50_95": 0.0
+        }
+      }
+    },
+    "global_guard": {
+      "active": false,
+      "reason": null
+    }
+  }
+}

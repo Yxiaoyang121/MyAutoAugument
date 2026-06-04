@@ -12,6 +12,29 @@ The project is a diagnosis-driven augmentation pipeline for industrial defect de
 
 ## Current CATF-v2 Finding
 
+- CATF-v2-Safe has been implemented and seed2 has been validated.
+- Safe mode adds high-recall baseline protection, negative-effect attribution, early abstention, safe accept guards, and strict no-op fallback.
+- The seed2 design report is:
+  - `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/seed2_safe_controller_design.md`
+  - `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/seed2_safe_controller_design.json`
+- Existing fixed CATF-v2 seed2 failure was localized:
+  - Recall lag starts at epoch 6.
+  - mAP50-95 lag starts at epoch 8.
+  - A mAP50-95 guard is visible by feedback epoch 10.
+  - Epoch 5 proposed class 9 without Recall/mAP gain, so Safe should abstain before industrial augmentation affects training.
+- CATF-v2-Safe 10ep smoke completed at `outputs/experiments/catf_v2_safe_10ep_smoke/`; bbox/class legal, train images=2301, no fixed augmented dataset. It validated the wiring but did not enter no-op freeze because the 10ep training schedule is not directly comparable to the 50ep clean reference curve.
+- CATF-v2-Safe seed2 50ep completed at `outputs/experiments/catf_v2_safe_seed2_50ep/`.
+- Seed2 Safe final metrics: Precision=0.6962, Recall=0.7286, mAP50=0.7692, mAP50-95=0.5224.
+- Delta vs clean seed2: all metrics `0.0000`; `constraint_failed=false`.
+- Delta vs fixed CATF-v2 seed2: Precision -0.0674, Recall +0.0423, mAP50 +0.0110, mAP50-95 +0.0257.
+- Safe triggered no-op freeze at epoch 5 with reason `early_abstention_no_recall_or_map_gain`.
+- Industrial samples augmented=0, ROI applied=0, router random draws=0 after Safe fallback.
+- Required reports:
+  - `outputs/experiments/catf_v2_safe_seed2_50ep/reports/final_report.md`
+  - `outputs/experiments/catf_v2_safe_seed2_50ep/reports/final_metrics.json`
+  - `outputs/experiments/catf_v2_safe_seed2_50ep/reports/safe_controller_events.json`
+  - `outputs/experiments/catf_v2_safe_seed2_50ep/reports/compare_with_clean_and_fixed_catf_v2.md`
+- Recommended next step: run full multiseed CATF-v2-Safe validation. Do not continue optimizing unified RC thresholds.
 - Official-path threshold re-optimization is complete and must be treated as the current threshold-calibration result.
 - Report: `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/official_threshold_reoptimization.md`.
 - JSON: `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/official_threshold_reoptimization.json`.

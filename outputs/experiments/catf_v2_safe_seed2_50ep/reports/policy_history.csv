@@ -1,0 +1,13 @@
+epoch,class_id,action,op,field,before,after,reason,guard_triggered
+5,9,no_op_freeze,sharpen_mild,prob,0.0,0.015,texture_boundary_weak,early_abstention_no_recall_or_map_gain
+5,9,no_op_freeze,sharpen_mild,strength,0.0,0.02,texture_boundary_weak,early_abstention_no_recall_or_map_gain
+5,9,no_op_freeze,local_contrast,prob,0.0,0.015,texture_boundary_weak,early_abstention_no_recall_or_map_gain
+5,9,no_op_freeze,local_contrast,strength,0.0,0.02,texture_boundary_weak,early_abstention_no_recall_or_map_gain
+10,,no_op_freeze,,,,,,early_abstention_no_recall_or_map_gain
+15,,no_op_freeze,,,,,,early_abstention_no_recall_or_map_gain
+20,,no_op_freeze,,,,,,early_abstention_no_recall_or_map_gain
+25,,no_op_freeze,,,,,,early_abstention_no_recall_or_map_gain
+30,,no_op_freeze,,,,,,early_abstention_no_recall_or_map_gain
+35,,no_op_freeze,,,,,,early_abstention_no_recall_or_map_gain
+40,,no_op_freeze,,,,,,"epoch_ge_40,early_abstention_no_recall_or_map_gain"
+45,,no_op_freeze,,,,,,"epoch_ge_40,early_abstention_no_recall_or_map_gain"

@@ -1269,3 +1269,25 @@ Key conclusions from that archived smoke:
 - Rollback candidates: `加强筋打伤`, `锡丝残留`; high-risk classes: `轮廓划伤`, `锡膏`; threshold-only class: `脏污`.
 - Conclusion: CATF-v2-RC is the current paper-candidate framing, but official validation/export confirmation of the threshold table is still required.
 <!-- CATF_V2_RC_SEED0_CALIBRATION_ROLLBACK_END -->
+
+<!-- CATF_V2_RC_OFFICIAL_PATH_VALIDATION_START -->
+## CATF-v2-RC Official Val/Predict Path Validation
+
+- Date: `2026-06-04`.
+- Scope: validation/inference-only; no training was run.
+- Command: `D:\Anaconda\envs\pytorch\python.exe scripts\validate_catf_v2_rc_official_path.py`.
+- Script: `scripts/validate_catf_v2_rc_official_path.py`.
+- Threshold config: `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/catf_v2_rc_per_class_thresholds.json`.
+- Report: `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/catf_v2_rc_official_path_validation.md`.
+- JSON: `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/catf_v2_rc_official_path_validation.json`.
+- Fixed seed0/1/2 checkpoints were rerun with Ultralytics `YOLO.val`; predictions were generated with Ultralytics `YOLO.predict(conf=0.10)`.
+- Official val fixed-vs-clean deltas:
+  - seed0 `-0.0060/-0.0068/+0.0090/+0.0136`.
+  - seed1 `+0.0127/+0.0528/+0.0284/+0.0390`.
+  - seed2 `+0.0674/-0.0423/-0.0110/-0.0257`.
+- Official predict + saved RC threshold table pass count: `1/3`.
+- RC seed0 fails Precision: delta `-0.0666/+0.0321/+0.0054/-0.0095`.
+- RC seed1 passes: delta `+0.0496/+0.0501/+0.0395/+0.0289`.
+- RC seed2 fails Precision: delta `-0.0148/+0.0655/+0.0435/+0.0096`.
+- Conclusion: the saved unified RC threshold table is too recall-aggressive. The earlier 3/3 post-hoc conclusion does not hold under the official predict post-processing validation; next step is threshold re-optimization with stronger Precision guard, not training.
+<!-- CATF_V2_RC_OFFICIAL_PATH_VALIDATION_END -->

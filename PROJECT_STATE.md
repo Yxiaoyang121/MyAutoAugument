@@ -944,3 +944,24 @@ The repository is centered on diagnosis-driven augmentation for industrial defec
 - CATF-v2-RC definition: fixed CATF-v2 + per-class constrained threshold calibration + class-level rollback/high-recall protection.
 - Caveat: RC calibration metrics are post-hoc prediction-evaluator metrics and must be confirmed against the official validation/export path before final paper claims.
 <!-- CATF_V2_RC_SEED0_CALIBRATION_ROLLBACK_END -->
+
+<!-- CATF_V2_RC_OFFICIAL_PATH_VALIDATION_START -->
+## CATF-v2-RC Official Val/Predict Path Validation
+
+- Scope: validation/inference only; no training was run.
+- Script: `scripts/validate_catf_v2_rc_official_path.py`.
+- Threshold config validated: `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/catf_v2_rc_per_class_thresholds.json`.
+- Output report: `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/catf_v2_rc_official_path_validation.md`.
+- Output JSON: `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/catf_v2_rc_official_path_validation.json`.
+- Fixed CATF-v2 best checkpoints for seeds `0/1/2` were rerun through Ultralytics `YOLO.val` and `YOLO.predict(conf=0.10)`.
+- Official Ultralytics val confirms fixed CATF-v2 training metrics:
+  - seed0 fixed vs clean delta P/R/mAP50/mAP50-95: `-0.0060/-0.0068/+0.0090/+0.0136`.
+  - seed1 fixed vs clean delta P/R/mAP50/mAP50-95: `+0.0127/+0.0528/+0.0284/+0.0390`.
+  - seed2 fixed vs clean delta P/R/mAP50/mAP50-95: `+0.0674/-0.0423/-0.0110/-0.0257`.
+- Official predict + per-class threshold post-processing with the saved unified RC threshold table passes only `1/3` seeds, not `3/3`.
+- RC failures:
+  - seed0 fails Precision after threshold lowering: delta P/R/mAP50/mAP50-95 `-0.0666/+0.0321/+0.0054/-0.0095`.
+  - seed2 fails Precision after threshold lowering: delta P/R/mAP50/mAP50-95 `-0.0148/+0.0655/+0.0435/+0.0096`.
+  - seed1 passes with delta `+0.0496/+0.0501/+0.0395/+0.0289`.
+- Interpretation: the previous post-hoc per-seed/RC search remains useful, but the single robust threshold table is too recall-aggressive for seed0 and seed2. Do not claim CATF-v2-RC is 3/3 ready until the official path threshold table is re-optimized or made seed/model-specific with stronger Precision guard.
+<!-- CATF_V2_RC_OFFICIAL_PATH_VALIDATION_END -->

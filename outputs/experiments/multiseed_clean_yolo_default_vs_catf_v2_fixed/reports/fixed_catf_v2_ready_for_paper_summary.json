@@ -138,5 +138,9 @@
       "9:轮廓划伤",
       "12:锡膏"
     ]
-  }
+  },
+  "superseded_by_official_path_validation": true,
+  "official_path_validation_report": "outputs\\experiments\\multiseed_clean_yolo_default_vs_catf_v2_fixed\\reports\\catf_v2_rc_official_path_validation.md",
+  "official_path_rc_constraint_pass_count": 1,
+  "current_threshold_table_ready_for_paper": false
 }

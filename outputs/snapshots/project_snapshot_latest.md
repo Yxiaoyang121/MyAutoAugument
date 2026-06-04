@@ -1,8 +1,8 @@
 # Project Snapshot
 
-- Generated: 2026-06-04T12:02:48
+- Generated: 2026-06-04T12:21:47
 - Branch: codex/sync-latest
-- Commit: 3c8eb5b0ff34c86cfb96bf96b888f9b0dc23c1cc
+- Commit: 09ebaaa211d41908f3b479a02919a5c9c7f0514a
 - Remote: https://github.com/Yxiaoyang121/MyAutoAugument.git
 
 ## Working Tree
@@ -11,22 +11,16 @@
  M CODEX_HANDOFF.md
  M EXPERIMENT_LOG.md
  M PROJECT_STATE.md
-?? AutoAugment/catf_v2/per_class_thresholds.py
-?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/catf_v2_rc_final_candidate_plan.json
-?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/catf_v2_rc_final_candidate_plan.md
-?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/catf_v2_rc_per_class_thresholds.json
-?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/fixed_catf_v2_class_level_rollback_simulation.json
-?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/fixed_catf_v2_class_level_rollback_simulation.md
-?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/fixed_catf_v2_ready_for_paper_summary.json
-?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/fixed_catf_v2_ready_for_paper_summary.md
-?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/fixed_catf_v2_threshold_calibration_all_seeds.json
-?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/fixed_catf_v2_threshold_calibration_all_seeds.md
-?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/seed0_failure_analysis.json
-?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/seed0_failure_analysis.md
-?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/seed0_threshold_calibration_posthoc.json
-?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/seed0_threshold_calibration_posthoc.md
-?? scripts/refine_fixed_catf_v2_seed0_calibration_and_rollback.py
-?? tests/test_catf_v2_per_class_thresholds.py
+ M outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/catf_v2_rc_final_candidate_plan.json
+ M outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/catf_v2_rc_final_candidate_plan.md
+ M outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/fixed_catf_v2_ready_for_paper_summary.json
+ M outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/fixed_catf_v2_ready_for_paper_summary.md
+ M outputs/project_snapshot_latest.md
+ M outputs/snapshots/project_snapshot_latest.md
+?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/catf_v2_rc_official_path_validation.json
+?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/catf_v2_rc_official_path_validation.md
+?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/catf_v2_rc_official_path_validation/
+?? scripts/validate_catf_v2_rc_official_path.py
 ```
 
 ## Key Files
@@ -231,7 +225,7 @@
 
 ## Tracked File Count
 
-- 4185 tracked files
+- 4201 tracked files
 
 ## Notes
 

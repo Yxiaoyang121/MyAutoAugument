@@ -1,5 +1,7 @@
 # Fixed CATF-v2 Ready-For-Paper Summary
 
+> Superseded note: later official `YOLO.val` + `YOLO.predict` path validation of the saved unified threshold table found CATF-v2-RC passes only `1/3` seeds. Use `catf_v2_rc_official_path_validation.md` for current claims about deployment thresholds.
+
 This summary uses the RC post-hoc threshold selector. No training was run.
 
 ## Final Groups

@@ -1,5 +1,7 @@
 # CATF-v2-RC Final Candidate Plan
 
+> Superseded note: later official `YOLO.val` + `YOLO.predict` path validation of the saved unified threshold table found CATF-v2-RC passes only `1/3` seeds. The RC plan remains useful as a design direction, but the saved threshold table needs stronger Precision guard before paper-ready claims.
+
 CATF-v2-RC = fixed CATF-v2 + per-class constrained threshold calibration + class-level rollback / high-recall protection.
 
 ## Why Fixed CATF-v2 Is Not A Failure

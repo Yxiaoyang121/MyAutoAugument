@@ -851,3 +851,22 @@ No training was run after building or auditing these datasets.
 - Recommended method name: `CATF-v2-RC = fixed CATF-v2 + per-class constrained threshold calibration + class-level rollback/high-recall protection`.
 - Next safest verification: confirm the RC threshold table in the official validation/export path before making final paper claims; do not run broad new multiseed training unless official threshold validation exposes a mismatch.
 <!-- CATF_V2_RC_SEED0_CALIBRATION_ROLLBACK_END -->
+
+<!-- CATF_V2_RC_OFFICIAL_PATH_VALIDATION_START -->
+## CATF-v2-RC Official Val/Predict Path Validation
+
+- Scope: validation/inference only; no training was run.
+- Script: `scripts/validate_catf_v2_rc_official_path.py`.
+- Report: `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/catf_v2_rc_official_path_validation.md`.
+- JSON: `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/catf_v2_rc_official_path_validation.json`.
+- Validated config: `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/catf_v2_rc_per_class_thresholds.json`.
+- Method: reran fixed seed0/1/2 `best.pt` with Ultralytics `YOLO.val`; then ran `YOLO.predict(conf=0.10)` and applied the saved per-class threshold table in post-processing.
+- Result: saved unified CATF-v2-RC threshold table passes only `1/3` seeds in the official predict post-processing path.
+- Passing seed: seed1.
+- Failing seeds: seed0 and seed2, both due Precision dropping beyond tolerance after aggressive threshold lowering.
+- Key deltas under official predict + RC post-processing:
+  - seed0 `-0.0666/+0.0321/+0.0054/-0.0095`, fails Precision.
+  - seed1 `+0.0496/+0.0501/+0.0395/+0.0289`, passes.
+  - seed2 `-0.0148/+0.0655/+0.0435/+0.0096`, fails Precision.
+- Handoff instruction: treat the earlier `fixed_catf_v2_ready_for_paper_summary.md` as superseded by this official path validation for claims about the saved unified threshold table. Next work should re-optimize thresholds with a stronger Precision guard or use per-seed/model-specific threshold configs; do not run training unless explicitly requested.
+<!-- CATF_V2_RC_OFFICIAL_PATH_VALIDATION_END -->

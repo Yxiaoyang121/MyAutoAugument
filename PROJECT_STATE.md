@@ -899,3 +899,25 @@ The repository is centered on diagnosis-driven augmentation for industrial defec
 - Interpretation: diagnosis-only already showed the callback itself is neutral; CATF-v2 noop now shows the custom CATF-v2 framework path is also neutral when augmentation/policy mutation are hard-disabled. Seed1 CATF-v2 gain is therefore not explained by no-op framework perturbation, but still cannot be attributed to ROI augmentation for that seed because actual ROI/industrial counters were zero.
 - Seed1 noop report: `outputs/experiments/catf_v2_noop_control_50ep/reports/noop_control_seed1_report.md`.
 <!-- CATF_V2_NOOP_PARITY_AUDIT_END -->
+
+<!-- FIXED_CATF_V2_SEED2_THRESHOLD_ANALYSIS_START -->
+## Fixed CATF-v2 Seed2 Failure and Threshold Calibration Analysis
+
+- Scope: analysis only; no training was run and CATF-v2 rules were not changed.
+- Source experiment: `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/`.
+- Analysis script: `scripts/analyze_fixed_catf_v2_seed2_and_thresholds.py`.
+- Generated reports:
+  - `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/seed2_failure_analysis.md`
+  - `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/fixed_threshold_calibration_posthoc.md`
+  - `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/fixed_vs_old_catf_v2_analysis.md`
+  - `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/fixed_catf_v2_next_step_summary.md`
+- Fixed multiseed status before post-hoc calibration: seed0 and seed1 pass constraints; seed2 fails with Precision up but Recall/mAP down.
+- Seed2 fixed CATF-v2 vs clean native delta P/R/mAP50/mAP50-95: `+0.0674/-0.0423/-0.0110/-0.0257`.
+- Seed2 main failure mode: CATF-v2 shifted an already high-recall clean seed toward fewer, more precise detections; active ROI targets did not fully match the final degraded classes.
+- Seed2 Recall drop classes: `浅划伤`, `轮廓划伤`, `加强筋打伤`, `漏背锡`, `锡膏`.
+- Seed2 AP/mAP drag classes include `锡丝残留`, `脏污`, `锡膏`, `轮廓划伤`, `开裂`, `加强筋打伤`.
+- Seed2 active classes: class `9` 轮廓划伤, class `11` 锡尖, class `8` 脏污; ROI applied totals: class `9`=`25`, class `11`=`59`, class `8`=`6`.
+- Post-hoc per-class threshold calibration: seed2 is repairable in the analysis evaluator (`constraint_failed=false`, Recall delta `+0.0667`, mAP50 delta `+0.0452`, mAP50-95 delta `+0.0112`).
+- Calibrated fixed CATF-v2 constraint pass count remains `2/3` under the post-hoc evaluator because seed0 still violates the mAP50-95 tolerance.
+- Recommendation: fixed CATF-v2 is a strong candidate, but not yet a finalized stable paper main method. Next implementation work should prioritize class-level rollback, negative-effect attribution, high-recall baseline protection, and a more conservative threshold-calibration objective.
+<!-- FIXED_CATF_V2_SEED2_THRESHOLD_ANALYSIS_END -->

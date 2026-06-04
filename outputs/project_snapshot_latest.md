@@ -1,8 +1,8 @@
 # Project Snapshot
 
-- Generated: 2026-06-04T10:12:52
+- Generated: 2026-06-04T11:07:15
 - Branch: codex/sync-latest
-- Commit: dfcd177fa058046073e9b8e87dc8052b7b705f9a
+- Commit: 6930dd4324ac4c6fac3f4ff7cec5e6a30958b023
 - Remote: https://github.com/Yxiaoyang121/MyAutoAugument.git
 
 ## Working Tree
@@ -11,9 +11,16 @@
  M CODEX_HANDOFF.md
  M EXPERIMENT_LOG.md
  M PROJECT_STATE.md
- M outputs/project_snapshot_latest.md
- M outputs/snapshots/project_snapshot_latest.md
-?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/
+?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/fixed_catf_v2_next_step_summary.json
+?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/fixed_catf_v2_next_step_summary.md
+?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/fixed_threshold_calibration_posthoc.json
+?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/fixed_threshold_calibration_posthoc.md
+?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/fixed_threshold_posthoc_predictions/
+?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/fixed_vs_old_catf_v2_analysis.json
+?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/fixed_vs_old_catf_v2_analysis.md
+?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/seed2_failure_analysis.json
+?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/seed2_failure_analysis.md
+?? scripts/analyze_fixed_catf_v2_seed2_and_thresholds.py
 ```
 
 ## Key Files
@@ -218,7 +225,7 @@
 
 ## Tracked File Count
 
-- 3807 tracked files
+- 4170 tracked files
 
 ## Notes
 

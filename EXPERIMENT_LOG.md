@@ -1228,3 +1228,22 @@ Key conclusions from that archived smoke:
 - Interpretation: diagnosis-only already showed the callback itself is neutral; CATF-v2 noop now shows the custom CATF-v2 framework path is also neutral when augmentation/policy mutation are hard-disabled. Seed1 CATF-v2 gain is therefore not explained by no-op framework perturbation, but still cannot be attributed to ROI augmentation for that seed because actual ROI/industrial counters were zero.
 - Seed1 noop report: `outputs/experiments/catf_v2_noop_control_50ep/reports/noop_control_seed1_report.md`.
 <!-- CATF_V2_NOOP_PARITY_AUDIT_END -->
+
+<!-- FIXED_CATF_V2_SEED2_THRESHOLD_ANALYSIS_START -->
+## Fixed CATF-v2 Seed2 Failure and Threshold Calibration Analysis
+
+- Date: `2026-06-04`.
+- Scope: analysis-only; no train command was run.
+- Source: `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/`.
+- Script: `D:\Anaconda\envs\pytorch\python.exe scripts\analyze_fixed_catf_v2_seed2_and_thresholds.py`.
+- Reports:
+  - `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/seed2_failure_analysis.md`
+  - `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/fixed_threshold_calibration_posthoc.md`
+  - `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/fixed_vs_old_catf_v2_analysis.md`
+  - `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/fixed_catf_v2_next_step_summary.md`
+- Seed2 fixed CATF-v2 result vs clean: P/R/mAP50/mAP50-95 delta `+0.0674/-0.0423/-0.0110/-0.0257`; constraint failed due mAP drops.
+- Failure diagnosis: CATF-v2 made seed2 more precision-oriented on a high-recall clean baseline, with Recall loss in `浅划伤`, `轮廓划伤`, `加强筋打伤`, `漏背锡`, `锡膏` and AP/localization loss in `锡丝残留`, `脏污`, `锡膏`, `轮廓划伤`, `开裂`, `加强筋打伤`.
+- Seed2 active classes were class `9` 轮廓划伤, class `11` 锡尖, and class `8` 脏污; ROI was not aligned with all final degraded classes.
+- Post-hoc threshold calibration repairs seed2 in the analysis evaluator, but fixed CATF-v2 calibrated pass count remains `2/3` because seed0 still fails mAP50-95.
+- Conclusion: fixed CATF-v2 is a strong candidate and threshold calibration is useful, but the method should not yet be described as stably superior to clean YOLO default.
+<!-- FIXED_CATF_V2_SEED2_THRESHOLD_ANALYSIS_END -->

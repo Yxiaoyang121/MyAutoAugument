@@ -1,0 +1,13 @@
+{
+  "fixed_catf_v2_as_main_method": "candidate_not_final",
+  "seed2_failure_main_cause": "CATF-v2 seed2 shifts the model toward higher Precision but lower Recall/localization quality on an already strong clean baseline; active ROI targets do not fully match the final degraded classes.",
+  "seed2_repaired_by_threshold_calibration": true,
+  "threshold_calibrated_pass_count": 2,
+  "recommended_positioning": "Fixed CATF-v2 is a stronger candidate, but not a fully stable main method yet; next work should add class-level rollback/negative-effect attribution and improve calibration for remaining failing seeds.",
+  "next_changes_if_needed": [
+    "class-level rollback",
+    "negative effect attribution",
+    "high-recall baseline protection",
+    "threshold calibration as deployment layer"
+  ]
+}

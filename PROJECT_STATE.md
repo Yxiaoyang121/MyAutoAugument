@@ -6,6 +6,29 @@ Last updated: 2026-06-04
 
 The repository is centered on diagnosis-driven augmentation for industrial defect detection. The active path still keeps YOLO network architecture unchanged and focuses on dataset construction, validation-error diagnosis, policy generation, proxy safety, short training, and auditable reporting.
 
+## Official-Path CATF-v2 Threshold Re-optimization (2026-06-04)
+
+- No training was run.
+- Analysis path: `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/`.
+- Script: `scripts/reoptimize_catf_v2_thresholds_official_path.py`.
+- Evaluation source: existing official Ultralytics `YOLO.predict(conf=0.10)` outputs plus the official-path post-processing evaluator; the old cached post-hoc evaluator is not used as the final judge.
+- Pass counts under industrial constraints:
+  - fixed CATF-v2 without RC: `2/3`.
+  - old saved unified RC thresholds (`catf_v2_rc_per_class_thresholds.json`): `1/3`.
+  - reoptimized unified precision-guard RC: `2/3`.
+  - per-seed RC: `3/3`.
+  - conservative default RC: `2/3`.
+- Reoptimized unified thresholds cannot make all three seeds pass. Seed0 remains just outside the mAP50-95 guard (`delta mAP50-95=-0.0108`), so unified CATF-v2-RC should not be claimed as a stable 3/3 main method.
+- Per-seed calibration can pass `3/3`, so RC is best framed as deployment/model-specific threshold calibration, not as the core training method.
+- The old RC failed because it lowered many classes to `0.10`, including high-FP-prior or FP-sensitive classes, causing Precision failures on seed0 and seed2.
+- Recommended paper line: fixed CATF-v2 remains the training/augmentation method; threshold calibration is a deployment-time companion and an official-path ablation, not the headline method claim.
+- Outputs:
+  - `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/official_threshold_reoptimization.md`
+  - `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/official_threshold_reoptimization.json`
+  - `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/unified_precision_guard_thresholds.json`
+  - `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/per_seed_thresholds.json`
+  - `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/conservative_default_thresholds.json`
+
 ## Fixed CATF-v2 Multiseed Validation (2026-06-04)
 
 - Run group: `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/`.

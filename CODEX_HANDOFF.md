@@ -12,6 +12,22 @@ The project is a diagnosis-driven augmentation pipeline for industrial defect de
 
 ## Current CATF-v2 Finding
 
+- Official-path threshold re-optimization is complete and must be treated as the current threshold-calibration result.
+- Report: `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/official_threshold_reoptimization.md`.
+- JSON: `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/official_threshold_reoptimization.json`.
+- Threshold artifacts:
+  - `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/unified_precision_guard_thresholds.json`
+  - `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/per_seed_thresholds.json`
+  - `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/conservative_default_thresholds.json`
+- Pass counts on the official predict/val path:
+  - fixed CATF-v2 without RC: `2/3`.
+  - old saved unified RC: `1/3`.
+  - reoptimized unified precision-guard RC: `2/3`.
+  - per-seed RC: `3/3`.
+  - conservative default RC: `2/3`.
+- A single unified CATF-v2-RC threshold table does not achieve 3/3 under official-path constraints. The best unified table still leaves seed0 slightly outside the mAP50-95 guard.
+- Per-seed threshold calibration can achieve 3/3, but should be positioned as deployment/model-specific calibration rather than the core training method.
+- Do not cite the old cached post-hoc RC 3/3 result as a paper claim. The official path supersedes it.
 - CATF-v2 no-op trainer parity is clean, and diagnosis-only parity is clean.
 - The formal CATF-v2 transform no-augmentation path has been fixed to be a strict no-op.
 - `scripts/audit_catf_v2_transform_parity.py` compares clean YOLO default, CATF-v2 noop, and CATF-v2 formal-force-skip on 100 deterministic train samples.

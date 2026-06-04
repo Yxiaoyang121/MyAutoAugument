@@ -1,8 +1,8 @@
 # Project Snapshot
 
-- Generated: 2026-06-04T12:21:47
+- Generated: 2026-06-04T12:58:09
 - Branch: codex/sync-latest
-- Commit: 09ebaaa211d41908f3b479a02919a5c9c7f0514a
+- Commit: e6acbceae994b5c5bcc395eb4e597ac607a5298c
 - Remote: https://github.com/Yxiaoyang121/MyAutoAugument.git
 
 ## Working Tree
@@ -11,16 +11,12 @@
  M CODEX_HANDOFF.md
  M EXPERIMENT_LOG.md
  M PROJECT_STATE.md
- M outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/catf_v2_rc_final_candidate_plan.json
- M outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/catf_v2_rc_final_candidate_plan.md
- M outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/fixed_catf_v2_ready_for_paper_summary.json
- M outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/fixed_catf_v2_ready_for_paper_summary.md
- M outputs/project_snapshot_latest.md
- M outputs/snapshots/project_snapshot_latest.md
-?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/catf_v2_rc_official_path_validation.json
-?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/catf_v2_rc_official_path_validation.md
-?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/catf_v2_rc_official_path_validation/
-?? scripts/validate_catf_v2_rc_official_path.py
+?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/conservative_default_thresholds.json
+?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/official_threshold_reoptimization.json
+?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/official_threshold_reoptimization.md
+?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/per_seed_thresholds.json
+?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/unified_precision_guard_thresholds.json
+?? scripts/reoptimize_catf_v2_thresholds_official_path.py
 ```
 
 ## Key Files
@@ -225,7 +221,7 @@
 
 ## Tracked File Count
 
-- 4201 tracked files
+- 4216 tracked files
 
 ## Notes
 

@@ -2,6 +2,48 @@
 
 ## 2026-06-04
 
+### Official-Path CATF-v2 Threshold Re-optimization
+
+No training was run. Re-optimized per-class thresholds using existing official Ultralytics `YOLO.predict(conf=0.10)` outputs and the official-path post-processing evaluator, not the old cached post-hoc evaluator.
+
+Inputs:
+
+- Run group: `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/`
+- Existing official prediction outputs from `catf_v2_rc_official_path_validation/`
+- Clean native official val metrics
+- Fixed CATF-v2 official val metrics
+- Old saved `catf_v2_rc_per_class_thresholds.json`
+
+Script:
+
+- `scripts/reoptimize_catf_v2_thresholds_official_path.py`
+
+Pass counts:
+
+| Scheme | Pass count | Note |
+|---|---:|---|
+| fixed CATF-v2 without RC | 2/3 | official Ultralytics val constraints |
+| old unified RC | 1/3 | saved `catf_v2_rc_per_class_thresholds.json` |
+| reoptimized unified RC | 2/3 | one threshold table for all seeds |
+| per-seed RC | 3/3 | model/seed-specific deployment calibration |
+| conservative default RC | 2/3 | limited threshold changes, high-FP-prior protected |
+
+Key conclusions:
+
+- There is no unified threshold table found in the official path that makes CATF-v2-RC pass 3/3 seeds.
+- The best unified precision-guard table passes seed1 and seed2, but seed0 still fails the mAP50-95 guard by a small margin.
+- Per-seed calibration can pass 3/3, so RC should be framed as deployment/model-specific calibration rather than the core training method.
+- The old RC failed because it lowered many classes to `0.10`, including FP-sensitive classes, creating Precision failures on seed0 and seed2.
+- Recommended paper mainline: fixed CATF-v2 is the training method; threshold calibration is a deployment-time companion and official-path ablation.
+
+Outputs:
+
+- `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/official_threshold_reoptimization.md`
+- `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/official_threshold_reoptimization.json`
+- `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/unified_precision_guard_thresholds.json`
+- `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/per_seed_thresholds.json`
+- `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/conservative_default_thresholds.json`
+
 ### Fixed CATF-v2 Multiseed Validation
 
 Ran fixed CATF-v2 seed0 and seed2 after the strict no-augmentation bypass repair, reusing clean native seed0/1/2 and the already completed fixed seed1 run.

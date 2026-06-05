@@ -12,6 +12,24 @@ The project is a diagnosis-driven augmentation pipeline for industrial defect de
 
 ## Current CATF-v2 Finding
 
+- Full multiseed CATF-v2-Safe validation completed at `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_safe/`.
+- Safe seed0/1 were newly run for 50 epochs; Safe seed2 reuses the completed `outputs/experiments/catf_v2_safe_seed2_50ep/` run through `seed_2/catf_v2_safe/` summary/link artifacts.
+- CATF-v2-Safe metrics:
+  - seed0: Precision=0.7846, Recall=0.6765, mAP50=0.7347, mAP50-95=0.4759, `constraint_failed=false`.
+  - seed1: Precision=0.7725, Recall=0.6477, mAP50=0.7542, mAP50-95=0.4799, `constraint_failed=false`.
+  - seed2: Precision=0.6962, Recall=0.7286, mAP50=0.7692, mAP50-95=0.5224, `constraint_failed=false`.
+- Safe vs clean deltas are all `0.0000`, so Safe achieves `3/3` constraint pass by reproducing clean native YOLO default on every seed.
+- Fixed CATF-v2 was `1/3` failed; Safe is now `0/3` failed.
+- Safe triggered `early_abstention_no_recall_or_map_gain` no-op fallback at epoch 5 on seed0, seed1, and seed2.
+- Industrial samples augmented=0, ROI applied=0, and router random draws=0 for all three Safe seeds.
+- Active class proposals before fallback: seed0 class 11/class 4, seed1 class 11/class 4, seed2 class 9.
+- OK3 remained inactive and OK3 ROI applied remained 0.
+- Critical interpretation: Safe protects seed2 and passes all constraints, but it is over-conservative. It does not preserve fixed CATF-v2's seed0 mAP gains or seed1 all-metric gains. Treat CATF-v2-Safe as a conservative safety/protection variant or fallback layer, not as the sole paper main augmentation method.
+- New reports:
+  - `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_safe/reports/multiseed_catf_v2_safe_summary.md`
+  - `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_safe/reports/multiseed_catf_v2_safe_summary.json`
+- Verification completed for this run: requested `py_compile` checks passed and the requested CATF-v2/feedback/online augmentation pytest subset passed with `89 passed`.
+
 - CATF-v2-Safe has been implemented and seed2 has been validated.
 - Safe mode adds high-recall baseline protection, negative-effect attribution, early abstention, safe accept guards, and strict no-op fallback.
 - The seed2 design report is:
@@ -614,7 +632,7 @@ No training was run after building or auditing these datasets.
 - Current CATF-v2 work is smoke-only; no formal 50 epoch CATF-v2 run should be inferred from it.
 - No-feedback control disables both feedback and industrial augmentation, using Ultralytics YOLO default augmentation as the behavior check.
 - The old YOLO default reference is not the final baseline after parity audit; feedback comparisons should use `clean_native_yolo_default_seed42_50ep`.
-- Output: `outputs/experiments/catf_v2/`
+- Output: `outputs/experiments/catf_v2_safe/`
 - Epochs: `50`
 - Feedback enabled: `true`
 - Industrial augmentation enabled: `true`
@@ -629,9 +647,9 @@ No training was run after building or auditing these datasets.
 - Train image count: `2301`
 - Fixed augmented dataset generated: `false`
 - Constraint baseline: `clean_native_yolo_default`
-- Constraint failed: `True`
-- Report: `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/seed_2/catf_v2/reports/final_report.md`
-- Policy history: `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/seed_2/catf_v2/reports/policy_history.json`
+- Constraint failed: `False`
+- Report: `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_safe/seed_1/catf_v2_safe/reports/final_report.md`
+- Policy history: `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_safe/seed_1/catf_v2_safe/reports/policy_history.json`
 <!-- YOLO_DEFAULT_INLOOP_FEEDBACK_SMOKE_END -->
 <!-- YOLO_DEFAULT_INLOOP_PARITY_AUDIT_START -->
 ## YOLO Default In-Loop Parity Audit

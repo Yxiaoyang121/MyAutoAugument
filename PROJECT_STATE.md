@@ -1,10 +1,33 @@
 ﻿# Project State
 
-Last updated: 2026-06-04
+Last updated: 2026-06-05
 
 ## Current Position
 
 The repository is centered on diagnosis-driven augmentation for industrial defect detection. The active path still keeps YOLO network architecture unchanged and focuses on dataset construction, validation-error diagnosis, policy generation, proxy safety, short training, and auditable reporting.
+
+## CATF-v2-Safe Multiseed Validation (2026-06-05)
+
+- Run group: `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_safe/`.
+- Newly completed CATF-v2-Safe seed0 and seed1 50ep runs; reused the completed seed2 Safe 50ep run via `seed_2/catf_v2_safe/` summary/link artifacts.
+- Configuration stayed within the industrial protocol: `yolo11n.pt`, tiled safe no-OK-position dataset, epochs=50, imgsz=1024, batch=2, workers=0, device=0, YOLO default augmentation enabled, no fixed augmented dataset, no copy-paste, train images=2301, and single-run continuous results.csv epochs 1..50.
+- CATF-v2-Safe final metrics:
+  - seed0: P=0.7846, R=0.6765, mAP50=0.7347, mAP50-95=0.4759, constraint_failed=false.
+  - seed1: P=0.7725, R=0.6477, mAP50=0.7542, mAP50-95=0.4799, constraint_failed=false.
+  - seed2: P=0.6962, R=0.7286, mAP50=0.7692, mAP50-95=0.5224, constraint_failed=false.
+- Safe vs clean native YOLO default deltas are exactly 0.0000 for all four metrics on all three seeds.
+- Constraint status improved from fixed CATF-v2 `1/3` failed to CATF-v2-Safe `0/3` failed, so Safe achieves `3/3` industrial constraint pass.
+- Important tradeoff: Safe triggered early-abstention no-op fallback at epoch 5 on all seeds. Industrial samples augmented=0, ROI applied=0, and router random draws=0 for seed0/1/2.
+- Active class proposals before fallback:
+  - seed0: class 11 and class 4.
+  - seed1: class 11 and class 4.
+  - seed2: class 9.
+- OK3 remained inactive and OK3 ROI applied remained 0 across all Safe runs.
+- Seed0 passed constraints but lost fixed CATF-v2's mAP gains; seed1 also passed constraints but did not retain fixed CATF-v2's clear improvement. Seed2 was protected exactly as intended through clean parity.
+- Interpretation: CATF-v2-Safe is effective as a conservative safety/protection layer and fixes seed2, but it is too conservative to serve as the sole paper main augmentation method because it also abstains on seed0/seed1 and removes valid fixed CATF-v2 gains.
+- Reports:
+  - `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_safe/reports/multiseed_catf_v2_safe_summary.md`
+  - `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_safe/reports/multiseed_catf_v2_safe_summary.json`
 
 ## CATF-v2-Safe Seed2 Validation (2026-06-04)
 
@@ -717,7 +740,7 @@ The repository is centered on diagnosis-driven augmentation for industrial defec
 - Current CATF-v2 work is smoke-only; no formal 50 epoch CATF-v2 run should be inferred from it.
 - No-feedback control disables both feedback and industrial augmentation, using Ultralytics YOLO default augmentation as the behavior check.
 - The old YOLO default reference is not the final baseline after parity audit; feedback comparisons should use `clean_native_yolo_default_seed42_50ep`.
-- Output: `outputs/experiments/catf_v2/`
+- Output: `outputs/experiments/catf_v2_safe/`
 - Epochs: `50`
 - Feedback enabled: `true`
 - Industrial augmentation enabled: `true`
@@ -732,9 +755,9 @@ The repository is centered on diagnosis-driven augmentation for industrial defec
 - Train image count: `2301`
 - Fixed augmented dataset generated: `false`
 - Constraint baseline: `clean_native_yolo_default`
-- Constraint failed: `True`
-- Report: `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/seed_2/catf_v2/reports/final_report.md`
-- Policy history: `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/seed_2/catf_v2/reports/policy_history.json`
+- Constraint failed: `False`
+- Report: `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_safe/seed_1/catf_v2_safe/reports/final_report.md`
+- Policy history: `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_safe/seed_1/catf_v2_safe/reports/policy_history.json`
 <!-- YOLO_DEFAULT_INLOOP_FEEDBACK_SMOKE_END -->
 <!-- YOLO_DEFAULT_INLOOP_PARITY_AUDIT_START -->
 ## YOLO Default In-Loop Parity Audit

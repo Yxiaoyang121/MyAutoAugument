@@ -1,0 +1,198 @@
+{
+  "method": "heuristic_diagnostic_advisor",
+  "issues": [
+    {
+      "issue": "low_contrast_fn_high",
+      "severity": "high",
+      "observed_rate": 0.6158536585365854,
+      "recommendations": [
+        "increase_contrast",
+        "increase_gamma",
+        "increase_clahe",
+        "use_sharpen"
+      ]
+    },
+    {
+      "issue": "exposure_fn_high",
+      "severity": "medium",
+      "dark_rate": 0.49390243902439024,
+      "bright_rate": 0.012195121951219513,
+      "recommendations": [
+        "brightness",
+        "gamma",
+        "exposure_jitter"
+      ]
+    },
+    {
+      "issue": "class_recall_imbalance",
+      "severity": "medium",
+      "classes": [
+        {
+          "class_id": 3,
+          "class_name": "开裂",
+          "fn_rate": 1.0
+        },
+        {
+          "class_id": 4,
+          "class_name": "油污",
+          "fn_rate": 0.6666666666666666
+        },
+        {
+          "class_id": 5,
+          "class_name": "浅划伤",
+          "fn_rate": 0.46153846153846156
+        }
+      ],
+      "recommendations": [
+        "class_aware_sampling",
+        "increase_samples_for_low_recall_classes",
+        "class_weighted_policy"
+      ]
+    },
+    {
+      "issue": "false_positive_high",
+      "severity": "medium",
+      "fp_count": 314,
+      "recommendations": [
+        "add_hard_negative_tiles",
+        "keep_some_empty_tiles",
+        "reduce_strong_noise_texture"
+      ]
+    }
+  ],
+  "main_issues": [
+    {
+      "issue": "low_contrast_fn_high",
+      "severity": "high",
+      "observed_rate": 0.6158536585365854,
+      "recommendations": [
+        "increase_contrast",
+        "increase_gamma",
+        "increase_clahe",
+        "use_sharpen"
+      ]
+    },
+    {
+      "issue": "exposure_fn_high",
+      "severity": "medium",
+      "dark_rate": 0.49390243902439024,
+      "bright_rate": 0.012195121951219513,
+      "recommendations": [
+        "brightness",
+        "gamma",
+        "exposure_jitter"
+      ]
+    },
+    {
+      "issue": "class_recall_imbalance",
+      "severity": "medium",
+      "classes": [
+        {
+          "class_id": 3,
+          "class_name": "开裂",
+          "fn_rate": 1.0
+        },
+        {
+          "class_id": 4,
+          "class_name": "油污",
+          "fn_rate": 0.6666666666666666
+        },
+        {
+          "class_id": 5,
+          "class_name": "浅划伤",
+          "fn_rate": 0.46153846153846156
+        }
+      ],
+      "recommendations": [
+        "class_aware_sampling",
+        "increase_samples_for_low_recall_classes",
+        "class_weighted_policy"
+      ]
+    },
+    {
+      "issue": "false_positive_high",
+      "severity": "medium",
+      "fp_count": 314,
+      "recommendations": [
+        "add_hard_negative_tiles",
+        "keep_some_empty_tiles",
+        "reduce_strong_noise_texture"
+      ]
+    }
+  ],
+  "fallback_used": false,
+  "advisor_search_space": {
+    "allowed_operations": [
+      "brightness",
+      "contrast",
+      "gamma",
+      "gaussian_noise",
+      "gaussian_blur",
+      "motion_blur",
+      "sharpen",
+      "clahe",
+      "cutout",
+      "horizontal_flip",
+      "translate",
+      "scale",
+      "rotate",
+      "affine"
+    ],
+    "operation_weights": {
+      "brightness": 1.8,
+      "contrast": 2.2,
+      "gamma": 1.7,
+      "gaussian_noise": 0.4,
+      "gaussian_blur": 1.0,
+      "motion_blur": 1.0,
+      "sharpen": 1.6,
+      "clahe": 2.2,
+      "cutout": 0.6,
+      "horizontal_flip": 1.0,
+      "translate": 1.0,
+      "scale": 1.0,
+      "rotate": 1.0,
+      "affine": 1.0
+    },
+    "strength_ranges": {
+      "contrast": [
+        0.1,
+        0.65
+      ],
+      "gamma": [
+        0.1,
+        0.6
+      ],
+      "clahe": [
+        0.1,
+        0.7
+      ],
+      "brightness": [
+        0.1,
+        0.55
+      ]
+    },
+    "prob_ranges": {},
+    "forbidden_combinations": [
+      [
+        "gaussian_blur",
+        "motion_blur"
+      ],
+      [
+        "gaussian_noise",
+        "motion_blur",
+        "gaussian_blur"
+      ]
+    ],
+    "max_ops_per_policy": 4,
+    "comments": [
+      "False negatives are often low contrast; contrast/gamma/CLAHE are weighted up.",
+      "Some classes have higher FN rates; use class-aware sampling outside the random operation sampler.",
+      "False positives are non-trivial; consider hard-negative tiles and avoid strong synthetic texture."
+    ]
+  },
+  "notes": [
+    "This is a heuristic diagnosis, not reinforcement learning or automatic proof of improvement.",
+    "Validate any suggested policy against a no-augmentation baseline."
+  ]
+}

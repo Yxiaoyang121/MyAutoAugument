@@ -1,5 +1,54 @@
 # Experiment Log
 
+## 2026-06-05
+
+### CATF-v2-Safe Full Multiseed Validation
+
+Completed full multiseed CATF-v2-Safe validation for seeds 0, 1, and 2.
+
+Run group:
+
+- `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_safe/`
+
+Execution:
+
+- Newly ran CATF-v2-Safe seed0 and seed1 50ep under the required in-loop entrypoint.
+- Reused the completed seed2 Safe 50ep result through `seed_2/catf_v2_safe/` link/copy artifacts.
+- Training protocol: `yolo11n.pt`, `outputs/datasets/tiled/tiled_1024_ov20_full_safe_no_ok_position/data.yaml`, epochs=50, imgsz=1024, batch=2, workers=0, device=0, seed-specific clean reference curves, YOLO default augmentation enabled, no fixed augmented dataset, no copy-paste, train images=2301.
+- Each Safe run has `results.csv` epochs 1..50 continuous and no stage restart.
+
+Metrics:
+
+| Seed | Clean P | Clean R | Clean mAP50 | Clean mAP50-95 | Fixed P | Fixed R | Fixed mAP50 | Fixed mAP50-95 | Safe P | Safe R | Safe mAP50 | Safe mAP50-95 | Safe constraint_failed |
+|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
+| 0 | 0.7846 | 0.6765 | 0.7347 | 0.4759 | 0.7785 | 0.6697 | 0.7437 | 0.4895 | 0.7846 | 0.6765 | 0.7347 | 0.4759 | false |
+| 1 | 0.7725 | 0.6477 | 0.7542 | 0.4799 | 0.7852 | 0.7005 | 0.7826 | 0.5189 | 0.7725 | 0.6477 | 0.7542 | 0.4799 | false |
+| 2 | 0.6962 | 0.7286 | 0.7692 | 0.5224 | 0.7637 | 0.6863 | 0.7582 | 0.4967 | 0.6962 | 0.7286 | 0.7692 | 0.5224 | false |
+
+Findings:
+
+- Safe vs clean deltas are `0.0000/0.0000/0.0000/0.0000` for Precision, Recall, mAP50, and mAP50-95 on all seeds.
+- Safe constraint_failed count is `0/3`, improved from fixed CATF-v2 `1/3`.
+- Safe reached `3/3` pass by early-abstention no-op fallback at epoch 5 on all seeds.
+- Industrial samples augmented=0, ROI applied=0, and router random draws=0 for seed0/1/2.
+- Active proposals before fallback: seed0 class 11/class 4, seed1 class 11/class 4, seed2 class 9.
+- OK3 was never active and OK3 ROI applied was 0.
+- Seed0 did not preserve fixed CATF-v2's mAP gains; seed1 did not preserve fixed CATF-v2's all-metric gains. Seed2 was protected exactly as intended.
+- Recommendation: CATF-v2-Safe should be described as a conservative safety/protection variant or fallback layer. It is not strong enough as the sole paper main augmentation method because it removes valid seed0/seed1 fixed CATF-v2 gains.
+
+Reports:
+
+- `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_safe/reports/multiseed_catf_v2_safe_summary.md`
+- `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_safe/reports/multiseed_catf_v2_safe_summary.json`
+
+Verification:
+
+- `python -m py_compile AutoAugment/catf_v2/sample_router.py`
+- `python -m py_compile AutoAugment/catf_v2/policy_matrix.py`
+- `python -m py_compile scripts/train_yolo_default_with_inloop_feedback.py`
+- `pytest -q tests/test_catf_v2_safe_controller.py tests/test_catf_v2_transform_bypass.py tests/test_catf_v2_activation_rules.py tests/test_catf_v2_per_class_diagnosis.py tests/test_catf_v2_policy_matrix.py tests/test_catf_v2_sample_router.py tests/test_catf_v2_roi_augmentation.py tests/test_catf_v2_threshold_calibration.py tests/test_feedback_policy_guard.py tests/test_feedback_policy_controller.py tests/test_inloop_feedback_training.py tests/test_online_augmentation.py tests/test_proxy_prefilter.py tests/test_copy_paste.py`
+- Result: `89 passed`.
+
 ## 2026-06-04
 
 ### CATF-v2-Safe Seed2 Validation
@@ -1104,7 +1153,7 @@ Key conclusions from that archived smoke:
 - Current CATF-v2 work is smoke-only; no formal 50 epoch CATF-v2 run should be inferred from it.
 - No-feedback control disables both feedback and industrial augmentation, using Ultralytics YOLO default augmentation as the behavior check.
 - The old YOLO default reference is not the final baseline after parity audit; feedback comparisons should use `clean_native_yolo_default_seed42_50ep`.
-- Output: `outputs/experiments/catf_v2/`
+- Output: `outputs/experiments/catf_v2_safe/`
 - Epochs: `50`
 - Feedback enabled: `true`
 - Industrial augmentation enabled: `true`
@@ -1119,9 +1168,9 @@ Key conclusions from that archived smoke:
 - Train image count: `2301`
 - Fixed augmented dataset generated: `false`
 - Constraint baseline: `clean_native_yolo_default`
-- Constraint failed: `True`
-- Report: `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/seed_2/catf_v2/reports/final_report.md`
-- Policy history: `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/seed_2/catf_v2/reports/policy_history.json`
+- Constraint failed: `False`
+- Report: `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_safe/seed_1/catf_v2_safe/reports/final_report.md`
+- Policy history: `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_safe/seed_1/catf_v2_safe/reports/policy_history.json`
 <!-- YOLO_DEFAULT_INLOOP_FEEDBACK_SMOKE_END -->
 <!-- YOLO_DEFAULT_INLOOP_PARITY_AUDIT_START -->
 ## YOLO Default In-Loop Parity Audit

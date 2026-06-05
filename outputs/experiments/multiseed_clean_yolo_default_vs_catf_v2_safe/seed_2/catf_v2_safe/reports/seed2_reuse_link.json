@@ -1,0 +1,8 @@
+{
+  "seed": 2,
+  "reuse_source": "outputs\\experiments\\catf_v2_safe_seed2_50ep",
+  "note": "CATF-v2-Safe seed2 50ep run was completed before this multiseed summary and is reused here.",
+  "source_final_metrics": "outputs\\experiments\\catf_v2_safe_seed2_50ep\\reports\\final_metrics.json",
+  "source_results_csv": "outputs\\experiments\\catf_v2_safe_seed2_50ep\\train\\results.csv",
+  "source_final_report": "outputs\\experiments\\catf_v2_safe_seed2_50ep\\reports\\final_report.md"
+}

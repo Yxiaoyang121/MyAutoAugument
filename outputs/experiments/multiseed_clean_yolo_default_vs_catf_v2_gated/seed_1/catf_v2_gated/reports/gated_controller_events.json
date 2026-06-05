@@ -1,0 +1,354 @@
+{
+  "events": [
+    {
+      "epoch": 5,
+      "catf_gated_mode": true,
+      "gate_phase": "epoch5_observe",
+      "metrics": {
+        "precision": 0.52472,
+        "recall": 0.38057,
+        "map50": 0.35714,
+        "map50_95": 0.21955
+      },
+      "reference_metrics": {
+        "precision": 0.52472,
+        "recall": 0.38057,
+        "map50": 0.35714,
+        "map50_95": 0.21955
+      },
+      "delta_metrics": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "map50": 0.0,
+        "map50_95": 0.0
+      },
+      "proposed_action": "accept",
+      "active_classes": [
+        4,
+        11
+      ],
+      "triggered": false,
+      "action": "observe",
+      "reasons": [],
+      "bad_patterns": [],
+      "positive_gain": false,
+      "previous_positive_gain": null,
+      "no_positive_gain_streak": 1,
+      "severe_degradation": false,
+      "fallback_active_before": false,
+      "fallback_active_after": false,
+      "industrial_aug_forced_noop": false,
+      "roi_aug_forced_noop": false,
+      "strict_noop": false
+    },
+    {
+      "epoch": 10,
+      "catf_gated_mode": true,
+      "gate_phase": "first_formal_gate",
+      "metrics": {
+        "precision": 0.64308,
+        "recall": 0.52104,
+        "map50": 0.52851,
+        "map50_95": 0.31802
+      },
+      "reference_metrics": {
+        "precision": 0.58297,
+        "recall": 0.529,
+        "map50": 0.50905,
+        "map50_95": 0.30616
+      },
+      "delta_metrics": {
+        "precision": 0.06011,
+        "recall": -0.007960000000000078,
+        "map50": 0.019460000000000033,
+        "map50_95": 0.011860000000000037
+      },
+      "proposed_action": "observe",
+      "active_classes": [
+        11
+      ],
+      "triggered": false,
+      "action": "gate_continue",
+      "reasons": [],
+      "bad_patterns": [],
+      "positive_gain": true,
+      "previous_positive_gain": false,
+      "no_positive_gain_streak": 0,
+      "severe_degradation": false,
+      "fallback_active_before": false,
+      "fallback_active_after": false,
+      "industrial_aug_forced_noop": false,
+      "roi_aug_forced_noop": false,
+      "strict_noop": false,
+      "protected_pattern": "seed0_like_map_gain"
+    },
+    {
+      "epoch": 15,
+      "catf_gated_mode": true,
+      "gate_phase": "monitor",
+      "metrics": {
+        "precision": 0.49437,
+        "recall": 0.58372,
+        "map50": 0.54088,
+        "map50_95": 0.33824
+      },
+      "reference_metrics": {
+        "precision": 0.58403,
+        "recall": 0.53691,
+        "map50": 0.55771,
+        "map50_95": 0.34161
+      },
+      "delta_metrics": {
+        "precision": -0.08966000000000007,
+        "recall": 0.04681000000000002,
+        "map50": -0.01683000000000001,
+        "map50_95": -0.0033700000000000396
+      },
+      "proposed_action": "shrink",
+      "active_classes": [
+        11
+      ],
+      "triggered": false,
+      "action": "gate_continue",
+      "reasons": [],
+      "bad_patterns": [],
+      "positive_gain": false,
+      "previous_positive_gain": true,
+      "no_positive_gain_streak": 1,
+      "severe_degradation": false,
+      "fallback_active_before": false,
+      "fallback_active_after": false,
+      "industrial_aug_forced_noop": false,
+      "roi_aug_forced_noop": false,
+      "strict_noop": false
+    },
+    {
+      "epoch": 20,
+      "catf_gated_mode": true,
+      "gate_phase": "monitor",
+      "metrics": {
+        "precision": 0.48527,
+        "recall": 0.62476,
+        "map50": 0.60031,
+        "map50_95": 0.3977
+      },
+      "reference_metrics": {
+        "precision": 0.61505,
+        "recall": 0.62255,
+        "map50": 0.60204,
+        "map50_95": 0.38584
+      },
+      "delta_metrics": {
+        "precision": -0.12978,
+        "recall": 0.0022099999999999342,
+        "map50": -0.0017300000000000093,
+        "map50_95": 0.011859999999999982
+      },
+      "proposed_action": "shrink",
+      "active_classes": [],
+      "triggered": false,
+      "action": "gate_continue",
+      "reasons": [],
+      "bad_patterns": [],
+      "positive_gain": true,
+      "previous_positive_gain": false,
+      "no_positive_gain_streak": 0,
+      "severe_degradation": false,
+      "fallback_active_before": false,
+      "fallback_active_after": false,
+      "industrial_aug_forced_noop": false,
+      "roi_aug_forced_noop": false,
+      "strict_noop": false
+    },
+    {
+      "epoch": 25,
+      "catf_gated_mode": true,
+      "gate_phase": "monitor",
+      "metrics": {
+        "precision": 0.5792,
+        "recall": 0.59666,
+        "map50": 0.62441,
+        "map50_95": 0.39062
+      },
+      "reference_metrics": {
+        "precision": 0.71541,
+        "recall": 0.55099,
+        "map50": 0.61058,
+        "map50_95": 0.3851
+      },
+      "delta_metrics": {
+        "precision": -0.13620999999999994,
+        "recall": 0.04566999999999999,
+        "map50": 0.013830000000000009,
+        "map50_95": 0.005520000000000025
+      },
+      "proposed_action": "shrink",
+      "active_classes": [],
+      "triggered": false,
+      "action": "gate_continue",
+      "reasons": [],
+      "bad_patterns": [],
+      "positive_gain": true,
+      "previous_positive_gain": true,
+      "no_positive_gain_streak": 0,
+      "severe_degradation": false,
+      "fallback_active_before": false,
+      "fallback_active_after": false,
+      "industrial_aug_forced_noop": false,
+      "roi_aug_forced_noop": false,
+      "strict_noop": false
+    },
+    {
+      "epoch": 30,
+      "catf_gated_mode": true,
+      "gate_phase": "monitor",
+      "metrics": {
+        "precision": 0.70931,
+        "recall": 0.59124,
+        "map50": 0.66271,
+        "map50_95": 0.42118
+      },
+      "reference_metrics": {
+        "precision": 0.72395,
+        "recall": 0.64418,
+        "map50": 0.71701,
+        "map50_95": 0.46425
+      },
+      "delta_metrics": {
+        "precision": -0.014639999999999986,
+        "recall": -0.05293999999999999,
+        "map50": -0.054300000000000015,
+        "map50_95": -0.04307
+      },
+      "proposed_action": "shrink",
+      "active_classes": [],
+      "triggered": false,
+      "action": "gate_continue",
+      "reasons": [],
+      "bad_patterns": [],
+      "positive_gain": false,
+      "previous_positive_gain": true,
+      "no_positive_gain_streak": 1,
+      "severe_degradation": true,
+      "fallback_active_before": false,
+      "fallback_active_after": false,
+      "industrial_aug_forced_noop": false,
+      "roi_aug_forced_noop": false,
+      "strict_noop": false
+    },
+    {
+      "epoch": 35,
+      "catf_gated_mode": true,
+      "gate_phase": "monitor",
+      "metrics": {
+        "precision": 0.67832,
+        "recall": 0.69783,
+        "map50": 0.73534,
+        "map50_95": 0.4878
+      },
+      "reference_metrics": {
+        "precision": 0.75408,
+        "recall": 0.64917,
+        "map50": 0.71952,
+        "map50_95": 0.46908
+      },
+      "delta_metrics": {
+        "precision": -0.07575999999999994,
+        "recall": 0.048659999999999926,
+        "map50": 0.015819999999999945,
+        "map50_95": 0.018720000000000014
+      },
+      "proposed_action": "shrink",
+      "active_classes": [],
+      "triggered": false,
+      "action": "gate_continue",
+      "reasons": [],
+      "bad_patterns": [],
+      "positive_gain": true,
+      "previous_positive_gain": false,
+      "no_positive_gain_streak": 0,
+      "severe_degradation": false,
+      "fallback_active_before": false,
+      "fallback_active_after": false,
+      "industrial_aug_forced_noop": false,
+      "roi_aug_forced_noop": false,
+      "strict_noop": false
+    },
+    {
+      "epoch": 40,
+      "catf_gated_mode": true,
+      "gate_phase": "monitor",
+      "metrics": {
+        "precision": 0.64586,
+        "recall": 0.64609,
+        "map50": 0.67877,
+        "map50_95": 0.43329
+      },
+      "reference_metrics": {
+        "precision": 0.64491,
+        "recall": 0.63083,
+        "map50": 0.6639,
+        "map50_95": 0.42895
+      },
+      "delta_metrics": {
+        "precision": 0.0009500000000000064,
+        "recall": 0.015260000000000051,
+        "map50": 0.014869999999999939,
+        "map50_95": 0.0043400000000000105
+      },
+      "proposed_action": "freeze",
+      "active_classes": [],
+      "triggered": false,
+      "action": "gate_continue",
+      "reasons": [],
+      "bad_patterns": [],
+      "positive_gain": true,
+      "previous_positive_gain": true,
+      "no_positive_gain_streak": 0,
+      "severe_degradation": false,
+      "fallback_active_before": false,
+      "fallback_active_after": false,
+      "industrial_aug_forced_noop": false,
+      "roi_aug_forced_noop": false,
+      "strict_noop": false
+    },
+    {
+      "epoch": 45,
+      "catf_gated_mode": true,
+      "gate_phase": "monitor",
+      "metrics": {
+        "precision": 0.67487,
+        "recall": 0.71844,
+        "map50": 0.75402,
+        "map50_95": 0.49436
+      },
+      "reference_metrics": {
+        "precision": 0.66928,
+        "recall": 0.72503,
+        "map50": 0.69559,
+        "map50_95": 0.44787
+      },
+      "delta_metrics": {
+        "precision": 0.005589999999999984,
+        "recall": -0.006589999999999985,
+        "map50": 0.05842999999999998,
+        "map50_95": 0.04649000000000003
+      },
+      "proposed_action": "freeze",
+      "active_classes": [],
+      "triggered": false,
+      "action": "gate_continue",
+      "reasons": [],
+      "bad_patterns": [],
+      "positive_gain": true,
+      "previous_positive_gain": true,
+      "no_positive_gain_streak": 0,
+      "severe_degradation": false,
+      "fallback_active_before": false,
+      "fallback_active_after": false,
+      "industrial_aug_forced_noop": false,
+      "roi_aug_forced_noop": false,
+      "strict_noop": false
+    }
+  ]
+}

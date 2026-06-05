@@ -1,20 +1,27 @@
 # Project Snapshot
 
-- Generated: 2026-06-05T16:21:48
+- Generated: 2026-06-06T06:51:46
 - Branch: codex/sync-latest
-- Commit: 6dfc9bcf45e4d9989321330b469bce6f025483f8
+- Commit: ff77080a1046f3bdb05da10b5c1904c803380491
 - Remote: https://github.com/Yxiaoyang121/MyAutoAugument.git
 
 ## Working Tree
 
 ```text
+ M AutoAugment/catf_v2/__init__.py
  M CODEX_HANDOFF.md
  M EXPERIMENT_LOG.md
  M PROJECT_STATE.md
  M outputs/project_snapshot_latest.md
  M outputs/snapshots/project_snapshot_latest.md
-?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_safe/
-?? scripts/summarize_catf_v2_safe_multiseed.py
+ M scripts/train_yolo_default_with_inloop_feedback.py
+?? AutoAugment/catf_v2/gated_controller.py
+?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/gated_controller_retrospective_simulation.json
+?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/gated_controller_retrospective_simulation.md
+?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_gated/
+?? scripts/simulate_catf_v2_gated_controller_retrospective.py
+?? scripts/summarize_catf_v2_gated_multiseed.py
+?? tests/test_catf_v2_gated_controller.py
 ```
 
 ## Key Files
@@ -219,7 +226,7 @@
 
 ## Tracked File Count
 
-- 4455 tracked files
+- 4834 tracked files
 
 ## Notes
 

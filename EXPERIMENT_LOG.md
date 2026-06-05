@@ -1,5 +1,65 @@
 # Experiment Log
 
+## 2026-06-06
+
+### CATF-v2-Gated Controller and Full Multiseed Validation
+
+Implemented `--catf-gated-mode true` as a separate CATF-v2 controller path. Safe mode was preserved and remains available through `--catf-safe-mode true`.
+
+Controller behavior:
+
+- epoch 5 is an observation point and does not fallback on no-gain alone.
+- epoch 10 is the first formal gate.
+- strict no-op fallback uses the existing CATF-v2 no-op policy path and keeps labels/Instances untouched after fallback.
+- gate decisions are written into `policy_history`.
+
+Retrospective simulation:
+
+- Reports:
+  - `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/gated_controller_retrospective_simulation.md`
+  - `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/gated_controller_retrospective_simulation.json`
+- Result: predicted seed0 no fallback, seed1 no fallback, seed2 fallback at epoch 10, expected `3/3` constraint pass.
+- Overfit assessment in the report: no seed-id or class-id hardcoding, but the thresholds are still derived from the current three-seed failure analysis and need broader validation.
+
+Full multiseed run:
+
+- Run group: `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_gated/`
+- Seeds: 0, 1, 2
+- Training protocol: `yolo11n.pt`, `outputs/datasets/tiled/tiled_1024_ov20_full_safe_no_ok_position/data.yaml`, epochs=50, imgsz=1024, batch=2, workers=0, device=0, seed-specific clean reference curves, YOLO default augmentation enabled, no fixed augmented dataset, no copy-paste, train images=2301.
+- All Gated runs have `results.csv` epochs 1..50 continuous.
+
+Metrics:
+
+| Seed | Clean P | Clean R | Clean mAP50 | Clean mAP50-95 | Fixed P | Fixed R | Fixed mAP50 | Fixed mAP50-95 | Safe P | Safe R | Safe mAP50 | Safe mAP50-95 | Gated P | Gated R | Gated mAP50 | Gated mAP50-95 | Gated constraint_failed |
+|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
+| 0 | 0.7846 | 0.6765 | 0.7347 | 0.4759 | 0.7785 | 0.6697 | 0.7437 | 0.4895 | 0.7846 | 0.6765 | 0.7347 | 0.4759 | 0.7785 | 0.6697 | 0.7437 | 0.4895 | false |
+| 1 | 0.7725 | 0.6477 | 0.7542 | 0.4799 | 0.7852 | 0.7005 | 0.7826 | 0.5189 | 0.7725 | 0.6477 | 0.7542 | 0.4799 | 0.7852 | 0.7005 | 0.7826 | 0.5189 | false |
+| 2 | 0.6962 | 0.7286 | 0.7692 | 0.5224 | 0.7637 | 0.6863 | 0.7582 | 0.4967 | 0.6962 | 0.7286 | 0.7692 | 0.5224 | 0.7850 | 0.6795 | 0.7521 | 0.5083 | true |
+
+Findings:
+
+- CATF-v2-Gated retained fixed CATF-v2 gains on seed0 and seed1.
+- Seed0: industrial samples=41, ROI applied=45, no fallback.
+- Seed1: industrial samples=55, ROI applied=56, no fallback.
+- Seed2 triggered fallback at epoch 10 with reason `epoch10_bad_pattern_A`; from `active_policy_epoch_010.json` onward all op probabilities are 0.
+- Seed2 still failed constraints: delta vs clean is Precision +0.0887, Recall -0.0491, mAP50 -0.0171, mAP50-95 -0.0141.
+- Seed2 total pre-fallback augmentation was industrial samples=22, router draws=1540, ROI applied=25. The post-fallback no-op is strict, but it cannot undo the already-applied tentative augmentation.
+- OK3 was never active and OK3 ROI applied was 0 across all Gated runs.
+- Actual Gated constraint_failed count is `1/3`, so Gated did not achieve `3/3`.
+- Critical interpretation: the retrospective simulation was overly optimistic because it treated epoch10 fallback as selecting clean fallback. In real single-run training, fallback at epoch10 cannot rewind model/optimizer/EMA state after epochs 6-10 have already updated under tentative augmentation.
+- Recommendation: CATF-v2-Gated is not ready as the paper main method. It is useful evidence that seed0/seed1 gains can be preserved, but the seed2 result requires either pre-application gating or auditable in-run rollback before claiming a robust main method.
+
+Reports:
+
+- `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_gated/reports/multiseed_catf_v2_gated_summary.md`
+- `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_gated/reports/multiseed_catf_v2_gated_summary.json`
+
+Verification:
+
+- `python -m py_compile AutoAugment/catf_v2/sample_router.py AutoAugment/catf_v2/policy_matrix.py AutoAugment/catf_v2/gated_controller.py scripts/train_yolo_default_with_inloop_feedback.py scripts/simulate_catf_v2_gated_controller_retrospective.py scripts/summarize_catf_v2_gated_multiseed.py`
+- `pytest -q tests/test_catf_v2_gated_controller.py tests/test_catf_v2_safe_controller.py tests/test_catf_v2_transform_bypass.py tests/test_catf_v2_activation_rules.py tests/test_catf_v2_per_class_diagnosis.py tests/test_catf_v2_policy_matrix.py tests/test_catf_v2_sample_router.py tests/test_catf_v2_roi_augmentation.py tests/test_catf_v2_threshold_calibration.py tests/test_feedback_policy_guard.py tests/test_feedback_policy_controller.py tests/test_inloop_feedback_training.py tests/test_online_augmentation.py tests/test_proxy_prefilter.py tests/test_copy_paste.py`
+- Result: `99 passed`.
+
 ## 2026-06-05
 
 ### CATF-v2-Safe Full Multiseed Validation
@@ -1153,7 +1213,7 @@ Key conclusions from that archived smoke:
 - Current CATF-v2 work is smoke-only; no formal 50 epoch CATF-v2 run should be inferred from it.
 - No-feedback control disables both feedback and industrial augmentation, using Ultralytics YOLO default augmentation as the behavior check.
 - The old YOLO default reference is not the final baseline after parity audit; feedback comparisons should use `clean_native_yolo_default_seed42_50ep`.
-- Output: `outputs/experiments/catf_v2_safe/`
+- Output: `outputs/experiments/catf_v2_gated/`
 - Epochs: `50`
 - Feedback enabled: `true`
 - Industrial augmentation enabled: `true`
@@ -1168,9 +1228,9 @@ Key conclusions from that archived smoke:
 - Train image count: `2301`
 - Fixed augmented dataset generated: `false`
 - Constraint baseline: `clean_native_yolo_default`
-- Constraint failed: `False`
-- Report: `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_safe/seed_1/catf_v2_safe/reports/final_report.md`
-- Policy history: `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_safe/seed_1/catf_v2_safe/reports/policy_history.json`
+- Constraint failed: `True`
+- Report: `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_gated/seed_2/catf_v2_gated/reports/final_report.md`
+- Policy history: `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_gated/seed_2/catf_v2_gated/reports/policy_history.json`
 <!-- YOLO_DEFAULT_INLOOP_FEEDBACK_SMOKE_END -->
 <!-- YOLO_DEFAULT_INLOOP_PARITY_AUDIT_START -->
 ## YOLO Default In-Loop Parity Audit

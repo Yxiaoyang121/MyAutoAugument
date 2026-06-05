@@ -1,0 +1,13 @@
+epoch,class_id,action,op,field,before,after,reason,guard_triggered
+5,9,accept,sharpen_mild,prob,0.0,0.015,texture_boundary_weak,
+5,9,accept,sharpen_mild,strength,0.0,0.02,texture_boundary_weak,
+5,9,accept,local_contrast,prob,0.0,0.015,texture_boundary_weak,
+5,9,accept,local_contrast,strength,0.0,0.02,texture_boundary_weak,
+10,,no_op_freeze,,,,,,"global_map50_guard,global_map95_guard,epoch10_bad_pattern_A,bad_pattern_A,bad_pattern_B"
+15,,no_op_freeze,,,,,,"global_precision_guard,epoch10_bad_pattern_A"
+20,,no_op_freeze,,,,,,"global_precision_guard,global_map50_guard,epoch10_bad_pattern_A"
+25,,no_op_freeze,,,,,,epoch10_bad_pattern_A
+30,,no_op_freeze,,,,,,epoch10_bad_pattern_A
+35,,no_op_freeze,,,,,,epoch10_bad_pattern_A
+40,,no_op_freeze,,,,,,"epoch_ge_40,epoch10_bad_pattern_A"
+45,,no_op_freeze,,,,,,"epoch_ge_40,epoch10_bad_pattern_A"

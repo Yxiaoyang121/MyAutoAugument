@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from AutoAugment.catf_v2.class_aware_controller import ClassAwareCATFController
+from AutoAugment.catf_v2.gated_controller import CATFGatedController
 from AutoAugment.catf_v2.issue_attribution import attribute_class_issues
 from AutoAugment.catf_v2.per_class_diagnosis import build_per_class_diagnosis, count_train_instances
 from AutoAugment.catf_v2.policy_matrix import (
@@ -14,6 +15,7 @@ from AutoAugment.catf_v2.threshold_calibration import ThresholdCalibrationAnalyz
 
 __all__ = [
     "CATF_V2_OPS",
+    "CATFGatedController",
     "ClassAwareCATFController",
     "ClassAwarePolicyMatrix",
     "CATFSafeController",

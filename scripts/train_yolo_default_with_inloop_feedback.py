@@ -27,6 +27,7 @@ from AutoAugment.diagnostics.yolo_error_analysis import load_class_names_from_da
 from AutoAugment.feedback_policy_controller import FeedbackPolicyController, default_catf_policy  # noqa: E402
 from AutoAugment.online_augmentation import OnlineAugmentationStats, OnlinePolicyAugmentor  # noqa: E402
 from AutoAugment.catf_v2 import (  # noqa: E402
+    CATFGatedController,
     CATFSafeController,
     ClassAwareCATFController,
     ROIStats,
@@ -34,6 +35,7 @@ from AutoAugment.catf_v2 import (  # noqa: E402
     count_train_instances,
     initial_policy_matrix,
 )
+from AutoAugment.catf_v2.gated_controller import annotate_policy_history_with_gate  # noqa: E402
 from AutoAugment.catf_v2.class_aware_controller import build_sample_weight_map  # noqa: E402
 from AutoAugment.catf_v2.issue_attribution import attribute_class_issues  # noqa: E402
 from AutoAugment.catf_v2.per_class_diagnosis import build_per_class_diagnosis  # noqa: E402
@@ -81,8 +83,10 @@ class InLoopFeedbackState:
     reference_curve: dict[int, dict[str, Any]] = field(default_factory=dict)
     feedback_controller: Any | None = None
     safe_controller: CATFSafeController | None = None
+    gated_controller: CATFGatedController | None = None
     history: list[dict[str, Any]] = field(default_factory=list)
     safe_events: list[dict[str, Any]] = field(default_factory=list)
+    gated_events: list[dict[str, Any]] = field(default_factory=list)
     epoch_records: list[dict[str, Any]] = field(default_factory=list)
     callback_invocations: int = 0
     train_start_time: float = field(default_factory=time.time)
@@ -160,6 +164,8 @@ def main() -> None:
     )
     if catf_v2_enabled and bool(args.catf_safe_mode):
         state.safe_controller = CATFSafeController()
+    if catf_v2_enabled and bool(args.catf_gated_mode):
+        state.gated_controller = CATFGatedController()
     if catf_v2_enabled:
         state.feedback_controller = ClassAwareCATFController(
             policy_state,
@@ -392,6 +398,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--catf-version", choices=["v1", "v2"], default="v1")
     parser.add_argument("--catf-noop", action=argparse.BooleanOptionalAction, default=False)
     parser.add_argument("--catf-safe-mode", action=argparse.BooleanOptionalAction, default=False)
+    parser.add_argument("--catf-gated-mode", action=argparse.BooleanOptionalAction, default=False)
     parser.add_argument("--class-aware-feedback", action=argparse.BooleanOptionalAction, default=False)
     parser.add_argument("--roi-aware-aug", action=argparse.BooleanOptionalAction, default=False)
     parser.add_argument("--sample-aware-routing", action=argparse.BooleanOptionalAction, default=False)
@@ -417,6 +424,7 @@ def normalize_bool_cli_args(argv: list[str]) -> list[str]:
         "--industrial-aug-enabled",
         "--catf-noop",
         "--catf-safe-mode",
+        "--catf-gated-mode",
         "--class-aware-feedback",
         "--roi-aware-aug",
         "--sample-aware-routing",
@@ -474,6 +482,7 @@ def build_train_config(args: argparse.Namespace, output_dir: Path) -> dict[str, 
         "catf_version": str(args.catf_version),
         "catf_noop": bool(args.catf_noop),
         "catf_safe_mode": bool(args.catf_safe_mode),
+        "catf_gated_mode": bool(args.catf_gated_mode),
         "class_aware_feedback": bool(args.class_aware_feedback),
         "roi_aware_aug": bool(args.roi_aware_aug),
         "sample_aware_routing": bool(args.sample_aware_routing),
@@ -530,6 +539,7 @@ def build_train_command(args: argparse.Namespace, output_dir: Path) -> str:
         f"catf_version={getattr(args, 'catf_version', 'v1')}",
         f"catf_noop={bool(getattr(args, 'catf_noop', False))}",
         f"catf_safe_mode={bool(getattr(args, 'catf_safe_mode', False))}",
+        f"catf_gated_mode={bool(getattr(args, 'catf_gated_mode', False))}",
         f"class_aware_feedback={bool(getattr(args, 'class_aware_feedback', False))}",
         f"roi_aware_aug={bool(getattr(args, 'roi_aware_aug', False))}",
         f"sample_aware_routing={bool(getattr(args, 'sample_aware_routing', False))}",
@@ -708,6 +718,29 @@ def register_inloop_feedback_callback(model: Any, state: InLoopFeedbackState) ->
                         )
                         controller.history[-1]["frozen"] = event_for_history.get("action") == "no_op_freeze"
                 state.safe_events = deepcopy(state.safe_controller.events)
+            gated_event: dict[str, Any] | None = None
+            if bool(getattr(state.args, "catf_gated_mode", False)):
+                if state.gated_controller is None:
+                    state.gated_controller = CATFGatedController()
+                latest_record = controller.history[-1] if controller.history else {}
+                per_class = {}
+                per_class_path = latest_record.get("per_class_diagnosis_path")
+                if per_class_path and Path(per_class_path).exists():
+                    per_class = read_json(Path(per_class_path))
+                gated_event = state.gated_controller.evaluate(
+                    epoch=epoch_num,
+                    policy=new_policy,
+                    metrics=metrics,
+                    reference_metrics=reference_metrics,
+                    per_class_diagnosis=per_class,
+                    active_classes=latest_record.get("active_classes", []),
+                    proposed_action=latest_record.get("action"),
+                )
+                new_policy = deepcopy(gated_event.get("policy", new_policy))
+                if hasattr(controller, "policy"):
+                    controller.policy.matrix = deepcopy(new_policy)
+                annotate_policy_history_with_gate(controller.history, gated_event, new_policy)
+                state.gated_events = deepcopy(state.gated_controller.events)
             state.policy_state.clear()
             state.policy_state.update(deepcopy(new_policy))
             state.context.augmentor.set_policy(new_policy)
@@ -1025,6 +1058,7 @@ def build_payload(
             "generated_at": datetime.now().isoformat(timespec="seconds"),
             "catf_noop": bool(getattr(args, "catf_noop", False)),
             "catf_safe_mode": bool(getattr(args, "catf_safe_mode", False)),
+            "catf_gated_mode": bool(getattr(args, "catf_gated_mode", False)),
             "noop_transform_calls": int(getattr(state.context, "noop_transform_calls", 0) or 0),
             "router_random_draw_count": int(getattr(state.context.augmentor, "random_draw_count", 0) or 0),
             "sample_router_built": bool(is_catf_v2(args)),
@@ -1066,6 +1100,7 @@ def build_payload(
         "catf_version": str(getattr(args, "catf_version", "v1")),
         "catf_noop": bool(getattr(args, "catf_noop", False)),
         "catf_safe_mode": bool(getattr(args, "catf_safe_mode", False)),
+        "catf_gated_mode": bool(getattr(args, "catf_gated_mode", False)),
         "class_aware_feedback": bool(getattr(args, "class_aware_feedback", False)),
         "roi_aware_aug": bool(getattr(args, "roi_aware_aug", False)),
         "sample_aware_routing": bool(getattr(args, "sample_aware_routing", False)),
@@ -1084,6 +1119,8 @@ def build_payload(
         "constraint_failed": constraint_scoring["constraint_failed"] if args.feedback_enabled else None,
         "safe_fallback_triggered": any(event.get("action") == "no_op_freeze" for event in state.safe_events),
         "safe_controller_events": str((output_dir / "reports" / "safe_controller_events.json").resolve()),
+        "gated_fallback_triggered": any(event.get("action") == "no_op_freeze" for event in state.gated_events),
+        "gated_controller_events": str((output_dir / "reports" / "gated_controller_events.json").resolve()),
     }
     catf_v2_summary = state.feedback_controller.summary() if is_catf_v2(args) and hasattr(state.feedback_controller, "summary") else {}
     return {
@@ -1103,6 +1140,7 @@ def build_payload(
         "catf_version": str(getattr(args, "catf_version", "v1")),
         "catf_noop": bool(getattr(args, "catf_noop", False)),
         "catf_safe_mode": bool(getattr(args, "catf_safe_mode", False)),
+        "catf_gated_mode": bool(getattr(args, "catf_gated_mode", False)),
         "class_aware_feedback": bool(getattr(args, "class_aware_feedback", False)),
         "roi_aware_aug": bool(getattr(args, "roi_aware_aug", False)),
         "sample_aware_routing": bool(getattr(args, "sample_aware_routing", False)),
@@ -1121,6 +1159,7 @@ def build_payload(
         "val": {"success": val_success, "error": val_error, "metrics": val_metrics},
         "policy_history": state.history,
         "safe_controller_events": state.safe_events,
+        "gated_controller_events": state.gated_events,
         "latest_policy_state": state.policy_state,
         "epoch_records": state.epoch_records,
         "online_aug_stats": stats,
@@ -1180,6 +1219,8 @@ def write_outputs(payload: dict[str, Any]) -> None:
     write_json(output_dir / "reports" / "constraint_scoring.json", payload["constraint_scoring"])
     if payload.get("catf_safe_mode"):
         write_json(output_dir / "reports" / "safe_controller_events.json", {"events": payload.get("safe_controller_events", [])})
+    if payload.get("catf_gated_mode"):
+        write_json(output_dir / "reports" / "gated_controller_events.json", {"events": payload.get("gated_controller_events", [])})
     if payload.get("catf_version") == "v2":
         write_catf_v2_history(output_dir / "reports", payload)
     else:
@@ -1445,6 +1486,7 @@ def build_catf_v2_smoke_report(payload: dict[str, Any]) -> str:
     roi_stats = payload.get("roi_aug_stats") or {}
     catf = payload.get("catf_v2") or {}
     safe_events = payload.get("safe_controller_events") or []
+    gated_events = payload.get("gated_controller_events") or []
     last = history[-1] if history else {}
     lines = [
         "# CATF-v2 Class-Aware Smoke Report",
@@ -1459,9 +1501,11 @@ def build_catf_v2_smoke_report(payload: dict[str, Any]) -> str:
         f"- ROI-aware augmentation enabled: `{str(payload.get('roi_aware_aug')).lower()}`",
         f"- Threshold calibration report enabled: `{str(payload.get('threshold_calibration_report', True)).lower()}`",
         f"- CATF-v2 safe mode enabled: `{str(payload.get('catf_safe_mode', False)).lower()}`",
+        f"- CATF-v2 gated mode enabled: `{str(payload.get('catf_gated_mode', False)).lower()}`",
         f"- Baseline protection triggered: `{str(any('baseline_protection' in ','.join(event.get('reasons', [])) for event in safe_events)).lower()}`",
         f"- Early abstention triggered: `{str(any('early_abstention' in ','.join(event.get('reasons', [])) for event in safe_events)).lower()}`",
         f"- No-op freeze entered: `{str(any(event.get('action') == 'no_op_freeze' for event in safe_events)).lower()}`",
+        f"- Gated no-op freeze entered: `{str(any(event.get('action') == 'no_op_freeze' for event in gated_events)).lower()}`",
         f"- Reference curve loaded: `{str(bool(payload.get('reference_curve_epochs'))).lower()}`",
         f"- Epoch 5 update happened: `{str(5 in payload['summary']['feedback_epochs']).lower()}`",
         f"- BBox/class legal: `{str(payload['summary']['bbox_class_valid']).lower()}`",
@@ -1493,6 +1537,7 @@ def build_catf_v2_smoke_report(payload: dict[str, Any]) -> str:
         f"- Online aug stats: `{payload['summary']['online_aug_stats']}`",
         f"- ROI aug stats: `{payload['summary'].get('roi_aug_stats')}`",
         f"- Safe controller events: `{payload['summary'].get('safe_controller_events')}`",
+        f"- Gated controller events: `{payload['summary'].get('gated_controller_events')}`",
         "",
         "## Next Step",
         "",
@@ -1580,6 +1625,7 @@ def build_final_report(payload: dict[str, Any]) -> str:
     deltas = scoring["deltas"]
     adjustment_counts = adjustment_direction_counts(payload.get("policy_history", []))
     safe_events = payload.get("safe_controller_events") or []
+    gated_events = payload.get("gated_controller_events") or []
     improved_p = (deltas.get("precision") or 0.0) > 0
     improved_r = (deltas.get("recall") or 0.0) > 0
     improved_map50 = (deltas.get("map50") or 0.0) > 0
@@ -1622,8 +1668,11 @@ def build_final_report(payload: dict[str, Any]) -> str:
         f"- Feedback enabled: `{str(payload['feedback_enabled']).lower()}`",
         f"- Feedback controller: `{payload.get('feedback_controller', 'CATF')}`",
         f"- CATF-v2 safe mode enabled: `{str(payload.get('catf_safe_mode', False)).lower()}`",
+        f"- CATF-v2 gated mode enabled: `{str(payload.get('catf_gated_mode', False)).lower()}`",
         f"- Safe no-op fallback triggered: `{str(any(event.get('action') == 'no_op_freeze' for event in safe_events)).lower()}`",
         f"- Safe controller reasons: `{safe_event_reasons(safe_events)}`",
+        f"- Gated no-op fallback triggered: `{str(any(event.get('action') == 'no_op_freeze' for event in gated_events)).lower()}`",
+        f"- Gated controller reasons: `{safe_event_reasons(gated_events)}`",
         f"- Reference curve loaded: `{str(payload.get('reference_curve_loaded', False)).lower()}`",
         f"- Reference curve path: `{payload.get('reference_curve_path')}`",
         f"- Feedback epochs: `{payload['summary']['feedback_epochs']}`",

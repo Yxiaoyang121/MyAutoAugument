@@ -1,0 +1,37 @@
+# Validation Error Diagnosis
+
+- Status: completed
+- TP: 724
+- FP: 272
+- FN: 164
+- Precision: 0.7269
+- Recall: 0.8000
+
+## Diagnosis Vector
+- small_object_score: 0.2479
+- low_contrast_score: 0.5445
+- class_imbalance_score: 0.9369
+- localization_score: 0.0188
+- false_positive_score: 0.2731
+
+## Issues
+- low_contrast_missed_defect severity=high suggestions=contrast, gamma, clahe, brightness, sharpen
+- low_contrast_missed_defect severity=medium suggestions=contrast, gamma, clahe, brightness, sharpen
+- class_imbalance severity=medium suggestions=class-aware-sampling, targeted-augmentation, class-balanced-policy
+- high_false_positive severity=medium suggestions=hard-negative-review, reduce-noise, reduce-blur, mild-lighting
+- localization_bias severity=medium suggestions=mild-scale, mild-translate, reduce-rotate, reduce-shear, reduce-perspective
+
+## Per-Class Summary
+- OK2: gt=64 tp=64 fp=17 fn=0 precision=0.7901 recall=1.0000
+- OK3: gt=274 tp=274 fp=67 fn=0 precision=0.8035 recall=1.0000
+- 加强筋打伤: gt=8 tp=7 fp=3 fn=1 precision=0.7000 recall=0.8750
+- 开裂: gt=2 tp=2 fp=4 fn=0 precision=0.3333 recall=1.0000
+- 油污: gt=18 tp=3 fp=21 fn=13 precision=0.1250 recall=0.1667
+- 浅划伤: gt=13 tp=8 fp=5 fn=5 precision=0.6154 recall=0.6154
+- 漏背锡: gt=46 tp=34 fp=16 fn=7 precision=0.6800 recall=0.7391
+- 碰伤: gt=269 tp=184 fp=81 fn=79 precision=0.6943 recall=0.6840
+- 脏污: gt=42 tp=26 fp=9 fn=16 precision=0.7429 recall=0.6190
+- 轮廓划伤: gt=84 tp=57 fp=31 fn=23 precision=0.6477 recall=0.6786
+- 锡丝残留: gt=12 tp=9 fp=5 fn=3 precision=0.6429 recall=0.7500
+- 锡尖: gt=27 tp=27 fp=3 fn=0 precision=0.9000 recall=1.0000
+- 锡膏: gt=46 tp=29 fp=10 fn=17 precision=0.7436 recall=0.6304

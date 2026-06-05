@@ -1,0 +1,367 @@
+{
+  "events": [
+    {
+      "epoch": 5,
+      "catf_gated_mode": true,
+      "gate_phase": "epoch5_observe",
+      "metrics": {
+        "precision": 0.55691,
+        "recall": 0.40929,
+        "map50": 0.36993,
+        "map50_95": 0.2199
+      },
+      "reference_metrics": {
+        "precision": 0.55691,
+        "recall": 0.40929,
+        "map50": 0.36993,
+        "map50_95": 0.2199
+      },
+      "delta_metrics": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "map50": 0.0,
+        "map50_95": 0.0
+      },
+      "proposed_action": "accept",
+      "active_classes": [
+        9
+      ],
+      "triggered": false,
+      "action": "observe",
+      "reasons": [],
+      "bad_patterns": [],
+      "positive_gain": false,
+      "previous_positive_gain": null,
+      "no_positive_gain_streak": 1,
+      "severe_degradation": false,
+      "fallback_active_before": false,
+      "fallback_active_after": false,
+      "industrial_aug_forced_noop": false,
+      "roi_aug_forced_noop": false,
+      "strict_noop": false
+    },
+    {
+      "epoch": 10,
+      "catf_gated_mode": true,
+      "gate_phase": "first_formal_gate",
+      "metrics": {
+        "precision": 0.67733,
+        "recall": 0.48265,
+        "map50": 0.51884,
+        "map50_95": 0.3119
+      },
+      "reference_metrics": {
+        "precision": 0.64056,
+        "recall": 0.52788,
+        "map50": 0.53959,
+        "map50_95": 0.32997
+      },
+      "delta_metrics": {
+        "precision": 0.03676999999999997,
+        "recall": -0.04522999999999999,
+        "map50": -0.020750000000000046,
+        "map50_95": -0.018069999999999975
+      },
+      "proposed_action": "shrink",
+      "active_classes": [],
+      "triggered": true,
+      "action": "no_op_freeze",
+      "reasons": [
+        "epoch10_bad_pattern_A"
+      ],
+      "bad_patterns": [
+        "bad_pattern_A",
+        "bad_pattern_B"
+      ],
+      "positive_gain": false,
+      "previous_positive_gain": false,
+      "no_positive_gain_streak": 2,
+      "severe_degradation": true,
+      "fallback_active_before": false,
+      "fallback_active_after": true,
+      "industrial_aug_forced_noop": true,
+      "roi_aug_forced_noop": true,
+      "strict_noop": true
+    },
+    {
+      "epoch": 15,
+      "catf_gated_mode": true,
+      "gate_phase": "monitor",
+      "metrics": {
+        "precision": 0.68928,
+        "recall": 0.53911,
+        "map50": 0.57646,
+        "map50_95": 0.35073
+      },
+      "reference_metrics": {
+        "precision": 0.74166,
+        "recall": 0.51226,
+        "map50": 0.57096,
+        "map50_95": 0.3514
+      },
+      "delta_metrics": {
+        "precision": -0.05237999999999998,
+        "recall": 0.02684999999999993,
+        "map50": 0.005499999999999949,
+        "map50_95": -0.0006700000000000039
+      },
+      "proposed_action": "shrink",
+      "active_classes": [],
+      "triggered": true,
+      "action": "no_op_freeze",
+      "reasons": [
+        "epoch10_bad_pattern_A"
+      ],
+      "bad_patterns": [],
+      "positive_gain": true,
+      "previous_positive_gain": false,
+      "no_positive_gain_streak": 0,
+      "severe_degradation": false,
+      "fallback_active_before": true,
+      "fallback_active_after": true,
+      "industrial_aug_forced_noop": true,
+      "roi_aug_forced_noop": true,
+      "strict_noop": true
+    },
+    {
+      "epoch": 20,
+      "catf_gated_mode": true,
+      "gate_phase": "monitor",
+      "metrics": {
+        "precision": 0.70573,
+        "recall": 0.56226,
+        "map50": 0.64404,
+        "map50_95": 0.40759
+      },
+      "reference_metrics": {
+        "precision": 0.71946,
+        "recall": 0.56093,
+        "map50": 0.65592,
+        "map50_95": 0.40923
+      },
+      "delta_metrics": {
+        "precision": -0.01373000000000002,
+        "recall": 0.0013299999999999423,
+        "map50": -0.011880000000000002,
+        "map50_95": -0.0016399999999999748
+      },
+      "proposed_action": "shrink",
+      "active_classes": [],
+      "triggered": true,
+      "action": "no_op_freeze",
+      "reasons": [
+        "epoch10_bad_pattern_A"
+      ],
+      "bad_patterns": [],
+      "positive_gain": false,
+      "previous_positive_gain": true,
+      "no_positive_gain_streak": 1,
+      "severe_degradation": false,
+      "fallback_active_before": true,
+      "fallback_active_after": true,
+      "industrial_aug_forced_noop": true,
+      "roi_aug_forced_noop": true,
+      "strict_noop": true
+    },
+    {
+      "epoch": 25,
+      "catf_gated_mode": true,
+      "gate_phase": "monitor",
+      "metrics": {
+        "precision": 0.63073,
+        "recall": 0.69774,
+        "map50": 0.71548,
+        "map50_95": 0.4611
+      },
+      "reference_metrics": {
+        "precision": 0.58109,
+        "recall": 0.72766,
+        "map50": 0.66478,
+        "map50_95": 0.40868
+      },
+      "delta_metrics": {
+        "precision": 0.04964000000000002,
+        "recall": -0.029919999999999947,
+        "map50": 0.05069999999999997,
+        "map50_95": 0.05242000000000002
+      },
+      "proposed_action": "observe",
+      "active_classes": [],
+      "triggered": true,
+      "action": "no_op_freeze",
+      "reasons": [
+        "epoch10_bad_pattern_A"
+      ],
+      "bad_patterns": [],
+      "positive_gain": true,
+      "previous_positive_gain": false,
+      "no_positive_gain_streak": 0,
+      "severe_degradation": false,
+      "fallback_active_before": true,
+      "fallback_active_after": true,
+      "industrial_aug_forced_noop": true,
+      "roi_aug_forced_noop": true,
+      "strict_noop": true
+    },
+    {
+      "epoch": 30,
+      "catf_gated_mode": true,
+      "gate_phase": "monitor",
+      "metrics": {
+        "precision": 0.63736,
+        "recall": 0.62168,
+        "map50": 0.67491,
+        "map50_95": 0.43778
+      },
+      "reference_metrics": {
+        "precision": 0.6374,
+        "recall": 0.67374,
+        "map50": 0.66525,
+        "map50_95": 0.42486
+      },
+      "delta_metrics": {
+        "precision": -3.999999999992898e-05,
+        "recall": -0.052059999999999995,
+        "map50": 0.009660000000000002,
+        "map50_95": 0.012919999999999987
+      },
+      "proposed_action": "observe",
+      "active_classes": [],
+      "triggered": true,
+      "action": "no_op_freeze",
+      "reasons": [
+        "epoch10_bad_pattern_A"
+      ],
+      "bad_patterns": [],
+      "positive_gain": true,
+      "previous_positive_gain": true,
+      "no_positive_gain_streak": 0,
+      "severe_degradation": false,
+      "fallback_active_before": true,
+      "fallback_active_after": true,
+      "industrial_aug_forced_noop": true,
+      "roi_aug_forced_noop": true,
+      "strict_noop": true
+    },
+    {
+      "epoch": 35,
+      "catf_gated_mode": true,
+      "gate_phase": "monitor",
+      "metrics": {
+        "precision": 0.67165,
+        "recall": 0.65668,
+        "map50": 0.7045,
+        "map50_95": 0.44959
+      },
+      "reference_metrics": {
+        "precision": 0.66767,
+        "recall": 0.64721,
+        "map50": 0.68598,
+        "map50_95": 0.44703
+      },
+      "delta_metrics": {
+        "precision": 0.0039799999999999836,
+        "recall": 0.00947000000000009,
+        "map50": 0.01851999999999998,
+        "map50_95": 0.0025600000000000067
+      },
+      "proposed_action": "observe",
+      "active_classes": [],
+      "triggered": true,
+      "action": "no_op_freeze",
+      "reasons": [
+        "epoch10_bad_pattern_A"
+      ],
+      "bad_patterns": [],
+      "positive_gain": true,
+      "previous_positive_gain": true,
+      "no_positive_gain_streak": 0,
+      "severe_degradation": false,
+      "fallback_active_before": true,
+      "fallback_active_after": true,
+      "industrial_aug_forced_noop": true,
+      "roi_aug_forced_noop": true,
+      "strict_noop": true
+    },
+    {
+      "epoch": 40,
+      "catf_gated_mode": true,
+      "gate_phase": "monitor",
+      "metrics": {
+        "precision": 0.71536,
+        "recall": 0.71101,
+        "map50": 0.75129,
+        "map50_95": 0.50212
+      },
+      "reference_metrics": {
+        "precision": 0.70408,
+        "recall": 0.71413,
+        "map50": 0.74469,
+        "map50_95": 0.48639
+      },
+      "delta_metrics": {
+        "precision": 0.011279999999999957,
+        "recall": -0.0031200000000000117,
+        "map50": 0.00660000000000005,
+        "map50_95": 0.015730000000000022
+      },
+      "proposed_action": "freeze",
+      "active_classes": [],
+      "triggered": true,
+      "action": "no_op_freeze",
+      "reasons": [
+        "epoch10_bad_pattern_A"
+      ],
+      "bad_patterns": [],
+      "positive_gain": true,
+      "previous_positive_gain": true,
+      "no_positive_gain_streak": 0,
+      "severe_degradation": false,
+      "fallback_active_before": true,
+      "fallback_active_after": true,
+      "industrial_aug_forced_noop": true,
+      "roi_aug_forced_noop": true,
+      "strict_noop": true
+    },
+    {
+      "epoch": 45,
+      "catf_gated_mode": true,
+      "gate_phase": "monitor",
+      "metrics": {
+        "precision": 0.74866,
+        "recall": 0.69577,
+        "map50": 0.75059,
+        "map50_95": 0.4981
+      },
+      "reference_metrics": {
+        "precision": 0.6907,
+        "recall": 0.73331,
+        "map50": 0.77009,
+        "map50_95": 0.52238
+      },
+      "delta_metrics": {
+        "precision": 0.05796000000000001,
+        "recall": -0.03754000000000002,
+        "map50": -0.019500000000000073,
+        "map50_95": -0.02427999999999997
+      },
+      "proposed_action": "freeze",
+      "active_classes": [],
+      "triggered": true,
+      "action": "no_op_freeze",
+      "reasons": [
+        "epoch10_bad_pattern_A"
+      ],
+      "bad_patterns": [],
+      "positive_gain": false,
+      "previous_positive_gain": true,
+      "no_positive_gain_streak": 1,
+      "severe_degradation": true,
+      "fallback_active_before": true,
+      "fallback_active_after": true,
+      "industrial_aug_forced_noop": true,
+      "roi_aug_forced_noop": true,
+      "strict_noop": true
+    }
+  ]
+}

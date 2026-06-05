@@ -1,0 +1,1009 @@
+{
+  "summary": {
+    "generated_at": "2026-06-05T19:01:52",
+    "code_commit_used": "ff77080a1046f3bdb05da10b5c1904c803380491",
+    "seed0_fallback_expected": false,
+    "seed1_fallback_expected": false,
+    "seed2_fallback_expected": true,
+    "seed2_fallback_epoch": 10,
+    "expected_constraint_failed_count": 0,
+    "expected_3_of_3_constraint_pass": true,
+    "behavior_matches_goal": true,
+    "overfit_assessment": "No obvious seed-id overfit: the controller uses metric-shape gates and active-class evidence rather than seed IDs or class IDs. The thresholds were derived from the current three-seed failure analysis, so this still needs validation beyond seeds 0/1/2 before being claimed as generally robust.",
+    "run_full_gated_multiseed_recommended": true
+  },
+  "rows": [
+    {
+      "seed": 0,
+      "fixed_run_path": "outputs\\experiments\\multiseed_clean_yolo_default_vs_catf_v2_fixed\\seed_0\\catf_v2",
+      "clean_run_path": "outputs\\experiments\\multiseed_clean_yolo_default_vs_catf_v2\\seed_0\\clean_native_yolo_default",
+      "fallback_expected": false,
+      "fallback_epoch": null,
+      "expected_final_choice": "fixed_catf_v2",
+      "expected_metrics": {
+        "precision": 0.7785060827516979,
+        "recall": 0.6696537893735843,
+        "map50": 0.7436574966447125,
+        "map50_95": 0.4895409913055733
+      },
+      "expected_delta_vs_clean": {
+        "precision": -0.006048379279775973,
+        "recall": -0.006802903592400433,
+        "map50": 0.008961980828142257,
+        "map50_95": 0.013646866371422428
+      },
+      "expected_constraint_failed": false,
+      "expected_failure_reasons": [],
+      "fixed_constraint_failed": false,
+      "events": [
+        {
+          "epoch": 5,
+          "catf_gated_mode": true,
+          "gate_phase": "epoch5_observe",
+          "metrics": {
+            "precision": 0.57142,
+            "recall": 0.47866,
+            "map50": 0.39571,
+            "map50_95": 0.23466
+          },
+          "reference_metrics": {
+            "precision": 0.57142,
+            "recall": 0.47866,
+            "map50": 0.39571,
+            "map50_95": 0.23466
+          },
+          "delta_metrics": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "map50": 0.0,
+            "map50_95": 0.0
+          },
+          "proposed_action": "accept",
+          "active_classes": [
+            4,
+            11
+          ],
+          "triggered": false,
+          "action": "observe",
+          "reasons": [],
+          "bad_patterns": [],
+          "positive_gain": false,
+          "previous_positive_gain": null,
+          "no_positive_gain_streak": 1,
+          "severe_degradation": false,
+          "fallback_active_before": false,
+          "fallback_active_after": false,
+          "industrial_aug_forced_noop": false,
+          "roi_aug_forced_noop": false,
+          "strict_noop": false,
+          "delta_vs_clean_curve": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "map50": 0.0,
+            "map50_95": 0.0
+          }
+        },
+        {
+          "epoch": 10,
+          "catf_gated_mode": true,
+          "gate_phase": "first_formal_gate",
+          "metrics": {
+            "precision": 0.54794,
+            "recall": 0.52134,
+            "map50": 0.48747,
+            "map50_95": 0.30932
+          },
+          "reference_metrics": {
+            "precision": 0.5644,
+            "recall": 0.43041,
+            "map50": 0.441,
+            "map50_95": 0.28921
+          },
+          "delta_metrics": {
+            "precision": -0.01646000000000003,
+            "recall": 0.09093000000000001,
+            "map50": 0.04647000000000001,
+            "map50_95": 0.02010999999999996
+          },
+          "proposed_action": "rollback",
+          "active_classes": [],
+          "triggered": false,
+          "action": "gate_continue",
+          "reasons": [],
+          "bad_patterns": [],
+          "positive_gain": true,
+          "previous_positive_gain": false,
+          "no_positive_gain_streak": 0,
+          "severe_degradation": false,
+          "fallback_active_before": false,
+          "fallback_active_after": false,
+          "industrial_aug_forced_noop": false,
+          "roi_aug_forced_noop": false,
+          "strict_noop": false,
+          "delta_vs_clean_curve": {
+            "precision": -0.01646000000000003,
+            "recall": 0.09093000000000001,
+            "map50": 0.04647000000000001,
+            "map50_95": 0.02010999999999996
+          }
+        },
+        {
+          "epoch": 15,
+          "catf_gated_mode": true,
+          "gate_phase": "monitor",
+          "metrics": {
+            "precision": 0.66768,
+            "recall": 0.50494,
+            "map50": 0.56944,
+            "map50_95": 0.35341
+          },
+          "reference_metrics": {
+            "precision": 0.48426,
+            "recall": 0.61141,
+            "map50": 0.55296,
+            "map50_95": 0.35446
+          },
+          "delta_metrics": {
+            "precision": 0.18342000000000003,
+            "recall": -0.10646999999999995,
+            "map50": 0.01647999999999994,
+            "map50_95": -0.0010499999999999954
+          },
+          "proposed_action": "accept",
+          "active_classes": [
+            12
+          ],
+          "triggered": false,
+          "action": "gate_continue",
+          "reasons": [],
+          "bad_patterns": [],
+          "positive_gain": true,
+          "previous_positive_gain": true,
+          "no_positive_gain_streak": 0,
+          "severe_degradation": false,
+          "fallback_active_before": false,
+          "fallback_active_after": false,
+          "industrial_aug_forced_noop": false,
+          "roi_aug_forced_noop": false,
+          "strict_noop": false,
+          "delta_vs_clean_curve": {
+            "precision": 0.18342000000000003,
+            "recall": -0.10646999999999995,
+            "map50": 0.01647999999999994,
+            "map50_95": -0.0010499999999999954
+          }
+        },
+        {
+          "epoch": 20,
+          "catf_gated_mode": true,
+          "gate_phase": "monitor",
+          "metrics": {
+            "precision": 0.62048,
+            "recall": 0.6055,
+            "map50": 0.59323,
+            "map50_95": 0.36301
+          },
+          "reference_metrics": {
+            "precision": 0.65591,
+            "recall": 0.56434,
+            "map50": 0.57831,
+            "map50_95": 0.37719
+          },
+          "delta_metrics": {
+            "precision": -0.03542999999999996,
+            "recall": 0.041160000000000085,
+            "map50": 0.014920000000000044,
+            "map50_95": -0.014180000000000026
+          },
+          "proposed_action": "shrink",
+          "active_classes": [],
+          "triggered": false,
+          "action": "gate_continue",
+          "reasons": [],
+          "bad_patterns": [],
+          "positive_gain": true,
+          "previous_positive_gain": true,
+          "no_positive_gain_streak": 0,
+          "severe_degradation": false,
+          "fallback_active_before": false,
+          "fallback_active_after": false,
+          "industrial_aug_forced_noop": false,
+          "roi_aug_forced_noop": false,
+          "strict_noop": false,
+          "delta_vs_clean_curve": {
+            "precision": -0.03542999999999996,
+            "recall": 0.041160000000000085,
+            "map50": 0.014920000000000044,
+            "map50_95": -0.014180000000000026
+          }
+        },
+        {
+          "epoch": 25,
+          "catf_gated_mode": true,
+          "gate_phase": "monitor",
+          "metrics": {
+            "precision": 0.54091,
+            "recall": 0.59608,
+            "map50": 0.57673,
+            "map50_95": 0.35597
+          },
+          "reference_metrics": {
+            "precision": 0.54595,
+            "recall": 0.64355,
+            "map50": 0.59895,
+            "map50_95": 0.39138
+          },
+          "delta_metrics": {
+            "precision": -0.0050400000000000444,
+            "recall": -0.0474699999999999,
+            "map50": -0.022220000000000018,
+            "map50_95": -0.03541
+          },
+          "proposed_action": "shrink",
+          "active_classes": [],
+          "triggered": false,
+          "action": "gate_continue",
+          "reasons": [],
+          "bad_patterns": [],
+          "positive_gain": false,
+          "previous_positive_gain": true,
+          "no_positive_gain_streak": 1,
+          "severe_degradation": true,
+          "fallback_active_before": false,
+          "fallback_active_after": false,
+          "industrial_aug_forced_noop": false,
+          "roi_aug_forced_noop": false,
+          "strict_noop": false,
+          "delta_vs_clean_curve": {
+            "precision": -0.0050400000000000444,
+            "recall": -0.0474699999999999,
+            "map50": -0.022220000000000018,
+            "map50_95": -0.03541
+          }
+        },
+        {
+          "epoch": 30,
+          "catf_gated_mode": true,
+          "gate_phase": "monitor",
+          "metrics": {
+            "precision": 0.61503,
+            "recall": 0.70859,
+            "map50": 0.67642,
+            "map50_95": 0.43804
+          },
+          "reference_metrics": {
+            "precision": 0.62371,
+            "recall": 0.6195,
+            "map50": 0.65284,
+            "map50_95": 0.41607
+          },
+          "delta_metrics": {
+            "precision": -0.008680000000000021,
+            "recall": 0.08909,
+            "map50": 0.023580000000000045,
+            "map50_95": 0.02196999999999999
+          },
+          "proposed_action": "observe",
+          "active_classes": [],
+          "triggered": false,
+          "action": "gate_continue",
+          "reasons": [],
+          "bad_patterns": [],
+          "positive_gain": true,
+          "previous_positive_gain": false,
+          "no_positive_gain_streak": 0,
+          "severe_degradation": false,
+          "fallback_active_before": false,
+          "fallback_active_after": false,
+          "industrial_aug_forced_noop": false,
+          "roi_aug_forced_noop": false,
+          "strict_noop": false,
+          "delta_vs_clean_curve": {
+            "precision": -0.008680000000000021,
+            "recall": 0.08909,
+            "map50": 0.023580000000000045,
+            "map50_95": 0.02196999999999999
+          }
+        },
+        {
+          "epoch": 35,
+          "catf_gated_mode": true,
+          "gate_phase": "monitor",
+          "metrics": {
+            "precision": 0.69099,
+            "recall": 0.66908,
+            "map50": 0.71402,
+            "map50_95": 0.46304
+          },
+          "reference_metrics": {
+            "precision": 0.62672,
+            "recall": 0.59279,
+            "map50": 0.64481,
+            "map50_95": 0.4186
+          },
+          "delta_metrics": {
+            "precision": 0.06426999999999994,
+            "recall": 0.07628999999999997,
+            "map50": 0.06921,
+            "map50_95": 0.04443999999999998
+          },
+          "proposed_action": "observe",
+          "active_classes": [],
+          "triggered": false,
+          "action": "gate_continue",
+          "reasons": [],
+          "bad_patterns": [],
+          "positive_gain": true,
+          "previous_positive_gain": true,
+          "no_positive_gain_streak": 0,
+          "severe_degradation": false,
+          "fallback_active_before": false,
+          "fallback_active_after": false,
+          "industrial_aug_forced_noop": false,
+          "roi_aug_forced_noop": false,
+          "strict_noop": false,
+          "delta_vs_clean_curve": {
+            "precision": 0.06426999999999994,
+            "recall": 0.07628999999999997,
+            "map50": 0.06921,
+            "map50_95": 0.04443999999999998
+          }
+        },
+        {
+          "epoch": 40,
+          "catf_gated_mode": true,
+          "gate_phase": "monitor",
+          "metrics": {
+            "precision": 0.69232,
+            "recall": 0.62985,
+            "map50": 0.71129,
+            "map50_95": 0.45791
+          },
+          "reference_metrics": {
+            "precision": 0.67945,
+            "recall": 0.6025,
+            "map50": 0.67838,
+            "map50_95": 0.43599
+          },
+          "delta_metrics": {
+            "precision": 0.012870000000000048,
+            "recall": 0.027349999999999985,
+            "map50": 0.032909999999999995,
+            "map50_95": 0.021919999999999995
+          },
+          "proposed_action": "freeze",
+          "active_classes": [],
+          "triggered": false,
+          "action": "gate_continue",
+          "reasons": [],
+          "bad_patterns": [],
+          "positive_gain": true,
+          "previous_positive_gain": true,
+          "no_positive_gain_streak": 0,
+          "severe_degradation": false,
+          "fallback_active_before": false,
+          "fallback_active_after": false,
+          "industrial_aug_forced_noop": false,
+          "roi_aug_forced_noop": false,
+          "strict_noop": false,
+          "delta_vs_clean_curve": {
+            "precision": 0.012870000000000048,
+            "recall": 0.027349999999999985,
+            "map50": 0.032909999999999995,
+            "map50_95": 0.021919999999999995
+          }
+        },
+        {
+          "epoch": 45,
+          "catf_gated_mode": true,
+          "gate_phase": "monitor",
+          "metrics": {
+            "precision": 0.72187,
+            "recall": 0.65199,
+            "map50": 0.71324,
+            "map50_95": 0.46207
+          },
+          "reference_metrics": {
+            "precision": 0.66526,
+            "recall": 0.72701,
+            "map50": 0.6864,
+            "map50_95": 0.44696
+          },
+          "delta_metrics": {
+            "precision": 0.05661000000000005,
+            "recall": -0.07502000000000009,
+            "map50": 0.026839999999999975,
+            "map50_95": 0.015109999999999957
+          },
+          "proposed_action": "freeze",
+          "active_classes": [],
+          "triggered": false,
+          "action": "gate_continue",
+          "reasons": [],
+          "bad_patterns": [],
+          "positive_gain": true,
+          "previous_positive_gain": true,
+          "no_positive_gain_streak": 0,
+          "severe_degradation": false,
+          "fallback_active_before": false,
+          "fallback_active_after": false,
+          "industrial_aug_forced_noop": false,
+          "roi_aug_forced_noop": false,
+          "strict_noop": false,
+          "delta_vs_clean_curve": {
+            "precision": 0.05661000000000005,
+            "recall": -0.07502000000000009,
+            "map50": 0.026839999999999975,
+            "map50_95": 0.015109999999999957
+          }
+        }
+      ],
+      "event_actions": {
+        "observe": 1,
+        "gate_continue": 8
+      },
+      "event_reasons": {}
+    },
+    {
+      "seed": 1,
+      "fixed_run_path": "outputs\\experiments\\catf_v2_fixed_seed1_50ep",
+      "clean_run_path": "outputs\\experiments\\multiseed_clean_yolo_default_vs_catf_v2\\seed_1\\clean_native_yolo_default",
+      "fallback_expected": false,
+      "fallback_epoch": null,
+      "expected_final_choice": "fixed_catf_v2",
+      "expected_metrics": {
+        "precision": 0.7851989347944973,
+        "recall": 0.700509393329673,
+        "map50": 0.7826175032103642,
+        "map50_95": 0.5188785833030913
+      },
+      "expected_delta_vs_clean": {
+        "precision": 0.012674318908300064,
+        "recall": 0.052829494354441064,
+        "map50": 0.028426912229338908,
+        "map50_95": 0.03896002732842274
+      },
+      "expected_constraint_failed": false,
+      "expected_failure_reasons": [],
+      "fixed_constraint_failed": false,
+      "events": [
+        {
+          "epoch": 5,
+          "catf_gated_mode": true,
+          "gate_phase": "epoch5_observe",
+          "metrics": {
+            "precision": 0.52472,
+            "recall": 0.38057,
+            "map50": 0.35714,
+            "map50_95": 0.21955
+          },
+          "reference_metrics": {
+            "precision": 0.52472,
+            "recall": 0.38057,
+            "map50": 0.35714,
+            "map50_95": 0.21955
+          },
+          "delta_metrics": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "map50": 0.0,
+            "map50_95": 0.0
+          },
+          "proposed_action": "accept",
+          "active_classes": [
+            4,
+            11
+          ],
+          "triggered": false,
+          "action": "observe",
+          "reasons": [],
+          "bad_patterns": [],
+          "positive_gain": false,
+          "previous_positive_gain": null,
+          "no_positive_gain_streak": 1,
+          "severe_degradation": false,
+          "fallback_active_before": false,
+          "fallback_active_after": false,
+          "industrial_aug_forced_noop": false,
+          "roi_aug_forced_noop": false,
+          "strict_noop": false,
+          "delta_vs_clean_curve": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "map50": 0.0,
+            "map50_95": 0.0
+          }
+        },
+        {
+          "epoch": 10,
+          "catf_gated_mode": true,
+          "gate_phase": "first_formal_gate",
+          "metrics": {
+            "precision": 0.64308,
+            "recall": 0.52104,
+            "map50": 0.52851,
+            "map50_95": 0.31802
+          },
+          "reference_metrics": {
+            "precision": 0.58297,
+            "recall": 0.529,
+            "map50": 0.50905,
+            "map50_95": 0.30616
+          },
+          "delta_metrics": {
+            "precision": 0.06011,
+            "recall": -0.007960000000000078,
+            "map50": 0.019460000000000033,
+            "map50_95": 0.011860000000000037
+          },
+          "proposed_action": "observe",
+          "active_classes": [
+            11
+          ],
+          "triggered": false,
+          "action": "gate_continue",
+          "reasons": [],
+          "bad_patterns": [],
+          "positive_gain": true,
+          "previous_positive_gain": false,
+          "no_positive_gain_streak": 0,
+          "severe_degradation": false,
+          "fallback_active_before": false,
+          "fallback_active_after": false,
+          "industrial_aug_forced_noop": false,
+          "roi_aug_forced_noop": false,
+          "strict_noop": false,
+          "protected_pattern": "seed0_like_map_gain",
+          "delta_vs_clean_curve": {
+            "precision": 0.06011,
+            "recall": -0.007960000000000078,
+            "map50": 0.019460000000000033,
+            "map50_95": 0.011860000000000037
+          }
+        },
+        {
+          "epoch": 15,
+          "catf_gated_mode": true,
+          "gate_phase": "monitor",
+          "metrics": {
+            "precision": 0.49437,
+            "recall": 0.58372,
+            "map50": 0.54088,
+            "map50_95": 0.33824
+          },
+          "reference_metrics": {
+            "precision": 0.58403,
+            "recall": 0.53691,
+            "map50": 0.55771,
+            "map50_95": 0.34161
+          },
+          "delta_metrics": {
+            "precision": -0.08966000000000007,
+            "recall": 0.04681000000000002,
+            "map50": -0.01683000000000001,
+            "map50_95": -0.0033700000000000396
+          },
+          "proposed_action": "shrink",
+          "active_classes": [
+            11
+          ],
+          "triggered": false,
+          "action": "gate_continue",
+          "reasons": [],
+          "bad_patterns": [],
+          "positive_gain": false,
+          "previous_positive_gain": true,
+          "no_positive_gain_streak": 1,
+          "severe_degradation": false,
+          "fallback_active_before": false,
+          "fallback_active_after": false,
+          "industrial_aug_forced_noop": false,
+          "roi_aug_forced_noop": false,
+          "strict_noop": false,
+          "delta_vs_clean_curve": {
+            "precision": -0.08966000000000007,
+            "recall": 0.04681000000000002,
+            "map50": -0.01683000000000001,
+            "map50_95": -0.0033700000000000396
+          }
+        },
+        {
+          "epoch": 20,
+          "catf_gated_mode": true,
+          "gate_phase": "monitor",
+          "metrics": {
+            "precision": 0.48527,
+            "recall": 0.62476,
+            "map50": 0.60031,
+            "map50_95": 0.3977
+          },
+          "reference_metrics": {
+            "precision": 0.61505,
+            "recall": 0.62255,
+            "map50": 0.60204,
+            "map50_95": 0.38584
+          },
+          "delta_metrics": {
+            "precision": -0.12978,
+            "recall": 0.0022099999999999342,
+            "map50": -0.0017300000000000093,
+            "map50_95": 0.011859999999999982
+          },
+          "proposed_action": "shrink",
+          "active_classes": [],
+          "triggered": false,
+          "action": "gate_continue",
+          "reasons": [],
+          "bad_patterns": [],
+          "positive_gain": true,
+          "previous_positive_gain": false,
+          "no_positive_gain_streak": 0,
+          "severe_degradation": false,
+          "fallback_active_before": false,
+          "fallback_active_after": false,
+          "industrial_aug_forced_noop": false,
+          "roi_aug_forced_noop": false,
+          "strict_noop": false,
+          "delta_vs_clean_curve": {
+            "precision": -0.12978,
+            "recall": 0.0022099999999999342,
+            "map50": -0.0017300000000000093,
+            "map50_95": 0.011859999999999982
+          }
+        },
+        {
+          "epoch": 25,
+          "catf_gated_mode": true,
+          "gate_phase": "monitor",
+          "metrics": {
+            "precision": 0.5792,
+            "recall": 0.59666,
+            "map50": 0.62441,
+            "map50_95": 0.39062
+          },
+          "reference_metrics": {
+            "precision": 0.71541,
+            "recall": 0.55099,
+            "map50": 0.61058,
+            "map50_95": 0.3851
+          },
+          "delta_metrics": {
+            "precision": -0.13620999999999994,
+            "recall": 0.04566999999999999,
+            "map50": 0.013830000000000009,
+            "map50_95": 0.005520000000000025
+          },
+          "proposed_action": "shrink",
+          "active_classes": [],
+          "triggered": false,
+          "action": "gate_continue",
+          "reasons": [],
+          "bad_patterns": [],
+          "positive_gain": true,
+          "previous_positive_gain": true,
+          "no_positive_gain_streak": 0,
+          "severe_degradation": false,
+          "fallback_active_before": false,
+          "fallback_active_after": false,
+          "industrial_aug_forced_noop": false,
+          "roi_aug_forced_noop": false,
+          "strict_noop": false,
+          "delta_vs_clean_curve": {
+            "precision": -0.13620999999999994,
+            "recall": 0.04566999999999999,
+            "map50": 0.013830000000000009,
+            "map50_95": 0.005520000000000025
+          }
+        },
+        {
+          "epoch": 30,
+          "catf_gated_mode": true,
+          "gate_phase": "monitor",
+          "metrics": {
+            "precision": 0.70931,
+            "recall": 0.59124,
+            "map50": 0.66271,
+            "map50_95": 0.42118
+          },
+          "reference_metrics": {
+            "precision": 0.72395,
+            "recall": 0.64418,
+            "map50": 0.71701,
+            "map50_95": 0.46425
+          },
+          "delta_metrics": {
+            "precision": -0.014639999999999986,
+            "recall": -0.05293999999999999,
+            "map50": -0.054300000000000015,
+            "map50_95": -0.04307
+          },
+          "proposed_action": "shrink",
+          "active_classes": [],
+          "triggered": false,
+          "action": "gate_continue",
+          "reasons": [],
+          "bad_patterns": [],
+          "positive_gain": false,
+          "previous_positive_gain": true,
+          "no_positive_gain_streak": 1,
+          "severe_degradation": true,
+          "fallback_active_before": false,
+          "fallback_active_after": false,
+          "industrial_aug_forced_noop": false,
+          "roi_aug_forced_noop": false,
+          "strict_noop": false,
+          "delta_vs_clean_curve": {
+            "precision": -0.014639999999999986,
+            "recall": -0.05293999999999999,
+            "map50": -0.054300000000000015,
+            "map50_95": -0.04307
+          }
+        },
+        {
+          "epoch": 35,
+          "catf_gated_mode": true,
+          "gate_phase": "monitor",
+          "metrics": {
+            "precision": 0.67832,
+            "recall": 0.69783,
+            "map50": 0.73534,
+            "map50_95": 0.4878
+          },
+          "reference_metrics": {
+            "precision": 0.75408,
+            "recall": 0.64917,
+            "map50": 0.71952,
+            "map50_95": 0.46908
+          },
+          "delta_metrics": {
+            "precision": -0.07575999999999994,
+            "recall": 0.048659999999999926,
+            "map50": 0.015819999999999945,
+            "map50_95": 0.018720000000000014
+          },
+          "proposed_action": "shrink",
+          "active_classes": [],
+          "triggered": false,
+          "action": "gate_continue",
+          "reasons": [],
+          "bad_patterns": [],
+          "positive_gain": true,
+          "previous_positive_gain": false,
+          "no_positive_gain_streak": 0,
+          "severe_degradation": false,
+          "fallback_active_before": false,
+          "fallback_active_after": false,
+          "industrial_aug_forced_noop": false,
+          "roi_aug_forced_noop": false,
+          "strict_noop": false,
+          "delta_vs_clean_curve": {
+            "precision": -0.07575999999999994,
+            "recall": 0.048659999999999926,
+            "map50": 0.015819999999999945,
+            "map50_95": 0.018720000000000014
+          }
+        },
+        {
+          "epoch": 40,
+          "catf_gated_mode": true,
+          "gate_phase": "monitor",
+          "metrics": {
+            "precision": 0.64586,
+            "recall": 0.64609,
+            "map50": 0.67877,
+            "map50_95": 0.43329
+          },
+          "reference_metrics": {
+            "precision": 0.64491,
+            "recall": 0.63083,
+            "map50": 0.6639,
+            "map50_95": 0.42895
+          },
+          "delta_metrics": {
+            "precision": 0.0009500000000000064,
+            "recall": 0.015260000000000051,
+            "map50": 0.014869999999999939,
+            "map50_95": 0.0043400000000000105
+          },
+          "proposed_action": "freeze",
+          "active_classes": [],
+          "triggered": false,
+          "action": "gate_continue",
+          "reasons": [],
+          "bad_patterns": [],
+          "positive_gain": true,
+          "previous_positive_gain": true,
+          "no_positive_gain_streak": 0,
+          "severe_degradation": false,
+          "fallback_active_before": false,
+          "fallback_active_after": false,
+          "industrial_aug_forced_noop": false,
+          "roi_aug_forced_noop": false,
+          "strict_noop": false,
+          "delta_vs_clean_curve": {
+            "precision": 0.0009500000000000064,
+            "recall": 0.015260000000000051,
+            "map50": 0.014869999999999939,
+            "map50_95": 0.0043400000000000105
+          }
+        },
+        {
+          "epoch": 45,
+          "catf_gated_mode": true,
+          "gate_phase": "monitor",
+          "metrics": {
+            "precision": 0.67487,
+            "recall": 0.71844,
+            "map50": 0.75402,
+            "map50_95": 0.49436
+          },
+          "reference_metrics": {
+            "precision": 0.66928,
+            "recall": 0.72503,
+            "map50": 0.69559,
+            "map50_95": 0.44787
+          },
+          "delta_metrics": {
+            "precision": 0.005589999999999984,
+            "recall": -0.006589999999999985,
+            "map50": 0.05842999999999998,
+            "map50_95": 0.04649000000000003
+          },
+          "proposed_action": "freeze",
+          "active_classes": [],
+          "triggered": false,
+          "action": "gate_continue",
+          "reasons": [],
+          "bad_patterns": [],
+          "positive_gain": true,
+          "previous_positive_gain": true,
+          "no_positive_gain_streak": 0,
+          "severe_degradation": false,
+          "fallback_active_before": false,
+          "fallback_active_after": false,
+          "industrial_aug_forced_noop": false,
+          "roi_aug_forced_noop": false,
+          "strict_noop": false,
+          "delta_vs_clean_curve": {
+            "precision": 0.005589999999999984,
+            "recall": -0.006589999999999985,
+            "map50": 0.05842999999999998,
+            "map50_95": 0.04649000000000003
+          }
+        }
+      ],
+      "event_actions": {
+        "observe": 1,
+        "gate_continue": 8
+      },
+      "event_reasons": {}
+    },
+    {
+      "seed": 2,
+      "fixed_run_path": "outputs\\experiments\\multiseed_clean_yolo_default_vs_catf_v2_fixed\\seed_2\\catf_v2",
+      "clean_run_path": "outputs\\experiments\\multiseed_clean_yolo_default_vs_catf_v2\\seed_2\\clean_native_yolo_default",
+      "fallback_expected": true,
+      "fallback_epoch": 10,
+      "expected_final_choice": "clean_fallback",
+      "expected_metrics": {
+        "precision": 0.6962390186664107,
+        "recall": 0.728629640010866,
+        "map50": 0.7692030787336794,
+        "map50_95": 0.5223713770570699
+      },
+      "expected_delta_vs_clean": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "map50": 0.0,
+        "map50_95": 0.0
+      },
+      "expected_constraint_failed": false,
+      "expected_failure_reasons": [],
+      "fixed_constraint_failed": true,
+      "events": [
+        {
+          "epoch": 5,
+          "catf_gated_mode": true,
+          "gate_phase": "epoch5_observe",
+          "metrics": {
+            "precision": 0.55691,
+            "recall": 0.40929,
+            "map50": 0.36993,
+            "map50_95": 0.2199
+          },
+          "reference_metrics": {
+            "precision": 0.55691,
+            "recall": 0.40929,
+            "map50": 0.36993,
+            "map50_95": 0.2199
+          },
+          "delta_metrics": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "map50": 0.0,
+            "map50_95": 0.0
+          },
+          "proposed_action": "accept",
+          "active_classes": [
+            9
+          ],
+          "triggered": false,
+          "action": "observe",
+          "reasons": [],
+          "bad_patterns": [],
+          "positive_gain": false,
+          "previous_positive_gain": null,
+          "no_positive_gain_streak": 1,
+          "severe_degradation": false,
+          "fallback_active_before": false,
+          "fallback_active_after": false,
+          "industrial_aug_forced_noop": false,
+          "roi_aug_forced_noop": false,
+          "strict_noop": false,
+          "delta_vs_clean_curve": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "map50": 0.0,
+            "map50_95": 0.0
+          }
+        },
+        {
+          "epoch": 10,
+          "catf_gated_mode": true,
+          "gate_phase": "first_formal_gate",
+          "metrics": {
+            "precision": 0.67733,
+            "recall": 0.48265,
+            "map50": 0.51884,
+            "map50_95": 0.3119
+          },
+          "reference_metrics": {
+            "precision": 0.64056,
+            "recall": 0.52788,
+            "map50": 0.53959,
+            "map50_95": 0.32997
+          },
+          "delta_metrics": {
+            "precision": 0.03676999999999997,
+            "recall": -0.04522999999999999,
+            "map50": -0.020750000000000046,
+            "map50_95": -0.018069999999999975
+          },
+          "proposed_action": "shrink",
+          "active_classes": [],
+          "triggered": true,
+          "action": "no_op_freeze",
+          "reasons": [
+            "epoch10_bad_pattern_A"
+          ],
+          "bad_patterns": [
+            "bad_pattern_A",
+            "bad_pattern_B"
+          ],
+          "positive_gain": false,
+          "previous_positive_gain": false,
+          "no_positive_gain_streak": 2,
+          "severe_degradation": true,
+          "fallback_active_before": false,
+          "fallback_active_after": true,
+          "industrial_aug_forced_noop": true,
+          "roi_aug_forced_noop": true,
+          "strict_noop": true,
+          "delta_vs_clean_curve": {
+            "precision": 0.03676999999999997,
+            "recall": -0.04522999999999999,
+            "map50": -0.020750000000000046,
+            "map50_95": -0.018069999999999975
+          }
+        }
+      ],
+      "event_actions": {
+        "observe": 1,
+        "no_op_freeze": 1
+      },
+      "event_reasons": {
+        "epoch10_bad_pattern_A": 1
+      }
+    }
+  ]
+}

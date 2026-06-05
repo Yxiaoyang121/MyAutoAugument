@@ -1,0 +1,211 @@
+{
+  "supported_ops": [
+    "blur_mild",
+    "brightness",
+    "clahe",
+    "contrast",
+    "cutout",
+    "cutout_safe",
+    "gamma",
+    "gaussian_noise",
+    "horizontal_flip",
+    "hsv_jitter",
+    "local_contrast",
+    "mild_scale",
+    "mild_translate",
+    "mosaic4",
+    "randaugment_like",
+    "random_erasing",
+    "random_scale_translate",
+    "scale",
+    "sharpen",
+    "sharpen_mild",
+    "translate"
+  ],
+  "copy_paste_status": "pending_object_bank_design",
+  "samples_seen": 115050,
+  "samples_augmented": 55,
+  "input_bbox_count": 159100,
+  "output_bbox_count": 159100,
+  "invalid_bbox_count": 0,
+  "bbox_oob_count": 0,
+  "class_id_oob_count": 0,
+  "preview_saved": 20,
+  "ops": {
+    "local_contrast": {
+      "seen": 2130,
+      "skipped_probability": 2102,
+      "applied": 28
+    },
+    "sharpen_mild": {
+      "seen": 2130,
+      "skipped_probability": 2103,
+      "applied": 27
+    }
+  },
+  "cutout_safe": {},
+  "mosaic4": {},
+  "randaugment_like": {},
+  "copy_paste": {},
+  "run_id": "catf_v2_gated",
+  "generated_at": "2026-06-06T02:42:19",
+  "catf_noop": false,
+  "catf_safe_mode": false,
+  "catf_gated_mode": true,
+  "noop_transform_calls": 0,
+  "router_random_draw_count": 4260,
+  "sample_router_built": true,
+  "online_augmentation": true,
+  "industrial_online_augmentation": true,
+  "inloop_feedback": true,
+  "diagnosis_only": false,
+  "train_image_count": 2301,
+  "expected_original_train_images": 2301,
+  "train_image_count_matches_original": true,
+  "fixed_augmented_dataset_generated": false,
+  "copy_paste_online_supported": false,
+  "train_success": true,
+  "train_error": null,
+  "val_success": true,
+  "val_error": null,
+  "val_metrics": {
+    "images": 677,
+    "instances": 905,
+    "precision": 0.7851989347944973,
+    "recall": 0.700509393329673,
+    "map50": 0.7826175032103642,
+    "map50_95": 0.5188785833030913,
+    "per_class": [
+      {
+        "class_id": 0,
+        "name": "OK2",
+        "images": 64,
+        "instances": 64,
+        "precision": 0.9395322960711112,
+        "recall": 0.96875,
+        "ap50": 0.9907208333333333,
+        "ap50_95": 0.8531216484346895
+      },
+      {
+        "class_id": 1,
+        "name": "OK3",
+        "images": 274,
+        "instances": 274,
+        "precision": 0.9962845285644868,
+        "recall": 0.9786325169294884,
+        "ap50": 0.9947809983896939,
+        "ap50_95": 0.8244749847113828
+      },
+      {
+        "class_id": 2,
+        "name": "加强筋打伤",
+        "images": 8,
+        "instances": 8,
+        "precision": 0.8650403903774472,
+        "recall": 0.875,
+        "ap50": 0.9550000000000001,
+        "ap50_95": 0.5325712433862433
+      },
+      {
+        "class_id": 3,
+        "name": "开裂",
+        "images": 2,
+        "instances": 2,
+        "precision": 0.8702210494820263,
+        "recall": 1.0,
+        "ap50": 0.995,
+        "ap50_95": 0.796
+      },
+      {
+        "class_id": 4,
+        "name": "油污",
+        "images": 14,
+        "instances": 18,
+        "precision": 0.28630691810339504,
+        "recall": 0.16666666666666666,
+        "ap50": 0.28110082790912627,
+        "ap50_95": 0.16471459811975775
+      },
+      {
+        "class_id": 5,
+        "name": "浅划伤",
+        "images": 11,
+        "instances": 13,
+        "precision": 0.8232479818438744,
+        "recall": 0.46153846153846156,
+        "ap50": 0.6042029324475923,
+        "ap50_95": 0.34210352386058024
+      },
+      {
+        "class_id": 6,
+        "name": "漏背锡",
+        "images": 36,
+        "instances": 46,
+        "precision": 0.6922539772708446,
+        "recall": 0.6956521739130435,
+        "ap50": 0.748239343184727,
+        "ap50_95": 0.42871743852986927
+      },
+      {
+        "class_id": 7,
+        "name": "碰伤",
+        "images": 229,
+        "instances": 269,
+        "precision": 0.7943787549506689,
+        "recall": 0.5313858620024668,
+        "ap50": 0.7141329547408001,
+        "ap50_95": 0.4496939281705125
+      },
+      {
+        "class_id": 8,
+        "name": "脏污",
+        "images": 33,
+        "instances": 42,
+        "precision": 0.6430386831922354,
+        "recall": 0.4719176956034177,
+        "ap50": 0.5243804284514516,
+        "ap50_95": 0.2709418108317124
+      },
+      {
+        "class_id": 9,
+        "name": "轮廓划伤",
+        "images": 69,
+        "instances": 84,
+        "precision": 0.7315221726434737,
+        "recall": 0.5238095238095238,
+        "ap50": 0.6912233870876275,
+        "ap50_95": 0.35831263722821316
+      },
+      {
+        "class_id": 10,
+        "name": "锡丝残留",
+        "images": 12,
+        "instances": 12,
+        "precision": 0.7718891107661294,
+        "recall": 0.9166666666666666,
+        "ap50": 0.943970588235294,
+        "ap50_95": 0.5377754972197833
+      },
+      {
+        "class_id": 11,
+        "name": "锡尖",
+        "images": 25,
+        "instances": 27,
+        "precision": 0.8916592311826091,
+        "recall": 0.9147454169636111,
+        "ap50": 0.9799264069264069,
+        "ap50_95": 0.6806248097325575
+      },
+      {
+        "class_id": 12,
+        "name": "锡膏",
+        "images": 41,
+        "instances": 46,
+        "precision": 0.9022110578801629,
+        "recall": 0.6018571291924023,
+        "ap50": 0.7513488410286813,
+        "ap50_95": 0.5063694627148853
+      }
+    ]
+  }
+}

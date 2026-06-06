@@ -1,10 +1,41 @@
 ﻿# Project State
 
-Last updated: 2026-06-06
+Last updated: 2026-06-07
 
 ## Current Position
 
 The repository is centered on diagnosis-driven augmentation for industrial defect detection. The active path still keeps YOLO network architecture unchanged and focuses on dataset construction, validation-error diagnosis, policy generation, proxy safety, short training, and auditable reporting.
+
+## CATF-v2 Adaptive-RB Full Multiseed Validation (2026-06-07)
+
+- Full multiseed adaptive burn-in + RB validation completed at `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_adaptive_rb/`.
+- Fixed epoch5 has been upgraded conceptually to adaptive burn-in. `feedback_start_epoch=5` remains only the empirical earliest burn-in check point, not a claimed optimal trigger.
+- Seed2 strong clean-baseline protection remains effective:
+  - adaptive start epoch: `None`
+  - candidate branch: false
+  - rollback: false
+  - no-op fallback epoch: 15
+  - final metrics exactly match clean seed2: P=0.6962, R=0.7286, mAP50=0.7692, mAP50-95=0.5224
+  - industrial samples=0, ROI applied=0, router random draw count=0
+  - `constraint_failed=false`
+- Full multiseed adaptive-RB metrics:
+  - seed0: P=0.7846, R=0.6765, mAP50=0.7347, mAP50-95=0.4759, `constraint_failed=false`.
+  - seed1: P=0.7550, R=0.7261, mAP50=0.7653, mAP50-95=0.4938, `constraint_failed=true` due to `precision_drop_gt_0.01`.
+  - seed2: P=0.6962, R=0.7286, mAP50=0.7692, mAP50-95=0.5224, `constraint_failed=false`.
+- Gate behavior:
+  - seed0 did not start candidate and fell back to strict no-op at epoch 15; it passed constraints but lost fixed CATF-v2's mAP gains.
+  - seed1 started a low-risk RB candidate at epoch 15, saved RB checkpoint, accepted at epoch 20, applied 17 industrial samples and 20 ROI operations on class 12, and improved Recall/mAP versus clean, but failed the precision constraint.
+  - seed2 stayed strict no-op and preserved clean parity.
+- OK3 remained inactive and OK3 ROI applied remained 0 across all adaptive-RB runs.
+- Outcome: adaptive-RB achieved `2/3` constraint pass, not `3/3`. It should not be claimed as the final paper main method in its current form.
+- Interpretation: adaptive burn-in + RB is a useful safety architecture and fixes the seed2 failure mode before augmentation affects weights, but the current rule is still too conservative for seed0 and insufficiently precision-aware for seed1.
+- Next tuning priorities:
+  - accumulate burn-in evidence across epoch 5/10/15 so seed0 is not lost when the epoch15 diagnosis alone has insufficient evidence;
+  - make RB accept/rollback compare against clean/reference industrial constraints, not only the immediate probe reference;
+  - add a precision floor or threshold-calibration step before accepting low-risk candidates with recall/mAP gains.
+- Reports:
+  - `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_adaptive_rb/reports/multiseed_adaptive_rb_summary.md`
+  - `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_adaptive_rb/reports/multiseed_adaptive_rb_summary.json`
 
 ## CATF-v2 Adaptive Burn-in + RB Seed2 Validation (2026-06-06)
 
@@ -39,7 +70,7 @@ The repository is centered on diagnosis-driven augmentation for industrial defec
   - Reports:
     - `outputs/experiments/catf_v2_adaptive_rb_seed2_50ep/reports/adaptive_rb_seed2_50ep_report.md`
     - `outputs/experiments/catf_v2_adaptive_rb_seed2_50ep/reports/adaptive_rb_seed2_50ep_summary.json`
-- Interpretation: adaptive burn-in + RB is more methodologically defensible than fixed epoch5 triggering. Seed2 is protected before any CATF augmentation affects weights. Full multiseed adaptive-RB is recommended next to test whether seed0/seed1 can retain useful CATF-v2 gains under the new low-risk max-burnin trigger.
+- Interpretation: adaptive burn-in + RB is more methodologically defensible than fixed epoch5 triggering. Seed2 is protected before any CATF augmentation affects weights. Full multiseed adaptive-RB has since been completed; see the 2026-06-07 section above for the final multiseed result.
 
 ## CATF-v2-Gated Multiseed Validation (2026-06-06)
 

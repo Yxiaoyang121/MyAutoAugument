@@ -1,28 +1,18 @@
 # Project Snapshot
 
-- Generated: 2026-06-06T18:02:45
+- Generated: 2026-06-07T02:51:05
 - Branch: codex/sync-latest
-- Commit: 671a3e8f164dac4eff76193ba291004926667a4a
+- Commit: f1c4e5606a8fb2db7073a6b3128c875d3aea3631
 - Remote: https://github.com/Yxiaoyang121/MyAutoAugument.git
 
 ## Working Tree
 
 ```text
- M AutoAugment/catf_v2/__init__.py
  M CODEX_HANDOFF.md
  M EXPERIMENT_LOG.md
  M PROJECT_STATE.md
- M scripts/train_yolo_default_with_inloop_feedback.py
-?? AutoAugment/catf_v2/adaptive_burnin.py
-?? AutoAugment/catf_v2/rollback_controller.py
-?? outputs/experiments/catf_v2_adaptive_burnin_10ep_smoke/
-?? outputs/experiments/catf_v2_adaptive_rb_seed2_50ep/
-?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/adaptive_burnin_retrospective_simulation.json
-?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/adaptive_burnin_retrospective_simulation.md
-?? scripts/simulate_catf_v2_adaptive_burnin_retrospective.py
-?? scripts/summarize_catf_v2_adaptive_rb_seed2.py
-?? tests/test_catf_v2_adaptive_burnin.py
-?? tests/test_catf_v2_rollback_controller.py
+?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_adaptive_rb/
+?? scripts/summarize_catf_v2_adaptive_rb_multiseed.py
 ```
 
 ## Key Files
@@ -227,7 +217,7 @@
 
 ## Tracked File Count
 
-- 5393 tracked files
+- 5633 tracked files
 
 ## Notes
 

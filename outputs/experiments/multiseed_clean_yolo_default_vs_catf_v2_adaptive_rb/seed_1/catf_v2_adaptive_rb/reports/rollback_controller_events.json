@@ -1,0 +1,49 @@
+{
+  "events": [
+    {
+      "epoch": 15,
+      "catf_rollback_mode": true,
+      "action": "save_safe_checkpoint",
+      "checkpoint_epoch": 15,
+      "checkpoint_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\multiseed_clean_yolo_default_vs_catf_v2_adaptive_rb\\seed_1\\catf_v2_adaptive_rb\\checkpoints\\catf_v2_rb_safe_epoch_015.pt",
+      "candidate_active": true,
+      "probe_window": 5,
+      "restorable_components": [
+        "ema",
+        "model",
+        "optimizer",
+        "scheduler"
+      ]
+    },
+    {
+      "epoch": 20,
+      "catf_rollback_mode": true,
+      "action": "accept_candidate",
+      "checkpoint_epoch": 15,
+      "checkpoint_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\multiseed_clean_yolo_default_vs_catf_v2_adaptive_rb\\seed_1\\catf_v2_adaptive_rb\\checkpoints\\catf_v2_rb_safe_epoch_015.pt",
+      "probe_window": 5,
+      "metrics": {
+        "precision": 0.61505,
+        "recall": 0.62255,
+        "map50": 0.60204,
+        "map50_95": 0.38584
+      },
+      "reference_metrics": {
+        "precision": 0.61505,
+        "recall": 0.62255,
+        "map50": 0.60204,
+        "map50_95": 0.38584
+      },
+      "delta_metrics": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "map50": 0.0,
+        "map50_95": 0.0
+      },
+      "bad_patterns": [],
+      "reasons": [
+        "probe_positive_or_constraint_safe"
+      ]
+    }
+  ]
+}

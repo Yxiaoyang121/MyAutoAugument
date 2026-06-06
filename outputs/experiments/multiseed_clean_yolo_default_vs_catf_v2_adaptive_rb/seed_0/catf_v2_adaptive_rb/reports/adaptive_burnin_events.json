@@ -1,0 +1,1255 @@
+{
+  "events": [
+    {
+      "epoch": 5,
+      "adaptive_burnin": true,
+      "state_before": "burnin_observe",
+      "state_after": "burnin_observe",
+      "checked": true,
+      "action": "burnin_observe",
+      "triggered": false,
+      "candidate_branch_started": false,
+      "strict_noop": false,
+      "start_condition_met": false,
+      "start_condition": {
+        "start_condition_met": false,
+        "condition_results": {
+          "min_burnin_epoch": true,
+          "before_close_mosaic_start": true,
+          "metric_stable": false,
+          "diagnosis_evidence_sufficient": true,
+          "not_random_small_sample": true,
+          "not_strong_clean_baseline_protected": true
+        },
+        "blocking_reasons": [
+          "metric_unstable"
+        ],
+        "metric_stability": {
+          "stable": false,
+          "reason": "metric_unstable",
+          "window": 3,
+          "history_count": 3,
+          "map50_range": 0.05402,
+          "recall_range": 0.17658,
+          "map50_threshold": 0.02,
+          "recall_threshold": 0.03,
+          "recent": [
+            {
+              "precision": 0.75174,
+              "recall": 0.30208,
+              "map50": 0.34746,
+              "map50_95": 0.20174
+            },
+            {
+              "precision": 0.61097,
+              "recall": 0.34071,
+              "map50": 0.34169,
+              "map50_95": 0.2054
+            },
+            {
+              "precision": 0.57142,
+              "recall": 0.47866,
+              "map50": 0.39571,
+              "map50_95": 0.23466
+            }
+          ]
+        },
+        "eligible_active_classes": [
+          4,
+          11
+        ],
+        "medium_confidence_issue_classes": [
+          4,
+          11
+        ],
+        "rejected_class_reasons": {
+          "0": [
+            "no_fn_or_ap95_shortfall",
+            "no_aug_class",
+            "high_fp_guarded"
+          ],
+          "1": [
+            "no_fn_or_ap95_shortfall",
+            "no_aug_class",
+            "high_fp_guarded"
+          ],
+          "2": [
+            "diagnosis_confidence_below_0.50",
+            "low_support_or_val_instances_lt_10"
+          ],
+          "3": [
+            "evidence_count_below_min_active_class_evidence",
+            "diagnosis_confidence_below_0.50",
+            "low_support_or_val_instances_lt_10"
+          ],
+          "5": [
+            "diagnosis_confidence_below_0.50"
+          ],
+          "6": [
+            "high_fp_guarded"
+          ],
+          "7": [
+            "high_fp_guarded"
+          ],
+          "8": [
+            "high_fp_guarded"
+          ],
+          "9": [
+            "high_fp_guarded"
+          ],
+          "10": [
+            "diagnosis_confidence_below_0.50"
+          ],
+          "12": [
+            "high_fp_guarded"
+          ]
+        },
+        "small_sample_only": false,
+        "high_confidence_active_issue": false,
+        "strong_clean_baseline_protection": false,
+        "metrics": {
+          "precision": 0.57142,
+          "recall": 0.47866,
+          "map50": 0.39571,
+          "map50_95": 0.23466
+        },
+        "reference_metrics": {
+          "precision": 0.57142,
+          "recall": 0.47866,
+          "map50": 0.39571,
+          "map50_95": 0.23466
+        },
+        "clean_reference_metrics": {
+          "precision": 0.7845544620314738,
+          "recall": 0.6764566929659848,
+          "map50": 0.7346955158165702,
+          "map50_95": 0.4758941249341509
+        }
+      },
+      "reasons": [
+        "metric_unstable"
+      ],
+      "probe_window": 5,
+      "fallback_active_before": false,
+      "fallback_active_after": false,
+      "low_risk_policy": false
+    },
+    {
+      "epoch": 10,
+      "adaptive_burnin": true,
+      "state_before": "burnin_observe",
+      "state_after": "burnin_observe",
+      "checked": true,
+      "action": "burnin_observe",
+      "triggered": false,
+      "candidate_branch_started": false,
+      "strict_noop": false,
+      "start_condition_met": false,
+      "start_condition": {
+        "start_condition_met": false,
+        "condition_results": {
+          "min_burnin_epoch": true,
+          "before_close_mosaic_start": true,
+          "metric_stable": false,
+          "diagnosis_evidence_sufficient": true,
+          "not_random_small_sample": true,
+          "not_strong_clean_baseline_protected": true
+        },
+        "blocking_reasons": [
+          "metric_unstable"
+        ],
+        "metric_stability": {
+          "stable": false,
+          "reason": "metric_unstable",
+          "window": 3,
+          "history_count": 3,
+          "map50_range": 0.03762,
+          "recall_range": 0.00667,
+          "map50_threshold": 0.02,
+          "recall_threshold": 0.03,
+          "recent": [
+            {
+              "precision": 0.54914,
+              "recall": 0.4268,
+              "map50": 0.43088,
+              "map50_95": 0.25649
+            },
+            {
+              "precision": 0.68298,
+              "recall": 0.42374,
+              "map50": 0.4685,
+              "map50_95": 0.28902
+            },
+            {
+              "precision": 0.5644,
+              "recall": 0.43041,
+              "map50": 0.441,
+              "map50_95": 0.28921
+            }
+          ]
+        },
+        "eligible_active_classes": [
+          11
+        ],
+        "medium_confidence_issue_classes": [
+          11
+        ],
+        "rejected_class_reasons": {
+          "0": [
+            "no_fn_or_ap95_shortfall",
+            "no_aug_class",
+            "high_fp_guarded"
+          ],
+          "1": [
+            "no_fn_or_ap95_shortfall",
+            "no_aug_class",
+            "high_fp_guarded"
+          ],
+          "2": [
+            "diagnosis_confidence_below_0.50",
+            "low_support_or_val_instances_lt_10"
+          ],
+          "3": [
+            "evidence_count_below_min_active_class_evidence",
+            "diagnosis_confidence_below_0.50",
+            "low_support_or_val_instances_lt_10"
+          ],
+          "4": [
+            "high_fp_guarded"
+          ],
+          "5": [
+            "high_fp_guarded"
+          ],
+          "6": [
+            "high_fp_guarded"
+          ],
+          "7": [
+            "high_fp_guarded"
+          ],
+          "8": [
+            "high_fp_guarded"
+          ],
+          "9": [
+            "high_fp_guarded"
+          ],
+          "10": [
+            "diagnosis_confidence_below_0.50"
+          ],
+          "12": [
+            "high_fp_guarded"
+          ]
+        },
+        "small_sample_only": false,
+        "high_confidence_active_issue": false,
+        "strong_clean_baseline_protection": false,
+        "metrics": {
+          "precision": 0.5644,
+          "recall": 0.43041,
+          "map50": 0.441,
+          "map50_95": 0.28921
+        },
+        "reference_metrics": {
+          "precision": 0.5644,
+          "recall": 0.43041,
+          "map50": 0.441,
+          "map50_95": 0.28921
+        },
+        "clean_reference_metrics": {
+          "precision": 0.7845544620314738,
+          "recall": 0.6764566929659848,
+          "map50": 0.7346955158165702,
+          "map50_95": 0.4758941249341509
+        }
+      },
+      "reasons": [
+        "metric_unstable"
+      ],
+      "probe_window": 5,
+      "fallback_active_before": false,
+      "fallback_active_after": false,
+      "low_risk_policy": false
+    },
+    {
+      "epoch": 15,
+      "adaptive_burnin": true,
+      "state_before": "burnin_observe",
+      "state_after": "no_op_fallback",
+      "checked": true,
+      "action": "no_op_fallback",
+      "triggered": true,
+      "candidate_branch_started": false,
+      "strict_noop": true,
+      "start_condition_met": false,
+      "start_condition": {
+        "start_condition_met": false,
+        "condition_results": {
+          "min_burnin_epoch": true,
+          "before_close_mosaic_start": true,
+          "metric_stable": false,
+          "diagnosis_evidence_sufficient": false,
+          "not_random_small_sample": true,
+          "not_strong_clean_baseline_protected": true
+        },
+        "blocking_reasons": [
+          "metric_unstable",
+          "insufficient_diagnosis_evidence"
+        ],
+        "metric_stability": {
+          "stable": false,
+          "reason": "metric_unstable",
+          "window": 3,
+          "history_count": 3,
+          "map50_range": 0.0354,
+          "recall_range": 0.07425,
+          "map50_threshold": 0.02,
+          "recall_threshold": 0.03,
+          "recent": [
+            {
+              "precision": 0.46727,
+              "recall": 0.55787,
+              "map50": 0.51756,
+              "map50_95": 0.31935
+            },
+            {
+              "precision": 0.598,
+              "recall": 0.53716,
+              "map50": 0.519,
+              "map50_95": 0.318
+            },
+            {
+              "precision": 0.48426,
+              "recall": 0.61141,
+              "map50": 0.55296,
+              "map50_95": 0.35446
+            }
+          ]
+        },
+        "eligible_active_classes": [],
+        "medium_confidence_issue_classes": [],
+        "rejected_class_reasons": {
+          "0": [
+            "no_fn_or_ap95_shortfall",
+            "no_aug_class",
+            "high_fp_guarded"
+          ],
+          "1": [
+            "no_fn_or_ap95_shortfall",
+            "no_aug_class",
+            "high_fp_guarded"
+          ],
+          "2": [
+            "evidence_count_below_min_active_class_evidence",
+            "diagnosis_confidence_below_0.50",
+            "no_fn_or_ap95_shortfall",
+            "low_support_or_val_instances_lt_10"
+          ],
+          "3": [
+            "evidence_count_below_min_active_class_evidence",
+            "diagnosis_confidence_below_0.50",
+            "low_support_or_val_instances_lt_10"
+          ],
+          "4": [
+            "high_fp_guarded"
+          ],
+          "5": [
+            "diagnosis_confidence_below_0.50",
+            "high_fp_guarded"
+          ],
+          "6": [
+            "high_fp_guarded"
+          ],
+          "7": [
+            "high_fp_guarded"
+          ],
+          "8": [
+            "high_fp_guarded"
+          ],
+          "9": [
+            "high_fp_guarded"
+          ],
+          "10": [
+            "diagnosis_confidence_below_0.50",
+            "high_fp_guarded"
+          ],
+          "11": [
+            "no_fn_or_ap95_shortfall",
+            "high_fp_guarded"
+          ],
+          "12": [
+            "high_fp_guarded"
+          ]
+        },
+        "small_sample_only": false,
+        "high_confidence_active_issue": false,
+        "strong_clean_baseline_protection": false,
+        "metrics": {
+          "precision": 0.48426,
+          "recall": 0.61141,
+          "map50": 0.55296,
+          "map50_95": 0.35446
+        },
+        "reference_metrics": {
+          "precision": 0.48426,
+          "recall": 0.61141,
+          "map50": 0.55296,
+          "map50_95": 0.35446
+        },
+        "clean_reference_metrics": {
+          "precision": 0.7845544620314738,
+          "recall": 0.6764566929659848,
+          "map50": 0.7346955158165702,
+          "map50_95": 0.4758941249341509
+        }
+      },
+      "reasons": [
+        "adaptive_burnin_not_ready"
+      ],
+      "probe_window": 5,
+      "fallback_active_before": false,
+      "fallback_active_after": true,
+      "low_risk_policy": false
+    },
+    {
+      "epoch": 20,
+      "adaptive_burnin": true,
+      "state_before": "no_op_fallback",
+      "state_after": "no_op_fallback",
+      "checked": true,
+      "action": "no_op_fallback",
+      "triggered": true,
+      "candidate_branch_started": false,
+      "strict_noop": true,
+      "start_condition_met": false,
+      "start_condition": {
+        "start_condition_met": false,
+        "condition_results": {
+          "min_burnin_epoch": true,
+          "before_close_mosaic_start": true,
+          "metric_stable": false,
+          "diagnosis_evidence_sufficient": true,
+          "not_random_small_sample": true,
+          "not_strong_clean_baseline_protected": true
+        },
+        "blocking_reasons": [
+          "metric_unstable"
+        ],
+        "metric_stability": {
+          "stable": false,
+          "reason": "metric_unstable",
+          "window": 3,
+          "history_count": 3,
+          "map50_range": 0.02821,
+          "recall_range": 0.05649,
+          "map50_threshold": 0.02,
+          "recall_threshold": 0.03,
+          "recent": [
+            {
+              "precision": 0.65107,
+              "recall": 0.58987,
+              "map50": 0.60387,
+              "map50_95": 0.3868
+            },
+            {
+              "precision": 0.51263,
+              "recall": 0.62083,
+              "map50": 0.60652,
+              "map50_95": 0.38417
+            },
+            {
+              "precision": 0.65591,
+              "recall": 0.56434,
+              "map50": 0.57831,
+              "map50_95": 0.37719
+            }
+          ]
+        },
+        "eligible_active_classes": [
+          11
+        ],
+        "medium_confidence_issue_classes": [
+          11
+        ],
+        "rejected_class_reasons": {
+          "0": [
+            "no_fn_or_ap95_shortfall",
+            "no_aug_class",
+            "high_fp_guarded"
+          ],
+          "1": [
+            "no_fn_or_ap95_shortfall",
+            "no_aug_class",
+            "high_fp_guarded"
+          ],
+          "2": [
+            "evidence_count_below_min_active_class_evidence",
+            "diagnosis_confidence_below_0.50",
+            "no_fn_or_ap95_shortfall",
+            "low_support_or_val_instances_lt_10"
+          ],
+          "3": [
+            "evidence_count_below_min_active_class_evidence",
+            "diagnosis_confidence_below_0.50",
+            "high_fp_guarded",
+            "low_support_or_val_instances_lt_10"
+          ],
+          "4": [
+            "high_fp_guarded"
+          ],
+          "5": [
+            "diagnosis_confidence_below_0.50"
+          ],
+          "6": [
+            "high_fp_guarded"
+          ],
+          "7": [
+            "high_fp_guarded"
+          ],
+          "8": [
+            "high_fp_guarded"
+          ],
+          "9": [
+            "high_fp_guarded"
+          ],
+          "10": [
+            "diagnosis_confidence_below_0.50",
+            "high_fp_guarded"
+          ],
+          "12": [
+            "high_fp_guarded"
+          ]
+        },
+        "small_sample_only": false,
+        "high_confidence_active_issue": false,
+        "strong_clean_baseline_protection": false,
+        "metrics": {
+          "precision": 0.65591,
+          "recall": 0.56434,
+          "map50": 0.57831,
+          "map50_95": 0.37719
+        },
+        "reference_metrics": {
+          "precision": 0.65591,
+          "recall": 0.56434,
+          "map50": 0.57831,
+          "map50_95": 0.37719
+        },
+        "clean_reference_metrics": {
+          "precision": 0.7845544620314738,
+          "recall": 0.6764566929659848,
+          "map50": 0.7346955158165702,
+          "map50_95": 0.4758941249341509
+        }
+      },
+      "reasons": [
+        "adaptive_burnin_not_ready"
+      ],
+      "probe_window": 5,
+      "fallback_active_before": true,
+      "fallback_active_after": true,
+      "low_risk_policy": false
+    },
+    {
+      "epoch": 25,
+      "adaptive_burnin": true,
+      "state_before": "no_op_fallback",
+      "state_after": "no_op_fallback",
+      "checked": true,
+      "action": "no_op_fallback",
+      "triggered": true,
+      "candidate_branch_started": false,
+      "strict_noop": true,
+      "start_condition_met": false,
+      "start_condition": {
+        "start_condition_met": false,
+        "condition_results": {
+          "min_burnin_epoch": true,
+          "before_close_mosaic_start": true,
+          "metric_stable": false,
+          "diagnosis_evidence_sufficient": false,
+          "not_random_small_sample": true,
+          "not_strong_clean_baseline_protected": true
+        },
+        "blocking_reasons": [
+          "metric_unstable",
+          "insufficient_diagnosis_evidence"
+        ],
+        "metric_stability": {
+          "stable": false,
+          "reason": "metric_unstable",
+          "window": 3,
+          "history_count": 3,
+          "map50_range": 0.04162,
+          "recall_range": 0.06459,
+          "map50_threshold": 0.02,
+          "recall_threshold": 0.03,
+          "recent": [
+            {
+              "precision": 0.59658,
+              "recall": 0.61355,
+              "map50": 0.5913,
+              "map50_95": 0.36996
+            },
+            {
+              "precision": 0.62752,
+              "recall": 0.57896,
+              "map50": 0.63292,
+              "map50_95": 0.40131
+            },
+            {
+              "precision": 0.54595,
+              "recall": 0.64355,
+              "map50": 0.59895,
+              "map50_95": 0.39138
+            }
+          ]
+        },
+        "eligible_active_classes": [],
+        "medium_confidence_issue_classes": [],
+        "rejected_class_reasons": {
+          "0": [
+            "no_fn_or_ap95_shortfall",
+            "no_aug_class",
+            "high_fp_guarded"
+          ],
+          "1": [
+            "no_fn_or_ap95_shortfall",
+            "no_aug_class",
+            "high_fp_guarded"
+          ],
+          "2": [
+            "evidence_count_below_min_active_class_evidence",
+            "diagnosis_confidence_below_0.50",
+            "no_fn_or_ap95_shortfall",
+            "low_support_or_val_instances_lt_10"
+          ],
+          "3": [
+            "diagnosis_confidence_below_0.50",
+            "high_fp_guarded",
+            "low_support_or_val_instances_lt_10"
+          ],
+          "4": [
+            "high_fp_guarded"
+          ],
+          "5": [
+            "diagnosis_confidence_below_0.50"
+          ],
+          "6": [
+            "no_fn_or_ap95_shortfall",
+            "high_fp_guarded"
+          ],
+          "7": [
+            "high_fp_guarded"
+          ],
+          "8": [
+            "high_fp_guarded"
+          ],
+          "9": [
+            "high_fp_guarded"
+          ],
+          "10": [
+            "high_fp_guarded"
+          ],
+          "11": [
+            "no_fn_or_ap95_shortfall"
+          ],
+          "12": [
+            "high_fp_guarded"
+          ]
+        },
+        "small_sample_only": false,
+        "high_confidence_active_issue": false,
+        "strong_clean_baseline_protection": false,
+        "metrics": {
+          "precision": 0.54595,
+          "recall": 0.64355,
+          "map50": 0.59895,
+          "map50_95": 0.39138
+        },
+        "reference_metrics": {
+          "precision": 0.54595,
+          "recall": 0.64355,
+          "map50": 0.59895,
+          "map50_95": 0.39138
+        },
+        "clean_reference_metrics": {
+          "precision": 0.7845544620314738,
+          "recall": 0.6764566929659848,
+          "map50": 0.7346955158165702,
+          "map50_95": 0.4758941249341509
+        }
+      },
+      "reasons": [
+        "adaptive_burnin_not_ready"
+      ],
+      "probe_window": 5,
+      "fallback_active_before": true,
+      "fallback_active_after": true,
+      "low_risk_policy": false
+    },
+    {
+      "epoch": 30,
+      "adaptive_burnin": true,
+      "state_before": "no_op_fallback",
+      "state_after": "no_op_fallback",
+      "checked": true,
+      "action": "no_op_fallback",
+      "triggered": true,
+      "candidate_branch_started": false,
+      "strict_noop": true,
+      "start_condition_met": false,
+      "start_condition": {
+        "start_condition_met": false,
+        "condition_results": {
+          "min_burnin_epoch": true,
+          "before_close_mosaic_start": true,
+          "metric_stable": false,
+          "diagnosis_evidence_sufficient": false,
+          "not_random_small_sample": true,
+          "not_strong_clean_baseline_protected": true
+        },
+        "blocking_reasons": [
+          "metric_unstable",
+          "insufficient_diagnosis_evidence"
+        ],
+        "metric_stability": {
+          "stable": false,
+          "reason": "metric_unstable",
+          "window": 3,
+          "history_count": 3,
+          "map50_range": 0.04651,
+          "recall_range": 0.04892,
+          "map50_threshold": 0.02,
+          "recall_threshold": 0.03,
+          "recent": [
+            {
+              "precision": 0.61035,
+              "recall": 0.60319,
+              "map50": 0.625,
+              "map50_95": 0.41054
+            },
+            {
+              "precision": 0.62483,
+              "recall": 0.65211,
+              "map50": 0.67151,
+              "map50_95": 0.42414
+            },
+            {
+              "precision": 0.62371,
+              "recall": 0.6195,
+              "map50": 0.65284,
+              "map50_95": 0.41607
+            }
+          ]
+        },
+        "eligible_active_classes": [],
+        "medium_confidence_issue_classes": [],
+        "rejected_class_reasons": {
+          "0": [
+            "no_fn_or_ap95_shortfall",
+            "no_aug_class",
+            "high_fp_guarded"
+          ],
+          "1": [
+            "no_fn_or_ap95_shortfall",
+            "no_aug_class",
+            "high_fp_guarded"
+          ],
+          "2": [
+            "evidence_count_below_min_active_class_evidence",
+            "diagnosis_confidence_below_0.50",
+            "no_fn_or_ap95_shortfall",
+            "low_support_or_val_instances_lt_10"
+          ],
+          "3": [
+            "evidence_count_below_min_active_class_evidence",
+            "diagnosis_confidence_below_0.50",
+            "high_fp_guarded",
+            "low_support_or_val_instances_lt_10"
+          ],
+          "4": [
+            "high_fp_guarded"
+          ],
+          "5": [
+            "diagnosis_confidence_below_0.50"
+          ],
+          "6": [
+            "high_fp_guarded"
+          ],
+          "7": [
+            "high_fp_guarded"
+          ],
+          "8": [
+            "high_fp_guarded"
+          ],
+          "9": [
+            "high_fp_guarded"
+          ],
+          "10": [
+            "diagnosis_confidence_below_0.50",
+            "no_fn_or_ap95_shortfall",
+            "high_fp_guarded"
+          ],
+          "11": [
+            "diagnosis_confidence_below_0.50",
+            "no_fn_or_ap95_shortfall"
+          ],
+          "12": [
+            "high_fp_guarded"
+          ]
+        },
+        "small_sample_only": false,
+        "high_confidence_active_issue": false,
+        "strong_clean_baseline_protection": false,
+        "metrics": {
+          "precision": 0.62371,
+          "recall": 0.6195,
+          "map50": 0.65284,
+          "map50_95": 0.41607
+        },
+        "reference_metrics": {
+          "precision": 0.62371,
+          "recall": 0.6195,
+          "map50": 0.65284,
+          "map50_95": 0.41607
+        },
+        "clean_reference_metrics": {
+          "precision": 0.7845544620314738,
+          "recall": 0.6764566929659848,
+          "map50": 0.7346955158165702,
+          "map50_95": 0.4758941249341509
+        }
+      },
+      "reasons": [
+        "adaptive_burnin_not_ready"
+      ],
+      "probe_window": 5,
+      "fallback_active_before": true,
+      "fallback_active_after": true,
+      "low_risk_policy": false
+    },
+    {
+      "epoch": 35,
+      "adaptive_burnin": true,
+      "state_before": "no_op_fallback",
+      "state_after": "no_op_fallback",
+      "checked": true,
+      "action": "no_op_fallback",
+      "triggered": true,
+      "candidate_branch_started": false,
+      "strict_noop": true,
+      "start_condition_met": false,
+      "start_condition": {
+        "start_condition_met": false,
+        "condition_results": {
+          "min_burnin_epoch": true,
+          "before_close_mosaic_start": true,
+          "metric_stable": false,
+          "diagnosis_evidence_sufficient": false,
+          "not_random_small_sample": true,
+          "not_strong_clean_baseline_protected": true
+        },
+        "blocking_reasons": [
+          "metric_unstable",
+          "insufficient_diagnosis_evidence"
+        ],
+        "metric_stability": {
+          "stable": false,
+          "reason": "metric_unstable",
+          "window": 3,
+          "history_count": 3,
+          "map50_range": 0.0163,
+          "recall_range": 0.04612,
+          "map50_threshold": 0.02,
+          "recall_threshold": 0.03,
+          "recent": [
+            {
+              "precision": 0.59234,
+              "recall": 0.61195,
+              "map50": 0.65607,
+              "map50_95": 0.41436
+            },
+            {
+              "precision": 0.6123,
+              "recall": 0.63891,
+              "map50": 0.66111,
+              "map50_95": 0.41395
+            },
+            {
+              "precision": 0.62672,
+              "recall": 0.59279,
+              "map50": 0.64481,
+              "map50_95": 0.4186
+            }
+          ]
+        },
+        "eligible_active_classes": [],
+        "medium_confidence_issue_classes": [],
+        "rejected_class_reasons": {
+          "0": [
+            "no_fn_or_ap95_shortfall",
+            "no_aug_class",
+            "high_fp_guarded"
+          ],
+          "1": [
+            "no_fn_or_ap95_shortfall",
+            "no_aug_class",
+            "high_fp_guarded"
+          ],
+          "2": [
+            "evidence_count_below_min_active_class_evidence",
+            "diagnosis_confidence_below_0.50",
+            "no_fn_or_ap95_shortfall",
+            "low_support_or_val_instances_lt_10"
+          ],
+          "3": [
+            "evidence_count_below_min_active_class_evidence",
+            "diagnosis_confidence_below_0.50",
+            "high_fp_guarded",
+            "low_support_or_val_instances_lt_10"
+          ],
+          "4": [
+            "high_fp_guarded"
+          ],
+          "5": [
+            "diagnosis_confidence_below_0.50",
+            "high_fp_guarded"
+          ],
+          "6": [
+            "high_fp_guarded"
+          ],
+          "7": [
+            "high_fp_guarded"
+          ],
+          "8": [
+            "high_fp_guarded"
+          ],
+          "9": [
+            "high_fp_guarded"
+          ],
+          "10": [
+            "diagnosis_confidence_below_0.50",
+            "no_fn_or_ap95_shortfall",
+            "high_fp_guarded"
+          ],
+          "11": [
+            "no_fn_or_ap95_shortfall"
+          ],
+          "12": [
+            "high_fp_guarded"
+          ]
+        },
+        "small_sample_only": false,
+        "high_confidence_active_issue": false,
+        "strong_clean_baseline_protection": false,
+        "metrics": {
+          "precision": 0.62672,
+          "recall": 0.59279,
+          "map50": 0.64481,
+          "map50_95": 0.4186
+        },
+        "reference_metrics": {
+          "precision": 0.62672,
+          "recall": 0.59279,
+          "map50": 0.64481,
+          "map50_95": 0.4186
+        },
+        "clean_reference_metrics": {
+          "precision": 0.7845544620314738,
+          "recall": 0.6764566929659848,
+          "map50": 0.7346955158165702,
+          "map50_95": 0.4758941249341509
+        }
+      },
+      "reasons": [
+        "adaptive_burnin_not_ready"
+      ],
+      "probe_window": 5,
+      "fallback_active_before": true,
+      "fallback_active_after": true,
+      "low_risk_policy": false
+    },
+    {
+      "epoch": 40,
+      "adaptive_burnin": true,
+      "state_before": "no_op_fallback",
+      "state_after": "no_op_fallback",
+      "checked": true,
+      "action": "no_op_fallback",
+      "triggered": true,
+      "candidate_branch_started": false,
+      "strict_noop": true,
+      "start_condition_met": false,
+      "start_condition": {
+        "start_condition_met": false,
+        "condition_results": {
+          "min_burnin_epoch": true,
+          "before_close_mosaic_start": false,
+          "metric_stable": false,
+          "diagnosis_evidence_sufficient": false,
+          "not_random_small_sample": true,
+          "not_strong_clean_baseline_protected": true
+        },
+        "blocking_reasons": [
+          "after_close_mosaic_start",
+          "metric_unstable",
+          "insufficient_diagnosis_evidence"
+        ],
+        "metric_stability": {
+          "stable": false,
+          "reason": "metric_unstable",
+          "window": 3,
+          "history_count": 3,
+          "map50_range": 0.00794,
+          "recall_range": 0.10617,
+          "map50_threshold": 0.02,
+          "recall_threshold": 0.03,
+          "recent": [
+            {
+              "precision": 0.62426,
+              "recall": 0.62524,
+              "map50": 0.67303,
+              "map50_95": 0.43398
+            },
+            {
+              "precision": 0.60905,
+              "recall": 0.70867,
+              "map50": 0.68097,
+              "map50_95": 0.44296
+            },
+            {
+              "precision": 0.67945,
+              "recall": 0.6025,
+              "map50": 0.67838,
+              "map50_95": 0.43599
+            }
+          ]
+        },
+        "eligible_active_classes": [],
+        "medium_confidence_issue_classes": [],
+        "rejected_class_reasons": {
+          "0": [
+            "no_fn_or_ap95_shortfall",
+            "no_aug_class",
+            "high_fp_guarded"
+          ],
+          "1": [
+            "no_fn_or_ap95_shortfall",
+            "no_aug_class",
+            "high_fp_guarded"
+          ],
+          "2": [
+            "evidence_count_below_min_active_class_evidence",
+            "diagnosis_confidence_below_0.50",
+            "no_fn_or_ap95_shortfall",
+            "low_support_or_val_instances_lt_10"
+          ],
+          "3": [
+            "diagnosis_confidence_below_0.50",
+            "high_fp_guarded",
+            "low_support_or_val_instances_lt_10"
+          ],
+          "4": [
+            "high_fp_guarded"
+          ],
+          "5": [
+            "high_fp_guarded"
+          ],
+          "6": [
+            "high_fp_guarded"
+          ],
+          "7": [
+            "high_fp_guarded"
+          ],
+          "8": [
+            "high_fp_guarded"
+          ],
+          "9": [
+            "high_fp_guarded"
+          ],
+          "10": [
+            "diagnosis_confidence_below_0.50",
+            "no_fn_or_ap95_shortfall",
+            "high_fp_guarded"
+          ],
+          "11": [
+            "no_fn_or_ap95_shortfall"
+          ],
+          "12": [
+            "high_fp_guarded"
+          ]
+        },
+        "small_sample_only": false,
+        "high_confidence_active_issue": false,
+        "strong_clean_baseline_protection": false,
+        "metrics": {
+          "precision": 0.67945,
+          "recall": 0.6025,
+          "map50": 0.67838,
+          "map50_95": 0.43599
+        },
+        "reference_metrics": {
+          "precision": 0.67945,
+          "recall": 0.6025,
+          "map50": 0.67838,
+          "map50_95": 0.43599
+        },
+        "clean_reference_metrics": {
+          "precision": 0.7845544620314738,
+          "recall": 0.6764566929659848,
+          "map50": 0.7346955158165702,
+          "map50_95": 0.4758941249341509
+        }
+      },
+      "reasons": [
+        "adaptive_burnin_not_ready"
+      ],
+      "probe_window": 5,
+      "fallback_active_before": true,
+      "fallback_active_after": true,
+      "low_risk_policy": false
+    },
+    {
+      "epoch": 45,
+      "adaptive_burnin": true,
+      "state_before": "no_op_fallback",
+      "state_after": "no_op_fallback",
+      "checked": true,
+      "action": "no_op_fallback",
+      "triggered": true,
+      "candidate_branch_started": false,
+      "strict_noop": true,
+      "start_condition_met": false,
+      "start_condition": {
+        "start_condition_met": false,
+        "condition_results": {
+          "min_burnin_epoch": true,
+          "before_close_mosaic_start": false,
+          "metric_stable": false,
+          "diagnosis_evidence_sufficient": false,
+          "not_random_small_sample": true,
+          "not_strong_clean_baseline_protected": true
+        },
+        "blocking_reasons": [
+          "after_close_mosaic_start",
+          "metric_unstable",
+          "insufficient_diagnosis_evidence"
+        ],
+        "metric_stability": {
+          "stable": false,
+          "reason": "metric_unstable",
+          "window": 3,
+          "history_count": 3,
+          "map50_range": 0.0478,
+          "recall_range": 0.07098,
+          "map50_threshold": 0.02,
+          "recall_threshold": 0.03,
+          "recent": [
+            {
+              "precision": 0.78701,
+              "recall": 0.67638,
+              "map50": 0.7342,
+              "map50_95": 0.47703
+            },
+            {
+              "precision": 0.70681,
+              "recall": 0.65603,
+              "map50": 0.699,
+              "map50_95": 0.45558
+            },
+            {
+              "precision": 0.66526,
+              "recall": 0.72701,
+              "map50": 0.6864,
+              "map50_95": 0.44696
+            }
+          ]
+        },
+        "eligible_active_classes": [],
+        "medium_confidence_issue_classes": [],
+        "rejected_class_reasons": {
+          "0": [
+            "no_fn_or_ap95_shortfall",
+            "no_aug_class",
+            "high_fp_guarded"
+          ],
+          "1": [
+            "no_fn_or_ap95_shortfall",
+            "no_aug_class",
+            "high_fp_guarded"
+          ],
+          "2": [
+            "evidence_count_below_min_active_class_evidence",
+            "diagnosis_confidence_below_0.50",
+            "no_fn_or_ap95_shortfall",
+            "low_support_or_val_instances_lt_10"
+          ],
+          "3": [
+            "diagnosis_confidence_below_0.50",
+            "high_fp_guarded",
+            "low_support_or_val_instances_lt_10"
+          ],
+          "4": [
+            "high_fp_guarded"
+          ],
+          "5": [
+            "diagnosis_confidence_below_0.50"
+          ],
+          "6": [
+            "high_fp_guarded"
+          ],
+          "7": [
+            "high_fp_guarded"
+          ],
+          "8": [
+            "high_fp_guarded"
+          ],
+          "9": [
+            "high_fp_guarded"
+          ],
+          "10": [
+            "diagnosis_confidence_below_0.50",
+            "no_fn_or_ap95_shortfall",
+            "high_fp_guarded"
+          ],
+          "11": [
+            "evidence_count_below_min_active_class_evidence",
+            "diagnosis_confidence_below_0.50",
+            "no_fn_or_ap95_shortfall",
+            "stable_class"
+          ],
+          "12": [
+            "high_fp_guarded"
+          ]
+        },
+        "small_sample_only": false,
+        "high_confidence_active_issue": false,
+        "strong_clean_baseline_protection": false,
+        "metrics": {
+          "precision": 0.66526,
+          "recall": 0.72701,
+          "map50": 0.6864,
+          "map50_95": 0.44696
+        },
+        "reference_metrics": {
+          "precision": 0.66526,
+          "recall": 0.72701,
+          "map50": 0.6864,
+          "map50_95": 0.44696
+        },
+        "clean_reference_metrics": {
+          "precision": 0.7845544620314738,
+          "recall": 0.6764566929659848,
+          "map50": 0.7346955158165702,
+          "map50_95": 0.4758941249341509
+        }
+      },
+      "reasons": [
+        "adaptive_burnin_not_ready"
+      ],
+      "probe_window": 5,
+      "fallback_active_before": true,
+      "fallback_active_after": true,
+      "low_risk_policy": false
+    }
+  ]
+}

@@ -2,6 +2,63 @@
 
 ## 2026-06-06
 
+### CATF-v2 Adaptive-RB Full Multiseed Validation
+
+Completed full multiseed adaptive burn-in + RB validation for seeds 0, 1, and 2.
+
+Run group:
+
+- `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_adaptive_rb/`
+
+Execution:
+
+- Newly ran adaptive-RB seed0 50ep at `seed_0/catf_v2_adaptive_rb/`.
+- Newly ran adaptive-RB seed1 50ep at `seed_1/catf_v2_adaptive_rb/`.
+- Reused completed seed2 adaptive-RB 50ep from `outputs/experiments/catf_v2_adaptive_rb_seed2_50ep/` and wrote a reuse reference under `seed_2/catf_v2_adaptive_rb/reports/`.
+- Training protocol stayed within the requested constraints: `yolo11n.pt`, safe tiled no-OK-position dataset, epochs=50, imgsz=1024, batch=2, workers=0, device=0, YOLO default augmentation enabled, no fixed augmented dataset, no copy-paste, train images=2301, val not augmented, and continuous 1..50 epoch results for completed runs.
+- Fixed epoch5 is no longer treated as a hard augmentation start. It remains only `min_burnin_epoch=5`; adaptive burn-in decides whether candidate intervention is justified.
+
+Metrics:
+
+| Seed | Clean P | Clean R | Clean mAP50 | Clean mAP50-95 | Fixed P | Fixed R | Fixed mAP50 | Fixed mAP50-95 | Adaptive-RB P | Adaptive-RB R | Adaptive-RB mAP50 | Adaptive-RB mAP50-95 | Adaptive constraint_failed |
+|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
+| 0 | 0.7846 | 0.6765 | 0.7347 | 0.4759 | 0.7785 | 0.6697 | 0.7437 | 0.4895 | 0.7846 | 0.6765 | 0.7347 | 0.4759 | false |
+| 1 | 0.7725 | 0.6477 | 0.7542 | 0.4799 | 0.7852 | 0.7005 | 0.7826 | 0.5189 | 0.7550 | 0.7261 | 0.7653 | 0.4938 | true |
+| 2 | 0.6962 | 0.7286 | 0.7692 | 0.5224 | 0.7637 | 0.6863 | 0.7582 | 0.4967 | 0.6962 | 0.7286 | 0.7692 | 0.5224 | false |
+
+Gate and augmentation audit:
+
+| Seed | adaptive start | candidate | rollback | accepted | no-op fallback | no-op epoch | industrial samples | ROI applied | router draws | active applied classes |
+|---:|---:|---|---|---|---|---:|---:|---:|---:|---|
+| 0 | None | false | false | false | true | 15 | 0 | 0 | 0 | [] |
+| 1 | 15 | true | false | true | false | None | 17 | 20 | 1430 | [12] |
+| 2 | None | false | false | false | true | 15 | 0 | 0 | 0 | [] |
+
+Findings:
+
+- Constraint result: adaptive-RB is `2/3` pass, not `3/3`.
+- Seed0 passed constraints by reproducing clean native, but did not preserve fixed CATF-v2 mAP gains. The adaptive controller reached epoch15 with `metric_unstable` and `insufficient_diagnosis_evidence`, then entered strict no-op fallback.
+- Seed1 started a low-risk candidate at epoch15, saved an RB checkpoint, and accepted the probe at epoch20. It improved Recall by +0.0784, mAP50 by +0.0111, and mAP50-95 by +0.0139 versus clean, but Precision dropped by -0.0175, so it fails the stated industrial constraint.
+- Seed2 remained protected: no adaptive start, no candidate, no rollback required, no-op fallback at epoch15, and final metrics exactly match clean seed2.
+- OK3 remained inactive and OK3 ROI applied total was 0 across all adaptive-RB runs.
+
+Interpretation:
+
+- Adaptive-RB successfully upgrades the method from fixed-time epoch5 triggering to adaptive candidate intervention and validates strong clean-baseline protection for seed2.
+- Current adaptive-RB is not a final paper main method because seed0 loses useful fixed CATF-v2 gains and seed1 violates the precision constraint despite useful recall/mAP gains.
+- Next parameter changes should focus on cumulative burn-in evidence for seed0 and a precision-aware RB accept gate for seed1. RB probe accept should enforce clean/reference industrial constraints, not only the immediate probe delta.
+
+Reports:
+
+- `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_adaptive_rb/reports/multiseed_adaptive_rb_summary.md`
+- `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_adaptive_rb/reports/multiseed_adaptive_rb_summary.json`
+
+Verification:
+
+- `python -m py_compile scripts/train_yolo_default_with_inloop_feedback.py AutoAugment/catf_v2/sample_router.py AutoAugment/catf_v2/policy_matrix.py scripts/summarize_catf_v2_adaptive_rb_multiseed.py`
+- `pytest -q tests/test_catf_v2_adaptive_burnin.py tests/test_catf_v2_rollback_controller.py tests/test_catf_v2_gated_controller.py tests/test_catf_v2_safe_controller.py tests/test_catf_v2_transform_bypass.py tests/test_catf_v2_activation_rules.py tests/test_catf_v2_per_class_diagnosis.py tests/test_catf_v2_policy_matrix.py tests/test_catf_v2_sample_router.py tests/test_catf_v2_roi_augmentation.py tests/test_catf_v2_threshold_calibration.py tests/test_feedback_policy_guard.py tests/test_feedback_policy_controller.py tests/test_inloop_feedback_training.py tests/test_online_augmentation.py tests/test_proxy_prefilter.py tests/test_copy_paste.py`
+- Result: `111 passed`.
+
 ### CATF-v2 Adaptive Burn-in Trigger and Seed2 Adaptive-RB Validation
 
 Implemented adaptive burn-in for CATF-v2 and first-branch RB wiring. This keeps the project centered on diagnosis-driven augmentation and does not change the YOLO network.

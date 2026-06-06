@@ -12,6 +12,22 @@ The project is a diagnosis-driven augmentation pipeline for industrial defect de
 
 ## Current CATF-v2 Finding
 
+- Full multiseed adaptive-RB has been completed at `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_adaptive_rb/`.
+- Result: adaptive-RB is `2/3` constraint pass, not `3/3`; do not recommend it as the final paper main method in its current form.
+- Adaptive-RB metrics:
+  - seed0: Precision=0.7846, Recall=0.6765, mAP50=0.7347, mAP50-95=0.4759, `constraint_failed=false`.
+  - seed1: Precision=0.7550, Recall=0.7261, mAP50=0.7653, mAP50-95=0.4938, `constraint_failed=true` because Precision drops by 0.0175 versus clean.
+  - seed2: Precision=0.6962, Recall=0.7286, mAP50=0.7692, mAP50-95=0.5224, `constraint_failed=false`.
+- Adaptive-RB behavior:
+  - seed0 did not start candidate and strict no-op fallback occurred at epoch 15, so fixed CATF-v2 mAP gains were lost.
+  - seed1 started low-risk RB candidate at epoch 15, saved checkpoint, accepted at epoch 20, applied 17 industrial samples and 20 ROI ops on class 12, and retained part of the recall/mAP lift but failed the precision guard.
+  - seed2 did not start candidate and no-op fallback occurred at epoch 15, preserving clean parity.
+- OK3 remained inactive and OK3 ROI applied stayed 0 across adaptive-RB.
+- Full multiseed reports:
+  - `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_adaptive_rb/reports/multiseed_adaptive_rb_summary.md`
+  - `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_adaptive_rb/reports/multiseed_adaptive_rb_summary.json`
+- Next technical direction: use cumulative burn-in evidence for seed0, and make RB accept/rollback enforce clean/reference industrial constraints so seed1 precision loss triggers rollback/shrink or threshold calibration.
+
 - Adaptive burn-in for CATF-v2 has been implemented with `--adaptive-burnin true`; `--catf-rollback-mode true` is also available for first-branch checkpoint/rollback wiring.
 - Fixed `feedback_start_epoch=5` must now be treated only as an empirical minimum burn-in point. Do not describe epoch5 as theoretically optimal. The paper framing should be "adaptive burn-in framework" or "adaptive candidate intervention after diagnosability checks".
 - Adaptive burn-in start conditions check minimum epoch, close-mosaic boundary, recent validation metric stability, diagnosis evidence, low-support/no-aug/high-FP/stable-class guards, and strong final clean-baseline protection.
@@ -34,7 +50,7 @@ The project is a diagnosis-driven augmentation pipeline for industrial defect de
   - Reports:
     - `outputs/experiments/catf_v2_adaptive_rb_seed2_50ep/reports/adaptive_rb_seed2_50ep_report.md`
     - `outputs/experiments/catf_v2_adaptive_rb_seed2_50ep/reports/adaptive_rb_seed2_50ep_summary.json`
-- Recommended next experiment: full multiseed adaptive-RB. The seed2 result is cleanly protected, but seed0/seed1 still need real 50ep validation to see whether low-risk epoch15 candidate starts preserve useful fixed CATF-v2 gains.
+- Full multiseed adaptive-RB has now been run. It protects seed2, but seed0/seed1 behavior is not sufficient for a main-method claim.
 
 - CATF-v2-Gated has been implemented with `--catf-gated-mode true`; Safe remains available separately as `--catf-safe-mode true`.
 - Retrospective gate simulation report:

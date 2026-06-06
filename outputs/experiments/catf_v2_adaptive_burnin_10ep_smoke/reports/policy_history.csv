@@ -1,0 +1,9 @@
+epoch,class_id,action,op,field,before,after,reason,guard_triggered
+5,12,burnin_observe,sharpen_mild,prob,0.0,0.01,low_recall,
+5,12,burnin_observe,sharpen_mild,strength,0.0,0.015,low_recall,
+5,12,burnin_observe,local_contrast,prob,0.0,0.01,low_recall,
+5,12,burnin_observe,local_contrast,strength,0.0,0.015,low_recall,
+5,8,burnin_observe,sharpen_mild,prob,0.0,0.005,low_recall_domain_prior,
+5,8,burnin_observe,sharpen_mild,strength,0.0,0.01,low_recall_domain_prior,
+5,8,burnin_observe,local_contrast,prob,0.0,0.005,low_recall_domain_prior,
+5,8,burnin_observe,local_contrast,strength,0.0,0.01,low_recall_domain_prior,

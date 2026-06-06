@@ -2,6 +2,93 @@
 
 ## 2026-06-06
 
+### CATF-v2 Adaptive Burn-in Trigger and Seed2 Adaptive-RB Validation
+
+Implemented adaptive burn-in for CATF-v2 and first-branch RB wiring. This keeps the project centered on diagnosis-driven augmentation and does not change the YOLO network.
+
+Implementation:
+
+- New mode: `--adaptive-burnin true`.
+- New RB flag: `--catf-rollback-mode true`.
+- New controller module: `AutoAugment/catf_v2/adaptive_burnin.py`.
+- New rollback helper: `AutoAugment/catf_v2/rollback_controller.py`.
+- New tests:
+  - `tests/test_catf_v2_adaptive_burnin.py`
+  - `tests/test_catf_v2_rollback_controller.py`
+- Fixed `feedback_start_epoch=5` is no longer the conceptual augmentation start. It remains only the default earliest burn-in check point through `min_burnin_epoch=5`.
+- Paper wording should not claim epoch5 is optimal. The method should be described as adaptive burn-in: start candidate augmentation only after the model is diagnosable, validation curves are sufficiently stable, and class evidence is credible.
+
+Retrospective simulation:
+
+- Script: `scripts/simulate_catf_v2_adaptive_burnin_retrospective.py`
+- Outputs:
+  - `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/adaptive_burnin_retrospective_simulation.md`
+  - `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/adaptive_burnin_retrospective_simulation.json`
+- Result:
+  - seed0 adaptive start epoch: 15, low-risk RB candidate.
+  - seed1 adaptive start epoch: 15, low-risk RB candidate.
+  - seed2 candidate start: false.
+  - seed2 no-op fallback epoch: 15.
+  - seed2 strong clean-baseline protection: true.
+  - Safe epoch5 early no-op is avoided because epoch5 is observe, not fallback.
+  - Gated seed2 epoch10 late fallback is avoided because no candidate augmentation is started before seed2 protection.
+- Overfit note: the controller uses metric stability, evidence/support guards, no-aug/high-FP/stable-class guards, and final clean-baseline protection rather than seed IDs or class IDs. Thresholds still need validation beyond seeds 0/1/2.
+
+10ep smoke:
+
+- Run: `outputs/experiments/catf_v2_adaptive_burnin_10ep_smoke/`
+- Seed: 2
+- Epochs: 10
+- Configuration: `yolo11n.pt`, safe tiled no-OK-position dataset, imgsz=1024, batch=2, workers=0, device=0, YOLO default augmentation enabled, CATF-v2, adaptive burn-in, RB mode, class-aware feedback, ROI-aware augmentation, sample-aware routing.
+- Epoch5 checked start_condition.
+- Candidate branch started: false.
+- Reasons: `metric_unstable`, `strong_clean_baseline_protection`.
+- Strict no-op audit: industrial samples=0, ROI applied=0, CATF router random draw count=0.
+- BBox/class legal: true.
+- Report:
+  - `outputs/experiments/catf_v2_adaptive_burnin_10ep_smoke/reports/adaptive_burnin_smoke_report.md`
+  - `outputs/experiments/catf_v2_adaptive_burnin_10ep_smoke/reports/adaptive_burnin_events.json`
+
+Seed2 adaptive-burnin + RB 50ep:
+
+- Run: `outputs/experiments/catf_v2_adaptive_rb_seed2_50ep/`
+- Seed: 2
+- Epochs: 50
+- `results.csv` epochs 1..50 continuous.
+- Adaptive start epoch: `None`.
+- Candidate branch started: false.
+- No-op fallback epoch: 15.
+- Rollback triggered: false, because no candidate branch was entered.
+- Strict no-op audit: industrial samples=0, ROI applied=0, router random draw count=0.
+- Train images=2301, no fixed augmented dataset, bbox/class legal=true.
+
+Metrics:
+
+| Run | Precision | Recall | mAP50 | mAP50-95 | constraint_failed |
+|---|---:|---:|---:|---:|---|
+| clean seed2 | 0.6962 | 0.7286 | 0.7692 | 0.5224 | false |
+| fixed CATF-v2 seed2 | 0.7637 | 0.6863 | 0.7582 | 0.4967 | true |
+| Gated seed2 | 0.7850 | 0.6795 | 0.7521 | 0.5083 | true |
+| Safe seed2 | 0.6962 | 0.7286 | 0.7692 | 0.5224 | false |
+| Adaptive-RB seed2 | 0.6962 | 0.7286 | 0.7692 | 0.5224 | false |
+
+Interpretation:
+
+- Adaptive burn-in + RB is more methodologically defensible than fixed epoch5 triggering for seed2 because the system waits for diagnosability and blocks intervention under strong clean-baseline protection.
+- The seed2 adaptive-RB run proves strict clean parity can be preserved without using Safe's hard epoch5 early abstention.
+- Full multiseed adaptive-RB is recommended next. Seed0/seed1 need real validation to determine whether the low-risk epoch15 candidate path preserves fixed CATF-v2 gains.
+
+Reports:
+
+- `outputs/experiments/catf_v2_adaptive_rb_seed2_50ep/reports/adaptive_rb_seed2_50ep_report.md`
+- `outputs/experiments/catf_v2_adaptive_rb_seed2_50ep/reports/adaptive_rb_seed2_50ep_summary.json`
+
+Verification:
+
+- `python -m py_compile scripts/train_yolo_default_with_inloop_feedback.py AutoAugment/catf_v2/sample_router.py AutoAugment/catf_v2/policy_matrix.py AutoAugment/catf_v2/adaptive_burnin.py AutoAugment/catf_v2/rollback_controller.py scripts/simulate_catf_v2_adaptive_burnin_retrospective.py scripts/summarize_catf_v2_adaptive_rb_seed2.py`
+- `pytest -q tests/test_catf_v2_adaptive_burnin.py tests/test_catf_v2_rollback_controller.py tests/test_catf_v2_gated_controller.py tests/test_catf_v2_safe_controller.py tests/test_catf_v2_transform_bypass.py tests/test_catf_v2_activation_rules.py tests/test_catf_v2_per_class_diagnosis.py tests/test_catf_v2_policy_matrix.py tests/test_catf_v2_sample_router.py tests/test_catf_v2_roi_augmentation.py tests/test_catf_v2_threshold_calibration.py tests/test_feedback_policy_guard.py tests/test_feedback_policy_controller.py tests/test_inloop_feedback_training.py tests/test_online_augmentation.py tests/test_proxy_prefilter.py tests/test_copy_paste.py`
+- Result: `111 passed`.
+
 ### CATF-v2-Gated Controller and Full Multiseed Validation
 
 Implemented `--catf-gated-mode true` as a separate CATF-v2 controller path. Safe mode was preserved and remains available through `--catf-safe-mode true`.

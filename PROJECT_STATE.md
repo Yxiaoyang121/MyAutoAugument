@@ -6,6 +6,41 @@ Last updated: 2026-06-06
 
 The repository is centered on diagnosis-driven augmentation for industrial defect detection. The active path still keeps YOLO network architecture unchanged and focuses on dataset construction, validation-error diagnosis, policy generation, proxy safety, short training, and auditable reporting.
 
+## CATF-v2 Adaptive Burn-in + RB Seed2 Validation (2026-06-06)
+
+- Implemented adaptive burn-in for CATF-v2 with `--adaptive-burnin true`; the old fixed `feedback_start_epoch=5` is now treated only as an empirical minimum burn-in point, not as a theoretically optimal augmentation trigger.
+- Added configurable burn-in parameters: `min_burnin_epoch`, `max_burnin_epoch`, `burnin_check_interval`, `metric_stability_window`, `map50_stability_threshold`, `recall_stability_threshold`, `min_diagnosis_evidence`, `min_active_class_evidence`, and `allow_force_start_at_max_burnin`.
+- Added `--catf-rollback-mode true` and a first-branch rollback helper that saves an auditable safe checkpoint when adaptive burn-in starts a candidate branch. If a candidate is rejected, RB can restore trainer model/EMA/optimizer/scheduler state and force strict no-op policy.
+- Adaptive burn-in states:
+  - `burnin_observe`: YOLO default only, diagnosis allowed, no industrial/ROI augmentation, no CATF random draws.
+  - `candidate_branch`: starts only after the model is diagnostically usable and evidence is sufficient.
+  - `no_op_fallback`: strict clean/no-op path when max burn-in is reached without readiness.
+- Fixed epoch5 should not be claimed as optimal in the paper. The method should be described as an adaptive burn-in framework that triggers candidate augmentation when validation curves are stable and diagnostic evidence is credible.
+- Retrospective simulation:
+  - Report: `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/adaptive_burnin_retrospective_simulation.md`
+  - JSON: `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/adaptive_burnin_retrospective_simulation.json`
+  - Result: seed0 would start a low-risk RB candidate at epoch 15, seed1 would start a low-risk RB candidate at epoch 15, seed2 would not start a candidate and would no-op fallback at epoch 15 under strong clean-baseline protection.
+  - The rule avoids Safe's epoch5 early no-op and avoids Gated seed2's epoch10 fallback after already-damaging tentative augmentation.
+- 10ep adaptive burn-in smoke:
+  - Run: `outputs/experiments/catf_v2_adaptive_burnin_10ep_smoke/`
+  - Seed: 2, epochs=10, YOLO default augmentation enabled, train images=2301.
+  - Epoch5 checked `start_condition`; candidate branch did not start.
+  - Reasons: `metric_unstable` and `strong_clean_baseline_protection`.
+  - Industrial samples augmented=0, ROI applied=0, router random draw count=0, bbox/class legal=true.
+  - Report: `outputs/experiments/catf_v2_adaptive_burnin_10ep_smoke/reports/adaptive_burnin_smoke_report.md`
+- Seed2 adaptive-burnin + RB 50ep:
+  - Run: `outputs/experiments/catf_v2_adaptive_rb_seed2_50ep/`
+  - Adaptive start epoch: `None`; candidate branch did not start.
+  - No-op fallback epoch: 15, reason `adaptive_burnin_not_ready`.
+  - Rollback was not needed because no candidate branch was entered.
+  - Strict no-op audit: industrial samples augmented=0, ROI applied=0, router random draw count=0.
+  - Final metrics exactly match clean seed2: P=0.6962, R=0.7286, mAP50=0.7692, mAP50-95=0.5224.
+  - `constraint_failed=false`, epochs 1..50 continuous, bbox/class legal=true.
+  - Reports:
+    - `outputs/experiments/catf_v2_adaptive_rb_seed2_50ep/reports/adaptive_rb_seed2_50ep_report.md`
+    - `outputs/experiments/catf_v2_adaptive_rb_seed2_50ep/reports/adaptive_rb_seed2_50ep_summary.json`
+- Interpretation: adaptive burn-in + RB is more methodologically defensible than fixed epoch5 triggering. Seed2 is protected before any CATF augmentation affects weights. Full multiseed adaptive-RB is recommended next to test whether seed0/seed1 can retain useful CATF-v2 gains under the new low-risk max-burnin trigger.
+
 ## CATF-v2-Gated Multiseed Validation (2026-06-06)
 
 - Implemented `--catf-gated-mode true` as a new CATF-v2 controller mode; CATF-v2-Safe remains available as `--catf-safe-mode true`.

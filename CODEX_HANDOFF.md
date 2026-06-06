@@ -12,6 +12,30 @@ The project is a diagnosis-driven augmentation pipeline for industrial defect de
 
 ## Current CATF-v2 Finding
 
+- Adaptive burn-in for CATF-v2 has been implemented with `--adaptive-burnin true`; `--catf-rollback-mode true` is also available for first-branch checkpoint/rollback wiring.
+- Fixed `feedback_start_epoch=5` must now be treated only as an empirical minimum burn-in point. Do not describe epoch5 as theoretically optimal. The paper framing should be "adaptive burn-in framework" or "adaptive candidate intervention after diagnosability checks".
+- Adaptive burn-in start conditions check minimum epoch, close-mosaic boundary, recent validation metric stability, diagnosis evidence, low-support/no-aug/high-FP/stable-class guards, and strong final clean-baseline protection.
+- Retrospective adaptive burn-in simulation:
+  - `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/adaptive_burnin_retrospective_simulation.md`
+  - `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/adaptive_burnin_retrospective_simulation.json`
+  - Replay result: seed0 starts low-risk RB candidate at epoch15, seed1 starts low-risk RB candidate at epoch15, seed2 does not start candidate and no-op fallbacks at epoch15 under strong clean-baseline protection.
+- Adaptive burn-in 10ep smoke:
+  - `outputs/experiments/catf_v2_adaptive_burnin_10ep_smoke/`
+  - epoch5 start_condition checked; candidate did not start.
+  - Reasons: `metric_unstable` and `strong_clean_baseline_protection`.
+  - industrial samples=0, ROI applied=0, router random draw count=0, bbox/class legal=true.
+  - Report: `outputs/experiments/catf_v2_adaptive_burnin_10ep_smoke/reports/adaptive_burnin_smoke_report.md`
+- Adaptive-burnin + RB seed2 50ep:
+  - `outputs/experiments/catf_v2_adaptive_rb_seed2_50ep/`
+  - adaptive start epoch: `None`; candidate branch did not start.
+  - no-op fallback epoch: 15; rollback not needed.
+  - final metrics match clean seed2 exactly: Precision=0.6962, Recall=0.7286, mAP50=0.7692, mAP50-95=0.5224.
+  - `constraint_failed=false`; industrial samples=0; ROI applied=0; router random draw count=0.
+  - Reports:
+    - `outputs/experiments/catf_v2_adaptive_rb_seed2_50ep/reports/adaptive_rb_seed2_50ep_report.md`
+    - `outputs/experiments/catf_v2_adaptive_rb_seed2_50ep/reports/adaptive_rb_seed2_50ep_summary.json`
+- Recommended next experiment: full multiseed adaptive-RB. The seed2 result is cleanly protected, but seed0/seed1 still need real 50ep validation to see whether low-risk epoch15 candidate starts preserve useful fixed CATF-v2 gains.
+
 - CATF-v2-Gated has been implemented with `--catf-gated-mode true`; Safe remains available separately as `--catf-safe-mode true`.
 - Retrospective gate simulation report:
   - `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/gated_controller_retrospective_simulation.md`

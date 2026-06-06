@@ -27,6 +27,9 @@ from AutoAugment.diagnostics.yolo_error_analysis import load_class_names_from_da
 from AutoAugment.feedback_policy_controller import FeedbackPolicyController, default_catf_policy  # noqa: E402
 from AutoAugment.online_augmentation import OnlineAugmentationStats, OnlinePolicyAugmentor  # noqa: E402
 from AutoAugment.catf_v2 import (  # noqa: E402
+    AdaptiveBurninConfig,
+    AdaptiveBurninController,
+    CATFRollbackController,
     CATFGatedController,
     CATFSafeController,
     ClassAwareCATFController,
@@ -35,7 +38,9 @@ from AutoAugment.catf_v2 import (  # noqa: E402
     count_train_instances,
     initial_policy_matrix,
 )
+from AutoAugment.catf_v2.adaptive_burnin import annotate_policy_history_with_adaptive_burnin, probe_window  # noqa: E402
 from AutoAugment.catf_v2.gated_controller import annotate_policy_history_with_gate  # noqa: E402
+from AutoAugment.catf_v2.rollback_controller import annotate_policy_history_with_rollback  # noqa: E402
 from AutoAugment.catf_v2.class_aware_controller import build_sample_weight_map  # noqa: E402
 from AutoAugment.catf_v2.issue_attribution import attribute_class_issues  # noqa: E402
 from AutoAugment.catf_v2.per_class_diagnosis import build_per_class_diagnosis  # noqa: E402
@@ -82,9 +87,13 @@ class InLoopFeedbackState:
     reference_metrics: dict[str, Any]
     reference_curve: dict[int, dict[str, Any]] = field(default_factory=dict)
     feedback_controller: Any | None = None
+    adaptive_burnin_controller: AdaptiveBurninController | None = None
+    rollback_controller: CATFRollbackController | None = None
     safe_controller: CATFSafeController | None = None
     gated_controller: CATFGatedController | None = None
     history: list[dict[str, Any]] = field(default_factory=list)
+    adaptive_burnin_events: list[dict[str, Any]] = field(default_factory=list)
+    rollback_events: list[dict[str, Any]] = field(default_factory=list)
     safe_events: list[dict[str, Any]] = field(default_factory=list)
     gated_events: list[dict[str, Any]] = field(default_factory=list)
     epoch_records: list[dict[str, Any]] = field(default_factory=list)
@@ -162,6 +171,11 @@ def main() -> None:
         reference_metrics=reference_metrics,
         reference_curve=reference_curve,
     )
+    if catf_v2_enabled and bool(args.adaptive_burnin):
+        burnin_config = adaptive_burnin_config_from_args(args)
+        state.adaptive_burnin_controller = AdaptiveBurninController(burnin_config)
+    if catf_v2_enabled and bool(args.catf_rollback_mode):
+        state.rollback_controller = CATFRollbackController(probe_window=adaptive_probe_window(args))
     if catf_v2_enabled and bool(args.catf_safe_mode):
         state.safe_controller = CATFSafeController()
     if catf_v2_enabled and bool(args.catf_gated_mode):
@@ -399,6 +413,17 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--catf-noop", action=argparse.BooleanOptionalAction, default=False)
     parser.add_argument("--catf-safe-mode", action=argparse.BooleanOptionalAction, default=False)
     parser.add_argument("--catf-gated-mode", action=argparse.BooleanOptionalAction, default=False)
+    parser.add_argument("--catf-rollback-mode", action=argparse.BooleanOptionalAction, default=False)
+    parser.add_argument("--adaptive-burnin", action=argparse.BooleanOptionalAction, default=False)
+    parser.add_argument("--min-burnin-epoch", type=int, default=5)
+    parser.add_argument("--max-burnin-epoch", type=int, default=15)
+    parser.add_argument("--burnin-check-interval", type=int, default=5)
+    parser.add_argument("--metric-stability-window", type=int, default=3)
+    parser.add_argument("--map50-stability-threshold", type=float, default=0.02)
+    parser.add_argument("--recall-stability-threshold", type=float, default=0.03)
+    parser.add_argument("--min-diagnosis-evidence", type=int, default=5)
+    parser.add_argument("--min-active-class-evidence", type=int, default=5)
+    parser.add_argument("--allow-force-start-at-max-burnin", action=argparse.BooleanOptionalAction, default=True)
     parser.add_argument("--class-aware-feedback", action=argparse.BooleanOptionalAction, default=False)
     parser.add_argument("--roi-aware-aug", action=argparse.BooleanOptionalAction, default=False)
     parser.add_argument("--sample-aware-routing", action=argparse.BooleanOptionalAction, default=False)
@@ -425,6 +450,9 @@ def normalize_bool_cli_args(argv: list[str]) -> list[str]:
         "--catf-noop",
         "--catf-safe-mode",
         "--catf-gated-mode",
+        "--catf-rollback-mode",
+        "--adaptive-burnin",
+        "--allow-force-start-at-max-burnin",
         "--class-aware-feedback",
         "--roi-aware-aug",
         "--sample-aware-routing",
@@ -483,6 +511,18 @@ def build_train_config(args: argparse.Namespace, output_dir: Path) -> dict[str, 
         "catf_noop": bool(args.catf_noop),
         "catf_safe_mode": bool(args.catf_safe_mode),
         "catf_gated_mode": bool(args.catf_gated_mode),
+        "catf_rollback_mode": bool(args.catf_rollback_mode),
+        "adaptive_burnin": bool(args.adaptive_burnin),
+        "min_burnin_epoch": int(args.min_burnin_epoch),
+        "max_burnin_epoch": int(args.max_burnin_epoch),
+        "burnin_check_interval": int(args.burnin_check_interval),
+        "metric_stability_window": int(args.metric_stability_window),
+        "map50_stability_threshold": float(args.map50_stability_threshold),
+        "recall_stability_threshold": float(args.recall_stability_threshold),
+        "min_diagnosis_evidence": int(args.min_diagnosis_evidence),
+        "min_active_class_evidence": int(args.min_active_class_evidence),
+        "allow_force_start_at_max_burnin": bool(args.allow_force_start_at_max_burnin),
+        "adaptive_probe_window": adaptive_probe_window(args),
         "class_aware_feedback": bool(args.class_aware_feedback),
         "roi_aware_aug": bool(args.roi_aware_aug),
         "sample_aware_routing": bool(args.sample_aware_routing),
@@ -540,6 +580,11 @@ def build_train_command(args: argparse.Namespace, output_dir: Path) -> str:
         f"catf_noop={bool(getattr(args, 'catf_noop', False))}",
         f"catf_safe_mode={bool(getattr(args, 'catf_safe_mode', False))}",
         f"catf_gated_mode={bool(getattr(args, 'catf_gated_mode', False))}",
+        f"catf_rollback_mode={bool(getattr(args, 'catf_rollback_mode', False))}",
+        f"adaptive_burnin={bool(getattr(args, 'adaptive_burnin', False))}",
+        f"min_burnin_epoch={int(getattr(args, 'min_burnin_epoch', 5))}",
+        f"max_burnin_epoch={int(getattr(args, 'max_burnin_epoch', 15))}",
+        f"burnin_check_interval={int(getattr(args, 'burnin_check_interval', 5))}",
         f"class_aware_feedback={bool(getattr(args, 'class_aware_feedback', False))}",
         f"roi_aware_aug={bool(getattr(args, 'roi_aware_aug', False))}",
         f"sample_aware_routing={bool(getattr(args, 'sample_aware_routing', False))}",
@@ -563,6 +608,62 @@ def build_val_command(args: argparse.Namespace, output_dir: Path, weights: Path)
         "plots=False",
     ]
     return subprocess.list2cmdline([str(part) for part in parts])
+
+
+def adaptive_burnin_config_from_args(args: argparse.Namespace) -> AdaptiveBurninConfig:
+    return AdaptiveBurninConfig(
+        min_burnin_epoch=int(getattr(args, "min_burnin_epoch", 5)),
+        max_burnin_epoch=int(getattr(args, "max_burnin_epoch", 15)),
+        burnin_check_interval=int(getattr(args, "burnin_check_interval", 5)),
+        metric_stability_window=int(getattr(args, "metric_stability_window", 3)),
+        map50_stability_threshold=float(getattr(args, "map50_stability_threshold", 0.02)),
+        recall_stability_threshold=float(getattr(args, "recall_stability_threshold", 0.03)),
+        min_diagnosis_evidence=int(getattr(args, "min_diagnosis_evidence", 5)),
+        min_active_class_evidence=int(getattr(args, "min_active_class_evidence", 5)),
+        allow_force_start_at_max_burnin=bool(getattr(args, "allow_force_start_at_max_burnin", True)),
+        probe_window=adaptive_probe_window(args),
+    )
+
+
+def build_adaptive_burnin_config_payload(args: argparse.Namespace) -> dict[str, Any]:
+    return {
+        "adaptive_burnin": bool(getattr(args, "adaptive_burnin", False)),
+        "min_burnin_epoch": int(getattr(args, "min_burnin_epoch", 5)),
+        "max_burnin_epoch": int(getattr(args, "max_burnin_epoch", 15)),
+        "burnin_check_interval": int(getattr(args, "burnin_check_interval", 5)),
+        "metric_stability_window": int(getattr(args, "metric_stability_window", 3)),
+        "map50_stability_threshold": float(getattr(args, "map50_stability_threshold", 0.02)),
+        "recall_stability_threshold": float(getattr(args, "recall_stability_threshold", 0.03)),
+        "min_diagnosis_evidence": int(getattr(args, "min_diagnosis_evidence", 5)),
+        "min_active_class_evidence": int(getattr(args, "min_active_class_evidence", 5)),
+        "allow_force_start_at_max_burnin": bool(getattr(args, "allow_force_start_at_max_burnin", True)),
+        "probe_window": adaptive_probe_window(args),
+    }
+
+
+def adaptive_probe_window(args: argparse.Namespace) -> int:
+    explicit = getattr(args, "probe_window", None)
+    if explicit is not None:
+        return max(1, int(explicit))
+    return max(3, int(getattr(args, "feedback_interval", 5)))
+
+
+def close_mosaic_start_epoch(args: argparse.Namespace) -> int | None:
+    total_epochs = int(getattr(args, "epochs", 0) or 0)
+    close_mosaic = 10
+    start = total_epochs - close_mosaic
+    # For short smoke runs, close_mosaic may cover the whole run. Do not let
+    # that erase the burn-in audit path; the smoke still needs the epoch-5 check.
+    if start <= int(getattr(args, "min_burnin_epoch", 5)):
+        return None
+    return start
+
+
+def recent_metric_history(state: InLoopFeedbackState, window: int | None = None) -> list[dict[str, Any]]:
+    records = [dict(record.get("metrics") or {}) for record in state.epoch_records if isinstance(record.get("metrics"), dict)]
+    if window is None:
+        return records
+    return records[-max(1, int(window)) :]
 
 
 def initial_policy_state() -> dict[str, Any]:
@@ -678,15 +779,51 @@ def register_inloop_feedback_callback(model: Any, state: InLoopFeedbackState) ->
                 )
                 state.feedback_controller = controller
             new_policy = controller.update(diagnosis, epoch=epoch_num, metrics=metrics, reference_metrics=reference_metrics)
+            latest_record = controller.history[-1] if controller.history else {}
+            per_class = {}
+            per_class_path = latest_record.get("per_class_diagnosis_path")
+            if per_class_path and Path(per_class_path).exists():
+                per_class = read_json(Path(per_class_path))
+            adaptive_terminal = False
+            adaptive_event: dict[str, Any] | None = None
+            if bool(getattr(state.args, "adaptive_burnin", False)):
+                if state.adaptive_burnin_controller is None:
+                    state.adaptive_burnin_controller = AdaptiveBurninController(adaptive_burnin_config_from_args(state.args))
+                adaptive_event = state.adaptive_burnin_controller.evaluate(
+                    epoch=epoch_num,
+                    metrics=metrics,
+                    reference_metrics=reference_metrics,
+                    clean_reference_metrics=state.reference_metrics,
+                    metric_history=recent_metric_history(state, int(state.args.metric_stability_window)),
+                    per_class_diagnosis=per_class,
+                    old_policy=old_policy,
+                    proposed_policy=new_policy,
+                    close_mosaic_start_epoch=close_mosaic_start_epoch(state.args),
+                )
+                new_policy = deepcopy(adaptive_event.get("policy", new_policy))
+                adaptive_terminal = adaptive_event.get("action") in {"burnin_observe", "no_op_fallback"}
+                if hasattr(controller, "policy"):
+                    controller.policy.matrix = deepcopy(new_policy)
+                annotate_policy_history_with_adaptive_burnin(
+                    controller.history,
+                    adaptive_event,
+                    new_policy,
+                    old_policy=old_policy,
+                )
+                state.adaptive_burnin_events = deepcopy(state.adaptive_burnin_controller.events)
+                if (
+                    adaptive_event.get("candidate_branch_started")
+                    and bool(getattr(state.args, "catf_rollback_mode", False))
+                    and state.rollback_controller is not None
+                ):
+                    rb_event = state.rollback_controller.start_candidate(trainer=trainer, output_dir=state.output_dir, epoch=epoch_num)
+                    annotate_policy_history_with_rollback(controller.history, rb_event, new_policy)
+                    state.rollback_events = deepcopy(state.rollback_controller.events)
             safe_event: dict[str, Any] | None = None
-            if bool(getattr(state.args, "catf_safe_mode", False)):
+            if bool(getattr(state.args, "catf_safe_mode", False)) and not adaptive_terminal:
                 if state.safe_controller is None:
                     state.safe_controller = CATFSafeController()
                 latest_record = controller.history[-1] if controller.history else {}
-                per_class = {}
-                per_class_path = latest_record.get("per_class_diagnosis_path")
-                if per_class_path and Path(per_class_path).exists():
-                    per_class = read_json(Path(per_class_path))
                 safe_event = state.safe_controller.evaluate(
                     epoch=epoch_num,
                     policy=new_policy,
@@ -719,14 +856,10 @@ def register_inloop_feedback_callback(model: Any, state: InLoopFeedbackState) ->
                         controller.history[-1]["frozen"] = event_for_history.get("action") == "no_op_freeze"
                 state.safe_events = deepcopy(state.safe_controller.events)
             gated_event: dict[str, Any] | None = None
-            if bool(getattr(state.args, "catf_gated_mode", False)):
+            if bool(getattr(state.args, "catf_gated_mode", False)) and not adaptive_terminal:
                 if state.gated_controller is None:
                     state.gated_controller = CATFGatedController()
                 latest_record = controller.history[-1] if controller.history else {}
-                per_class = {}
-                per_class_path = latest_record.get("per_class_diagnosis_path")
-                if per_class_path and Path(per_class_path).exists():
-                    per_class = read_json(Path(per_class_path))
                 gated_event = state.gated_controller.evaluate(
                     epoch=epoch_num,
                     policy=new_policy,
@@ -741,6 +874,28 @@ def register_inloop_feedback_callback(model: Any, state: InLoopFeedbackState) ->
                     controller.policy.matrix = deepcopy(new_policy)
                 annotate_policy_history_with_gate(controller.history, gated_event, new_policy)
                 state.gated_events = deepcopy(state.gated_controller.events)
+            if (
+                bool(getattr(state.args, "adaptive_burnin", False))
+                and bool(getattr(state.args, "catf_rollback_mode", False))
+                and state.rollback_controller is not None
+                and not adaptive_terminal
+            ):
+                rb_probe_event = state.rollback_controller.maybe_evaluate_probe(
+                    trainer=trainer,
+                    epoch=epoch_num,
+                    policy=new_policy,
+                    metrics=metrics,
+                    reference_metrics=reference_metrics,
+                    per_class_diagnosis=per_class,
+                    active_classes=(controller.history[-1] if controller.history else {}).get("active_classes", []),
+                    output_dir=state.output_dir,
+                )
+                if rb_probe_event is not None:
+                    new_policy = deepcopy(rb_probe_event.get("policy", new_policy))
+                    if hasattr(controller, "policy"):
+                        controller.policy.matrix = deepcopy(new_policy)
+                    annotate_policy_history_with_rollback(controller.history, rb_probe_event, new_policy)
+                    state.rollback_events = deepcopy(state.rollback_controller.events)
             state.policy_state.clear()
             state.policy_state.update(deepcopy(new_policy))
             state.context.augmentor.set_policy(new_policy)
@@ -811,6 +966,11 @@ def should_update_feedback(args: argparse.Namespace, epoch_num: int) -> bool:
         return False
     if epoch_num >= int(args.epochs):
         return False
+    if bool(getattr(args, "adaptive_burnin", False)) and is_catf_v2(args):
+        if epoch_num < int(getattr(args, "min_burnin_epoch", 5)):
+            return False
+        interval = max(1, int(getattr(args, "burnin_check_interval", getattr(args, "feedback_interval", 5))))
+        return epoch_num % interval == 0
     if epoch_num < int(args.feedback_start_epoch):
         return False
     interval = max(1, int(args.feedback_interval))
@@ -1059,6 +1219,9 @@ def build_payload(
             "catf_noop": bool(getattr(args, "catf_noop", False)),
             "catf_safe_mode": bool(getattr(args, "catf_safe_mode", False)),
             "catf_gated_mode": bool(getattr(args, "catf_gated_mode", False)),
+            "catf_rollback_mode": bool(getattr(args, "catf_rollback_mode", False)),
+            "adaptive_burnin": bool(getattr(args, "adaptive_burnin", False)),
+            "adaptive_start_epoch": state.adaptive_burnin_controller.start_epoch if state.adaptive_burnin_controller else None,
             "noop_transform_calls": int(getattr(state.context, "noop_transform_calls", 0) or 0),
             "router_random_draw_count": int(getattr(state.context.augmentor, "random_draw_count", 0) or 0),
             "sample_router_built": bool(is_catf_v2(args)),
@@ -1101,6 +1264,15 @@ def build_payload(
         "catf_noop": bool(getattr(args, "catf_noop", False)),
         "catf_safe_mode": bool(getattr(args, "catf_safe_mode", False)),
         "catf_gated_mode": bool(getattr(args, "catf_gated_mode", False)),
+        "catf_rollback_mode": bool(getattr(args, "catf_rollback_mode", False)),
+        "adaptive_burnin": bool(getattr(args, "adaptive_burnin", False)),
+        "adaptive_start_epoch": state.adaptive_burnin_controller.start_epoch if state.adaptive_burnin_controller else None,
+        "adaptive_candidate_started": bool(state.adaptive_burnin_controller and state.adaptive_burnin_controller.triggered),
+        "adaptive_noop_fallback": bool(state.adaptive_burnin_controller and state.adaptive_burnin_controller.fallback_active),
+        "adaptive_noop_reason": state.adaptive_burnin_controller.fallback_reason if state.adaptive_burnin_controller else None,
+        "adaptive_burnin_events": str((output_dir / "reports" / "adaptive_burnin_events.json").resolve()),
+        "rollback_triggered": any(event.get("action") == "rollback" for event in state.rollback_events),
+        "rollback_controller_events": str((output_dir / "reports" / "rollback_controller_events.json").resolve()),
         "class_aware_feedback": bool(getattr(args, "class_aware_feedback", False)),
         "roi_aware_aug": bool(getattr(args, "roi_aware_aug", False)),
         "sample_aware_routing": bool(getattr(args, "sample_aware_routing", False)),
@@ -1141,6 +1313,10 @@ def build_payload(
         "catf_noop": bool(getattr(args, "catf_noop", False)),
         "catf_safe_mode": bool(getattr(args, "catf_safe_mode", False)),
         "catf_gated_mode": bool(getattr(args, "catf_gated_mode", False)),
+        "catf_rollback_mode": bool(getattr(args, "catf_rollback_mode", False)),
+        "adaptive_burnin": bool(getattr(args, "adaptive_burnin", False)),
+        "adaptive_start_epoch": state.adaptive_burnin_controller.start_epoch if state.adaptive_burnin_controller else None,
+        "adaptive_burnin_config": build_adaptive_burnin_config_payload(args),
         "class_aware_feedback": bool(getattr(args, "class_aware_feedback", False)),
         "roi_aware_aug": bool(getattr(args, "roi_aware_aug", False)),
         "sample_aware_routing": bool(getattr(args, "sample_aware_routing", False)),
@@ -1158,6 +1334,8 @@ def build_payload(
         },
         "val": {"success": val_success, "error": val_error, "metrics": val_metrics},
         "policy_history": state.history,
+        "adaptive_burnin_events": state.adaptive_burnin_events,
+        "rollback_controller_events": state.rollback_events,
         "safe_controller_events": state.safe_events,
         "gated_controller_events": state.gated_events,
         "latest_policy_state": state.policy_state,
@@ -1217,6 +1395,10 @@ def write_outputs(payload: dict[str, Any]) -> None:
         write_json(output_dir / "reports" / "roi_aug_stats.json", payload["roi_aug_stats"])
     write_json(output_dir / "reports" / "epoch_records.json", payload["epoch_records"])
     write_json(output_dir / "reports" / "constraint_scoring.json", payload["constraint_scoring"])
+    if payload.get("adaptive_burnin"):
+        write_json(output_dir / "reports" / "adaptive_burnin_events.json", {"events": payload.get("adaptive_burnin_events", [])})
+    if payload.get("catf_rollback_mode"):
+        write_json(output_dir / "reports" / "rollback_controller_events.json", {"events": payload.get("rollback_controller_events", [])})
     if payload.get("catf_safe_mode"):
         write_json(output_dir / "reports" / "safe_controller_events.json", {"events": payload.get("safe_controller_events", [])})
     if payload.get("catf_gated_mode"):
@@ -1230,6 +1412,8 @@ def write_outputs(payload: dict[str, Any]) -> None:
     if payload["feedback_enabled"] and int(payload["epochs"]) <= 10:
         if payload.get("catf_version") == "v2":
             write_markdown(output_dir / "reports" / "catf_v2_smoke_report.md", build_catf_v2_smoke_report(payload))
+            if payload.get("adaptive_burnin"):
+                write_markdown(output_dir / "reports" / "adaptive_burnin_smoke_report.md", build_adaptive_burnin_smoke_report(payload))
         else:
             write_markdown(output_dir / "reports" / "catf_smoke_report.md", build_catf_smoke_report(payload))
     if payload.get("diagnosis_only") and int(payload["epochs"]) <= 10:
@@ -1502,6 +1686,9 @@ def build_catf_v2_smoke_report(payload: dict[str, Any]) -> str:
         f"- Threshold calibration report enabled: `{str(payload.get('threshold_calibration_report', True)).lower()}`",
         f"- CATF-v2 safe mode enabled: `{str(payload.get('catf_safe_mode', False)).lower()}`",
         f"- CATF-v2 gated mode enabled: `{str(payload.get('catf_gated_mode', False)).lower()}`",
+        f"- CATF-v2 rollback mode enabled: `{str(payload.get('catf_rollback_mode', False)).lower()}`",
+        f"- Adaptive burn-in enabled: `{str(payload.get('adaptive_burnin', False)).lower()}`",
+        f"- Adaptive start epoch: `{payload.get('adaptive_start_epoch')}`",
         f"- Baseline protection triggered: `{str(any('baseline_protection' in ','.join(event.get('reasons', [])) for event in safe_events)).lower()}`",
         f"- Early abstention triggered: `{str(any('early_abstention' in ','.join(event.get('reasons', [])) for event in safe_events)).lower()}`",
         f"- No-op freeze entered: `{str(any(event.get('action') == 'no_op_freeze' for event in safe_events)).lower()}`",
@@ -1538,11 +1725,72 @@ def build_catf_v2_smoke_report(payload: dict[str, Any]) -> str:
         f"- ROI aug stats: `{payload['summary'].get('roi_aug_stats')}`",
         f"- Safe controller events: `{payload['summary'].get('safe_controller_events')}`",
         f"- Gated controller events: `{payload['summary'].get('gated_controller_events')}`",
+        f"- Adaptive burn-in events: `{payload['summary'].get('adaptive_burnin_events')}`",
+        f"- Rollback controller events: `{payload['summary'].get('rollback_controller_events')}`",
         "",
         "## Next Step",
         "",
         "- This smoke only validates the CATF-v2 control path. It is not a 50 epoch result.",
     ]
+    return "\n".join(lines) + "\n"
+
+
+def build_adaptive_burnin_smoke_report(payload: dict[str, Any]) -> str:
+    events = payload.get("adaptive_burnin_events") or []
+    stats = payload.get("online_aug_stats") or {}
+    roi_stats = payload.get("roi_aug_stats") or {}
+    epoch5_event = next((event for event in events if int(event.get("epoch", -1)) == 5), None)
+    start_event = next((event for event in events if event.get("candidate_branch_started")), None)
+    noop_event = next((event for event in events if event.get("action") == "no_op_fallback"), None)
+    strict_noop = (
+        not bool(start_event)
+        and int(stats.get("samples_augmented", 0) or 0) == 0
+        and int(roi_stats.get("roi_aug_applied", 0) or 0) == 0
+        and int(stats.get("router_random_draw_count", 0) or 0) == 0
+    )
+    reasons = []
+    if epoch5_event:
+        reasons = list(epoch5_event.get("reasons") or [])
+    lines = [
+        "# Adaptive Burn-in CATF-v2 Smoke Report",
+        "",
+        "## Answers",
+        "",
+        f"- Adaptive burn-in enabled: `{str(payload.get('adaptive_burnin', False)).lower()}`",
+        f"- Epoch 5 start_condition checked: `{str(bool(epoch5_event and epoch5_event.get('checked'))).lower()}`",
+        f"- Candidate branch started: `{str(bool(start_event)).lower()}`",
+        f"- Adaptive start epoch: `{payload.get('adaptive_start_epoch')}`",
+        f"- No-start reason at epoch 5: `{reasons}`",
+        f"- No-op fallback entered: `{str(bool(noop_event)).lower()}`",
+        f"- Strict no-op so far: `{str(strict_noop).lower()}`",
+        f"- BBox/class legal: `{str(payload['summary']['bbox_class_valid']).lower()}`",
+        f"- Industrial samples augmented: `{stats.get('samples_augmented', 0)}`",
+        f"- ROI applied: `{roi_stats.get('roi_aug_applied', 0)}`",
+        f"- CATF router random draw count: `{stats.get('router_random_draw_count', 0)}`",
+        f"- Safe checkpoint saved: `{str(any(event.get('action') == 'save_safe_checkpoint' for event in payload.get('rollback_controller_events', []))).lower()}`",
+        "",
+        "## Start Condition Trace",
+        "",
+        "| epoch | action | checked | start_condition | reasons | map50_range | recall_range | eligible_classes | strong_baseline |",
+        "|---:|---|---|---|---|---:|---:|---|---|",
+    ]
+    for event in events:
+        cond = event.get("start_condition") or {}
+        stability = cond.get("metric_stability") or {}
+        lines.append(
+            f"| {event.get('epoch')} | {event.get('action')} | {str(event.get('checked')).lower()} | "
+            f"{str(event.get('start_condition_met')).lower()} | `{event.get('reasons', [])}` | "
+            f"{fmt(stability.get('map50_range'))} | {fmt(stability.get('recall_range'))} | "
+            f"`{cond.get('eligible_active_classes', [])}` | `{str(cond.get('strong_clean_baseline_protection', False)).lower()}` |"
+        )
+    lines.extend(
+        [
+            "",
+            "## Next Step",
+            "",
+            "- Enter the seed2 50ep adaptive-RB run only if the smoke remains strict no-op before candidate start, bbox/class validation is clean, and CATF router random draws remain zero while burn-in is observing.",
+        ]
+    )
     return "\n".join(lines) + "\n"
 
 
@@ -1611,6 +1859,8 @@ def primary_report_path(output_dir: Path, args: argparse.Namespace) -> Path:
         return output_dir / "reports" / "inloop_no_feedback_control_report.md"
     if int(args.epochs) <= 10:
         if is_catf_v2(args):
+            if bool(getattr(args, "adaptive_burnin", False)):
+                return output_dir / "reports" / "adaptive_burnin_smoke_report.md"
             return output_dir / "reports" / "catf_v2_smoke_report.md"
         return output_dir / "reports" / "catf_smoke_report.md"
     return output_dir / "reports" / "final_report.md"
@@ -1626,6 +1876,8 @@ def build_final_report(payload: dict[str, Any]) -> str:
     adjustment_counts = adjustment_direction_counts(payload.get("policy_history", []))
     safe_events = payload.get("safe_controller_events") or []
     gated_events = payload.get("gated_controller_events") or []
+    adaptive_events = payload.get("adaptive_burnin_events") or []
+    rollback_events = payload.get("rollback_controller_events") or []
     improved_p = (deltas.get("precision") or 0.0) > 0
     improved_r = (deltas.get("recall") or 0.0) > 0
     improved_map50 = (deltas.get("map50") or 0.0) > 0
@@ -1669,6 +1921,12 @@ def build_final_report(payload: dict[str, Any]) -> str:
         f"- Feedback controller: `{payload.get('feedback_controller', 'CATF')}`",
         f"- CATF-v2 safe mode enabled: `{str(payload.get('catf_safe_mode', False)).lower()}`",
         f"- CATF-v2 gated mode enabled: `{str(payload.get('catf_gated_mode', False)).lower()}`",
+        f"- CATF-v2 rollback mode enabled: `{str(payload.get('catf_rollback_mode', False)).lower()}`",
+        f"- Adaptive burn-in enabled: `{str(payload.get('adaptive_burnin', False)).lower()}`",
+        f"- Adaptive start epoch: `{payload.get('adaptive_start_epoch')}`",
+        f"- Adaptive candidate started: `{str(any(event.get('candidate_branch_started') for event in adaptive_events)).lower()}`",
+        f"- Adaptive no-op fallback: `{str(any(event.get('action') == 'no_op_fallback' for event in adaptive_events)).lower()}`",
+        f"- RB rollback triggered: `{str(any(event.get('action') == 'rollback' for event in rollback_events)).lower()}`",
         f"- Safe no-op fallback triggered: `{str(any(event.get('action') == 'no_op_freeze' for event in safe_events)).lower()}`",
         f"- Safe controller reasons: `{safe_event_reasons(safe_events)}`",
         f"- Gated no-op fallback triggered: `{str(any(event.get('action') == 'no_op_freeze' for event in gated_events)).lower()}`",

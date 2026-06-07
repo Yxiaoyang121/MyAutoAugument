@@ -12,6 +12,21 @@ The project is a diagnosis-driven augmentation pipeline for industrial defect de
 
 ## Current CATF-v2 Finding
 
+- Strategy limitation report completed:
+  - `outputs/experiments/seed2_failure_root_cause/reports/catf_v2_strategy_limitation_analysis.md`
+  - `outputs/experiments/seed2_failure_root_cause/reports/catf_v2_strategy_limitation_analysis.json`
+- No training, no short/full ablation, and no CATF-v2 rule changes were made for this report.
+- Framing for future work: do not describe CATF-v2 as failed. Fixed CATF-v2 has valid gains on seed0/seed1 and average metrics improve; seed2 shows that strategy selection and risk control are not mature enough.
+- Strategy-level limitations to carry forward:
+  - diagnosis is evidence of a class issue, not proof that a specific augmentation will help;
+  - class 9 was diagnosed as `texture_boundary_weak`, but class 9 Recall/AP dropped after ROI texture enhancement;
+  - causal validation is missing before weight-updating training;
+  - non-active class regression is real and must be constrained;
+  - `sharpen_mild` and `local_contrast` are currently co-enabled, so operator-level risk is not isolated;
+  - epoch10 fallback/gate can be too late because weights may already be affected;
+  - strong clean-baseline cases such as seed2 should default to no-op or sampler-only unless causal evidence is positive.
+- Minimal improvement direction: implement CP-CATF causal probe first, then add active/non-active dual constraints and a high-risk class-op candidate gate for class 9 + ROI texture. Do not run large ablations before this design layer exists.
+
 - Latest work: seed2 fixed CATF-v2 failure root-cause audit completed at `outputs/experiments/seed2_failure_root_cause/`.
 - No training was run for the audit. Existing artifacts were read, and predict-only validation was run on existing clean/fixed best weights to generate:
   - `outputs/experiments/seed2_failure_root_cause/predictions/clean_best/validation_predictions.json`

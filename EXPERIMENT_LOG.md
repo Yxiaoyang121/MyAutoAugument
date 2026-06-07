@@ -2,6 +2,57 @@
 
 ## 2026-06-07
 
+### CATF-v2 Strategy Limitation Analysis From Seed2 Audit
+
+Generated a strategy-level limitation analysis from the completed seed2 root-cause audit.
+
+Scope:
+
+- No training was run.
+- No 10ep or 50ep ablation was run.
+- No CATF-v2 rule or augmentation strategy was changed.
+- The report reads the existing seed2 root-cause audit reports and fixed multiseed summary only.
+
+Outputs:
+
+- `outputs/experiments/seed2_failure_root_cause/reports/catf_v2_strategy_limitation_analysis.md`
+- `outputs/experiments/seed2_failure_root_cause/reports/catf_v2_strategy_limitation_analysis.json`
+
+Main conclusion:
+
+- CATF-v2 should not be described as a failed method. Fixed CATF-v2 has valid gains on seed0/seed1 and average metrics improve.
+- Seed2 exposes immature strategy selection and risk control: diagnosis does not automatically imply that a specific augmentation is beneficial.
+
+Seed2 evidence used:
+
+- clean seed2: P=0.6962, R=0.7286, mAP50=0.7692, mAP50-95=0.5224.
+- fixed seed2: P=0.7637, R=0.6863, mAP50=0.7582, mAP50-95=0.4967.
+- fixed seed2 is more conservative: Precision rises, Recall and AP metrics fall.
+- Recall first lags clean at epoch 6; mAP50/mAP50-95 clearly lag by epoch 8.
+- Most suspicious update: epoch5 class 9 `texture_boundary_weak` activation with `sharpen_mild` and `local_contrast`.
+- Most suspicious class-op evidence: class 9 ROI applied=25, final Recall -0.1667, AP50 -0.0466, AP50-95 -0.0654.
+- Non-active class regression exists, so active-class-only monitoring is insufficient.
+
+Strategy limitations:
+
+- Diagnosis is not equivalent to augmentation benefit.
+- Active class improvement cannot be assumed after a local diagnosis.
+- Candidate augmentation lacks pre-training causal validation.
+- Non-active class regression is not sufficiently constrained.
+- Co-enabled `sharpen_mild` and `local_contrast` prevent operator-level risk isolation.
+- Fallback/gate can detect problems after weights have already been affected.
+- Strong clean-baseline seeds should prefer no-op or sampler-only unless causal evidence is positive.
+
+Minimal improvement direction:
+
+- CP-CATF causal probe before weight updates.
+- Active/non-active dual constraints.
+- High-risk class-op candidate gating for class 9 + ROI texture combinations.
+
+Verification:
+
+- `D:\Anaconda\envs\pytorch\python.exe -m py_compile scripts\summarize_catf_v2_strategy_limitations.py`
+
 ### Seed2 CATF-v2 Failure Root-Cause Audit
 
 Completed a root-cause audit for the fixed CATF-v2 seed2 failure.

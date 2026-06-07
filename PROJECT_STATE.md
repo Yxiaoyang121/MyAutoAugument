@@ -6,6 +6,23 @@ Last updated: 2026-06-07
 
 The repository is centered on diagnosis-driven augmentation for industrial defect detection. The active path still keeps YOLO network architecture unchanged and focuses on dataset construction, validation-error diagnosis, policy generation, proxy safety, short training, and auditable reporting.
 
+## CATF-v2 Strategy Limitation Analysis (2026-06-07)
+
+- Added a strategy-level limitation report based on the completed seed2 root-cause audit:
+  - `outputs/experiments/seed2_failure_root_cause/reports/catf_v2_strategy_limitation_analysis.md`
+  - `outputs/experiments/seed2_failure_root_cause/reports/catf_v2_strategy_limitation_analysis.json`
+- No training, no 10ep/50ep ablation, and no CATF-v2 rule changes were made.
+- Main conclusion: fixed CATF-v2 is not a failed method. It has valid gains on seed0/seed1 and improves average metrics, but seed2 exposes immature strategy selection and risk control.
+- Current strategy limitations supported by seed2 evidence:
+  - diagnosis does not directly imply augmentation benefit;
+  - class 9 was diagnosed as `texture_boundary_weak`, but ROI texture enhancement led to class 9 Recall/AP regression;
+  - candidate augmentation lacks pre-training causal validation;
+  - active-class-only monitoring cannot prevent non-active class regression;
+  - `sharpen_mild` and `local_contrast` are co-enabled, so operator-level risk is not isolated;
+  - fallback/gate can fire after weights have already been affected by candidate augmentation;
+  - strong clean-baseline seeds should prefer no-op or sampler-only until causal evidence is positive.
+- Minimal next improvements are CP-CATF causal probe, active/non-active dual constraints, and high-risk class-op candidate gating for combinations such as class 9 + ROI texture.
+
 ## Seed2 CATF-v2 Failure Root-Cause Audit (2026-06-07)
 
 - Completed a seed2 root-cause audit at `outputs/experiments/seed2_failure_root_cause/`.

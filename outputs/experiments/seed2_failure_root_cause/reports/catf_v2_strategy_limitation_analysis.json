@@ -1,0 +1,393 @@
+{
+  "generated_at": "2026-06-07T21:53:12",
+  "scope": {
+    "no_training": true,
+    "no_ablation": true,
+    "no_catf_v2_rule_change": true,
+    "input_reports": [
+      "seed2_root_cause_summary.md",
+      "seed2_curve_degradation_analysis.md",
+      "seed2_per_class_regression_analysis.md",
+      "seed2_augmentation_operator_attribution.md",
+      "seed2_active_vs_regressed_class_analysis.md",
+      "seed2_prediction_diff_analysis.md"
+    ]
+  },
+  "seed2_failure_chain": {
+    "clean_seed2": {
+      "precision": 0.6962390186664107,
+      "recall": 0.728629640010866,
+      "map50": 0.7692030787336794,
+      "map50_95": 0.5223713770570699
+    },
+    "fixed_seed2": {
+      "precision": 0.7636577080243924,
+      "recall": 0.6863445827915785,
+      "map50": 0.7582462462317862,
+      "map50_95": 0.4966842829943364
+    },
+    "fixed_delta_vs_clean": {
+      "precision": 0.06741868935798168,
+      "recall": -0.04228505721928755,
+      "map50": -0.010956832501893277,
+      "map50_95": -0.025687094062733506
+    },
+    "degradation_epochs": {
+      "recall_first_lag": 6,
+      "recall_first_clear_lag": 6,
+      "map50_first_clear_lag": 8,
+      "map50_95_first_negative": 6,
+      "map50_95_first_clear_lag": 8
+    },
+    "most_suspicious_policy_update": "epoch 5 accept/propose class 9 texture_boundary_weak with sharpen_mild and local_contrast",
+    "most_suspicious_active_class": "class 9",
+    "most_suspicious_operator_family": "ROI texture ops as a pair: sharpen_mild + local_contrast; current logs cannot isolate one op",
+    "augmentation_stats": {
+      "industrial_samples_augmented": 86,
+      "roi_applied": 90,
+      "router_random_draw_count": 5610,
+      "ops": {
+        "local_contrast": {
+          "seen": 2815,
+          "skipped_probability": 2761,
+          "applied": 44,
+          "skipped_roi_unavailable": 10
+        },
+        "sharpen_mild": {
+          "seen": 2815,
+          "skipped_probability": 2763,
+          "applied": 42,
+          "skipped_roi_unavailable": 10
+        }
+      },
+      "roi_affected_classes": {
+        "8": 6,
+        "9": 25,
+        "11": 59
+      }
+    },
+    "worst_recall_drop": [
+      {
+        "class_id": 5,
+        "class_name": "浅划伤",
+        "delta_recall": -0.270410847317367,
+        "delta_ap50": 0.10721480120953264,
+        "delta_ap50_95": 0.10104604112255888,
+        "active": false,
+        "roi_applied": 0
+      },
+      {
+        "class_id": 9,
+        "class_name": "轮廓划伤",
+        "delta_recall": -0.16666666666666663,
+        "delta_ap50": -0.04662940300198781,
+        "delta_ap50_95": -0.06542994880881742,
+        "active": true,
+        "roi_applied": 25
+      },
+      {
+        "class_id": 2,
+        "class_name": "加强筋打伤",
+        "delta_recall": -0.125,
+        "delta_ap50": 0.004549999999999721,
+        "delta_ap50_95": -0.04634977490547165,
+        "active": false,
+        "roi_applied": 0
+      },
+      {
+        "class_id": 6,
+        "class_name": "漏背锡",
+        "delta_recall": -0.07452493042126296,
+        "delta_ap50": -0.03701845477123056,
+        "delta_ap50_95": 0.01964523327317058,
+        "active": false,
+        "roi_applied": 0
+      },
+      {
+        "class_id": 12,
+        "class_name": "锡膏",
+        "delta_recall": -0.004390140822586153,
+        "delta_ap50": -0.04826752580921534,
+        "delta_ap50_95": -0.041663725827446485,
+        "active": false,
+        "roi_applied": 0
+      }
+    ],
+    "worst_ap50_drop": [
+      {
+        "class_id": 10,
+        "class_name": "锡丝残留",
+        "delta_recall": 0.0,
+        "delta_ap50": -0.07475379147711414,
+        "delta_ap50_95": -0.08801176830971014,
+        "active": false,
+        "roi_applied": 0
+      },
+      {
+        "class_id": 8,
+        "class_name": "脏污",
+        "delta_recall": 0.03011416147853918,
+        "delta_ap50": -0.055888753566707194,
+        "delta_ap50_95": -0.05019176047769974,
+        "active": true,
+        "roi_applied": 6
+      },
+      {
+        "class_id": 12,
+        "class_name": "锡膏",
+        "delta_recall": -0.004390140822586153,
+        "delta_ap50": -0.04826752580921534,
+        "delta_ap50_95": -0.041663725827446485,
+        "active": false,
+        "roi_applied": 0
+      },
+      {
+        "class_id": 9,
+        "class_name": "轮廓划伤",
+        "delta_recall": -0.16666666666666663,
+        "delta_ap50": -0.04662940300198781,
+        "delta_ap50_95": -0.06542994880881742,
+        "active": true,
+        "roi_applied": 25
+      },
+      {
+        "class_id": 6,
+        "class_name": "漏背锡",
+        "delta_recall": -0.07452493042126296,
+        "delta_ap50": -0.03701845477123056,
+        "delta_ap50_95": 0.01964523327317058,
+        "active": false,
+        "roi_applied": 0
+      }
+    ],
+    "worst_ap50_95_drop": [
+      {
+        "class_id": 3,
+        "class_name": "开裂",
+        "delta_recall": 0.0,
+        "delta_ap50": 0.0,
+        "delta_ap50_95": -0.14915068493150674,
+        "active": false,
+        "roi_applied": 0
+      },
+      {
+        "class_id": 10,
+        "class_name": "锡丝残留",
+        "delta_recall": 0.0,
+        "delta_ap50": -0.07475379147711414,
+        "delta_ap50_95": -0.08801176830971014,
+        "active": false,
+        "roi_applied": 0
+      },
+      {
+        "class_id": 9,
+        "class_name": "轮廓划伤",
+        "delta_recall": -0.16666666666666663,
+        "delta_ap50": -0.04662940300198781,
+        "delta_ap50_95": -0.06542994880881742,
+        "active": true,
+        "roi_applied": 25
+      },
+      {
+        "class_id": 8,
+        "class_name": "脏污",
+        "delta_recall": 0.03011416147853918,
+        "delta_ap50": -0.055888753566707194,
+        "delta_ap50_95": -0.05019176047769974,
+        "active": true,
+        "roi_applied": 6
+      },
+      {
+        "class_id": 2,
+        "class_name": "加强筋打伤",
+        "delta_recall": -0.125,
+        "delta_ap50": 0.004549999999999721,
+        "delta_ap50_95": -0.04634977490547165,
+        "active": false,
+        "roi_applied": 0
+      }
+    ],
+    "active_regressed_classes": [
+      {
+        "class_id": 8,
+        "class_name": "脏污",
+        "delta_recall": 0.03011416147853918,
+        "delta_ap50": -0.055888753566707194,
+        "delta_ap50_95": -0.05019176047769974,
+        "active": true,
+        "roi_applied": 6
+      },
+      {
+        "class_id": 9,
+        "class_name": "轮廓划伤",
+        "delta_recall": -0.16666666666666663,
+        "delta_ap50": -0.04662940300198781,
+        "delta_ap50_95": -0.06542994880881742,
+        "active": true,
+        "roi_applied": 25
+      }
+    ],
+    "non_active_regression_exists": true,
+    "non_active_regressions": [
+      {
+        "class_id": 5,
+        "class_name": "浅划伤",
+        "delta_recall": -0.270410847317367,
+        "delta_ap50": 0.10721480120953264,
+        "delta_ap50_95": 0.10104604112255888,
+        "active": false,
+        "roi_applied": 0
+      },
+      {
+        "class_id": 3,
+        "class_name": "开裂",
+        "delta_recall": 0.0,
+        "delta_ap50": 0.0,
+        "delta_ap50_95": -0.14915068493150674,
+        "active": false,
+        "roi_applied": 0
+      },
+      {
+        "class_id": 2,
+        "class_name": "加强筋打伤",
+        "delta_recall": -0.125,
+        "delta_ap50": 0.004549999999999721,
+        "delta_ap50_95": -0.04634977490547165,
+        "active": false,
+        "roi_applied": 0
+      },
+      {
+        "class_id": 10,
+        "class_name": "锡丝残留",
+        "delta_recall": 0.0,
+        "delta_ap50": -0.07475379147711414,
+        "delta_ap50_95": -0.08801176830971014,
+        "active": false,
+        "roi_applied": 0
+      },
+      {
+        "class_id": 6,
+        "class_name": "漏背锡",
+        "delta_recall": -0.07452493042126296,
+        "delta_ap50": -0.03701845477123056,
+        "delta_ap50_95": 0.01964523327317058,
+        "active": false,
+        "roi_applied": 0
+      },
+      {
+        "class_id": 12,
+        "class_name": "锡膏",
+        "delta_recall": -0.004390140822586153,
+        "delta_ap50": -0.04826752580921534,
+        "delta_ap50_95": -0.041663725827446485,
+        "active": false,
+        "roi_applied": 0
+      },
+      {
+        "class_id": 7,
+        "class_name": "碰伤",
+        "delta_recall": 0.026022304832713727,
+        "delta_ap50": -0.024250479781632084,
+        "delta_ap50_95": -0.00771300854790008,
+        "active": false,
+        "roi_applied": 0
+      }
+    ],
+    "prediction_diff": {
+      "clean_detected_fixed_missed_count": 24,
+      "clean_high_iou_fixed_worse_count": 11,
+      "fixed_confidence_drop_count": 20,
+      "fixed_new_high_conf_fp_count": 182
+    }
+  },
+  "catf_v2_not_invalid": {
+    "seed0_delta_fixed_vs_clean": {
+      "precision": -0.006048379279775973,
+      "recall": -0.006802903592400433,
+      "map50": 0.008961980828142257,
+      "map50_95": 0.013646866371422428
+    },
+    "seed1_delta_fixed_vs_clean": {
+      "precision": 0.012674318908300064,
+      "recall": 0.052829494354441064,
+      "map50": 0.028426912229338908,
+      "map50_95": 0.03896002732842274
+    },
+    "fixed_constraint_pass_seed0": true,
+    "fixed_constraint_pass_seed1": true,
+    "average_clean": {
+      "precision": 0.751106032194694,
+      "recall": 0.6842554106506942,
+      "map50": 0.7526963951770916,
+      "map50_95": 0.49272801932196314
+    },
+    "average_fixed": {
+      "precision": 0.7757875751901958,
+      "recall": 0.6855025884982786,
+      "map50": 0.7615070820289542,
+      "map50_95": 0.501701285867667
+    },
+    "average_delta_fixed_vs_clean": {
+      "precision": 0.02468154299550185,
+      "recall": 0.0012471778475844353,
+      "map50": 0.008810686851862592,
+      "map50_95": 0.008973266545703906
+    },
+    "interpretation": "seed2 暴露的是策略选择与风险控制不足，不是类别感知反馈增强方向错误。"
+  },
+  "main_limitations": [
+    {
+      "title": "诊断结果不能直接等价于增强收益",
+      "evidence": "epoch5 将 class 9 诊断为 texture_boundary_weak 且置信度高，但随后 Recall 在 epoch6 落后 clean，mAP50/mAP50-95 在 epoch8 明显落后。"
+    },
+    {
+      "title": "active class 的局部问题并不保证该类受益",
+      "evidence": "class 9 是 epoch5 active class，ROI applied=25，但最终 Recall -0.1667、AP50 -0.0466、AP50-95 -0.0654，估算 FN +14。"
+    },
+    {
+      "title": "缺少增强前因果验证",
+      "evidence": "当前策略在诊断后直接进入图像增强，未先验证候选增强是否能恢复 FN、是否增加 FP、是否伤害非 active 类。"
+    },
+    {
+      "title": "只约束 active class 不足以控制 non-active regression",
+      "evidence": "class 10、12、6、5、3、2 等非 ROI 类出现 AP 或 Recall 退化；说明增强 A 类可能改变共享特征并伤害 B 类。"
+    },
+    {
+      "title": "算子级风险没有被隔离",
+      "evidence": "seed2 中 sharpen_mild 与 local_contrast 共同启用，local_contrast applied=44、sharpen_mild applied=42，现有日志无法拆分单个算子的责任。"
+    },
+    {
+      "title": "fallback/gate 发现问题时权重可能已经被影响",
+      "evidence": "Gated 在 epoch10 fallback，但 epoch6-10 已经经过候选增强训练；因此 strict no-op 后续路径不等价于 clean 权重轨迹。"
+    },
+    {
+      "title": "强 clean baseline 下策略应更保守",
+      "evidence": "Safe 与 adaptive-RB strict no-op 完全复现 clean seed2；fixed/Gated 失败，说明 seed2 这类强 clean baseline 更适合 no-op 或 sampler-only。"
+    }
+  ],
+  "paper_ready_text": "反馈增强策略在工业缺陷检测中需要同时考虑收益与风险。我们的实验表明，类别感知反馈增强并非在所有随机种子上都产生一致收益：在 seed0 和 seed1 上，CATF-v2 能带来 mAP 或多指标提升；但在 seed2 上，候选增强使模型呈现更保守的预测行为，即 Precision 上升而 Recall 与定位相关 AP 下降。进一步分析发现，诊断出的类别问题并不能直接等价为图像增强收益。以 class 9 为例，该类被诊断为边界纹理相关问题，但 ROI texture 增强后该类 Recall 和 AP 反而下降，并伴随若干非目标类别退化。这说明反馈增强策略需要在训练前引入因果验证，检查候选增强是否确实恢复漏检、是否引入新的误检，以及是否损害非 active 类。对于工业应用，增强策略不应只最大化 active class 的局部收益，还应将全局 Recall、定位质量和非目标类稳定性纳入风险约束。",
+  "minimal_improvements": [
+    {
+      "name": "增强前 causal probe",
+      "description": "不更新权重，先验证候选增强是否恢复 FN、是否增加 FP、是否伤害非 active 类。",
+      "why_minimal": "只增加干预前验证层，不改变现有 CATF-v2 增强算子或训练流程。"
+    },
+    {
+      "name": "active / non-active 双重约束",
+      "description": "候选策略不仅看 active class 是否改善，还要监控其他类别 AP/Recall 是否退化。",
+      "why_minimal": "把已有 per-class diagnosis 与 prediction diff 转成 gate 条件，避免增强 A 类伤害 B 类。"
+    },
+    {
+      "name": "高风险 class-op 组合黑名单",
+      "description": "class 9 + ROI texture 这类已暴露风险的组合进入高风险候选池，必须通过 causal probe 才允许训练。",
+      "why_minimal": "不是永久禁用算子，而是对有证据的风险组合提高准入门槛。"
+    }
+  ],
+  "final_conclusions": {
+    "needs_large_ablation_to_prove_limitation": false,
+    "existing_evidence_sufficient_for_strategy_limitation": true,
+    "main_seed2_problem": "诊断到增强的策略选择缺少因果验证，并且 fallback/gate 在权重已受影响后才触发。",
+    "next_best_implementation": "CP-CATF causal probe",
+    "paper_innovation_conversion": "将 seed2 暴露的问题转化为从 diagnosis-driven augmentation 到 causality-checked feedback augmentation 的动机：增强动作必须先通过 FN/FP/non-active regression 风险验证。"
+  }
+}

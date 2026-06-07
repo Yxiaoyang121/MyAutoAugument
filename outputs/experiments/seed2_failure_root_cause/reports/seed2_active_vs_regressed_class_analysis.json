@@ -1,0 +1,1552 @@
+{
+  "generated_at": "2026-06-07T20:46:52",
+  "policy": {
+    "policy_history": [
+      {
+        "epoch": 5,
+        "action": "accept",
+        "active_classes": [
+          9
+        ],
+        "delta_metrics": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "map50": 0.0,
+          "map50_95": 0.0
+        }
+      },
+      {
+        "epoch": 10,
+        "action": "shrink",
+        "active_classes": [],
+        "delta_metrics": {
+          "precision": 0.03676999999999997,
+          "recall": -0.04522999999999999,
+          "map50": -0.020750000000000046,
+          "map50_95": -0.018069999999999975
+        }
+      },
+      {
+        "epoch": 15,
+        "action": "shrink",
+        "active_classes": [],
+        "delta_metrics": {
+          "precision": -0.05237999999999998,
+          "recall": 0.02684999999999993,
+          "map50": 0.005499999999999949,
+          "map50_95": -0.0006700000000000039
+        }
+      },
+      {
+        "epoch": 20,
+        "action": "shrink",
+        "active_classes": [],
+        "delta_metrics": {
+          "precision": -0.01373000000000002,
+          "recall": 0.0013299999999999423,
+          "map50": -0.011880000000000002,
+          "map50_95": -0.0016399999999999748
+        }
+      },
+      {
+        "epoch": 25,
+        "action": "accept",
+        "active_classes": [
+          11
+        ],
+        "delta_metrics": {
+          "precision": 0.04964000000000002,
+          "recall": -0.029919999999999947,
+          "map50": 0.05069999999999997,
+          "map50_95": 0.05242000000000002
+        }
+      },
+      {
+        "epoch": 30,
+        "action": "shrink",
+        "active_classes": [
+          11
+        ],
+        "delta_metrics": {
+          "precision": -0.010529999999999928,
+          "recall": 0.04852999999999996,
+          "map50": 0.04762999999999995,
+          "map50_95": 0.04110999999999998
+        }
+      },
+      {
+        "epoch": 35,
+        "action": "accept",
+        "active_classes": [
+          8,
+          11
+        ],
+        "delta_metrics": {
+          "precision": 0.029040000000000066,
+          "recall": 0.027940000000000076,
+          "map50": 0.021220000000000017,
+          "map50_95": 0.016720000000000013
+        }
+      },
+      {
+        "epoch": 40,
+        "action": "freeze",
+        "active_classes": [],
+        "delta_metrics": {
+          "precision": -0.014060000000000072,
+          "recall": -0.00607000000000002,
+          "map50": -0.0014699999999999713,
+          "map50_95": 0.005200000000000038
+        }
+      },
+      {
+        "epoch": 45,
+        "action": "freeze",
+        "active_classes": [],
+        "delta_metrics": {
+          "precision": 0.008079999999999976,
+          "recall": -0.037920000000000065,
+          "map50": -0.030590000000000006,
+          "map50_95": -0.03756999999999994
+        }
+      }
+    ],
+    "active_by_epoch": [
+      {
+        "epoch": 5,
+        "policy_action": "accept",
+        "active_classes": [
+          9
+        ],
+        "delta_metrics": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "map50": 0.0,
+          "map50_95": 0.0
+        },
+        "class_actions": [
+          {
+            "class_id": 9,
+            "action": "propose",
+            "dominant_issue": "texture_boundary_weak",
+            "adjustments": [
+              {
+                "op": "sharpen_mild",
+                "field": "prob",
+                "before": 0.0,
+                "after": 0.015,
+                "reason": "texture_boundary_weak"
+              },
+              {
+                "op": "sharpen_mild",
+                "field": "strength",
+                "before": 0.0,
+                "after": 0.02,
+                "reason": "texture_boundary_weak"
+              },
+              {
+                "op": "local_contrast",
+                "field": "prob",
+                "before": 0.0,
+                "after": 0.015,
+                "reason": "texture_boundary_weak"
+              },
+              {
+                "op": "local_contrast",
+                "field": "strength",
+                "before": 0.0,
+                "after": 0.02,
+                "reason": "texture_boundary_weak"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "epoch": 10,
+        "policy_action": "shrink",
+        "active_classes": [],
+        "delta_metrics": {
+          "precision": 0.03676999999999997,
+          "recall": -0.04522999999999999,
+          "map50": -0.020750000000000046,
+          "map50_95": -0.018069999999999975
+        },
+        "class_actions": [
+          {
+            "class_id": 12,
+            "action": "observe",
+            "dominant_issue": "texture_boundary_weak",
+            "adjustments": []
+          },
+          {
+            "class_id": 6,
+            "action": "observe",
+            "dominant_issue": "texture_boundary_weak",
+            "adjustments": []
+          }
+        ]
+      },
+      {
+        "epoch": 15,
+        "policy_action": "shrink",
+        "active_classes": [],
+        "delta_metrics": {
+          "precision": -0.05237999999999998,
+          "recall": 0.02684999999999993,
+          "map50": 0.005499999999999949,
+          "map50_95": -0.0006700000000000039
+        },
+        "class_actions": [
+          {
+            "class_id": 6,
+            "action": "observe",
+            "dominant_issue": "texture_boundary_weak",
+            "adjustments": []
+          }
+        ]
+      },
+      {
+        "epoch": 20,
+        "policy_action": "shrink",
+        "active_classes": [],
+        "delta_metrics": {
+          "precision": -0.01373000000000002,
+          "recall": 0.0013299999999999423,
+          "map50": -0.011880000000000002,
+          "map50_95": -0.0016399999999999748
+        },
+        "class_actions": [
+          {
+            "class_id": 12,
+            "action": "observe",
+            "dominant_issue": "weak_localization",
+            "adjustments": []
+          }
+        ]
+      },
+      {
+        "epoch": 25,
+        "policy_action": "accept",
+        "active_classes": [
+          11
+        ],
+        "delta_metrics": {
+          "precision": 0.04964000000000002,
+          "recall": -0.029919999999999947,
+          "map50": 0.05069999999999997,
+          "map50_95": 0.05242000000000002
+        },
+        "class_actions": [
+          {
+            "class_id": 11,
+            "action": "propose",
+            "dominant_issue": "weak_localization",
+            "adjustments": [
+              {
+                "op": "sharpen_mild",
+                "field": "prob",
+                "before": 0.0,
+                "after": 0.015,
+                "reason": "weak_localization"
+              },
+              {
+                "op": "sharpen_mild",
+                "field": "strength",
+                "before": 0.0,
+                "after": 0.02,
+                "reason": "weak_localization"
+              },
+              {
+                "op": "local_contrast",
+                "field": "prob",
+                "before": 0.0,
+                "after": 0.015,
+                "reason": "weak_localization"
+              },
+              {
+                "op": "local_contrast",
+                "field": "strength",
+                "before": 0.0,
+                "after": 0.02,
+                "reason": "weak_localization"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "epoch": 30,
+        "policy_action": "shrink",
+        "active_classes": [
+          11
+        ],
+        "delta_metrics": {
+          "precision": -0.010529999999999928,
+          "recall": 0.04852999999999996,
+          "map50": 0.04762999999999995,
+          "map50_95": 0.04110999999999998
+        },
+        "class_actions": []
+      },
+      {
+        "epoch": 35,
+        "policy_action": "accept",
+        "active_classes": [
+          8,
+          11
+        ],
+        "delta_metrics": {
+          "precision": 0.029040000000000066,
+          "recall": 0.027940000000000076,
+          "map50": 0.021220000000000017,
+          "map50_95": 0.016720000000000013
+        },
+        "class_actions": [
+          {
+            "class_id": 8,
+            "action": "propose",
+            "dominant_issue": "weak_localization",
+            "adjustments": [
+              {
+                "op": "sharpen_mild",
+                "field": "prob",
+                "before": 0.0,
+                "after": 0.005,
+                "reason": "weak_localization_domain_prior"
+              },
+              {
+                "op": "sharpen_mild",
+                "field": "strength",
+                "before": 0.0,
+                "after": 0.01,
+                "reason": "weak_localization_domain_prior"
+              },
+              {
+                "op": "local_contrast",
+                "field": "prob",
+                "before": 0.0,
+                "after": 0.005,
+                "reason": "weak_localization_domain_prior"
+              },
+              {
+                "op": "local_contrast",
+                "field": "strength",
+                "before": 0.0,
+                "after": 0.01,
+                "reason": "weak_localization_domain_prior"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "epoch": 40,
+        "policy_action": "freeze",
+        "active_classes": [],
+        "delta_metrics": {
+          "precision": -0.014060000000000072,
+          "recall": -0.00607000000000002,
+          "map50": -0.0014699999999999713,
+          "map50_95": 0.005200000000000038
+        },
+        "class_actions": []
+      },
+      {
+        "epoch": 45,
+        "policy_action": "freeze",
+        "active_classes": [],
+        "delta_metrics": {
+          "precision": 0.008079999999999976,
+          "recall": -0.037920000000000065,
+          "map50": -0.030590000000000006,
+          "map50_95": -0.03756999999999994
+        },
+        "class_actions": []
+      }
+    ],
+    "class_policy_history": [
+      {
+        "epoch": 5,
+        "class_id": 9,
+        "action": "propose",
+        "adjustment_count": 4,
+        "before_status": "inactive",
+        "after_status": "active",
+        "dominant_issue": "texture_boundary_weak"
+      },
+      {
+        "epoch": 10,
+        "class_id": 12,
+        "action": "observe",
+        "adjustment_count": 0,
+        "before_status": "inactive",
+        "after_status": "inactive",
+        "dominant_issue": "texture_boundary_weak"
+      },
+      {
+        "epoch": 10,
+        "class_id": 6,
+        "action": "observe",
+        "adjustment_count": 0,
+        "before_status": "inactive",
+        "after_status": "inactive",
+        "dominant_issue": "texture_boundary_weak"
+      },
+      {
+        "epoch": 15,
+        "class_id": 6,
+        "action": "observe",
+        "adjustment_count": 0,
+        "before_status": "inactive",
+        "after_status": "inactive",
+        "dominant_issue": "texture_boundary_weak"
+      },
+      {
+        "epoch": 20,
+        "class_id": 12,
+        "action": "observe",
+        "adjustment_count": 0,
+        "before_status": "inactive",
+        "after_status": "inactive",
+        "dominant_issue": "weak_localization"
+      },
+      {
+        "epoch": 25,
+        "class_id": 11,
+        "action": "propose",
+        "adjustment_count": 4,
+        "before_status": "inactive",
+        "after_status": "active",
+        "dominant_issue": "weak_localization"
+      },
+      {
+        "epoch": 35,
+        "class_id": 8,
+        "action": "propose",
+        "adjustment_count": 4,
+        "before_status": "inactive",
+        "after_status": "active",
+        "dominant_issue": "weak_localization"
+      }
+    ],
+    "active_classes": [
+      8,
+      9,
+      11
+    ],
+    "proposed_classes": [
+      8,
+      9,
+      11
+    ],
+    "enhancement_windows": [
+      {
+        "class_id": 9,
+        "start_epoch": 5,
+        "end_epoch": 10
+      },
+      {
+        "class_id": 11,
+        "start_epoch": 25,
+        "end_epoch": 40
+      },
+      {
+        "class_id": 8,
+        "start_epoch": 35,
+        "end_epoch": 40
+      }
+    ],
+    "policy_action_counts": {
+      "accept": 3,
+      "shrink": 4,
+      "freeze": 2
+    },
+    "class_action_counts": {
+      "propose": 3,
+      "observe": 4
+    }
+  },
+  "active_class_details": [
+    {
+      "class_id": 8,
+      "class_name": "脏污",
+      "final_delta": {
+        "precision": -0.1408307512009821,
+        "recall": 0.03011416147853918,
+        "ap50": -0.055888753566707194,
+        "ap50_95": -0.05019176047769974,
+        "tp_est": 1.2647947820986438,
+        "fp_est": 8.891628377105437,
+        "fn_est": -1.2647947820986438
+      },
+      "roi_applied": 6,
+      "flags": {
+        "ever_high_fp_guarded": true,
+        "ever_no_aug_class": false,
+        "ever_stable_class": false,
+        "ever_low_support": false,
+        "ever_domain_high_fp_prior": true,
+        "max_evidence_count": 82,
+        "max_diagnosis_confidence": 0.92,
+        "dominant_issues": [
+          {
+            "epoch": 10,
+            "issue": "texture_boundary_weak"
+          },
+          {
+            "epoch": 15,
+            "issue": "high_fp"
+          },
+          {
+            "epoch": 20,
+            "issue": "high_fp"
+          },
+          {
+            "epoch": 25,
+            "issue": "high_fp"
+          },
+          {
+            "epoch": 30,
+            "issue": "high_fp"
+          },
+          {
+            "epoch": 35,
+            "issue": "weak_localization"
+          },
+          {
+            "epoch": 40,
+            "issue": "high_fp"
+          },
+          {
+            "epoch": 45,
+            "issue": "high_fp"
+          },
+          {
+            "epoch": 5,
+            "issue": "high_fp"
+          }
+        ]
+      },
+      "class_actions": [
+        {
+          "epoch": 35,
+          "class_id": 8,
+          "action": "propose",
+          "dominant_issue": "weak_localization",
+          "adjustments": [
+            {
+              "op": "sharpen_mild",
+              "field": "prob",
+              "before": 0.0,
+              "after": 0.005,
+              "reason": "weak_localization_domain_prior"
+            },
+            {
+              "op": "sharpen_mild",
+              "field": "strength",
+              "before": 0.0,
+              "after": 0.01,
+              "reason": "weak_localization_domain_prior"
+            },
+            {
+              "op": "local_contrast",
+              "field": "prob",
+              "before": 0.0,
+              "after": 0.005,
+              "reason": "weak_localization_domain_prior"
+            },
+            {
+              "op": "local_contrast",
+              "field": "strength",
+              "before": 0.0,
+              "after": 0.01,
+              "reason": "weak_localization_domain_prior"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "class_id": 9,
+      "class_name": "轮廓划伤",
+      "final_delta": {
+        "precision": 0.047555018328447995,
+        "recall": -0.16666666666666663,
+        "ap50": -0.04662940300198781,
+        "ap50_95": -0.06542994880881742,
+        "tp_est": -14.0,
+        "fp_est": -9.511895102755538,
+        "fn_est": 14.0
+      },
+      "roi_applied": 25,
+      "flags": {
+        "ever_high_fp_guarded": true,
+        "ever_no_aug_class": false,
+        "ever_stable_class": false,
+        "ever_low_support": false,
+        "ever_domain_high_fp_prior": false,
+        "max_evidence_count": 82,
+        "max_diagnosis_confidence": 1.0,
+        "dominant_issues": [
+          {
+            "epoch": 10,
+            "issue": "high_fp"
+          },
+          {
+            "epoch": 15,
+            "issue": "high_fp"
+          },
+          {
+            "epoch": 20,
+            "issue": "high_fp"
+          },
+          {
+            "epoch": 25,
+            "issue": "high_fp"
+          },
+          {
+            "epoch": 30,
+            "issue": "high_fp"
+          },
+          {
+            "epoch": 35,
+            "issue": "high_fp"
+          },
+          {
+            "epoch": 40,
+            "issue": "high_fp"
+          },
+          {
+            "epoch": 45,
+            "issue": "high_fp"
+          },
+          {
+            "epoch": 5,
+            "issue": "texture_boundary_weak"
+          }
+        ]
+      },
+      "class_actions": [
+        {
+          "epoch": 5,
+          "class_id": 9,
+          "action": "propose",
+          "dominant_issue": "texture_boundary_weak",
+          "adjustments": [
+            {
+              "op": "sharpen_mild",
+              "field": "prob",
+              "before": 0.0,
+              "after": 0.015,
+              "reason": "texture_boundary_weak"
+            },
+            {
+              "op": "sharpen_mild",
+              "field": "strength",
+              "before": 0.0,
+              "after": 0.02,
+              "reason": "texture_boundary_weak"
+            },
+            {
+              "op": "local_contrast",
+              "field": "prob",
+              "before": 0.0,
+              "after": 0.015,
+              "reason": "texture_boundary_weak"
+            },
+            {
+              "op": "local_contrast",
+              "field": "strength",
+              "before": 0.0,
+              "after": 0.02,
+              "reason": "texture_boundary_weak"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "class_id": 11,
+      "class_name": "锡尖",
+      "final_delta": {
+        "precision": -0.010207054898175971,
+        "recall": 0.0046353028938956875,
+        "ap50": 0.004159808370264528,
+        "ap50_95": 0.013306272164501198,
+        "tp_est": 0.12515317813518578,
+        "fp_est": 0.274025729238339,
+        "fn_est": -0.12515317813518578
+      },
+      "roi_applied": 59,
+      "flags": {
+        "ever_high_fp_guarded": true,
+        "ever_no_aug_class": false,
+        "ever_stable_class": true,
+        "ever_low_support": false,
+        "ever_domain_high_fp_prior": false,
+        "max_evidence_count": 19,
+        "max_diagnosis_confidence": 0.745,
+        "dominant_issues": [
+          {
+            "epoch": 10,
+            "issue": "texture_boundary_weak"
+          },
+          {
+            "epoch": 15,
+            "issue": "texture_boundary_weak"
+          },
+          {
+            "epoch": 20,
+            "issue": "low_contrast_fn"
+          },
+          {
+            "epoch": 25,
+            "issue": "weak_localization"
+          },
+          {
+            "epoch": 30,
+            "issue": "low_contrast_fn"
+          },
+          {
+            "epoch": 35,
+            "issue": "low_contrast_fn"
+          },
+          {
+            "epoch": 40,
+            "issue": "texture_boundary_weak"
+          },
+          {
+            "epoch": 45,
+            "issue": "stable_class"
+          },
+          {
+            "epoch": 5,
+            "issue": "high_fp"
+          }
+        ]
+      },
+      "class_actions": [
+        {
+          "epoch": 25,
+          "class_id": 11,
+          "action": "propose",
+          "dominant_issue": "weak_localization",
+          "adjustments": [
+            {
+              "op": "sharpen_mild",
+              "field": "prob",
+              "before": 0.0,
+              "after": 0.015,
+              "reason": "weak_localization"
+            },
+            {
+              "op": "sharpen_mild",
+              "field": "strength",
+              "before": 0.0,
+              "after": 0.02,
+              "reason": "weak_localization"
+            },
+            {
+              "op": "local_contrast",
+              "field": "prob",
+              "before": 0.0,
+              "after": 0.015,
+              "reason": "weak_localization"
+            },
+            {
+              "op": "local_contrast",
+              "field": "strength",
+              "before": 0.0,
+              "after": 0.02,
+              "reason": "weak_localization"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "non_active_regressions": [
+    {
+      "class_id": 5,
+      "class_name": "浅划伤",
+      "images": 11,
+      "instances": 13,
+      "clean": {
+        "precision": 0.43487702907226317,
+        "recall": 0.6153846153846154,
+        "ap50": 0.55226615117142,
+        "ap50_95": 0.27202488322077023,
+        "tp_est": 8.0,
+        "fp_est": 10.396004997244052,
+        "fn_est": 5.0
+      },
+      "fixed": {
+        "precision": 1.0,
+        "recall": 0.34497376806724844,
+        "ap50": 0.6594809523809526,
+        "ap50_95": 0.3730709243433291,
+        "tp_est": 4.48465898487423,
+        "fp_est": 0.0,
+        "fn_est": 8.51534101512577
+      },
+      "delta": {
+        "precision": 0.5651229709277368,
+        "recall": -0.270410847317367,
+        "ap50": 0.10721480120953264,
+        "ap50_95": 0.10104604112255888,
+        "tp_est": -3.5153410151257702,
+        "fp_est": -10.396004997244052,
+        "fn_est": 3.5153410151257702
+      },
+      "active_class": false,
+      "roi_affected": false,
+      "roi_applied": 0,
+      "flags": {
+        "ever_high_fp_guarded": true,
+        "ever_no_aug_class": false,
+        "ever_stable_class": false,
+        "ever_low_support": false,
+        "ever_domain_high_fp_prior": false,
+        "max_evidence_count": 15,
+        "max_diagnosis_confidence": 0.505,
+        "dominant_issues": [
+          {
+            "epoch": 10,
+            "issue": "low_recall"
+          },
+          {
+            "epoch": 15,
+            "issue": "texture_boundary_weak"
+          },
+          {
+            "epoch": 20,
+            "issue": "low_contrast_fn"
+          },
+          {
+            "epoch": 25,
+            "issue": "low_contrast_fn"
+          },
+          {
+            "epoch": 30,
+            "issue": "low_contrast_fn"
+          },
+          {
+            "epoch": 35,
+            "issue": "texture_boundary_weak"
+          },
+          {
+            "epoch": 40,
+            "issue": "low_contrast_fn"
+          },
+          {
+            "epoch": 45,
+            "issue": "low_contrast_fn"
+          },
+          {
+            "epoch": 5,
+            "issue": "texture_boundary_weak"
+          }
+        ]
+      }
+    },
+    {
+      "class_id": 3,
+      "class_name": "开裂",
+      "images": 2,
+      "instances": 2,
+      "clean": {
+        "precision": 0.21798965357781958,
+        "recall": 1.0,
+        "ap50": 0.995,
+        "ap50_95": 0.9949999999999999,
+        "tp_est": 2.0,
+        "fp_est": 7.174747366099304,
+        "fn_est": 0.0
+      },
+      "fixed": {
+        "precision": 0.48452422687479635,
+        "recall": 1.0,
+        "ap50": 0.995,
+        "ap50_95": 0.8458493150684931,
+        "tp_est": 2.0,
+        "fp_est": 2.127760572263006,
+        "fn_est": 0.0
+      },
+      "delta": {
+        "precision": 0.2665345732969768,
+        "recall": 0.0,
+        "ap50": 0.0,
+        "ap50_95": -0.14915068493150674,
+        "tp_est": 0.0,
+        "fp_est": -5.046986793836298,
+        "fn_est": 0.0
+      },
+      "active_class": false,
+      "roi_affected": false,
+      "roi_applied": 0,
+      "flags": {
+        "ever_high_fp_guarded": true,
+        "ever_no_aug_class": false,
+        "ever_stable_class": false,
+        "ever_low_support": true,
+        "ever_domain_high_fp_prior": false,
+        "max_evidence_count": 7,
+        "max_diagnosis_confidence": 0.195,
+        "dominant_issues": [
+          {
+            "epoch": 10,
+            "issue": "low_support"
+          },
+          {
+            "epoch": 15,
+            "issue": "low_support"
+          },
+          {
+            "epoch": 20,
+            "issue": "low_support"
+          },
+          {
+            "epoch": 25,
+            "issue": "low_support"
+          },
+          {
+            "epoch": 30,
+            "issue": "low_support"
+          },
+          {
+            "epoch": 35,
+            "issue": "low_support"
+          },
+          {
+            "epoch": 40,
+            "issue": "low_support"
+          },
+          {
+            "epoch": 45,
+            "issue": "low_support"
+          },
+          {
+            "epoch": 5,
+            "issue": "low_support"
+          }
+        ]
+      }
+    },
+    {
+      "class_id": 2,
+      "class_name": "加强筋打伤",
+      "images": 8,
+      "instances": 8,
+      "clean": {
+        "precision": 0.8700342316436319,
+        "recall": 0.875,
+        "ap50": 0.8942000000000002,
+        "ap50_95": 0.5347205633802818,
+        "tp_est": 7.0,
+        "fp_est": 1.0456604411712576,
+        "fn_est": 1.0
+      },
+      "fixed": {
+        "precision": 0.9658007617767774,
+        "recall": 0.75,
+        "ap50": 0.8987499999999999,
+        "ap50_95": 0.4883707884748102,
+        "tp_est": 6.0,
+        "fp_est": 0.21246144904859943,
+        "fn_est": 2.0
+      },
+      "delta": {
+        "precision": 0.09576653013314551,
+        "recall": -0.125,
+        "ap50": 0.004549999999999721,
+        "ap50_95": -0.04634977490547165,
+        "tp_est": -1.0,
+        "fp_est": -0.8331989921226581,
+        "fn_est": 1.0
+      },
+      "active_class": false,
+      "roi_affected": false,
+      "roi_applied": 0,
+      "flags": {
+        "ever_high_fp_guarded": false,
+        "ever_no_aug_class": false,
+        "ever_stable_class": false,
+        "ever_low_support": true,
+        "ever_domain_high_fp_prior": false,
+        "max_evidence_count": 8,
+        "max_diagnosis_confidence": 0.28,
+        "dominant_issues": [
+          {
+            "epoch": 10,
+            "issue": "low_support"
+          },
+          {
+            "epoch": 15,
+            "issue": "low_support"
+          },
+          {
+            "epoch": 20,
+            "issue": "low_support"
+          },
+          {
+            "epoch": 25,
+            "issue": "low_support"
+          },
+          {
+            "epoch": 30,
+            "issue": "low_support"
+          },
+          {
+            "epoch": 35,
+            "issue": "low_support"
+          },
+          {
+            "epoch": 40,
+            "issue": "low_support"
+          },
+          {
+            "epoch": 45,
+            "issue": "low_support"
+          },
+          {
+            "epoch": 5,
+            "issue": "low_support"
+          }
+        ]
+      }
+    },
+    {
+      "class_id": 10,
+      "class_name": "锡丝残留",
+      "images": 12,
+      "instances": 12,
+      "clean": {
+        "precision": 0.8054081270393996,
+        "recall": 0.75,
+        "ap50": 0.8102899050905954,
+        "ap50_95": 0.515437069783306,
+        "tp_est": 9.0,
+        "fp_est": 2.1744588834521803,
+        "fn_est": 3.0
+      },
+      "fixed": {
+        "precision": 0.8364279033235547,
+        "recall": 0.75,
+        "ap50": 0.7355361136134813,
+        "ap50_95": 0.4274253014735958,
+        "tp_est": 9.0,
+        "fp_est": 1.760042753521743,
+        "fn_est": 3.0
+      },
+      "delta": {
+        "precision": 0.031019776284155087,
+        "recall": 0.0,
+        "ap50": -0.07475379147711414,
+        "ap50_95": -0.08801176830971014,
+        "tp_est": 0.0,
+        "fp_est": -0.4144161299304372,
+        "fn_est": 0.0
+      },
+      "active_class": false,
+      "roi_affected": false,
+      "roi_applied": 0,
+      "flags": {
+        "ever_high_fp_guarded": true,
+        "ever_no_aug_class": false,
+        "ever_stable_class": false,
+        "ever_low_support": false,
+        "ever_domain_high_fp_prior": false,
+        "max_evidence_count": 16,
+        "max_diagnosis_confidence": 0.52,
+        "dominant_issues": [
+          {
+            "epoch": 10,
+            "issue": "low_recall"
+          },
+          {
+            "epoch": 15,
+            "issue": "low_recall"
+          },
+          {
+            "epoch": 20,
+            "issue": "high_fp"
+          },
+          {
+            "epoch": 25,
+            "issue": "low_contrast_fn"
+          },
+          {
+            "epoch": 30,
+            "issue": "high_fp"
+          },
+          {
+            "epoch": 35,
+            "issue": "high_fp"
+          },
+          {
+            "epoch": 40,
+            "issue": "low_contrast_fn"
+          },
+          {
+            "epoch": 45,
+            "issue": "high_fp"
+          },
+          {
+            "epoch": 5,
+            "issue": "low_recall"
+          }
+        ]
+      }
+    },
+    {
+      "class_id": 6,
+      "class_name": "漏背锡",
+      "images": 36,
+      "instances": 46,
+      "clean": {
+        "precision": 0.7168963122935798,
+        "recall": 0.6956521739130435,
+        "ap50": 0.736365484530463,
+        "ap50_95": 0.35104832949359377,
+        "tp_est": 32.0,
+        "fp_est": 12.636859544753136,
+        "fn_est": 14.0
+      },
+      "fixed": {
+        "precision": 0.6710996372141232,
+        "recall": 0.6211272434917805,
+        "ap50": 0.6993470297592325,
+        "ap50_95": 0.37069356276676435,
+        "tp_est": 28.571853200621902,
+        "fp_est": 14.002828137651079,
+        "fn_est": 17.428146799378098
+      },
+      "delta": {
+        "precision": -0.045796675079456506,
+        "recall": -0.07452493042126296,
+        "ap50": -0.03701845477123056,
+        "ap50_95": 0.01964523327317058,
+        "tp_est": -3.428146799378098,
+        "fp_est": 1.3659685928979428,
+        "fn_est": 3.428146799378098
+      },
+      "active_class": false,
+      "roi_affected": false,
+      "roi_applied": 0,
+      "flags": {
+        "ever_high_fp_guarded": true,
+        "ever_no_aug_class": false,
+        "ever_stable_class": false,
+        "ever_low_support": false,
+        "ever_domain_high_fp_prior": false,
+        "max_evidence_count": 69,
+        "max_diagnosis_confidence": 0.96,
+        "dominant_issues": [
+          {
+            "epoch": 10,
+            "issue": "texture_boundary_weak"
+          },
+          {
+            "epoch": 15,
+            "issue": "texture_boundary_weak"
+          },
+          {
+            "epoch": 20,
+            "issue": "high_fp"
+          },
+          {
+            "epoch": 25,
+            "issue": "high_fp"
+          },
+          {
+            "epoch": 30,
+            "issue": "high_fp"
+          },
+          {
+            "epoch": 35,
+            "issue": "high_fp"
+          },
+          {
+            "epoch": 40,
+            "issue": "high_fp"
+          },
+          {
+            "epoch": 45,
+            "issue": "high_fp"
+          },
+          {
+            "epoch": 5,
+            "issue": "high_fp"
+          }
+        ]
+      }
+    },
+    {
+      "class_id": 12,
+      "class_name": "锡膏",
+      "images": 41,
+      "instances": 46,
+      "clean": {
+        "precision": 0.8373191816041378,
+        "recall": 0.6714099633938825,
+        "ap50": 0.805906441028902,
+        "ap50_95": 0.5370937510108634,
+        "tp_est": 30.884858316118596,
+        "fp_est": 6.00054810315072,
+        "fn_est": 15.115141683881404
+      },
+      "fixed": {
+        "precision": 0.8364095127850434,
+        "recall": 0.6670198225712963,
+        "ap50": 0.7576389152196866,
+        "ap50_95": 0.49543002518341694,
+        "tp_est": 30.68291183827963,
+        "fp_est": 6.001166199179416,
+        "fn_est": 15.31708816172037
+      },
+      "delta": {
+        "precision": -0.000909668819094378,
+        "recall": -0.004390140822586153,
+        "ap50": -0.04826752580921534,
+        "ap50_95": -0.041663725827446485,
+        "tp_est": -0.20194647783896613,
+        "fp_est": 0.0006180960286954473,
+        "fn_est": 0.20194647783896613
+      },
+      "active_class": false,
+      "roi_affected": false,
+      "roi_applied": 0,
+      "flags": {
+        "ever_high_fp_guarded": true,
+        "ever_no_aug_class": false,
+        "ever_stable_class": false,
+        "ever_low_support": false,
+        "ever_domain_high_fp_prior": false,
+        "max_evidence_count": 47,
+        "max_diagnosis_confidence": 0.96,
+        "dominant_issues": [
+          {
+            "epoch": 10,
+            "issue": "texture_boundary_weak"
+          },
+          {
+            "epoch": 15,
+            "issue": "high_fp"
+          },
+          {
+            "epoch": 20,
+            "issue": "weak_localization"
+          },
+          {
+            "epoch": 25,
+            "issue": "high_fp"
+          },
+          {
+            "epoch": 30,
+            "issue": "high_fp"
+          },
+          {
+            "epoch": 35,
+            "issue": "high_fp"
+          },
+          {
+            "epoch": 40,
+            "issue": "high_fp"
+          },
+          {
+            "epoch": 45,
+            "issue": "high_fp"
+          },
+          {
+            "epoch": 5,
+            "issue": "texture_boundary_weak"
+          }
+        ]
+      }
+    },
+    {
+      "class_id": 7,
+      "class_name": "碰伤",
+      "images": 229,
+      "instances": 269,
+      "clean": {
+        "precision": 0.7607573671296324,
+        "recall": 0.5799256505576208,
+        "ap50": 0.689131123610455,
+        "ap50_95": 0.4138308855038086,
+        "tp_est": 156.0,
+        "fp_est": 49.058809471138176,
+        "fn_est": 113.0
+      },
+      "fixed": {
+        "precision": 0.7397724730599825,
+        "recall": 0.6059479553903345,
+        "ap50": 0.664880643828823,
+        "ap50_95": 0.4061178769559085,
+        "tp_est": 163.0,
+        "fp_est": 57.338017344399844,
+        "fn_est": 106.0
+      },
+      "delta": {
+        "precision": -0.020984894069649873,
+        "recall": 0.026022304832713727,
+        "ap50": -0.024250479781632084,
+        "ap50_95": -0.00771300854790008,
+        "tp_est": 7.0,
+        "fp_est": 8.279207873261669,
+        "fn_est": -7.0
+      },
+      "active_class": false,
+      "roi_affected": false,
+      "roi_applied": 0,
+      "flags": {
+        "ever_high_fp_guarded": true,
+        "ever_no_aug_class": false,
+        "ever_stable_class": false,
+        "ever_low_support": false,
+        "ever_domain_high_fp_prior": false,
+        "max_evidence_count": 216,
+        "max_diagnosis_confidence": 1.0,
+        "dominant_issues": [
+          {
+            "epoch": 10,
+            "issue": "high_fp"
+          },
+          {
+            "epoch": 15,
+            "issue": "high_fp"
+          },
+          {
+            "epoch": 20,
+            "issue": "high_fp"
+          },
+          {
+            "epoch": 25,
+            "issue": "high_fp"
+          },
+          {
+            "epoch": 30,
+            "issue": "high_fp"
+          },
+          {
+            "epoch": 35,
+            "issue": "high_fp"
+          },
+          {
+            "epoch": 40,
+            "issue": "high_fp"
+          },
+          {
+            "epoch": 45,
+            "issue": "high_fp"
+          },
+          {
+            "epoch": 5,
+            "issue": "high_fp"
+          }
+        ]
+      }
+    }
+  ],
+  "regressed_active_classes": [
+    {
+      "class_id": 8,
+      "class_name": "脏污",
+      "final_delta": {
+        "precision": -0.1408307512009821,
+        "recall": 0.03011416147853918,
+        "ap50": -0.055888753566707194,
+        "ap50_95": -0.05019176047769974,
+        "tp_est": 1.2647947820986438,
+        "fp_est": 8.891628377105437,
+        "fn_est": -1.2647947820986438
+      },
+      "roi_applied": 6,
+      "flags": {
+        "ever_high_fp_guarded": true,
+        "ever_no_aug_class": false,
+        "ever_stable_class": false,
+        "ever_low_support": false,
+        "ever_domain_high_fp_prior": true,
+        "max_evidence_count": 82,
+        "max_diagnosis_confidence": 0.92,
+        "dominant_issues": [
+          {
+            "epoch": 10,
+            "issue": "texture_boundary_weak"
+          },
+          {
+            "epoch": 15,
+            "issue": "high_fp"
+          },
+          {
+            "epoch": 20,
+            "issue": "high_fp"
+          },
+          {
+            "epoch": 25,
+            "issue": "high_fp"
+          },
+          {
+            "epoch": 30,
+            "issue": "high_fp"
+          },
+          {
+            "epoch": 35,
+            "issue": "weak_localization"
+          },
+          {
+            "epoch": 40,
+            "issue": "high_fp"
+          },
+          {
+            "epoch": 45,
+            "issue": "high_fp"
+          },
+          {
+            "epoch": 5,
+            "issue": "high_fp"
+          }
+        ]
+      },
+      "class_actions": [
+        {
+          "epoch": 35,
+          "class_id": 8,
+          "action": "propose",
+          "dominant_issue": "weak_localization",
+          "adjustments": [
+            {
+              "op": "sharpen_mild",
+              "field": "prob",
+              "before": 0.0,
+              "after": 0.005,
+              "reason": "weak_localization_domain_prior"
+            },
+            {
+              "op": "sharpen_mild",
+              "field": "strength",
+              "before": 0.0,
+              "after": 0.01,
+              "reason": "weak_localization_domain_prior"
+            },
+            {
+              "op": "local_contrast",
+              "field": "prob",
+              "before": 0.0,
+              "after": 0.005,
+              "reason": "weak_localization_domain_prior"
+            },
+            {
+              "op": "local_contrast",
+              "field": "strength",
+              "before": 0.0,
+              "after": 0.01,
+              "reason": "weak_localization_domain_prior"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "class_id": 9,
+      "class_name": "轮廓划伤",
+      "final_delta": {
+        "precision": 0.047555018328447995,
+        "recall": -0.16666666666666663,
+        "ap50": -0.04662940300198781,
+        "ap50_95": -0.06542994880881742,
+        "tp_est": -14.0,
+        "fp_est": -9.511895102755538,
+        "fn_est": 14.0
+      },
+      "roi_applied": 25,
+      "flags": {
+        "ever_high_fp_guarded": true,
+        "ever_no_aug_class": false,
+        "ever_stable_class": false,
+        "ever_low_support": false,
+        "ever_domain_high_fp_prior": false,
+        "max_evidence_count": 82,
+        "max_diagnosis_confidence": 1.0,
+        "dominant_issues": [
+          {
+            "epoch": 10,
+            "issue": "high_fp"
+          },
+          {
+            "epoch": 15,
+            "issue": "high_fp"
+          },
+          {
+            "epoch": 20,
+            "issue": "high_fp"
+          },
+          {
+            "epoch": 25,
+            "issue": "high_fp"
+          },
+          {
+            "epoch": 30,
+            "issue": "high_fp"
+          },
+          {
+            "epoch": 35,
+            "issue": "high_fp"
+          },
+          {
+            "epoch": 40,
+            "issue": "high_fp"
+          },
+          {
+            "epoch": 45,
+            "issue": "high_fp"
+          },
+          {
+            "epoch": 5,
+            "issue": "texture_boundary_weak"
+          }
+        ]
+      },
+      "class_actions": [
+        {
+          "epoch": 5,
+          "class_id": 9,
+          "action": "propose",
+          "dominant_issue": "texture_boundary_weak",
+          "adjustments": [
+            {
+              "op": "sharpen_mild",
+              "field": "prob",
+              "before": 0.0,
+              "after": 0.015,
+              "reason": "texture_boundary_weak"
+            },
+            {
+              "op": "sharpen_mild",
+              "field": "strength",
+              "before": 0.0,
+              "after": 0.02,
+              "reason": "texture_boundary_weak"
+            },
+            {
+              "op": "local_contrast",
+              "field": "prob",
+              "before": 0.0,
+              "after": 0.015,
+              "reason": "texture_boundary_weak"
+            },
+            {
+              "op": "local_contrast",
+              "field": "strength",
+              "before": 0.0,
+              "after": 0.02,
+              "reason": "texture_boundary_weak"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

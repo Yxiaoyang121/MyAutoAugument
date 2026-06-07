@@ -1,0 +1,872 @@
+{
+  "clean_prediction_json": "outputs/experiments/seed2_failure_root_cause/predictions/clean_best/validation_predictions.json",
+  "fixed_prediction_json": "outputs/experiments/seed2_failure_root_cause/predictions/fixed_best/validation_predictions.json",
+  "clean_prediction_count": 1041,
+  "fixed_prediction_count": 1097,
+  "prediction_count_delta_fixed_minus_clean": 56,
+  "clean_detected_fixed_missed_count": 24,
+  "clean_high_iou_fixed_worse_count": 11,
+  "fixed_confidence_drop_count": 20,
+  "fixed_new_high_conf_fp_count": 182,
+  "class_confidence_summary": {
+    "7": {
+      "clean_count": 269,
+      "fixed_count": 319,
+      "clean_mean_conf": 0.629965655311776,
+      "fixed_mean_conf": 0.6612896052273837,
+      "delta_count": 50,
+      "delta_mean_conf": 0.03132394991560772
+    },
+    "12": {
+      "clean_count": 43,
+      "fixed_count": 49,
+      "clean_mean_conf": 0.7664282994214878,
+      "fixed_mean_conf": 0.7369703273383938,
+      "delta_count": 6,
+      "delta_mean_conf": -0.029457972083093975
+    },
+    "10": {
+      "clean_count": 15,
+      "fixed_count": 13,
+      "clean_mean_conf": 0.8344513297080993,
+      "fixed_mean_conf": 0.7960067689418793,
+      "delta_count": -2,
+      "delta_mean_conf": -0.03844456076622005
+    },
+    "1": {
+      "clean_count": 337,
+      "fixed_count": 339,
+      "clean_mean_conf": 0.8384227407792202,
+      "fixed_mean_conf": 0.8357280411903134,
+      "delta_count": 2,
+      "delta_mean_conf": -0.0026946995889067793
+    },
+    "6": {
+      "clean_count": 57,
+      "fixed_count": 59,
+      "clean_mean_conf": 0.6848447056193101,
+      "fixed_mean_conf": 0.6787530512122785,
+      "delta_count": 2,
+      "delta_mean_conf": -0.0060916544070316325
+    },
+    "5": {
+      "clean_count": 25,
+      "fixed_count": 10,
+      "clean_mean_conf": 0.5172599530220032,
+      "fixed_mean_conf": 0.510376799106598,
+      "delta_count": -15,
+      "delta_mean_conf": -0.006883153915405282
+    },
+    "4": {
+      "clean_count": 28,
+      "fixed_count": 33,
+      "clean_mean_conf": 0.6073746383190155,
+      "fixed_mean_conf": 0.5199858492070978,
+      "delta_count": 5,
+      "delta_mean_conf": -0.08738878911191772
+    },
+    "3": {
+      "clean_count": 17,
+      "fixed_count": 7,
+      "clean_mean_conf": 0.5185989386895123,
+      "fixed_mean_conf": 0.6401579976081848,
+      "delta_count": -10,
+      "delta_mean_conf": 0.12155905891867247
+    },
+    "8": {
+      "clean_count": 40,
+      "fixed_count": 64,
+      "clean_mean_conf": 0.7535395503044129,
+      "fixed_mean_conf": 0.6209985753521323,
+      "delta_count": 24,
+      "delta_mean_conf": -0.13254097495228057
+    },
+    "9": {
+      "clean_count": 91,
+      "fixed_count": 83,
+      "clean_mean_conf": 0.7155335060842745,
+      "fixed_mean_conf": 0.6606041670563709,
+      "delta_count": -8,
+      "delta_mean_conf": -0.054929339027903534
+    },
+    "11": {
+      "clean_count": 26,
+      "fixed_count": 28,
+      "clean_mean_conf": 0.8387536945251318,
+      "fixed_mean_conf": 0.7693406098655292,
+      "delta_count": 2,
+      "delta_mean_conf": -0.06941308465960261
+    },
+    "2": {
+      "clean_count": 9,
+      "fixed_count": 7,
+      "clean_mean_conf": 0.7676604456371732,
+      "fixed_mean_conf": 0.7421142969812665,
+      "delta_count": -2,
+      "delta_mean_conf": -0.025546148655906653
+    },
+    "0": {
+      "clean_count": 84,
+      "fixed_count": 86,
+      "clean_mean_conf": 0.8751490485100519,
+      "fixed_mean_conf": 0.8783996060144069,
+      "delta_count": 2,
+      "delta_mean_conf": 0.0032505575043549895
+    }
+  },
+  "class_best_iou_summary": {
+    "7": {
+      "gt_count": 269,
+      "clean_mean_best_iou": 0.5694548078803352,
+      "fixed_mean_best_iou": 0.6141867573888838,
+      "delta_mean_best_iou": 0.04473194950854864
+    },
+    "10": {
+      "gt_count": 12,
+      "clean_mean_best_iou": 0.636623044085054,
+      "fixed_mean_best_iou": 0.6151568537060724,
+      "delta_mean_best_iou": -0.021466190378981564
+    },
+    "12": {
+      "gt_count": 46,
+      "clean_mean_best_iou": 0.5975948364544719,
+      "fixed_mean_best_iou": 0.5794795502440581,
+      "delta_mean_best_iou": -0.018115286210413806
+    },
+    "1": {
+      "gt_count": 274,
+      "clean_mean_best_iou": 0.9016810471629224,
+      "fixed_mean_best_iou": 0.897418954048356,
+      "delta_mean_best_iou": -0.004262093114566379
+    },
+    "6": {
+      "gt_count": 46,
+      "clean_mean_best_iou": 0.6142228883681841,
+      "fixed_mean_best_iou": 0.5875427460940703,
+      "delta_mean_best_iou": -0.02668014227411375
+    },
+    "4": {
+      "gt_count": 18,
+      "clean_mean_best_iou": 0.2222068383573067,
+      "fixed_mean_best_iou": 0.4150772667823538,
+      "delta_mean_best_iou": 0.1928704284250471
+    },
+    "3": {
+      "gt_count": 2,
+      "clean_mean_best_iou": 0.9478246441631899,
+      "fixed_mean_best_iou": 0.9388384290801906,
+      "delta_mean_best_iou": -0.00898621508299935
+    },
+    "9": {
+      "gt_count": 84,
+      "clean_mean_best_iou": 0.5436389055161864,
+      "fixed_mean_best_iou": 0.479229578590668,
+      "delta_mean_best_iou": -0.06440932692551843
+    },
+    "8": {
+      "gt_count": 42,
+      "clean_mean_best_iou": 0.5087030154761811,
+      "fixed_mean_best_iou": 0.5306350649482505,
+      "delta_mean_best_iou": 0.021932049472069393
+    },
+    "5": {
+      "gt_count": 13,
+      "clean_mean_best_iou": 0.49675504937901277,
+      "fixed_mean_best_iou": 0.5018690983563054,
+      "delta_mean_best_iou": 0.005114048977292673
+    },
+    "11": {
+      "gt_count": 27,
+      "clean_mean_best_iou": 0.6830634582772596,
+      "fixed_mean_best_iou": 0.7656444854769716,
+      "delta_mean_best_iou": 0.08258102719971205
+    },
+    "0": {
+      "gt_count": 64,
+      "clean_mean_best_iou": 0.8985399515290106,
+      "fixed_mean_best_iou": 0.9070076373743324,
+      "delta_mean_best_iou": 0.00846768584532187
+    },
+    "2": {
+      "gt_count": 8,
+      "clean_mean_best_iou": 0.6709896688238586,
+      "fixed_mean_best_iou": 0.6650671722710477,
+      "delta_mean_best_iou": -0.005922496552810852
+    }
+  },
+  "examples": {
+    "clean_detected_fixed_missed": [
+      {
+        "relative_path": "2025-06-07-10-52-02ps5_NGyuan_tile_0012.jpg",
+        "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\val\\2025-06-07-10-52-02ps5_NGyuan_tile_0012.jpg",
+        "class_id": 7,
+        "gt_index": 2,
+        "clean_iou": 0.919987080359498,
+        "fixed_iou": 0.0,
+        "clean_confidence": 0.3980880081653595,
+        "fixed_confidence": null
+      },
+      {
+        "relative_path": "2025-05-16-16-19-14ps5_tile_0013.jpg",
+        "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\val\\2025-05-16-16-19-14ps5_tile_0013.jpg",
+        "class_id": 9,
+        "gt_index": 0,
+        "clean_iou": 0.9174439614216848,
+        "fixed_iou": 0.0,
+        "clean_confidence": 0.8261539936065674,
+        "fixed_confidence": null
+      },
+      {
+        "relative_path": "2025-06-06-01-33-39ps5_NGyuan_tile_0003.jpg",
+        "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\val\\2025-06-06-01-33-39ps5_NGyuan_tile_0003.jpg",
+        "class_id": 7,
+        "gt_index": 0,
+        "clean_iou": 0.8983261697621584,
+        "fixed_iou": 0.0,
+        "clean_confidence": 0.5722910165786743,
+        "fixed_confidence": 0.32196900248527527
+      },
+      {
+        "relative_path": "2025-05-16-16-19-14ps5_tile_0008.jpg",
+        "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\val\\2025-05-16-16-19-14ps5_tile_0008.jpg",
+        "class_id": 9,
+        "gt_index": 0,
+        "clean_iou": 0.8925828972043951,
+        "fixed_iou": 0.0,
+        "clean_confidence": 0.7877479791641235,
+        "fixed_confidence": null
+      },
+      {
+        "relative_path": "2229344f-2025-05-09-18-28-13ps5_tile_0011.jpg",
+        "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\val\\2229344f-2025-05-09-18-28-13ps5_tile_0011.jpg",
+        "class_id": 7,
+        "gt_index": 0,
+        "clean_iou": 0.8371360679145066,
+        "fixed_iou": 0.0,
+        "clean_confidence": 0.25913500785827637,
+        "fixed_confidence": null
+      },
+      {
+        "relative_path": "2025-05-10-15-40-40ps5_tile_0001.jpg",
+        "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\val\\2025-05-10-15-40-40ps5_tile_0001.jpg",
+        "class_id": 4,
+        "gt_index": 0,
+        "clean_iou": 0.8310545116661828,
+        "fixed_iou": 0.0,
+        "clean_confidence": 0.8161320090293884,
+        "fixed_confidence": null
+      },
+      {
+        "relative_path": "2025-05-19-17-19-55ps5_NGyuan_tile_0008.jpg",
+        "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\val\\2025-05-19-17-19-55ps5_NGyuan_tile_0008.jpg",
+        "class_id": 9,
+        "gt_index": 0,
+        "clean_iou": 0.7846224818751039,
+        "fixed_iou": 0.0,
+        "clean_confidence": 0.5655580163002014,
+        "fixed_confidence": null
+      },
+      {
+        "relative_path": "2229344f-2025-05-09-18-28-13ps5_tile_0006.jpg",
+        "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\val\\2229344f-2025-05-09-18-28-13ps5_tile_0006.jpg",
+        "class_id": 7,
+        "gt_index": 0,
+        "clean_iou": 0.7752035707533704,
+        "fixed_iou": 0.0,
+        "clean_confidence": 0.44464901089668274,
+        "fixed_confidence": null
+      },
+      {
+        "relative_path": "2025-06-07-15-42-24ps5_NGyuan_tile_0002.jpg",
+        "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\val\\2025-06-07-15-42-24ps5_NGyuan_tile_0002.jpg",
+        "class_id": 8,
+        "gt_index": 0,
+        "clean_iou": 0.7739456112511918,
+        "fixed_iou": 0.0,
+        "clean_confidence": 0.4635559916496277,
+        "fixed_confidence": null
+      },
+      {
+        "relative_path": "2025-05-19-17-19-55ps5_NGyuan_tile_0013.jpg",
+        "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\val\\2025-05-19-17-19-55ps5_NGyuan_tile_0013.jpg",
+        "class_id": 9,
+        "gt_index": 0,
+        "clean_iou": 0.7690730659717875,
+        "fixed_iou": 0.0,
+        "clean_confidence": 0.5876110196113586,
+        "fixed_confidence": null
+      },
+      {
+        "relative_path": "2025-05-27-23-28-53ps5_NGyuan_tile_0013.jpg",
+        "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\val\\2025-05-27-23-28-53ps5_NGyuan_tile_0013.jpg",
+        "class_id": 1,
+        "gt_index": 0,
+        "clean_iou": 0.7441272956909079,
+        "fixed_iou": 0.0,
+        "clean_confidence": 0.6518579721450806,
+        "fixed_confidence": null
+      },
+      {
+        "relative_path": "2025-06-14-16-53-39ps5_tile_0006.jpg",
+        "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\val\\2025-06-14-16-53-39ps5_tile_0006.jpg",
+        "class_id": 9,
+        "gt_index": 0,
+        "clean_iou": 0.7362421719581268,
+        "fixed_iou": 0.0,
+        "clean_confidence": 0.29576700925827026,
+        "fixed_confidence": null
+      },
+      {
+        "relative_path": "2025-05-10-15-39-23ps5_tile_0012.jpg",
+        "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\val\\2025-05-10-15-39-23ps5_tile_0012.jpg",
+        "class_id": 6,
+        "gt_index": 2,
+        "clean_iou": 0.7234713173745233,
+        "fixed_iou": 0.0,
+        "clean_confidence": 0.4262300133705139,
+        "fixed_confidence": null
+      },
+      {
+        "relative_path": "2025-09-15-17-40-45ps5_tile_0009.jpg",
+        "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\val\\2025-09-15-17-40-45ps5_tile_0009.jpg",
+        "class_id": 9,
+        "gt_index": 1,
+        "clean_iou": 0.7182426986295724,
+        "fixed_iou": 0.4904751168823414,
+        "clean_confidence": 0.7580969929695129,
+        "fixed_confidence": 0.733227014541626
+      },
+      {
+        "relative_path": "2025-05-10-15-39-23ps5_tile_0007.jpg",
+        "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\val\\2025-05-10-15-39-23ps5_tile_0007.jpg",
+        "class_id": 6,
+        "gt_index": 2,
+        "clean_iou": 0.7000957268094616,
+        "fixed_iou": 0.0,
+        "clean_confidence": 0.3419800102710724,
+        "fixed_confidence": null
+      },
+      {
+        "relative_path": "2025-05-27-23-28-53ps5_NGyuan_tile_0012.jpg",
+        "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\val\\2025-05-27-23-28-53ps5_NGyuan_tile_0012.jpg",
+        "class_id": 8,
+        "gt_index": 0,
+        "clean_iou": 0.6951169609896627,
+        "fixed_iou": 0.0,
+        "clean_confidence": 0.44829899072647095,
+        "fixed_confidence": null
+      },
+      {
+        "relative_path": "ce0d1787-2025-04-25-11-20-04ps5_NGyuan_tile_0007.jpg",
+        "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\val\\ce0d1787-2025-04-25-11-20-04ps5_NGyuan_tile_0007.jpg",
+        "class_id": 12,
+        "gt_index": 0,
+        "clean_iou": 0.6878446310837127,
+        "fixed_iou": 0.0,
+        "clean_confidence": 0.2678839862346649,
+        "fixed_confidence": null
+      },
+      {
+        "relative_path": "2025-05-19-17-19-55ps5_NGyuan_tile_0004.jpg",
+        "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\val\\2025-05-19-17-19-55ps5_NGyuan_tile_0004.jpg",
+        "class_id": 9,
+        "gt_index": 0,
+        "clean_iou": 0.6622300090221346,
+        "fixed_iou": 0.0,
+        "clean_confidence": 0.3693310022354126,
+        "fixed_confidence": null
+      },
+      {
+        "relative_path": "2025-09-15-17-40-45ps5_tile_0014.jpg",
+        "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\val\\2025-09-15-17-40-45ps5_tile_0014.jpg",
+        "class_id": 9,
+        "gt_index": 1,
+        "clean_iou": 0.6412661409730848,
+        "fixed_iou": 0.4326074861475186,
+        "clean_confidence": 0.714667022228241,
+        "fixed_confidence": 0.8445190191268921
+      },
+      {
+        "relative_path": "2025-06-07-10-52-02ps5_NGyuan_tile_0007.jpg",
+        "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\val\\2025-06-07-10-52-02ps5_NGyuan_tile_0007.jpg",
+        "class_id": 6,
+        "gt_index": 0,
+        "clean_iou": 0.6242384906011533,
+        "fixed_iou": 0.49300133333830626,
+        "clean_confidence": 0.6974599957466125,
+        "fixed_confidence": 0.7413439750671387
+      }
+    ],
+    "clean_high_iou_fixed_worse": [
+      {
+        "relative_path": "2025-06-07-10-52-02ps5_NGyuan_tile_0012.jpg",
+        "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\val\\2025-06-07-10-52-02ps5_NGyuan_tile_0012.jpg",
+        "class_id": 7,
+        "gt_index": 2,
+        "clean_iou": 0.919987080359498,
+        "fixed_iou": 0.0,
+        "clean_confidence": 0.3980880081653595,
+        "fixed_confidence": null
+      },
+      {
+        "relative_path": "2025-05-16-16-19-14ps5_tile_0013.jpg",
+        "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\val\\2025-05-16-16-19-14ps5_tile_0013.jpg",
+        "class_id": 9,
+        "gt_index": 0,
+        "clean_iou": 0.9174439614216848,
+        "fixed_iou": 0.0,
+        "clean_confidence": 0.8261539936065674,
+        "fixed_confidence": null
+      },
+      {
+        "relative_path": "2025-06-06-01-33-39ps5_NGyuan_tile_0003.jpg",
+        "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\val\\2025-06-06-01-33-39ps5_NGyuan_tile_0003.jpg",
+        "class_id": 7,
+        "gt_index": 0,
+        "clean_iou": 0.8983261697621584,
+        "fixed_iou": 0.0,
+        "clean_confidence": 0.5722910165786743,
+        "fixed_confidence": 0.32196900248527527
+      },
+      {
+        "relative_path": "2025-05-16-16-19-14ps5_tile_0008.jpg",
+        "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\val\\2025-05-16-16-19-14ps5_tile_0008.jpg",
+        "class_id": 9,
+        "gt_index": 0,
+        "clean_iou": 0.8925828972043951,
+        "fixed_iou": 0.0,
+        "clean_confidence": 0.7877479791641235,
+        "fixed_confidence": null
+      },
+      {
+        "relative_path": "2229344f-2025-05-09-18-28-13ps5_tile_0011.jpg",
+        "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\val\\2229344f-2025-05-09-18-28-13ps5_tile_0011.jpg",
+        "class_id": 7,
+        "gt_index": 0,
+        "clean_iou": 0.8371360679145066,
+        "fixed_iou": 0.0,
+        "clean_confidence": 0.25913500785827637,
+        "fixed_confidence": null
+      },
+      {
+        "relative_path": "2025-05-10-15-40-40ps5_tile_0001.jpg",
+        "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\val\\2025-05-10-15-40-40ps5_tile_0001.jpg",
+        "class_id": 4,
+        "gt_index": 0,
+        "clean_iou": 0.8310545116661828,
+        "fixed_iou": 0.0,
+        "clean_confidence": 0.8161320090293884,
+        "fixed_confidence": null
+      },
+      {
+        "relative_path": "2025-05-19-17-19-55ps5_NGyuan_tile_0008.jpg",
+        "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\val\\2025-05-19-17-19-55ps5_NGyuan_tile_0008.jpg",
+        "class_id": 9,
+        "gt_index": 0,
+        "clean_iou": 0.7846224818751039,
+        "fixed_iou": 0.0,
+        "clean_confidence": 0.5655580163002014,
+        "fixed_confidence": null
+      },
+      {
+        "relative_path": "2229344f-2025-05-09-18-28-13ps5_tile_0006.jpg",
+        "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\val\\2229344f-2025-05-09-18-28-13ps5_tile_0006.jpg",
+        "class_id": 7,
+        "gt_index": 0,
+        "clean_iou": 0.7752035707533704,
+        "fixed_iou": 0.0,
+        "clean_confidence": 0.44464901089668274,
+        "fixed_confidence": null
+      },
+      {
+        "relative_path": "2025-06-07-15-42-24ps5_NGyuan_tile_0002.jpg",
+        "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\val\\2025-06-07-15-42-24ps5_NGyuan_tile_0002.jpg",
+        "class_id": 8,
+        "gt_index": 0,
+        "clean_iou": 0.7739456112511918,
+        "fixed_iou": 0.0,
+        "clean_confidence": 0.4635559916496277,
+        "fixed_confidence": null
+      },
+      {
+        "relative_path": "2025-05-19-17-19-55ps5_NGyuan_tile_0013.jpg",
+        "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\val\\2025-05-19-17-19-55ps5_NGyuan_tile_0013.jpg",
+        "class_id": 9,
+        "gt_index": 0,
+        "clean_iou": 0.7690730659717875,
+        "fixed_iou": 0.0,
+        "clean_confidence": 0.5876110196113586,
+        "fixed_confidence": null
+      },
+      {
+        "relative_path": "2025-07-14-19-29-20ps5_tile_0012.jpg",
+        "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\val\\2025-07-14-19-29-20ps5_tile_0012.jpg",
+        "class_id": 11,
+        "gt_index": 0,
+        "clean_iou": 0.8876442597910078,
+        "fixed_iou": 0.729726575071382,
+        "clean_confidence": 0.9583240151405334,
+        "fixed_confidence": 0.9279450178146362
+      }
+    ],
+    "fixed_confidence_drop": [
+      {
+        "relative_path": "2025-05-16-16-24-46ps5_tile_0002.jpg",
+        "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\val\\2025-05-16-16-24-46ps5_tile_0002.jpg",
+        "class_id": 8,
+        "gt_index": 0,
+        "clean_iou": 0.6479459363939625,
+        "fixed_iou": 0.6532613223731032,
+        "clean_confidence": 0.9867159724235535,
+        "fixed_confidence": 0.25453799962997437
+      },
+      {
+        "relative_path": "2025-05-25-12-13-55ps5_NGyuan_tile_0007.jpg",
+        "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\val\\2025-05-25-12-13-55ps5_NGyuan_tile_0007.jpg",
+        "class_id": 6,
+        "gt_index": 0,
+        "clean_iou": 0.5320214159938634,
+        "fixed_iou": 0.6623114973885734,
+        "clean_confidence": 0.9490349888801575,
+        "fixed_confidence": 0.2698200047016144
+      },
+      {
+        "relative_path": "2025-07-11-20-30-00ps5_NGyuan_tile_0011.jpg",
+        "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\val\\2025-07-11-20-30-00ps5_NGyuan_tile_0011.jpg",
+        "class_id": 9,
+        "gt_index": 0,
+        "clean_iou": 0.940424268300472,
+        "fixed_iou": 0.942024056071064,
+        "clean_confidence": 0.9022840261459351,
+        "fixed_confidence": 0.2815830111503601
+      },
+      {
+        "relative_path": "2025-07-11-20-30-00ps5_NGyuan_tile_0006.jpg",
+        "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\val\\2025-07-11-20-30-00ps5_NGyuan_tile_0006.jpg",
+        "class_id": 9,
+        "gt_index": 0,
+        "clean_iou": 0.9205163853347534,
+        "fixed_iou": 0.92760078991773,
+        "clean_confidence": 0.919842004776001,
+        "fixed_confidence": 0.4021320044994354
+      },
+      {
+        "relative_path": "105acebc-2025-05-09-18-24-19ps5_tile_0001.jpg",
+        "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\val\\105acebc-2025-05-09-18-24-19ps5_tile_0001.jpg",
+        "class_id": 7,
+        "gt_index": 0,
+        "clean_iou": 0.6124359202698593,
+        "fixed_iou": 0.6214280428074086,
+        "clean_confidence": 0.8306480050086975,
+        "fixed_confidence": 0.3142240047454834
+      },
+      {
+        "relative_path": "2025-09-15-17-40-45ps5_tile_0013.jpg",
+        "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\val\\2025-09-15-17-40-45ps5_tile_0013.jpg",
+        "class_id": 2,
+        "gt_index": 1,
+        "clean_iou": 0.8035847325983996,
+        "fixed_iou": 0.7507242867240645,
+        "clean_confidence": 0.9450780153274536,
+        "fixed_confidence": 0.44876500964164734
+      },
+      {
+        "relative_path": "2025-07-11-20-30-00ps5_NGyuan_tile_0001.jpg",
+        "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\val\\2025-07-11-20-30-00ps5_NGyuan_tile_0001.jpg",
+        "class_id": 9,
+        "gt_index": 0,
+        "clean_iou": 0.9238940973871439,
+        "fixed_iou": 0.9436282346112629,
+        "clean_confidence": 0.9291539788246155,
+        "fixed_confidence": 0.4767509996891022
+      },
+      {
+        "relative_path": "105acebc-2025-05-09-18-24-19ps5_tile_0000.jpg",
+        "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\val\\105acebc-2025-05-09-18-24-19ps5_tile_0000.jpg",
+        "class_id": 7,
+        "gt_index": 0,
+        "clean_iou": 0.5763930667181486,
+        "fixed_iou": 0.6406875897425159,
+        "clean_confidence": 0.8388019800186157,
+        "fixed_confidence": 0.4256730079650879
+      },
+      {
+        "relative_path": "2025-09-09-21-08-16ps5_tile_0006.jpg",
+        "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\val\\2025-09-09-21-08-16ps5_tile_0006.jpg",
+        "class_id": 9,
+        "gt_index": 0,
+        "clean_iou": 0.8055596935786048,
+        "fixed_iou": 0.7762508463848231,
+        "clean_confidence": 0.8442699909210205,
+        "fixed_confidence": 0.44957399368286133
+      },
+      {
+        "relative_path": "2025-09-15-17-40-45ps5_tile_0010.jpg",
+        "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\val\\2025-09-15-17-40-45ps5_tile_0010.jpg",
+        "class_id": 2,
+        "gt_index": 1,
+        "clean_iou": 0.769614176735879,
+        "fixed_iou": 0.8340227963970747,
+        "clean_confidence": 0.8535969853401184,
+        "fixed_confidence": 0.4697969853878021
+      },
+      {
+        "relative_path": "2025-09-15-17-40-45ps5_tile_0003.jpg",
+        "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\val\\2025-09-15-17-40-45ps5_tile_0003.jpg",
+        "class_id": 9,
+        "gt_index": 2,
+        "clean_iou": 0.7742736311832211,
+        "fixed_iou": 0.6463783540448051,
+        "clean_confidence": 0.6866390109062195,
+        "fixed_confidence": 0.3194429874420166
+      },
+      {
+        "relative_path": "2025-06-11-10-01-27ps5_NGyuan_tile_0012.jpg",
+        "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\val\\2025-06-11-10-01-27ps5_NGyuan_tile_0012.jpg",
+        "class_id": 1,
+        "gt_index": 1,
+        "clean_iou": 0.8416673263788149,
+        "fixed_iou": 0.8877950418668147,
+        "clean_confidence": 0.6709510087966919,
+        "fixed_confidence": 0.3159579932689667
+      },
+      {
+        "relative_path": "2025-09-15-17-40-45ps5_tile_0008.jpg",
+        "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\val\\2025-09-15-17-40-45ps5_tile_0008.jpg",
+        "class_id": 9,
+        "gt_index": 2,
+        "clean_iou": 0.5105662078509221,
+        "fixed_iou": 0.6782866433588313,
+        "clean_confidence": 0.6387689709663391,
+        "fixed_confidence": 0.29784899950027466
+      },
+      {
+        "relative_path": "2025-09-09-21-08-16ps5_tile_0011.jpg",
+        "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\val\\2025-09-09-21-08-16ps5_tile_0011.jpg",
+        "class_id": 9,
+        "gt_index": 0,
+        "clean_iou": 0.9060825443716366,
+        "fixed_iou": 0.9252022367781391,
+        "clean_confidence": 0.8344399929046631,
+        "fixed_confidence": 0.49903199076652527
+      },
+      {
+        "relative_path": "2025-11-01-14-42-20ps5_NGyuan_tile_0005.jpg",
+        "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\val\\2025-11-01-14-42-20ps5_NGyuan_tile_0005.jpg",
+        "class_id": 7,
+        "gt_index": 0,
+        "clean_iou": 0.6819615829322294,
+        "fixed_iou": 0.6777569460426083,
+        "clean_confidence": 0.5964270234107971,
+        "fixed_confidence": 0.261927992105484
+      },
+      {
+        "relative_path": "2025-09-17-01-04-57ps5_NGyuan_tile_0012.jpg",
+        "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\val\\2025-09-17-01-04-57ps5_NGyuan_tile_0012.jpg",
+        "class_id": 7,
+        "gt_index": 0,
+        "clean_iou": 0.8493322706499284,
+        "fixed_iou": 0.7617491601510195,
+        "clean_confidence": 0.6644390225410461,
+        "fixed_confidence": 0.3323209881782532
+      },
+      {
+        "relative_path": "2025-09-15-17-40-45ps5_tile_0008.jpg",
+        "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\val\\2025-09-15-17-40-45ps5_tile_0008.jpg",
+        "class_id": 2,
+        "gt_index": 1,
+        "clean_iou": 0.8288321071763931,
+        "fixed_iou": 0.7459621548514237,
+        "clean_confidence": 0.9002839922904968,
+        "fixed_confidence": 0.5802180171012878
+      },
+      {
+        "relative_path": "2025-05-27-23-28-53ps5_NGyuan_tile_0004.jpg",
+        "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\val\\2025-05-27-23-28-53ps5_NGyuan_tile_0004.jpg",
+        "class_id": 7,
+        "gt_index": 0,
+        "clean_iou": 0.6297629507172074,
+        "fixed_iou": 0.7333582932535133,
+        "clean_confidence": 0.6211429834365845,
+        "fixed_confidence": 0.3056040108203888
+      },
+      {
+        "relative_path": "2025-06-05-10-27-17ps5_NGyuan_tile_0012.jpg",
+        "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\val\\2025-06-05-10-27-17ps5_NGyuan_tile_0012.jpg",
+        "class_id": 8,
+        "gt_index": 0,
+        "clean_iou": 0.7692407621897761,
+        "fixed_iou": 0.663445794661198,
+        "clean_confidence": 0.7475559711456299,
+        "fixed_confidence": 0.43227800726890564
+      },
+      {
+        "relative_path": "2025-11-01-14-42-20ps5_NGyuan_tile_0008.jpg",
+        "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\val\\2025-11-01-14-42-20ps5_NGyuan_tile_0008.jpg",
+        "class_id": 9,
+        "gt_index": 0,
+        "clean_iou": 0.7013798499959994,
+        "fixed_iou": 0.700181560595192,
+        "clean_confidence": 0.7866089940071106,
+        "fixed_confidence": 0.4791550040245056
+      }
+    ],
+    "fixed_new_high_conf_fp": [
+      {
+        "relative_path": "2025-05-16-16-24-54ps5_tile_0012.jpg",
+        "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\val\\2025-05-16-16-24-54ps5_tile_0012.jpg",
+        "class_id": 8,
+        "confidence": 0.992950975894928,
+        "best_gt_iou": 0.0
+      },
+      {
+        "relative_path": "2025-05-16-16-24-54ps5_tile_0007.jpg",
+        "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\val\\2025-05-16-16-24-54ps5_tile_0007.jpg",
+        "class_id": 8,
+        "confidence": 0.9911890029907227,
+        "best_gt_iou": 0.0
+      },
+      {
+        "relative_path": "2025-05-16-17-11-45ps5_tile_0006.jpg",
+        "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\val\\2025-05-16-17-11-45ps5_tile_0006.jpg",
+        "class_id": 4,
+        "confidence": 0.9865109920501709,
+        "best_gt_iou": 0.0
+      },
+      {
+        "relative_path": "105acebc-2025-05-09-18-24-19ps5_tile_0007.jpg",
+        "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\val\\105acebc-2025-05-09-18-24-19ps5_tile_0007.jpg",
+        "class_id": 10,
+        "confidence": 0.9833260178565979,
+        "best_gt_iou": 0.0
+      },
+      {
+        "relative_path": "2025-05-16-16-24-46ps5_tile_0000.jpg",
+        "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\val\\2025-05-16-16-24-46ps5_tile_0000.jpg",
+        "class_id": 8,
+        "confidence": 0.9824640154838562,
+        "best_gt_iou": 0.0
+      },
+      {
+        "relative_path": "2025-07-13-19-53-20ps5_tile_0009.jpg",
+        "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\val\\2025-07-13-19-53-20ps5_tile_0009.jpg",
+        "class_id": 7,
+        "confidence": 0.981469988822937,
+        "best_gt_iou": 0.0
+      },
+      {
+        "relative_path": "2025-07-13-19-53-20ps5_tile_0008.jpg",
+        "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\val\\2025-07-13-19-53-20ps5_tile_0008.jpg",
+        "class_id": 7,
+        "confidence": 0.9808089733123779,
+        "best_gt_iou": 0.0
+      },
+      {
+        "relative_path": "2025-05-16-16-24-46ps5_tile_0006.jpg",
+        "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\val\\2025-05-16-16-24-46ps5_tile_0006.jpg",
+        "class_id": 8,
+        "confidence": 0.9805449843406677,
+        "best_gt_iou": 0.0
+      },
+      {
+        "relative_path": "2025-05-16-17-11-45ps5_tile_0011.jpg",
+        "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\val\\2025-05-16-17-11-45ps5_tile_0011.jpg",
+        "class_id": 4,
+        "confidence": 0.9723140001296997,
+        "best_gt_iou": 0.0
+      },
+      {
+        "relative_path": "2025-11-01-14-42-20ps5_NGyuan_tile_0009.jpg",
+        "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\val\\2025-11-01-14-42-20ps5_NGyuan_tile_0009.jpg",
+        "class_id": 7,
+        "confidence": 0.9598879814147949,
+        "best_gt_iou": 0.4606409686606929
+      },
+      {
+        "relative_path": "2025-09-15-17-40-45ps5_tile_0012.jpg",
+        "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\val\\2025-09-15-17-40-45ps5_tile_0012.jpg",
+        "class_id": 7,
+        "confidence": 0.953607976436615,
+        "best_gt_iou": 0.0
+      },
+      {
+        "relative_path": "2025-05-16-16-24-46ps5_tile_0011.jpg",
+        "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\val\\2025-05-16-16-24-46ps5_tile_0011.jpg",
+        "class_id": 8,
+        "confidence": 0.9529759883880615,
+        "best_gt_iou": 0.0
+      },
+      {
+        "relative_path": "2025-08-11-19-48-33ps5_tile_0012.jpg",
+        "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\val\\2025-08-11-19-48-33ps5_tile_0012.jpg",
+        "class_id": 7,
+        "confidence": 0.9492589831352234,
+        "best_gt_iou": 0.0
+      },
+      {
+        "relative_path": "2025-05-10-15-40-40ps5_tile_0008.jpg",
+        "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\val\\2025-05-10-15-40-40ps5_tile_0008.jpg",
+        "class_id": 4,
+        "confidence": 0.9436900019645691,
+        "best_gt_iou": 0.0
+      },
+      {
+        "relative_path": "2025-08-11-19-48-33ps5_tile_0007.jpg",
+        "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\val\\2025-08-11-19-48-33ps5_tile_0007.jpg",
+        "class_id": 7,
+        "confidence": 0.9422000050544739,
+        "best_gt_iou": 0.0
+      },
+      {
+        "relative_path": "2025-06-07-15-42-24ps5_NGyuan_tile_0000.jpg",
+        "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\val\\2025-06-07-15-42-24ps5_NGyuan_tile_0000.jpg",
+        "class_id": 7,
+        "confidence": 0.9382349848747253,
+        "best_gt_iou": 0.0
+      },
+      {
+        "relative_path": "2025-09-15-17-40-45ps5_tile_0007.jpg",
+        "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\val\\2025-09-15-17-40-45ps5_tile_0007.jpg",
+        "class_id": 7,
+        "confidence": 0.935001015663147,
+        "best_gt_iou": 0.0
+      },
+      {
+        "relative_path": "2025-09-17-06-11-12ps5_NGyuan_tile_0012.jpg",
+        "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\val\\2025-09-17-06-11-12ps5_NGyuan_tile_0012.jpg",
+        "class_id": 0,
+        "confidence": 0.9140080213546753,
+        "best_gt_iou": 0.0
+      },
+      {
+        "relative_path": "2025-06-19-14-58-29ps5_tile_0007.jpg",
+        "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\val\\2025-06-19-14-58-29ps5_tile_0007.jpg",
+        "class_id": 6,
+        "confidence": 0.9115489721298218,
+        "best_gt_iou": 0.0
+      },
+      {
+        "relative_path": "2025-10-17-15-21-16ps5_NGyuan_tile_0014.jpg",
+        "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\images\\val\\2025-10-17-15-21-16ps5_NGyuan_tile_0014.jpg",
+        "class_id": 9,
+        "confidence": 0.9040859937667847,
+        "best_gt_iou": 0.0
+      }
+    ]
+  },
+  "debug_images": [
+    "outputs/experiments/seed2_failure_root_cause/debug_images/clean_detected_fixed_missed/01_2025-06-07-10-52-02ps5_NGyuan_tile_0012.jpg",
+    "outputs/experiments/seed2_failure_root_cause/debug_images/clean_detected_fixed_missed/02_2025-05-16-16-19-14ps5_tile_0013.jpg",
+    "outputs/experiments/seed2_failure_root_cause/debug_images/clean_detected_fixed_missed/03_2025-06-06-01-33-39ps5_NGyuan_tile_0003.jpg",
+    "outputs/experiments/seed2_failure_root_cause/debug_images/clean_high_iou_fixed_worse/01_2025-06-07-10-52-02ps5_NGyuan_tile_0012.jpg",
+    "outputs/experiments/seed2_failure_root_cause/debug_images/clean_high_iou_fixed_worse/02_2025-05-16-16-19-14ps5_tile_0013.jpg",
+    "outputs/experiments/seed2_failure_root_cause/debug_images/clean_high_iou_fixed_worse/03_2025-06-06-01-33-39ps5_NGyuan_tile_0003.jpg",
+    "outputs/experiments/seed2_failure_root_cause/debug_images/fixed_confidence_drop/01_2025-05-16-16-24-46ps5_tile_0002.jpg",
+    "outputs/experiments/seed2_failure_root_cause/debug_images/fixed_confidence_drop/02_2025-05-25-12-13-55ps5_NGyuan_tile_0007.jpg",
+    "outputs/experiments/seed2_failure_root_cause/debug_images/fixed_confidence_drop/03_2025-07-11-20-30-00ps5_NGyuan_tile_0011.jpg",
+    "outputs/experiments/seed2_failure_root_cause/debug_images/fixed_new_high_conf_fp/01_2025-05-16-16-24-54ps5_tile_0012.jpg",
+    "outputs/experiments/seed2_failure_root_cause/debug_images/fixed_new_high_conf_fp/02_2025-05-16-16-24-54ps5_tile_0007.jpg",
+    "outputs/experiments/seed2_failure_root_cause/debug_images/fixed_new_high_conf_fp/03_2025-05-16-17-11-45ps5_tile_0006.jpg"
+  ],
+  "nms_note": "Only post-NMS prediction JSON is available, so true pre-NMS ordering cannot be audited directly."
+}

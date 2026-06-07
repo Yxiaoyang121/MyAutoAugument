@@ -1,5 +1,85 @@
 # Experiment Log
 
+## 2026-06-07
+
+### Seed2 CATF-v2 Failure Root-Cause Audit
+
+Completed a root-cause audit for the fixed CATF-v2 seed2 failure.
+
+Scope:
+
+- No training was run.
+- Existing clean, fixed CATF-v2, Gated, Safe, and adaptive-RB artifacts were read.
+- Predict-only validation was run on existing clean/fixed best weights to generate cached prediction JSON and debug images.
+- CATF-v2 rules and training code were not changed.
+
+Outputs:
+
+- `outputs/experiments/seed2_failure_root_cause/reports/seed2_curve_degradation_analysis.md`
+- `outputs/experiments/seed2_failure_root_cause/reports/seed2_curve_degradation_analysis.json`
+- `outputs/experiments/seed2_failure_root_cause/reports/seed2_per_class_regression_analysis.md`
+- `outputs/experiments/seed2_failure_root_cause/reports/seed2_per_class_regression_analysis.json`
+- `outputs/experiments/seed2_failure_root_cause/reports/seed2_augmentation_operator_attribution.md`
+- `outputs/experiments/seed2_failure_root_cause/reports/seed2_augmentation_operator_attribution.json`
+- `outputs/experiments/seed2_failure_root_cause/reports/seed2_active_vs_regressed_class_analysis.md`
+- `outputs/experiments/seed2_failure_root_cause/reports/seed2_active_vs_regressed_class_analysis.json`
+- `outputs/experiments/seed2_failure_root_cause/reports/seed2_prediction_diff_analysis.md`
+- `outputs/experiments/seed2_failure_root_cause/reports/seed2_prediction_diff_analysis.json`
+- `outputs/experiments/seed2_failure_root_cause/reports/seed2_root_cause_summary.md`
+- `outputs/experiments/seed2_failure_root_cause/reports/seed2_root_cause_summary.json`
+- `outputs/experiments/seed2_failure_root_cause/debug_images/`
+
+Curve localization:
+
+| run | Recall first lag | mAP50 first clear lag | mAP50-95 first clear lag | key context |
+|---|---:|---:|---:|---|
+| fixed CATF-v2 seed2 | 6 | 8 | 8 | epoch5 class 9 active, texture ops enabled |
+| Gated seed2 | 6 | 8 | 8 | epoch10 fallback after the damaged epoch6-10 window |
+
+Fixed seed2 augmentation audit:
+
+- Industrial samples augmented: 86.
+- ROI applied: 90.
+- Router random draw count: 5610.
+- Operators:
+  - `local_contrast`: applied 44.
+  - `sharpen_mild`: applied 42.
+- ROI affected classes:
+  - class 9: 25.
+  - class 11: 59.
+  - class 8: 6.
+
+Per-class finding:
+
+- class 9 is the most suspicious active class: active at epoch5, ROI affected, Recall -0.1667, AP50 -0.0466, AP50-95 -0.0654, estimated FN +14.
+- class 8 is active later and loses AP50/AP50-95 despite Recall improving.
+- class 11 is active but improves slightly, so texture ROI ops are not uniformly harmful.
+- Non-active regression exists: classes 10, 12, 6, 5, 3, and 2 show AP or Recall regression without ROI application.
+
+Prediction diff:
+
+- Clean prediction JSON: `outputs/experiments/seed2_failure_root_cause/predictions/clean_best/validation_predictions.json`.
+- Fixed prediction JSON: `outputs/experiments/seed2_failure_root_cause/predictions/fixed_best/validation_predictions.json`.
+- Clean detected but fixed missed: 24 GT objects.
+- Clean high-IoU but fixed worse localization: 11 GT objects.
+- Fixed confidence drop on matched objects: 20 GT objects.
+- True pre-NMS ordering cannot be audited from saved post-NMS predictions.
+
+Interpretation:
+
+- The strongest root cause is not final Precision; it is an early candidate-branch side effect after epoch5.
+- The most suspicious policy update is epoch5 class 9 `texture_boundary_weak`, with `sharpen_mild` and `local_contrast`.
+- The most suspicious operator family is ROI texture enhancement, but current logs cannot separate `sharpen_mild` from `local_contrast` because they were co-applied.
+- Seed2 should default to no-op or sampler-only unless a CP-CATF causal probe validates class 9 before image-space intervention.
+- Next minimum-cost validation should be CP-CATF causal probe and 10ep short ablations, not another full 50ep run.
+
+Verification:
+
+- `D:\Anaconda\envs\pytorch\python.exe -m py_compile scripts\audit_seed2_catf_v2_failure_root_cause.py scripts\train_yolo_default_with_inloop_feedback.py AutoAugment\catf_v2\sample_router.py AutoAugment\catf_v2\policy_matrix.py`
+- Skipped missing tests: `tests/test_catf_v2_causal_probe.py`, `tests/test_catf_v2_adaptive_rb_v2.py`.
+- `D:\Anaconda\envs\pytorch\python.exe -m pytest -q tests\test_catf_v2_adaptive_burnin.py tests\test_catf_v2_rollback_controller.py tests\test_catf_v2_gated_controller.py tests\test_catf_v2_safe_controller.py tests\test_catf_v2_transform_bypass.py tests\test_catf_v2_activation_rules.py tests\test_catf_v2_per_class_diagnosis.py tests\test_catf_v2_policy_matrix.py tests\test_catf_v2_sample_router.py tests\test_catf_v2_roi_augmentation.py tests\test_catf_v2_threshold_calibration.py tests\test_feedback_policy_guard.py tests\test_feedback_policy_controller.py tests\test_inloop_feedback_training.py tests\test_online_augmentation.py tests\test_proxy_prefilter.py tests\test_copy_paste.py`
+- Result: `111 passed`.
+
 ## 2026-06-06
 
 ### CATF-v2 Adaptive-RB Full Multiseed Validation

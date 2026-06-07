@@ -6,6 +6,43 @@ Last updated: 2026-06-07
 
 The repository is centered on diagnosis-driven augmentation for industrial defect detection. The active path still keeps YOLO network architecture unchanged and focuses on dataset construction, validation-error diagnosis, policy generation, proxy safety, short training, and auditable reporting.
 
+## Seed2 CATF-v2 Failure Root-Cause Audit (2026-06-07)
+
+- Completed a seed2 root-cause audit at `outputs/experiments/seed2_failure_root_cause/`.
+- No training was run. The audit only read existing clean/fixed/gated/Safe/adaptive-RB artifacts and ran predict-only validation on existing clean/fixed best weights to cache prediction JSON and debug images.
+- Curve localization:
+  - fixed CATF-v2 and Gated remain identical to clean through epoch 5.
+  - Recall first lags clean at epoch 6.
+  - mAP50 first clearly lags clean at epoch 8.
+  - mAP50-95 first turns negative at epoch 6 and clearly lags by epoch 8.
+- Most suspicious policy update: epoch 5 `accept/propose` for class 9 with `texture_boundary_weak`, enabling `sharpen_mild` and `local_contrast`.
+- Fixed seed2 augmentation audit:
+  - industrial samples augmented=86.
+  - ROI applied=90.
+  - router random draw count=5610.
+  - ops: `local_contrast` applied 44, `sharpen_mild` applied 42.
+  - ROI affected classes: class 9=25, class 11=59, class 8=6.
+- Class-level finding:
+  - class 9 is active/ROI-affected and regresses strongly: Recall -0.1667, AP50 -0.0466, AP50-95 -0.0654, estimated FN +14.
+  - class 8 is active/ROI-affected and loses AP: AP50 -0.0559, AP50-95 -0.0502.
+  - class 11 is active/ROI-affected but improves slightly, so texture ops are not uniformly harmful.
+  - non-active regression exists: classes 10, 12, 6, 5, 3, and 2 show AP or Recall regressions without ROI application.
+- Prediction diff on existing best weights found clean-detected/fixed-missed objects, fixed localization degradation, and fixed confidence drops; pre-NMS NMS ordering cannot be audited from saved post-NMS predictions.
+- Root-cause ranking:
+  1. fallback/gate too late after epoch5 candidate activation;
+  2. class 9 texture ROI intervention;
+  3. missing causal validation for active issue attribution;
+  4. non-active class regression;
+  5. seed2 clean baseline is strong enough that default no-op is justified unless causal evidence is positive.
+- Recommendation: seed2 should default to no-op or sampler-only until CP-CATF causal probe or a 10ep short ablation proves class-9 texture intervention is safe.
+- Reports:
+  - `outputs/experiments/seed2_failure_root_cause/reports/seed2_curve_degradation_analysis.md`
+  - `outputs/experiments/seed2_failure_root_cause/reports/seed2_per_class_regression_analysis.md`
+  - `outputs/experiments/seed2_failure_root_cause/reports/seed2_augmentation_operator_attribution.md`
+  - `outputs/experiments/seed2_failure_root_cause/reports/seed2_active_vs_regressed_class_analysis.md`
+  - `outputs/experiments/seed2_failure_root_cause/reports/seed2_prediction_diff_analysis.md`
+  - `outputs/experiments/seed2_failure_root_cause/reports/seed2_root_cause_summary.md`
+
 ## CATF-v2 Adaptive-RB Full Multiseed Validation (2026-06-07)
 
 - Full multiseed adaptive burn-in + RB validation completed at `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_adaptive_rb/`.

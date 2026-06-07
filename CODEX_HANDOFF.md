@@ -12,6 +12,35 @@ The project is a diagnosis-driven augmentation pipeline for industrial defect de
 
 ## Current CATF-v2 Finding
 
+- Latest work: seed2 fixed CATF-v2 failure root-cause audit completed at `outputs/experiments/seed2_failure_root_cause/`.
+- No training was run for the audit. Existing artifacts were read, and predict-only validation was run on existing clean/fixed best weights to generate:
+  - `outputs/experiments/seed2_failure_root_cause/predictions/clean_best/validation_predictions.json`
+  - `outputs/experiments/seed2_failure_root_cause/predictions/fixed_best/validation_predictions.json`
+  - debug images under `outputs/experiments/seed2_failure_root_cause/debug_images/`
+- Root-cause summary:
+  - seed2 fixed/Gated curves match clean through epoch 5.
+  - Recall first lags clean at epoch 6.
+  - mAP50 and mAP50-95 clearly lag by epoch 8.
+  - The only policy update before the degradation window is epoch 5 class 9 activation with `sharpen_mild` + `local_contrast`.
+  - Gated fallback at epoch 10 is too late because epochs 6-10 already ran under the candidate branch.
+- Fixed seed2 augmentation stats:
+  - industrial samples augmented=86.
+  - ROI applied=90.
+  - router random draw count=5610.
+  - `local_contrast` applied=44; `sharpen_mild` applied=42.
+  - ROI affected classes: class 9=25, class 11=59, class 8=6.
+- Most suspicious active class is class 9. It is active/ROI-affected and final metrics regress: Recall -0.1667, AP50 -0.0466, AP50-95 -0.0654, estimated FN +14.
+- Class 11 improves slightly despite texture ROI, so the operator family is not globally toxic; the problem is likely class/context-specific and needs causal probing.
+- Non-active regression exists: classes 10, 12, 6, 5, 3, and 2 show AP or Recall regressions without ROI application.
+- Recommendation: seed2 should default to no-op or sampler-only unless CP-CATF causal probe proves class-9 texture intervention is helpful. Do not run another full 50ep until a 5-10ep short ablation clears the early epoch6-10 failure window.
+- Root-cause reports:
+  - `outputs/experiments/seed2_failure_root_cause/reports/seed2_curve_degradation_analysis.md`
+  - `outputs/experiments/seed2_failure_root_cause/reports/seed2_per_class_regression_analysis.md`
+  - `outputs/experiments/seed2_failure_root_cause/reports/seed2_augmentation_operator_attribution.md`
+  - `outputs/experiments/seed2_failure_root_cause/reports/seed2_active_vs_regressed_class_analysis.md`
+  - `outputs/experiments/seed2_failure_root_cause/reports/seed2_prediction_diff_analysis.md`
+  - `outputs/experiments/seed2_failure_root_cause/reports/seed2_root_cause_summary.md`
+
 - Full multiseed adaptive-RB has been completed at `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_adaptive_rb/`.
 - Result: adaptive-RB is `2/3` constraint pass, not `3/3`; do not recommend it as the final paper main method in its current form.
 - Adaptive-RB metrics:

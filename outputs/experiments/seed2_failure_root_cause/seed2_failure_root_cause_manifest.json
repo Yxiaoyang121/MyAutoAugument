@@ -1,0 +1,13 @@
+{
+  "generated_at": "2026-06-07T20:46:53",
+  "no_training_run": true,
+  "reports": {
+    "curve": "outputs/experiments/seed2_failure_root_cause/reports/seed2_curve_degradation_analysis.md",
+    "per_class": "outputs/experiments/seed2_failure_root_cause/reports/seed2_per_class_regression_analysis.md",
+    "operator": "outputs/experiments/seed2_failure_root_cause/reports/seed2_augmentation_operator_attribution.md",
+    "active_vs_regressed": "outputs/experiments/seed2_failure_root_cause/reports/seed2_active_vs_regressed_class_analysis.md",
+    "prediction_diff": "outputs/experiments/seed2_failure_root_cause/reports/seed2_prediction_diff_analysis.md",
+    "root_summary": "outputs/experiments/seed2_failure_root_cause/reports/seed2_root_cause_summary.md"
+  },
+  "debug_images_dir": "outputs/experiments/seed2_failure_root_cause/debug_images"
+}

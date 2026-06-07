@@ -1,0 +1,314 @@
+{
+  "generated_at": "2026-06-07T20:46:53",
+  "no_training_run": true,
+  "root_cause_ranking": [
+    {
+      "rank": 1,
+      "cause": "fallback/gate too late after epoch-5 candidate activation",
+      "evidence": "Recall first lags at epoch 6 and AP metrics clearly lag at epoch 8, before the epoch-10 gate can react."
+    },
+    {
+      "rank": 2,
+      "cause": "class-9 texture ROI intervention",
+      "evidence": "The only image-space change in the first degradation window is class 9 with sharpen_mild/local_contrast; class 9 later has large Recall/AP regression and 25 ROI applications."
+    },
+    {
+      "rank": 3,
+      "cause": "missing causal validation for active issue attribution",
+      "evidence": "Class 9 diagnosis confidence is high, but downstream metrics move in the precision-up/recall-down direction; CP-CATF is needed before image-space intervention."
+    },
+    {
+      "rank": 4,
+      "cause": "non-active class regression",
+      "evidence": "Classes without ROI application also lose AP or Recall, so the side effect is not only direct class-9 harm."
+    },
+    {
+      "rank": 5,
+      "cause": "strong clean seed2 baseline should not be disturbed",
+      "evidence": "Safe and adaptive-RB strict no-op exactly reproduce clean seed2; fixed/gated do not."
+    }
+  ],
+  "most_suspicious_policy_update": "epoch 5 accept/propose class 9 texture_boundary_weak with sharpen_mild and local_contrast",
+  "most_suspicious_active_class": "class 9",
+  "most_suspicious_op": "ROI texture ops as a pair: sharpen_mild + local_contrast; current logs cannot isolate one op",
+  "worst_injured_classes": {
+    "recall_drop": [
+      {
+        "class_id": 5,
+        "class_name": "浅划伤",
+        "delta_recall": -0.270410847317367,
+        "delta_ap50": 0.10721480120953264,
+        "delta_ap50_95": 0.10104604112255888,
+        "active": false,
+        "roi_applied": 0
+      },
+      {
+        "class_id": 9,
+        "class_name": "轮廓划伤",
+        "delta_recall": -0.16666666666666663,
+        "delta_ap50": -0.04662940300198781,
+        "delta_ap50_95": -0.06542994880881742,
+        "active": true,
+        "roi_applied": 25
+      },
+      {
+        "class_id": 2,
+        "class_name": "加强筋打伤",
+        "delta_recall": -0.125,
+        "delta_ap50": 0.004549999999999721,
+        "delta_ap50_95": -0.04634977490547165,
+        "active": false,
+        "roi_applied": 0
+      },
+      {
+        "class_id": 6,
+        "class_name": "漏背锡",
+        "delta_recall": -0.07452493042126296,
+        "delta_ap50": -0.03701845477123056,
+        "delta_ap50_95": 0.01964523327317058,
+        "active": false,
+        "roi_applied": 0
+      },
+      {
+        "class_id": 12,
+        "class_name": "锡膏",
+        "delta_recall": -0.004390140822586153,
+        "delta_ap50": -0.04826752580921534,
+        "delta_ap50_95": -0.041663725827446485,
+        "active": false,
+        "roi_applied": 0
+      }
+    ],
+    "ap50_drop": [
+      {
+        "class_id": 10,
+        "class_name": "锡丝残留",
+        "delta_recall": 0.0,
+        "delta_ap50": -0.07475379147711414,
+        "delta_ap50_95": -0.08801176830971014,
+        "active": false,
+        "roi_applied": 0
+      },
+      {
+        "class_id": 8,
+        "class_name": "脏污",
+        "delta_recall": 0.03011416147853918,
+        "delta_ap50": -0.055888753566707194,
+        "delta_ap50_95": -0.05019176047769974,
+        "active": true,
+        "roi_applied": 6
+      },
+      {
+        "class_id": 12,
+        "class_name": "锡膏",
+        "delta_recall": -0.004390140822586153,
+        "delta_ap50": -0.04826752580921534,
+        "delta_ap50_95": -0.041663725827446485,
+        "active": false,
+        "roi_applied": 0
+      },
+      {
+        "class_id": 9,
+        "class_name": "轮廓划伤",
+        "delta_recall": -0.16666666666666663,
+        "delta_ap50": -0.04662940300198781,
+        "delta_ap50_95": -0.06542994880881742,
+        "active": true,
+        "roi_applied": 25
+      },
+      {
+        "class_id": 6,
+        "class_name": "漏背锡",
+        "delta_recall": -0.07452493042126296,
+        "delta_ap50": -0.03701845477123056,
+        "delta_ap50_95": 0.01964523327317058,
+        "active": false,
+        "roi_applied": 0
+      }
+    ],
+    "ap50_95_drop": [
+      {
+        "class_id": 3,
+        "class_name": "开裂",
+        "delta_recall": 0.0,
+        "delta_ap50": 0.0,
+        "delta_ap50_95": -0.14915068493150674,
+        "active": false,
+        "roi_applied": 0
+      },
+      {
+        "class_id": 10,
+        "class_name": "锡丝残留",
+        "delta_recall": 0.0,
+        "delta_ap50": -0.07475379147711414,
+        "delta_ap50_95": -0.08801176830971014,
+        "active": false,
+        "roi_applied": 0
+      },
+      {
+        "class_id": 9,
+        "class_name": "轮廓划伤",
+        "delta_recall": -0.16666666666666663,
+        "delta_ap50": -0.04662940300198781,
+        "delta_ap50_95": -0.06542994880881742,
+        "active": true,
+        "roi_applied": 25
+      },
+      {
+        "class_id": 8,
+        "class_name": "脏污",
+        "delta_recall": 0.03011416147853918,
+        "delta_ap50": -0.055888753566707194,
+        "delta_ap50_95": -0.05019176047769974,
+        "active": true,
+        "roi_applied": 6
+      },
+      {
+        "class_id": 2,
+        "class_name": "加强筋打伤",
+        "delta_recall": -0.125,
+        "delta_ap50": 0.004549999999999721,
+        "delta_ap50_95": -0.04634977490547165,
+        "active": false,
+        "roi_applied": 0
+      }
+    ],
+    "fn_increase": [
+      {
+        "class_id": 9,
+        "class_name": "轮廓划伤",
+        "delta_recall": -0.16666666666666663,
+        "delta_ap50": -0.04662940300198781,
+        "delta_ap50_95": -0.06542994880881742,
+        "active": true,
+        "roi_applied": 25
+      },
+      {
+        "class_id": 5,
+        "class_name": "浅划伤",
+        "delta_recall": -0.270410847317367,
+        "delta_ap50": 0.10721480120953264,
+        "delta_ap50_95": 0.10104604112255888,
+        "active": false,
+        "roi_applied": 0
+      },
+      {
+        "class_id": 6,
+        "class_name": "漏背锡",
+        "delta_recall": -0.07452493042126296,
+        "delta_ap50": -0.03701845477123056,
+        "delta_ap50_95": 0.01964523327317058,
+        "active": false,
+        "roi_applied": 0
+      },
+      {
+        "class_id": 2,
+        "class_name": "加强筋打伤",
+        "delta_recall": -0.125,
+        "delta_ap50": 0.004549999999999721,
+        "delta_ap50_95": -0.04634977490547165,
+        "active": false,
+        "roi_applied": 0
+      },
+      {
+        "class_id": 12,
+        "class_name": "锡膏",
+        "delta_recall": -0.004390140822586153,
+        "delta_ap50": -0.04826752580921534,
+        "delta_ap50_95": -0.041663725827446485,
+        "active": false,
+        "roi_applied": 0
+      }
+    ],
+    "actionable_overlap": [
+      {
+        "class_id": 8,
+        "class_name": "脏污",
+        "delta_recall": 0.03011416147853918,
+        "delta_ap50": -0.055888753566707194,
+        "delta_ap50_95": -0.05019176047769974,
+        "active": true,
+        "roi_applied": 6
+      },
+      {
+        "class_id": 9,
+        "class_name": "轮廓划伤",
+        "delta_recall": -0.16666666666666663,
+        "delta_ap50": -0.04662940300198781,
+        "delta_ap50_95": -0.06542994880881742,
+        "active": true,
+        "roi_applied": 25
+      }
+    ]
+  },
+  "non_active_class_regression": true,
+  "recommend_seed2_default_noop": true,
+  "recommend_sampler_only": true,
+  "recommend_disable_texture_ops_without_ablation": false,
+  "recommend_cp_catf_causal_probe": true,
+  "verification": {
+    "missing_tests_skipped": [
+      "tests/test_catf_v2_causal_probe.py",
+      "tests/test_catf_v2_adaptive_rb_v2.py"
+    ],
+    "pytest_result": "111 passed"
+  },
+  "minimal_ablation_plan": [
+    {
+      "priority": 1,
+      "ablation": "CP-CATF causal probe before augmentation",
+      "target": "verify whether class-9 texture issue has causal positive evidence before any image-space op",
+      "run_length": "prediction/diagnosis only, then 5-10ep if needed",
+      "expected_answer": "decide whether class 9 should enter candidate branch at all"
+    },
+    {
+      "priority": 2,
+      "ablation": "seed2 no industrial aug / strict no-op control",
+      "target": "confirm reproducibility of clean behavior in the same custom trainer path",
+      "run_length": "already covered by Safe/adaptive-RB; no new 50ep needed",
+      "expected_answer": "baseline for any future short ablation"
+    },
+    {
+      "priority": 3,
+      "ablation": "seed2 texture ops disabled for class 9",
+      "target": "test whether the epoch5 class-9 image-space intervention is the causal pollutant",
+      "run_length": "10ep short train first; 50ep only if early curve is clean",
+      "expected_answer": "if epoch6-10 no longer lags, class-9 texture intervention is implicated"
+    },
+    {
+      "priority": 4,
+      "ablation": "seed2 only roi_sharpen_mild vs only roi_local_contrast",
+      "target": "separate the two texture ops that are currently co-applied",
+      "run_length": "paired 10ep short trains",
+      "expected_answer": "identify whether one op or their combination drives recall/mAP loss"
+    },
+    {
+      "priority": 5,
+      "ablation": "seed2 sampler_only",
+      "target": "test sample-aware routing without changing pixels",
+      "run_length": "10ep short train; 50ep only if stable",
+      "expected_answer": "separate sampling effects from ROI image perturbation"
+    },
+    {
+      "priority": 6,
+      "ablation": "seed2 no roi_sharpen_mild / no roi_local_contrast",
+      "target": "operator family confirmation if only-op runs are noisy",
+      "run_length": "10ep short train",
+      "expected_answer": "confirm which removal restores early Recall/mAP"
+    },
+    {
+      "priority": 7,
+      "ablation": "disable active class 9, then allow later class 11/8 only",
+      "target": "test whether later active classes are safe after skipping the early pollutant",
+      "run_length": "10ep to epoch15/20; 50ep only if pass",
+      "expected_answer": "separate early class9 failure from later policy updates"
+    }
+  ],
+  "supporting_report_paths": {
+    "curve": "outputs/experiments/seed2_failure_root_cause/reports/seed2_curve_degradation_analysis.md",
+    "per_class": "outputs/experiments/seed2_failure_root_cause/reports/seed2_per_class_regression_analysis.md",
+    "operator": "outputs/experiments/seed2_failure_root_cause/reports/seed2_augmentation_operator_attribution.md",
+    "active_vs_regressed": "outputs/experiments/seed2_failure_root_cause/reports/seed2_active_vs_regressed_class_analysis.md",
+    "prediction_diff": "outputs/experiments/seed2_failure_root_cause/reports/seed2_prediction_diff_analysis.md"
+  }
+}

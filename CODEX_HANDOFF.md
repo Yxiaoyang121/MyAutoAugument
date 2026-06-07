@@ -10,6 +10,30 @@
 
 The project is a diagnosis-driven augmentation pipeline for industrial defect detection. Keep work centered on dataset construction, tiling, validation-error diagnosis, policy generation, proxy safety, short-training validation, and auditable artifacts. Do not reframe this as YOLO backbone, neck, or head redesign.
 
+## Latest CATF-v2 RiskGuard Result
+
+- Implemented `--catf-riskguard true` and high-risk class-op registry in `AutoAugment/catf_v2/high_risk_class_ops.py`.
+- Registry is seed-agnostic. It currently blocks class 9 + `sharpen_mild` / `local_contrast` unless future causal probe evidence clears the combination.
+- Router fallback blocks before op accounting and random draw, preserving image/label/Instances bypass for blocked ops.
+- Added `tests/test_catf_v2_riskguard.py`; requested regression suite passed `121 passed`.
+- Seed2 RiskGuard 50ep was run at `outputs/experiments/catf_v2_riskguard_seed2_50ep/` with the correct seed2 clean reference/control paths.
+- Epoch5 reproduced class 9 `texture_boundary_weak`; RiskGuard blocked class 9 `local_contrast` and `sharpen_mild` at policy-matrix time.
+- RiskGuard events: 2 blocked ops at epoch5; sampler-only fallback recorded, sample weighting pending dataloader integration.
+- Final seed2 RiskGuard metrics: Precision=0.6394, Recall=0.7231, mAP50=0.7552, mAP50-95=0.5073.
+- Delta vs clean seed2: Precision=-0.0569, Recall=-0.0056, mAP50=-0.0140, mAP50-95=-0.0150.
+- `constraint_failed=true`, so seed0/seed1 sanity check was not run.
+- Industrial samples augmented dropped from fixed seed2 86 to 13; ROI applied dropped from fixed 90 to 15; ROI affected only class 12; OK3 stayed inactive and OK3 ROI=0.
+- Class 9 recovered locally:
+  - Recall clean/fixed/RiskGuard: 0.6310 / 0.4643 / 0.7960.
+  - AP50 clean/fixed/RiskGuard: 0.7440 / 0.6973 / 0.7944.
+  - AP50-95 clean/fixed/RiskGuard: 0.4139 / 0.3484 / 0.4198.
+- Current conclusion: RiskGuard is useful and should remain as a targeted safety guard, but it is not sufficient as the final seed2 fix. Residual failure comes from global Precision/mAP degradation and later class12-only ROI activity.
+- Reports:
+  - `outputs/experiments/catf_v2_riskguard_seed2_50ep/reports/final_report.md`
+  - `outputs/experiments/catf_v2_riskguard_seed2_50ep/reports/riskguard_events.json`
+  - `outputs/experiments/catf_v2_riskguard_seed2_50ep/reports/compare_with_clean_and_fixed_catf_v2.md`
+  - `outputs/experiments/catf_v2_riskguard_seed2_50ep/reports/riskguard_seed2_summary.json`
+
 ## Current CATF-v2 Finding
 
 - Strategy limitation report completed:
@@ -738,7 +762,7 @@ No training was run after building or auditing these datasets.
 - Current CATF-v2 work is smoke-only; no formal 50 epoch CATF-v2 run should be inferred from it.
 - No-feedback control disables both feedback and industrial augmentation, using Ultralytics YOLO default augmentation as the behavior check.
 - The old YOLO default reference is not the final baseline after parity audit; feedback comparisons should use `clean_native_yolo_default_seed42_50ep`.
-- Output: `outputs/experiments/catf_v2_gated/`
+- Output: `outputs/experiments/catf_v2_riskguard_seed2_50ep/`
 - Epochs: `50`
 - Feedback enabled: `true`
 - Industrial augmentation enabled: `true`
@@ -754,8 +778,8 @@ No training was run after building or auditing these datasets.
 - Fixed augmented dataset generated: `false`
 - Constraint baseline: `clean_native_yolo_default`
 - Constraint failed: `True`
-- Report: `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_gated/seed_2/catf_v2_gated/reports/final_report.md`
-- Policy history: `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_gated/seed_2/catf_v2_gated/reports/policy_history.json`
+- Report: `outputs/experiments/catf_v2_riskguard_seed2_50ep/reports/final_report.md`
+- Policy history: `outputs/experiments/catf_v2_riskguard_seed2_50ep/reports/policy_history.json`
 <!-- YOLO_DEFAULT_INLOOP_FEEDBACK_SMOKE_END -->
 <!-- YOLO_DEFAULT_INLOOP_PARITY_AUDIT_START -->
 ## YOLO Default In-Loop Parity Audit

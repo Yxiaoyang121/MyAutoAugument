@@ -13,6 +13,7 @@ from AutoAugment.online_augmentation import (
     cutout_safe,
     validate_detection_sample,
 )
+from AutoAugment.catf_v2.high_risk_class_ops import build_riskguard_event, is_high_risk_class_op
 
 
 PHOTOMETRIC_OPS = {"clahe", "gamma", "brightness", "contrast"}
@@ -55,6 +56,8 @@ class SampleAwareAugmentationRouter:
         roi_aware: bool = True,
         sample_aware: bool = True,
         total_epochs: int | None = None,
+        riskguard_enabled: bool = False,
+        riskguard_sampler_only: bool = True,
     ) -> None:
         self.policy_matrix = deepcopy(policy_matrix)
         self.rng = np.random.default_rng(int(seed))
@@ -67,6 +70,9 @@ class SampleAwareAugmentationRouter:
         self.current_epoch = 0
         self.total_epochs = total_epochs
         self.random_draw_count = 0
+        self.riskguard_enabled = bool(riskguard_enabled)
+        self.riskguard_sampler_only = bool(riskguard_sampler_only)
+        self.riskguard_events: list[dict[str, Any]] = []
 
     def set_policy(self, policy_matrix: dict[str, Any]) -> None:
         self.policy_matrix = deepcopy(policy_matrix)
@@ -141,7 +147,6 @@ class SampleAwareAugmentationRouter:
                 routed_prob = prob
                 if high_fp_present and op_name in PHOTOMETRIC_OPS:
                     routed_prob *= 0.5
-                self.stats.record_op(op_name, "seen")
                 op_audit = {
                     "name": op_name,
                     "class_id": int(class_id),
@@ -152,6 +157,24 @@ class SampleAwareAugmentationRouter:
                     "applied": False,
                     "skip_reason": None,
                 }
+                if self.riskguard_enabled and is_high_risk_class_op(class_id, op_name):
+                    event = build_riskguard_event(
+                        class_id=class_id,
+                        op_name=op_name,
+                        epoch=self.current_epoch,
+                        source="sample_router",
+                        sampler_only_fallback=self.riskguard_sampler_only,
+                    )
+                    self.riskguard_events.append(event)
+                    op_audit["blocked_by_risk_guard"] = True
+                    op_audit["risk_reasons"] = event.get("risk_reasons", [])
+                    op_audit["skip_reason"] = "risk_guard"
+                    audit["router"]["riskguard_blocked"] = True
+                    audit["router"]["riskguard_block_count"] = int(audit["router"].get("riskguard_block_count", 0) or 0) + 1
+                    audit["skipped_ops"].append(op_audit)
+                    audit["operations"].append(op_audit)
+                    continue
+                self.stats.record_op(op_name, "seen")
                 if _is_domain_prior(policy) and op_name in DOMAIN_PRIOR_BLOCKED_ROI_OPS:
                     op_audit["skip_reason"] = "domain_prior_blocks_roi_photometric"
                     audit["skipped_ops"].append(op_audit)

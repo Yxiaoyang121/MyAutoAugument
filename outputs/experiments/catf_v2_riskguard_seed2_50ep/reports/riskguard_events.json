@@ -1,0 +1,58 @@
+{
+  "events": [
+    {
+      "epoch": 5,
+      "source": "policy_matrix",
+      "blocked_by_risk_guard": true,
+      "class_id": 9,
+      "op_name": "local_contrast",
+      "canonical_op_name": "local_contrast",
+      "risk_reason": "active_class_regression,non_active_class_regression,seed2_root_cause_audit,texture_boundary_weak_intervention_failed",
+      "risk_reasons": [
+        "active_class_regression",
+        "non_active_class_regression",
+        "seed2_root_cause_audit",
+        "texture_boundary_weak_intervention_failed"
+      ],
+      "causal_probe_required": true,
+      "causal_probe_passed": false,
+      "action": "block_roi_op",
+      "fallback_action": "sampler_only",
+      "sampler_only_fallback": true,
+      "sample_weight_map_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\catf_v2_riskguard_seed2_50ep\\reports\\riskguard_sample_weight_map_epoch_5.json",
+      "sample_weighting_effective": false,
+      "sample_weighting_status": "pending_dataloader_support",
+      "seed_specific_rule": false,
+      "blocked_prob": 0.015,
+      "blocked_strength": 0.02,
+      "class_action": "class_no_op"
+    },
+    {
+      "epoch": 5,
+      "source": "policy_matrix",
+      "blocked_by_risk_guard": true,
+      "class_id": 9,
+      "op_name": "sharpen_mild",
+      "canonical_op_name": "sharpen_mild",
+      "risk_reason": "active_class_regression,non_active_class_regression,seed2_root_cause_audit,texture_boundary_weak_intervention_failed",
+      "risk_reasons": [
+        "active_class_regression",
+        "non_active_class_regression",
+        "seed2_root_cause_audit",
+        "texture_boundary_weak_intervention_failed"
+      ],
+      "causal_probe_required": true,
+      "causal_probe_passed": false,
+      "action": "block_roi_op",
+      "fallback_action": "sampler_only",
+      "sampler_only_fallback": true,
+      "sample_weight_map_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\catf_v2_riskguard_seed2_50ep\\reports\\riskguard_sample_weight_map_epoch_5.json",
+      "sample_weighting_effective": false,
+      "sample_weighting_status": "pending_dataloader_support",
+      "seed_specific_rule": false,
+      "blocked_prob": 0.015,
+      "blocked_strength": 0.02,
+      "class_action": "class_no_op"
+    }
+  ]
+}

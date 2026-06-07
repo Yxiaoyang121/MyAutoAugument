@@ -1,5 +1,72 @@
 # Experiment Log
 
+## 2026-06-08
+
+### CATF-v2 RiskGuard Seed2 Validation
+
+Implemented a minimum high-risk class-op guard for the seed2 class 9 ROI texture failure path.
+
+Scope:
+
+- Added `--catf-riskguard true`.
+- Added `AutoAugment/catf_v2/high_risk_class_ops.py`.
+- Added `tests/test_catf_v2_riskguard.py`.
+- Did not run seed0/seed1 sanity because seed2 did not pass the constraint gate.
+
+RiskGuard rule:
+
+- High-risk combination is class 9 + `sharpen_mild` / `local_contrast`.
+- The rule is class-op based, not seed-id based.
+- Blocked ops require future causal probe clearance before training augmentation.
+- Blocked ops do not execute ROI augmentation, do not rewrite labels/Instances, and do not consume CATF random draws.
+- Sampler-only fallback is recorded, but sample weighting remains pending dataloader support.
+
+Verification:
+
+- `python -m py_compile scripts/train_yolo_default_with_inloop_feedback.py AutoAugment/catf_v2/sample_router.py AutoAugment/catf_v2/policy_matrix.py AutoAugment/catf_v2/high_risk_class_ops.py`
+- `pytest -q tests/test_catf_v2_riskguard.py ... tests/test_copy_paste.py`
+- Result: `121 passed`.
+
+Seed2 50ep run:
+
+- Output: `outputs/experiments/catf_v2_riskguard_seed2_50ep/`
+- Reference/control: clean seed2 artifacts from `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2/seed_2/clean_native_yolo_default/`.
+- Epoch5 class 9 `texture_boundary_weak` reproduced.
+- RiskGuard blocked class 9 `local_contrast` and `sharpen_mild` at epoch5.
+- RiskGuard events: 2.
+- Industrial samples augmented: 13 versus fixed seed2 86.
+- ROI applied: 15 versus fixed seed2 90.
+- ROI affected classes: class 12 only.
+- OK3 active=false; OK3 ROI applied=0.
+
+Metrics:
+
+| group | P | R | mAP50 | mAP50-95 | constraint_failed |
+|---|---:|---:|---:|---:|---|
+| clean seed2 | 0.6962 | 0.7286 | 0.7692 | 0.5224 | false |
+| fixed CATF-v2 seed2 | 0.7637 | 0.6863 | 0.7582 | 0.4967 | true |
+| RiskGuard seed2 | 0.6394 | 0.7231 | 0.7552 | 0.5073 | true |
+
+Class 9 local effect:
+
+- Recall clean/fixed/RiskGuard: 0.6310 / 0.4643 / 0.7960.
+- AP50 clean/fixed/RiskGuard: 0.7440 / 0.6973 / 0.7944.
+- AP50-95 clean/fixed/RiskGuard: 0.4139 / 0.3484 / 0.4198.
+
+Conclusion:
+
+- RiskGuard successfully prevents the audited class 9 texture ROI path and restores class 9 local metrics versus fixed CATF-v2.
+- RiskGuard alone is not enough: overall seed2 still fails due to Precision/mAP drops and residual class12-only ROI activity.
+- Next minimum technical step should combine RiskGuard with CP-CATF causal probe or a precision/mAP-aware gate for later class-op interventions.
+
+Reports:
+
+- `outputs/experiments/catf_v2_riskguard_seed2_50ep/reports/final_report.md`
+- `outputs/experiments/catf_v2_riskguard_seed2_50ep/reports/final_metrics.json`
+- `outputs/experiments/catf_v2_riskguard_seed2_50ep/reports/riskguard_events.json`
+- `outputs/experiments/catf_v2_riskguard_seed2_50ep/reports/compare_with_clean_and_fixed_catf_v2.md`
+- `outputs/experiments/catf_v2_riskguard_seed2_50ep/reports/riskguard_seed2_summary.json`
+
 ## 2026-06-07
 
 ### CATF-v2 Strategy Limitation Analysis From Seed2 Audit
@@ -1488,7 +1555,7 @@ Key conclusions from that archived smoke:
 - Current CATF-v2 work is smoke-only; no formal 50 epoch CATF-v2 run should be inferred from it.
 - No-feedback control disables both feedback and industrial augmentation, using Ultralytics YOLO default augmentation as the behavior check.
 - The old YOLO default reference is not the final baseline after parity audit; feedback comparisons should use `clean_native_yolo_default_seed42_50ep`.
-- Output: `outputs/experiments/catf_v2_gated/`
+- Output: `outputs/experiments/catf_v2_riskguard_seed2_50ep/`
 - Epochs: `50`
 - Feedback enabled: `true`
 - Industrial augmentation enabled: `true`
@@ -1504,8 +1571,8 @@ Key conclusions from that archived smoke:
 - Fixed augmented dataset generated: `false`
 - Constraint baseline: `clean_native_yolo_default`
 - Constraint failed: `True`
-- Report: `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_gated/seed_2/catf_v2_gated/reports/final_report.md`
-- Policy history: `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_gated/seed_2/catf_v2_gated/reports/policy_history.json`
+- Report: `outputs/experiments/catf_v2_riskguard_seed2_50ep/reports/final_report.md`
+- Policy history: `outputs/experiments/catf_v2_riskguard_seed2_50ep/reports/policy_history.json`
 <!-- YOLO_DEFAULT_INLOOP_FEEDBACK_SMOKE_END -->
 <!-- YOLO_DEFAULT_INLOOP_PARITY_AUDIT_START -->
 ## YOLO Default In-Loop Parity Audit

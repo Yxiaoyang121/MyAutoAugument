@@ -36,6 +36,7 @@ from AutoAugment.catf_v2 import (  # noqa: E402
     ROIStats,
     SampleAwareAugmentationRouter,
     count_train_instances,
+    force_noop_policy,
     initial_policy_matrix,
 )
 from AutoAugment.catf_v2.adaptive_burnin import annotate_policy_history_with_adaptive_burnin, probe_window  # noqa: E402
@@ -103,6 +104,7 @@ class InLoopFeedbackState:
     gated_events: list[dict[str, Any]] = field(default_factory=list)
     riskguard_events: list[dict[str, Any]] = field(default_factory=list)
     causal_probe_events: list[dict[str, Any]] = field(default_factory=list)
+    offline_probe_decision: dict[str, Any] | None = None
     epoch_records: list[dict[str, Any]] = field(default_factory=list)
     callback_invocations: int = 0
     train_start_time: float = field(default_factory=time.time)
@@ -425,7 +427,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--catf-rollback-mode", action=argparse.BooleanOptionalAction, default=False)
     parser.add_argument("--catf-riskguard", action=argparse.BooleanOptionalAction, default=False)
     parser.add_argument("--catf-causal-probe", action=argparse.BooleanOptionalAction, default=False)
+    parser.add_argument("--causal-probe-mode", dest="catf_causal_probe", action=argparse.BooleanOptionalAction, default=argparse.SUPPRESS)
     parser.add_argument("--catf-causal-probe-mode", choices=["development", "paper"], default="development")
+    parser.add_argument("--use-offline-probe-decisions", action=argparse.BooleanOptionalAction, default=False)
+    parser.add_argument("--offline-probe-decisions-dir", default=str(PROJECT_ROOT / "outputs/experiments/catf_v2_causal_probe"))
+    parser.add_argument("--offline-probe-decisions-file", default=None)
     parser.add_argument("--adaptive-burnin", action=argparse.BooleanOptionalAction, default=False)
     parser.add_argument("--min-burnin-epoch", type=int, default=5)
     parser.add_argument("--max-burnin-epoch", type=int, default=15)
@@ -465,6 +471,8 @@ def normalize_bool_cli_args(argv: list[str]) -> list[str]:
         "--catf-rollback-mode",
         "--catf-riskguard",
         "--catf-causal-probe",
+        "--causal-probe-mode",
+        "--use-offline-probe-decisions",
         "--adaptive-burnin",
         "--allow-force-start-at-max-burnin",
         "--class-aware-feedback",
@@ -529,6 +537,9 @@ def build_train_config(args: argparse.Namespace, output_dir: Path) -> dict[str, 
         "catf_riskguard": bool(getattr(args, "catf_riskguard", False)),
         "catf_causal_probe": bool(getattr(args, "catf_causal_probe", False)),
         "catf_causal_probe_mode": str(getattr(args, "catf_causal_probe_mode", "development")),
+        "use_offline_probe_decisions": bool(getattr(args, "use_offline_probe_decisions", False)),
+        "offline_probe_decisions_dir": str(Path(getattr(args, "offline_probe_decisions_dir", "")).resolve()),
+        "offline_probe_decisions_file": str(Path(getattr(args, "offline_probe_decisions_file")).resolve()) if getattr(args, "offline_probe_decisions_file", None) else None,
         "adaptive_burnin": bool(args.adaptive_burnin),
         "min_burnin_epoch": int(args.min_burnin_epoch),
         "max_burnin_epoch": int(args.max_burnin_epoch),
@@ -601,6 +612,7 @@ def build_train_command(args: argparse.Namespace, output_dir: Path) -> str:
         f"catf_riskguard={bool(getattr(args, 'catf_riskguard', False))}",
         f"catf_causal_probe={bool(getattr(args, 'catf_causal_probe', False))}",
         f"catf_causal_probe_mode={getattr(args, 'catf_causal_probe_mode', 'development')}",
+        f"use_offline_probe_decisions={bool(getattr(args, 'use_offline_probe_decisions', False))}",
         f"adaptive_burnin={bool(getattr(args, 'adaptive_burnin', False))}",
         f"min_burnin_epoch={int(getattr(args, 'min_burnin_epoch', 5))}",
         f"max_burnin_epoch={int(getattr(args, 'max_burnin_epoch', 15))}",
@@ -759,23 +771,40 @@ def apply_catf_v2_causal_probe_if_enabled(
 ) -> dict[str, Any]:
     if not bool(getattr(state.args, "catf_causal_probe", False)):
         return policy
-    reason = "causal_probe_required_no_online_probe_decision"
-    gated_policy = force_noop_policy(policy, reason=reason)
-    event = {
-        "epoch": int(epoch_num),
-        "catf_causal_probe": True,
-        "mode": str(getattr(state.args, "catf_causal_probe_mode", "development")),
-        "action": "strict_no_op",
-        "reason": reason,
-        "policy_update_allowed": False,
-        "image_modification_allowed": False,
-        "sample_router_allowed": False,
-        "development_probe_uses_existing_val_diagnostics": str(
-            getattr(state.args, "catf_causal_probe_mode", "development")
+    decision_payload = load_offline_probe_decision_if_requested(state)
+    if decision_payload:
+        gated_policy, event = apply_offline_probe_decision_to_policy(
+            policy,
+            decision_payload,
+            epoch_num=epoch_num,
+            output_dir=state.output_dir,
         )
-        == "development",
-        "paper_mode_status": "probe_split_required" if str(getattr(state.args, "catf_causal_probe_mode", "development")) == "paper" else "not_requested",
-    }
+    else:
+        reason = "causal_probe_required_no_online_probe_decision"
+        gated_policy = force_noop_policy(policy, reason=reason)
+        event = {
+            "epoch": int(epoch_num),
+            "catf_causal_probe": True,
+            "mode": str(getattr(state.args, "catf_causal_probe_mode", "development")),
+            "source": "online_probe_unavailable",
+            "action": "strict_no_op",
+            "reason": reason,
+            "policy_update_allowed": False,
+            "image_modification_allowed": False,
+            "sample_router_allowed": False,
+            "development_probe_uses_existing_val_diagnostics": str(
+                getattr(state.args, "catf_causal_probe_mode", "development")
+            )
+            == "development",
+            "paper_mode_status": "probe_split_required"
+            if str(getattr(state.args, "catf_causal_probe_mode", "development")) == "paper"
+            else "not_requested",
+        }
+    event["use_offline_probe_decisions"] = bool(getattr(state.args, "use_offline_probe_decisions", False))
+    if decision_payload:
+        event["offline_probe_decision_path"] = str(resolve_offline_probe_decision_path(state.args))
+        write_json(state.output_dir / "reports" / "causal_probe_decisions_used.json", decision_payload)
+        write_json(state.output_dir / "reports" / "catf_v2" / "causal_probe_decisions_used.json", decision_payload)
     if hasattr(controller, "policy"):
         controller.policy.matrix = deepcopy(gated_policy)
     if controller.history:
@@ -797,6 +826,115 @@ def apply_catf_v2_causal_probe_if_enabled(
     if hasattr(controller, "_write_histories"):
         controller._write_histories(gated_policy)
     return gated_policy
+
+
+def load_offline_probe_decision_if_requested(state: InLoopFeedbackState) -> dict[str, Any] | None:
+    if not bool(getattr(state.args, "use_offline_probe_decisions", False)):
+        return None
+    if state.offline_probe_decision is not None:
+        return deepcopy(state.offline_probe_decision)
+    path = resolve_offline_probe_decision_path(state.args)
+    if not path.exists():
+        raise FileNotFoundError(f"Offline causal probe decision file not found: {path}")
+    payload = read_json(path)
+    state.offline_probe_decision = deepcopy(payload)
+    return payload
+
+
+def resolve_offline_probe_decision_path(args: argparse.Namespace) -> Path:
+    explicit = getattr(args, "offline_probe_decisions_file", None)
+    if explicit:
+        return Path(explicit).resolve()
+    base = Path(getattr(args, "offline_probe_decisions_dir", PROJECT_ROOT / "outputs/experiments/catf_v2_causal_probe")).resolve()
+    return base / f"seed_{int(getattr(args, 'seed', 0))}" / "probe_decisions.json"
+
+
+def apply_offline_probe_decision_to_policy(
+    policy: dict[str, Any],
+    decision_payload: dict[str, Any],
+    *,
+    epoch_num: int,
+    output_dir: Path,
+) -> tuple[dict[str, Any], dict[str, Any]]:
+    selected = decision_payload.get("selected_candidate") or {}
+    decision = selected.get("decision") or {}
+    selected_policy = selected.get("candidate_policy") or {}
+    selected_policy_id = str(decision_payload.get("selected_candidate_policy_id") or selected.get("candidate_policy_id") or "unknown")
+    op_whitelist = [str(item) for item in (selected_policy.get("op_list") or [])]
+    image_allowed = bool(decision.get("image_modification_allowed", False))
+    sampler_allowed = bool(decision.get("sample_weighting_allowed", False)) or str(decision.get("decision")) == "sampler_only"
+    event = {
+        "epoch": int(epoch_num),
+        "catf_causal_probe": True,
+        "source": "offline_probe_decisions",
+        "selected_candidate_policy_id": selected_policy_id,
+        "selected_candidate_action": str(decision_payload.get("selected_candidate_action") or decision.get("decision") or "unknown"),
+        "op_whitelist": op_whitelist,
+        "image_modification_allowed": image_allowed,
+        "sample_weighting_allowed": sampler_allowed,
+        "sample_weighting_effective": bool(decision.get("sample_weighting_effective", False)),
+        "sample_weighting_status": str(decision.get("sample_weighting_status", "not_requested" if not sampler_allowed else "pending_dataloader_support")),
+        "probe_reject_image_aug": bool(decision_payload.get("image_augmentation_rejected", False) or not image_allowed),
+        "development_probe_uses_existing_val_diagnostics": bool(decision_payload.get("development_probe_uses_existing_val_diagnostics", False)),
+        "decision_basis": str(decision_payload.get("decision_basis", "run_specific_probe_benefit_risk_metrics")),
+        "seed_specific_rule": False,
+        "fixed_class_id_specific_rule": False,
+        "riskguard_used_as_final_rule": bool((decision_payload.get("riskguard_interpretation") or {}).get("riskguard_used_as_final_rule", False)),
+    }
+    if not image_allowed:
+        reason = "offline_causal_probe_rejected_image_augmentation"
+        if sampler_allowed:
+            reason = "offline_causal_probe_sampler_only_image_noop"
+        gated_policy = force_noop_policy(policy, reason=reason)
+        event["action"] = "sampler_only_pending" if sampler_allowed else "strict_no_op"
+        event["reason"] = reason
+        if sampler_allowed:
+            sample_weight_map = {
+                "cp_catf_sampler_only": {
+                    "enabled": True,
+                    "sample_weighting_effective": False,
+                    "sample_weighting_status": "pending_dataloader_support",
+                    "image_modification": False,
+                    "selected_candidate_policy_id": selected_policy_id,
+                }
+            }
+            path = output_dir / "reports" / f"cp_catf_sample_weight_map_epoch_{epoch_num}.json"
+            catf_path = output_dir / "reports" / "catf_v2" / f"cp_catf_sample_weight_map_epoch_{epoch_num}.json"
+            write_json(path, sample_weight_map)
+            write_json(catf_path, sample_weight_map)
+            event["sample_weight_map_path"] = str(path)
+        return gated_policy, event
+
+    gated_policy = restrict_policy_to_causal_probe_ops(policy, op_whitelist)
+    event["action"] = "accept_offline_probe_candidate"
+    event["reason"] = "offline_causal_probe_candidate_accepted"
+    return gated_policy, event
+
+
+def restrict_policy_to_causal_probe_ops(policy: dict[str, Any], op_whitelist: list[str]) -> dict[str, Any]:
+    allowed = {str(item) for item in op_whitelist}
+    matrix = deepcopy(policy)
+    matrix.setdefault("causal_probe", {})["op_whitelist"] = sorted(allowed)
+    matrix["causal_probe"]["policy_filter_active"] = True
+    for class_policy in (matrix.get("classes") or {}).values():
+        for op_name, op in (class_policy.get("ops") or {}).items():
+            if str(op_name) in allowed:
+                continue
+            op["prob"] = 0.0
+            op["strength"] = 0.0
+        if class_policy.get("status") in {"active", "pending"} and not active_ops_from_policy(class_policy):
+            class_policy["status"] = "observe"
+            class_policy["state"] = "accepted"
+            class_policy["causal_probe_filter_reason"] = "no_probe_allowed_ops_for_class"
+    return matrix
+
+
+def active_ops_from_policy(class_policy: dict[str, Any]) -> list[str]:
+    out = []
+    for op_name, op in (class_policy.get("ops") or {}).items():
+        if float(op.get("prob", 0.0) or 0.0) > 0.0 and float(op.get("strength", 0.0) or 0.0) > 0.0:
+            out.append(str(op_name))
+    return out
 
 
 def close_mosaic_start_epoch(args: argparse.Namespace) -> int | None:
@@ -1424,6 +1562,8 @@ def build_payload(
         "catf_riskguard": bool(getattr(args, "catf_riskguard", False)),
         "catf_causal_probe": bool(getattr(args, "catf_causal_probe", False)),
         "catf_causal_probe_mode": str(getattr(args, "catf_causal_probe_mode", "development")),
+        "use_offline_probe_decisions": bool(getattr(args, "use_offline_probe_decisions", False)),
+        "offline_probe_decisions_file": str(resolve_offline_probe_decision_path(args)) if bool(getattr(args, "use_offline_probe_decisions", False)) else None,
         "adaptive_burnin": bool(getattr(args, "adaptive_burnin", False)),
         "adaptive_start_epoch": state.adaptive_burnin_controller.start_epoch if state.adaptive_burnin_controller else None,
         "adaptive_candidate_started": bool(state.adaptive_burnin_controller and state.adaptive_burnin_controller.triggered),
@@ -1458,6 +1598,9 @@ def build_payload(
         "causal_probe_enabled": bool(getattr(args, "catf_causal_probe", False)),
         "causal_probe_event_count": len(state.causal_probe_events),
         "causal_probe_events": str((output_dir / "reports" / "causal_probe_events.json").resolve()),
+        "causal_probe_decisions_used": str((output_dir / "reports" / "causal_probe_decisions_used.json").resolve())
+        if bool(getattr(args, "use_offline_probe_decisions", False))
+        else None,
     }
     catf_v2_summary = state.feedback_controller.summary() if is_catf_v2(args) and hasattr(state.feedback_controller, "summary") else {}
     return {
@@ -1482,6 +1625,8 @@ def build_payload(
         "catf_riskguard": bool(getattr(args, "catf_riskguard", False)),
         "catf_causal_probe": bool(getattr(args, "catf_causal_probe", False)),
         "catf_causal_probe_mode": str(getattr(args, "catf_causal_probe_mode", "development")),
+        "use_offline_probe_decisions": bool(getattr(args, "use_offline_probe_decisions", False)),
+        "offline_probe_decisions_file": str(resolve_offline_probe_decision_path(args)) if bool(getattr(args, "use_offline_probe_decisions", False)) else None,
         "causal_probe_events": state.causal_probe_events,
         "adaptive_burnin": bool(getattr(args, "adaptive_burnin", False)),
         "adaptive_start_epoch": state.adaptive_burnin_controller.start_epoch if state.adaptive_burnin_controller else None,
@@ -2100,6 +2245,7 @@ def build_final_report(payload: dict[str, Any]) -> str:
         f"- CATF-v2 rollback mode enabled: `{str(payload.get('catf_rollback_mode', False)).lower()}`",
         f"- CATF-v2 RiskGuard enabled: `{str(payload.get('catf_riskguard', False)).lower()}`",
         f"- CATF-v2 causal probe enabled: `{str(payload.get('catf_causal_probe', False)).lower()}`",
+        f"- Offline causal probe decisions used: `{str(payload.get('use_offline_probe_decisions', False)).lower()}`",
         f"- RiskGuard blocked ops: `{len(riskguard_events)}`",
         f"- RiskGuard sampler-only fallback: `{str(any(event.get('sampler_only_fallback') for event in riskguard_events)).lower()}`",
         f"- Adaptive burn-in enabled: `{str(payload.get('adaptive_burnin', False)).lower()}`",

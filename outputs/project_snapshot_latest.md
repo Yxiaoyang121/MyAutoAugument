@@ -1,26 +1,22 @@
 # Project Snapshot
 
-- Generated: 2026-06-08T13:08:45
+- Generated: 2026-06-09T01:45:00
 - Branch: codex/sync-latest
-- Commit: 0d7155c9c8567e4d1cd566c6ed24fdc85a5905b3
+- Commit: e7b894d93ef23f8f8bdffbf20e4b7ce8127d7aec
 - Remote: https://github.com/Yxiaoyang121/MyAutoAugument.git
 
 ## Working Tree
 
 ```text
- M AutoAugment/catf_v2/__init__.py
- M AutoAugment/catf_v2/high_risk_class_ops.py
  M CODEX_HANDOFF.md
  M EXPERIMENT_LOG.md
  M PROJECT_STATE.md
  M outputs/project_snapshot_latest.md
  M outputs/snapshots/project_snapshot_latest.md
  M scripts/train_yolo_default_with_inloop_feedback.py
- M tests/test_catf_v2_riskguard.py
-?? AutoAugment/catf_v2/causal_probe.py
-?? outputs/experiments/catf_v2_causal_probe/
-?? scripts/run_catf_v2_offline_causal_probe.py
-?? tests/test_catf_v2_causal_probe.py
+ M tests/test_catf_v2_causal_probe.py
+?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_cp_catf/
+?? scripts/summarize_catf_v2_cp_catf_multiseed.py
 ```
 
 ## Key Files
@@ -225,16 +221,28 @@
 
 ## Tracked File Count
 
-- 6064 tracked files
+- 6073 tracked files
 
 ## Notes
 
 - This snapshot reflects the current local repository state.
 - It does not invent benchmark results.
 
-## CP-CATF Status Note
+## Latest CP-CATF Status
 
-- RiskGuard fixed class-op blacklist is downgraded to audit/debug prior, not a final CATF-v2 training rule.
-- Seed2 is now documented as evidence that diagnosis triggers do not guarantee augmentation benefit.
-- CP-CATF uses run-specific causal probe decisions; dataset-specific information belongs in probe outputs, not hard-coded rules.
-- Offline development-mode probe accepted image candidates for seeds `0/1` and rejected seed `2` image candidates; training validation is still pending.
+- CP-CATF multiseed training validation completed at `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_cp_catf/`.
+- RiskGuard is audit/debug prior only, not the final training accept/reject rule.
+- Development-mode offline probe decisions were used:
+  - seed0 accepted `candidate_policy_1_roi_texture`.
+  - seed1 accepted `candidate_policy_1_roi_texture`.
+  - seed2 selected `candidate_policy_3_sampler_only`; sample weighting is pending dataloader support, so the actual path is strict image no-op.
+- Final CP-CATF metrics:
+  - seed0: P=0.7785, R=0.6697, mAP50=0.7437, mAP50-95=0.4895, `constraint_failed=false`.
+  - seed1: P=0.7852, R=0.7005, mAP50=0.7826, mAP50-95=0.5189, `constraint_failed=false`.
+  - seed2: P=0.6962, R=0.7286, mAP50=0.7692, mAP50-95=0.5224, `constraint_failed=false`.
+- Outcome: `3/3` constraint pass; seed0/seed1 retained fixed CATF-v2 gains; seed2 rejected image augmentation with industrial samples=0, ROI=0, router random draws=0; OK3 remained inactive.
+- Reports:
+  - `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_cp_catf/reports/multiseed_cp_catf_summary.md`
+  - `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_cp_catf/reports/multiseed_cp_catf_summary.json`
+- Verification: requested py_compile checks passed and requested pytest suite result was `134 passed`.
+- Caveat: current CP-CATF validation uses development-mode offline probe decisions from existing validation diagnostics. Paper-mode CP-CATF still needs a train/probe split or train hard-example probe set before leakage-free final claims.

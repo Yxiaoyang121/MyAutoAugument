@@ -12,6 +12,11 @@ from AutoAugment.catf_v2.causal_probe import (
     select_best_candidate,
 )
 from AutoAugment.catf_v2.high_risk_class_ops import risk_info
+from AutoAugment.catf_v2.policy_matrix import initial_policy_matrix
+from scripts.train_yolo_default_with_inloop_feedback import (
+    apply_offline_probe_decision_to_policy,
+    restrict_policy_to_causal_probe_ops,
+)
 
 
 def _benefit(**overrides: float) -> dict[str, float]:
@@ -224,3 +229,54 @@ def test_riskguard_prior_is_audit_only_not_final_reject() -> None:
 
     assert decision["audit_prior_only"] is True
     assert decision["decision"] == "accept"
+
+
+def test_offline_probe_accept_filters_policy_to_candidate_ops(tmp_path) -> None:
+    policy = initial_policy_matrix({4: "class_4"})
+    row = policy["classes"]["4"]
+    row["status"] = "active"
+    row["state"] = "pending"
+    for op_name in ("sharpen_mild", "local_contrast", "gamma"):
+        row["ops"][op_name]["prob"] = 0.5
+        row["ops"][op_name]["strength"] = 0.2
+
+    filtered = restrict_policy_to_causal_probe_ops(policy, ["sharpen_mild", "local_contrast"])
+
+    assert filtered["classes"]["4"]["ops"]["sharpen_mild"]["prob"] == 0.5
+    assert filtered["classes"]["4"]["ops"]["local_contrast"]["prob"] == 0.5
+    assert filtered["classes"]["4"]["ops"]["gamma"]["prob"] == 0.0
+    assert filtered["classes"]["4"]["ops"]["gamma"]["strength"] == 0.0
+
+
+def test_offline_probe_sampler_only_forces_image_noop(tmp_path) -> None:
+    policy = initial_policy_matrix({8: "class_8"})
+    row = policy["classes"]["8"]
+    row["status"] = "active"
+    row["state"] = "pending"
+    row["ops"]["sharpen_mild"]["prob"] = 0.5
+    row["ops"]["sharpen_mild"]["strength"] = 0.2
+    decision_payload = {
+        "selected_candidate_policy_id": "candidate_policy_3_sampler_only",
+        "selected_candidate_action": "sampler_only",
+        "image_augmentation_rejected": True,
+        "development_probe_uses_existing_val_diagnostics": True,
+        "selected_candidate": {
+            "candidate_policy": candidate_policy_catalog()["candidate_policy_3_sampler_only"],
+            "decision": {
+                "decision": "sampler_only",
+                "image_modification_allowed": False,
+                "sample_weighting_allowed": True,
+                "sample_weighting_effective": False,
+                "sample_weighting_status": "pending_dataloader_support",
+            },
+        },
+    }
+
+    filtered, event = apply_offline_probe_decision_to_policy(policy, decision_payload, epoch_num=5, output_dir=tmp_path)
+
+    assert filtered["classes"]["8"]["ops"]["sharpen_mild"]["prob"] == 0.0
+    assert filtered["classes"]["8"]["ops"]["sharpen_mild"]["strength"] == 0.0
+    assert event["probe_reject_image_aug"] is True
+    assert event["action"] == "sampler_only_pending"
+    assert event["sample_weighting_effective"] is False
+    assert (tmp_path / "reports" / "cp_catf_sample_weight_map_epoch_5.json").exists()

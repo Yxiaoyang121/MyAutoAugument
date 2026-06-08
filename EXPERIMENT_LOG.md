@@ -1555,7 +1555,7 @@ Key conclusions from that archived smoke:
 - Current CATF-v2 work is smoke-only; no formal 50 epoch CATF-v2 run should be inferred from it.
 - No-feedback control disables both feedback and industrial augmentation, using Ultralytics YOLO default augmentation as the behavior check.
 - The old YOLO default reference is not the final baseline after parity audit; feedback comparisons should use `clean_native_yolo_default_seed42_50ep`.
-- Output: `outputs/experiments/catf_v2_riskguard_seed2_50ep/`
+- Output: `outputs/experiments/catf_v2_cp_catf/`
 - Epochs: `50`
 - Feedback enabled: `true`
 - Industrial augmentation enabled: `true`
@@ -1570,9 +1570,9 @@ Key conclusions from that archived smoke:
 - Train image count: `2301`
 - Fixed augmented dataset generated: `false`
 - Constraint baseline: `clean_native_yolo_default`
-- Constraint failed: `True`
-- Report: `outputs/experiments/catf_v2_riskguard_seed2_50ep/reports/final_report.md`
-- Policy history: `outputs/experiments/catf_v2_riskguard_seed2_50ep/reports/policy_history.json`
+- Constraint failed: `False`
+- Report: `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_cp_catf/seed_2/catf_v2_cp_catf/reports/final_report.md`
+- Policy history: `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_cp_catf/seed_2/catf_v2_cp_catf/reports/policy_history.json`
 <!-- YOLO_DEFAULT_INLOOP_FEEDBACK_SMOKE_END -->
 <!-- YOLO_DEFAULT_INLOOP_PARITY_AUDIT_START -->
 ## YOLO Default In-Loop Parity Audit
@@ -1889,3 +1889,50 @@ Key conclusions from that archived smoke:
   - `pytest -q tests/test_catf_v2_causal_probe.py tests/test_catf_v2_riskguard.py tests/test_catf_v2_adaptive_burnin.py tests/test_catf_v2_rollback_controller.py tests/test_catf_v2_gated_controller.py tests/test_catf_v2_safe_controller.py tests/test_catf_v2_transform_bypass.py tests/test_catf_v2_activation_rules.py tests/test_catf_v2_per_class_diagnosis.py tests/test_catf_v2_policy_matrix.py tests/test_catf_v2_sample_router.py tests/test_catf_v2_roi_augmentation.py tests/test_catf_v2_threshold_calibration.py tests/test_feedback_policy_guard.py tests/test_feedback_policy_controller.py tests/test_inloop_feedback_training.py tests/test_online_augmentation.py tests/test_proxy_prefilter.py tests/test_copy_paste.py`
   - Result: `132 passed`.
 <!-- CP_CATF_OFFLINE_CAUSAL_PROBE_END -->
+
+<!-- CP_CATF_MULTISEED_TRAINING_VALIDATION_START -->
+## CP-CATF Multiseed Training Validation
+
+- Date: `2026-06-09`.
+- Scope: full 50ep multiseed CP-CATF training validation using offline causal-probe decisions.
+- Run root: `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_cp_catf/`.
+- Code changes:
+  - Added offline causal-probe decision integration to `scripts/train_yolo_default_with_inloop_feedback.py`.
+  - Added `--causal-probe-mode true` alias and `--use-offline-probe-decisions true`.
+  - Added `scripts/summarize_catf_v2_cp_catf_multiseed.py`.
+  - Added regression tests for accepted offline candidate filtering and sampler-only image no-op behavior.
+- Training commands used the requested YOLO default setup:
+  - `model=yolo11n.pt`
+  - `data=outputs/datasets/tiled/tiled_1024_ov20_full_safe_no_ok_position/data.yaml`
+  - `epochs=50`, `imgsz=1024`, `batch=2`, `workers=0`, `device=0`
+  - `--catf-version v2 --causal-probe-mode true --use-offline-probe-decisions true`
+  - class-aware feedback, ROI-aware augmentation, sample-aware routing, threshold calibration report, feedback interval/start epoch 5, and industrial online augmentation enabled.
+- Offline probe decisions used in training:
+  - seed0: `candidate_policy_1_roi_texture`, accepted; texture ROI image augmentation allowed.
+  - seed1: `candidate_policy_1_roi_texture`, accepted; texture ROI image augmentation allowed.
+  - seed2: `candidate_policy_3_sampler_only`; image augmentation rejected. Sample weighting remains pending dataloader support, so seed2 actual path is strict image no-op.
+- Final CP-CATF metrics:
+  - seed0: Precision=0.7785, Recall=0.6697, mAP50=0.7437, mAP50-95=0.4895, `constraint_failed=false`.
+  - seed1: Precision=0.7852, Recall=0.7005, mAP50=0.7826, mAP50-95=0.5189, `constraint_failed=false`.
+  - seed2: Precision=0.6962, Recall=0.7286, mAP50=0.7692, mAP50-95=0.5224, `constraint_failed=false`.
+- Key checks:
+  - Constraint pass count: `3/3`.
+  - seed0 retained fixed CATF-v2 mAP50/mAP50-95 gains.
+  - seed1 retained fixed CATF-v2's clear multi-metric improvement.
+  - seed2 protected clean baseline and rejected ROI/image augmentation.
+  - seed2 industrial image samples augmented=0, ROI applied=0, router random draw count=0.
+  - OK3 stayed inactive and OK3 ROI applied=0 across all seeds.
+  - RiskGuard was not used as the final accept/reject rule.
+  - No seed-id, fixed-class-id, or dataset-specific rule determined the CP-CATF training decision.
+- Mean CP-CATF delta vs clean: dP=+0.0022, dR=+0.0153, dM50=+0.0125, dM95=+0.0175.
+- Reports:
+  - `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_cp_catf/reports/multiseed_cp_catf_summary.md`
+  - `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_cp_catf/reports/multiseed_cp_catf_summary.json`
+  - Per-seed `compare_with_clean_and_fixed_catf_v2.md` reports under each seed run.
+- Verification:
+  - `python -m py_compile AutoAugment/catf_v2/causal_probe.py scripts/train_yolo_default_with_inloop_feedback.py AutoAugment/catf_v2/sample_router.py AutoAugment/catf_v2/policy_matrix.py scripts/summarize_catf_v2_cp_catf_multiseed.py`
+  - Requested pytest suite result: `134 passed`.
+- Interpretation:
+  - CP-CATF is the current development-mode main-method candidate because it keeps seed0/seed1 gains and protects seed2.
+  - This is not yet a leakage-free paper result. The current offline probe uses existing validation diagnostics; paper-mode CP-CATF must use a train/probe split or train hard-example probe set before final claims.
+<!-- CP_CATF_MULTISEED_TRAINING_VALIDATION_END -->

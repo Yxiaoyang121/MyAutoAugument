@@ -10,6 +10,34 @@
 
 The project is a diagnosis-driven augmentation pipeline for industrial defect detection. Keep work centered on dataset construction, tiling, validation-error diagnosis, policy generation, proxy safety, short-training validation, and auditable artifacts. Do not reframe this as YOLO backbone, neck, or head redesign.
 
+## Latest CP-CATF Training Validation Result
+
+- CP-CATF is now the current final main-method candidate for development-mode validation.
+- RiskGuard is downgraded to audit/debug prior; it is not used as the final training block/accept rule.
+- Training integration added in `scripts/train_yolo_default_with_inloop_feedback.py`:
+  - `--causal-probe-mode true`
+  - `--use-offline-probe-decisions true`
+  - offline decision path resolution and `causal_probe_decisions_used.json`
+  - accepted offline probe candidates restrict the policy matrix to probe-approved ops;
+  - rejected image candidates force image no-op, do not alter labels/Instances, and do not consume CATF random draws.
+- Full run root:
+  - `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_cp_catf/`
+- Decisions and final metrics:
+  - seed0 used `candidate_policy_1_roi_texture` / `accept`; P=0.7785, R=0.6697, mAP50=0.7437, mAP50-95=0.4895; `constraint_failed=false`.
+  - seed1 used `candidate_policy_1_roi_texture` / `accept`; P=0.7852, R=0.7005, mAP50=0.7826, mAP50-95=0.5189; `constraint_failed=false`.
+  - seed2 used `candidate_policy_3_sampler_only`; image augmentation rejected; sample weighting remains pending dataloader support, so actual training is strict image no-op; P=0.6962, R=0.7286, mAP50=0.7692, mAP50-95=0.5224; `constraint_failed=false`.
+- CP-CATF reached `3/3` constraint pass.
+- seed0 and seed1 retained fixed CATF-v2 gains; seed2 preserved clean parity.
+- seed2 image augmentation stats: industrial samples=0, ROI applied=0, router random draw count=0.
+- OK3 stayed inactive and OK3 ROI applied remained 0 across all seeds.
+- Reports:
+  - `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_cp_catf/reports/multiseed_cp_catf_summary.md`
+  - `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_cp_catf/reports/multiseed_cp_catf_summary.json`
+- Verification passed:
+  - py_compile for causal probe, train script, router, policy matrix, and CP summary script.
+  - Requested pytest suite: `134 passed`.
+- Important caveat: this is still development-mode CP-CATF because offline probe decisions use existing validation diagnostics. For paper claims, implement a train/probe split or train hard-example probe set and rerun multiseed CP-CATF without using final validation diagnostics for policy selection.
+
 ## Latest CATF-v2 RiskGuard Result
 
 - Implemented `--catf-riskguard true` and high-risk class-op registry in `AutoAugment/catf_v2/high_risk_class_ops.py`.
@@ -762,7 +790,7 @@ No training was run after building or auditing these datasets.
 - Current CATF-v2 work is smoke-only; no formal 50 epoch CATF-v2 run should be inferred from it.
 - No-feedback control disables both feedback and industrial augmentation, using Ultralytics YOLO default augmentation as the behavior check.
 - The old YOLO default reference is not the final baseline after parity audit; feedback comparisons should use `clean_native_yolo_default_seed42_50ep`.
-- Output: `outputs/experiments/catf_v2_riskguard_seed2_50ep/`
+- Output: `outputs/experiments/catf_v2_cp_catf/`
 - Epochs: `50`
 - Feedback enabled: `true`
 - Industrial augmentation enabled: `true`
@@ -777,9 +805,9 @@ No training was run after building or auditing these datasets.
 - Train image count: `2301`
 - Fixed augmented dataset generated: `false`
 - Constraint baseline: `clean_native_yolo_default`
-- Constraint failed: `True`
-- Report: `outputs/experiments/catf_v2_riskguard_seed2_50ep/reports/final_report.md`
-- Policy history: `outputs/experiments/catf_v2_riskguard_seed2_50ep/reports/policy_history.json`
+- Constraint failed: `False`
+- Report: `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_cp_catf/seed_2/catf_v2_cp_catf/reports/final_report.md`
+- Policy history: `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_cp_catf/seed_2/catf_v2_cp_catf/reports/policy_history.json`
 <!-- YOLO_DEFAULT_INLOOP_FEEDBACK_SMOKE_END -->
 <!-- YOLO_DEFAULT_INLOOP_PARITY_AUDIT_START -->
 ## YOLO Default In-Loop Parity Audit

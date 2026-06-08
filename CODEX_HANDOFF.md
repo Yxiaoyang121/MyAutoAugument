@@ -1057,3 +1057,27 @@ No training was run after building or auditing these datasets.
   - seed2 `-0.0148/+0.0655/+0.0435/+0.0096`, fails Precision.
 - Handoff instruction: treat the earlier `fixed_catf_v2_ready_for_paper_summary.md` as superseded by this official path validation for claims about the saved unified threshold table. Next work should re-optimize thresholds with a stronger Precision guard or use per-seed/model-specific threshold configs; do not run training unless explicitly requested.
 <!-- CATF_V2_RC_OFFICIAL_PATH_VALIDATION_END -->
+
+<!-- CP_CATF_OFFLINE_CAUSAL_PROBE_START -->
+## CP-CATF Offline Causal Probe Handoff
+
+- Current task completed: implemented dataset-agnostic CP-CATF causal probe scaffolding and ran offline development-mode probe. No training was run.
+- New code:
+  - `AutoAugment/catf_v2/causal_probe.py`
+  - `scripts/run_catf_v2_offline_causal_probe.py`
+  - `tests/test_catf_v2_causal_probe.py`
+- RiskGuard status: fixed class-op registry is now audit/debug prior only. Do not present fixed class-op blacklist as final method logic; it is useful historical evidence from seed2, not the main selection mechanism.
+- CP-CATF principle: diagnosis -> candidate proposal -> causal probe -> accepted policy -> sample router. No candidate image augmentation should enter training unless the probe shows active-class benefit and bounded FP/non-active-class risk.
+- Offline probe results:
+  - seed0: `candidate_policy_1_roi_texture`, accepted.
+  - seed1: `candidate_policy_1_roi_texture`, accepted.
+  - seed2: image candidates rejected; selected `candidate_policy_3_sampler_only` / no image modification.
+- Interpretation: seed2 failure is best used as evidence that diagnosis-driven augmentation needs causal validation. The method rule is run-specific and metric-driven; it does not branch on `seed==2`, class `9`, or category names.
+- Important caveat: offline probe currently uses existing validation diagnostics in development mode. Before paper claims, implement/run paper-mode probe split from train or train hard examples, keeping final validation/test out of policy selection.
+- Reports:
+  - `outputs/experiments/catf_v2_causal_probe/reports/offline_causal_probe_summary.md`
+  - `outputs/experiments/catf_v2_causal_probe/reports/offline_causal_probe_summary.json`
+  - `outputs/experiments/catf_v2_causal_probe/reports/cp_catf_training_plan.md`
+- Verification already run: py_compile for CP-CATF/training/router/policy/riskguard/offline runner; pytest target suite passed `132 passed`.
+- Next recommended work only if requested: CP-CATF 50ep multiseed validation with strict no-op when no candidate passes, then decide whether CP-CATF can replace Safe/Gated/RB as paper main-method candidate.
+<!-- CP_CATF_OFFLINE_CAUSAL_PROBE_END -->

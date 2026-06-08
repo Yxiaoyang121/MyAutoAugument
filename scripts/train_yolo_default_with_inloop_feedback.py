@@ -102,6 +102,7 @@ class InLoopFeedbackState:
     safe_events: list[dict[str, Any]] = field(default_factory=list)
     gated_events: list[dict[str, Any]] = field(default_factory=list)
     riskguard_events: list[dict[str, Any]] = field(default_factory=list)
+    causal_probe_events: list[dict[str, Any]] = field(default_factory=list)
     epoch_records: list[dict[str, Any]] = field(default_factory=list)
     callback_invocations: int = 0
     train_start_time: float = field(default_factory=time.time)
@@ -423,6 +424,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--catf-gated-mode", action=argparse.BooleanOptionalAction, default=False)
     parser.add_argument("--catf-rollback-mode", action=argparse.BooleanOptionalAction, default=False)
     parser.add_argument("--catf-riskguard", action=argparse.BooleanOptionalAction, default=False)
+    parser.add_argument("--catf-causal-probe", action=argparse.BooleanOptionalAction, default=False)
+    parser.add_argument("--catf-causal-probe-mode", choices=["development", "paper"], default="development")
     parser.add_argument("--adaptive-burnin", action=argparse.BooleanOptionalAction, default=False)
     parser.add_argument("--min-burnin-epoch", type=int, default=5)
     parser.add_argument("--max-burnin-epoch", type=int, default=15)
@@ -461,6 +464,7 @@ def normalize_bool_cli_args(argv: list[str]) -> list[str]:
         "--catf-gated-mode",
         "--catf-rollback-mode",
         "--catf-riskguard",
+        "--catf-causal-probe",
         "--adaptive-burnin",
         "--allow-force-start-at-max-burnin",
         "--class-aware-feedback",
@@ -523,6 +527,8 @@ def build_train_config(args: argparse.Namespace, output_dir: Path) -> dict[str, 
         "catf_gated_mode": bool(args.catf_gated_mode),
         "catf_rollback_mode": bool(args.catf_rollback_mode),
         "catf_riskguard": bool(getattr(args, "catf_riskguard", False)),
+        "catf_causal_probe": bool(getattr(args, "catf_causal_probe", False)),
+        "catf_causal_probe_mode": str(getattr(args, "catf_causal_probe_mode", "development")),
         "adaptive_burnin": bool(args.adaptive_burnin),
         "min_burnin_epoch": int(args.min_burnin_epoch),
         "max_burnin_epoch": int(args.max_burnin_epoch),
@@ -593,6 +599,8 @@ def build_train_command(args: argparse.Namespace, output_dir: Path) -> str:
         f"catf_gated_mode={bool(getattr(args, 'catf_gated_mode', False))}",
         f"catf_rollback_mode={bool(getattr(args, 'catf_rollback_mode', False))}",
         f"catf_riskguard={bool(getattr(args, 'catf_riskguard', False))}",
+        f"catf_causal_probe={bool(getattr(args, 'catf_causal_probe', False))}",
+        f"catf_causal_probe_mode={getattr(args, 'catf_causal_probe_mode', 'development')}",
         f"adaptive_burnin={bool(getattr(args, 'adaptive_burnin', False))}",
         f"min_burnin_epoch={int(getattr(args, 'min_burnin_epoch', 5))}",
         f"max_burnin_epoch={int(getattr(args, 'max_burnin_epoch', 15))}",
@@ -742,6 +750,55 @@ def apply_catf_v2_riskguard_if_enabled(
     return guarded_policy
 
 
+def apply_catf_v2_causal_probe_if_enabled(
+    state: InLoopFeedbackState,
+    controller: ClassAwareCATFController,
+    policy: dict[str, Any],
+    *,
+    epoch_num: int,
+) -> dict[str, Any]:
+    if not bool(getattr(state.args, "catf_causal_probe", False)):
+        return policy
+    reason = "causal_probe_required_no_online_probe_decision"
+    gated_policy = force_noop_policy(policy, reason=reason)
+    event = {
+        "epoch": int(epoch_num),
+        "catf_causal_probe": True,
+        "mode": str(getattr(state.args, "catf_causal_probe_mode", "development")),
+        "action": "strict_no_op",
+        "reason": reason,
+        "policy_update_allowed": False,
+        "image_modification_allowed": False,
+        "sample_router_allowed": False,
+        "development_probe_uses_existing_val_diagnostics": str(
+            getattr(state.args, "catf_causal_probe_mode", "development")
+        )
+        == "development",
+        "paper_mode_status": "probe_split_required" if str(getattr(state.args, "catf_causal_probe_mode", "development")) == "paper" else "not_requested",
+    }
+    if hasattr(controller, "policy"):
+        controller.policy.matrix = deepcopy(gated_policy)
+    if controller.history:
+        record = controller.history[-1]
+        record["catf_causal_probe"] = True
+        record["causal_probe_event"] = deepcopy(event)
+        record["accepted_policy_before_causal_probe"] = deepcopy(record.get("accepted_policy", policy))
+        record["accepted_policy"] = deepcopy(gated_policy)
+        record["new_policy"] = deepcopy(gated_policy)
+        record["active_classes"] = active_class_ids(gated_policy)
+        record["frozen_classes"] = frozen_class_ids(gated_policy)
+        record["guard_triggered"] = list(
+            dict.fromkeys(list(record.get("guard_triggered", []) or []) + ["causal_probe_no_candidate_passed"])
+        )
+    state.causal_probe_events.append(deepcopy(event))
+    for base in (state.output_dir / "reports", state.output_dir / "reports" / "catf_v2"):
+        write_json(base / f"policy_matrix_epoch_{epoch_num}_after_causal_probe.json", gated_policy)
+        write_json(base / "causal_probe_events.json", {"events": state.causal_probe_events})
+    if hasattr(controller, "_write_histories"):
+        controller._write_histories(gated_policy)
+    return gated_policy
+
+
 def close_mosaic_start_epoch(args: argparse.Namespace) -> int | None:
     total_epochs = int(getattr(args, "epochs", 0) or 0)
     close_mosaic = 10
@@ -878,6 +935,7 @@ def register_inloop_feedback_callback(model: Any, state: InLoopFeedbackState) ->
             per_class_path = latest_record.get("per_class_diagnosis_path")
             if per_class_path and Path(per_class_path).exists():
                 per_class = read_json(Path(per_class_path))
+            new_policy = apply_catf_v2_causal_probe_if_enabled(state, controller, new_policy, epoch_num=epoch_num)
             new_policy = apply_catf_v2_riskguard_if_enabled(state, controller, new_policy, epoch_num=epoch_num)
             adaptive_terminal = False
             adaptive_event: dict[str, Any] | None = None
@@ -1316,6 +1374,8 @@ def build_payload(
             "catf_gated_mode": bool(getattr(args, "catf_gated_mode", False)),
             "catf_rollback_mode": bool(getattr(args, "catf_rollback_mode", False)),
             "catf_riskguard": bool(getattr(args, "catf_riskguard", False)),
+            "catf_causal_probe": bool(getattr(args, "catf_causal_probe", False)),
+            "catf_causal_probe_mode": str(getattr(args, "catf_causal_probe_mode", "development")),
             "adaptive_burnin": bool(getattr(args, "adaptive_burnin", False)),
             "adaptive_start_epoch": state.adaptive_burnin_controller.start_epoch if state.adaptive_burnin_controller else None,
             "noop_transform_calls": int(getattr(state.context, "noop_transform_calls", 0) or 0),
@@ -1362,6 +1422,8 @@ def build_payload(
         "catf_gated_mode": bool(getattr(args, "catf_gated_mode", False)),
         "catf_rollback_mode": bool(getattr(args, "catf_rollback_mode", False)),
         "catf_riskguard": bool(getattr(args, "catf_riskguard", False)),
+        "catf_causal_probe": bool(getattr(args, "catf_causal_probe", False)),
+        "catf_causal_probe_mode": str(getattr(args, "catf_causal_probe_mode", "development")),
         "adaptive_burnin": bool(getattr(args, "adaptive_burnin", False)),
         "adaptive_start_epoch": state.adaptive_burnin_controller.start_epoch if state.adaptive_burnin_controller else None,
         "adaptive_candidate_started": bool(state.adaptive_burnin_controller and state.adaptive_burnin_controller.triggered),
@@ -1393,6 +1455,9 @@ def build_payload(
         "riskguard_enabled": bool(getattr(args, "catf_riskguard", False)),
         "riskguard_blocked_op_count": len(state.riskguard_events) + len(getattr(state.context.augmentor, "riskguard_events", []) or []),
         "riskguard_events": str((output_dir / "reports" / "riskguard_events.json").resolve()),
+        "causal_probe_enabled": bool(getattr(args, "catf_causal_probe", False)),
+        "causal_probe_event_count": len(state.causal_probe_events),
+        "causal_probe_events": str((output_dir / "reports" / "causal_probe_events.json").resolve()),
     }
     catf_v2_summary = state.feedback_controller.summary() if is_catf_v2(args) and hasattr(state.feedback_controller, "summary") else {}
     return {
@@ -1415,6 +1480,9 @@ def build_payload(
         "catf_gated_mode": bool(getattr(args, "catf_gated_mode", False)),
         "catf_rollback_mode": bool(getattr(args, "catf_rollback_mode", False)),
         "catf_riskguard": bool(getattr(args, "catf_riskguard", False)),
+        "catf_causal_probe": bool(getattr(args, "catf_causal_probe", False)),
+        "catf_causal_probe_mode": str(getattr(args, "catf_causal_probe_mode", "development")),
+        "causal_probe_events": state.causal_probe_events,
         "adaptive_burnin": bool(getattr(args, "adaptive_burnin", False)),
         "adaptive_start_epoch": state.adaptive_burnin_controller.start_epoch if state.adaptive_burnin_controller else None,
         "adaptive_burnin_config": build_adaptive_burnin_config_payload(args),
@@ -1440,6 +1508,7 @@ def build_payload(
         "safe_controller_events": state.safe_events,
         "gated_controller_events": state.gated_events,
         "riskguard_events": state.riskguard_events + list(getattr(state.context.augmentor, "riskguard_events", []) or []),
+        "causal_probe_events": state.causal_probe_events,
         "latest_policy_state": state.policy_state,
         "epoch_records": state.epoch_records,
         "online_aug_stats": stats,
@@ -1507,6 +1576,8 @@ def write_outputs(payload: dict[str, Any]) -> None:
         write_json(output_dir / "reports" / "gated_controller_events.json", {"events": payload.get("gated_controller_events", [])})
     if payload.get("catf_riskguard"):
         write_json(output_dir / "reports" / "riskguard_events.json", {"events": payload.get("riskguard_events", [])})
+    if payload.get("catf_causal_probe"):
+        write_json(output_dir / "reports" / "causal_probe_events.json", {"events": payload.get("causal_probe_events", [])})
     if payload.get("catf_version") == "v2":
         write_catf_v2_history(output_dir / "reports", payload)
     else:
@@ -2028,6 +2099,7 @@ def build_final_report(payload: dict[str, Any]) -> str:
         f"- CATF-v2 gated mode enabled: `{str(payload.get('catf_gated_mode', False)).lower()}`",
         f"- CATF-v2 rollback mode enabled: `{str(payload.get('catf_rollback_mode', False)).lower()}`",
         f"- CATF-v2 RiskGuard enabled: `{str(payload.get('catf_riskguard', False)).lower()}`",
+        f"- CATF-v2 causal probe enabled: `{str(payload.get('catf_causal_probe', False)).lower()}`",
         f"- RiskGuard blocked ops: `{len(riskguard_events)}`",
         f"- RiskGuard sampler-only fallback: `{str(any(event.get('sampler_only_fallback') for event in riskguard_events)).lower()}`",
         f"- Adaptive burn-in enabled: `{str(payload.get('adaptive_burnin', False)).lower()}`",

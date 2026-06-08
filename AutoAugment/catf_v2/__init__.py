@@ -2,11 +2,21 @@ from __future__ import annotations
 
 from AutoAugment.catf_v2.adaptive_burnin import AdaptiveBurninConfig, AdaptiveBurninController
 from AutoAugment.catf_v2.class_aware_controller import ClassAwareCATFController
+from AutoAugment.catf_v2.causal_probe import (
+    build_probe_set,
+    candidate_policy_catalog,
+    compute_causal_score,
+    decide_candidate_acceptance,
+    evaluate_candidate_policy,
+    export_probe_report,
+    select_best_candidate,
+)
 from AutoAugment.catf_v2.gated_controller import CATFGatedController
 from AutoAugment.catf_v2.high_risk_class_ops import (
     HIGH_RISK_CLASS_OPS,
     apply_risk_guard_to_policy,
     build_sampler_only_fallback_map,
+    has_high_risk_audit_prior,
     is_high_risk_class_op,
 )
 from AutoAugment.catf_v2.issue_attribution import attribute_class_issues
@@ -36,10 +46,18 @@ __all__ = [
     "ThresholdCalibrationAnalyzer",
     "apply_risk_guard_to_policy",
     "attribute_class_issues",
+    "build_probe_set",
     "build_sampler_only_fallback_map",
+    "candidate_policy_catalog",
+    "compute_causal_score",
     "build_per_class_diagnosis",
     "count_train_instances",
+    "decide_candidate_acceptance",
+    "evaluate_candidate_policy",
+    "export_probe_report",
     "force_noop_policy",
+    "has_high_risk_audit_prior",
     "initial_policy_matrix",
     "is_high_risk_class_op",
+    "select_best_candidate",
 ]

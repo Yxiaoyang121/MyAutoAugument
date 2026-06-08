@@ -9,6 +9,9 @@ RISK_OP_ALIASES = {
     "roi_local_contrast": "local_contrast",
 }
 
+# Historical audit prior from the seed2 failure analysis. This is intentionally
+# not a training-time blacklist: CP-CATF must decide accept/reject from the
+# current run's probe metrics.
 HIGH_RISK_CLASS_OPS: dict[int, dict[str, dict[str, Any]]] = {
     9: {
         "sharpen_mild": {
@@ -19,7 +22,7 @@ HIGH_RISK_CLASS_OPS: dict[int, dict[str, dict[str, Any]]] = {
                 "texture_boundary_weak_intervention_failed",
             ],
             "causal_probe_required": True,
-            "default_action": "block",
+            "default_action": "audit_prior_only",
         },
         "local_contrast": {
             "risk_reasons": [
@@ -29,7 +32,7 @@ HIGH_RISK_CLASS_OPS: dict[int, dict[str, dict[str, Any]]] = {
                 "texture_boundary_weak_intervention_failed",
             ],
             "causal_probe_required": True,
-            "default_action": "block",
+            "default_action": "audit_prior_only",
         },
     }
 }
@@ -46,9 +49,34 @@ def risk_info(class_id: int | str, op_name: str) -> dict[str, Any] | None:
     return deepcopy(info) if info else None
 
 
-def is_high_risk_class_op(class_id: int | str, op_name: str, *, causal_probe_passed: bool = False) -> bool:
+def has_high_risk_audit_prior(class_id: int | str, op_name: str) -> bool:
+    """Return whether an audited class-op prior exists.
+
+    This is a diagnostic flag only. It must not be used as the final reason to
+    accept or reject augmentation in the default CATF path.
+    """
+
+    return risk_info(class_id, op_name) is not None
+
+
+def is_high_risk_class_op(
+    class_id: int | str,
+    op_name: str,
+    *,
+    causal_probe_passed: bool = False,
+    direct_block: bool = False,
+) -> bool:
+    """Backward-compatible direct-block helper.
+
+    The default is deliberately false so that the historical registry cannot
+    become a dataset-specific blacklist. Explicit direct blocking is reserved
+    for audit/debug experiments.
+    """
+
     info = risk_info(class_id, op_name)
     if not info:
+        return False
+    if not direct_block:
         return False
     if info.get("causal_probe_required", True) and not causal_probe_passed:
         return True
@@ -64,6 +92,7 @@ def build_riskguard_event(
     sampler_only_fallback: bool = True,
     sample_weight_map_path: str | None = None,
     causal_probe_passed: bool = False,
+    blocked: bool = False,
 ) -> dict[str, Any]:
     info = risk_info(class_id, op_name) or {}
     canonical = canonical_op_name(op_name)
@@ -71,7 +100,8 @@ def build_riskguard_event(
     return {
         "epoch": None if epoch is None else int(epoch),
         "source": str(source),
-        "blocked_by_risk_guard": True,
+        "blocked_by_risk_guard": bool(blocked),
+        "audit_prior_only": not bool(blocked),
         "class_id": int(class_id),
         "op_name": str(op_name),
         "canonical_op_name": canonical,
@@ -79,7 +109,7 @@ def build_riskguard_event(
         "risk_reasons": reasons,
         "causal_probe_required": bool(info.get("causal_probe_required", True)),
         "causal_probe_passed": bool(causal_probe_passed),
-        "action": "block_roi_op",
+        "action": "block_roi_op" if blocked else "audit_prior",
         "fallback_action": "sampler_only" if sampler_only_fallback else "no_op",
         "sampler_only_fallback": bool(sampler_only_fallback),
         "sample_weight_map_path": sample_weight_map_path,
@@ -96,12 +126,15 @@ def apply_risk_guard_to_policy(
     sampler_only_fallback: bool = True,
     sample_weight_map_path: str | None = None,
     causal_probe_passed: bool = False,
+    direct_block: bool = False,
+    audit_only: bool = False,
 ) -> tuple[dict[str, Any], list[dict[str, Any]]]:
-    """Return a policy with high-risk class-op combinations zeroed.
+    """Return a policy plus optional RiskGuard audit/direct-block events.
 
-    The guard is intentionally class-op based, not seed based. It blocks known
-    risky ROI texture interventions unless a future causal probe explicitly
-    clears the pair.
+    By default this no longer mutates the policy. Historical class-op risk
+    entries are only audit priors; CP-CATF must make the final decision from
+    probe benefit/risk metrics. Set ``direct_block=True`` only for legacy
+    audit/debug reproduction.
     """
 
     guarded = deepcopy(policy_matrix)
@@ -114,7 +147,15 @@ def apply_risk_guard_to_policy(
             strength = float(op.get("strength", 0.0) or 0.0)
             if prob <= 0.0 or strength <= 0.0:
                 continue
-            if not is_high_risk_class_op(class_id, op_name, causal_probe_passed=causal_probe_passed):
+            if not has_high_risk_audit_prior(class_id, op_name):
+                continue
+            should_block = is_high_risk_class_op(
+                class_id,
+                op_name,
+                causal_probe_passed=causal_probe_passed,
+                direct_block=direct_block,
+            )
+            if not should_block and not audit_only:
                 continue
             event = build_riskguard_event(
                 class_id=class_id,
@@ -124,26 +165,53 @@ def apply_risk_guard_to_policy(
                 sampler_only_fallback=sampler_only_fallback,
                 sample_weight_map_path=sample_weight_map_path,
                 causal_probe_passed=causal_probe_passed,
+                blocked=should_block,
             )
-            event["blocked_prob"] = prob
-            event["blocked_strength"] = strength
+            event["candidate_prob"] = prob
+            event["candidate_strength"] = strength
             events.append(event)
-            blocked_ops.append(
-                {
-                    "op_name": str(op_name),
-                    "canonical_op_name": canonical_op_name(op_name),
-                    "prob": prob,
-                    "strength": strength,
-                    "risk_reasons": event["risk_reasons"],
-                }
-            )
-            op["prob"] = 0.0
-            op["strength"] = 0.0
+            if should_block:
+                event["blocked_prob"] = prob
+                event["blocked_strength"] = strength
+                blocked_ops.append(
+                    {
+                        "op_name": str(op_name),
+                        "canonical_op_name": canonical_op_name(op_name),
+                        "prob": prob,
+                        "strength": strength,
+                        "risk_reasons": event["risk_reasons"],
+                    }
+                )
+                op["prob"] = 0.0
+                op["strength"] = 0.0
 
         if not blocked_ops:
+            audit_priors = [
+                event
+                for event in events
+                if int(event.get("class_id", -1)) == class_id and event.get("audit_prior_only")
+            ]
+            if audit_priors:
+                class_policy["risk_guard"] = {
+                    "audit_prior_only": True,
+                    "blocked_by_risk_guard": False,
+                    "candidate_ops": [
+                        {
+                            "op_name": str(event["op_name"]),
+                            "canonical_op_name": str(event["canonical_op_name"]),
+                            "prob": float(event.get("candidate_prob", 0.0) or 0.0),
+                            "strength": float(event.get("candidate_strength", 0.0) or 0.0),
+                            "risk_reasons": list(event.get("risk_reasons") or []),
+                        }
+                        for event in audit_priors
+                    ],
+                    "final_decision_source": "causal_probe_required",
+                    "seed_specific_rule": False,
+                }
             continue
         class_policy["risk_guard"] = {
             "blocked_by_risk_guard": True,
+            "audit_prior_only": False,
             "blocked_ops": blocked_ops,
             "fallback_action": "sampler_only" if sampler_only_fallback else "no_op",
             "sampler_only_fallback": bool(sampler_only_fallback),

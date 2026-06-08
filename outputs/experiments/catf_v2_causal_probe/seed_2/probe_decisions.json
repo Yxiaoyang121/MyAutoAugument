@@ -1,0 +1,723 @@
+{
+  "seed": 2,
+  "development_probe_uses_existing_val_diagnostics": true,
+  "paper_mode_note": "Paper-mode CP-CATF should use a train/probe split or train hard examples, not final validation metrics.",
+  "clean_metrics": {
+    "precision": 0.6962390186664107,
+    "recall": 0.728629640010866,
+    "map50": 0.7692030787336794,
+    "map50_95": 0.5223713770570699
+  },
+  "fixed_catf_v2_metrics": {
+    "precision": 0.7636577080243924,
+    "recall": 0.6863445827915785,
+    "map50": 0.7582462462317862,
+    "map50_95": 0.4966842829943364
+  },
+  "delta_fixed_vs_clean": {
+    "precision": 0.06741868935798168,
+    "recall": -0.04228505721928755,
+    "map50": -0.010956832501893277,
+    "map50_95": -0.025687094062733506
+  },
+  "fixed_constraint_failed": true,
+  "active_classes": [
+    8,
+    9,
+    11
+  ],
+  "roi_affected_classes": {
+    "8": 6,
+    "9": 25,
+    "11": 59
+  },
+  "candidate_evaluations": [
+    {
+      "candidate_policy_id": "candidate_policy_1_roi_texture",
+      "candidate_policy": {
+        "policy_id": "candidate_policy_1_roi_texture",
+        "action": "roi_image_aug",
+        "op_list": [
+          "sharpen_mild",
+          "local_contrast"
+        ],
+        "image_modification": true,
+        "sample_weighting": false
+      },
+      "probe_set": {
+        "class_id": 8,
+        "candidate_policy_id": "candidate_policy_1_roi_texture",
+        "mode": "development",
+        "development_probe_uses_existing_val_diagnostics": true,
+        "bucket_counts": {
+          "fn_samples": 30,
+          "high_fp_risky_samples": 2,
+          "low_conf_tp_samples": 0,
+          "non_active_class_samples": 10,
+          "weak_localization_samples": 30
+        },
+        "evidence_count": 90,
+        "diagnosis_confidence": 1.0,
+        "audit_priors": []
+      },
+      "benefit_metrics": {
+        "fn_recovery_rate": 0.0,
+        "localization_iou_gain": 0.0,
+        "low_conf_tp_conf_gain": 0.06741868935798168
+      },
+      "risk_metrics": {
+        "fp_increase_rate": 0.0,
+        "high_fp_spillover_rate": 0.010956832501893277,
+        "non_active_regression_rate": 0.19548756577127313,
+        "ok_class_false_activation": 0.0,
+        "bbox_instability_rate": 0.025687094062733506
+      },
+      "causal_score": -0.20125370499751732,
+      "decision": {
+        "candidate_policy_id": "candidate_policy_1_roi_texture",
+        "accepted": false,
+        "decision": "reject",
+        "causal_score": -0.20125370499751732,
+        "rejection_reasons": [
+          "causal_score_not_positive",
+          "insufficient_active_class_benefit",
+          "high_fp_spillover_rate_too_high",
+          "non_active_regression_rate_too_high",
+          "bbox_instability_rate_too_high"
+        ],
+        "audit_prior_only": false,
+        "audit_priors": [],
+        "image_modification_allowed": false,
+        "sample_weighting_allowed": false,
+        "strict_noop": false
+      }
+    },
+    {
+      "candidate_policy_id": "candidate_policy_2_roi_low_contrast",
+      "candidate_policy": {
+        "policy_id": "candidate_policy_2_roi_low_contrast",
+        "action": "roi_image_aug",
+        "op_list": [
+          "local_contrast",
+          "gamma"
+        ],
+        "image_modification": true,
+        "sample_weighting": false
+      },
+      "probe_set": {
+        "class_id": 8,
+        "candidate_policy_id": "candidate_policy_2_roi_low_contrast",
+        "mode": "development",
+        "development_probe_uses_existing_val_diagnostics": true,
+        "bucket_counts": {
+          "fn_samples": 30,
+          "high_fp_risky_samples": 2,
+          "low_conf_tp_samples": 0,
+          "non_active_class_samples": 10,
+          "weak_localization_samples": 30
+        },
+        "evidence_count": 90,
+        "diagnosis_confidence": 1.0,
+        "audit_priors": []
+      },
+      "benefit_metrics": {
+        "fn_recovery_rate": 0.0,
+        "localization_iou_gain": 0.0,
+        "low_conf_tp_conf_gain": 0.06741868935798168
+      },
+      "risk_metrics": {
+        "fp_increase_rate": 0.0,
+        "high_fp_spillover_rate": 0.010956832501893277,
+        "non_active_regression_rate": 0.19548756577127313,
+        "ok_class_false_activation": 0.0,
+        "bbox_instability_rate": 0.025687094062733506
+      },
+      "causal_score": -0.20125370499751732,
+      "decision": {
+        "candidate_policy_id": "candidate_policy_2_roi_low_contrast",
+        "accepted": false,
+        "decision": "reject",
+        "causal_score": -0.20125370499751732,
+        "rejection_reasons": [
+          "causal_score_not_positive",
+          "insufficient_active_class_benefit",
+          "high_fp_spillover_rate_too_high",
+          "non_active_regression_rate_too_high",
+          "bbox_instability_rate_too_high"
+        ],
+        "audit_prior_only": false,
+        "audit_priors": [],
+        "image_modification_allowed": false,
+        "sample_weighting_allowed": false,
+        "strict_noop": false
+      }
+    },
+    {
+      "candidate_policy_id": "candidate_policy_3_sampler_only",
+      "candidate_policy": {
+        "policy_id": "candidate_policy_3_sampler_only",
+        "action": "sampler_only",
+        "op_list": [],
+        "image_modification": false,
+        "sample_weighting": true,
+        "sample_weighting_effective": false,
+        "sample_weighting_status": "pending_dataloader_support"
+      },
+      "probe_set": {
+        "class_id": 8,
+        "candidate_policy_id": "candidate_policy_3_sampler_only",
+        "mode": "development",
+        "development_probe_uses_existing_val_diagnostics": true,
+        "bucket_counts": {
+          "fn_samples": 30,
+          "high_fp_risky_samples": 2,
+          "low_conf_tp_samples": 0,
+          "non_active_class_samples": 10,
+          "weak_localization_samples": 30
+        },
+        "evidence_count": 90,
+        "diagnosis_confidence": 1.0,
+        "audit_priors": []
+      },
+      "benefit_metrics": {
+        "fn_recovery_rate": 0.0,
+        "localization_iou_gain": 0.0,
+        "low_conf_tp_conf_gain": 0.06741868935798168
+      },
+      "risk_metrics": {
+        "fp_increase_rate": 0.0,
+        "high_fp_spillover_rate": 0.010956832501893277,
+        "non_active_regression_rate": 0.19548756577127313,
+        "ok_class_false_activation": 0.0,
+        "bbox_instability_rate": 0.025687094062733506
+      },
+      "causal_score": -0.20125370499751732,
+      "decision": {
+        "candidate_policy_id": "candidate_policy_3_sampler_only",
+        "accepted": true,
+        "decision": "sampler_only",
+        "causal_score": -0.20125370499751732,
+        "rejection_reasons": [],
+        "audit_prior_only": false,
+        "audit_priors": [],
+        "image_modification_allowed": false,
+        "sample_weighting_allowed": true,
+        "sample_weighting_effective": false,
+        "sample_weighting_status": "pending_dataloader_support",
+        "strict_noop": false
+      }
+    }
+  ],
+  "active_class_candidate_evaluations": [
+    {
+      "candidate_policy_id": "candidate_policy_1_roi_texture",
+      "candidate_policy": {
+        "policy_id": "candidate_policy_1_roi_texture",
+        "action": "roi_image_aug",
+        "op_list": [
+          "sharpen_mild",
+          "local_contrast"
+        ],
+        "image_modification": true,
+        "sample_weighting": false
+      },
+      "probe_set": {
+        "class_id": 8,
+        "candidate_policy_id": "candidate_policy_1_roi_texture",
+        "mode": "development",
+        "development_probe_uses_existing_val_diagnostics": true,
+        "bucket_counts": {
+          "fn_samples": 30,
+          "high_fp_risky_samples": 2,
+          "low_conf_tp_samples": 0,
+          "non_active_class_samples": 10,
+          "weak_localization_samples": 30
+        },
+        "evidence_count": 90,
+        "diagnosis_confidence": 1.0,
+        "audit_priors": []
+      },
+      "benefit_metrics": {
+        "fn_recovery_rate": 0.0,
+        "localization_iou_gain": 0.0,
+        "low_conf_tp_conf_gain": 0.06741868935798168
+      },
+      "risk_metrics": {
+        "fp_increase_rate": 0.0,
+        "high_fp_spillover_rate": 0.010956832501893277,
+        "non_active_regression_rate": 0.19548756577127313,
+        "ok_class_false_activation": 0.0,
+        "bbox_instability_rate": 0.025687094062733506
+      },
+      "causal_score": -0.20125370499751732,
+      "decision": {
+        "candidate_policy_id": "candidate_policy_1_roi_texture",
+        "accepted": false,
+        "decision": "reject",
+        "causal_score": -0.20125370499751732,
+        "rejection_reasons": [
+          "causal_score_not_positive",
+          "insufficient_active_class_benefit",
+          "high_fp_spillover_rate_too_high",
+          "non_active_regression_rate_too_high",
+          "bbox_instability_rate_too_high"
+        ],
+        "audit_prior_only": false,
+        "audit_priors": [],
+        "image_modification_allowed": false,
+        "sample_weighting_allowed": false,
+        "strict_noop": false
+      }
+    },
+    {
+      "candidate_policy_id": "candidate_policy_2_roi_low_contrast",
+      "candidate_policy": {
+        "policy_id": "candidate_policy_2_roi_low_contrast",
+        "action": "roi_image_aug",
+        "op_list": [
+          "local_contrast",
+          "gamma"
+        ],
+        "image_modification": true,
+        "sample_weighting": false
+      },
+      "probe_set": {
+        "class_id": 8,
+        "candidate_policy_id": "candidate_policy_2_roi_low_contrast",
+        "mode": "development",
+        "development_probe_uses_existing_val_diagnostics": true,
+        "bucket_counts": {
+          "fn_samples": 30,
+          "high_fp_risky_samples": 2,
+          "low_conf_tp_samples": 0,
+          "non_active_class_samples": 10,
+          "weak_localization_samples": 30
+        },
+        "evidence_count": 90,
+        "diagnosis_confidence": 1.0,
+        "audit_priors": []
+      },
+      "benefit_metrics": {
+        "fn_recovery_rate": 0.0,
+        "localization_iou_gain": 0.0,
+        "low_conf_tp_conf_gain": 0.06741868935798168
+      },
+      "risk_metrics": {
+        "fp_increase_rate": 0.0,
+        "high_fp_spillover_rate": 0.010956832501893277,
+        "non_active_regression_rate": 0.19548756577127313,
+        "ok_class_false_activation": 0.0,
+        "bbox_instability_rate": 0.025687094062733506
+      },
+      "causal_score": -0.20125370499751732,
+      "decision": {
+        "candidate_policy_id": "candidate_policy_2_roi_low_contrast",
+        "accepted": false,
+        "decision": "reject",
+        "causal_score": -0.20125370499751732,
+        "rejection_reasons": [
+          "causal_score_not_positive",
+          "insufficient_active_class_benefit",
+          "high_fp_spillover_rate_too_high",
+          "non_active_regression_rate_too_high",
+          "bbox_instability_rate_too_high"
+        ],
+        "audit_prior_only": false,
+        "audit_priors": [],
+        "image_modification_allowed": false,
+        "sample_weighting_allowed": false,
+        "strict_noop": false
+      }
+    },
+    {
+      "candidate_policy_id": "candidate_policy_1_roi_texture",
+      "candidate_policy": {
+        "policy_id": "candidate_policy_1_roi_texture",
+        "action": "roi_image_aug",
+        "op_list": [
+          "sharpen_mild",
+          "local_contrast"
+        ],
+        "image_modification": true,
+        "sample_weighting": false
+      },
+      "probe_set": {
+        "class_id": 9,
+        "candidate_policy_id": "candidate_policy_1_roi_texture",
+        "mode": "development",
+        "development_probe_uses_existing_val_diagnostics": true,
+        "bucket_counts": {
+          "fn_samples": 30,
+          "high_fp_risky_samples": 2,
+          "low_conf_tp_samples": 0,
+          "non_active_class_samples": 10,
+          "weak_localization_samples": 30
+        },
+        "evidence_count": 90,
+        "diagnosis_confidence": 1.0,
+        "audit_priors": [
+          {
+            "risk_reasons": [
+              "active_class_regression",
+              "non_active_class_regression",
+              "seed2_root_cause_audit",
+              "texture_boundary_weak_intervention_failed"
+            ],
+            "causal_probe_required": true,
+            "default_action": "audit_prior_only",
+            "class_id": 9,
+            "op_name": "sharpen_mild",
+            "audit_prior_only": true
+          },
+          {
+            "risk_reasons": [
+              "active_class_regression",
+              "non_active_class_regression",
+              "seed2_root_cause_audit",
+              "texture_boundary_weak_intervention_failed"
+            ],
+            "causal_probe_required": true,
+            "default_action": "audit_prior_only",
+            "class_id": 9,
+            "op_name": "local_contrast",
+            "audit_prior_only": true
+          }
+        ]
+      },
+      "benefit_metrics": {
+        "fn_recovery_rate": 0.0,
+        "localization_iou_gain": 0.0,
+        "low_conf_tp_conf_gain": 0.06741868935798168
+      },
+      "risk_metrics": {
+        "fp_increase_rate": 0.0,
+        "high_fp_spillover_rate": 0.010956832501893277,
+        "non_active_regression_rate": 0.19548756577127313,
+        "ok_class_false_activation": 0.0,
+        "bbox_instability_rate": 0.025687094062733506
+      },
+      "causal_score": -0.20125370499751732,
+      "decision": {
+        "candidate_policy_id": "candidate_policy_1_roi_texture",
+        "accepted": false,
+        "decision": "reject",
+        "causal_score": -0.20125370499751732,
+        "rejection_reasons": [
+          "causal_score_not_positive",
+          "insufficient_active_class_benefit",
+          "high_fp_spillover_rate_too_high",
+          "non_active_regression_rate_too_high",
+          "bbox_instability_rate_too_high"
+        ],
+        "audit_prior_only": true,
+        "audit_priors": [
+          {
+            "risk_reasons": [
+              "active_class_regression",
+              "non_active_class_regression",
+              "seed2_root_cause_audit",
+              "texture_boundary_weak_intervention_failed"
+            ],
+            "causal_probe_required": true,
+            "default_action": "audit_prior_only",
+            "class_id": 9,
+            "op_name": "sharpen_mild",
+            "audit_prior_only": true
+          },
+          {
+            "risk_reasons": [
+              "active_class_regression",
+              "non_active_class_regression",
+              "seed2_root_cause_audit",
+              "texture_boundary_weak_intervention_failed"
+            ],
+            "causal_probe_required": true,
+            "default_action": "audit_prior_only",
+            "class_id": 9,
+            "op_name": "local_contrast",
+            "audit_prior_only": true
+          }
+        ],
+        "image_modification_allowed": false,
+        "sample_weighting_allowed": false,
+        "strict_noop": false
+      }
+    },
+    {
+      "candidate_policy_id": "candidate_policy_2_roi_low_contrast",
+      "candidate_policy": {
+        "policy_id": "candidate_policy_2_roi_low_contrast",
+        "action": "roi_image_aug",
+        "op_list": [
+          "local_contrast",
+          "gamma"
+        ],
+        "image_modification": true,
+        "sample_weighting": false
+      },
+      "probe_set": {
+        "class_id": 9,
+        "candidate_policy_id": "candidate_policy_2_roi_low_contrast",
+        "mode": "development",
+        "development_probe_uses_existing_val_diagnostics": true,
+        "bucket_counts": {
+          "fn_samples": 30,
+          "high_fp_risky_samples": 2,
+          "low_conf_tp_samples": 0,
+          "non_active_class_samples": 10,
+          "weak_localization_samples": 30
+        },
+        "evidence_count": 90,
+        "diagnosis_confidence": 1.0,
+        "audit_priors": [
+          {
+            "risk_reasons": [
+              "active_class_regression",
+              "non_active_class_regression",
+              "seed2_root_cause_audit",
+              "texture_boundary_weak_intervention_failed"
+            ],
+            "causal_probe_required": true,
+            "default_action": "audit_prior_only",
+            "class_id": 9,
+            "op_name": "local_contrast",
+            "audit_prior_only": true
+          }
+        ]
+      },
+      "benefit_metrics": {
+        "fn_recovery_rate": 0.0,
+        "localization_iou_gain": 0.0,
+        "low_conf_tp_conf_gain": 0.06741868935798168
+      },
+      "risk_metrics": {
+        "fp_increase_rate": 0.0,
+        "high_fp_spillover_rate": 0.010956832501893277,
+        "non_active_regression_rate": 0.19548756577127313,
+        "ok_class_false_activation": 0.0,
+        "bbox_instability_rate": 0.025687094062733506
+      },
+      "causal_score": -0.20125370499751732,
+      "decision": {
+        "candidate_policy_id": "candidate_policy_2_roi_low_contrast",
+        "accepted": false,
+        "decision": "reject",
+        "causal_score": -0.20125370499751732,
+        "rejection_reasons": [
+          "causal_score_not_positive",
+          "insufficient_active_class_benefit",
+          "high_fp_spillover_rate_too_high",
+          "non_active_regression_rate_too_high",
+          "bbox_instability_rate_too_high"
+        ],
+        "audit_prior_only": true,
+        "audit_priors": [
+          {
+            "risk_reasons": [
+              "active_class_regression",
+              "non_active_class_regression",
+              "seed2_root_cause_audit",
+              "texture_boundary_weak_intervention_failed"
+            ],
+            "causal_probe_required": true,
+            "default_action": "audit_prior_only",
+            "class_id": 9,
+            "op_name": "local_contrast",
+            "audit_prior_only": true
+          }
+        ],
+        "image_modification_allowed": false,
+        "sample_weighting_allowed": false,
+        "strict_noop": false
+      }
+    },
+    {
+      "candidate_policy_id": "candidate_policy_1_roi_texture",
+      "candidate_policy": {
+        "policy_id": "candidate_policy_1_roi_texture",
+        "action": "roi_image_aug",
+        "op_list": [
+          "sharpen_mild",
+          "local_contrast"
+        ],
+        "image_modification": true,
+        "sample_weighting": false
+      },
+      "probe_set": {
+        "class_id": 11,
+        "candidate_policy_id": "candidate_policy_1_roi_texture",
+        "mode": "development",
+        "development_probe_uses_existing_val_diagnostics": true,
+        "bucket_counts": {
+          "fn_samples": 30,
+          "high_fp_risky_samples": 2,
+          "low_conf_tp_samples": 0,
+          "non_active_class_samples": 10,
+          "weak_localization_samples": 30
+        },
+        "evidence_count": 90,
+        "diagnosis_confidence": 1.0,
+        "audit_priors": []
+      },
+      "benefit_metrics": {
+        "fn_recovery_rate": 0.0,
+        "localization_iou_gain": 0.0,
+        "low_conf_tp_conf_gain": 0.06741868935798168
+      },
+      "risk_metrics": {
+        "fp_increase_rate": 0.0,
+        "high_fp_spillover_rate": 0.010956832501893277,
+        "non_active_regression_rate": 0.19548756577127313,
+        "ok_class_false_activation": 0.0,
+        "bbox_instability_rate": 0.025687094062733506
+      },
+      "causal_score": -0.20125370499751732,
+      "decision": {
+        "candidate_policy_id": "candidate_policy_1_roi_texture",
+        "accepted": false,
+        "decision": "reject",
+        "causal_score": -0.20125370499751732,
+        "rejection_reasons": [
+          "causal_score_not_positive",
+          "insufficient_active_class_benefit",
+          "high_fp_spillover_rate_too_high",
+          "non_active_regression_rate_too_high",
+          "bbox_instability_rate_too_high"
+        ],
+        "audit_prior_only": false,
+        "audit_priors": [],
+        "image_modification_allowed": false,
+        "sample_weighting_allowed": false,
+        "strict_noop": false
+      }
+    },
+    {
+      "candidate_policy_id": "candidate_policy_2_roi_low_contrast",
+      "candidate_policy": {
+        "policy_id": "candidate_policy_2_roi_low_contrast",
+        "action": "roi_image_aug",
+        "op_list": [
+          "local_contrast",
+          "gamma"
+        ],
+        "image_modification": true,
+        "sample_weighting": false
+      },
+      "probe_set": {
+        "class_id": 11,
+        "candidate_policy_id": "candidate_policy_2_roi_low_contrast",
+        "mode": "development",
+        "development_probe_uses_existing_val_diagnostics": true,
+        "bucket_counts": {
+          "fn_samples": 30,
+          "high_fp_risky_samples": 2,
+          "low_conf_tp_samples": 0,
+          "non_active_class_samples": 10,
+          "weak_localization_samples": 30
+        },
+        "evidence_count": 90,
+        "diagnosis_confidence": 1.0,
+        "audit_priors": []
+      },
+      "benefit_metrics": {
+        "fn_recovery_rate": 0.0,
+        "localization_iou_gain": 0.0,
+        "low_conf_tp_conf_gain": 0.06741868935798168
+      },
+      "risk_metrics": {
+        "fp_increase_rate": 0.0,
+        "high_fp_spillover_rate": 0.010956832501893277,
+        "non_active_regression_rate": 0.19548756577127313,
+        "ok_class_false_activation": 0.0,
+        "bbox_instability_rate": 0.025687094062733506
+      },
+      "causal_score": -0.20125370499751732,
+      "decision": {
+        "candidate_policy_id": "candidate_policy_2_roi_low_contrast",
+        "accepted": false,
+        "decision": "reject",
+        "causal_score": -0.20125370499751732,
+        "rejection_reasons": [
+          "causal_score_not_positive",
+          "insufficient_active_class_benefit",
+          "high_fp_spillover_rate_too_high",
+          "non_active_regression_rate_too_high",
+          "bbox_instability_rate_too_high"
+        ],
+        "audit_prior_only": false,
+        "audit_priors": [],
+        "image_modification_allowed": false,
+        "sample_weighting_allowed": false,
+        "strict_noop": false
+      }
+    }
+  ],
+  "selected_candidate_policy_id": "candidate_policy_3_sampler_only",
+  "selected_candidate_action": "sampler_only",
+  "selected_candidate": {
+    "candidate_policy_id": "candidate_policy_3_sampler_only",
+    "candidate_policy": {
+      "policy_id": "candidate_policy_3_sampler_only",
+      "action": "sampler_only",
+      "op_list": [],
+      "image_modification": false,
+      "sample_weighting": true,
+      "sample_weighting_effective": false,
+      "sample_weighting_status": "pending_dataloader_support"
+    },
+    "probe_set": {
+      "class_id": 8,
+      "candidate_policy_id": "candidate_policy_3_sampler_only",
+      "mode": "development",
+      "development_probe_uses_existing_val_diagnostics": true,
+      "bucket_counts": {
+        "fn_samples": 30,
+        "high_fp_risky_samples": 2,
+        "low_conf_tp_samples": 0,
+        "non_active_class_samples": 10,
+        "weak_localization_samples": 30
+      },
+      "evidence_count": 90,
+      "diagnosis_confidence": 1.0,
+      "audit_priors": []
+    },
+    "benefit_metrics": {
+      "fn_recovery_rate": 0.0,
+      "localization_iou_gain": 0.0,
+      "low_conf_tp_conf_gain": 0.06741868935798168
+    },
+    "risk_metrics": {
+      "fp_increase_rate": 0.0,
+      "high_fp_spillover_rate": 0.010956832501893277,
+      "non_active_regression_rate": 0.19548756577127313,
+      "ok_class_false_activation": 0.0,
+      "bbox_instability_rate": 0.025687094062733506
+    },
+    "causal_score": -0.20125370499751732,
+    "decision": {
+      "candidate_policy_id": "candidate_policy_3_sampler_only",
+      "accepted": true,
+      "decision": "sampler_only",
+      "causal_score": -0.20125370499751732,
+      "rejection_reasons": [],
+      "audit_prior_only": false,
+      "audit_priors": [],
+      "image_modification_allowed": false,
+      "sample_weighting_allowed": true,
+      "sample_weighting_effective": false,
+      "sample_weighting_status": "pending_dataloader_support",
+      "strict_noop": false
+    }
+  },
+  "image_augmentation_rejected": true,
+  "strict_image_noop": true,
+  "riskguard_interpretation": {
+    "riskguard_used_as_final_rule": false,
+    "riskguard_downgraded_to_audit_prior": true,
+    "riskguard_constraint_failed": true,
+    "riskguard_summary": "Blocking the audited class-op pair recovered class-local behavior but did not recover overall constraints; therefore fixed blacklist is insufficient and CP-CATF must score the whole candidate risk."
+  },
+  "decision_is_seed_specific": false,
+  "decision_is_fixed_class_id_specific": false,
+  "decision_basis": "run_specific_probe_benefit_risk_metrics"
+}

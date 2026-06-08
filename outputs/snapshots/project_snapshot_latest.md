@@ -1,25 +1,26 @@
 # Project Snapshot
 
-- Generated: 2026-06-08T07:35:42
+- Generated: 2026-06-08T13:08:45
 - Branch: codex/sync-latest
-- Commit: c03cab80bf9d1cd16b757c1514c09f88dd06434f
+- Commit: 0d7155c9c8567e4d1cd566c6ed24fdc85a5905b3
 - Remote: https://github.com/Yxiaoyang121/MyAutoAugument.git
 
 ## Working Tree
 
 ```text
  M AutoAugment/catf_v2/__init__.py
- M AutoAugment/catf_v2/sample_router.py
+ M AutoAugment/catf_v2/high_risk_class_ops.py
  M CODEX_HANDOFF.md
  M EXPERIMENT_LOG.md
  M PROJECT_STATE.md
  M outputs/project_snapshot_latest.md
  M outputs/snapshots/project_snapshot_latest.md
  M scripts/train_yolo_default_with_inloop_feedback.py
-?? AutoAugment/catf_v2/high_risk_class_ops.py
-?? outputs/experiments/catf_v2_riskguard_seed2_50ep/
-?? scripts/summarize_catf_v2_riskguard_seed2.py
-?? tests/test_catf_v2_riskguard.py
+ M tests/test_catf_v2_riskguard.py
+?? AutoAugment/catf_v2/causal_probe.py
+?? outputs/experiments/catf_v2_causal_probe/
+?? scripts/run_catf_v2_offline_causal_probe.py
+?? tests/test_catf_v2_causal_probe.py
 ```
 
 ## Key Files
@@ -224,9 +225,16 @@
 
 ## Tracked File Count
 
-- 6023 tracked files
+- 6064 tracked files
 
 ## Notes
 
 - This snapshot reflects the current local repository state.
 - It does not invent benchmark results.
+
+## CP-CATF Status Note
+
+- RiskGuard fixed class-op blacklist is downgraded to audit/debug prior, not a final CATF-v2 training rule.
+- Seed2 is now documented as evidence that diagnosis triggers do not guarantee augmentation benefit.
+- CP-CATF uses run-specific causal probe decisions; dataset-specific information belongs in probe outputs, not hard-coded rules.
+- Offline development-mode probe accepted image candidates for seeds `0/1` and rejected seed `2` image candidates; training validation is still pending.

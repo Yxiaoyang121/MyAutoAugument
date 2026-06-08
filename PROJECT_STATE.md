@@ -1219,3 +1219,26 @@ The repository is centered on diagnosis-driven augmentation for industrial defec
   - seed1 passes with delta `+0.0496/+0.0501/+0.0395/+0.0289`.
 - Interpretation: the previous post-hoc per-seed/RC search remains useful, but the single robust threshold table is too recall-aggressive for seed0 and seed2. Do not claim CATF-v2-RC is 3/3 ready until the official path threshold table is re-optimized or made seed/model-specific with stronger Precision guard.
 <!-- CATF_V2_RC_OFFICIAL_PATH_VALIDATION_END -->
+
+<!-- CP_CATF_OFFLINE_CAUSAL_PROBE_START -->
+## CP-CATF Offline Causal Probe
+
+- Scope: strategy-selection implementation and offline analysis only; no training was run.
+- Added module: `AutoAugment/catf_v2/causal_probe.py`.
+- Added offline runner: `scripts/run_catf_v2_offline_causal_probe.py`.
+- RiskGuard update: the fixed class-op registry is downgraded to an audit/debug prior. It is no longer a default training-time blacklist and cannot be the final accept/reject reason for CATF policy selection.
+- Motivation: seed2 showed that a diagnosis trigger is not equivalent to augmentation benefit; class-local fixes such as RiskGuard can recover the audited class but still fail overall due non-active class regression.
+- CP-CATF rule: candidate policies are evaluated by run-specific causal probe metrics before entering the sample router. Data-specific outcomes are probe results, not hard-coded method rules.
+- Development-mode caveat: the offline probe uses existing validation diagnostics for mechanism checking (`development_probe_uses_existing_val_diagnostics=true`). Paper-mode CP-CATF must use a train/probe split or train hard examples for policy selection.
+- Offline decisions:
+  - seed0 selects `candidate_policy_1_roi_texture` / `accept`.
+  - seed1 selects `candidate_policy_1_roi_texture` / `accept`.
+  - seed2 rejects image-space candidates and selects `candidate_policy_3_sampler_only` with image modification disabled and sample weighting marked pending.
+- Same generic candidate `candidate_policy_1_roi_texture` is accepted for seeds `0/1` and rejected for seed `2`, based on run metrics rather than seed id, class id, or dataset category name.
+- Reports:
+  - `outputs/experiments/catf_v2_causal_probe/reports/offline_causal_probe_summary.md`
+  - `outputs/experiments/catf_v2_causal_probe/reports/offline_causal_probe_summary.json`
+  - `outputs/experiments/catf_v2_causal_probe/reports/cp_catf_training_plan.md`
+- Verification: `python -m py_compile AutoAugment/catf_v2/causal_probe.py scripts/train_yolo_default_with_inloop_feedback.py AutoAugment/catf_v2/sample_router.py AutoAugment/catf_v2/policy_matrix.py AutoAugment/catf_v2/high_risk_class_ops.py scripts/run_catf_v2_offline_causal_probe.py`; targeted pytest list passed `132 passed`.
+- Next step: run CP-CATF training validation only when explicitly requested. CP-CATF can be a paper main-method candidate only after probe-gated training confirms seed0/seed1 retain gains while seed2 is protected.
+<!-- CP_CATF_OFFLINE_CAUSAL_PROBE_END -->

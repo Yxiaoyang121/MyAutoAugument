@@ -1855,3 +1855,37 @@ Key conclusions from that archived smoke:
 - RC seed2 fails Precision: delta `-0.0148/+0.0655/+0.0435/+0.0096`.
 - Conclusion: the saved unified RC threshold table is too recall-aggressive. The earlier 3/3 post-hoc conclusion does not hold under the official predict post-processing validation; next step is threshold re-optimization with stronger Precision guard, not training.
 <!-- CATF_V2_RC_OFFICIAL_PATH_VALIDATION_END -->
+
+<!-- CP_CATF_OFFLINE_CAUSAL_PROBE_START -->
+## CP-CATF Offline Causal Probe
+
+- Date: `2026-06-08`.
+- Scope: offline strategy-screening only; no train command was run.
+- Code changes:
+  - Added `AutoAugment/catf_v2/causal_probe.py`.
+  - Added `scripts/run_catf_v2_offline_causal_probe.py`.
+  - Added `tests/test_catf_v2_causal_probe.py`.
+  - Updated `AutoAugment/catf_v2/high_risk_class_ops.py` so historical high-risk class-op entries are audit priors, not default direct blocks.
+- Command: `python scripts\run_catf_v2_offline_causal_probe.py`.
+- Inputs:
+  - `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/multiseed_catf_v2_fixed_summary.json`
+  - `outputs/experiments/seed2_failure_root_cause/reports/seed2_root_cause_summary.json`
+  - `outputs/experiments/catf_v2_riskguard_seed2_50ep/reports/riskguard_seed2_summary.json`
+- Outputs:
+  - `outputs/experiments/catf_v2_causal_probe/seed_0/probe_decisions.json`
+  - `outputs/experiments/catf_v2_causal_probe/seed_1/probe_decisions.json`
+  - `outputs/experiments/catf_v2_causal_probe/seed_2/probe_decisions.json`
+  - `outputs/experiments/catf_v2_causal_probe/reports/offline_causal_probe_summary.md`
+  - `outputs/experiments/catf_v2_causal_probe/reports/offline_causal_probe_summary.json`
+  - `outputs/experiments/catf_v2_causal_probe/reports/cp_catf_training_plan.md`
+- Development-mode caveat: offline probe uses existing validation diagnostics/results to validate the mechanism. Paper-mode CP-CATF must use train/probe examples and keep final validation/test out of policy selection.
+- Decisions:
+  - seed0 accepted `candidate_policy_1_roi_texture`.
+  - seed1 accepted `candidate_policy_1_roi_texture`.
+  - seed2 rejected image-space candidates and selected `candidate_policy_3_sampler_only` with image modification disabled.
+- Key interpretation: RiskGuard's fixed blacklist is not needed as final method logic and is insufficient as a final fix because seed2 RiskGuard still failed overall constraints. CP-CATF converts the audit lesson into run-specific causal screening.
+- Verification:
+  - `python -m py_compile AutoAugment/catf_v2/causal_probe.py scripts/train_yolo_default_with_inloop_feedback.py AutoAugment/catf_v2/sample_router.py AutoAugment/catf_v2/policy_matrix.py AutoAugment/catf_v2/high_risk_class_ops.py scripts/run_catf_v2_offline_causal_probe.py`
+  - `pytest -q tests/test_catf_v2_causal_probe.py tests/test_catf_v2_riskguard.py tests/test_catf_v2_adaptive_burnin.py tests/test_catf_v2_rollback_controller.py tests/test_catf_v2_gated_controller.py tests/test_catf_v2_safe_controller.py tests/test_catf_v2_transform_bypass.py tests/test_catf_v2_activation_rules.py tests/test_catf_v2_per_class_diagnosis.py tests/test_catf_v2_policy_matrix.py tests/test_catf_v2_sample_router.py tests/test_catf_v2_roi_augmentation.py tests/test_catf_v2_threshold_calibration.py tests/test_feedback_policy_guard.py tests/test_feedback_policy_controller.py tests/test_inloop_feedback_training.py tests/test_online_augmentation.py tests/test_proxy_prefilter.py tests/test_copy_paste.py`
+  - Result: `132 passed`.
+<!-- CP_CATF_OFFLINE_CAUSAL_PROBE_END -->

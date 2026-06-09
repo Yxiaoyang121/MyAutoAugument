@@ -1109,3 +1109,41 @@ No training was run after building or auditing these datasets.
 - Verification already run: py_compile for CP-CATF/training/router/policy/riskguard/offline runner; pytest target suite passed `132 passed`.
 - Next recommended work only if requested: CP-CATF 50ep multiseed validation with strict no-op when no candidate passes, then decide whether CP-CATF can replace Safe/Gated/RB as paper main-method candidate.
 <!-- CP_CATF_OFFLINE_CAUSAL_PROBE_END -->
+
+<!-- CP_CATF_PAPER_MODE_VALIDATION_START -->
+## CP-CATF Paper-Mode Probe Split Validation Handoff
+
+- Current task completed: implemented paper-mode CP-CATF with a train/probe split and ran smoke plus full multiseed validation.
+- New code:
+  - `scripts/create_paper_probe_split.py`
+  - `scripts/summarize_cp_catf_paper_mode.py`
+  - `tests/test_cp_catf_paper_mode.py`
+  - paper-mode arguments and leakage checks in `scripts/train_yolo_default_with_inloop_feedback.py`
+- Dataset split:
+  - Root: `outputs/datasets/tiled/tiled_1024_ov20_full_safe_no_ok_position_paper_probe/`
+  - Original train images `2301`; train_core `2071`; probe `230`; final val `677`.
+  - Split seed `2026`; train_core/probe/final-val overlap count `0`.
+- Smoke:
+  - Run root: `outputs/experiments/cp_catf_paper_mode_10ep_smoke/`
+  - seed2 10ep paper-mode smoke passed.
+  - Policy source was `probe_split`; final val was not used for policy selection.
+  - Candidate decision was `candidate_policy_3_sampler_only`; strict image no-op with industrial samples `0`, ROI `0`, router random draws `0`.
+- Full paper-mode validation:
+  - Run root: `outputs/experiments/multiseed_cp_catf_paper_mode/`
+  - Clean paper baseline and CP-CATF paper-mode both used train_core for training and final val for metrics.
+  - Clean metrics: seed0 `0.7513/0.6763/0.7566/0.5114`; seed1 `0.7220/0.7582/0.7777/0.5251`; seed2 `0.6290/0.6385/0.6590/0.4381`.
+  - CP-CATF paper-mode metrics match clean exactly for all seeds.
+  - Constraint result: `0/3` failed, `3/3` pass.
+  - Mean delta vs clean paper baseline: `+0.0000/+0.0000/+0.0000/+0.0000`.
+  - Final val leakage detected: `false`.
+  - Actual industrial samples augmented, ROI applied, and router random draws were `0` for all CP-CATF paper-mode seeds.
+- Interpretation:
+  - Paper-mode CP-CATF confirms leakage-control and safety behavior.
+  - It does not retain development-mode gains, so it should not yet be presented as the paper main result.
+  - Development-mode CP-CATF remains a feasibility result; next work should improve paper-mode probe evidence with a larger probe split or train hard-example probe set.
+- Reports:
+  - `outputs/datasets/tiled/tiled_1024_ov20_full_safe_no_ok_position_paper_probe/reports/probe_split_report.md`
+  - `outputs/experiments/cp_catf_paper_mode_10ep_smoke/reports/paper_mode_smoke_report.md`
+  - `outputs/experiments/multiseed_cp_catf_paper_mode/reports/multiseed_cp_catf_paper_mode_summary.md`
+- Verification: requested py_compile checks passed; requested pytest suite passed `142 passed`.
+<!-- CP_CATF_PAPER_MODE_VALIDATION_END -->

@@ -1,0 +1,8 @@
+python.exe : 
+ËùÔÚÎ»ÖÃ E:\TJGY\MinPaper\MyAutoAugument\outputs\experiments\multiseed_cp_catf_paper_mode\logs\run_full_paper_mode.ps1:
+30 ×Ö·û: 3
++   & $py @common @extraArgs 2>&1 | Tee-Object -FilePath $log
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 

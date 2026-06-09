@@ -1936,3 +1936,39 @@ Key conclusions from that archived smoke:
   - CP-CATF is the current development-mode main-method candidate because it keeps seed0/seed1 gains and protects seed2.
   - This is not yet a leakage-free paper result. The current offline probe uses existing validation diagnostics; paper-mode CP-CATF must use a train/probe split or train hard-example probe set before final claims.
 <!-- CP_CATF_MULTISEED_TRAINING_VALIDATION_END -->
+
+<!-- CP_CATF_PAPER_MODE_VALIDATION_START -->
+## CP-CATF Paper-Mode Probe Split Validation
+
+- Date: `2026-06-09` to `2026-06-10`.
+- Scope: paper-mode CP-CATF implementation and validation with a train/probe split; final validation was kept out of policy selection.
+- Split command: `python scripts/create_paper_probe_split.py --source-data outputs/datasets/tiled/tiled_1024_ov20_full_safe_no_ok_position/data.yaml --output-root outputs/datasets/tiled/tiled_1024_ov20_full_safe_no_ok_position_paper_probe --split-seed 2026 --probe-ratio 0.10`.
+- Split result: original train `2301`, train_core `2071`, probe `230`, final val `677`, no train_core/probe/final-val overlap.
+- Smoke run: `outputs/experiments/cp_catf_paper_mode_10ep_smoke/`; seed2 10ep passed with `policy_selection_source=probe_split`, `final_val_used_for_policy_selection=false`, selected `candidate_policy_3_sampler_only`, and kept industrial/ROI/router random at `0`.
+- Full run root: `outputs/experiments/multiseed_cp_catf_paper_mode/`.
+- Clean paper baseline final metrics:
+  - seed0: P=0.7513, R=0.6763, mAP50=0.7566, mAP50-95=0.5114.
+  - seed1: P=0.7220, R=0.7582, mAP50=0.7777, mAP50-95=0.5251.
+  - seed2: P=0.6290, R=0.6385, mAP50=0.6590, mAP50-95=0.4381.
+- CP-CATF paper-mode final metrics:
+  - seed0: P=0.7513, R=0.6763, mAP50=0.7566, mAP50-95=0.5114, `constraint_failed=false`.
+  - seed1: P=0.7220, R=0.7582, mAP50=0.7777, mAP50-95=0.5251, `constraint_failed=false`.
+  - seed2: P=0.6290, R=0.6385, mAP50=0.6590, mAP50-95=0.4381, `constraint_failed=false`.
+- Candidate decisions:
+  - seed0 mostly `candidate_policy_3_sampler_only`, with one `candidate_policy_1_roi_texture` accept.
+  - seed1 mostly `candidate_policy_3_sampler_only`, with two `candidate_policy_1_roi_texture` accepts.
+  - seed2 selected sampler-only at epochs 5/10/15/40 and accepted roi_texture at epochs 20/25/30/35/45.
+- Actual image-space augmentation did not execute in any paper-mode CP-CATF seed: industrial samples augmented `0`, ROI applied `0`, router random draw count `0`.
+- Constraint result: `0/3` failed, `3/3` pass.
+- Mean delta vs clean paper baseline: dP=+0.0000, dR=+0.0000, dmAP50=+0.0000, dmAP50-95=+0.0000.
+- Final-val leakage detected: `false`.
+- Interpretation: paper-mode CP-CATF validates the no-leakage safety path but does not retain the development-mode gains. It should not yet be used as the final paper main result; development-mode remains method feasibility evidence, and paper-mode needs stronger probe evidence.
+- Reports:
+  - `outputs/datasets/tiled/tiled_1024_ov20_full_safe_no_ok_position_paper_probe/reports/probe_split_report.md`
+  - `outputs/experiments/cp_catf_paper_mode_10ep_smoke/reports/paper_mode_smoke_report.md`
+  - `outputs/experiments/multiseed_cp_catf_paper_mode/reports/multiseed_cp_catf_paper_mode_summary.md`
+  - `outputs/experiments/multiseed_cp_catf_paper_mode/reports/multiseed_cp_catf_paper_mode_summary.json`
+- Verification:
+  - `python -m py_compile AutoAugment/catf_v2/causal_probe.py scripts/train_yolo_default_with_inloop_feedback.py AutoAugment/catf_v2/sample_router.py AutoAugment/catf_v2/policy_matrix.py`
+  - Requested pytest suite result: `142 passed`.
+<!-- CP_CATF_PAPER_MODE_VALIDATION_END -->

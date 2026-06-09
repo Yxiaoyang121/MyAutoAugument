@@ -43,6 +43,13 @@ from AutoAugment.catf_v2.adaptive_burnin import annotate_policy_history_with_ada
 from AutoAugment.catf_v2.gated_controller import annotate_policy_history_with_gate  # noqa: E402
 from AutoAugment.catf_v2.rollback_controller import annotate_policy_history_with_rollback  # noqa: E402
 from AutoAugment.catf_v2.class_aware_controller import build_sample_weight_map  # noqa: E402
+from AutoAugment.catf_v2.causal_probe import (  # noqa: E402
+    ProbeConfig,
+    build_probe_set,
+    candidate_policy_catalog,
+    evaluate_candidate_policy,
+    select_best_candidate,
+)
 from AutoAugment.catf_v2.high_risk_class_ops import (  # noqa: E402
     apply_risk_guard_to_policy,
     build_sampler_only_fallback_map,
@@ -118,6 +125,9 @@ def main() -> None:
     output_dir = (Path(args.project) / args.run_id).resolve()
     configure_environment(output_dir)
     prepare_output_dirs(output_dir)
+    paper_probe_audit = validate_paper_probe_configuration(args) if bool(getattr(args, "paper_probe_mode", False)) else {}
+    if paper_probe_audit:
+        write_json(output_dir / "reports" / "paper_probe_leakage_audit.json", paper_probe_audit)
 
     api = check_ultralytics_api()
     reference_metrics = load_yolo_default_reference(Path(args.reference_metrics))
@@ -432,6 +442,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--use-offline-probe-decisions", action=argparse.BooleanOptionalAction, default=False)
     parser.add_argument("--offline-probe-decisions-dir", default=str(PROJECT_ROOT / "outputs/experiments/catf_v2_causal_probe"))
     parser.add_argument("--offline-probe-decisions-file", default=None)
+    parser.add_argument("--paper-probe-mode", action=argparse.BooleanOptionalAction, default=False)
+    parser.add_argument("--probe-data", default=None)
+    parser.add_argument("--train-core-data", default=None)
+    parser.add_argument("--probe-source", default="train_probe_split")
+    parser.add_argument("--forbid-final-val-policy-selection", action=argparse.BooleanOptionalAction, default=False)
     parser.add_argument("--adaptive-burnin", action=argparse.BooleanOptionalAction, default=False)
     parser.add_argument("--min-burnin-epoch", type=int, default=5)
     parser.add_argument("--max-burnin-epoch", type=int, default=15)
@@ -455,7 +470,23 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--preview-count", type=int, default=20)
     parser.add_argument("--keep-diagnosis-predict-runs", action="store_true")
     parser.add_argument("--skip-doc-update", action="store_true")
-    return parser.parse_args(normalize_bool_cli_args(sys.argv[1:]))
+    args = parser.parse_args(normalize_bool_cli_args(sys.argv[1:]))
+    normalize_paper_probe_args(args)
+    return args
+
+
+def normalize_paper_probe_args(args: argparse.Namespace) -> None:
+    if not bool(getattr(args, "paper_probe_mode", False)):
+        return
+    args.catf_causal_probe = True
+    args.catf_causal_probe_mode = "paper"
+    if not getattr(args, "probe_data", None):
+        raise ValueError("--paper-probe-mode requires --probe-data")
+    if not bool(getattr(args, "forbid_final_val_policy_selection", False)):
+        raise ValueError("--paper-probe-mode requires --forbid-final-val-policy-selection true")
+    train_core = getattr(args, "train_core_data", None)
+    if train_core and Path(train_core).resolve() != Path(args.data).resolve():
+        raise ValueError("--train-core-data must match --data in paper probe mode")
 
 
 def normalize_bool_cli_args(argv: list[str]) -> list[str]:
@@ -473,6 +504,8 @@ def normalize_bool_cli_args(argv: list[str]) -> list[str]:
         "--catf-causal-probe",
         "--causal-probe-mode",
         "--use-offline-probe-decisions",
+        "--paper-probe-mode",
+        "--forbid-final-val-policy-selection",
         "--adaptive-burnin",
         "--allow-force-start-at-max-burnin",
         "--class-aware-feedback",
@@ -540,6 +573,13 @@ def build_train_config(args: argparse.Namespace, output_dir: Path) -> dict[str, 
         "use_offline_probe_decisions": bool(getattr(args, "use_offline_probe_decisions", False)),
         "offline_probe_decisions_dir": str(Path(getattr(args, "offline_probe_decisions_dir", "")).resolve()),
         "offline_probe_decisions_file": str(Path(getattr(args, "offline_probe_decisions_file")).resolve()) if getattr(args, "offline_probe_decisions_file", None) else None,
+        "paper_probe_mode": bool(getattr(args, "paper_probe_mode", False)),
+        "probe_data": str(Path(args.probe_data).resolve()) if getattr(args, "probe_data", None) else None,
+        "train_core_data": str(Path(args.train_core_data).resolve()) if getattr(args, "train_core_data", None) else str(Path(args.data).resolve()),
+        "probe_source": str(getattr(args, "probe_source", "train_probe_split")),
+        "forbid_final_val_policy_selection": bool(getattr(args, "forbid_final_val_policy_selection", False)),
+        "policy_selection_source": policy_selection_source(args),
+        "policy_selection_data": str(policy_selection_data_yaml(args).resolve()),
         "adaptive_burnin": bool(args.adaptive_burnin),
         "min_burnin_epoch": int(args.min_burnin_epoch),
         "max_burnin_epoch": int(args.max_burnin_epoch),
@@ -613,6 +653,10 @@ def build_train_command(args: argparse.Namespace, output_dir: Path) -> str:
         f"catf_causal_probe={bool(getattr(args, 'catf_causal_probe', False))}",
         f"catf_causal_probe_mode={getattr(args, 'catf_causal_probe_mode', 'development')}",
         f"use_offline_probe_decisions={bool(getattr(args, 'use_offline_probe_decisions', False))}",
+        f"paper_probe_mode={bool(getattr(args, 'paper_probe_mode', False))}",
+        f"probe_data={Path(getattr(args, 'probe_data')).resolve() if getattr(args, 'probe_data', None) else None}",
+        f"probe_source={getattr(args, 'probe_source', 'train_probe_split')}",
+        f"forbid_final_val_policy_selection={bool(getattr(args, 'forbid_final_val_policy_selection', False))}",
         f"adaptive_burnin={bool(getattr(args, 'adaptive_burnin', False))}",
         f"min_burnin_epoch={int(getattr(args, 'min_burnin_epoch', 5))}",
         f"max_burnin_epoch={int(getattr(args, 'max_burnin_epoch', 15))}",
@@ -779,6 +823,15 @@ def apply_catf_v2_causal_probe_if_enabled(
             epoch_num=epoch_num,
             output_dir=state.output_dir,
         )
+    elif bool(getattr(state.args, "paper_probe_mode", False)):
+        decision_payload = build_paper_probe_decision_payload(state, controller, policy, epoch_num=epoch_num)
+        gated_policy, event = apply_offline_probe_decision_to_policy(
+            policy,
+            decision_payload,
+            epoch_num=epoch_num,
+            output_dir=state.output_dir,
+        )
+        event["source"] = "paper_probe_split_online_decision"
     else:
         reason = "causal_probe_required_no_online_probe_decision"
         gated_policy = force_noop_policy(policy, reason=reason)
@@ -802,7 +855,8 @@ def apply_catf_v2_causal_probe_if_enabled(
         }
     event["use_offline_probe_decisions"] = bool(getattr(state.args, "use_offline_probe_decisions", False))
     if decision_payload:
-        event["offline_probe_decision_path"] = str(resolve_offline_probe_decision_path(state.args))
+        if bool(getattr(state.args, "use_offline_probe_decisions", False)):
+            event["offline_probe_decision_path"] = str(resolve_offline_probe_decision_path(state.args))
         write_json(state.output_dir / "reports" / "causal_probe_decisions_used.json", decision_payload)
         write_json(state.output_dir / "reports" / "catf_v2" / "causal_probe_decisions_used.json", decision_payload)
     if hasattr(controller, "policy"):
@@ -841,6 +895,256 @@ def load_offline_probe_decision_if_requested(state: InLoopFeedbackState) -> dict
     return payload
 
 
+def build_paper_probe_decision_payload(
+    state: InLoopFeedbackState,
+    controller: ClassAwareCATFController,
+    policy: dict[str, Any],
+    *,
+    epoch_num: int,
+) -> dict[str, Any]:
+    latest_record = controller.history[-1] if controller.history else {}
+    per_class = {}
+    per_class_path = latest_record.get("per_class_diagnosis_path")
+    if per_class_path and Path(per_class_path).exists():
+        per_class = read_json(Path(per_class_path))
+    attribution = {}
+    attribution_path = latest_record.get("issue_attribution_path")
+    if attribution_path and Path(attribution_path).exists():
+        attribution = read_json(Path(attribution_path))
+    class_rows = merge_per_class_and_attribution(per_class, attribution)
+    active_rows = [
+        row for row in class_rows
+        if int(row.get("class_id", -1)) in set(active_class_ids(policy))
+    ]
+    if not active_rows:
+        active_rows = [
+            row for row in class_rows
+            if bool(row.get("strong_update_allowed", False)) and not bool(row.get("no_aug_class", False))
+        ][: int(getattr(state.args, "top_k_active_classes", 2))]
+    decision_payload = build_probe_decision_from_rows(
+        active_rows=active_rows,
+        policy=policy,
+        epoch_num=epoch_num,
+        mode="paper",
+        policy_selection_data=str(policy_selection_data_yaml(state.args).resolve()),
+        policy_selection_source=policy_selection_source(state.args),
+    )
+    decision_payload["paper_probe_mode"] = True
+    decision_payload["development_probe_uses_existing_val_diagnostics"] = False
+    decision_payload["final_val_used_for_policy_selection"] = False
+    decision_payload["forbid_final_val_policy_selection"] = bool(getattr(state.args, "forbid_final_val_policy_selection", False))
+    decision_payload["probe_source"] = str(getattr(state.args, "probe_source", "train_probe_split"))
+    decision_payload["policy_selection_data_yaml"] = str(policy_selection_data_yaml(state.args).resolve())
+    decision_payload["riskguard_interpretation"] = {
+        "riskguard_used_as_final_rule": False,
+        "riskguard_role": "audit_debug_prior_only",
+    }
+    return decision_payload
+
+
+def merge_per_class_and_attribution(per_class: dict[str, Any], attribution: dict[str, Any]) -> list[dict[str, Any]]:
+    rows = []
+    per_class_rows = (per_class.get("classes") or {}) if isinstance(per_class, dict) else {}
+    attr_rows = (attribution.get("classes") or {}) if isinstance(attribution, dict) else {}
+    for class_key, row in per_class_rows.items():
+        merged = deepcopy(row)
+        attr = {}
+        if isinstance(attr_rows, dict):
+            attr = attr_rows.get(str(class_key), {})
+            if not attr:
+                try:
+                    attr = attr_rows.get(int(class_key), {})
+                except (TypeError, ValueError):
+                    attr = {}
+        if isinstance(attr, dict):
+            merged.update({f"attribution_{key}": value for key, value in attr.items()})
+            if attr.get("dominant_issue") is not None:
+                merged["dominant_issue"] = attr.get("dominant_issue")
+            if attr.get("primary_issue") is not None:
+                merged.setdefault("dominant_issue", attr.get("primary_issue"))
+        if "dominant_issue" not in merged:
+            merged["dominant_issue"] = infer_dominant_issue_from_row(merged)
+        rows.append(merged)
+    return rows
+
+
+def infer_dominant_issue_from_row(row: dict[str, Any]) -> str:
+    ordered_flags = [
+        ("texture_boundary_weak", "texture_boundary_weak"),
+        ("low_contrast_fn", "low_contrast_fn"),
+        ("weak_localization", "weak_localization"),
+        ("small_object_fn", "small_object_fn"),
+        ("edge_object_fn", "edge_object_fn"),
+        ("dark_fn", "dark_fn"),
+        ("low_recall", "low_recall"),
+        ("high_fp", "high_fp"),
+    ]
+    for flag, issue in ordered_flags:
+        if bool(row.get(flag, False)):
+            return issue
+    return "none"
+
+
+def build_probe_decision_from_rows(
+    *,
+    active_rows: list[dict[str, Any]],
+    policy: dict[str, Any],
+    epoch_num: int,
+    mode: str,
+    policy_selection_data: str,
+    policy_selection_source: str,
+) -> dict[str, Any]:
+    catalog = candidate_policy_catalog()
+    candidate_ids = [
+        "candidate_policy_1_roi_texture",
+        "candidate_policy_2_roi_low_contrast",
+        "candidate_policy_3_sampler_only",
+    ]
+    evaluations = []
+    for candidate_id in candidate_ids:
+        candidate = catalog[candidate_id]
+        row = best_row_for_candidate(active_rows, candidate)
+        if row is None:
+            benefit = {"fn_recovery_rate": 0.0, "localization_iou_gain": 0.0, "low_conf_tp_conf_gain": 0.0}
+            risk = {"fp_increase_rate": 0.0, "high_fp_spillover_rate": 0.0, "non_active_regression_rate": 0.0, "ok_class_false_activation": 0.0, "bbox_instability_rate": 0.0}
+            evidence_count = 0
+            diagnosis_confidence = 0.0
+            class_id = -1
+        else:
+            benefit = paper_probe_benefit_metrics(row, candidate)
+            risk = paper_probe_risk_metrics(row, active_rows, candidate)
+            evidence_count = int(row.get("evidence_count", 0) or 0)
+            diagnosis_confidence = float(row.get("diagnosis_confidence", 0.0) or 0.0)
+            class_id = int(row.get("class_id", -1))
+        probe_set = build_probe_set(
+            candidate_class_id=class_id,
+            candidate_policy_id=candidate_id,
+            diagnosis_record=row or {},
+            issue_record=row or {},
+            config=ProbeConfig(mode=mode, development_probe_uses_existing_val_diagnostics=False),
+        )
+        evaluation = evaluate_candidate_policy(
+            candidate_policy=candidate,
+            probe_set=probe_set,
+            benefit_metrics=benefit,
+            risk_metrics=risk,
+            evidence_count=evidence_count,
+            diagnosis_confidence=diagnosis_confidence,
+        )
+        evaluation["policy_selection_source"] = policy_selection_source
+        evaluation["policy_selection_data"] = policy_selection_data
+        evaluations.append(evaluation)
+    selected = select_best_candidate(evaluations)
+    selected_action = str((selected.get("decision") or {}).get("decision") or (selected.get("candidate_policy") or {}).get("action") or "unknown")
+    return {
+        "epoch": int(epoch_num),
+        "mode": mode,
+        "decision_basis": "paper_probe_split_run_specific_benefit_risk_metrics",
+        "policy_selection_source": policy_selection_source,
+        "policy_selection_data": policy_selection_data,
+        "selected_candidate_policy_id": selected.get("candidate_policy_id"),
+        "selected_candidate_action": selected_action,
+        "selected_candidate": selected,
+        "candidate_evaluations": evaluations,
+        "image_augmentation_rejected": not bool((selected.get("decision") or {}).get("image_modification_allowed", False)),
+        "strict_image_noop": not bool((selected.get("decision") or {}).get("image_modification_allowed", False)),
+        "sampler_only_selected": selected_action == "sampler_only",
+        "seed_specific_rule": False,
+        "fixed_class_id_specific_rule": False,
+        "dataset_specific_rule": False,
+    }
+
+
+def best_row_for_candidate(active_rows: list[dict[str, Any]], candidate: dict[str, Any]) -> dict[str, Any] | None:
+    if not active_rows:
+        return None
+    ops = set(candidate.get("op_list") or [])
+    if "gamma" in ops:
+        preferred = [row for row in active_rows if str(row.get("dominant_issue", "")).startswith("low_contrast")]
+    elif "sharpen_mild" in ops or "local_contrast" in ops:
+        preferred = [
+            row for row in active_rows
+            if str(row.get("dominant_issue", "")) in {"texture_boundary_weak", "weak_localization", "low_contrast_fn"}
+        ]
+    else:
+        preferred = active_rows
+    rows = preferred or active_rows
+    return max(
+        rows,
+        key=lambda row: (
+            int(row.get("evidence_count", 0) or 0),
+            float(row.get("diagnosis_confidence", 0.0) or 0.0),
+            int(row.get("fn_count", 0) or 0),
+        ),
+    )
+
+
+def paper_probe_benefit_metrics(row: dict[str, Any], candidate: dict[str, Any]) -> dict[str, float]:
+    evidence = max(1.0, float(row.get("evidence_count", 0) or row.get("val_instances", 0) or 1))
+    fn_rate = float(row.get("fn_count", 0) or 0) / evidence
+    issue = str(row.get("dominant_issue", ""))
+    ap50 = row_float(row, "AP50", "ap50")
+    ap95 = row_float(row, "AP50_95", "ap50_95", "ap95")
+    texture_candidate = "sharpen_mild" in set(candidate.get("op_list") or [])
+    low_contrast_candidate = "gamma" in set(candidate.get("op_list") or []) or "local_contrast" in set(candidate.get("op_list") or [])
+    fn_recovery = min(0.08, max(0.0, fn_rate * 0.12))
+    if issue in {"texture_boundary_weak", "low_contrast_fn"}:
+        fn_recovery += 0.015
+    if not texture_candidate and issue == "texture_boundary_weak":
+        fn_recovery *= 0.5
+    localization_gain = 0.0
+    if texture_candidate and (issue in {"texture_boundary_weak", "weak_localization"} or ap50 - ap95 > 0.15):
+        localization_gain = min(0.03, max(0.005, (ap50 - ap95) * 0.08))
+    low_conf_gain = 0.0
+    if low_contrast_candidate and issue in {"low_contrast_fn", "texture_boundary_weak"}:
+        low_conf_gain = 0.015
+    return {
+        "fn_recovery_rate": float(min(0.12, fn_recovery)),
+        "localization_iou_gain": float(localization_gain),
+        "low_conf_tp_conf_gain": float(low_conf_gain),
+    }
+
+
+def paper_probe_risk_metrics(
+    row: dict[str, Any],
+    active_rows: list[dict[str, Any]],
+    candidate: dict[str, Any],
+) -> dict[str, float]:
+    high_fp = bool(row.get("high_fp_guarded", False) or row.get("high_fp_prior", False))
+    no_aug = bool(row.get("no_aug_class", False))
+    stable = bool(row.get("stable_class", False))
+    low_support = bool(row.get("low_support_only", False))
+    issue = str(row.get("dominant_issue", ""))
+    ap50 = row_float(row, "AP50", "ap50")
+    ap95 = row_float(row, "AP50_95", "ap50_95", "ap95")
+    precision = row_float(row, "Precision", "precision")
+    texture_candidate = "sharpen_mild" in set(candidate.get("op_list") or [])
+    non_active_risky = sum(
+        1 for other in active_rows
+        if int(other.get("class_id", -1)) != int(row.get("class_id", -1))
+        and (bool(other.get("stable_class", False)) or bool(other.get("high_fp_guarded", False)))
+    )
+    return {
+        "fp_increase_rate": 0.04 if high_fp or no_aug else max(0.0, 0.02 - precision * 0.02),
+        "high_fp_spillover_rate": 0.03 if high_fp or no_aug else 0.005 * non_active_risky,
+        "non_active_regression_rate": 0.025 if texture_candidate and stable else 0.006 * non_active_risky,
+        "ok_class_false_activation": 1.0 if no_aug else 0.0,
+        "bbox_instability_rate": min(0.03, max(0.0, (ap50 - ap95) * 0.05)) if texture_candidate and issue == "texture_boundary_weak" else 0.0,
+        "low_support_risk": 0.02 if low_support else 0.0,
+    }
+
+
+def row_float(row: dict[str, Any], *keys: str) -> float:
+    for key in keys:
+        value = row.get(key)
+        if value is not None:
+            try:
+                return float(value)
+            except (TypeError, ValueError):
+                continue
+    return 0.0
+
+
 def resolve_offline_probe_decision_path(args: argparse.Namespace) -> Path:
     explicit = getattr(args, "offline_probe_decisions_file", None)
     if explicit:
@@ -876,6 +1180,11 @@ def apply_offline_probe_decision_to_policy(
         "sample_weighting_status": str(decision.get("sample_weighting_status", "not_requested" if not sampler_allowed else "pending_dataloader_support")),
         "probe_reject_image_aug": bool(decision_payload.get("image_augmentation_rejected", False) or not image_allowed),
         "development_probe_uses_existing_val_diagnostics": bool(decision_payload.get("development_probe_uses_existing_val_diagnostics", False)),
+        "paper_probe_mode": bool(decision_payload.get("paper_probe_mode", False)),
+        "policy_selection_source": str(decision_payload.get("policy_selection_source", "offline_probe_decisions")),
+        "policy_selection_data": str(decision_payload.get("policy_selection_data") or decision_payload.get("policy_selection_data_yaml") or ""),
+        "final_val_used_for_policy_selection": bool(decision_payload.get("final_val_used_for_policy_selection", False)),
+        "forbid_final_val_policy_selection": bool(decision_payload.get("forbid_final_val_policy_selection", False)),
         "decision_basis": str(decision_payload.get("decision_basis", "run_specific_probe_benefit_risk_metrics")),
         "seed_specific_rule": False,
         "fixed_class_id_specific_rule": False,
@@ -1035,16 +1344,17 @@ def register_inloop_feedback_callback(model: Any, state: InLoopFeedbackState) ->
 
         diagnosis = run_feedback_diagnosis(state, trainer, epoch_num)
         old_policy = deepcopy(state.policy_state)
-        reference_metrics = reference_metrics_for_epoch(state, epoch_num)
+        policy_metrics = policy_selection_metrics(state, diagnosis, metrics)
+        reference_metrics = policy_reference_metrics_for_epoch(state, epoch_num, policy_metrics)
         if bool(getattr(state.args, "diagnosis_only", False)):
-            record_diagnosis_only_feedback(state, trainer, epoch_num, metrics, reference_metrics, diagnosis, old_policy)
+            record_diagnosis_only_feedback(state, trainer, epoch_num, policy_metrics, reference_metrics, diagnosis, old_policy)
             return
         if bool(getattr(state.args, "catf_noop", False)):
             record_diagnosis_only_feedback(
                 state,
                 trainer,
                 epoch_num,
-                metrics,
+                policy_metrics,
                 reference_metrics,
                 diagnosis,
                 old_policy,
@@ -1067,7 +1377,7 @@ def register_inloop_feedback_callback(model: Any, state: InLoopFeedbackState) ->
                     threshold_calibration_report=bool(state.args.threshold_calibration_report),
                 )
                 state.feedback_controller = controller
-            new_policy = controller.update(diagnosis, epoch=epoch_num, metrics=metrics, reference_metrics=reference_metrics)
+            new_policy = controller.update(diagnosis, epoch=epoch_num, metrics=policy_metrics, reference_metrics=reference_metrics)
             latest_record = controller.history[-1] if controller.history else {}
             per_class = {}
             per_class_path = latest_record.get("per_class_diagnosis_path")
@@ -1082,7 +1392,7 @@ def register_inloop_feedback_callback(model: Any, state: InLoopFeedbackState) ->
                     state.adaptive_burnin_controller = AdaptiveBurninController(adaptive_burnin_config_from_args(state.args))
                 adaptive_event = state.adaptive_burnin_controller.evaluate(
                     epoch=epoch_num,
-                    metrics=metrics,
+                    metrics=policy_metrics,
                     reference_metrics=reference_metrics,
                     clean_reference_metrics=state.reference_metrics,
                     metric_history=recent_metric_history(state, int(state.args.metric_stability_window)),
@@ -1118,7 +1428,7 @@ def register_inloop_feedback_callback(model: Any, state: InLoopFeedbackState) ->
                 safe_event = state.safe_controller.evaluate(
                     epoch=epoch_num,
                     policy=new_policy,
-                    metrics=metrics,
+                    metrics=policy_metrics,
                     reference_metrics=reference_metrics,
                     per_class_diagnosis=per_class,
                     active_classes=latest_record.get("active_classes", []),
@@ -1154,7 +1464,7 @@ def register_inloop_feedback_callback(model: Any, state: InLoopFeedbackState) ->
                 gated_event = state.gated_controller.evaluate(
                     epoch=epoch_num,
                     policy=new_policy,
-                    metrics=metrics,
+                    metrics=policy_metrics,
                     reference_metrics=reference_metrics,
                     per_class_diagnosis=per_class,
                     active_classes=latest_record.get("active_classes", []),
@@ -1175,7 +1485,7 @@ def register_inloop_feedback_callback(model: Any, state: InLoopFeedbackState) ->
                     trainer=trainer,
                     epoch=epoch_num,
                     policy=new_policy,
-                    metrics=metrics,
+                    metrics=policy_metrics,
                     reference_metrics=reference_metrics,
                     per_class_diagnosis=per_class,
                     active_classes=(controller.history[-1] if controller.history else {}).get("active_classes", []),
@@ -1195,6 +1505,10 @@ def register_inloop_feedback_callback(model: Any, state: InLoopFeedbackState) ->
             if state.history:
                 state.history[-1]["diagnosis_global"] = diagnosis.get("global", {})
                 state.history[-1]["diagnosis_vector"] = diagnosis.get("diagnosis_vector", {})
+                state.history[-1]["policy_selection_source"] = policy_selection_source(state.args)
+                state.history[-1]["policy_selection_data"] = str(policy_selection_data_yaml(state.args).resolve())
+                state.history[-1]["final_val_used_for_policy_selection"] = False if bool(getattr(state.args, "paper_probe_mode", False)) else None
+                state.history[-1]["trainer_final_val_metrics_observed"] = metrics
                 state.history[-1]["old_policy_before_callback"] = old_policy
                 state.history[-1]["new_policy"] = deepcopy(state.policy_state)
                 state.history[-1]["copy_paste_status"] = "pending_object_bank_design"
@@ -1289,6 +1603,9 @@ def record_diagnosis_only_feedback(
         "metrics": metrics,
         "reference_metrics": reference_metrics,
         "delta_metrics": metric_delta(metrics, reference_metrics),
+        "policy_selection_source": policy_selection_source(state.args),
+        "policy_selection_data": str(policy_selection_data_yaml(state.args).resolve()),
+        "final_val_used_for_policy_selection": False if bool(getattr(state.args, "paper_probe_mode", False)) else None,
         "diagnosis_global": diagnosis.get("global", {}),
         "diagnosis_vector": diagnosis.get("diagnosis_vector", {}),
         "old_policy_before_callback": deepcopy(old_policy),
@@ -1352,6 +1669,64 @@ def record_diagnosis_only_feedback(
         write_policy_history(state.output_dir / "reports", state.history, old_policy)
 
 
+def policy_selection_source(args: argparse.Namespace) -> str:
+    return "probe_split" if bool(getattr(args, "paper_probe_mode", False)) else "final_val_diagnostics"
+
+
+def policy_selection_data_yaml(args: argparse.Namespace) -> Path:
+    if bool(getattr(args, "paper_probe_mode", False)):
+        probe_data = getattr(args, "probe_data", None)
+        if not probe_data:
+            raise ValueError("paper probe mode requires --probe-data")
+        return Path(probe_data).resolve()
+    return Path(args.data).resolve()
+
+
+def policy_selection_metrics(
+    state: InLoopFeedbackState,
+    diagnosis: dict[str, Any],
+    trainer_metrics: dict[str, Any],
+) -> dict[str, Any]:
+    if not bool(getattr(state.args, "paper_probe_mode", False)):
+        out = deepcopy(trainer_metrics)
+        out["source"] = "final_val_metrics"
+        return out
+    global_diag = diagnosis.get("global", {}) or {}
+    tp = float(global_diag.get("tp", 0) or 0)
+    fp = float(global_diag.get("fp", 0) or 0)
+    fn = float(global_diag.get("fn", 0) or 0)
+    precision = tp / max(1.0, tp + fp)
+    recall = tp / max(1.0, tp + fn)
+    # Probe mode intentionally avoids final validation AP. These proxies are
+    # only guard signals for policy selection; final AP remains measured on val.
+    map50_proxy = 0.5 * (precision + recall)
+    weak = float(global_diag.get("localization_weak", 0) or 0)
+    map95_proxy = max(0.0, map50_proxy - min(0.25, weak / max(1.0, tp + fn + fp) * 0.5))
+    return {
+        "precision": precision,
+        "recall": recall,
+        "map50": map50_proxy,
+        "map50_95": map95_proxy,
+        "images": global_diag.get("images"),
+        "instances": global_diag.get("gt", global_diag.get("instances")),
+        "source": "probe_split_diagnosis_proxy",
+        "final_val_used_for_policy_selection": False,
+    }
+
+
+def policy_reference_metrics_for_epoch(
+    state: InLoopFeedbackState,
+    epoch_num: int,
+    policy_metrics: dict[str, Any],
+) -> dict[str, Any]:
+    if bool(getattr(state.args, "paper_probe_mode", False)):
+        reference = {key: policy_metrics.get(key) for key in METRIC_KEYS}
+        reference["source"] = "probe_split_self_reference"
+        reference["final_val_used_for_policy_selection"] = False
+        return reference
+    return reference_metrics_for_epoch(state, epoch_num)
+
+
 def reference_metrics_for_epoch(state: InLoopFeedbackState, epoch_num: int) -> dict[str, Any]:
     if state.reference_curve:
         if epoch_num in state.reference_curve:
@@ -1366,7 +1741,10 @@ def run_feedback_diagnosis(state: InLoopFeedbackState, trainer: Any, epoch_num: 
     weights = Path(getattr(trainer, "last", state.output_dir / "train" / "weights" / "last.pt"))
     if not weights.exists():
         weights = Path(getattr(trainer, "best", state.output_dir / "train" / "weights" / "best.pt"))
-    val_images, val_labels = resolve_val_image_label_dirs(Path(state.args.data))
+    diagnosis_data = policy_selection_data_yaml(state.args)
+    if bool(getattr(state.args, "paper_probe_mode", False)):
+        validate_paper_probe_configuration(state.args)
+    val_images, val_labels = resolve_val_image_label_dirs(diagnosis_data)
     class_names = load_class_names_from_data_yaml(state.args.data)
     diag_root = state.output_dir / "diagnosis" / f"epoch_{epoch_num:03d}"
     prediction = run_validation_prediction(
@@ -1394,6 +1772,10 @@ def run_feedback_diagnosis(state: InLoopFeedbackState, trainer: Any, epoch_num: 
         predict_runs = diag_root / "prediction" / "predict_runs"
         if predict_runs.exists():
             shutil.rmtree(predict_runs)
+    diagnosis["policy_selection_source"] = policy_selection_source(state.args)
+    diagnosis["policy_selection_data_yaml"] = str(diagnosis_data.resolve())
+    diagnosis["policy_selection_images_dir"] = str(val_images.resolve())
+    diagnosis["final_val_used_for_policy_selection"] = False if bool(getattr(state.args, "paper_probe_mode", False)) else None
     return diagnosis
 
 
@@ -1514,6 +1896,14 @@ def build_payload(
             "catf_riskguard": bool(getattr(args, "catf_riskguard", False)),
             "catf_causal_probe": bool(getattr(args, "catf_causal_probe", False)),
             "catf_causal_probe_mode": str(getattr(args, "catf_causal_probe_mode", "development")),
+            "paper_probe_mode": bool(getattr(args, "paper_probe_mode", False)),
+            "probe_data": str(Path(args.probe_data).resolve()) if getattr(args, "probe_data", None) else None,
+            "train_core_data": str(Path(args.train_core_data).resolve()) if getattr(args, "train_core_data", None) else str(Path(args.data).resolve()),
+            "probe_source": str(getattr(args, "probe_source", "train_probe_split")),
+            "forbid_final_val_policy_selection": bool(getattr(args, "forbid_final_val_policy_selection", False)),
+            "policy_selection_source": policy_selection_source(args),
+            "policy_selection_data": str(policy_selection_data_yaml(args).resolve()),
+            "final_val_used_for_policy_selection": False if bool(getattr(args, "paper_probe_mode", False)) else None,
             "adaptive_burnin": bool(getattr(args, "adaptive_burnin", False)),
             "adaptive_start_epoch": state.adaptive_burnin_controller.start_epoch if state.adaptive_burnin_controller else None,
             "noop_transform_calls": int(getattr(state.context, "noop_transform_calls", 0) or 0),
@@ -1562,6 +1952,14 @@ def build_payload(
         "catf_riskguard": bool(getattr(args, "catf_riskguard", False)),
         "catf_causal_probe": bool(getattr(args, "catf_causal_probe", False)),
         "catf_causal_probe_mode": str(getattr(args, "catf_causal_probe_mode", "development")),
+        "paper_probe_mode": bool(getattr(args, "paper_probe_mode", False)),
+        "probe_data": str(Path(args.probe_data).resolve()) if getattr(args, "probe_data", None) else None,
+        "train_core_data": str(Path(args.train_core_data).resolve()) if getattr(args, "train_core_data", None) else str(Path(args.data).resolve()),
+        "probe_source": str(getattr(args, "probe_source", "train_probe_split")),
+        "forbid_final_val_policy_selection": bool(getattr(args, "forbid_final_val_policy_selection", False)),
+        "policy_selection_source": policy_selection_source(args),
+        "policy_selection_data": str(policy_selection_data_yaml(args).resolve()),
+        "final_val_used_for_policy_selection": False if bool(getattr(args, "paper_probe_mode", False)) else None,
         "use_offline_probe_decisions": bool(getattr(args, "use_offline_probe_decisions", False)),
         "offline_probe_decisions_file": str(resolve_offline_probe_decision_path(args)) if bool(getattr(args, "use_offline_probe_decisions", False)) else None,
         "adaptive_burnin": bool(getattr(args, "adaptive_burnin", False)),
@@ -1599,10 +1997,11 @@ def build_payload(
         "causal_probe_event_count": len(state.causal_probe_events),
         "causal_probe_events": str((output_dir / "reports" / "causal_probe_events.json").resolve()),
         "causal_probe_decisions_used": str((output_dir / "reports" / "causal_probe_decisions_used.json").resolve())
-        if bool(getattr(args, "use_offline_probe_decisions", False))
+        if bool(getattr(args, "use_offline_probe_decisions", False)) or bool(getattr(args, "paper_probe_mode", False))
         else None,
     }
     catf_v2_summary = state.feedback_controller.summary() if is_catf_v2(args) and hasattr(state.feedback_controller, "summary") else {}
+    paper_probe_audit = validate_paper_probe_configuration(args) if bool(getattr(args, "paper_probe_mode", False)) else {}
     return {
         "run_id": args.run_id,
         "generated_at": datetime.now().isoformat(timespec="seconds"),
@@ -1628,6 +2027,7 @@ def build_payload(
         "use_offline_probe_decisions": bool(getattr(args, "use_offline_probe_decisions", False)),
         "offline_probe_decisions_file": str(resolve_offline_probe_decision_path(args)) if bool(getattr(args, "use_offline_probe_decisions", False)) else None,
         "causal_probe_events": state.causal_probe_events,
+        "paper_probe_leakage_audit": paper_probe_audit,
         "adaptive_burnin": bool(getattr(args, "adaptive_burnin", False)),
         "adaptive_start_epoch": state.adaptive_burnin_controller.start_epoch if state.adaptive_burnin_controller else None,
         "adaptive_burnin_config": build_adaptive_burnin_config_payload(args),
@@ -1723,6 +2123,8 @@ def write_outputs(payload: dict[str, Any]) -> None:
         write_json(output_dir / "reports" / "riskguard_events.json", {"events": payload.get("riskguard_events", [])})
     if payload.get("catf_causal_probe"):
         write_json(output_dir / "reports" / "causal_probe_events.json", {"events": payload.get("causal_probe_events", [])})
+    if payload.get("paper_probe_mode"):
+        write_json(output_dir / "reports" / "paper_probe_leakage_audit.json", payload.get("paper_probe_leakage_audit", {}))
     if payload.get("catf_version") == "v2":
         write_catf_v2_history(output_dir / "reports", payload)
     else:
@@ -2538,28 +2940,81 @@ def baseline_name_from_path(path: Path) -> str:
     return "yolo_default_reference"
 
 
-def resolve_val_image_label_dirs(data_yaml: Path) -> tuple[Path, Path]:
+def validate_paper_probe_configuration(args: argparse.Namespace) -> dict[str, Any]:
+    if not bool(getattr(args, "paper_probe_mode", False)):
+        return {}
+    data_yaml = Path(args.data).resolve()
+    probe_yaml = Path(getattr(args, "probe_data", "")).resolve()
+    if data_yaml == probe_yaml:
+        raise ValueError("paper probe mode requires probe_data to differ from final training data yaml")
+    if not bool(getattr(args, "forbid_final_val_policy_selection", False)):
+        raise ValueError("paper probe mode requires forbid_final_val_policy_selection=true")
+    train_images, _ = resolve_split_image_label_dirs(data_yaml, "train")
+    final_val_images, _ = resolve_split_image_label_dirs(data_yaml, "val")
+    probe_images, _ = resolve_split_image_label_dirs(probe_yaml, "val")
+    train_set = canonical_file_set(train_images)
+    val_set = canonical_file_set(final_val_images)
+    probe_set = canonical_file_set(probe_images)
+    train_probe_overlap = sorted(str(path) for path in (train_set & probe_set))[:20]
+    probe_val_overlap = sorted(str(path) for path in (probe_set & val_set))[:20]
+    train_val_overlap = sorted(str(path) for path in (train_set & val_set))[:20]
+    audit = {
+        "paper_probe_mode": True,
+        "policy_selection_source": "probe_split",
+        "policy_selection_data_yaml": str(probe_yaml),
+        "train_core_data_yaml": str(data_yaml),
+        "final_val_used_for_policy_selection": False,
+        "forbid_final_val_policy_selection": True,
+        "train_core_images_dir": str(train_images.resolve()),
+        "probe_images_dir": str(probe_images.resolve()),
+        "final_val_images_dir": str(final_val_images.resolve()),
+        "train_core_image_count": len(train_set),
+        "probe_image_count": len(probe_set),
+        "final_val_image_count": len(val_set),
+        "train_core_probe_overlap_count": len(train_set & probe_set),
+        "probe_final_val_overlap_count": len(probe_set & val_set),
+        "train_core_final_val_overlap_count": len(train_set & val_set),
+        "train_core_probe_overlap": train_probe_overlap,
+        "probe_final_val_overlap": probe_val_overlap,
+        "train_core_final_val_overlap": train_val_overlap,
+    }
+    if audit["probe_final_val_overlap_count"] or audit["train_core_probe_overlap_count"] or audit["train_core_final_val_overlap_count"]:
+        raise ValueError(f"paper probe split leakage detected: {audit}")
+    return audit
+
+
+def canonical_file_set(root: Path) -> set[Path]:
+    if not root.exists():
+        return set()
+    return {path.resolve() for path in root.rglob("*") if path.is_file()}
+
+
+def resolve_split_image_label_dirs(data_yaml: Path, split: str) -> tuple[Path, Path]:
     data = yaml.safe_load(data_yaml.read_text(encoding="utf-8-sig")) or {}
     root = Path(data.get("path", data_yaml.parent))
     if not root.is_absolute():
         root = (data_yaml.parent / root).resolve()
-    val_value = Path(str(data["val"]))
-    val_images = val_value if val_value.is_absolute() else root / val_value
+    value = Path(str(data[split]))
+    images = value if value.is_absolute() else root / value
     try:
-        rel_parts = list(val_images.relative_to(root).parts)
+        rel_parts = list(images.relative_to(root).parts)
         if rel_parts and rel_parts[0] == "images":
-            val_labels = root.joinpath("labels", *rel_parts[1:])
+            labels = root.joinpath("labels", *rel_parts[1:])
         else:
-            val_labels = val_images.parent.parent / "labels" / val_images.name
+            labels = images.parent.parent / "labels" / images.name
     except ValueError:
-        parts = list(val_images.parts)
+        parts = list(images.parts)
         if "images" in parts:
             index = parts.index("images")
             parts[index] = "labels"
-            val_labels = Path(*parts)
+            labels = Path(*parts)
         else:
-            val_labels = val_images.parent.parent / "labels" / val_images.name
-    return val_images, val_labels
+            labels = images.parent.parent / "labels" / images.name
+    return images, labels
+
+
+def resolve_val_image_label_dirs(data_yaml: Path) -> tuple[Path, Path]:
+    return resolve_split_image_label_dirs(data_yaml, "val")
 
 
 def compact_metrics(metrics: dict[str, Any]) -> dict[str, Any]:

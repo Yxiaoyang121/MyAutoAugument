@@ -1,0 +1,309 @@
+{
+  "method": "heuristic_diagnostic_advisor",
+  "issues": [
+    {
+      "issue": "small_object_fn_high",
+      "severity": "medium",
+      "observed_fn_rate": 0.431438127090301,
+      "recommendations": [
+        "increase_tile_overlap",
+        "enable_object_aware_crop",
+        "reduce_blur_noise_strength",
+        "prefer_sharpen_clahe"
+      ]
+    },
+    {
+      "issue": "edge_object_fn_high",
+      "severity": "medium",
+      "observed_fn_rate": 0.3522727272727273,
+      "recommendations": [
+        "increase_tile_overlap",
+        "increase_translate",
+        "enable_edge_aware_crop"
+      ]
+    },
+    {
+      "issue": "low_contrast_fn_high",
+      "severity": "medium",
+      "observed_rate": 0.5730337078651685,
+      "recommendations": [
+        "increase_contrast",
+        "increase_gamma",
+        "increase_clahe",
+        "use_sharpen"
+      ]
+    },
+    {
+      "issue": "exposure_fn_high",
+      "severity": "medium",
+      "dark_rate": 0.4550561797752809,
+      "bright_rate": 0.0,
+      "recommendations": [
+        "brightness",
+        "gamma",
+        "exposure_jitter"
+      ]
+    },
+    {
+      "issue": "class_recall_imbalance",
+      "severity": "medium",
+      "classes": [
+        {
+          "class_id": 2,
+          "class_name": "加强筋打伤",
+          "fn_rate": 1.0
+        },
+        {
+          "class_id": 3,
+          "class_name": "开裂",
+          "fn_rate": 1.0
+        },
+        {
+          "class_id": 4,
+          "class_name": "油污",
+          "fn_rate": 0.9411764705882353
+        },
+        {
+          "class_id": 5,
+          "class_name": "浅划伤",
+          "fn_rate": 1.0
+        },
+        {
+          "class_id": 6,
+          "class_name": "漏背锡",
+          "fn_rate": 0.625
+        },
+        {
+          "class_id": 8,
+          "class_name": "脏污",
+          "fn_rate": 1.0
+        },
+        {
+          "class_id": 9,
+          "class_name": "轮廓划伤",
+          "fn_rate": 0.7
+        },
+        {
+          "class_id": 10,
+          "class_name": "锡丝残留",
+          "fn_rate": 1.0
+        }
+      ],
+      "recommendations": [
+        "class_aware_sampling",
+        "increase_samples_for_low_recall_classes",
+        "class_weighted_policy"
+      ]
+    },
+    {
+      "issue": "false_positive_high",
+      "severity": "medium",
+      "fp_count": 135,
+      "recommendations": [
+        "add_hard_negative_tiles",
+        "keep_some_empty_tiles",
+        "reduce_strong_noise_texture"
+      ]
+    }
+  ],
+  "main_issues": [
+    {
+      "issue": "small_object_fn_high",
+      "severity": "medium",
+      "observed_fn_rate": 0.431438127090301,
+      "recommendations": [
+        "increase_tile_overlap",
+        "enable_object_aware_crop",
+        "reduce_blur_noise_strength",
+        "prefer_sharpen_clahe"
+      ]
+    },
+    {
+      "issue": "edge_object_fn_high",
+      "severity": "medium",
+      "observed_fn_rate": 0.3522727272727273,
+      "recommendations": [
+        "increase_tile_overlap",
+        "increase_translate",
+        "enable_edge_aware_crop"
+      ]
+    },
+    {
+      "issue": "low_contrast_fn_high",
+      "severity": "medium",
+      "observed_rate": 0.5730337078651685,
+      "recommendations": [
+        "increase_contrast",
+        "increase_gamma",
+        "increase_clahe",
+        "use_sharpen"
+      ]
+    },
+    {
+      "issue": "exposure_fn_high",
+      "severity": "medium",
+      "dark_rate": 0.4550561797752809,
+      "bright_rate": 0.0,
+      "recommendations": [
+        "brightness",
+        "gamma",
+        "exposure_jitter"
+      ]
+    },
+    {
+      "issue": "class_recall_imbalance",
+      "severity": "medium",
+      "classes": [
+        {
+          "class_id": 2,
+          "class_name": "加强筋打伤",
+          "fn_rate": 1.0
+        },
+        {
+          "class_id": 3,
+          "class_name": "开裂",
+          "fn_rate": 1.0
+        },
+        {
+          "class_id": 4,
+          "class_name": "油污",
+          "fn_rate": 0.9411764705882353
+        },
+        {
+          "class_id": 5,
+          "class_name": "浅划伤",
+          "fn_rate": 1.0
+        },
+        {
+          "class_id": 6,
+          "class_name": "漏背锡",
+          "fn_rate": 0.625
+        },
+        {
+          "class_id": 8,
+          "class_name": "脏污",
+          "fn_rate": 1.0
+        },
+        {
+          "class_id": 9,
+          "class_name": "轮廓划伤",
+          "fn_rate": 0.7
+        },
+        {
+          "class_id": 10,
+          "class_name": "锡丝残留",
+          "fn_rate": 1.0
+        }
+      ],
+      "recommendations": [
+        "class_aware_sampling",
+        "increase_samples_for_low_recall_classes",
+        "class_weighted_policy"
+      ]
+    },
+    {
+      "issue": "false_positive_high",
+      "severity": "medium",
+      "fp_count": 135,
+      "recommendations": [
+        "add_hard_negative_tiles",
+        "keep_some_empty_tiles",
+        "reduce_strong_noise_texture"
+      ]
+    }
+  ],
+  "fallback_used": false,
+  "advisor_search_space": {
+    "allowed_operations": [
+      "brightness",
+      "contrast",
+      "gamma",
+      "gaussian_noise",
+      "gaussian_blur",
+      "motion_blur",
+      "sharpen",
+      "clahe",
+      "cutout",
+      "horizontal_flip",
+      "translate",
+      "scale",
+      "rotate",
+      "affine"
+    ],
+    "operation_weights": {
+      "brightness": 1.8,
+      "contrast": 2.2,
+      "gamma": 1.7,
+      "gaussian_noise": 0.4,
+      "gaussian_blur": 0.35,
+      "motion_blur": 0.25,
+      "sharpen": 2.0,
+      "clahe": 2.2,
+      "cutout": 0.6,
+      "horizontal_flip": 1.0,
+      "translate": 2.0,
+      "scale": 1.4,
+      "rotate": 1.0,
+      "affine": 1.4
+    },
+    "strength_ranges": {
+      "motion_blur": [
+        0.0,
+        0.2
+      ],
+      "gaussian_blur": [
+        0.0,
+        0.2
+      ],
+      "gaussian_noise": [
+        0.0,
+        0.2
+      ],
+      "contrast": [
+        0.1,
+        0.65
+      ],
+      "gamma": [
+        0.1,
+        0.6
+      ],
+      "clahe": [
+        0.1,
+        0.7
+      ],
+      "brightness": [
+        0.1,
+        0.55
+      ]
+    },
+    "prob_ranges": {
+      "translate": [
+        0.35,
+        0.85
+      ]
+    },
+    "forbidden_combinations": [
+      [
+        "gaussian_blur",
+        "motion_blur"
+      ],
+      [
+        "gaussian_noise",
+        "motion_blur",
+        "gaussian_blur"
+      ]
+    ],
+    "max_ops_per_policy": 4,
+    "comments": [
+      "Small-object misses are high; keep destructive blur/noise weak and prefer sharpening/CLAHE.",
+      "Edge misses are high; translation/scale policies are weighted up and crop overlap should be reviewed.",
+      "False negatives are often low contrast; contrast/gamma/CLAHE are weighted up.",
+      "Some classes have higher FN rates; use class-aware sampling outside the random operation sampler.",
+      "False positives are non-trivial; consider hard-negative tiles and avoid strong synthetic texture."
+    ]
+  },
+  "notes": [
+    "This is a heuristic diagnosis, not reinforcement learning or automatic proof of improvement.",
+    "Validate any suggested policy against a no-augmentation baseline."
+  ]
+}

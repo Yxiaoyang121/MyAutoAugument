@@ -1,0 +1,119 @@
+{
+  "summary": {
+    "source_data_yaml": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position\\data.yaml",
+    "source_root": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position",
+    "output_root": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe",
+    "data_yaml": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\data.yaml",
+    "probe_yaml": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\probe.yaml",
+    "split_seed": 2026,
+    "probe_ratio": 0.1,
+    "original_train_images": 2301,
+    "train_core_images": 2071,
+    "probe_images": 230,
+    "val_images": 677,
+    "probe_missing_classes": [],
+    "train_core_low_classes": [],
+    "train_core_probe_val_no_overlap": true
+  },
+  "per_class": {
+    "0": {
+      "name": "OK2",
+      "original_train_bboxes": 302,
+      "train_core_bboxes": 264,
+      "probe_bboxes": 38,
+      "val_bboxes": 64
+    },
+    "1": {
+      "name": "OK3",
+      "original_train_bboxes": 946,
+      "train_core_bboxes": 844,
+      "probe_bboxes": 102,
+      "val_bboxes": 274
+    },
+    "2": {
+      "name": "加强筋打伤",
+      "original_train_bboxes": 36,
+      "train_core_bboxes": 30,
+      "probe_bboxes": 6,
+      "val_bboxes": 8
+    },
+    "3": {
+      "name": "开裂",
+      "original_train_bboxes": 17,
+      "train_core_bboxes": 14,
+      "probe_bboxes": 3,
+      "val_bboxes": 2
+    },
+    "4": {
+      "name": "油污",
+      "original_train_bboxes": 137,
+      "train_core_bboxes": 120,
+      "probe_bboxes": 17,
+      "val_bboxes": 18
+    },
+    "5": {
+      "name": "浅划伤",
+      "original_train_bboxes": 81,
+      "train_core_bboxes": 67,
+      "probe_bboxes": 14,
+      "val_bboxes": 13
+    },
+    "6": {
+      "name": "漏背锡",
+      "original_train_bboxes": 187,
+      "train_core_bboxes": 155,
+      "probe_bboxes": 32,
+      "val_bboxes": 46
+    },
+    "7": {
+      "name": "碰伤",
+      "original_train_bboxes": 860,
+      "train_core_bboxes": 727,
+      "probe_bboxes": 133,
+      "val_bboxes": 269
+    },
+    "8": {
+      "name": "脏污",
+      "original_train_bboxes": 157,
+      "train_core_bboxes": 129,
+      "probe_bboxes": 28,
+      "val_bboxes": 42
+    },
+    "9": {
+      "name": "轮廓划伤",
+      "original_train_bboxes": 189,
+      "train_core_bboxes": 159,
+      "probe_bboxes": 30,
+      "val_bboxes": 84
+    },
+    "10": {
+      "name": "锡丝残留",
+      "original_train_bboxes": 32,
+      "train_core_bboxes": 26,
+      "probe_bboxes": 6,
+      "val_bboxes": 12
+    },
+    "11": {
+      "name": "锡尖",
+      "original_train_bboxes": 108,
+      "train_core_bboxes": 96,
+      "probe_bboxes": 12,
+      "val_bboxes": 27
+    },
+    "12": {
+      "name": "锡膏",
+      "original_train_bboxes": 130,
+      "train_core_bboxes": 109,
+      "probe_bboxes": 21,
+      "val_bboxes": 46
+    }
+  },
+  "overlap_checks": {
+    "train_core_probe_overlap_count": 0,
+    "train_core_val_overlap_count": 0,
+    "probe_val_overlap_count": 0,
+    "train_core_probe_overlap": [],
+    "train_core_val_overlap": [],
+    "probe_val_overlap": []
+  }
+}

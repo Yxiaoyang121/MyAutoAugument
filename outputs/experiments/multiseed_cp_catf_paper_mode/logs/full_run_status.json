@@ -1,0 +1,76 @@
+[
+  {
+    "run_id": "clean_seed_0",
+    "status": "running",
+    "exit_code": null,
+    "timestamp": "2026-06-09T03:54:27"
+  },
+  {
+    "run_id": "clean_seed_0",
+    "status": "completed",
+    "exit_code": 0,
+    "timestamp": "2026-06-09T07:00:07"
+  },
+  {
+    "run_id": "clean_seed_1",
+    "status": "running",
+    "exit_code": null,
+    "timestamp": "2026-06-09T07:00:07"
+  },
+  {
+    "run_id": "clean_seed_1",
+    "status": "completed",
+    "exit_code": 0,
+    "timestamp": "2026-06-09T10:04:43"
+  },
+  {
+    "run_id": "clean_seed_2",
+    "status": "running",
+    "exit_code": null,
+    "timestamp": "2026-06-09T10:04:43"
+  },
+  {
+    "run_id": "clean_seed_2",
+    "status": "completed",
+    "exit_code": 0,
+    "timestamp": "2026-06-09T13:19:33"
+  },
+  {
+    "run_id": "cp_catf_seed_0",
+    "status": "running",
+    "exit_code": null,
+    "timestamp": "2026-06-09T13:19:33"
+  },
+  {
+    "run_id": "cp_catf_seed_0",
+    "status": "completed",
+    "exit_code": 0,
+    "timestamp": "2026-06-09T17:11:48"
+  },
+  {
+    "run_id": "cp_catf_seed_1",
+    "status": "running",
+    "exit_code": null,
+    "timestamp": "2026-06-09T17:11:48"
+  },
+  {
+    "run_id": "cp_catf_seed_1",
+    "status": "completed",
+    "exit_code": 0,
+    "timestamp": "2026-06-09T20:49:04"
+  },
+  {
+    "run_id": "cp_catf_seed_2",
+    "status": "running",
+    "exit_code": null,
+    "timestamp": "2026-06-09T20:49:04"
+  },
+  {
+    "run_id": "cp_catf_seed_2",
+    "status": "completed_retry_after_font_cache_fix",
+    "exit_code": 0,
+    "timestamp": "2026-06-10T02:39:22",
+    "stdout_log": "outputs/experiments/multiseed_cp_catf_paper_mode/logs/cp_catf_seed_2_rerun.stdout.log",
+    "stderr_log": "outputs/experiments/multiseed_cp_catf_paper_mode/logs/cp_catf_seed_2_rerun.stderr.log"
+  }
+]

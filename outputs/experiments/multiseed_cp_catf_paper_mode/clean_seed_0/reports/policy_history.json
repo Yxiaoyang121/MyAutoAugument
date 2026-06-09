@@ -1,0 +1,13 @@
+{
+  "history": [],
+  "latest_policy": {
+    "policy_id": "native_yolo_default_no_feedback",
+    "copy_paste_status": "not_used",
+    "notes": [
+      "feedback_enabled=false and industrial_aug_enabled=false.",
+      "No custom trainer, dataset, transform, industrial augmentor, or feedback callback is registered.",
+      "Training is a direct Ultralytics YOLO.train(**same_args) call."
+    ],
+    "operations": []
+  }
+}

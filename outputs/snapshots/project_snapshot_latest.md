@@ -246,3 +246,25 @@
   - `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_cp_catf/reports/multiseed_cp_catf_summary.json`
 - Verification: requested py_compile checks passed and requested pytest suite result was `134 passed`.
 - Caveat: current CP-CATF validation uses development-mode offline probe decisions from existing validation diagnostics. Paper-mode CP-CATF still needs a train/probe split or train hard-example probe set before leakage-free final claims.
+
+## Latest CP-CATF Paper-Mode Status
+
+- Paper-mode CP-CATF validation completed at `outputs/experiments/multiseed_cp_catf_paper_mode/`.
+- Probe split root: `outputs/datasets/tiled/tiled_1024_ov20_full_safe_no_ok_position_paper_probe/`.
+- Split seed `2026`; original train `2301`, train_core `2071`, probe `230`, final val `677`; train_core/probe/final-val overlap count `0`.
+- Smoke run passed at `outputs/experiments/cp_catf_paper_mode_10ep_smoke/`, with policy selection from `probe_split` and final val excluded from strategy selection.
+- Clean paper baseline:
+  - seed0: P=0.7513, R=0.6763, mAP50=0.7566, mAP50-95=0.5114.
+  - seed1: P=0.7220, R=0.7582, mAP50=0.7777, mAP50-95=0.5251.
+  - seed2: P=0.6290, R=0.6385, mAP50=0.6590, mAP50-95=0.4381.
+- CP-CATF paper-mode metrics match clean exactly for all three seeds; `constraint_failed=false` for seed0/1/2.
+- Mean delta vs clean paper baseline: dP=+0.0000, dR=+0.0000, dmAP50=+0.0000, dmAP50-95=+0.0000.
+- Actual CP-CATF paper-mode image augmentation did not execute: industrial samples augmented `0`, ROI applied `0`, router random draws `0` for all seeds.
+- Final val leakage detected: `false`; policy history records `policy_selection_source=probe_split`.
+- Outcome: `3/3` constraint pass, but no retained gain over the clean paper baseline. Paper-mode CP-CATF is not yet a paper main-result candidate; it is currently a leakage-free safety validation. Next work should strengthen paper-mode probe evidence with a larger probe split or train hard-example probe set.
+- Reports:
+  - `outputs/datasets/tiled/tiled_1024_ov20_full_safe_no_ok_position_paper_probe/reports/probe_split_report.md`
+  - `outputs/experiments/cp_catf_paper_mode_10ep_smoke/reports/paper_mode_smoke_report.md`
+  - `outputs/experiments/multiseed_cp_catf_paper_mode/reports/multiseed_cp_catf_paper_mode_summary.md`
+  - `outputs/experiments/multiseed_cp_catf_paper_mode/reports/multiseed_cp_catf_paper_mode_summary.json`
+- Verification: requested py_compile checks passed and requested pytest suite result was `142 passed`.

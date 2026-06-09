@@ -1,0 +1,19 @@
+path: E:\TJGY\MinPaper\MyAutoAugument\outputs\datasets\tiled\tiled_1024_ov20_full_safe_no_ok_position_paper_probe
+train: images/train_core
+probe: images/probe
+val: images/val
+nc: 13
+names:
+  0: OK2
+  1: OK3
+  2: 加强筋打伤
+  3: 开裂
+  4: 油污
+  5: 浅划伤
+  6: 漏背锡
+  7: 碰伤
+  8: 脏污
+  9: 轮廓划伤
+  10: 锡丝残留
+  11: 锡尖
+  12: 锡膏

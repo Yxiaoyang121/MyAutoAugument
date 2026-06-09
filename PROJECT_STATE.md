@@ -1278,3 +1278,43 @@ The repository is centered on diagnosis-driven augmentation for industrial defec
 - Verification: `python -m py_compile AutoAugment/catf_v2/causal_probe.py scripts/train_yolo_default_with_inloop_feedback.py AutoAugment/catf_v2/sample_router.py AutoAugment/catf_v2/policy_matrix.py AutoAugment/catf_v2/high_risk_class_ops.py scripts/run_catf_v2_offline_causal_probe.py`; targeted pytest list passed `132 passed`.
 - Next step: run CP-CATF training validation only when explicitly requested. CP-CATF can be a paper main-method candidate only after probe-gated training confirms seed0/seed1 retain gains while seed2 is protected.
 <!-- CP_CATF_OFFLINE_CAUSAL_PROBE_END -->
+
+<!-- CP_CATF_PAPER_MODE_VALIDATION_START -->
+## CP-CATF Paper-Mode Probe Split Validation
+
+- Scope: leakage-controlled CP-CATF validation using a train/probe split; final val is used only for final metrics.
+- New split root: `outputs/datasets/tiled/tiled_1024_ov20_full_safe_no_ok_position_paper_probe/`.
+- Split seed: `2026`; original train images `2301`; train_core `2071`; probe `230`; final val `677`; train_core/probe/final-val overlap count `0`.
+- Split reports:
+  - `outputs/datasets/tiled/tiled_1024_ov20_full_safe_no_ok_position_paper_probe/reports/probe_split_report.md`
+  - `outputs/datasets/tiled/tiled_1024_ov20_full_safe_no_ok_position_paper_probe/reports/probe_split_report.json`
+- Paper-mode implementation:
+  - Added `--paper-probe-mode`, `--probe-data`, `--train-core-data`, `--probe-source`, and `--forbid-final-val-policy-selection`.
+  - Policy selection source is recorded as `probe_split`.
+  - Final val diagnostics are forbidden for candidate decisions in paper mode.
+  - Leakage audit confirms final val was not used for policy selection and all split image sets are disjoint.
+- Smoke run: `outputs/experiments/cp_catf_paper_mode_10ep_smoke/`; seed2 10ep passed, used train_core for train and probe split for causal probe, selected `candidate_policy_3_sampler_only`, strict image no-op with industrial samples `0`, ROI `0`, router random draws `0`.
+- Full paper-mode multiseed run: `outputs/experiments/multiseed_cp_catf_paper_mode/`.
+- Clean paper baseline metrics:
+  - seed0: P/R/mAP50/mAP50-95 `0.7513/0.6763/0.7566/0.5114`.
+  - seed1: `0.7220/0.7582/0.7777/0.5251`.
+  - seed2: `0.6290/0.6385/0.6590/0.4381`.
+- CP-CATF paper-mode metrics:
+  - seed0: `0.7513/0.6763/0.7566/0.5114`, `constraint_failed=false`.
+  - seed1: `0.7220/0.7582/0.7777/0.5251`, `constraint_failed=false`.
+  - seed2: `0.6290/0.6385/0.6590/0.4381`, `constraint_failed=false`.
+- Mean CP-CATF paper-mode delta vs clean paper baseline: dP/dR/dmAP50/dmAP50-95 `+0.0000/+0.0000/+0.0000/+0.0000`.
+- Candidate behavior:
+  - seed0 mostly selected `candidate_policy_3_sampler_only`; one probe point accepted `candidate_policy_1_roi_texture`.
+  - seed1 mostly selected `candidate_policy_3_sampler_only`; two probe points accepted `candidate_policy_1_roi_texture`.
+  - seed2 alternated between sampler-only and roi_texture accept after epoch 20.
+  - Actual industrial samples augmented, ROI applied, and router random draw count were `0` for all CP-CATF paper-mode seeds, so results reproduce the clean paper baseline.
+- Outcome: `3/3` constraint pass and no final-val leakage, but no retained gain over clean paper baseline.
+- Interpretation: paper-mode CP-CATF is a valid leakage-control/safety validation, not a final main-result candidate yet. Development-mode CP-CATF remains a feasibility result; paper-mode needs stronger train/probe evidence, larger probe split, or train hard-example probe design before claiming CP-CATF as the paper main method.
+- Reports:
+  - `outputs/experiments/cp_catf_paper_mode_10ep_smoke/reports/paper_mode_smoke_report.md`
+  - `outputs/experiments/cp_catf_paper_mode_10ep_smoke/reports/paper_mode_smoke_report.json`
+  - `outputs/experiments/multiseed_cp_catf_paper_mode/reports/multiseed_cp_catf_paper_mode_summary.md`
+  - `outputs/experiments/multiseed_cp_catf_paper_mode/reports/multiseed_cp_catf_paper_mode_summary.json`
+- Verification: requested py_compile checks passed; requested pytest suite passed `142 passed`.
+<!-- CP_CATF_PAPER_MODE_VALIDATION_END -->

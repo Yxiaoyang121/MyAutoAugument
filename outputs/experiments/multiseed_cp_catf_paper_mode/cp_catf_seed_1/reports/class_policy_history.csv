@@ -1,0 +1,3 @@
+epoch,class_id,action,adjustment_count,before_status,after_status,dominant_issue
+5,6,propose,4,inactive,active,texture_boundary_weak
+5,8,propose,4,inactive,active,low_recall

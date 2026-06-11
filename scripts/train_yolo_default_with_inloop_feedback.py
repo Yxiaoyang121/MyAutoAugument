@@ -870,9 +870,15 @@ def apply_catf_v2_causal_probe_if_enabled(
         record["new_policy"] = deepcopy(gated_policy)
         record["active_classes"] = active_class_ids(gated_policy)
         record["frozen_classes"] = frozen_class_ids(gated_policy)
-        record["guard_triggered"] = list(
-            dict.fromkeys(list(record.get("guard_triggered", []) or []) + ["causal_probe_no_candidate_passed"])
-        )
+        if not bool(event.get("sample_router_allowed", False)):
+            record["guard_triggered"] = list(
+                dict.fromkeys(list(record.get("guard_triggered", []) or []) + ["causal_probe_no_candidate_passed"])
+            )
+        elif "causal_probe_no_candidate_passed" in (record.get("guard_triggered", []) or []):
+            record["guard_triggered"] = [
+                item for item in (record.get("guard_triggered", []) or [])
+                if item != "causal_probe_no_candidate_passed"
+            ]
     state.causal_probe_events.append(deepcopy(event))
     for base in (state.output_dir / "reports", state.output_dir / "reports" / "catf_v2"):
         write_json(base / f"policy_matrix_epoch_{epoch_num}_after_causal_probe.json", gated_policy)
@@ -1167,12 +1173,16 @@ def apply_offline_probe_decision_to_policy(
     op_whitelist = [str(item) for item in (selected_policy.get("op_list") or [])]
     image_allowed = bool(decision.get("image_modification_allowed", False))
     sampler_allowed = bool(decision.get("sample_weighting_allowed", False)) or str(decision.get("decision")) == "sampler_only"
+    probe_set = selected.get("probe_set") or {}
+    candidate_class_id = safe_int(probe_set.get("class_id"), default=-1)
     event = {
         "epoch": int(epoch_num),
         "catf_causal_probe": True,
         "source": "offline_probe_decisions",
         "selected_candidate_policy_id": selected_policy_id,
         "selected_candidate_action": str(decision_payload.get("selected_candidate_action") or decision.get("decision") or "unknown"),
+        "selected_causal_score": selected.get("causal_score"),
+        "candidate_class_id": candidate_class_id,
         "op_whitelist": op_whitelist,
         "image_modification_allowed": image_allowed,
         "sample_weighting_allowed": sampler_allowed,
@@ -1214,10 +1224,102 @@ def apply_offline_probe_decision_to_policy(
             event["sample_weight_map_path"] = str(path)
         return gated_policy, event
 
-    gated_policy = restrict_policy_to_causal_probe_ops(policy, op_whitelist)
+    gated_policy, activation = activate_causal_probe_candidate_policy(
+        policy,
+        selected_candidate=selected,
+        op_whitelist=op_whitelist,
+    )
     event["action"] = "accept_offline_probe_candidate"
     event["reason"] = "offline_causal_probe_candidate_accepted"
+    event["candidate_class_id"] = activation.get("candidate_class_id", candidate_class_id)
+    event["candidate_ops_injected"] = activation.get("candidate_ops_injected", [])
+    event["candidate_policy_injected"] = bool(activation.get("candidate_policy_injected", False))
+    event["sample_router_allowed"] = bool(activation.get("sample_router_allowed", False))
+    event["activation_noop_reason"] = activation.get("noop_reason")
+    if not event["sample_router_allowed"]:
+        noop_reason = str(activation.get("noop_reason") or "causal_probe_accept_no_executable_policy")
+        gated_policy = force_noop_policy(gated_policy, reason=noop_reason)
+        event["action"] = "strict_no_op"
+        event["reason"] = noop_reason
+        event["image_modification_allowed"] = False
+        event["probe_reject_image_aug"] = True
     return gated_policy, event
+
+
+CAUSAL_PROBE_EXECUTION_FLOORS: dict[str, dict[str, float]] = {
+    "sharpen_mild": {"prob": 0.20, "strength": 0.22},
+    "local_contrast": {"prob": 0.18, "strength": 0.20},
+    "gamma": {"prob": 0.15, "strength": 0.18},
+    "clahe": {"prob": 0.15, "strength": 0.18},
+}
+
+
+def activate_causal_probe_candidate_policy(
+    policy: dict[str, Any],
+    *,
+    selected_candidate: dict[str, Any],
+    op_whitelist: list[str],
+) -> tuple[dict[str, Any], dict[str, Any]]:
+    matrix = restrict_policy_to_causal_probe_ops(policy, op_whitelist)
+    probe_set = selected_candidate.get("probe_set") or {}
+    class_id = safe_int(probe_set.get("class_id"), default=-1)
+    metadata: dict[str, Any] = {
+        "candidate_class_id": class_id,
+        "candidate_ops_injected": [],
+        "candidate_policy_injected": False,
+        "sample_router_allowed": False,
+        "noop_reason": None,
+    }
+    if class_id < 0:
+        metadata["noop_reason"] = "causal_probe_accept_missing_target_class"
+        return matrix, metadata
+    classes = matrix.setdefault("classes", {})
+    class_policy = classes.get(str(class_id))
+    if not isinstance(class_policy, dict):
+        metadata["noop_reason"] = "causal_probe_accept_target_class_not_in_policy"
+        return matrix, metadata
+    if bool(class_policy.get("no_aug_class", False)):
+        metadata["noop_reason"] = "causal_probe_accept_target_no_aug_class"
+        return matrix, metadata
+    guards = class_policy.get("guards") or {}
+    if bool(guards.get("high_fp_guarded", False)):
+        metadata["noop_reason"] = "causal_probe_accept_target_high_fp_guarded"
+        return matrix, metadata
+
+    class_policy["status"] = "active"
+    class_policy["state"] = "accepted"
+    class_policy["dominant_issue"] = class_policy.get("dominant_issue") or "causal_probe_accepted"
+    class_policy["frozen_reason"] = None
+    class_policy["causal_probe_selected"] = True
+    class_policy["causal_probe_candidate_policy_id"] = selected_candidate.get("candidate_policy_id")
+    class_policy["causal_probe_execution_source"] = "accepted_candidate_policy"
+    ops = class_policy.setdefault("ops", {})
+    for op_name in op_whitelist:
+        op = ops.get(str(op_name))
+        if not isinstance(op, dict):
+            continue
+        floor = CAUSAL_PROBE_EXECUTION_FLOORS.get(str(op_name), {"prob": 0.10, "strength": 0.10})
+        max_prob = float(op.get("max_prob", floor["prob"]) or floor["prob"])
+        max_strength = float(op.get("max_strength", max(floor["strength"], 0.10)) or max(floor["strength"], 0.10))
+        prob = min(max_prob, max(float(op.get("prob", 0.0) or 0.0), float(floor["prob"])))
+        strength = min(max_strength, max(float(op.get("strength", 0.0) or 0.0), float(floor["strength"])))
+        op["prob"] = prob
+        op["strength"] = strength
+        op["causal_probe_selected"] = True
+        metadata["candidate_ops_injected"].append({"op_name": str(op_name), "prob": prob, "strength": strength})
+
+    metadata["candidate_policy_injected"] = bool(metadata["candidate_ops_injected"])
+    metadata["sample_router_allowed"] = bool(active_ops_from_policy(class_policy))
+    if not metadata["sample_router_allowed"]:
+        metadata["noop_reason"] = "causal_probe_accept_no_active_ops_after_injection"
+    return matrix, metadata
+
+
+def safe_int(value: Any, *, default: int = 0) -> int:
+    try:
+        return int(value)
+    except (TypeError, ValueError):
+        return int(default)
 
 
 def restrict_policy_to_causal_probe_ops(policy: dict[str, Any], op_whitelist: list[str]) -> dict[str, Any]:

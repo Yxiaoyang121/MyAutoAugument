@@ -1972,3 +1972,42 @@ Key conclusions from that archived smoke:
   - `python -m py_compile AutoAugment/catf_v2/causal_probe.py scripts/train_yolo_default_with_inloop_feedback.py AutoAugment/catf_v2/sample_router.py AutoAugment/catf_v2/policy_matrix.py`
   - Requested pytest suite result: `142 passed`.
 <!-- CP_CATF_PAPER_MODE_VALIDATION_END -->
+
+<!-- CP_CATF_ACCEPT_TO_EXECUTION_AUDIT_START -->
+## CP-CATF Paper-Mode Accept-to-Execution Audit
+
+- Date: `2026-06-11`.
+- Scope: audit, minimal fix, targeted tests, and one 10ep smoke. No 50ep experiment was run.
+- Audit command: `python scripts/audit_cp_catf_accept_to_execution.py`.
+- Audit outputs:
+  - `outputs/experiments/multiseed_cp_catf_paper_mode/reports/cp_catf_accept_to_execution_audit.md`
+  - `outputs/experiments/multiseed_cp_catf_paper_mode/reports/cp_catf_accept_to_execution_audit.json`
+- Audit result:
+  - Existing paper-mode multiseed had `8` accept events.
+  - Accept events with executable active class-op policy entries: `0`.
+  - Total industrial samples augmented: `0`.
+  - Total ROI applied: `0`.
+  - Total router random draws: `0`.
+- Root cause: accepted causal-probe image candidates were recorded but not materialized into active policy entries. The implementation filtered existing policy ops with the accepted op whitelist, but did not inject the candidate target class or nonzero op probabilities/strengths into the policy matrix.
+- Code fix:
+  - added accepted-candidate policy activation in `scripts/train_yolo_default_with_inloop_feedback.py`;
+  - accepted image candidates now write executable class-op entries for sample routing;
+  - rejected and sampler-only candidates remain strict image no-op;
+  - RiskGuard remains audit/debug prior only.
+- Fixed 10ep smoke command used the `D:\Anaconda\envs\pytorch\python.exe` environment to match the expected Ultralytics version.
+- Fixed smoke output:
+  - `outputs/experiments/cp_catf_paper_mode_execution_fixed_10ep_smoke/`
+  - seed `1`, 10 epochs, paper-mode source `probe_split`.
+  - Final-val leakage: `false`.
+  - The only causal-probe event selected `candidate_policy_3_sampler_only`; no image candidate was accepted in this 10ep smoke.
+  - Industrial samples augmented `0`, ROI applied `0`, router random draw count `0`.
+  - BBox/class checks stayed legal.
+- Fixed smoke reports:
+  - `outputs/experiments/cp_catf_paper_mode_execution_fixed_10ep_smoke/reports/execution_fixed_smoke_report.md`
+  - `outputs/experiments/cp_catf_paper_mode_execution_fixed_10ep_smoke/reports/execution_fixed_smoke_report.json`
+- Verification:
+  - `python -m py_compile AutoAugment/catf_v2/causal_probe.py scripts/train_yolo_default_with_inloop_feedback.py AutoAugment/catf_v2/sample_router.py AutoAugment/catf_v2/policy_matrix.py scripts/audit_cp_catf_accept_to_execution.py`
+  - `pytest -q tests/test_cp_catf_accept_to_execution.py tests/test_cp_catf_paper_mode.py tests/test_catf_v2_causal_probe.py tests/test_catf_v2_riskguard.py tests/test_catf_v2_transform_bypass.py tests/test_catf_v2_policy_matrix.py tests/test_catf_v2_sample_router.py tests/test_catf_v2_roi_augmentation.py tests/test_inloop_feedback_training.py tests/test_online_augmentation.py`
+  - Result: `74 passed`.
+- Interpretation: paper-mode split and leakage controls are valid, and the accept-to-execution code path is now fixed and tested. The latest 10ep smoke did not contain an accept case, so it does not constitute a performance or applied-augmentation validation. A new paper-mode multiseed rerun is required before making paper-mode CP-CATF effectiveness claims.
+<!-- CP_CATF_ACCEPT_TO_EXECUTION_AUDIT_END -->

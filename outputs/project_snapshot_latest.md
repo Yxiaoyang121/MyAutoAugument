@@ -268,3 +268,17 @@
   - `outputs/experiments/multiseed_cp_catf_paper_mode/reports/multiseed_cp_catf_paper_mode_summary.md`
   - `outputs/experiments/multiseed_cp_catf_paper_mode/reports/multiseed_cp_catf_paper_mode_summary.json`
 - Verification: requested py_compile checks passed and requested pytest suite result was `142 passed`.
+
+## Latest CP-CATF Accept-to-Execution Audit
+
+- Audit completed at `outputs/experiments/multiseed_cp_catf_paper_mode/reports/cp_catf_accept_to_execution_audit.md`.
+- Existing paper-mode multiseed had `8` causal-probe image accept events but `0` executable active class-op policies after causal probe.
+- Root cause: accepted candidates were reduced to an op whitelist and were not materialized into target-class policy entries with nonzero op probabilities/strengths. The sample router therefore had no eligible active policy and returned no-op before random draws.
+- Fix implemented in `scripts/train_yolo_default_with_inloop_feedback.py`: accepted image candidates now inject executable class-op entries into the policy matrix; sampler-only and rejected candidates remain strict image no-op.
+- Fixed smoke root: `outputs/experiments/cp_catf_paper_mode_execution_fixed_10ep_smoke/`.
+- Fixed smoke selected `candidate_policy_3_sampler_only` at epoch 5 and no image accept occurred in 10 epochs, so industrial samples, ROI applications, and router random draws stayed `0`.
+- Final-val leakage remained `false`; split overlaps remained `0`.
+- Smoke reports:
+  - `outputs/experiments/cp_catf_paper_mode_execution_fixed_10ep_smoke/reports/execution_fixed_smoke_report.md`
+  - `outputs/experiments/cp_catf_paper_mode_execution_fixed_10ep_smoke/reports/execution_fixed_smoke_report.json`
+- Verification: targeted pytest suite passed `74 passed`.

@@ -1147,3 +1147,38 @@ No training was run after building or auditing these datasets.
   - `outputs/experiments/multiseed_cp_catf_paper_mode/reports/multiseed_cp_catf_paper_mode_summary.md`
 - Verification: requested py_compile checks passed; requested pytest suite passed `142 passed`.
 <!-- CP_CATF_PAPER_MODE_VALIDATION_END -->
+
+<!-- CP_CATF_ACCEPT_TO_EXECUTION_AUDIT_START -->
+## CP-CATF Accept-to-Execution Audit Handoff
+
+- Current task completed: audited why paper-mode CP-CATF produced `0` industrial samples, `0` ROI applications, and `0` router random draws despite some `roi_texture` accept decisions.
+- Audit report:
+  - `outputs/experiments/multiseed_cp_catf_paper_mode/reports/cp_catf_accept_to_execution_audit.md`
+  - `outputs/experiments/multiseed_cp_catf_paper_mode/reports/cp_catf_accept_to_execution_audit.json`
+- Root cause:
+  - `candidate_policy_1_roi_texture` accept events were recorded in causal-probe events.
+  - The accepted candidate was only converted into an op whitelist.
+  - No active target class and nonzero op probabilities/strengths were written to the after-causal-probe policy matrix.
+  - `class_policy_history.json` stayed empty for active classes, so the sample router had no eligible policy and returned no-op before random draws.
+- Not the cause:
+  - paper-mode did not use final val for policy selection;
+  - `--industrial-aug-enabled true` was preserved;
+  - RiskGuard audit prior did not directly block execution;
+  - sampler-only did not globally disable image augmentation.
+- Fix:
+  - accepted image candidates now inject executable class-op entries into the training policy matrix;
+  - executable accepts are no longer tagged as `causal_probe_no_candidate_passed`;
+  - rejected and sampler-only decisions remain strict image no-op.
+- Fixed smoke:
+  - Run root: `outputs/experiments/cp_catf_paper_mode_execution_fixed_10ep_smoke/`.
+  - Seed1 10ep completed with `final_val_used_for_policy_selection=false`.
+  - No image candidate was accepted within 10 epochs; the only event selected `candidate_policy_3_sampler_only`, so applied augmentation stayed `0`.
+  - This is not a failure of the fix; it means the short smoke did not reach an accept case. The accepted execution path is covered by `tests/test_cp_catf_accept_to_execution.py`.
+- Smoke reports:
+  - `outputs/experiments/cp_catf_paper_mode_execution_fixed_10ep_smoke/reports/execution_fixed_smoke_report.md`
+  - `outputs/experiments/cp_catf_paper_mode_execution_fixed_10ep_smoke/reports/execution_fixed_smoke_report.json`
+- Verification:
+  - py_compile checks passed for causal probe, training entry, sample router, policy matrix, and the audit script.
+  - Targeted pytest suite passed `74 passed`.
+- Next recommended step only after explicit approval: rerun paper-mode CP-CATF multiseed 50ep to measure actual accepted-policy execution and compare against clean paper baseline.
+<!-- CP_CATF_ACCEPT_TO_EXECUTION_AUDIT_END -->

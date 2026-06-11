@@ -1,0 +1,41 @@
+{
+  "run_root": "outputs/experiments/cp_catf_paper_mode_execution_fixed_10ep_smoke",
+  "seed": 1,
+  "epochs": 10,
+  "paper_probe_mode": true,
+  "causal_probe_mode": true,
+  "policy_selection_source": "probe_split",
+  "final_val_used_for_policy_selection": false,
+  "split_overlap": {
+    "train_core_probe_overlap_count": 0,
+    "probe_final_val_overlap_count": 0,
+    "train_core_final_val_overlap_count": 0
+  },
+  "causal_probe_events": [
+    {
+      "epoch": 5,
+      "selected_candidate_policy_id": "candidate_policy_3_sampler_only",
+      "selected_candidate_action": "sampler_only",
+      "candidate_class_id": 8,
+      "image_modification_allowed": false,
+      "sample_weighting_allowed": true,
+      "sample_weighting_effective": false,
+      "sample_weighting_status": "pending_dataloader_support",
+      "reason": "offline_causal_probe_sampler_only_image_noop"
+    }
+  ],
+  "candidate_accept_seen": false,
+  "accepted_augmentation_applied_gt_zero": false,
+  "accepted_augmentation_applied_gt_zero_reason": "No candidate image policy was accepted during the 10ep smoke; the only probe event selected sampler_only.",
+  "industrial_samples_augmented": 0,
+  "roi_applied": 0,
+  "router_random_draw_count": 0,
+  "bbox_class_legal": true,
+  "invalid_bbox_count": 0,
+  "bbox_oob_count": 0,
+  "class_id_oob_count": 0,
+  "interpretation": "Smoke confirms no-leakage and strict no-op behavior after the fix, but does not demonstrate live applied augmentation because no image candidate was accepted within 10 epochs.",
+  "verification": {
+    "targeted_pytest": "74 passed"
+  }
+}

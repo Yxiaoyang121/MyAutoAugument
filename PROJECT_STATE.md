@@ -1318,3 +1318,33 @@ The repository is centered on diagnosis-driven augmentation for industrial defec
   - `outputs/experiments/multiseed_cp_catf_paper_mode/reports/multiseed_cp_catf_paper_mode_summary.json`
 - Verification: requested py_compile checks passed; requested pytest suite passed `142 passed`.
 <!-- CP_CATF_PAPER_MODE_VALIDATION_END -->
+
+<!-- CP_CATF_ACCEPT_TO_EXECUTION_AUDIT_START -->
+## CP-CATF Paper-Mode Accept-to-Execution Audit
+
+- Scope: audit and minimal implementation fix only; no 50ep rerun was performed.
+- Audit reports:
+  - `outputs/experiments/multiseed_cp_catf_paper_mode/reports/cp_catf_accept_to_execution_audit.md`
+  - `outputs/experiments/multiseed_cp_catf_paper_mode/reports/cp_catf_accept_to_execution_audit.json`
+- Existing paper-mode multiseed audit found `8` causal-probe accept events, but `0` accept events produced executable active class-op policy entries.
+- The break was between accepted causal-probe candidate and policy materialization:
+  - accepted `candidate_policy_1_roi_texture` was recorded,
+  - candidate ops were only used as a whitelist,
+  - no target class/op probability was injected into `policy_matrix_epoch_*_after_causal_probe.json`,
+  - `class_policy_history.json` had no active classes,
+  - sample router had no eligible active policy,
+  - industrial samples, ROI applied, and router random draws stayed `0`.
+- This was not caused by final-val leakage, RiskGuard blocking, sampler-only globally disabling augmentation, or `--industrial-aug-enabled` being dropped.
+- Fix: accepted causal-probe image candidates now materialize into an active target class with executable op probabilities/strengths before sample routing; rejected and sampler-only candidates remain strict image no-op.
+- Fixed 10ep smoke:
+  - Run root: `outputs/experiments/cp_catf_paper_mode_execution_fixed_10ep_smoke/`.
+  - Seed `1`, 10 epochs, paper-mode source `probe_split`.
+  - Final-val leakage remained `false` and all split overlaps remained `0`.
+  - The only probe event selected `candidate_policy_3_sampler_only`, so no image candidate accept occurred in this short smoke.
+  - Industrial samples augmented `0`, ROI applied `0`, router random draw count `0`; this is expected for sampler-only/no-op and should not be reported as applied augmentation.
+- Smoke reports:
+  - `outputs/experiments/cp_catf_paper_mode_execution_fixed_10ep_smoke/reports/execution_fixed_smoke_report.md`
+  - `outputs/experiments/cp_catf_paper_mode_execution_fixed_10ep_smoke/reports/execution_fixed_smoke_report.json`
+- Verification: requested py_compile checks passed; targeted pytest suite passed `74 passed`.
+- Current interpretation: the prior paper-mode multiseed is leakage-free no-op safety validation, not proof of effective paper-mode enhancement. The accept-to-execution bug is fixed in code/tests, but a new 50ep paper-mode multiseed rerun is needed before making paper-mode CP-CATF performance claims.
+<!-- CP_CATF_ACCEPT_TO_EXECUTION_AUDIT_END -->

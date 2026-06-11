@@ -1348,3 +1348,26 @@ The repository is centered on diagnosis-driven augmentation for industrial defec
 - Verification: requested py_compile checks passed; targeted pytest suite passed `74 passed`.
 - Current interpretation: the prior paper-mode multiseed is leakage-free no-op safety validation, not proof of effective paper-mode enhancement. The accept-to-execution bug is fixed in code/tests, but a new 50ep paper-mode multiseed rerun is needed before making paper-mode CP-CATF performance claims.
 <!-- CP_CATF_ACCEPT_TO_EXECUTION_AUDIT_END -->
+
+<!-- CP_CATF_SEED0_EXECUTION_VALIDATION_START -->
+## CP-CATF Paper-Mode Seed0 Execution Validation
+
+- Scope: seed0 only; no clean rerun, no seed1/seed2, and no multiseed summary.
+- Run root: `outputs/experiments/cp_catf_paper_mode_execution_fixed_seed0_only/`.
+- Purpose: verify that paper-mode CP-CATF accepted image candidates actually execute after the accept-to-execution fix.
+- Reused clean paper seed0 baseline: P/R/mAP50/mAP50-95 `0.751343/0.676301/0.756646/0.511423`.
+- Seed0 CP-CATF paper-mode result: `0.739931/0.676311/0.759345/0.502791`.
+- Delta vs reused clean seed0: dP/dR/dmAP50/dmAP50-95 `-0.011412/+0.000010/+0.002699/-0.008631`.
+- Constraint result: `constraint_failed=true` due Precision drop greater than `0.01`.
+- Execution flow:
+  - epoch 25 accepted `candidate_policy_1_roi_texture` for class `9`.
+  - executable policy was generated with `sharpen_mild(prob=0.20,strength=0.22)` and `local_contrast(prob=0.18,strength=0.20)`.
+  - sample router executed; router random draw count `1330`.
+  - industrial samples augmented `226`.
+  - ROI applied `312`, all recorded for class `9`.
+  - final-val leakage remained `false`; train_core/probe/final-val overlap stayed `0`.
+- Reports:
+  - `outputs/experiments/cp_catf_paper_mode_execution_fixed_seed0_only/reports/seed0_execution_flow_report.md`
+  - `outputs/experiments/cp_catf_paper_mode_execution_fixed_seed0_only/reports/seed0_execution_flow_report.json`
+- Interpretation: the paper-mode accept-to-execution chain is now functionally connected. This run is not evidence of final CP-CATF paper-mode performance because seed0 fails the industrial Precision constraint. Seed1/seed2 should not be launched as a performance validation until this seed0 precision risk is reviewed.
+<!-- CP_CATF_SEED0_EXECUTION_VALIDATION_END -->

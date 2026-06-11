@@ -1182,3 +1182,27 @@ No training was run after building or auditing these datasets.
   - Targeted pytest suite passed `74 passed`.
 - Next recommended step only after explicit approval: rerun paper-mode CP-CATF multiseed 50ep to measure actual accepted-policy execution and compare against clean paper baseline.
 <!-- CP_CATF_ACCEPT_TO_EXECUTION_AUDIT_END -->
+
+<!-- CP_CATF_SEED0_EXECUTION_VALIDATION_START -->
+## CP-CATF Seed0 Execution Validation Handoff
+
+- Current task completed: ran only seed0 CP-CATF paper-mode execution-fixed training.
+- No seed1/seed2, no clean rerun, and no multiseed summary were run.
+- Run root: `outputs/experiments/cp_catf_paper_mode_execution_fixed_seed0_only/`.
+- Reports:
+  - `outputs/experiments/cp_catf_paper_mode_execution_fixed_seed0_only/reports/seed0_execution_flow_report.md`
+  - `outputs/experiments/cp_catf_paper_mode_execution_fixed_seed0_only/reports/seed0_execution_flow_report.json`
+- Execution outcome:
+  - epoch 25 selected `candidate_policy_1_roi_texture` / accept.
+  - class `9` received executable `sharpen_mild` and `local_contrast` ops in the policy matrix.
+  - sample router was reached and drew `1330` op-level random decisions.
+  - industrial image samples augmented: `226`.
+  - ROI applied: `312`.
+  - final val was not used for policy selection.
+- Metrics:
+  - Clean paper seed0 reused: P=0.751343, R=0.676301, mAP50=0.756646, mAP50-95=0.511423.
+  - CP-CATF seed0: P=0.739931, R=0.676311, mAP50=0.759345, mAP50-95=0.502791.
+  - Delta: `-0.011412/+0.000010/+0.002699/-0.008631`.
+  - `constraint_failed=true` due Precision drop greater than 0.01.
+- Handoff guidance: accept-to-execution is confirmed, but this seed0 run exposes a Precision risk. Do not proceed to seed1/seed2 as a performance validation without explicit approval or a decision on how to handle the seed0 Precision constraint.
+<!-- CP_CATF_SEED0_EXECUTION_VALIDATION_END -->

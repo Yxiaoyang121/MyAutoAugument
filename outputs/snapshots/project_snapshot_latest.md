@@ -282,3 +282,18 @@
   - `outputs/experiments/cp_catf_paper_mode_execution_fixed_10ep_smoke/reports/execution_fixed_smoke_report.md`
   - `outputs/experiments/cp_catf_paper_mode_execution_fixed_10ep_smoke/reports/execution_fixed_smoke_report.json`
 - Verification: targeted pytest suite passed `74 passed`.
+
+## Latest CP-CATF Seed0 Execution Validation
+
+- Seed0-only paper-mode execution-fixed run completed at `outputs/experiments/cp_catf_paper_mode_execution_fixed_seed0_only/`.
+- This run did not rerun clean, seed1, seed2, or multiseed summaries.
+- Epoch 25 accepted `candidate_policy_1_roi_texture` for class `9`.
+- Executable policy was generated and executed: industrial samples augmented `226`, ROI applied `312`, router random draw count `1330`.
+- Final-val leakage remained `false`.
+- CP-CATF seed0 metrics: P=0.739931, R=0.676311, mAP50=0.759345, mAP50-95=0.502791.
+- Reused clean paper seed0 metrics: P=0.751343, R=0.676301, mAP50=0.756646, mAP50-95=0.511423.
+- Delta: dP=-0.011412, dR=+0.000010, dmAP50=+0.002699, dmAP50-95=-0.008631.
+- Constraint result: `constraint_failed=true` due Precision drop greater than `0.01`.
+- Reports:
+  - `outputs/experiments/cp_catf_paper_mode_execution_fixed_seed0_only/reports/seed0_execution_flow_report.md`
+  - `outputs/experiments/cp_catf_paper_mode_execution_fixed_seed0_only/reports/seed0_execution_flow_report.json`

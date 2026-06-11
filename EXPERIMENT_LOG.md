@@ -2011,3 +2011,37 @@ Key conclusions from that archived smoke:
   - Result: `74 passed`.
 - Interpretation: paper-mode split and leakage controls are valid, and the accept-to-execution code path is now fixed and tested. The latest 10ep smoke did not contain an accept case, so it does not constitute a performance or applied-augmentation validation. A new paper-mode multiseed rerun is required before making paper-mode CP-CATF effectiveness claims.
 <!-- CP_CATF_ACCEPT_TO_EXECUTION_AUDIT_END -->
+
+<!-- CP_CATF_SEED0_EXECUTION_VALIDATION_START -->
+## CP-CATF Paper-Mode Seed0 Execution Validation
+
+- Date: `2026-06-11`.
+- Scope: seed0 only; no clean rerun, no seed1/seed2, no multiseed summary.
+- Command used `D:\Anaconda\envs\pytorch\python.exe` with:
+  - `--data outputs/datasets/tiled/tiled_1024_ov20_full_safe_no_ok_position_paper_probe/data.yaml`
+  - `--probe-data outputs/datasets/tiled/tiled_1024_ov20_full_safe_no_ok_position_paper_probe/probe.yaml`
+  - `--epochs 50 --imgsz 1024 --batch 2 --workers 0 --device 0 --seed 0`
+  - `--catf-version v2 --paper-probe-mode true --causal-probe-mode true`
+  - class-aware feedback, ROI-aware augmentation, sample-aware routing, threshold calibration, feedback interval/start epoch 5, industrial augmentation, and final-val policy-selection guard enabled.
+- Run root: `outputs/experiments/cp_catf_paper_mode_execution_fixed_seed0_only/`.
+- Execution flow:
+  - epoch 25 accepted `candidate_policy_1_roi_texture`.
+  - active class: `9`.
+  - executable ops injected: `sharpen_mild(prob=0.20,strength=0.22)` and `local_contrast(prob=0.18,strength=0.20)`.
+  - online stats: industrial samples augmented `226`; router random draw count `1330`.
+  - ROI stats: ROI applied `312`, affected class `9`.
+  - bbox/class checks: invalid bbox `0`, bbox OOB `0`, class OOB `0`.
+  - final-val leakage: `false`.
+- Final seed0 metrics:
+  - CP-CATF: P=0.739931, R=0.676311, mAP50=0.759345, mAP50-95=0.502791.
+  - Reused clean paper seed0: P=0.751343, R=0.676301, mAP50=0.756646, mAP50-95=0.511423.
+  - Delta: dP=-0.011412, dR=+0.000010, dmAP50=+0.002699, dmAP50-95=-0.008631.
+  - Constraint: `constraint_failed=true`, reason `precision_drop_gt_0.01`.
+- Reports:
+  - `outputs/experiments/cp_catf_paper_mode_execution_fixed_seed0_only/reports/seed0_execution_flow_report.md`
+  - `outputs/experiments/cp_catf_paper_mode_execution_fixed_seed0_only/reports/seed0_execution_flow_report.json`
+- Verification before training:
+  - py_compile checks passed for causal probe, training entry, sample router, and policy matrix.
+  - Targeted pytest result: `65 passed`.
+- Interpretation: paper-mode CP-CATF accept-to-execution is confirmed on seed0, but the seed0 precision drop means this should not yet be treated as a paper-mode performance success.
+<!-- CP_CATF_SEED0_EXECUTION_VALIDATION_END -->

@@ -10,7 +10,50 @@
 
 The project is a diagnosis-driven augmentation pipeline for industrial defect detection. Keep work centered on dataset construction, tiling, validation-error diagnosis, policy generation, proxy safety, short-training validation, and auditable artifacts. Do not reframe this as YOLO backbone, neck, or head redesign.
 
-## Latest CP-CATF Precision Gate Update
+## Latest CP-CATF Precision-Gate Validation
+
+- Date: `2026-06-12`.
+- Scope: seed0 only. No seed1, seed2, clean rerun, or multiseed run was started.
+- Added `--precision-aware-accept-gate` CLI support in `scripts/train_yolo_default_with_inloop_feedback.py`.
+- Added:
+  - `scripts/run_cp_catf_precision_gate_dry_run_seed0.py`
+  - `scripts/summarize_cp_catf_precision_gate_seed0_rerun.py`
+- Dry-run output:
+  - `outputs/experiments/cp_catf_precision_gate_dry_run_seed0/reports/precision_gate_dry_run_report.md`
+  - `outputs/experiments/cp_catf_precision_gate_dry_run_seed0/reports/precision_gate_dry_run_report.json`
+- Dry run replayed the existing paper-mode seed0 epoch25 roi_texture accept:
+  - original candidate `candidate_policy_1_roi_texture`;
+  - active class `9`;
+  - ops `sharpen_mild` and `local_contrast`;
+  - original run had ROI applied=312, industrial image augmented=226, router random draw count=1330.
+- Precision-aware gate rejected that candidate using probe-split risk estimates:
+  - estimated_precision_drop=0.0300;
+  - non_active_fp_delta=0.0500;
+  - high_confidence_fp_delta=0.0500;
+  - selected fallback `candidate_policy_3_sampler_only`;
+  - sampler weighting remains pending dataloader support, so image path is strict no-op.
+- Seed0 was rerun for 50 epochs at:
+  - `outputs/experiments/cp_catf_paper_mode_precision_gate_seed0_rerun/`
+- Rerun result:
+  - all feedback epochs selected `candidate_policy_3_sampler_only`;
+  - no image candidate was accepted;
+  - ROI applied=0, industrial image augmented=0, router random draw count=0;
+  - final val leakage=false;
+  - bbox/class checks legal.
+- Against the requested paper clean seed0 baseline, the rerun reproduces paper clean at report precision:
+  - P=0.7513, R=0.6763, mAP50=0.7566, mAP50-95=0.5114;
+  - deltas are all 0.0000 at four decimals;
+  - `constraint_failed=false`.
+- Important caveat: this validates that the precision-aware gate blocks the known high-risk image candidate. It does not prove paper-mode CP-CATF image-augmentation benefit because no image augmentation executed in the rerun.
+- Recommendation: do not proceed to formal seed1/seed2 enhancement validation until either an image candidate passes the precision-aware gate or sampler-only is actually wired into the dataloader.
+- Reports:
+  - `outputs/experiments/cp_catf_paper_mode_precision_gate_seed0_rerun/reports/seed0_precision_gate_rerun_report.md`
+  - `outputs/experiments/cp_catf_paper_mode_precision_gate_seed0_rerun/reports/seed0_precision_gate_rerun_report.json`
+- Verification:
+  - py_compile passed for causal probe, train script, sample router, policy matrix, and both new scripts.
+  - Targeted pytest result: `70 passed`.
+
+## Previous CP-CATF Precision Gate Update
 
 - No new training was run.
 - The previous paper-mode seed0 execution-fixed run confirmed that accepted ROI texture candidates execute in training:
@@ -817,7 +860,7 @@ No training was run after building or auditing these datasets.
 - Current CATF-v2 work is smoke-only; no formal 50 epoch CATF-v2 run should be inferred from it.
 - No-feedback control disables both feedback and industrial augmentation, using Ultralytics YOLO default augmentation as the behavior check.
 - The old YOLO default reference is not the final baseline after parity audit; feedback comparisons should use `clean_native_yolo_default_seed42_50ep`.
-- Output: `outputs/experiments/catf_v2_cp_catf/`
+- Output: `outputs/experiments/./`
 - Epochs: `50`
 - Feedback enabled: `true`
 - Industrial augmentation enabled: `true`
@@ -829,12 +872,12 @@ No training was run after building or auditing these datasets.
 - Feedback epochs: `[5, 10, 15, 20, 25, 30, 35, 40, 45]`
 - Stage restart count: `0`
 - Epoch continuous: `true`
-- Train image count: `2301`
+- Train image count: `2071`
 - Fixed augmented dataset generated: `false`
 - Constraint baseline: `clean_native_yolo_default`
-- Constraint failed: `False`
-- Report: `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_cp_catf/seed_2/catf_v2_cp_catf/reports/final_report.md`
-- Policy history: `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_cp_catf/seed_2/catf_v2_cp_catf/reports/policy_history.json`
+- Constraint failed: `True`
+- Report: `outputs/experiments/cp_catf_paper_mode_precision_gate_seed0_rerun/reports/final_report.md`
+- Policy history: `outputs/experiments/cp_catf_paper_mode_precision_gate_seed0_rerun/reports/policy_history.json`
 <!-- YOLO_DEFAULT_INLOOP_FEEDBACK_SMOKE_END -->
 <!-- YOLO_DEFAULT_INLOOP_PARITY_AUDIT_START -->
 ## YOLO Default In-Loop Parity Audit

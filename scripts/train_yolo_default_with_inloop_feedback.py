@@ -439,6 +439,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--catf-causal-probe", action=argparse.BooleanOptionalAction, default=False)
     parser.add_argument("--causal-probe-mode", dest="catf_causal_probe", action=argparse.BooleanOptionalAction, default=argparse.SUPPRESS)
     parser.add_argument("--catf-causal-probe-mode", choices=["development", "paper"], default="development")
+    parser.add_argument("--precision-aware-accept-gate", action=argparse.BooleanOptionalAction, default=True)
     parser.add_argument("--use-offline-probe-decisions", action=argparse.BooleanOptionalAction, default=False)
     parser.add_argument("--offline-probe-decisions-dir", default=str(PROJECT_ROOT / "outputs/experiments/catf_v2_causal_probe"))
     parser.add_argument("--offline-probe-decisions-file", default=None)
@@ -503,6 +504,7 @@ def normalize_bool_cli_args(argv: list[str]) -> list[str]:
         "--catf-riskguard",
         "--catf-causal-probe",
         "--causal-probe-mode",
+        "--precision-aware-accept-gate",
         "--use-offline-probe-decisions",
         "--paper-probe-mode",
         "--forbid-final-val-policy-selection",
@@ -570,6 +572,7 @@ def build_train_config(args: argparse.Namespace, output_dir: Path) -> dict[str, 
         "catf_riskguard": bool(getattr(args, "catf_riskguard", False)),
         "catf_causal_probe": bool(getattr(args, "catf_causal_probe", False)),
         "catf_causal_probe_mode": str(getattr(args, "catf_causal_probe_mode", "development")),
+        "precision_aware_accept_gate": bool(getattr(args, "precision_aware_accept_gate", True)),
         "use_offline_probe_decisions": bool(getattr(args, "use_offline_probe_decisions", False)),
         "offline_probe_decisions_dir": str(Path(getattr(args, "offline_probe_decisions_dir", "")).resolve()),
         "offline_probe_decisions_file": str(Path(getattr(args, "offline_probe_decisions_file")).resolve()) if getattr(args, "offline_probe_decisions_file", None) else None,
@@ -652,6 +655,7 @@ def build_train_command(args: argparse.Namespace, output_dir: Path) -> str:
         f"catf_riskguard={bool(getattr(args, 'catf_riskguard', False))}",
         f"catf_causal_probe={bool(getattr(args, 'catf_causal_probe', False))}",
         f"catf_causal_probe_mode={getattr(args, 'catf_causal_probe_mode', 'development')}",
+        f"precision_aware_accept_gate={bool(getattr(args, 'precision_aware_accept_gate', True))}",
         f"use_offline_probe_decisions={bool(getattr(args, 'use_offline_probe_decisions', False))}",
         f"paper_probe_mode={bool(getattr(args, 'paper_probe_mode', False))}",
         f"probe_data={Path(getattr(args, 'probe_data')).resolve() if getattr(args, 'probe_data', None) else None}",

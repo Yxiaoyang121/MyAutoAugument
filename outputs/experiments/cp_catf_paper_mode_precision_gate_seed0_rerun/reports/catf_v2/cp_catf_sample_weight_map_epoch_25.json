@@ -1,0 +1,9 @@
+{
+  "cp_catf_sampler_only": {
+    "enabled": true,
+    "sample_weighting_effective": false,
+    "sample_weighting_status": "pending_dataloader_support",
+    "image_modification": false,
+    "selected_candidate_policy_id": "candidate_policy_3_sampler_only"
+  }
+}

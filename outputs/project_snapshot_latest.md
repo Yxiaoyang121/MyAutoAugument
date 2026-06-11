@@ -1,38 +1,24 @@
 # Project Snapshot
 
-- Generated: 2026-06-11T00:00:00+08:00
+- Generated: 2026-06-12T04:28:44
 - Branch: codex/sync-latest
-- Commit: pending precision-aware CP-CATF accept-gate update
+- Commit: 02ed4f13008eb6660c38cff49f4b148e6d6a0749
 - Remote: https://github.com/Yxiaoyang121/MyAutoAugument.git
 
 ## Working Tree
 
 ```text
- M AutoAugment/catf_v2/causal_probe.py
  M CODEX_HANDOFF.md
  M EXPERIMENT_LOG.md
  M PROJECT_STATE.md
+ M outputs/project_snapshot_latest.md
+ M outputs/snapshots/project_snapshot_latest.md
  M scripts/train_yolo_default_with_inloop_feedback.py
- M tests/test_catf_v2_causal_probe.py
- M tests/test_cp_catf_paper_mode.py
-?? outputs/experiments/cp_catf_paper_mode_execution_fixed_seed0_only/reports/seed0_precision_aware_gate_update.json
-?? outputs/experiments/cp_catf_paper_mode_execution_fixed_seed0_only/reports/seed0_precision_aware_gate_update.md
+?? outputs/experiments/cp_catf_paper_mode_precision_gate_seed0_rerun/
+?? outputs/experiments/cp_catf_precision_gate_dry_run_seed0/
+?? scripts/run_cp_catf_precision_gate_dry_run_seed0.py
+?? scripts/summarize_cp_catf_precision_gate_seed0_rerun.py
 ```
-
-## Latest Update
-
-- Implemented a generic precision-aware CP-CATF accept gate based on the seed0 precision-risk audit.
-- No training was run for this update.
-- Image candidates are now rejected when probe estimates exceed:
-  - `estimated_precision_drop > 0.005`
-  - `non_active_fp_delta > 0.005`
-  - `high_confidence_fp_delta > 0.0`
-- The causal score formula is unchanged; the precision fields are required accept conditions.
-- Paper-mode risk estimation now uses full probe-split per-class context for non-active FP risk.
-- Verification: py_compile for `causal_probe.py`, the train script, router, and policy matrix; targeted pytest result `70 passed`.
-- Reports:
-  - `outputs/experiments/cp_catf_paper_mode_execution_fixed_seed0_only/reports/seed0_precision_aware_gate_update.md`
-  - `outputs/experiments/cp_catf_paper_mode_execution_fixed_seed0_only/reports/seed0_precision_aware_gate_update.json`
 
 ## Key Files
 
@@ -236,94 +222,9 @@
 
 ## Tracked File Count
 
-- 6073 tracked files
+- 7794 tracked files
 
 ## Notes
 
 - This snapshot reflects the current local repository state.
 - It does not invent benchmark results.
-
-## Latest CP-CATF Status
-
-- CP-CATF multiseed training validation completed at `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_cp_catf/`.
-- RiskGuard is audit/debug prior only, not the final training accept/reject rule.
-- Development-mode offline probe decisions were used:
-  - seed0 accepted `candidate_policy_1_roi_texture`.
-  - seed1 accepted `candidate_policy_1_roi_texture`.
-  - seed2 selected `candidate_policy_3_sampler_only`; sample weighting is pending dataloader support, so the actual path is strict image no-op.
-- Final CP-CATF metrics:
-  - seed0: P=0.7785, R=0.6697, mAP50=0.7437, mAP50-95=0.4895, `constraint_failed=false`.
-  - seed1: P=0.7852, R=0.7005, mAP50=0.7826, mAP50-95=0.5189, `constraint_failed=false`.
-  - seed2: P=0.6962, R=0.7286, mAP50=0.7692, mAP50-95=0.5224, `constraint_failed=false`.
-- Outcome: `3/3` constraint pass; seed0/seed1 retained fixed CATF-v2 gains; seed2 rejected image augmentation with industrial samples=0, ROI=0, router random draws=0; OK3 remained inactive.
-- Reports:
-  - `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_cp_catf/reports/multiseed_cp_catf_summary.md`
-  - `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_cp_catf/reports/multiseed_cp_catf_summary.json`
-- Verification: requested py_compile checks passed and requested pytest suite result was `134 passed`.
-- Caveat: current CP-CATF validation uses development-mode offline probe decisions from existing validation diagnostics. Paper-mode CP-CATF still needs a train/probe split or train hard-example probe set before leakage-free final claims.
-
-## Latest CP-CATF Paper-Mode Status
-
-- Paper-mode CP-CATF validation completed at `outputs/experiments/multiseed_cp_catf_paper_mode/`.
-- Probe split root: `outputs/datasets/tiled/tiled_1024_ov20_full_safe_no_ok_position_paper_probe/`.
-- Split seed `2026`; original train `2301`, train_core `2071`, probe `230`, final val `677`; train_core/probe/final-val overlap count `0`.
-- Smoke run passed at `outputs/experiments/cp_catf_paper_mode_10ep_smoke/`, with policy selection from `probe_split` and final val excluded from strategy selection.
-- Clean paper baseline:
-  - seed0: P=0.7513, R=0.6763, mAP50=0.7566, mAP50-95=0.5114.
-  - seed1: P=0.7220, R=0.7582, mAP50=0.7777, mAP50-95=0.5251.
-  - seed2: P=0.6290, R=0.6385, mAP50=0.6590, mAP50-95=0.4381.
-- CP-CATF paper-mode metrics match clean exactly for all three seeds; `constraint_failed=false` for seed0/1/2.
-- Mean delta vs clean paper baseline: dP=+0.0000, dR=+0.0000, dmAP50=+0.0000, dmAP50-95=+0.0000.
-- Actual CP-CATF paper-mode image augmentation did not execute: industrial samples augmented `0`, ROI applied `0`, router random draws `0` for all seeds.
-- Final val leakage detected: `false`; policy history records `policy_selection_source=probe_split`.
-- Outcome: `3/3` constraint pass, but no retained gain over the clean paper baseline. Paper-mode CP-CATF is not yet a paper main-result candidate; it is currently a leakage-free safety validation. Next work should strengthen paper-mode probe evidence with a larger probe split or train hard-example probe set.
-- Reports:
-  - `outputs/datasets/tiled/tiled_1024_ov20_full_safe_no_ok_position_paper_probe/reports/probe_split_report.md`
-  - `outputs/experiments/cp_catf_paper_mode_10ep_smoke/reports/paper_mode_smoke_report.md`
-  - `outputs/experiments/multiseed_cp_catf_paper_mode/reports/multiseed_cp_catf_paper_mode_summary.md`
-  - `outputs/experiments/multiseed_cp_catf_paper_mode/reports/multiseed_cp_catf_paper_mode_summary.json`
-- Verification: requested py_compile checks passed and requested pytest suite result was `142 passed`.
-
-## Latest CP-CATF Accept-to-Execution Audit
-
-- Audit completed at `outputs/experiments/multiseed_cp_catf_paper_mode/reports/cp_catf_accept_to_execution_audit.md`.
-- Existing paper-mode multiseed had `8` causal-probe image accept events but `0` executable active class-op policies after causal probe.
-- Root cause: accepted candidates were reduced to an op whitelist and were not materialized into target-class policy entries with nonzero op probabilities/strengths. The sample router therefore had no eligible active policy and returned no-op before random draws.
-- Fix implemented in `scripts/train_yolo_default_with_inloop_feedback.py`: accepted image candidates now inject executable class-op entries into the policy matrix; sampler-only and rejected candidates remain strict image no-op.
-- Fixed smoke root: `outputs/experiments/cp_catf_paper_mode_execution_fixed_10ep_smoke/`.
-- Fixed smoke selected `candidate_policy_3_sampler_only` at epoch 5 and no image accept occurred in 10 epochs, so industrial samples, ROI applications, and router random draws stayed `0`.
-- Final-val leakage remained `false`; split overlaps remained `0`.
-- Smoke reports:
-  - `outputs/experiments/cp_catf_paper_mode_execution_fixed_10ep_smoke/reports/execution_fixed_smoke_report.md`
-  - `outputs/experiments/cp_catf_paper_mode_execution_fixed_10ep_smoke/reports/execution_fixed_smoke_report.json`
-- Verification: targeted pytest suite passed `74 passed`.
-
-## Latest CP-CATF Seed0 Execution Validation
-
-- Seed0-only paper-mode execution-fixed run completed at `outputs/experiments/cp_catf_paper_mode_execution_fixed_seed0_only/`.
-- This run did not rerun clean, seed1, seed2, or multiseed summaries.
-- Epoch 25 accepted `candidate_policy_1_roi_texture` for class `9`.
-- Executable policy was generated and executed: industrial samples augmented `226`, ROI applied `312`, router random draw count `1330`.
-- Final-val leakage remained `false`.
-- CP-CATF seed0 metrics: P=0.739931, R=0.676311, mAP50=0.759345, mAP50-95=0.502791.
-- Reused clean paper seed0 metrics: P=0.751343, R=0.676301, mAP50=0.756646, mAP50-95=0.511423.
-- Delta: dP=-0.011412, dR=+0.000010, dmAP50=+0.002699, dmAP50-95=-0.008631.
-- Constraint result: `constraint_failed=true` due Precision drop greater than `0.01`.
-- Reports:
-  - `outputs/experiments/cp_catf_paper_mode_execution_fixed_seed0_only/reports/seed0_execution_flow_report.md`
-  - `outputs/experiments/cp_catf_paper_mode_execution_fixed_seed0_only/reports/seed0_execution_flow_report.json`
-
-## Latest CP-CATF Seed0 Precision-Risk Audit
-
-- Analysis-only audit completed; no training was run.
-- Report: `outputs/experiments/cp_catf_paper_mode_execution_fixed_seed0_only/reports/seed0_precision_risk_audit.md`.
-- JSON: `outputs/experiments/cp_catf_paper_mode_execution_fixed_seed0_only/reports/seed0_precision_risk_audit.json`.
-- At conf `0.25`, FP increased `344 -> 354`, TP increased `716 -> 719`, FN decreased `189 -> 186`.
-- Precision risk is driven by non-active classes rather than class9:
-  - class5 FP `+14`;
-  - class6 FP `+12`;
-  - class8 FP `+6`;
-  - class2 FP `+3`.
-- Class9 was active/ROI affected, but metric Precision/AP improved and matched FP decreased `50 -> 38`.
-- Final-val threshold calibration is leakage-only; probe-based threshold calibration did not restore final-val Precision to clean-minus-0.01.
-- Recommendation: add a precision-aware accept gate before running seed1/seed2 paper-mode performance validation.

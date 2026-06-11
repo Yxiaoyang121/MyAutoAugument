@@ -1,0 +1,474 @@
+{
+  "generated_at": "2026-06-12T00:51:47",
+  "source_run_root": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\cp_catf_paper_mode_execution_fixed_seed0_only",
+  "output_root": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\cp_catf_precision_gate_dry_run_seed0",
+  "dry_run_only": true,
+  "training_executed": false,
+  "seed": 0,
+  "epoch": 25,
+  "policy_selection_source": "probe_split",
+  "policy_selection_data": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\probe.yaml",
+  "final_val_used_for_policy_selection": false,
+  "final_val_leakage": false,
+  "leakage_audit": {
+    "train_core_probe_overlap_count": 0,
+    "probe_final_val_overlap_count": 0,
+    "train_core_final_val_overlap_count": 0
+  },
+  "original_epoch25": {
+    "candidate_policy_id": "candidate_policy_1_roi_texture",
+    "candidate_action": "accept",
+    "accepted": true,
+    "active_class": 9,
+    "op_list": [
+      "sharpen_mild",
+      "local_contrast"
+    ],
+    "causal_score": 0.01726315789473684,
+    "ops_injected": [
+      {
+        "op_name": "sharpen_mild",
+        "prob": 0.2,
+        "strength": 0.22
+      },
+      {
+        "op_name": "local_contrast",
+        "prob": 0.18,
+        "strength": 0.2
+      }
+    ],
+    "execution_status": "accepted_image_aug_executed",
+    "roi_applied": 312,
+    "industrial_image_augmented": 226,
+    "router_random_draw_count": 1330
+  },
+  "active_rows_replayed": [
+    {
+      "class_id": 9,
+      "dominant_issue": "texture_boundary_weak",
+      "evidence_count": 11,
+      "diagnosis_confidence": 0.575,
+      "strong_update_allowed": true
+    }
+  ],
+  "new_epoch25_roi_texture_evaluation": {
+    "candidate_policy_id": "candidate_policy_1_roi_texture",
+    "decision": "reject",
+    "accepted": false,
+    "image_modification_allowed": false,
+    "causal_score": -0.10273684210526315,
+    "benefit_metrics": {
+      "fn_recovery_rate": 0.015,
+      "localization_iou_gain": 0.005,
+      "low_conf_tp_conf_gain": 0.015
+    },
+    "risk_metrics": {
+      "fp_increase_rate": 0.004736842105263157,
+      "high_fp_spillover_rate": 0.05,
+      "non_active_regression_rate": 0.06,
+      "ok_class_false_activation": 0.0,
+      "bbox_instability_rate": 0.0,
+      "estimated_precision_drop": 0.03,
+      "non_active_fp_delta": 0.05,
+      "high_confidence_fp_delta": 0.05
+    },
+    "weighted_risk_metrics": {
+      "fp_increase_rate": 0.004736842105263157,
+      "high_fp_spillover_rate": 0.05,
+      "non_active_regression_rate": 0.06,
+      "ok_class_false_activation": 0.0,
+      "bbox_instability_rate": 0.0
+    },
+    "precision_gate_metrics": {
+      "estimated_precision_drop": 0.03,
+      "non_active_fp_delta": 0.05,
+      "high_confidence_fp_delta": 0.05
+    },
+    "precision_gate_thresholds": {
+      "estimated_precision_drop": 0.005,
+      "non_active_fp_delta": 0.005,
+      "high_confidence_fp_delta": 0.0
+    },
+    "rejection_reasons": [
+      "causal_score_not_positive",
+      "high_fp_spillover_rate_too_high",
+      "non_active_regression_rate_too_high",
+      "estimated_precision_drop_too_high",
+      "non_active_fp_delta_too_high",
+      "high_confidence_fp_delta_too_high"
+    ],
+    "precision_gate_rejection_reasons": [
+      "estimated_precision_drop_too_high",
+      "non_active_fp_delta_too_high",
+      "high_confidence_fp_delta_too_high"
+    ],
+    "audit_prior_only": true,
+    "riskguard_used_as_final_rule": false
+  },
+  "new_selected_candidate": {
+    "candidate_policy_id": "candidate_policy_3_sampler_only",
+    "candidate_action": "sampler_only",
+    "decision": "sampler_only",
+    "image_modification_allowed": false,
+    "sample_weighting_allowed": true,
+    "sample_weighting_effective": false,
+    "sample_weighting_status": "pending_dataloader_support",
+    "strict_image_noop": true,
+    "sampler_only_selected": true
+  },
+  "answers": {
+    "epoch25_original_candidate_is_roi_texture": true,
+    "epoch25_original_candidate_was_accepted": true,
+    "new_precision_gate_rejects_roi_texture": true,
+    "estimated_precision_drop": 0.03,
+    "non_active_fp_delta": 0.05,
+    "high_confidence_fp_delta": 0.05,
+    "converted_to_sampler_only": true,
+    "sampler_only_effective": false,
+    "strict_noop_if_sampler_pending": true,
+    "decision_depends_on_seed_id": false,
+    "decision_depends_on_fixed_class_id": false,
+    "final_val_leakage": false,
+    "recommend_seed0_50ep_rerun": true
+  },
+  "candidate_evaluations": [
+    {
+      "candidate_policy_id": "candidate_policy_1_roi_texture",
+      "candidate_policy": {
+        "policy_id": "candidate_policy_1_roi_texture",
+        "action": "roi_image_aug",
+        "op_list": [
+          "sharpen_mild",
+          "local_contrast"
+        ],
+        "image_modification": true,
+        "sample_weighting": false
+      },
+      "probe_set": {
+        "class_id": 9,
+        "candidate_policy_id": "candidate_policy_1_roi_texture",
+        "mode": "paper",
+        "development_probe_uses_existing_val_diagnostics": false,
+        "bucket_counts": {
+          "fn_samples": 11,
+          "high_fp_risky_samples": 0,
+          "low_conf_tp_samples": 0,
+          "non_active_class_samples": 0,
+          "weak_localization_samples": 1
+        },
+        "evidence_count": 11,
+        "diagnosis_confidence": 0.575,
+        "audit_priors": [
+          {
+            "risk_reasons": [
+              "active_class_regression",
+              "non_active_class_regression",
+              "seed2_root_cause_audit",
+              "texture_boundary_weak_intervention_failed"
+            ],
+            "causal_probe_required": true,
+            "default_action": "audit_prior_only",
+            "class_id": 9,
+            "op_name": "sharpen_mild",
+            "audit_prior_only": true
+          },
+          {
+            "risk_reasons": [
+              "active_class_regression",
+              "non_active_class_regression",
+              "seed2_root_cause_audit",
+              "texture_boundary_weak_intervention_failed"
+            ],
+            "causal_probe_required": true,
+            "default_action": "audit_prior_only",
+            "class_id": 9,
+            "op_name": "local_contrast",
+            "audit_prior_only": true
+          }
+        ]
+      },
+      "benefit_metrics": {
+        "fn_recovery_rate": 0.015,
+        "localization_iou_gain": 0.005,
+        "low_conf_tp_conf_gain": 0.015
+      },
+      "risk_metrics": {
+        "fp_increase_rate": 0.004736842105263157,
+        "high_fp_spillover_rate": 0.05,
+        "non_active_regression_rate": 0.06,
+        "ok_class_false_activation": 0.0,
+        "bbox_instability_rate": 0.0,
+        "estimated_precision_drop": 0.03,
+        "non_active_fp_delta": 0.05,
+        "high_confidence_fp_delta": 0.05
+      },
+      "weighted_risk_metrics": {
+        "fp_increase_rate": 0.004736842105263157,
+        "high_fp_spillover_rate": 0.05,
+        "non_active_regression_rate": 0.06,
+        "ok_class_false_activation": 0.0,
+        "bbox_instability_rate": 0.0
+      },
+      "precision_gate_metrics": {
+        "estimated_precision_drop": 0.03,
+        "non_active_fp_delta": 0.05,
+        "high_confidence_fp_delta": 0.05
+      },
+      "causal_score": -0.10273684210526315,
+      "decision": {
+        "candidate_policy_id": "candidate_policy_1_roi_texture",
+        "accepted": false,
+        "decision": "reject",
+        "causal_score": -0.10273684210526315,
+        "rejection_reasons": [
+          "causal_score_not_positive",
+          "high_fp_spillover_rate_too_high",
+          "non_active_regression_rate_too_high",
+          "estimated_precision_drop_too_high",
+          "non_active_fp_delta_too_high",
+          "high_confidence_fp_delta_too_high"
+        ],
+        "audit_prior_only": true,
+        "audit_priors": [
+          {
+            "risk_reasons": [
+              "active_class_regression",
+              "non_active_class_regression",
+              "seed2_root_cause_audit",
+              "texture_boundary_weak_intervention_failed"
+            ],
+            "causal_probe_required": true,
+            "default_action": "audit_prior_only",
+            "class_id": 9,
+            "op_name": "sharpen_mild",
+            "audit_prior_only": true
+          },
+          {
+            "risk_reasons": [
+              "active_class_regression",
+              "non_active_class_regression",
+              "seed2_root_cause_audit",
+              "texture_boundary_weak_intervention_failed"
+            ],
+            "causal_probe_required": true,
+            "default_action": "audit_prior_only",
+            "class_id": 9,
+            "op_name": "local_contrast",
+            "audit_prior_only": true
+          }
+        ],
+        "precision_gate": {
+          "estimated_precision_drop": 0.03,
+          "non_active_fp_delta": 0.05,
+          "high_confidence_fp_delta": 0.05
+        },
+        "precision_gate_thresholds": {
+          "estimated_precision_drop": 0.005,
+          "non_active_fp_delta": 0.005,
+          "high_confidence_fp_delta": 0.0
+        },
+        "image_modification_allowed": false,
+        "sample_weighting_allowed": false,
+        "strict_noop": false
+      },
+      "policy_selection_source": "probe_split",
+      "policy_selection_data": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\probe.yaml"
+    },
+    {
+      "candidate_policy_id": "candidate_policy_2_roi_low_contrast",
+      "candidate_policy": {
+        "policy_id": "candidate_policy_2_roi_low_contrast",
+        "action": "roi_image_aug",
+        "op_list": [
+          "local_contrast",
+          "gamma"
+        ],
+        "image_modification": true,
+        "sample_weighting": false
+      },
+      "probe_set": {
+        "class_id": 9,
+        "candidate_policy_id": "candidate_policy_2_roi_low_contrast",
+        "mode": "paper",
+        "development_probe_uses_existing_val_diagnostics": false,
+        "bucket_counts": {
+          "fn_samples": 11,
+          "high_fp_risky_samples": 0,
+          "low_conf_tp_samples": 0,
+          "non_active_class_samples": 0,
+          "weak_localization_samples": 1
+        },
+        "evidence_count": 11,
+        "diagnosis_confidence": 0.575,
+        "audit_priors": [
+          {
+            "risk_reasons": [
+              "active_class_regression",
+              "non_active_class_regression",
+              "seed2_root_cause_audit",
+              "texture_boundary_weak_intervention_failed"
+            ],
+            "causal_probe_required": true,
+            "default_action": "audit_prior_only",
+            "class_id": 9,
+            "op_name": "local_contrast",
+            "audit_prior_only": true
+          }
+        ]
+      },
+      "benefit_metrics": {
+        "fn_recovery_rate": 0.0075,
+        "localization_iou_gain": 0.0,
+        "low_conf_tp_conf_gain": 0.015
+      },
+      "risk_metrics": {
+        "fp_increase_rate": 0.004736842105263157,
+        "high_fp_spillover_rate": 0.05,
+        "non_active_regression_rate": 0.06,
+        "ok_class_false_activation": 0.0,
+        "bbox_instability_rate": 0.0,
+        "estimated_precision_drop": 0.0,
+        "non_active_fp_delta": 0.0,
+        "high_confidence_fp_delta": 0.0
+      },
+      "weighted_risk_metrics": {
+        "fp_increase_rate": 0.004736842105263157,
+        "high_fp_spillover_rate": 0.05,
+        "non_active_regression_rate": 0.06,
+        "ok_class_false_activation": 0.0,
+        "bbox_instability_rate": 0.0
+      },
+      "precision_gate_metrics": {
+        "estimated_precision_drop": 0.0,
+        "non_active_fp_delta": 0.0,
+        "high_confidence_fp_delta": 0.0
+      },
+      "causal_score": -0.11273684210526315,
+      "decision": {
+        "candidate_policy_id": "candidate_policy_2_roi_low_contrast",
+        "accepted": false,
+        "decision": "reject",
+        "causal_score": -0.11273684210526315,
+        "rejection_reasons": [
+          "causal_score_not_positive",
+          "insufficient_active_class_benefit",
+          "high_fp_spillover_rate_too_high",
+          "non_active_regression_rate_too_high"
+        ],
+        "audit_prior_only": true,
+        "audit_priors": [
+          {
+            "risk_reasons": [
+              "active_class_regression",
+              "non_active_class_regression",
+              "seed2_root_cause_audit",
+              "texture_boundary_weak_intervention_failed"
+            ],
+            "causal_probe_required": true,
+            "default_action": "audit_prior_only",
+            "class_id": 9,
+            "op_name": "local_contrast",
+            "audit_prior_only": true
+          }
+        ],
+        "precision_gate": {
+          "estimated_precision_drop": 0.0,
+          "non_active_fp_delta": 0.0,
+          "high_confidence_fp_delta": 0.0
+        },
+        "precision_gate_thresholds": {
+          "estimated_precision_drop": 0.005,
+          "non_active_fp_delta": 0.005,
+          "high_confidence_fp_delta": 0.0
+        },
+        "image_modification_allowed": false,
+        "sample_weighting_allowed": false,
+        "strict_noop": false
+      },
+      "policy_selection_source": "probe_split",
+      "policy_selection_data": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\probe.yaml"
+    },
+    {
+      "candidate_policy_id": "candidate_policy_3_sampler_only",
+      "candidate_policy": {
+        "policy_id": "candidate_policy_3_sampler_only",
+        "action": "sampler_only",
+        "op_list": [],
+        "image_modification": false,
+        "sample_weighting": true,
+        "sample_weighting_effective": false,
+        "sample_weighting_status": "pending_dataloader_support"
+      },
+      "probe_set": {
+        "class_id": 9,
+        "candidate_policy_id": "candidate_policy_3_sampler_only",
+        "mode": "paper",
+        "development_probe_uses_existing_val_diagnostics": false,
+        "bucket_counts": {
+          "fn_samples": 11,
+          "high_fp_risky_samples": 0,
+          "low_conf_tp_samples": 0,
+          "non_active_class_samples": 0,
+          "weak_localization_samples": 1
+        },
+        "evidence_count": 11,
+        "diagnosis_confidence": 0.575,
+        "audit_priors": []
+      },
+      "benefit_metrics": {
+        "fn_recovery_rate": 0.0075,
+        "localization_iou_gain": 0.0,
+        "low_conf_tp_conf_gain": 0.0
+      },
+      "risk_metrics": {
+        "fp_increase_rate": 0.004736842105263157,
+        "high_fp_spillover_rate": 0.05,
+        "non_active_regression_rate": 0.06,
+        "ok_class_false_activation": 0.0,
+        "bbox_instability_rate": 0.0,
+        "estimated_precision_drop": 0.0,
+        "non_active_fp_delta": 0.0,
+        "high_confidence_fp_delta": 0.0
+      },
+      "weighted_risk_metrics": {
+        "fp_increase_rate": 0.004736842105263157,
+        "high_fp_spillover_rate": 0.05,
+        "non_active_regression_rate": 0.06,
+        "ok_class_false_activation": 0.0,
+        "bbox_instability_rate": 0.0
+      },
+      "precision_gate_metrics": {
+        "estimated_precision_drop": 0.0,
+        "non_active_fp_delta": 0.0,
+        "high_confidence_fp_delta": 0.0
+      },
+      "causal_score": -0.11723684210526315,
+      "decision": {
+        "candidate_policy_id": "candidate_policy_3_sampler_only",
+        "accepted": true,
+        "decision": "sampler_only",
+        "causal_score": -0.11723684210526315,
+        "rejection_reasons": [],
+        "audit_prior_only": false,
+        "audit_priors": [],
+        "precision_gate": {
+          "estimated_precision_drop": 0.0,
+          "non_active_fp_delta": 0.0,
+          "high_confidence_fp_delta": 0.0
+        },
+        "precision_gate_thresholds": {
+          "estimated_precision_drop": 0.005,
+          "non_active_fp_delta": 0.005,
+          "high_confidence_fp_delta": 0.0
+        },
+        "image_modification_allowed": false,
+        "sample_weighting_allowed": true,
+        "sample_weighting_effective": false,
+        "sample_weighting_status": "pending_dataloader_support",
+        "strict_noop": false
+      },
+      "policy_selection_source": "probe_split",
+      "policy_selection_data": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\probe.yaml"
+    }
+  ]
+}

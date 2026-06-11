@@ -929,6 +929,7 @@ def build_paper_probe_decision_payload(
         ][: int(getattr(state.args, "top_k_active_classes", 2))]
     decision_payload = build_probe_decision_from_rows(
         active_rows=active_rows,
+        context_rows=class_rows,
         policy=policy,
         epoch_num=epoch_num,
         mode="paper",
@@ -994,6 +995,7 @@ def infer_dominant_issue_from_row(row: dict[str, Any]) -> str:
 def build_probe_decision_from_rows(
     *,
     active_rows: list[dict[str, Any]],
+    context_rows: list[dict[str, Any]] | None = None,
     policy: dict[str, Any],
     epoch_num: int,
     mode: str,
@@ -1001,6 +1003,7 @@ def build_probe_decision_from_rows(
     policy_selection_source: str,
 ) -> dict[str, Any]:
     catalog = candidate_policy_catalog()
+    risk_context_rows = list(context_rows or active_rows)
     candidate_ids = [
         "candidate_policy_1_roi_texture",
         "candidate_policy_2_roi_low_contrast",
@@ -1012,13 +1015,22 @@ def build_probe_decision_from_rows(
         row = best_row_for_candidate(active_rows, candidate)
         if row is None:
             benefit = {"fn_recovery_rate": 0.0, "localization_iou_gain": 0.0, "low_conf_tp_conf_gain": 0.0}
-            risk = {"fp_increase_rate": 0.0, "high_fp_spillover_rate": 0.0, "non_active_regression_rate": 0.0, "ok_class_false_activation": 0.0, "bbox_instability_rate": 0.0}
+            risk = {
+                "fp_increase_rate": 0.0,
+                "high_fp_spillover_rate": 0.0,
+                "non_active_regression_rate": 0.0,
+                "ok_class_false_activation": 0.0,
+                "bbox_instability_rate": 0.0,
+                "estimated_precision_drop": 0.0,
+                "non_active_fp_delta": 0.0,
+                "high_confidence_fp_delta": 0.0,
+            }
             evidence_count = 0
             diagnosis_confidence = 0.0
             class_id = -1
         else:
             benefit = paper_probe_benefit_metrics(row, candidate)
-            risk = paper_probe_risk_metrics(row, active_rows, candidate)
+            risk = paper_probe_risk_metrics(row, risk_context_rows, candidate)
             evidence_count = int(row.get("evidence_count", 0) or 0)
             diagnosis_confidence = float(row.get("diagnosis_confidence", 0.0) or 0.0)
             class_id = int(row.get("class_id", -1))
@@ -1113,7 +1125,7 @@ def paper_probe_benefit_metrics(row: dict[str, Any], candidate: dict[str, Any]) 
 
 def paper_probe_risk_metrics(
     row: dict[str, Any],
-    active_rows: list[dict[str, Any]],
+    context_rows: list[dict[str, Any]],
     candidate: dict[str, Any],
 ) -> dict[str, float]:
     high_fp = bool(row.get("high_fp_guarded", False) or row.get("high_fp_prior", False))
@@ -1125,17 +1137,39 @@ def paper_probe_risk_metrics(
     ap95 = row_float(row, "AP50_95", "ap50_95", "ap95")
     precision = row_float(row, "Precision", "precision")
     texture_candidate = "sharpen_mild" in set(candidate.get("op_list") or [])
-    non_active_risky = sum(
-        1 for other in active_rows
-        if int(other.get("class_id", -1)) != int(row.get("class_id", -1))
-        and (bool(other.get("stable_class", False)) or bool(other.get("high_fp_guarded", False)))
-    )
+    target_class_id = int(row.get("class_id", -1))
+    non_active_rows = [
+        other for other in context_rows
+        if int(other.get("class_id", -1)) != target_class_id
+    ]
+    non_active_risky = 0
+    high_confidence_fp_risky = 0
+    for other in non_active_rows:
+        other_precision = row_float(other, "Precision", "precision")
+        other_fp = row_float(other, "FP", "fp", "fp_count")
+        other_high_fp = bool(other.get("high_fp_guarded", False) or other.get("high_fp_prior", False))
+        other_no_aug = bool(other.get("no_aug_class", False))
+        other_stable = bool(other.get("stable_class", False))
+        if other_no_aug or other_high_fp or other_stable or other_precision < 0.65 or other_fp >= 5:
+            non_active_risky += 1
+        if other_no_aug or other_high_fp or other_fp >= 10:
+            high_confidence_fp_risky += 1
+    estimated_precision_drop = 0.0
+    non_active_fp_delta = 0.0
+    high_confidence_fp_delta = 0.0
+    if texture_candidate:
+        estimated_precision_drop = min(0.05, 0.003 * non_active_risky + max(0.0, 0.70 - precision) * 0.01)
+        non_active_fp_delta = min(0.05, 0.006 * non_active_risky)
+        high_confidence_fp_delta = min(0.05, 0.006 * high_confidence_fp_risky)
     return {
         "fp_increase_rate": 0.04 if high_fp or no_aug else max(0.0, 0.02 - precision * 0.02),
         "high_fp_spillover_rate": 0.03 if high_fp or no_aug else 0.005 * non_active_risky,
         "non_active_regression_rate": 0.025 if texture_candidate and stable else 0.006 * non_active_risky,
         "ok_class_false_activation": 1.0 if no_aug else 0.0,
         "bbox_instability_rate": min(0.03, max(0.0, (ap50 - ap95) * 0.05)) if texture_candidate and issue == "texture_boundary_weak" else 0.0,
+        "estimated_precision_drop": estimated_precision_drop,
+        "non_active_fp_delta": non_active_fp_delta,
+        "high_confidence_fp_delta": high_confidence_fp_delta,
         "low_support_risk": 0.02 if low_support else 0.0,
     }
 

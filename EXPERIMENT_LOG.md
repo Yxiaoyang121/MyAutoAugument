@@ -1,5 +1,49 @@
 # Experiment Log
 
+## 2026-06-11
+
+### CP-CATF Precision-Aware Accept Gate From Seed0 Audit
+
+Scope:
+
+- No training was run.
+- No seed1/seed2 run was started.
+- No multiseed run was started.
+- This update converts the paper-mode seed0 precision-risk audit into a generic accept-gate change.
+
+Seed0 context:
+
+- Paper-mode accept-to-execution was already proven: `candidate_policy_1_roi_texture` accepted at epoch 25.
+- Actual execution: ROI applied=312, industrial image augmented=226, router random draw count=1330.
+- Final validation leakage remained false.
+- Clean paper seed0 Precision=0.7513; CP-CATF seed0 Precision=0.7399; delta=-0.0114.
+- The audit found that Precision loss was driven mainly by non-active false-positive spillover, not by class 9. Class 9 improved locally.
+
+Implementation:
+
+- Added precision-aware reject fields in `AutoAugment/catf_v2/causal_probe.py`:
+  - `estimated_precision_drop`;
+  - `non_active_fp_delta`;
+  - `high_confidence_fp_delta`.
+- Image candidates are rejected when these exceed the configured margins:
+  - `estimated_precision_drop > 0.005`;
+  - `non_active_fp_delta > 0.005`;
+  - `high_confidence_fp_delta > 0.0`.
+- These terms do not change the causal score formula.
+- Paper-mode risk estimation now uses full probe-split per-class context for non-active risk; candidate selection remains active-row based.
+- No seed-id, fixed class-id, or dataset class-name rule was added.
+
+Verification:
+
+- `python -m py_compile AutoAugment/catf_v2/causal_probe.py scripts/train_yolo_default_with_inloop_feedback.py AutoAugment/catf_v2/sample_router.py AutoAugment/catf_v2/policy_matrix.py`
+- `pytest -q tests/test_cp_catf_accept_to_execution.py tests/test_cp_catf_paper_mode.py tests/test_catf_v2_causal_probe.py tests/test_catf_v2_transform_bypass.py tests/test_catf_v2_policy_matrix.py tests/test_catf_v2_sample_router.py tests/test_catf_v2_roi_augmentation.py tests/test_inloop_feedback_training.py tests/test_online_augmentation.py`
+- Result: `70 passed`.
+
+Reports:
+
+- `outputs/experiments/cp_catf_paper_mode_execution_fixed_seed0_only/reports/seed0_precision_aware_gate_update.md`
+- `outputs/experiments/cp_catf_paper_mode_execution_fixed_seed0_only/reports/seed0_precision_aware_gate_update.json`
+
 ## 2026-06-08
 
 ### CATF-v2 RiskGuard Seed2 Validation

@@ -6,6 +6,27 @@ Last updated: 2026-06-08
 
 The repository is centered on diagnosis-driven augmentation for industrial defect detection. The active path still keeps YOLO network architecture unchanged and focuses on dataset construction, validation-error diagnosis, policy generation, proxy safety, short training, and auditable reporting.
 
+## CP-CATF Precision-Aware Accept Gate (2026-06-11)
+
+- No training, seed1/seed2 run, or multiseed run was started for this update.
+- The paper-mode seed0 execution-fixed run already proved the accept-to-execution path: `candidate_policy_1_roi_texture` accepted at epoch 25, ROI applied=312, industrial image augmented=226, router random draw count=1330, and final validation leakage=false.
+- Seed0 still failed the industrial constraint because Precision changed from 0.7513 to 0.7399 (delta=-0.0114), while mAP50 improved slightly and mAP50-95 remained within the 0.01 tolerance.
+- The seed0 precision-risk audit attributed the failure mainly to non-active false-positive spillover, not to the active class itself; class 9 improved locally while non-active classes drove the operating-point Precision loss.
+- Added a generic precision-aware reject gate to `AutoAugment/catf_v2/causal_probe.py`:
+  - `estimated_precision_drop > 0.005` rejects image candidates.
+  - `non_active_fp_delta > 0.005` rejects image candidates.
+  - `high_confidence_fp_delta > 0.0` rejects image candidates.
+- These precision-gate fields do not change the causal score formula; they are required accept conditions for image-modifying candidates.
+- Paper-mode risk estimation in `scripts/train_yolo_default_with_inloop_feedback.py` now uses the full probe-split per-class context for non-active FP risk, while candidate selection still comes from active rows.
+- Added tests covering precision-gate rejection, causal-score stability, and paper-mode non-active context use.
+- Verification:
+  - `python -m py_compile AutoAugment/catf_v2/causal_probe.py scripts/train_yolo_default_with_inloop_feedback.py AutoAugment/catf_v2/sample_router.py AutoAugment/catf_v2/policy_matrix.py`
+  - `pytest -q tests/test_cp_catf_accept_to_execution.py tests/test_cp_catf_paper_mode.py tests/test_catf_v2_causal_probe.py tests/test_catf_v2_transform_bypass.py tests/test_catf_v2_policy_matrix.py tests/test_catf_v2_sample_router.py tests/test_catf_v2_roi_augmentation.py tests/test_inloop_feedback_training.py tests/test_online_augmentation.py`
+  - Result: `70 passed`.
+- Report:
+  - `outputs/experiments/cp_catf_paper_mode_execution_fixed_seed0_only/reports/seed0_precision_aware_gate_update.md`
+  - `outputs/experiments/cp_catf_paper_mode_execution_fixed_seed0_only/reports/seed0_precision_aware_gate_update.json`
+
 ## CP-CATF Multiseed Training Validation (2026-06-09)
 
 - CP-CATF is the current final main-method candidate in development-mode validation.

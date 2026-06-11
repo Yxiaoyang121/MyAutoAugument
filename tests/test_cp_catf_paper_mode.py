@@ -118,6 +118,51 @@ def test_candidate_decision_records_probe_split_not_seed_or_fixed_class() -> Non
     assert decision["dataset_specific_rule"] is False
 
 
+def test_paper_mode_precision_gate_uses_non_active_context_rows() -> None:
+    rows = [
+        {
+            "class_id": 4,
+            "evidence_count": 8,
+            "diagnosis_confidence": 0.7,
+            "fn_count": 6,
+            "val_instances": 12,
+            "dominant_issue": "texture_boundary_weak",
+            "AP50": 0.62,
+            "AP50_95": 0.48,
+            "Precision": 0.74,
+            "strong_update_allowed": True,
+        }
+    ]
+    context_rows = rows + [
+        {
+            "class_id": 5,
+            "evidence_count": 20,
+            "diagnosis_confidence": 0.8,
+            "dominant_issue": "none",
+            "AP50": 0.80,
+            "AP50_95": 0.55,
+            "Precision": 0.60,
+            "FP": 12,
+            "stable_class": False,
+        }
+    ]
+
+    decision = build_probe_decision_from_rows(
+        active_rows=rows,
+        context_rows=context_rows,
+        policy={},
+        epoch_num=5,
+        mode="paper",
+        policy_selection_data="probe.yaml",
+        policy_selection_source="probe_split",
+    )
+
+    image_eval = next(item for item in decision["candidate_evaluations"] if item["candidate_policy_id"] == "candidate_policy_1_roi_texture")
+    assert image_eval["decision"]["decision"] == "reject"
+    assert "non_active_fp_delta_too_high" in image_eval["decision"]["rejection_reasons"]
+    assert image_eval["precision_gate_metrics"]["non_active_fp_delta"] > 0.005
+
+
 def test_noop_path_does_not_rewrite_labels_or_instances(tmp_path: Path) -> None:
     policy = {"classes": {"1": {"ops": {"sharpen_mild": {"prob": 0.2, "strength": 0.2}}}}}
     decision_payload = {

@@ -1,23 +1,38 @@
 # Project Snapshot
 
-- Generated: 2026-06-09T01:45:00
+- Generated: 2026-06-11T00:00:00+08:00
 - Branch: codex/sync-latest
-- Commit: e7b894d93ef23f8f8bdffbf20e4b7ce8127d7aec
+- Commit: pending precision-aware CP-CATF accept-gate update
 - Remote: https://github.com/Yxiaoyang121/MyAutoAugument.git
 
 ## Working Tree
 
 ```text
+ M AutoAugment/catf_v2/causal_probe.py
  M CODEX_HANDOFF.md
  M EXPERIMENT_LOG.md
  M PROJECT_STATE.md
- M outputs/project_snapshot_latest.md
- M outputs/snapshots/project_snapshot_latest.md
  M scripts/train_yolo_default_with_inloop_feedback.py
  M tests/test_catf_v2_causal_probe.py
-?? outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_cp_catf/
-?? scripts/summarize_catf_v2_cp_catf_multiseed.py
+ M tests/test_cp_catf_paper_mode.py
+?? outputs/experiments/cp_catf_paper_mode_execution_fixed_seed0_only/reports/seed0_precision_aware_gate_update.json
+?? outputs/experiments/cp_catf_paper_mode_execution_fixed_seed0_only/reports/seed0_precision_aware_gate_update.md
 ```
+
+## Latest Update
+
+- Implemented a generic precision-aware CP-CATF accept gate based on the seed0 precision-risk audit.
+- No training was run for this update.
+- Image candidates are now rejected when probe estimates exceed:
+  - `estimated_precision_drop > 0.005`
+  - `non_active_fp_delta > 0.005`
+  - `high_confidence_fp_delta > 0.0`
+- The causal score formula is unchanged; the precision fields are required accept conditions.
+- Paper-mode risk estimation now uses full probe-split per-class context for non-active FP risk.
+- Verification: py_compile for `causal_probe.py`, the train script, router, and policy matrix; targeted pytest result `70 passed`.
+- Reports:
+  - `outputs/experiments/cp_catf_paper_mode_execution_fixed_seed0_only/reports/seed0_precision_aware_gate_update.md`
+  - `outputs/experiments/cp_catf_paper_mode_execution_fixed_seed0_only/reports/seed0_precision_aware_gate_update.json`
 
 ## Key Files
 

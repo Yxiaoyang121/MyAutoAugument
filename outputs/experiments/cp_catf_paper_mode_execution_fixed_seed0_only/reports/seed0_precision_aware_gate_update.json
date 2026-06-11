@@ -1,0 +1,71 @@
+{
+  "scope": {
+    "training_run": false,
+    "seed1_run": false,
+    "seed2_run": false,
+    "multiseed_run": false
+  },
+  "seed0_execution_fixed_context": {
+    "roi_texture_accept_epoch": 25,
+    "roi_applied": 312,
+    "industrial_image_augmented": 226,
+    "router_random_draw_count": 1330,
+    "final_val_leakage": false,
+    "clean_precision": 0.7513,
+    "cp_catf_precision": 0.7399,
+    "delta_precision": -0.0114,
+    "constraint_failed": true,
+    "primary_failure_reason": "precision_drop_gt_0.01"
+  },
+  "audit_interpretation": {
+    "primary_precision_drop_source": "non_active_false_positive_spillover",
+    "class9_primary_cause": false,
+    "class9_local_effect": "improved metric precision/AP and reduced matched FP at conf=0.25",
+    "affected_non_active_examples": [5, 6, 8, 2]
+  },
+  "implementation": {
+    "causal_score_changed": false,
+    "candidate_strategy_changed": false,
+    "precision_gate_fields": {
+      "estimated_precision_drop": {
+        "max_allowed": 0.005,
+        "rejection_reason": "estimated_precision_drop_too_high"
+      },
+      "non_active_fp_delta": {
+        "max_allowed": 0.005,
+        "rejection_reason": "non_active_fp_delta_too_high"
+      },
+      "high_confidence_fp_delta": {
+        "max_allowed": 0.0,
+        "rejection_reason": "high_confidence_fp_delta_too_high"
+      }
+    },
+    "paper_mode_risk_context": "full_probe_split_per_class_context",
+    "candidate_selection_context": "active_rows_only",
+    "seed_specific_rule": false,
+    "fixed_class_id_specific_rule": false,
+    "dataset_specific_rule": false,
+    "riskguard_final_rule": false
+  },
+  "verification": {
+    "py_compile": [
+      "AutoAugment/catf_v2/causal_probe.py",
+      "scripts/train_yolo_default_with_inloop_feedback.py",
+      "AutoAugment/catf_v2/sample_router.py",
+      "AutoAugment/catf_v2/policy_matrix.py"
+    ],
+    "pytest": [
+      "tests/test_cp_catf_accept_to_execution.py",
+      "tests/test_cp_catf_paper_mode.py",
+      "tests/test_catf_v2_causal_probe.py",
+      "tests/test_catf_v2_transform_bypass.py",
+      "tests/test_catf_v2_policy_matrix.py",
+      "tests/test_catf_v2_sample_router.py",
+      "tests/test_catf_v2_roi_augmentation.py",
+      "tests/test_inloop_feedback_training.py",
+      "tests/test_online_augmentation.py"
+    ],
+    "pytest_result": "70 passed"
+  },
+  "next_step": "Run a paper-mode probe dry run before any seed1/seed2 or multiseed training."
+}

@@ -51,6 +51,23 @@ def test_causal_score_formula() -> None:
     assert abs(score - expected) < 1e-9
 
 
+def test_precision_gate_metrics_do_not_change_causal_score_formula() -> None:
+    score = compute_causal_score(
+        _benefit(fn_recovery_rate=0.10, localization_iou_gain=0.04, low_conf_tp_conf_gain=0.02),
+        _risk(
+            fp_increase_rate=0.01,
+            high_fp_spillover_rate=0.02,
+            non_active_regression_rate=0.03,
+            estimated_precision_drop=0.20,
+            non_active_fp_delta=0.20,
+            high_confidence_fp_delta=0.20,
+        ),
+    )
+
+    expected = 0.10 + 0.5 * 0.04 + 0.3 * 0.02 - 0.01 - 1.2 * 0.02 - 0.03
+    assert abs(score - expected) < 1e-9
+
+
 def test_benefit_high_risk_low_accepts() -> None:
     decision = decide_candidate_acceptance(
         candidate_policy=candidate_policy_catalog()["candidate_policy_1_roi_texture"],
@@ -114,6 +131,45 @@ def test_bbox_instability_high_rejects() -> None:
 
     assert decision["decision"] == "reject"
     assert "bbox_instability_rate_too_high" in decision["rejection_reasons"]
+
+
+def test_estimated_precision_drop_high_rejects() -> None:
+    decision = decide_candidate_acceptance(
+        candidate_policy=candidate_policy_catalog()["candidate_policy_1_roi_texture"],
+        benefit_metrics=_benefit(),
+        risk_metrics=_risk(estimated_precision_drop=0.006),
+        evidence_count=5,
+        diagnosis_confidence=0.5,
+    )
+
+    assert decision["decision"] == "reject"
+    assert "estimated_precision_drop_too_high" in decision["rejection_reasons"]
+
+
+def test_non_active_fp_delta_high_rejects() -> None:
+    decision = decide_candidate_acceptance(
+        candidate_policy=candidate_policy_catalog()["candidate_policy_1_roi_texture"],
+        benefit_metrics=_benefit(),
+        risk_metrics=_risk(non_active_fp_delta=0.006),
+        evidence_count=5,
+        diagnosis_confidence=0.5,
+    )
+
+    assert decision["decision"] == "reject"
+    assert "non_active_fp_delta_too_high" in decision["rejection_reasons"]
+
+
+def test_high_confidence_fp_delta_high_rejects() -> None:
+    decision = decide_candidate_acceptance(
+        candidate_policy=candidate_policy_catalog()["candidate_policy_1_roi_texture"],
+        benefit_metrics=_benefit(),
+        risk_metrics=_risk(high_confidence_fp_delta=0.001),
+        evidence_count=5,
+        diagnosis_confidence=0.5,
+    )
+
+    assert decision["decision"] == "reject"
+    assert "high_confidence_fp_delta_too_high" in decision["rejection_reasons"]
 
 
 def test_all_image_candidates_reject_selects_strict_noop() -> None:

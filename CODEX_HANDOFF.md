@@ -10,6 +10,33 @@
 
 The project is a diagnosis-driven augmentation pipeline for industrial defect detection. Keep work centered on dataset construction, tiling, validation-error diagnosis, policy generation, proxy safety, short-training validation, and auditable artifacts. Do not reframe this as YOLO backbone, neck, or head redesign.
 
+## Latest CP-CATF Precision Gate Update
+
+- No new training was run.
+- The previous paper-mode seed0 execution-fixed run confirmed that accepted ROI texture candidates execute in training:
+  - accept epoch=25;
+  - ROI applied=312;
+  - industrial image augmented=226;
+  - router random draw count=1330;
+  - final validation leakage=false.
+- Seed0 failed only the Precision constraint: clean paper seed0 Precision=0.7513, CP-CATF Precision=0.7399, delta=-0.0114.
+- The precision-risk audit concluded that the main issue was non-active false-positive spillover. Class 9 itself improved locally and was not the primary Precision-drop source.
+- Implemented a generic precision-aware accept gate in `AutoAugment/catf_v2/causal_probe.py`:
+  - reject image candidates when `estimated_precision_drop > 0.005`;
+  - reject image candidates when `non_active_fp_delta > 0.005`;
+  - reject image candidates when `high_confidence_fp_delta > 0.0`.
+- The new fields are reject-only accept conditions and do not change `compute_causal_score`.
+- Paper-mode risk estimation now uses the full probe-split per-class context to estimate non-active FP risk. Candidate selection still uses active rows.
+- No seed-specific, fixed class-id, or dataset class-name rule was added. RiskGuard remains audit/debug prior only.
+- Verification passed:
+  - `python -m py_compile AutoAugment/catf_v2/causal_probe.py scripts/train_yolo_default_with_inloop_feedback.py AutoAugment/catf_v2/sample_router.py AutoAugment/catf_v2/policy_matrix.py`
+  - `pytest -q tests/test_cp_catf_accept_to_execution.py tests/test_cp_catf_paper_mode.py tests/test_catf_v2_causal_probe.py tests/test_catf_v2_transform_bypass.py tests/test_catf_v2_policy_matrix.py tests/test_catf_v2_sample_router.py tests/test_catf_v2_roi_augmentation.py tests/test_inloop_feedback_training.py tests/test_online_augmentation.py`
+  - Result: `70 passed`.
+- Report:
+  - `outputs/experiments/cp_catf_paper_mode_execution_fixed_seed0_only/reports/seed0_precision_aware_gate_update.md`
+  - `outputs/experiments/cp_catf_paper_mode_execution_fixed_seed0_only/reports/seed0_precision_aware_gate_update.json`
+- Next: run a paper-mode probe dry run to inspect new candidate decisions before any seed1/seed2 or multiseed training.
+
 ## Latest CP-CATF Training Validation Result
 
 - CP-CATF is now the current final main-method candidate for development-mode validation.

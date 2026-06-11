@@ -24,6 +24,18 @@ RISK_WEIGHTS = {
     "bbox_instability_rate": 0.5,
 }
 
+PRECISION_GATE_KEYS = (
+    "estimated_precision_drop",
+    "non_active_fp_delta",
+    "high_confidence_fp_delta",
+)
+
+DEFAULT_PRECISION_GATE_THRESHOLDS = {
+    "estimated_precision_drop": 0.005,
+    "non_active_fp_delta": 0.005,
+    "high_confidence_fp_delta": 0.0,
+}
+
 DEFAULT_CANDIDATE_POLICIES: dict[str, dict[str, Any]] = {
     "candidate_policy_0_noop": {
         "policy_id": "candidate_policy_0_noop",
@@ -235,12 +247,15 @@ def evaluate_candidate_policy(
         if diagnosis_confidence is not None
         else probe_payload.get("diagnosis_confidence", 0.0)
     )
+    raw_risk = dict(risk_metrics or {})
     benefit = _normalise_metrics(benefit_metrics or {}, BENEFIT_WEIGHTS)
-    risk = _normalise_metrics(risk_metrics or {}, RISK_WEIGHTS)
+    risk = _normalise_metrics(raw_risk, RISK_WEIGHTS)
+    precision_gate = _precision_gate_metrics(raw_risk)
+    decision_risk = {**risk, **precision_gate}
     decision = decide_candidate_acceptance(
         candidate_policy=candidate_policy,
         benefit_metrics=benefit,
-        risk_metrics=risk,
+        risk_metrics=decision_risk,
         evidence_count=effective_evidence_count,
         diagnosis_confidence=effective_diagnosis_confidence,
         audit_priors=probe_payload.get("audit_priors") or [],
@@ -250,7 +265,9 @@ def evaluate_candidate_policy(
         "candidate_policy": deepcopy(candidate_policy),
         "probe_set": probe_payload,
         "benefit_metrics": benefit,
-        "risk_metrics": risk,
+        "risk_metrics": decision_risk,
+        "weighted_risk_metrics": risk,
+        "precision_gate_metrics": precision_gate,
         "causal_score": decision["causal_score"],
         "decision": decision,
     }
@@ -280,9 +297,19 @@ def decide_candidate_acceptance(
     audit_priors: list[dict[str, Any]] | None = None,
     min_evidence_count: int = 5,
     min_diagnosis_confidence: float = 0.50,
+    max_estimated_precision_drop: float = DEFAULT_PRECISION_GATE_THRESHOLDS["estimated_precision_drop"],
+    max_non_active_fp_delta: float = DEFAULT_PRECISION_GATE_THRESHOLDS["non_active_fp_delta"],
+    max_high_confidence_fp_delta: float = DEFAULT_PRECISION_GATE_THRESHOLDS["high_confidence_fp_delta"],
 ) -> dict[str, Any]:
+    raw_risk = dict(risk_metrics or {})
     benefit = _normalise_metrics(benefit_metrics or {}, BENEFIT_WEIGHTS)
-    risk = _normalise_metrics(risk_metrics or {}, RISK_WEIGHTS)
+    risk = _normalise_metrics(raw_risk, RISK_WEIGHTS)
+    precision_gate = _precision_gate_metrics(raw_risk)
+    precision_gate_thresholds = {
+        "estimated_precision_drop": float(max_estimated_precision_drop),
+        "non_active_fp_delta": float(max_non_active_fp_delta),
+        "high_confidence_fp_delta": float(max_high_confidence_fp_delta),
+    }
     score = compute_causal_score(benefit, risk)
     policy_id = str(candidate_policy.get("policy_id", "candidate_policy_unknown"))
     action = str(candidate_policy.get("action", "roi_image_aug"))
@@ -297,6 +324,8 @@ def decide_candidate_acceptance(
             "rejection_reasons": ["explicit_no_op_candidate"],
             "audit_prior_only": bool(audit_priors),
             "audit_priors": deepcopy(audit_priors or []),
+            "precision_gate": precision_gate,
+            "precision_gate_thresholds": precision_gate_thresholds,
             "image_modification_allowed": False,
             "sample_weighting_allowed": False,
             "strict_noop": True,
@@ -310,6 +339,8 @@ def decide_candidate_acceptance(
             "rejection_reasons": [],
             "audit_prior_only": bool(audit_priors),
             "audit_priors": deepcopy(audit_priors or []),
+            "precision_gate": precision_gate,
+            "precision_gate_thresholds": precision_gate_thresholds,
             "image_modification_allowed": False,
             "sample_weighting_allowed": True,
             "sample_weighting_effective": bool(candidate_policy.get("sample_weighting_effective", False)),
@@ -333,6 +364,12 @@ def decide_candidate_acceptance(
         reasons.append("ok_class_false_activation")
     if float(risk.get("bbox_instability_rate", 0.0)) > 0.02:
         reasons.append("bbox_instability_rate_too_high")
+    if float(precision_gate.get("estimated_precision_drop", 0.0)) > float(max_estimated_precision_drop):
+        reasons.append("estimated_precision_drop_too_high")
+    if float(precision_gate.get("non_active_fp_delta", 0.0)) > float(max_non_active_fp_delta):
+        reasons.append("non_active_fp_delta_too_high")
+    if float(precision_gate.get("high_confidence_fp_delta", 0.0)) > float(max_high_confidence_fp_delta):
+        reasons.append("high_confidence_fp_delta_too_high")
     if int(evidence_count) < int(min_evidence_count):
         reasons.append("insufficient_evidence_count")
     if float(diagnosis_confidence) < float(min_diagnosis_confidence):
@@ -347,6 +384,8 @@ def decide_candidate_acceptance(
         "rejection_reasons": reasons,
         "audit_prior_only": bool(audit_priors),
         "audit_priors": deepcopy(audit_priors or []),
+        "precision_gate": precision_gate,
+        "precision_gate_thresholds": precision_gate_thresholds,
         "image_modification_allowed": bool(accepted and candidate_policy.get("image_modification", False)),
         "sample_weighting_allowed": bool(accepted and candidate_policy.get("sample_weighting", False)),
         "strict_noop": False,
@@ -400,3 +439,7 @@ def _placeholder_samples(count: int, class_id: int, bucket: str) -> list[dict[st
 
 def _normalise_metrics(metrics: dict[str, float], weights: dict[str, float]) -> dict[str, float]:
     return {key: float(metrics.get(key, 0.0) or 0.0) for key in weights}
+
+
+def _precision_gate_metrics(metrics: dict[str, float]) -> dict[str, float]:
+    return {key: float(metrics.get(key, 0.0) or 0.0) for key in PRECISION_GATE_KEYS}

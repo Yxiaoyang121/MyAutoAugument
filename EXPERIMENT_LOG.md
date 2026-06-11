@@ -2045,3 +2045,43 @@ Key conclusions from that archived smoke:
   - Targeted pytest result: `65 passed`.
 - Interpretation: paper-mode CP-CATF accept-to-execution is confirmed on seed0, but the seed0 precision drop means this should not yet be treated as a paper-mode performance success.
 <!-- CP_CATF_SEED0_EXECUTION_VALIDATION_END -->
+
+<!-- CP_CATF_SEED0_PRECISION_RISK_AUDIT_START -->
+## CP-CATF Paper-Mode Seed0 Precision-Risk Audit
+
+- Date: `2026-06-11`.
+- Scope: analysis only; no training, no clean rerun, no seed1/seed2, no multiseed.
+- Script: `scripts/audit_seed0_cp_catf_precision_risk.py`.
+- Command: `D:\Anaconda\envs\pytorch\python.exe scripts/audit_seed0_cp_catf_precision_risk.py --device 0`.
+- Inputs:
+  - clean seed0: `outputs/experiments/multiseed_cp_catf_paper_mode/clean_seed_0/`.
+  - CP-CATF seed0: `outputs/experiments/cp_catf_paper_mode_execution_fixed_seed0_only/`.
+  - final val/probe split: `outputs/datasets/tiled/tiled_1024_ov20_full_safe_no_ok_position_paper_probe/`.
+- Outputs:
+  - `outputs/experiments/cp_catf_paper_mode_execution_fixed_seed0_only/reports/seed0_precision_risk_audit.md`.
+  - `outputs/experiments/cp_catf_paper_mode_execution_fixed_seed0_only/reports/seed0_precision_risk_audit.json`.
+  - prediction caches under `outputs/experiments/cp_catf_paper_mode_execution_fixed_seed0_only/reports/precision_risk_predictions/`.
+- Key metric context:
+  - clean seed0 P/R/mAP50/mAP50-95: `0.7513/0.6763/0.7566/0.5114`.
+  - CP-CATF seed0: `0.7399/0.6763/0.7593/0.5028`.
+  - constraint failure reason: `precision_drop_gt_0.01`.
+- Prediction-level finding at conf `0.25`:
+  - FP `344 -> 354` (`+10`).
+  - TP `716 -> 719` (`+3`).
+  - FN `189 -> 186` (`-3`).
+- Main Precision-drop drivers:
+  - class5 FP `3 -> 17` (`+14`), metric Precision `-0.1481`.
+  - class6 FP `33 -> 45` (`+12`), metric Precision `-0.1056`.
+  - class8 FP `16 -> 22` (`+6`), metric Precision `-0.0721`.
+  - class2 FP `1 -> 4` (`+3`), metric Precision `-0.1217`.
+- Class9 result:
+  - class9 was the active ROI texture class.
+  - class9 metric Precision improved `0.7214 -> 0.8376`; AP50 improved `+0.0502`; AP50-95 improved `+0.0228`.
+  - matched class9 FP decreased `50 -> 38`.
+  - Therefore class9 is not the primary Precision-drop class; the issue is non-active FP spillover.
+- Threshold calibration:
+  - final-val diagnostic threshold can restore Precision but is leakage-only.
+  - probe-based threshold selected on probe did not restore final-val Precision within clean-minus-0.01.
+- Conclusion: accept-to-execution works, but CP-CATF needs a precision-aware accept gate before more paper-mode performance validation.
+- Verification: `python -m py_compile scripts/audit_seed0_cp_catf_precision_risk.py`.
+<!-- CP_CATF_SEED0_PRECISION_RISK_AUDIT_END -->

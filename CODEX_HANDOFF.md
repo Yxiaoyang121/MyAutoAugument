@@ -1206,3 +1206,24 @@ No training was run after building or auditing these datasets.
   - `constraint_failed=true` due Precision drop greater than 0.01.
 - Handoff guidance: accept-to-execution is confirmed, but this seed0 run exposes a Precision risk. Do not proceed to seed1/seed2 as a performance validation without explicit approval or a decision on how to handle the seed0 Precision constraint.
 <!-- CP_CATF_SEED0_EXECUTION_VALIDATION_END -->
+
+<!-- CP_CATF_SEED0_PRECISION_RISK_AUDIT_START -->
+## CP-CATF Seed0 Precision-Risk Audit Handoff
+
+- Current task completed: audited seed0 paper-mode CP-CATF Precision failure. No training was run.
+- Script: `scripts/audit_seed0_cp_catf_precision_risk.py`.
+- Reports:
+  - `outputs/experiments/cp_catf_paper_mode_execution_fixed_seed0_only/reports/seed0_precision_risk_audit.md`
+  - `outputs/experiments/cp_catf_paper_mode_execution_fixed_seed0_only/reports/seed0_precision_risk_audit.json`
+- The audit used clean seed0 and CP-CATF seed0 best checkpoints for prediction-only analysis on final val and probe split.
+- Core result:
+  - Global seed0 paper-mode metric failure remains `precision_drop_gt_0.01`.
+  - At conf `0.25`, FP increased `344 -> 354`, TP increased `716 -> 719`, FN decreased `189 -> 186`.
+  - The extra FP burden is mostly in non-active classes: class5 `+14`, class6 `+12`, class8 `+6`, class2 `+3`.
+  - Class9 is not the primary failure source: it was active/ROI affected but metric Precision/AP improved and matched FP decreased `50 -> 38`.
+- Threshold calibration finding:
+  - final-val calibration is useful for understanding but is leakage-only;
+  - probe-based threshold calibration did not restore final-val Precision to clean seed0 minus 0.01.
+- Causal probe gap: the accept gate detected local class9 benefit but did not sufficiently penalize non-active FP spillover or estimated operating-point Precision loss.
+- Handoff guidance: do not continue seed1/seed2 performance validation yet. The next method change should be a precision-aware accept gate, not a dataset/class blacklist.
+<!-- CP_CATF_SEED0_PRECISION_RISK_AUDIT_END -->

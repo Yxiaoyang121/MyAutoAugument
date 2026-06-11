@@ -1371,3 +1371,30 @@ The repository is centered on diagnosis-driven augmentation for industrial defec
   - `outputs/experiments/cp_catf_paper_mode_execution_fixed_seed0_only/reports/seed0_execution_flow_report.json`
 - Interpretation: the paper-mode accept-to-execution chain is now functionally connected. This run is not evidence of final CP-CATF paper-mode performance because seed0 fails the industrial Precision constraint. Seed1/seed2 should not be launched as a performance validation until this seed0 precision risk is reviewed.
 <!-- CP_CATF_SEED0_EXECUTION_VALIDATION_END -->
+
+<!-- CP_CATF_SEED0_PRECISION_RISK_AUDIT_START -->
+## CP-CATF Paper-Mode Seed0 Precision-Risk Audit
+
+- Scope: analysis only; no training, no seed1/seed2, no multiseed, and no clean rerun.
+- Script: `scripts/audit_seed0_cp_catf_precision_risk.py`.
+- Reports:
+  - `outputs/experiments/cp_catf_paper_mode_execution_fixed_seed0_only/reports/seed0_precision_risk_audit.md`
+  - `outputs/experiments/cp_catf_paper_mode_execution_fixed_seed0_only/reports/seed0_precision_risk_audit.json`
+- Prediction caches:
+  - `outputs/experiments/cp_catf_paper_mode_execution_fixed_seed0_only/reports/precision_risk_predictions/clean_final_val_predictions.json`
+  - `outputs/experiments/cp_catf_paper_mode_execution_fixed_seed0_only/reports/precision_risk_predictions/cp_final_val_predictions.json`
+  - `outputs/experiments/cp_catf_paper_mode_execution_fixed_seed0_only/reports/precision_risk_predictions/cp_probe_predictions.json`
+- Main finding: seed0 paper-mode roi_texture execution caused a small global Precision constraint failure, but the main source is non-active class FP spillover, not class9 itself.
+- At conf `0.25`, matched final-val FP changed from `344` to `354` (`+10`), TP changed `+3`, and FN changed `-3`.
+- Precision-drop / FP-increase drivers:
+  - class5: FP `3 -> 17` (`+14`), metric Precision `-0.1481`.
+  - class6: FP `33 -> 45` (`+12`), metric Precision `-0.1056`.
+  - class8: FP `16 -> 22` (`+6`), metric Precision `-0.0721`.
+  - class2: FP `1 -> 4` (`+3`), metric Precision `-0.1217`.
+- Class9 was active and ROI-affected, but class9 metric Precision/AP improved and matched FP decreased `50 -> 38`; it is not the primary Precision-drop class.
+- Threshold calibration:
+  - Final-val diagnostic calibration can restore Precision but is leakage-only.
+  - Probe-based threshold selected on probe did not restore final-val Precision within clean-minus-0.01.
+- Interpretation: paper-mode causal probe accepted class9 because local benefit was positive, but it underweighted non-active FP spillover and operating-point Precision risk.
+- Recommendation: add a precision-aware accept gate before continuing paper-mode seed1/seed2 performance validation.
+<!-- CP_CATF_SEED0_PRECISION_RISK_AUDIT_END -->

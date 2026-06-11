@@ -297,3 +297,18 @@
 - Reports:
   - `outputs/experiments/cp_catf_paper_mode_execution_fixed_seed0_only/reports/seed0_execution_flow_report.md`
   - `outputs/experiments/cp_catf_paper_mode_execution_fixed_seed0_only/reports/seed0_execution_flow_report.json`
+
+## Latest CP-CATF Seed0 Precision-Risk Audit
+
+- Analysis-only audit completed; no training was run.
+- Report: `outputs/experiments/cp_catf_paper_mode_execution_fixed_seed0_only/reports/seed0_precision_risk_audit.md`.
+- JSON: `outputs/experiments/cp_catf_paper_mode_execution_fixed_seed0_only/reports/seed0_precision_risk_audit.json`.
+- At conf `0.25`, FP increased `344 -> 354`, TP increased `716 -> 719`, FN decreased `189 -> 186`.
+- Precision risk is driven by non-active classes rather than class9:
+  - class5 FP `+14`;
+  - class6 FP `+12`;
+  - class8 FP `+6`;
+  - class2 FP `+3`.
+- Class9 was active/ROI affected, but metric Precision/AP improved and matched FP decreased `50 -> 38`.
+- Final-val threshold calibration is leakage-only; probe-based threshold calibration did not restore final-val Precision to clean-minus-0.01.
+- Recommendation: add a precision-aware accept gate before running seed1/seed2 paper-mode performance validation.

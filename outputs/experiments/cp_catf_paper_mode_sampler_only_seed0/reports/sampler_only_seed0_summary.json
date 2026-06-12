@@ -1,0 +1,106 @@
+{
+  "run_id": "cp_catf_paper_mode_sampler_only_seed0",
+  "seed": 0,
+  "epochs": 50,
+  "paper_mode": true,
+  "final_val_used_for_policy_selection": false,
+  "dataloader_dataset_changed": true,
+  "sampler_strategy": "weighted_index_list",
+  "weighted_random_sampler_used": false,
+  "sample_weight_map_generated": true,
+  "weighted_train_core_images_count": 72,
+  "weighted_sampler_enabled": false,
+  "weighted_index_list_enabled": true,
+  "sampler_only_effective": true,
+  "sampled_distribution_changed": true,
+  "industrial_image_augmented": 0,
+  "roi_applied": 0,
+  "router_random_draw_count": 0,
+  "invalid_bbox_count": 0,
+  "class_id_oob_count": 0,
+  "feedback_epochs": [
+    {
+      "epoch": 5,
+      "action": "sampler_only_pending",
+      "weighted_train_core_images_count": 0,
+      "sampled_distribution_changed": false,
+      "blocker": "sample_weight_map contains no train_core images with weight > 1"
+    },
+    {
+      "epoch": 10,
+      "action": "sampler_only_pending",
+      "weighted_train_core_images_count": 0,
+      "sampled_distribution_changed": false,
+      "blocker": "sample_weight_map contains no train_core images with weight > 1"
+    },
+    {
+      "epoch": 15,
+      "action": "sampler_only_effective",
+      "weighted_train_core_images_count": 34,
+      "sampled_distribution_changed": true
+    },
+    {
+      "epoch": 20,
+      "action": "sampler_only_effective",
+      "weighted_train_core_images_count": 55,
+      "sampled_distribution_changed": true
+    },
+    {
+      "epoch": 25,
+      "action": "sampler_only_effective",
+      "weighted_train_core_images_count": 50,
+      "sampled_distribution_changed": true
+    },
+    {
+      "epoch": 30,
+      "action": "sampler_only_effective",
+      "weighted_train_core_images_count": 50,
+      "sampled_distribution_changed": true
+    },
+    {
+      "epoch": 35,
+      "action": "sampler_only_effective",
+      "weighted_train_core_images_count": 123,
+      "sampled_distribution_changed": true
+    },
+    {
+      "epoch": 40,
+      "action": "sampler_only_effective",
+      "weighted_train_core_images_count": 13,
+      "sampled_distribution_changed": true
+    },
+    {
+      "epoch": 45,
+      "action": "sampler_only_effective",
+      "weighted_train_core_images_count": 72,
+      "sampled_distribution_changed": true
+    }
+  ],
+  "clean_paper_seed0": {
+    "precision": 0.7513,
+    "recall": 0.6763,
+    "map50": 0.7566,
+    "map50_95": 0.5114
+  },
+  "sampler_only_seed0": {
+    "precision": 0.7588081940736805,
+    "recall": 0.6877534456645548,
+    "map50": 0.7779426586634559,
+    "map50_95": 0.5203702287000118
+  },
+  "delta_vs_clean_paper_seed0": {
+    "precision": 0.00750819407368053,
+    "recall": 0.011453445664554751,
+    "map50": 0.02134265866345586,
+    "map50_95": 0.00897022870001185
+  },
+  "constraint_failed": false,
+  "paths": {
+    "final_metrics": "outputs/experiments/cp_catf_paper_mode_sampler_only_seed0/reports/final_metrics.json",
+    "online_aug_stats": "outputs/experiments/cp_catf_paper_mode_sampler_only_seed0/reports/online_aug_stats.json",
+    "causal_probe_events": "outputs/experiments/cp_catf_paper_mode_sampler_only_seed0/reports/causal_probe_events.json",
+    "final_sample_weight_map": "outputs/experiments/cp_catf_paper_mode_sampler_only_seed0/reports/catf_v2/sample_weight_map_epoch_45.json",
+    "final_weighted_train_indices": "outputs/experiments/cp_catf_paper_mode_sampler_only_seed0/reports/catf_v2/weighted_train_indices_epoch_45.json",
+    "final_distribution_audit": "outputs/experiments/cp_catf_paper_mode_sampler_only_seed0/reports/catf_v2/sampled_distribution_before_after_epoch_45.json"
+  }
+}

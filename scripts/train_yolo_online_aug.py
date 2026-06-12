@@ -87,6 +87,16 @@ class OnlineTrainingContext:
     total_epochs: int | None = None
     catf_noop: bool = False
     noop_transform_calls: int = 0
+    train_dataset: Any | None = None
+    train_loader: Any | None = None
+    weighted_sampler_enabled: bool = False
+    weighted_index_list_enabled: bool = False
+    sampler_only_effective: bool = False
+    sampler_only_status: str = "not_requested"
+    sample_weight_map_generated: bool = False
+    weighted_train_core_images_count: int = 0
+    sampled_distribution_changed: bool = False
+    sampler_only_artifact_paths: dict[str, str] | None = None
 
 
 def main() -> None:
@@ -608,9 +618,41 @@ def make_online_trainer(api: dict[str, Any], context: OnlineTrainingContext):
     class OnlineYOLODataset(YOLODataset):
         def __init__(self, *dataset_args, online_context: OnlineTrainingContext | None = None, **dataset_kwargs):
             self.online_context = online_context
+            self.weighted_indices: list[int] | None = None
+            self.weighted_indices_metadata: dict[str, Any] = {}
             super().__init__(*dataset_args, **dataset_kwargs)
             if self.online_context is not None:
                 self.online_context.augmentor.set_sample_provider(self.sample_online_source)
+
+        def __len__(self):
+            if self.weighted_indices:
+                return len(self.weighted_indices)
+            return super().__len__()
+
+        def set_weighted_indices(self, weighted_indices: list[int], metadata: dict[str, Any] | None = None) -> None:
+            if not weighted_indices:
+                raise ValueError("weighted_indices must not be empty")
+            original_len = super().__len__()
+            invalid = [int(index) for index in weighted_indices if int(index) < 0 or int(index) >= original_len]
+            if invalid:
+                raise ValueError(f"weighted_indices contain out-of-range original indices: {invalid[:5]}")
+            self.weighted_indices = [int(index) for index in weighted_indices]
+            self.weighted_indices_metadata = dict(metadata or {})
+
+        def clear_weighted_indices(self) -> None:
+            self.weighted_indices = None
+            self.weighted_indices_metadata = {}
+
+        def sampler_original_len(self) -> int:
+            return int(super().__len__())
+
+        def map_sampler_index(self, index: int) -> int:
+            if not self.weighted_indices:
+                return int(index)
+            return int(self.weighted_indices[int(index) % len(self.weighted_indices)])
+
+        def get_image_and_label(self, index: int):
+            return super().get_image_and_label(self.map_sampler_index(index))
 
         def build_transforms(self, hyp: dict | None = None):
             transforms = super().build_transforms(hyp)
@@ -658,9 +700,17 @@ def make_online_trainer(api: dict[str, Any], context: OnlineTrainingContext):
                 fraction=self.args.fraction,
                 online_context=context,
             )
-            context.train_image_count = len(dataset)
+            context.train_dataset = dataset
+            context.train_image_count = dataset.sampler_original_len() if hasattr(dataset, "sampler_original_len") else len(dataset)
             context.train_img_path = str(img_path)
             return dataset
+
+        def get_dataloader(self, dataset_path: str, batch_size: int = 16, rank: int = 0, mode: str = "train"):
+            loader = super().get_dataloader(dataset_path, batch_size=batch_size, rank=rank, mode=mode)
+            if mode == "train":
+                context.train_loader = loader
+                context.train_dataset = getattr(loader, "dataset", context.train_dataset)
+            return loader
 
     return OnlineAugDetectionTrainer
 

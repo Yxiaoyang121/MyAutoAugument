@@ -2,6 +2,76 @@
 
 ## 2026-06-12
 
+### CP-CATF Effective Sampler-Only Dataloader Intervention
+
+Scope:
+
+- Implemented sampler-only dataloader support.
+- Ran sampler-only smoke.
+- Ran seed0 50ep only after smoke passed.
+- Did not run seed1/seed2 training.
+- Did not run multiseed.
+- Did not change causal score, precision gate thresholds, augmentation strength, or data splits.
+
+Implementation:
+
+- Added `AutoAugment/catf_v2/sampler_only.py`.
+- Added `--sampler-only-enabled`.
+- Updated `OnlineYOLODataset` with weighted index-list mapping.
+- Updated `OnlineAugDetectionTrainer` to expose the active train dataset and dataloader.
+- Activated sampler-only in the feedback callback by installing weighted indices and calling dataloader `reset()`.
+- Chose weighted index list instead of `WeightedRandomSampler` because the active Ultralytics dataloader builder does not expose a sampler injection argument.
+
+Dataloader audit:
+
+- `outputs/debug/cp_catf_sampler_only_dataloader_impl/dataloader_entry_audit.md`
+- `outputs/debug/cp_catf_sampler_only_dataloader_impl/sample_weight_map.json`
+- `outputs/debug/cp_catf_sampler_only_dataloader_impl/weighted_train_indices.json`
+- `outputs/debug/cp_catf_sampler_only_dataloader_impl/sampled_distribution_before_after.json`
+
+Smoke:
+
+- Output: `outputs/debug/cp_catf_sampler_only_execution_smoke/`
+- `sample_weight_map_generated=true`.
+- `weighted_train_core_images_count=178`.
+- `weighted_index_list_enabled=true`.
+- `sampler_only_effective=true`.
+- `sampled_distribution_changed=true`.
+- Industrial image augmented=0.
+- ROI applied=0.
+- Router random draw count=0.
+- bbox/class legal.
+
+Seed0 50ep:
+
+- Output: `outputs/experiments/cp_catf_paper_mode_sampler_only_seed0/`
+- Paper-mode=true.
+- final val was not used for policy selection.
+- Feedback epochs: 5/10/15/20/25/30/35/40/45.
+- Epoch5 and epoch10 selected sampler-only but stayed pending with explicit blocker: `sample_weight_map contains no train_core images with weight > 1`.
+- Epochs 15/20/25/30/35/40/45 were effective sampler-only.
+- Final sampler-only status: `effective_weighted_index_list`.
+- Final weighted train_core images count: 72.
+- Final weighted index list enabled=true.
+- Final sampled distribution changed=true.
+- Industrial image augmented=0.
+- ROI applied=0.
+- Router random draw count=0.
+
+Metrics vs requested paper clean seed0:
+
+| run | P | R | mAP50 | mAP50-95 | constraint_failed |
+|---|---:|---:|---:|---:|---|
+| clean paper seed0 | 0.7513 | 0.6763 | 0.7566 | 0.5114 | false |
+| sampler-only seed0 | 0.7588 | 0.6878 | 0.7779 | 0.5204 | false |
+| delta | +0.0075 | +0.0115 | +0.0213 | +0.0090 |  |
+
+Verification:
+
+- `python -m py_compile AutoAugment/catf_v2/sampler_only.py scripts/train_yolo_online_aug.py scripts/train_yolo_default_with_inloop_feedback.py AutoAugment/catf_v2/causal_probe.py AutoAugment/catf_v2/policy_matrix.py AutoAugment/catf_v2/sample_router.py`
+- `python -m pytest tests/test_cp_catf_sampler_only.py tests/test_cp_catf_accept_to_execution.py tests/test_catf_v2_causal_probe.py -q`
+- Result: `29 passed`.
+
 ### CP-CATF Paper-Mode Decision Coverage Audit
 
 Scope:
@@ -1696,14 +1766,14 @@ Key conclusions from that archived smoke:
 - Current CATF-v2 work is smoke-only; no formal 50 epoch CATF-v2 run should be inferred from it.
 - No-feedback control disables both feedback and industrial augmentation, using Ultralytics YOLO default augmentation as the behavior check.
 - The old YOLO default reference is not the final baseline after parity audit; feedback comparisons should use `clean_native_yolo_default_seed42_50ep`.
-- Output: `outputs/experiments/./`
+- Output: `outputs/experiments/cp_catf_paper_mode_sampler_only_seed0/`
 - Epochs: `50`
 - Feedback enabled: `true`
 - Industrial augmentation enabled: `true`
 - CATF version: `v2`
-- Class-aware feedback: `true`
-- ROI-aware augmentation: `true`
-- Sample-aware routing: `true`
+- Class-aware feedback: `false`
+- ROI-aware augmentation: `false`
+- Sample-aware routing: `false`
 - Reference curve loaded: `true`
 - Feedback epochs: `[5, 10, 15, 20, 25, 30, 35, 40, 45]`
 - Stage restart count: `0`
@@ -1711,9 +1781,9 @@ Key conclusions from that archived smoke:
 - Train image count: `2071`
 - Fixed augmented dataset generated: `false`
 - Constraint baseline: `clean_native_yolo_default`
-- Constraint failed: `True`
-- Report: `outputs/experiments/cp_catf_paper_mode_precision_gate_seed0_rerun/reports/final_report.md`
-- Policy history: `outputs/experiments/cp_catf_paper_mode_precision_gate_seed0_rerun/reports/policy_history.json`
+- Constraint failed: `False`
+- Report: `outputs/experiments/cp_catf_paper_mode_sampler_only_seed0/reports/final_report.md`
+- Policy history: `outputs/experiments/cp_catf_paper_mode_sampler_only_seed0/reports/policy_history.json`
 <!-- YOLO_DEFAULT_INLOOP_FEEDBACK_SMOKE_END -->
 <!-- YOLO_DEFAULT_INLOOP_PARITY_AUDIT_START -->
 ## YOLO Default In-Loop Parity Audit

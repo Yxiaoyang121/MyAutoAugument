@@ -6,6 +6,51 @@ Last updated: 2026-06-12
 
 The repository is centered on diagnosis-driven augmentation for industrial defect detection. The active path still keeps YOLO network architecture unchanged and focuses on dataset construction, validation-error diagnosis, policy generation, proxy safety, short training, and auditable reporting.
 
+## CP-CATF Effective Sampler-Only Dataloader Intervention (2026-06-12)
+
+- Scope: implemented sampler-only dataloader support. No seed1/seed2 training and no multiseed run were started.
+- Dataloader entry audit:
+  - `outputs/debug/cp_catf_sampler_only_dataloader_impl/dataloader_entry_audit.md`
+- Implementation:
+  - added `AutoAugment/catf_v2/sampler_only.py` for probe-only train_core sample weighting and before/after distribution audit;
+  - added `--sampler-only-enabled` to `scripts/train_yolo_default_with_inloop_feedback.py`;
+  - changed `scripts/train_yolo_online_aug.py` so `OnlineYOLODataset` supports weighted index-list mapping and `OnlineAugDetectionTrainer` exposes the active train dataset/loader;
+  - chose weighted index list rather than `WeightedRandomSampler` because Ultralytics' active `build_dataloader()` path does not expose a sampler injection argument.
+- Behavior:
+  - image augmentation remains strict no-op when the precision-aware gate rejects image candidates;
+  - sampler-only now changes train_core sampling probability by installing weighted indices and resetting the Ultralytics `InfiniteDataLoader`;
+  - original image files, label files, final validation split, and label/Instances content are not rewritten.
+- Smoke run:
+  - output: `outputs/debug/cp_catf_sampler_only_execution_smoke/`;
+  - paper-mode=true, final_val_used_for_policy_selection=false;
+  - sample_weight_map generated=true;
+  - weighted train_core images=178;
+  - weighted_index_list_enabled=true;
+  - sampler_only_effective=true;
+  - sampled_distribution_changed=true;
+  - industrial image augmented=0, ROI applied=0, router random draw count=0;
+  - bbox/class legal.
+- Seed0 50ep sampler-only run:
+  - output: `outputs/experiments/cp_catf_paper_mode_sampler_only_seed0/`;
+  - feedback epochs: 5/10/15/20/25/30/35/40/45;
+  - epoch5 and epoch10 had sampler-only selected but no train_core image weights >1, so they stayed pending with an explicit blocker;
+  - epochs 15/20/25/30/35/40/45 were effective sampler-only with weighted index lists and changed sampled distribution;
+  - final sampler-only status=true/effective, weighted train_core images at the final sampler update=72;
+  - industrial image augmented=0, ROI applied=0, router random draw count=0.
+- Seed0 final metrics against the requested paper clean seed0 baseline:
+  - sampler-only seed0: P=0.7588, R=0.6878, mAP50=0.7779, mAP50-95=0.5204;
+  - clean paper seed0: P=0.7513, R=0.6763, mAP50=0.7566, mAP50-95=0.5114;
+  - delta: dP=+0.0075, dR=+0.0115, dM50=+0.0213, dM95=+0.0090;
+  - constraint_failed=false.
+- Required audit artifacts:
+  - `outputs/debug/cp_catf_sampler_only_dataloader_impl/sample_weight_map.json`
+  - `outputs/debug/cp_catf_sampler_only_dataloader_impl/weighted_train_indices.json`
+  - `outputs/debug/cp_catf_sampler_only_dataloader_impl/sampled_distribution_before_after.json`
+- Verification:
+  - `python -m py_compile AutoAugment/catf_v2/sampler_only.py scripts/train_yolo_online_aug.py scripts/train_yolo_default_with_inloop_feedback.py AutoAugment/catf_v2/causal_probe.py AutoAugment/catf_v2/policy_matrix.py AutoAugment/catf_v2/sample_router.py`
+  - `python -m pytest tests/test_cp_catf_sampler_only.py tests/test_cp_catf_accept_to_execution.py tests/test_catf_v2_causal_probe.py -q`
+  - Result: `29 passed`.
+
 ## CP-CATF Paper-Mode Decision Coverage Audit (2026-06-12)
 
 - Scope: offline decision coverage audit only. No 50ep training, no seed1/seed2 execution, no multiseed run, no clean rerun, and no augmentation strategy change was made.
@@ -1071,14 +1116,14 @@ The repository is centered on diagnosis-driven augmentation for industrial defec
 - Current CATF-v2 work is smoke-only; no formal 50 epoch CATF-v2 run should be inferred from it.
 - No-feedback control disables both feedback and industrial augmentation, using Ultralytics YOLO default augmentation as the behavior check.
 - The old YOLO default reference is not the final baseline after parity audit; feedback comparisons should use `clean_native_yolo_default_seed42_50ep`.
-- Output: `outputs/experiments/./`
+- Output: `outputs/experiments/cp_catf_paper_mode_sampler_only_seed0/`
 - Epochs: `50`
 - Feedback enabled: `true`
 - Industrial augmentation enabled: `true`
 - CATF version: `v2`
-- Class-aware feedback: `true`
-- ROI-aware augmentation: `true`
-- Sample-aware routing: `true`
+- Class-aware feedback: `false`
+- ROI-aware augmentation: `false`
+- Sample-aware routing: `false`
 - Reference curve loaded: `true`
 - Feedback epochs: `[5, 10, 15, 20, 25, 30, 35, 40, 45]`
 - Stage restart count: `0`
@@ -1086,9 +1131,9 @@ The repository is centered on diagnosis-driven augmentation for industrial defec
 - Train image count: `2071`
 - Fixed augmented dataset generated: `false`
 - Constraint baseline: `clean_native_yolo_default`
-- Constraint failed: `True`
-- Report: `outputs/experiments/cp_catf_paper_mode_precision_gate_seed0_rerun/reports/final_report.md`
-- Policy history: `outputs/experiments/cp_catf_paper_mode_precision_gate_seed0_rerun/reports/policy_history.json`
+- Constraint failed: `False`
+- Report: `outputs/experiments/cp_catf_paper_mode_sampler_only_seed0/reports/final_report.md`
+- Policy history: `outputs/experiments/cp_catf_paper_mode_sampler_only_seed0/reports/policy_history.json`
 <!-- YOLO_DEFAULT_INLOOP_FEEDBACK_SMOKE_END -->
 <!-- YOLO_DEFAULT_INLOOP_PARITY_AUDIT_START -->
 ## YOLO Default In-Loop Parity Audit

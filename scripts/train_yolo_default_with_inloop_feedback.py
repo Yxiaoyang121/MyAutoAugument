@@ -57,6 +57,7 @@ from AutoAugment.catf_v2.high_risk_class_ops import (  # noqa: E402
 from AutoAugment.catf_v2.issue_attribution import attribute_class_issues  # noqa: E402
 from AutoAugment.catf_v2.policy_matrix import active_class_ids, frozen_class_ids  # noqa: E402
 from AutoAugment.catf_v2.per_class_diagnosis import build_per_class_diagnosis  # noqa: E402
+from AutoAugment.catf_v2.sampler_only import build_sampler_only_artifacts  # noqa: E402
 from AutoAugment.catf_v2.threshold_calibration import ThresholdCalibrationAnalyzer  # noqa: E402
 from scripts.train_yolo_online_aug import (  # noqa: E402
     OnlineTrainingContext,
@@ -440,6 +441,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--causal-probe-mode", dest="catf_causal_probe", action=argparse.BooleanOptionalAction, default=argparse.SUPPRESS)
     parser.add_argument("--catf-causal-probe-mode", choices=["development", "paper"], default="development")
     parser.add_argument("--precision-aware-accept-gate", action=argparse.BooleanOptionalAction, default=True)
+    parser.add_argument("--sampler-only-enabled", action=argparse.BooleanOptionalAction, default=False)
     parser.add_argument("--use-offline-probe-decisions", action=argparse.BooleanOptionalAction, default=False)
     parser.add_argument("--offline-probe-decisions-dir", default=str(PROJECT_ROOT / "outputs/experiments/catf_v2_causal_probe"))
     parser.add_argument("--offline-probe-decisions-file", default=None)
@@ -505,6 +507,7 @@ def normalize_bool_cli_args(argv: list[str]) -> list[str]:
         "--catf-causal-probe",
         "--causal-probe-mode",
         "--precision-aware-accept-gate",
+        "--sampler-only-enabled",
         "--use-offline-probe-decisions",
         "--paper-probe-mode",
         "--forbid-final-val-policy-selection",
@@ -563,6 +566,7 @@ def build_train_config(args: argparse.Namespace, output_dir: Path) -> dict[str, 
         "feedback_interval": int(args.feedback_interval),
         "feedback_start_epoch": int(args.feedback_start_epoch),
         "industrial_aug_enabled": bool(args.industrial_aug_enabled),
+        "sampler_only_enabled": bool(getattr(args, "sampler_only_enabled", False)),
         "feedback_controller": "CATF-v2" if is_catf_v2(args) else "CATF",
         "catf_version": str(args.catf_version),
         "catf_noop": bool(args.catf_noop),
@@ -573,6 +577,7 @@ def build_train_config(args: argparse.Namespace, output_dir: Path) -> dict[str, 
         "catf_causal_probe": bool(getattr(args, "catf_causal_probe", False)),
         "catf_causal_probe_mode": str(getattr(args, "catf_causal_probe_mode", "development")),
         "precision_aware_accept_gate": bool(getattr(args, "precision_aware_accept_gate", True)),
+        "sampler_only_enabled": bool(getattr(args, "sampler_only_enabled", False)),
         "use_offline_probe_decisions": bool(getattr(args, "use_offline_probe_decisions", False)),
         "offline_probe_decisions_dir": str(Path(getattr(args, "offline_probe_decisions_dir", "")).resolve()),
         "offline_probe_decisions_file": str(Path(getattr(args, "offline_probe_decisions_file")).resolve()) if getattr(args, "offline_probe_decisions_file", None) else None,
@@ -656,6 +661,7 @@ def build_train_command(args: argparse.Namespace, output_dir: Path) -> str:
         f"catf_causal_probe={bool(getattr(args, 'catf_causal_probe', False))}",
         f"catf_causal_probe_mode={getattr(args, 'catf_causal_probe_mode', 'development')}",
         f"precision_aware_accept_gate={bool(getattr(args, 'precision_aware_accept_gate', True))}",
+        f"sampler_only_enabled={bool(getattr(args, 'sampler_only_enabled', False))}",
         f"use_offline_probe_decisions={bool(getattr(args, 'use_offline_probe_decisions', False))}",
         f"paper_probe_mode={bool(getattr(args, 'paper_probe_mode', False))}",
         f"probe_data={Path(getattr(args, 'probe_data')).resolve() if getattr(args, 'probe_data', None) else None}",
@@ -863,6 +869,8 @@ def apply_catf_v2_causal_probe_if_enabled(
             event["offline_probe_decision_path"] = str(resolve_offline_probe_decision_path(state.args))
         write_json(state.output_dir / "reports" / "causal_probe_decisions_used.json", decision_payload)
         write_json(state.output_dir / "reports" / "catf_v2" / "causal_probe_decisions_used.json", decision_payload)
+    if bool(event.get("sample_weighting_allowed", False)):
+        event = maybe_activate_sampler_only_dataloader(state, event, decision_payload or {}, epoch_num=epoch_num)
     if hasattr(controller, "policy"):
         controller.policy.matrix = deepcopy(gated_policy)
     if controller.history:
@@ -890,6 +898,148 @@ def apply_catf_v2_causal_probe_if_enabled(
     if hasattr(controller, "_write_histories"):
         controller._write_histories(gated_policy)
     return gated_policy
+
+
+def maybe_activate_sampler_only_dataloader(
+    state: InLoopFeedbackState,
+    event: dict[str, Any],
+    decision_payload: dict[str, Any],
+    *,
+    epoch_num: int,
+) -> dict[str, Any]:
+    event = deepcopy(event)
+    enabled = bool(getattr(state.args, "sampler_only_enabled", False))
+    event["sampler_only_enabled"] = enabled
+    if not enabled:
+        event["sample_weighting_effective"] = False
+        event["sample_weighting_status"] = "pending_dataloader_support"
+        event["sampler_only_effective"] = False
+        event["weighted_sampler_enabled"] = False
+        event["weighted_index_list_enabled"] = False
+        return event
+    debug_dir = PROJECT_ROOT / "outputs" / "debug" / "cp_catf_sampler_only_dataloader_impl"
+    try:
+        artifacts = build_sampler_only_artifacts(
+            data_yaml=state.args.data,
+            decision_payload=decision_payload,
+            epoch_num=epoch_num,
+            output_dir=state.output_dir,
+            debug_dir=debug_dir,
+        )
+        activation = activate_sampler_only_weighted_index_list(state.context, artifacts)
+    except Exception as exc:
+        event.update(
+            {
+                "action": "sampler_only_pending",
+                "sample_weight_map_generated": False,
+                "sample_weighting_effective": False,
+                "sample_weighting_status": "pending_sampler_only_error",
+                "sampler_only_effective": False,
+                "weighted_sampler_enabled": False,
+                "weighted_index_list_enabled": False,
+                "sampler_only_error": f"{type(exc).__name__}: {exc}",
+            }
+        )
+        write_json(state.output_dir / "reports" / f"sampler_only_dataloader_status_epoch_{epoch_num}.json", event)
+        return event
+    summary = artifacts.get("summary", {})
+    paths = artifacts.get("paths", {})
+    effective = bool(activation.get("sampler_only_effective", False))
+    event.update(
+        {
+            "action": "sampler_only_effective" if effective else "sampler_only_pending",
+            "sample_weight_map_generated": bool(summary.get("sample_weight_map_generated", False)),
+            "sample_weighting_effective": effective,
+            "sample_weighting_status": str(activation.get("sample_weighting_status", "effective_weighted_index_list" if effective else "pending_dataloader_support")),
+            "sampler_only_effective": effective,
+            "weighted_sampler_enabled": bool(activation.get("weighted_sampler_enabled", False)),
+            "weighted_index_list_enabled": bool(activation.get("weighted_index_list_enabled", False)),
+            "weighted_train_core_images_count": int(summary.get("weighted_train_core_images_count", 0) or 0),
+            "sampled_distribution_changed": bool(summary.get("sampled_distribution_changed", False)),
+            "weighted_train_indices_count": int((artifacts.get("weighted_train_indices") or {}).get("weighted_train_indices_count", 0) or 0),
+            "sampler_only_extra_sample_count": int(summary.get("extra_sample_count", 0) or 0),
+            "sampler_only_loader_reset": bool(activation.get("loader_reset", False)),
+            "sampler_only_blocker": activation.get("blocker"),
+            "sample_weight_map_path": str(paths.get("legacy_sample_weight_map_epoch_" + str(int(epoch_num))) or paths.get("legacy_sample_weight_map_latest") or paths.get("sample_weight_map_latest") or ""),
+            "sample_weight_map_debug_path": str(paths.get("sample_weight_map_latest") or ""),
+            "weighted_train_indices_path": str(paths.get("weighted_train_indices_epoch_" + str(int(epoch_num))) or paths.get("weighted_train_indices_latest") or ""),
+            "weighted_train_indices_debug_path": str(paths.get("weighted_train_indices_latest") or ""),
+            "sampled_distribution_before_after_path": str(
+                paths.get("sampled_distribution_before_after_epoch_" + str(int(epoch_num)))
+                or paths.get("sampled_distribution_before_after_latest")
+                or ""
+            ),
+            "sampled_distribution_before_after_debug_path": str(paths.get("sampled_distribution_before_after_latest") or ""),
+        }
+    )
+    write_json(state.output_dir / "reports" / f"sampler_only_dataloader_status_epoch_{epoch_num}.json", event)
+    write_json(state.output_dir / "reports" / "catf_v2" / f"sampler_only_dataloader_status_epoch_{epoch_num}.json", event)
+    return event
+
+
+def activate_sampler_only_weighted_index_list(context: OnlineTrainingContext, artifacts: dict[str, Any]) -> dict[str, Any]:
+    weighted_payload = artifacts.get("weighted_train_indices") or {}
+    summary = artifacts.get("summary") or {}
+    weighted_indices = [int(index) for index in (weighted_payload.get("weighted_train_indices") or [])]
+    activation = {
+        "weighted_sampler_enabled": False,
+        "weighted_index_list_enabled": False,
+        "sampler_only_effective": False,
+        "sample_weighting_status": "pending_dataloader_support",
+        "loader_reset": False,
+        "blocker": None,
+    }
+    dataset = getattr(context, "train_dataset", None)
+    if dataset is None:
+        activation["blocker"] = "OnlineTrainingContext.train_dataset is None; trainer build_dataset did not expose the train dataset"
+        context.sampler_only_status = str(activation["sample_weighting_status"])
+        return activation
+    if not hasattr(dataset, "set_weighted_indices"):
+        activation["blocker"] = f"{type(dataset).__name__} does not expose set_weighted_indices"
+        context.sampler_only_status = str(activation["sample_weighting_status"])
+        return activation
+    if not weighted_indices:
+        activation["blocker"] = "weighted_train_indices is empty"
+        context.sampler_only_status = str(activation["sample_weighting_status"])
+        return activation
+    if int(summary.get("weighted_train_core_images_count", 0) or 0) <= 0:
+        activation["blocker"] = "sample_weight_map contains no train_core images with weight > 1"
+        context.sampler_only_status = str(activation["sample_weighting_status"])
+        return activation
+    dataset.set_weighted_indices(
+        weighted_indices,
+        metadata={
+            "sample_weight_map": artifacts.get("sample_weight_map", {}),
+            "sampled_distribution_before_after": artifacts.get("sampled_distribution_before_after", {}),
+            "paths": artifacts.get("paths", {}),
+        },
+    )
+    loader = getattr(context, "train_loader", None)
+    if loader is not None and hasattr(loader, "reset"):
+        loader.reset()
+        activation["loader_reset"] = True
+    elif loader is not None:
+        activation["blocker"] = f"{type(loader).__name__} does not expose reset(); weighted dataset mapping installed but current iterator was not reset"
+        context.sampler_only_status = str(activation["sample_weighting_status"])
+        return activation
+    activation.update(
+        {
+            "weighted_index_list_enabled": True,
+            "sampler_only_effective": bool(summary.get("sampler_only_effective", False)),
+            "sample_weighting_status": "effective_weighted_index_list"
+            if bool(summary.get("sampler_only_effective", False))
+            else "pending_distribution_unchanged",
+        }
+    )
+    context.weighted_sampler_enabled = False
+    context.weighted_index_list_enabled = bool(activation["weighted_index_list_enabled"])
+    context.sampler_only_effective = bool(activation["sampler_only_effective"])
+    context.sampler_only_status = str(activation["sample_weighting_status"])
+    context.sample_weight_map_generated = bool(summary.get("sample_weight_map_generated", False))
+    context.weighted_train_core_images_count = int(summary.get("weighted_train_core_images_count", 0) or 0)
+    context.sampled_distribution_changed = bool(summary.get("sampled_distribution_changed", False))
+    context.sampler_only_artifact_paths = dict(artifacts.get("paths", {}))
+    return activation
 
 
 def load_offline_probe_decision_if_requested(state: InLoopFeedbackState) -> dict[str, Any] | None:
@@ -946,11 +1096,54 @@ def build_paper_probe_decision_payload(
     decision_payload["forbid_final_val_policy_selection"] = bool(getattr(state.args, "forbid_final_val_policy_selection", False))
     decision_payload["probe_source"] = str(getattr(state.args, "probe_source", "train_probe_split"))
     decision_payload["policy_selection_data_yaml"] = str(policy_selection_data_yaml(state.args).resolve())
+    decision_payload["sampler_only_focus_rows"] = [sampler_only_row_payload(row) for row in active_rows]
+    decision_payload["sampler_only_context_rows"] = [sampler_only_row_payload(row) for row in class_rows]
     decision_payload["riskguard_interpretation"] = {
         "riskguard_used_as_final_rule": False,
         "riskguard_role": "audit_debug_prior_only",
     }
     return decision_payload
+
+
+def sampler_only_row_payload(row: dict[str, Any]) -> dict[str, Any]:
+    keys = [
+        "class_id",
+        "class_name",
+        "dominant_issue",
+        "secondary_issues",
+        "strong_update_allowed",
+        "oversampling_candidate",
+        "copy_paste_candidate",
+        "threshold_calibration_candidate",
+        "no_aug_class",
+        "domain_high_fp_prior",
+        "high_fp_guarded",
+        "high_fp_prior",
+        "stable_class",
+        "low_recall",
+        "low_support",
+        "low_support_only",
+        "low_support_class",
+        "low_contrast_fn",
+        "texture_boundary_weak",
+        "weak_localization",
+        "high_fp",
+        "support_level",
+        "evidence_count",
+        "diagnosis_confidence",
+        "fn_count",
+        "fp_count",
+        "FN",
+        "FP",
+        "TP",
+        "Precision",
+        "Recall",
+        "AP50",
+        "AP50_95",
+        "train_instances",
+        "val_instances",
+    ]
+    return {key: deepcopy(row.get(key)) for key in keys if key in row}
 
 
 def merge_per_class_and_attribution(per_class: dict[str, Any], attribution: dict[str, Any]) -> list[dict[str, Any]]:
@@ -2025,6 +2218,7 @@ def build_payload(
     train_image_count = state.context.train_image_count
     if train_image_count is None:
         train_image_count = count_split_images(Path(args.data).resolve(), "train")
+    expected_train_images = count_split_images(Path(args.data).resolve(), "train")
     stats.update(
         {
             "run_id": args.run_id,
@@ -2048,14 +2242,22 @@ def build_payload(
             "adaptive_start_epoch": state.adaptive_burnin_controller.start_epoch if state.adaptive_burnin_controller else None,
             "noop_transform_calls": int(getattr(state.context, "noop_transform_calls", 0) or 0),
             "router_random_draw_count": int(getattr(state.context.augmentor, "random_draw_count", 0) or 0),
+            "sample_weight_map_generated": bool(getattr(state.context, "sample_weight_map_generated", False)),
+            "weighted_train_core_images_count": int(getattr(state.context, "weighted_train_core_images_count", 0) or 0),
+            "weighted_sampler_enabled": bool(getattr(state.context, "weighted_sampler_enabled", False)),
+            "weighted_index_list_enabled": bool(getattr(state.context, "weighted_index_list_enabled", False)),
+            "sampler_only_effective": bool(getattr(state.context, "sampler_only_effective", False)),
+            "sampler_only_status": str(getattr(state.context, "sampler_only_status", "not_requested")),
+            "sampled_distribution_changed": bool(getattr(state.context, "sampled_distribution_changed", False)),
+            "sampler_only_artifact_paths": dict(getattr(state.context, "sampler_only_artifact_paths", {}) or {}),
             "sample_router_built": bool(is_catf_v2(args)),
             "online_augmentation": bool(args.industrial_aug_enabled),
             "industrial_online_augmentation": bool(args.industrial_aug_enabled),
             "inloop_feedback": bool(args.feedback_enabled),
             "diagnosis_only": bool(getattr(args, "diagnosis_only", False)),
             "train_image_count": train_image_count,
-            "expected_original_train_images": 2301,
-            "train_image_count_matches_original": train_image_count == 2301,
+            "expected_original_train_images": expected_train_images,
+            "train_image_count_matches_original": train_image_count == expected_train_images,
             "fixed_augmented_dataset_generated": fixed_augmented_dataset_generated(output_dir),
             "copy_paste_online_supported": False,
             "copy_paste_status": "pending_object_bank_design",
@@ -2118,6 +2320,14 @@ def build_payload(
         "yolo_default_augmentation_enabled": True,
         "industrial_aug_enabled": bool(args.industrial_aug_enabled),
         "industrial_aug_dynamic": bool(args.industrial_aug_enabled and int(stats.get("samples_augmented", 0) or 0) > 0),
+        "sampler_only_enabled": bool(getattr(args, "sampler_only_enabled", False)),
+        "sample_weight_map_generated": bool(getattr(state.context, "sample_weight_map_generated", False)),
+        "weighted_train_core_images_count": int(getattr(state.context, "weighted_train_core_images_count", 0) or 0),
+        "weighted_sampler_enabled": bool(getattr(state.context, "weighted_sampler_enabled", False)),
+        "weighted_index_list_enabled": bool(getattr(state.context, "weighted_index_list_enabled", False)),
+        "sampler_only_effective": bool(getattr(state.context, "sampler_only_effective", False)),
+        "sampler_only_status": str(getattr(state.context, "sampler_only_status", "not_requested")),
+        "sampled_distribution_changed": bool(getattr(state.context, "sampled_distribution_changed", False)),
         "fixed_augmented_dataset_generated": stats["fixed_augmented_dataset_generated"],
         "train_image_count": train_image_count,
         "bbox_class_valid": stats["invalid_bbox_count"] == 0 and stats["class_id_oob_count"] == 0,

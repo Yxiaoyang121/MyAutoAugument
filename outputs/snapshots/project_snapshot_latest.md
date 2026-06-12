@@ -1,13 +1,29 @@
 # Project Snapshot
 
-- Generated: 2026-06-12T22:34:10
+- Generated: 2026-06-13T06:29:07
 - Branch: codex/sync-latest
-- Commit: a5a4b7eb1670db6847af2eb9a4f4b266bc4b77a3
+- Commit: 4b0c66396a040ec7668d87408baf55441cd53f77
 - Remote: https://github.com/Yxiaoyang121/MyAutoAugument.git
 
 ## Working Tree
 
-Clean working tree.
+```text
+ M CODEX_HANDOFF.md
+ M EXPERIMENT_LOG.md
+ M PROJECT_STATE.md
+ M outputs/debug/cp_catf_sampler_only_dataloader_impl/sample_weight_map.json
+ M outputs/debug/cp_catf_sampler_only_dataloader_impl/sampled_distribution_before_after.json
+ M outputs/debug/cp_catf_sampler_only_dataloader_impl/weighted_train_indices.json
+ M outputs/project_snapshot_latest.md
+ M outputs/snapshots/project_snapshot_latest.md
+?? outputs/experiments/cp_catf_paper_mode_sampler_only_seed0/reports/sample_weight_map.json
+?? outputs/experiments/cp_catf_paper_mode_sampler_only_seed0/reports/sampled_distribution_before_after.json
+?? outputs/experiments/cp_catf_paper_mode_sampler_only_seed0/reports/sampler_only_report.json
+?? outputs/experiments/cp_catf_paper_mode_sampler_only_seed0/reports/sampler_only_report.md
+?? outputs/experiments/cp_catf_paper_mode_sampler_only_seed0/reports/weighted_train_indices.json
+?? outputs/experiments/multiseed_cp_catf_paper_mode_sampler_only/
+?? scripts/summarize_cp_catf_sampler_only_multiseed.py
+```
 
 ## Key Files
 
@@ -212,6 +228,17 @@ Clean working tree.
 ## Tracked File Count
 
 - 8320 tracked files
+
+## Current CP-CATF Status
+
+- Paper-mode split remains leakage-safe: final val is not used for policy selection.
+- Sampler-only is now effective weighted training through weighted index lists, not a pending/no-op path.
+- Seed0 sampler-only was reused; seed1 and seed2 were run in `outputs/experiments/multiseed_cp_catf_paper_mode_sampler_only/`.
+- Sampler-only effective seed count: 3/3; weighted train_core images: seed0=72, seed1=123, seed2=176.
+- Image augmentation, ROI augmentation, and router random draws remain 0 for all three seeds.
+- Multiseed constraint result: 2/3 pass. Seed1 failed with dP=-0.0135, dM50=-0.0365, dM95=-0.0139.
+- Mean deltas: dP=+0.0237, dR=-0.0027, dM50=+0.0034, dM95=-0.0001.
+- Current conclusion: CP-CATF paper-mode sampler-only is auditable and effective in the dataloader, but it is not a 3-seed paper main-method candidate.
 
 ## Notes
 

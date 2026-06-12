@@ -6,6 +6,40 @@ Last updated: 2026-06-12
 
 The repository is centered on diagnosis-driven augmentation for industrial defect detection. The active path still keeps YOLO network architecture unchanged and focuses on dataset construction, validation-error diagnosis, policy generation, proxy safety, short training, and auditable reporting.
 
+## CP-CATF Paper-Mode Sampler-Only Multiseed (2026-06-12)
+
+- Scope: continued from the completed seed0 sampler-only run and ran only seed1/seed2. Clean paper baselines and seed0 CP-CATF results were reused; clean and seed0 were not rerun.
+- Output root:
+  - `outputs/experiments/multiseed_cp_catf_paper_mode_sampler_only/`
+- Report:
+  - `outputs/experiments/multiseed_cp_catf_paper_mode_sampler_only/reports/multiseed_sampler_only_summary.md`
+  - `outputs/experiments/multiseed_cp_catf_paper_mode_sampler_only/reports/multiseed_sampler_only_summary.json`
+- Sampler-only status:
+  - weighted index list was effective for all seeds;
+  - sampler_only_effective seed count=3/3;
+  - sampled distribution changed for all seeds;
+  - final weighted train_core images: seed0=72, seed1=123, seed2=176, total=371.
+- Leakage and augmentation status:
+  - paper-mode split remains valid: train_core=2071, probe=230, final val=677;
+  - final_val_used_for_policy_selection=false and final_val_leakage=false for all seeds;
+  - image augmentation remained 0 for all seeds;
+  - ROI applied=0 for all seeds;
+  - router random draw count=0 for all seeds.
+- Metrics versus requested clean paper baselines:
+  - seed0 delta: dP=+0.0075, dR=+0.0115, dM50=+0.0213, dM95=+0.0090, constraint_failed=false;
+  - seed1 delta: dP=-0.0135, dR=-0.0324, dM50=-0.0365, dM95=-0.0139, constraint_failed=true;
+  - seed2 delta: dP=+0.0772, dR=+0.0127, dM50=+0.0253, dM95=+0.0046, constraint_failed=false;
+  - mean delta: dP=+0.0237, dR=-0.0027, dM50=+0.0034, dM95=-0.0001.
+- Conclusion:
+  - 3/3 pass=false; pass_count=2/3.
+  - CP-CATF paper-mode sampler-only is not yet a paper main-method result.
+  - The current result proves sampler_only is an effective dataloader intervention, but the seed1 regression blocks a stable multiseed claim.
+  - Do not continue training as if this is solved; next work should analyze seed1 sampler weighting/failure modes before considering weak_image_aug or attenuation.
+- Verification:
+  - `python -m py_compile AutoAugment/catf_v2/causal_probe.py AutoAugment/catf_v2/sample_router.py AutoAugment/catf_v2/policy_matrix.py scripts/train_yolo_default_with_inloop_feedback.py scripts/summarize_cp_catf_sampler_only_multiseed.py`
+  - `python -m pytest -q tests/test_cp_catf_sampler_only.py tests/test_cp_catf_accept_to_execution.py tests/test_cp_catf_paper_mode.py tests/test_catf_v2_causal_probe.py tests/test_catf_v2_transform_bypass.py tests/test_catf_v2_sample_router.py tests/test_online_augmentation.py`
+  - Result: `60 passed`.
+
 ## CP-CATF Effective Sampler-Only Dataloader Intervention (2026-06-12)
 
 - Scope: implemented sampler-only dataloader support. No seed1/seed2 training and no multiseed run were started.
@@ -1116,14 +1150,14 @@ The repository is centered on diagnosis-driven augmentation for industrial defec
 - Current CATF-v2 work is smoke-only; no formal 50 epoch CATF-v2 run should be inferred from it.
 - No-feedback control disables both feedback and industrial augmentation, using Ultralytics YOLO default augmentation as the behavior check.
 - The old YOLO default reference is not the final baseline after parity audit; feedback comparisons should use `clean_native_yolo_default_seed42_50ep`.
-- Output: `outputs/experiments/cp_catf_paper_mode_sampler_only_seed0/`
+- Output: `outputs/experiments/cp_catf_seed_2/`
 - Epochs: `50`
 - Feedback enabled: `true`
 - Industrial augmentation enabled: `true`
 - CATF version: `v2`
-- Class-aware feedback: `false`
-- ROI-aware augmentation: `false`
-- Sample-aware routing: `false`
+- Class-aware feedback: `true`
+- ROI-aware augmentation: `true`
+- Sample-aware routing: `true`
 - Reference curve loaded: `true`
 - Feedback epochs: `[5, 10, 15, 20, 25, 30, 35, 40, 45]`
 - Stage restart count: `0`
@@ -1131,9 +1165,9 @@ The repository is centered on diagnosis-driven augmentation for industrial defec
 - Train image count: `2071`
 - Fixed augmented dataset generated: `false`
 - Constraint baseline: `clean_native_yolo_default`
-- Constraint failed: `False`
-- Report: `outputs/experiments/cp_catf_paper_mode_sampler_only_seed0/reports/final_report.md`
-- Policy history: `outputs/experiments/cp_catf_paper_mode_sampler_only_seed0/reports/policy_history.json`
+- Constraint failed: `True`
+- Report: `outputs/experiments/multiseed_cp_catf_paper_mode_sampler_only/cp_catf_seed_2/reports/final_report.md`
+- Policy history: `outputs/experiments/multiseed_cp_catf_paper_mode_sampler_only/cp_catf_seed_2/reports/policy_history.json`
 <!-- YOLO_DEFAULT_INLOOP_FEEDBACK_SMOKE_END -->
 <!-- YOLO_DEFAULT_INLOOP_PARITY_AUDIT_START -->
 ## YOLO Default In-Loop Parity Audit

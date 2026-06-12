@@ -1,0 +1,397 @@
+{
+  "seed": 0,
+  "run_dir": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\cp_catf_paper_mode_sampler_only_seed0",
+  "clean_paper_baseline": {
+    "precision": 0.7513,
+    "recall": 0.6763,
+    "map50": 0.7566,
+    "map50_95": 0.5114
+  },
+  "cp_catf_paper_mode_sampler_only": {
+    "precision": 0.7588081940736805,
+    "recall": 0.6877534456645548,
+    "map50": 0.7779426586634559,
+    "map50_95": 0.5203702287000118
+  },
+  "delta_vs_clean": {
+    "precision": 0.00750819407368053,
+    "recall": 0.011453445664554751,
+    "map50": 0.02134265866345586,
+    "map50_95": 0.00897022870001185
+  },
+  "constraint_failed": false,
+  "constraint_reasons": [],
+  "constraint_drop_limit": 0.01,
+  "paper_mode": true,
+  "causal_probe_mode": true,
+  "precision_aware_accept_gate": true,
+  "sampler_only_enabled": true,
+  "final_val_leakage_false": true,
+  "final_val_used_for_policy_selection": false,
+  "sampler_only": {
+    "effective": true,
+    "status": "effective_weighted_index_list",
+    "effective_feedback_epoch_count": 7,
+    "effective_feedback_epochs": [
+      15,
+      20,
+      25,
+      30,
+      35,
+      40,
+      45
+    ],
+    "weighted_train_core_images_count": 72,
+    "weighted_sampler_enabled": false,
+    "weighted_index_list_enabled": true,
+    "weighted_train_indices_count": 2088,
+    "sampled_distribution_changed": true,
+    "sample_weight_map_generated": true
+  },
+  "augmentation_counts": {
+    "image_augmented": 0,
+    "roi_applied": 0,
+    "industrial_image_augmented": 0,
+    "router_random_draw_count": 0
+  },
+  "weighted_classes": [
+    {
+      "class_id": 2,
+      "class_name": "加强筋打伤",
+      "dominant_issue": "low_support",
+      "weight": 1.2,
+      "reasons": [
+        "low_support"
+      ]
+    },
+    {
+      "class_id": 10,
+      "class_name": "锡丝残留",
+      "dominant_issue": "low_support",
+      "weight": 1.2,
+      "reasons": [
+        "low_support"
+      ]
+    },
+    {
+      "class_id": 11,
+      "class_name": "锡尖",
+      "dominant_issue": "texture_boundary_weak",
+      "weight": 1.25,
+      "reasons": [
+        "texture_boundary_weak"
+      ]
+    },
+    {
+      "class_id": 12,
+      "class_name": "锡膏",
+      "dominant_issue": "texture_boundary_weak",
+      "weight": 1.25,
+      "reasons": [
+        "texture_boundary_weak"
+      ]
+    }
+  ],
+  "protected_weighting": {
+    "weighted_images_count": 72,
+    "protected_weighted_count": 0,
+    "high_fp_or_ok_or_no_aug_wrongly_weighted": false,
+    "examples": []
+  },
+  "sampled_distribution": {
+    "generated": true,
+    "changed": true,
+    "before": {
+      "image_count": 2071,
+      "total_instances": 2740,
+      "class_instance_counts": {
+        "0": 264,
+        "1": 844,
+        "2": 30,
+        "3": 14,
+        "4": 120,
+        "5": 67,
+        "6": 155,
+        "7": 727,
+        "8": 129,
+        "9": 159,
+        "10": 26,
+        "11": 96,
+        "12": 109
+      },
+      "class_image_counts": {
+        "0": 264,
+        "1": 844,
+        "2": 29,
+        "3": 13,
+        "4": 96,
+        "5": 45,
+        "6": 135,
+        "7": 644,
+        "8": 76,
+        "9": 133,
+        "10": 26,
+        "11": 96,
+        "12": 93
+      },
+      "class_instance_fraction": {
+        "0": 0.09635036496350365,
+        "1": 0.30802919708029197,
+        "2": 0.010948905109489052,
+        "3": 0.0051094890510948905,
+        "4": 0.043795620437956206,
+        "5": 0.024452554744525547,
+        "6": 0.05656934306569343,
+        "7": 0.2653284671532847,
+        "8": 0.04708029197080292,
+        "9": 0.05802919708029197,
+        "10": 0.00948905109489051,
+        "11": 0.035036496350364967,
+        "12": 0.03978102189781022
+      }
+    },
+    "after": {
+      "image_count": 2088,
+      "total_instances": 2761,
+      "class_instance_counts": {
+        "0": 264,
+        "1": 844,
+        "2": 30,
+        "3": 14,
+        "4": 120,
+        "5": 67,
+        "6": 155,
+        "7": 727,
+        "8": 129,
+        "9": 159,
+        "10": 28,
+        "11": 98,
+        "12": 126
+      },
+      "class_image_counts": {
+        "0": 264,
+        "1": 844,
+        "2": 29,
+        "3": 13,
+        "4": 96,
+        "5": 45,
+        "6": 135,
+        "7": 644,
+        "8": 76,
+        "9": 133,
+        "10": 28,
+        "11": 98,
+        "12": 108
+      },
+      "class_instance_fraction": {
+        "0": 0.09561752988047809,
+        "1": 0.305686345526983,
+        "2": 0.010865628395508874,
+        "3": 0.0050706265845708075,
+        "4": 0.0434625135820355,
+        "5": 0.02426657008330315,
+        "6": 0.05613908004346251,
+        "7": 0.26331039478449836,
+        "8": 0.04672220210068816,
+        "9": 0.05758783049619703,
+        "10": 0.010141253169141615,
+        "11": 0.03549438609199566,
+        "12": 0.04563563926113727
+      }
+    },
+    "delta_class_fraction": {
+      "0": -0.0007328350830255598,
+      "1": -0.002342851553308989,
+      "2": -8.327671398017725e-05,
+      "3": -3.8862466524083004e-05,
+      "4": -0.000333106855920709,
+      "5": -0.00018598466122239643,
+      "6": -0.00043026302223091867,
+      "7": -0.0020180723687863167,
+      "8": -0.0003580898701147639,
+      "9": -0.0004413665840949446,
+      "10": 0.0006522020742511046,
+      "11": 0.0004578897416306904,
+      "12": 0.0058546173633270485
+    }
+  },
+  "feedback_decisions": [
+    {
+      "epoch": 5,
+      "candidate_policy_id": "candidate_policy_3_sampler_only",
+      "candidate_action": "sampler_only",
+      "candidate_class_id": 8,
+      "causal_score": -0.15200000000000002,
+      "image_candidate_rejected_by_precision_gate": true,
+      "image_modification_allowed": false,
+      "sampler_only_selected": true,
+      "sampler_only_effective": false,
+      "weighted_train_core_images_count": 0,
+      "weighted_index_list_enabled": false,
+      "sampled_distribution_changed": false,
+      "sample_weighting_status": "pending_dataloader_support",
+      "sampler_only_blocker": "sample_weight_map contains no train_core images with weight > 1"
+    },
+    {
+      "epoch": 10,
+      "candidate_policy_id": "candidate_policy_3_sampler_only",
+      "candidate_action": "sampler_only",
+      "candidate_class_id": 8,
+      "causal_score": -0.1005,
+      "image_candidate_rejected_by_precision_gate": true,
+      "image_modification_allowed": false,
+      "sampler_only_selected": true,
+      "sampler_only_effective": false,
+      "weighted_train_core_images_count": 0,
+      "weighted_index_list_enabled": false,
+      "sampled_distribution_changed": false,
+      "sample_weighting_status": "pending_dataloader_support",
+      "sampler_only_blocker": "sample_weight_map contains no train_core images with weight > 1"
+    },
+    {
+      "epoch": 15,
+      "candidate_policy_id": "candidate_policy_3_sampler_only",
+      "candidate_action": "sampler_only",
+      "candidate_class_id": 12,
+      "causal_score": -0.1245,
+      "image_candidate_rejected_by_precision_gate": true,
+      "image_modification_allowed": false,
+      "sampler_only_selected": true,
+      "sampler_only_effective": true,
+      "weighted_train_core_images_count": 34,
+      "weighted_index_list_enabled": true,
+      "sampled_distribution_changed": true,
+      "sample_weighting_status": "effective_weighted_index_list",
+      "sampler_only_blocker": null
+    },
+    {
+      "epoch": 20,
+      "candidate_policy_id": "candidate_policy_3_sampler_only",
+      "candidate_action": "sampler_only",
+      "candidate_class_id": 8,
+      "causal_score": -0.08316666666666667,
+      "image_candidate_rejected_by_precision_gate": true,
+      "image_modification_allowed": false,
+      "sampler_only_selected": true,
+      "sampler_only_effective": true,
+      "weighted_train_core_images_count": 55,
+      "weighted_index_list_enabled": true,
+      "sampled_distribution_changed": true,
+      "sample_weighting_status": "effective_weighted_index_list",
+      "sampler_only_blocker": null
+    },
+    {
+      "epoch": 25,
+      "candidate_policy_id": "candidate_policy_3_sampler_only",
+      "candidate_action": "sampler_only",
+      "candidate_class_id": 6,
+      "causal_score": -0.111,
+      "image_candidate_rejected_by_precision_gate": true,
+      "image_modification_allowed": false,
+      "sampler_only_selected": true,
+      "sampler_only_effective": true,
+      "weighted_train_core_images_count": 50,
+      "weighted_index_list_enabled": true,
+      "sampled_distribution_changed": true,
+      "sample_weighting_status": "effective_weighted_index_list",
+      "sampler_only_blocker": null
+    },
+    {
+      "epoch": 30,
+      "candidate_policy_id": "candidate_policy_3_sampler_only",
+      "candidate_action": "sampler_only",
+      "candidate_class_id": 6,
+      "causal_score": -0.0986,
+      "image_candidate_rejected_by_precision_gate": true,
+      "image_modification_allowed": false,
+      "sampler_only_selected": true,
+      "sampler_only_effective": true,
+      "weighted_train_core_images_count": 50,
+      "weighted_index_list_enabled": true,
+      "sampled_distribution_changed": true,
+      "sample_weighting_status": "effective_weighted_index_list",
+      "sampler_only_blocker": null
+    },
+    {
+      "epoch": 35,
+      "candidate_policy_id": "candidate_policy_3_sampler_only",
+      "candidate_action": "sampler_only",
+      "candidate_class_id": 9,
+      "causal_score": -0.11671052631578947,
+      "image_candidate_rejected_by_precision_gate": true,
+      "image_modification_allowed": false,
+      "sampler_only_selected": true,
+      "sampler_only_effective": true,
+      "weighted_train_core_images_count": 123,
+      "weighted_index_list_enabled": true,
+      "sampled_distribution_changed": true,
+      "sample_weighting_status": "effective_weighted_index_list",
+      "sampler_only_blocker": null
+    },
+    {
+      "epoch": 40,
+      "candidate_policy_id": "candidate_policy_3_sampler_only",
+      "candidate_action": "sampler_only",
+      "candidate_class_id": -1,
+      "causal_score": 0.0,
+      "image_candidate_rejected_by_precision_gate": true,
+      "image_modification_allowed": false,
+      "sampler_only_selected": true,
+      "sampler_only_effective": true,
+      "weighted_train_core_images_count": 13,
+      "weighted_index_list_enabled": true,
+      "sampled_distribution_changed": true,
+      "sample_weighting_status": "effective_weighted_index_list",
+      "sampler_only_blocker": null
+    },
+    {
+      "epoch": 45,
+      "candidate_policy_id": "candidate_policy_3_sampler_only",
+      "candidate_action": "sampler_only",
+      "candidate_class_id": -1,
+      "causal_score": 0.0,
+      "image_candidate_rejected_by_precision_gate": true,
+      "image_modification_allowed": false,
+      "sampler_only_selected": true,
+      "sampler_only_effective": true,
+      "weighted_train_core_images_count": 72,
+      "weighted_index_list_enabled": true,
+      "sampled_distribution_changed": true,
+      "sample_weighting_status": "effective_weighted_index_list",
+      "sampler_only_blocker": null
+    }
+  ],
+  "copied_latest_artifacts": {
+    "sample_weight_map.json": {
+      "copied": true,
+      "source": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\cp_catf_paper_mode_sampler_only_seed0\\reports\\sample_weight_map_epoch_45.json",
+      "target": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\cp_catf_paper_mode_sampler_only_seed0\\reports\\sample_weight_map.json",
+      "epoch": 45
+    },
+    "weighted_train_indices.json": {
+      "copied": true,
+      "source": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\cp_catf_paper_mode_sampler_only_seed0\\reports\\weighted_train_indices_epoch_45.json",
+      "target": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\cp_catf_paper_mode_sampler_only_seed0\\reports\\weighted_train_indices.json",
+      "epoch": 45
+    },
+    "sampled_distribution_before_after.json": {
+      "copied": true,
+      "source": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\cp_catf_paper_mode_sampler_only_seed0\\reports\\sampled_distribution_before_after_epoch_45.json",
+      "target": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\cp_catf_paper_mode_sampler_only_seed0\\reports\\sampled_distribution_before_after.json",
+      "epoch": 45
+    }
+  },
+  "required_artifacts": {
+    "final_metrics": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\cp_catf_paper_mode_sampler_only_seed0\\reports\\final_metrics.json",
+    "sampler_only_report_md": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\cp_catf_paper_mode_sampler_only_seed0\\reports\\sampler_only_report.md",
+    "sampler_only_report_json": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\cp_catf_paper_mode_sampler_only_seed0\\reports\\sampler_only_report.json",
+    "sample_weight_map": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\cp_catf_paper_mode_sampler_only_seed0\\reports\\sample_weight_map.json",
+    "weighted_train_indices": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\cp_catf_paper_mode_sampler_only_seed0\\reports\\weighted_train_indices.json",
+    "sampled_distribution_before_after": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\cp_catf_paper_mode_sampler_only_seed0\\reports\\sampled_distribution_before_after.json",
+    "policy_history": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\cp_catf_paper_mode_sampler_only_seed0\\reports\\policy_history.json",
+    "class_policy_history": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\cp_catf_paper_mode_sampler_only_seed0\\reports\\class_policy_history.json",
+    "causal_probe_decisions_used": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\cp_catf_paper_mode_sampler_only_seed0\\reports\\causal_probe_decisions_used.json",
+    "online_aug_stats": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\cp_catf_paper_mode_sampler_only_seed0\\reports\\online_aug_stats.json",
+    "roi_aug_stats": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\cp_catf_paper_mode_sampler_only_seed0\\reports\\roi_aug_stats.json"
+  }
+}

@@ -10,6 +10,40 @@
 
 The project is a diagnosis-driven augmentation pipeline for industrial defect detection. Keep work centered on dataset construction, tiling, validation-error diagnosis, policy generation, proxy safety, short-training validation, and auditable artifacts. Do not reframe this as YOLO backbone, neck, or head redesign.
 
+## Latest CP-CATF Paper-Mode Sampler-Only Multiseed
+
+- Date: `2026-06-12`.
+- Scope: ran only seed1/seed2 to extend the already completed seed0 sampler-only result. Clean baselines and seed0 CP-CATF were reused; no clean rerun and no seed0 rerun were performed.
+- Output root:
+  - `outputs/experiments/multiseed_cp_catf_paper_mode_sampler_only/`
+- Summary reports:
+  - `outputs/experiments/multiseed_cp_catf_paper_mode_sampler_only/reports/multiseed_sampler_only_summary.md`
+  - `outputs/experiments/multiseed_cp_catf_paper_mode_sampler_only/reports/multiseed_sampler_only_summary.json`
+- Per-seed sampler reports:
+  - seed0: `outputs/experiments/cp_catf_paper_mode_sampler_only_seed0/reports/sampler_only_report.md`
+  - seed1: `outputs/experiments/multiseed_cp_catf_paper_mode_sampler_only/cp_catf_seed_1/reports/sampler_only_report.md`
+  - seed2: `outputs/experiments/multiseed_cp_catf_paper_mode_sampler_only/cp_catf_seed_2/reports/sampler_only_report.md`
+- Status:
+  - sampler_only is effective weighted training, not pending.
+  - weighted index list is enabled for all seeds.
+  - sampled distribution changed for all seeds.
+  - weighted train_core images: seed0=72, seed1=123, seed2=176.
+  - image augmented=0, ROI applied=0, router random draw count=0 for all seeds.
+  - final_val_used_for_policy_selection=false and final-val leakage=false for all seeds.
+- Metrics vs requested clean paper baselines:
+  - seed0: P=0.7588, R=0.6878, mAP50=0.7779, mAP50-95=0.5204; deltas +0.0075/+0.0115/+0.0213/+0.0090; constraint_failed=false.
+  - seed1: P=0.7085, R=0.7258, mAP50=0.7412, mAP50-95=0.5112; deltas -0.0135/-0.0324/-0.0365/-0.0139; constraint_failed=true.
+  - seed2: P=0.7062, R=0.6512, mAP50=0.6843, mAP50-95=0.4427; deltas +0.0772/+0.0127/+0.0253/+0.0046; constraint_failed=false.
+  - mean delta: dP=+0.0237, dR=-0.0027, dM50=+0.0034, dM95=-0.0001.
+- Conclusion for the next agent:
+  - 3/3 pass=false; pass_count=2/3.
+  - Do not claim CP-CATF paper-mode sampler-only as the paper main method.
+  - The dataloader intervention is real and auditable, but seed1 regression blocks the multiseed claim.
+  - Do not rerun more training by default; next useful work is to analyze why seed1 sampler-only weighting regressed before considering weak_image_aug or attenuation.
+- Verification:
+  - Requested py_compile passed.
+  - Requested pytest set passed: `60 passed`.
+
 ## Latest CP-CATF Sampler-Only Dataloader Implementation
 
 - Date: `2026-06-12`.
@@ -959,14 +993,14 @@ No training was run after building or auditing these datasets.
 - Current CATF-v2 work is smoke-only; no formal 50 epoch CATF-v2 run should be inferred from it.
 - No-feedback control disables both feedback and industrial augmentation, using Ultralytics YOLO default augmentation as the behavior check.
 - The old YOLO default reference is not the final baseline after parity audit; feedback comparisons should use `clean_native_yolo_default_seed42_50ep`.
-- Output: `outputs/experiments/cp_catf_paper_mode_sampler_only_seed0/`
+- Output: `outputs/experiments/cp_catf_seed_2/`
 - Epochs: `50`
 - Feedback enabled: `true`
 - Industrial augmentation enabled: `true`
 - CATF version: `v2`
-- Class-aware feedback: `false`
-- ROI-aware augmentation: `false`
-- Sample-aware routing: `false`
+- Class-aware feedback: `true`
+- ROI-aware augmentation: `true`
+- Sample-aware routing: `true`
 - Reference curve loaded: `true`
 - Feedback epochs: `[5, 10, 15, 20, 25, 30, 35, 40, 45]`
 - Stage restart count: `0`
@@ -974,9 +1008,9 @@ No training was run after building or auditing these datasets.
 - Train image count: `2071`
 - Fixed augmented dataset generated: `false`
 - Constraint baseline: `clean_native_yolo_default`
-- Constraint failed: `False`
-- Report: `outputs/experiments/cp_catf_paper_mode_sampler_only_seed0/reports/final_report.md`
-- Policy history: `outputs/experiments/cp_catf_paper_mode_sampler_only_seed0/reports/policy_history.json`
+- Constraint failed: `True`
+- Report: `outputs/experiments/multiseed_cp_catf_paper_mode_sampler_only/cp_catf_seed_2/reports/final_report.md`
+- Policy history: `outputs/experiments/multiseed_cp_catf_paper_mode_sampler_only/cp_catf_seed_2/reports/policy_history.json`
 <!-- YOLO_DEFAULT_INLOOP_FEEDBACK_SMOKE_END -->
 <!-- YOLO_DEFAULT_INLOOP_PARITY_AUDIT_START -->
 ## YOLO Default In-Loop Parity Audit

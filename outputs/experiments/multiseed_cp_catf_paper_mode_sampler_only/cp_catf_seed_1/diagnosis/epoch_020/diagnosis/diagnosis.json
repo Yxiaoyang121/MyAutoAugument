@@ -1,0 +1,2070 @@
+{
+  "stage": "error_diagnosis",
+  "status": "completed",
+  "dry_run": false,
+  "global": {
+    "tp": 338,
+    "fp": 139,
+    "fn": 97,
+    "precision": 0.7085953878406709,
+    "recall": 0.7647058823529411,
+    "localization_weak": 7,
+    "gt": 442
+  },
+  "issues": [
+    {
+      "type": "low_contrast_missed_defect",
+      "source_issue": "low_contrast_fn_high",
+      "severity": "medium",
+      "evidence": {
+        "issue": "low_contrast_fn_high",
+        "severity": "medium",
+        "observed_rate": 0.5670103092783505
+      },
+      "suggested_augmentations": [
+        "contrast",
+        "gamma",
+        "clahe",
+        "brightness",
+        "sharpen"
+      ]
+    },
+    {
+      "type": "low_contrast_missed_defect",
+      "source_issue": "exposure_fn_high",
+      "severity": "medium",
+      "evidence": {
+        "issue": "exposure_fn_high",
+        "severity": "medium",
+        "dark_rate": 0.5257731958762887,
+        "bright_rate": 0.0
+      },
+      "suggested_augmentations": [
+        "contrast",
+        "gamma",
+        "clahe",
+        "brightness",
+        "sharpen"
+      ]
+    },
+    {
+      "type": "class_imbalance",
+      "source_issue": "class_recall_imbalance",
+      "severity": "medium",
+      "evidence": {
+        "issue": "class_recall_imbalance",
+        "severity": "medium",
+        "classes": [
+          {
+            "class_id": 3,
+            "class_name": "开裂",
+            "fn_rate": 1.0
+          },
+          {
+            "class_id": 4,
+            "class_name": "油污",
+            "fn_rate": 0.8823529411764706
+          },
+          {
+            "class_id": 5,
+            "class_name": "浅划伤",
+            "fn_rate": 0.7857142857142857
+          },
+          {
+            "class_id": 6,
+            "class_name": "漏背锡",
+            "fn_rate": 0.53125
+          },
+          {
+            "class_id": 8,
+            "class_name": "脏污",
+            "fn_rate": 0.6071428571428571
+          }
+        ]
+      },
+      "suggested_augmentations": [
+        "class-aware-sampling",
+        "targeted-augmentation",
+        "class-balanced-policy"
+      ]
+    },
+    {
+      "type": "high_false_positive",
+      "source_issue": "false_positive_high",
+      "severity": "medium",
+      "evidence": {
+        "issue": "false_positive_high",
+        "severity": "medium",
+        "fp_count": 139
+      },
+      "suggested_augmentations": [
+        "hard-negative-review",
+        "reduce-noise",
+        "reduce-blur",
+        "mild-lighting"
+      ]
+    },
+    {
+      "type": "localization_bias",
+      "source_issue": "localization_weak_count",
+      "severity": "medium",
+      "evidence": {
+        "localization_weak_count": 7
+      },
+      "suggested_augmentations": [
+        "mild-scale",
+        "mild-translate",
+        "reduce-rotate",
+        "reduce-shear",
+        "reduce-perspective"
+      ]
+    }
+  ],
+  "per_class": {
+    "0": {
+      "class_id": 0,
+      "class_name": "OK2",
+      "gt": 38,
+      "tp": 38,
+      "fp": 2,
+      "fn": 0,
+      "precision": 0.95,
+      "recall": 1.0,
+      "fn_rate": 0.0,
+      "fp_rate": 0.05
+    },
+    "1": {
+      "class_id": 1,
+      "class_name": "OK3",
+      "gt": 102,
+      "tp": 100,
+      "fp": 24,
+      "fn": 2,
+      "precision": 0.8064516129032258,
+      "recall": 0.9803921568627451,
+      "fn_rate": 0.0196078431372549,
+      "fp_rate": 0.1935483870967742
+    },
+    "2": {
+      "class_id": 2,
+      "class_name": "加强筋打伤",
+      "gt": 6,
+      "tp": 6,
+      "fp": 3,
+      "fn": 0,
+      "precision": 0.6666666666666666,
+      "recall": 1.0,
+      "fn_rate": 0.0,
+      "fp_rate": 0.3333333333333333
+    },
+    "3": {
+      "class_id": 3,
+      "class_name": "开裂",
+      "gt": 3,
+      "tp": 0,
+      "fp": 0,
+      "fn": 3,
+      "precision": 0.0,
+      "recall": 0.0,
+      "fn_rate": 1.0,
+      "fp_rate": 0.0
+    },
+    "4": {
+      "class_id": 4,
+      "class_name": "油污",
+      "gt": 17,
+      "tp": 2,
+      "fp": 5,
+      "fn": 15,
+      "precision": 0.2857142857142857,
+      "recall": 0.11764705882352941,
+      "fn_rate": 0.8823529411764706,
+      "fp_rate": 0.7142857142857143
+    },
+    "5": {
+      "class_id": 5,
+      "class_name": "浅划伤",
+      "gt": 14,
+      "tp": 3,
+      "fp": 1,
+      "fn": 11,
+      "precision": 0.75,
+      "recall": 0.21428571428571427,
+      "fn_rate": 0.7857142857142857,
+      "fp_rate": 0.25
+    },
+    "6": {
+      "class_id": 6,
+      "class_name": "漏背锡",
+      "gt": 32,
+      "tp": 15,
+      "fp": 3,
+      "fn": 17,
+      "precision": 0.8333333333333334,
+      "recall": 0.46875,
+      "fn_rate": 0.53125,
+      "fp_rate": 0.16666666666666666
+    },
+    "7": {
+      "class_id": 7,
+      "class_name": "碰伤",
+      "gt": 133,
+      "tp": 106,
+      "fp": 28,
+      "fn": 25,
+      "precision": 0.7910447761194029,
+      "recall": 0.7969924812030075,
+      "fn_rate": 0.18796992481203006,
+      "fp_rate": 0.208955223880597
+    },
+    "8": {
+      "class_id": 8,
+      "class_name": "脏污",
+      "gt": 28,
+      "tp": 6,
+      "fp": 9,
+      "fn": 17,
+      "precision": 0.4,
+      "recall": 0.21428571428571427,
+      "fn_rate": 0.6071428571428571,
+      "fp_rate": 0.6
+    },
+    "9": {
+      "class_id": 9,
+      "class_name": "轮廓划伤",
+      "gt": 30,
+      "tp": 27,
+      "fp": 30,
+      "fn": 3,
+      "precision": 0.47368421052631576,
+      "recall": 0.9,
+      "fn_rate": 0.1,
+      "fp_rate": 0.5263157894736842
+    },
+    "10": {
+      "class_id": 10,
+      "class_name": "锡丝残留",
+      "gt": 6,
+      "tp": 5,
+      "fp": 3,
+      "fn": 1,
+      "precision": 0.625,
+      "recall": 0.8333333333333334,
+      "fn_rate": 0.16666666666666666,
+      "fp_rate": 0.375
+    },
+    "11": {
+      "class_id": 11,
+      "class_name": "锡尖",
+      "gt": 12,
+      "tp": 12,
+      "fp": 7,
+      "fn": 0,
+      "precision": 0.631578947368421,
+      "recall": 1.0,
+      "fn_rate": 0.0,
+      "fp_rate": 0.3684210526315789
+    },
+    "12": {
+      "class_id": 12,
+      "class_name": "锡膏",
+      "gt": 21,
+      "tp": 18,
+      "fp": 24,
+      "fn": 3,
+      "precision": 0.42857142857142855,
+      "recall": 0.8571428571428571,
+      "fn_rate": 0.14285714285714285,
+      "fp_rate": 0.5714285714285714
+    }
+  },
+  "per_image": [
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\0f434e2b-2025-05-08-15-50-09ps5_tile_0005.jpg",
+      "tp_count": 2,
+      "fp_count": 1,
+      "fn_count": 6,
+      "localization_weak_count": 1
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\0f434e2b-2025-05-08-15-50-09ps5_tile_0011.jpg",
+      "tp_count": 1,
+      "fp_count": 2,
+      "fn_count": 5,
+      "localization_weak_count": 2
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-05-10-15-36-15ps5_tile_0003.jpg",
+      "tp_count": 0,
+      "fp_count": 2,
+      "fn_count": 1,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-05-10-15-36-15ps5_tile_0005.jpg",
+      "tp_count": 0,
+      "fp_count": 0,
+      "fn_count": 5,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-05-10-15-36-15ps5_tile_0010.jpg",
+      "tp_count": 0,
+      "fp_count": 0,
+      "fn_count": 5,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-05-10-15-38-44ps5_tile_0008.jpg",
+      "tp_count": 1,
+      "fp_count": 1,
+      "fn_count": 1,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-05-10-15-39-51ps5_tile_0005.jpg",
+      "tp_count": 1,
+      "fp_count": 2,
+      "fn_count": 3,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-05-10-15-39-51ps5_tile_0008.jpg",
+      "tp_count": 1,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-05-10-15-40-21ps5_tile_0007.jpg",
+      "tp_count": 1,
+      "fp_count": 1,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-05-10-16-30-05ps5_tile_0007.jpg",
+      "tp_count": 2,
+      "fp_count": 3,
+      "fn_count": 2,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-05-10-16-30-05ps5_tile_0008.jpg",
+      "tp_count": 4,
+      "fp_count": 1,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-05-10-16-30-05ps5_tile_0012.jpg",
+      "tp_count": 2,
+      "fp_count": 3,
+      "fn_count": 2,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-05-10-16-30-05ps5_tile_0013.jpg",
+      "tp_count": 4,
+      "fp_count": 1,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-05-10-16-30-22ps5_tile_0002.jpg",
+      "tp_count": 2,
+      "fp_count": 0,
+      "fn_count": 2,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-05-10-16-30-38ps5_tile_0007.jpg",
+      "tp_count": 4,
+      "fp_count": 0,
+      "fn_count": 1,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-05-10-16-30-38ps5_tile_0012.jpg",
+      "tp_count": 4,
+      "fp_count": 0,
+      "fn_count": 1,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-05-10-16-30-38ps5_tile_0013.jpg",
+      "tp_count": 3,
+      "fp_count": 1,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-05-16-16-13-37ps5_tile_0009.jpg",
+      "tp_count": 0,
+      "fp_count": 0,
+      "fn_count": 1,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-05-16-16-13-37ps5_tile_0014.jpg",
+      "tp_count": 0,
+      "fp_count": 0,
+      "fn_count": 1,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-05-16-16-16-40ps5_tile_0008.jpg",
+      "tp_count": 2,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-05-16-16-16-46ps5_tile_0011.jpg",
+      "tp_count": 2,
+      "fp_count": 2,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-05-16-16-19-21ps5_tile_0001.jpg",
+      "tp_count": 1,
+      "fp_count": 0,
+      "fn_count": 2,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-05-16-16-24-21ps5_tile_0000.jpg",
+      "tp_count": 0,
+      "fp_count": 0,
+      "fn_count": 2,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-05-16-16-24-21ps5_tile_0007.jpg",
+      "tp_count": 1,
+      "fp_count": 3,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-05-19-15-05-41ps5_NGyuan_tile_0007.jpg",
+      "tp_count": 1,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-05-25-09-16-04ps5_NGyuan_tile_0007.jpg",
+      "tp_count": 3,
+      "fp_count": 0,
+      "fn_count": 1,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-05-25-09-16-04ps5_NGyuan_tile_0012.jpg",
+      "tp_count": 3,
+      "fp_count": 0,
+      "fn_count": 1,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-05-25-12-10-06ps5_NGyuan_tile_0012.jpg",
+      "tp_count": 2,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-05-27-10-28-25ps5_NGyuan_tile_0006.jpg",
+      "tp_count": 1,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-05-27-20-25-52ps5_NGyuan_tile_0008.jpg",
+      "tp_count": 1,
+      "fp_count": 1,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-05-28-02-50-21ps5_NGyuan_tile_0002.jpg",
+      "tp_count": 1,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-06-05-09-01-32ps5_NGyuan_tile_0002.jpg",
+      "tp_count": 1,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-06-05-10-27-12ps5_NGyuan_tile_0007.jpg",
+      "tp_count": 1,
+      "fp_count": 1,
+      "fn_count": 0,
+      "localization_weak_count": 1
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-06-05-10-31-44ps5_NGyuan_tile_0012.jpg",
+      "tp_count": 1,
+      "fp_count": 2,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-06-05-11-46-50ps5_NGyuan_tile_0012.jpg",
+      "tp_count": 2,
+      "fp_count": 0,
+      "fn_count": 2,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-06-05-17-03-31ps5_NGyuan_tile_0010.jpg",
+      "tp_count": 1,
+      "fp_count": 1,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-06-05-17-03-31ps5_NGyuan_tile_0012.jpg",
+      "tp_count": 1,
+      "fp_count": 1,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-06-06-02-05-34ps5_NGyuan_tile_0002.jpg",
+      "tp_count": 1,
+      "fp_count": 1,
+      "fn_count": 1,
+      "localization_weak_count": 1
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-06-06-06-19-37ps5_NGyuan_tile_0004.jpg",
+      "tp_count": 1,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-06-07-08-59-08ps5_NGyuan_tile_0002.jpg",
+      "tp_count": 1,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-06-07-09-00-53ps5_NGyuan_tile_0007.jpg",
+      "tp_count": 2,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-06-07-15-19-42ps5_NGyuan_tile_0007.jpg",
+      "tp_count": 1,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-06-07-15-19-42ps5_NGyuan_tile_0012.jpg",
+      "tp_count": 1,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-06-07-18-19-24ps5_NGyuan_tile_0012.jpg",
+      "tp_count": 2,
+      "fp_count": 1,
+      "fn_count": 2,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-06-07-19-55-46ps5_NGyuan_tile_0002.jpg",
+      "tp_count": 1,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-06-09-09-26-23ps5_NGyuan_tile_0011.jpg",
+      "tp_count": 1,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-06-09-11-40-29ps5_NGyuan_tile_0007.jpg",
+      "tp_count": 1,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-06-09-11-40-29ps5_NGyuan_tile_0012.jpg",
+      "tp_count": 1,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-06-10-11-05-18ps5_NGyuan_tile_0007.jpg",
+      "tp_count": 1,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-06-10-12-55-21ps5_NGyuan_tile_0000.jpg",
+      "tp_count": 0,
+      "fp_count": 1,
+      "fn_count": 1,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-06-11-08-27-49ps5_NGyuan_tile_0007.jpg",
+      "tp_count": 1,
+      "fp_count": 1,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-06-11-08-50-54ps5_NGyuan_tile_0007.jpg",
+      "tp_count": 1,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 1
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-06-11-13-48-22ps5_NGyuan_tile_0012.jpg",
+      "tp_count": 1,
+      "fp_count": 1,
+      "fn_count": 1,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-06-11-14-30-59ps5_NGyuan_tile_0008.jpg",
+      "tp_count": 1,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-06-11-15-09-07ps5_NGyuan_tile_0012.jpg",
+      "tp_count": 1,
+      "fp_count": 1,
+      "fn_count": 1,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-06-11-15-09-07ps5_NGyuan_tile_0013.jpg",
+      "tp_count": 1,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-06-11-15-09-07ps5_NGyuan_tile_0014.jpg",
+      "tp_count": 1,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-06-11-15-41-30ps5_NGyuan_tile_0002.jpg",
+      "tp_count": 3,
+      "fp_count": 1,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-06-11-15-41-30ps5_NGyuan_tile_0008.jpg",
+      "tp_count": 1,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-06-11-15-54-28ps5_NGyuan_tile_0007.jpg",
+      "tp_count": 3,
+      "fp_count": 1,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-06-25-19-56-31ps5_NGyuan_tile_0007.jpg",
+      "tp_count": 0,
+      "fp_count": 2,
+      "fn_count": 1,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-06-27-11-08-05ps5_NGyuan_tile_0007.jpg",
+      "tp_count": 2,
+      "fp_count": 0,
+      "fn_count": 6,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-06-27-11-08-05ps5_NGyuan_tile_0008.jpg",
+      "tp_count": 1,
+      "fp_count": 0,
+      "fn_count": 2,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-06-27-11-08-05ps5_NGyuan_tile_0012.jpg",
+      "tp_count": 3,
+      "fp_count": 0,
+      "fn_count": 5,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-06-28-04-10-59ps5_NGyuan_tile_0000.jpg",
+      "tp_count": 1,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-06-28-04-56-26ps5_NGyuan_tile_0008.jpg",
+      "tp_count": 1,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-06-28-11-38-20ps5_NGyuan_tile_0013.jpg",
+      "tp_count": 1,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-06-28-13-29-09ps5_tile_0007.jpg",
+      "tp_count": 1,
+      "fp_count": 1,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-06-28-13-29-09ps5_tile_0011.jpg",
+      "tp_count": 0,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-06-29-19-00-25ps5_NGyuan_tile_0007.jpg",
+      "tp_count": 2,
+      "fp_count": 0,
+      "fn_count": 1,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-07-02-21-34-49ps5_tile_0013.jpg",
+      "tp_count": 1,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-07-09-20-18-57ps5_NGyuan_tile_0008.jpg",
+      "tp_count": 1,
+      "fp_count": 1,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-07-09-20-33-31ps5_NGyuan_tile_0008.jpg",
+      "tp_count": 2,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-07-09-20-46-24ps5_NGyuan_tile_0003.jpg",
+      "tp_count": 0,
+      "fp_count": 0,
+      "fn_count": 1,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-07-09-20-46-24ps5_NGyuan_tile_0005.jpg",
+      "tp_count": 1,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-07-10-08-25-25ps5_NGyuan_tile_0003.jpg",
+      "tp_count": 1,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-07-10-21-06-18ps5_NGyuan_tile_0004.jpg",
+      "tp_count": 0,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-07-10-21-06-18ps5_NGyuan_tile_0012.jpg",
+      "tp_count": 1,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-07-11-21-21-47ps5_NGyuan_tile_0001.jpg",
+      "tp_count": 1,
+      "fp_count": 1,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-07-13-10-37-53ps5_NGyuan_tile_0006.jpg",
+      "tp_count": 0,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-07-14-15-14-21ps5_tile_0003.jpg",
+      "tp_count": 1,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-07-14-15-14-21ps5_tile_0012.jpg",
+      "tp_count": 2,
+      "fp_count": 2,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-07-14-17-28-35ps5_NGyuan_tile_0006.jpg",
+      "tp_count": 0,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-07-14-18-05-55ps5_NGyuan_tile_0012.jpg",
+      "tp_count": 2,
+      "fp_count": 1,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-07-14-18-52-57ps5_NGyuan_tile_0007.jpg",
+      "tp_count": 3,
+      "fp_count": 1,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-07-14-19-08-26ps5_NGyuan_tile_0012.jpg",
+      "tp_count": 3,
+      "fp_count": 1,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-07-14-19-29-26ps5_tile_0005.jpg",
+      "tp_count": 1,
+      "fp_count": 1,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-07-14-19-29-26ps5_tile_0007.jpg",
+      "tp_count": 3,
+      "fp_count": 1,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-07-14-19-29-26ps5_tile_0009.jpg",
+      "tp_count": 1,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-07-14-19-29-26ps5_tile_0012.jpg",
+      "tp_count": 3,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-07-21-22-04-20ps5_NGyuan_tile_0012.jpg",
+      "tp_count": 1,
+      "fp_count": 1,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-07-22-16-59-28ps5_tile_0005.jpg",
+      "tp_count": 1,
+      "fp_count": 1,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-07-22-17-00-50ps5_tile_0010.jpg",
+      "tp_count": 0,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-08-01-19-49-39ps5_NGyuan_tile_0007.jpg",
+      "tp_count": 1,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-08-03-18-06-29ps5_NGyuan_tile_0007.jpg",
+      "tp_count": 4,
+      "fp_count": 1,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-08-03-18-06-29ps5_NGyuan_tile_0012.jpg",
+      "tp_count": 3,
+      "fp_count": 1,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-08-06-09-32-52ps5_NGyuan_tile_0009.jpg",
+      "tp_count": 1,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-08-07-04-41-55ps5_NGyuan_tile_0005.jpg",
+      "tp_count": 1,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-08-07-06-15-02ps5_NGyuan_tile_0007.jpg",
+      "tp_count": 3,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-08-07-09-43-55ps5_NGyuan_tile_0008.jpg",
+      "tp_count": 1,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-08-07-16-49-07ps5_tile_0006.jpg",
+      "tp_count": 0,
+      "fp_count": 2,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-08-07-16-49-17ps5_tile_0007.jpg",
+      "tp_count": 3,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-08-07-16-49-29ps5_tile_0002.jpg",
+      "tp_count": 3,
+      "fp_count": 1,
+      "fn_count": 2,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-08-07-16-49-29ps5_tile_0007.jpg",
+      "tp_count": 4,
+      "fp_count": 2,
+      "fn_count": 2,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-08-07-16-49-31ps5_tile_0002.jpg",
+      "tp_count": 1,
+      "fp_count": 0,
+      "fn_count": 1,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-08-07-16-49-31ps5_tile_0007.jpg",
+      "tp_count": 3,
+      "fp_count": 4,
+      "fn_count": 1,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-08-07-16-49-31ps5_tile_0012.jpg",
+      "tp_count": 2,
+      "fp_count": 3,
+      "fn_count": 2,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-08-07-17-37-39ps5_NGyuan_tile_0012.jpg",
+      "tp_count": 1,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-08-11-17-43-26ps5_NGyuan_tile_0002.jpg",
+      "tp_count": 0,
+      "fp_count": 1,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-08-11-19-48-30ps5_tile_0011.jpg",
+      "tp_count": 1,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-08-12-01-42-11ps5_NGyuan_tile_0007.jpg",
+      "tp_count": 1,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-08-14-22-05-16ps5_NGyuan_tile_0007.jpg",
+      "tp_count": 1,
+      "fp_count": 2,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-08-15-04-08-26ps5_NGyuan_tile_0012.jpg",
+      "tp_count": 1,
+      "fp_count": 1,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-08-15-04-08-26ps5_NGyuan_tile_0013.jpg",
+      "tp_count": 1,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-08-17-13-16-39ps5_NGyuan_tile_0002.jpg",
+      "tp_count": 1,
+      "fp_count": 2,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-08-18-15-31-25ps5_NGyuan_tile_0007.jpg",
+      "tp_count": 3,
+      "fp_count": 1,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-08-18-15-31-25ps5_NGyuan_tile_0012.jpg",
+      "tp_count": 3,
+      "fp_count": 3,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-08-20-09-50-58ps5_NGyuan_tile_0005.jpg",
+      "tp_count": 1,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-08-20-12-51-59ps5_NGyuan_tile_0012.jpg",
+      "tp_count": 3,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-08-20-16-25-33ps5_NGyuan_tile_0012.jpg",
+      "tp_count": 2,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-08-20-21-25-34ps5_NGyuan_tile_0000.jpg",
+      "tp_count": 1,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-08-21-00-57-51ps5_NGyuan_tile_0006.jpg",
+      "tp_count": 1,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-09-02-07-02-13ps5_NGyuan_tile_0007.jpg",
+      "tp_count": 1,
+      "fp_count": 1,
+      "fn_count": 1,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-09-02-07-02-13ps5_NGyuan_tile_0008.jpg",
+      "tp_count": 1,
+      "fp_count": 1,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-09-02-13-17-05ps5_NGyuan_tile_0007.jpg",
+      "tp_count": 1,
+      "fp_count": 0,
+      "fn_count": 1,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-09-02-15-38-59ps5_NGyuan_tile_0007.jpg",
+      "tp_count": 1,
+      "fp_count": 1,
+      "fn_count": 1,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-09-02-17-31-58ps5_NGyuan_tile_0007.jpg",
+      "tp_count": 2,
+      "fp_count": 1,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-09-02-17-31-58ps5_NGyuan_tile_0011.jpg",
+      "tp_count": 0,
+      "fp_count": 1,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-09-04-17-02-52ps5_tile_0004.jpg",
+      "tp_count": 0,
+      "fp_count": 3,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-09-04-17-02-52ps5_tile_0005.jpg",
+      "tp_count": 1,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-09-04-17-02-52ps5_tile_0009.jpg",
+      "tp_count": 2,
+      "fp_count": 3,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-09-04-17-02-55ps5_tile_0001.jpg",
+      "tp_count": 1,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-09-04-17-02-55ps5_tile_0008.jpg",
+      "tp_count": 2,
+      "fp_count": 3,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-09-04-17-02-55ps5_tile_0013.jpg",
+      "tp_count": 2,
+      "fp_count": 4,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-09-04-17-02-55ps5_tile_0014.jpg",
+      "tp_count": 2,
+      "fp_count": 3,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-09-04-17-02-57ps5_tile_0002.jpg",
+      "tp_count": 0,
+      "fp_count": 0,
+      "fn_count": 1,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-09-04-17-03-13ps5_tile_0004.jpg",
+      "tp_count": 1,
+      "fp_count": 1,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-09-04-17-03-23ps5_tile_0005.jpg",
+      "tp_count": 1,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-09-04-17-03-23ps5_tile_0006.jpg",
+      "tp_count": 1,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-09-04-17-03-23ps5_tile_0011.jpg",
+      "tp_count": 1,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-09-04-17-03-28ps5_tile_0008.jpg",
+      "tp_count": 2,
+      "fp_count": 2,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-09-04-17-03-28ps5_tile_0013.jpg",
+      "tp_count": 1,
+      "fp_count": 3,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-09-04-17-03-36ps5_tile_0013.jpg",
+      "tp_count": 2,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-09-08-15-39-59ps5_NGyuan_tile_0002.jpg",
+      "tp_count": 1,
+      "fp_count": 1,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-09-08-22-17-15ps5_NGyuan_tile_0001.jpg",
+      "tp_count": 0,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-09-09-15-34-10ps5_NGyuan_tile_0007.jpg",
+      "tp_count": 2,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-09-09-15-45-31ps5_NGyuan_tile_0012.jpg",
+      "tp_count": 2,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-09-09-21-08-16ps5_NGyuan_tile_0003.jpg",
+      "tp_count": 0,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-09-09-21-08-16ps5_NGyuan_tile_0007.jpg",
+      "tp_count": 2,
+      "fp_count": 0,
+      "fn_count": 1,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-09-11-00-23-17ps5_NGyuan_tile_0012.jpg",
+      "tp_count": 2,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-09-11-02-24-28ps5_NGyuan_tile_0012.jpg",
+      "tp_count": 2,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-09-12-05-23-45ps5_NGyuan_tile_0012.jpg",
+      "tp_count": 2,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-09-12-17-57-16ps5_NGyuan_tile_0002.jpg",
+      "tp_count": 1,
+      "fp_count": 3,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-09-15-17-24-28ps5_tile_0013.jpg",
+      "tp_count": 1,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-09-15-17-24-40ps5_tile_0007.jpg",
+      "tp_count": 3,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-09-15-17-39-58ps5_tile_0007.jpg",
+      "tp_count": 3,
+      "fp_count": 2,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-09-15-17-39-58ps5_tile_0010.jpg",
+      "tp_count": 1,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-09-15-17-41-02ps5_tile_0004.jpg",
+      "tp_count": 1,
+      "fp_count": 1,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-09-15-17-41-18ps5_tile_0004.jpg",
+      "tp_count": 2,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-09-15-17-41-18ps5_tile_0007.jpg",
+      "tp_count": 3,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-09-22-20-05-39ps5_tile_0007.jpg",
+      "tp_count": 1,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-09-22-20-05-58ps5_tile_0000.jpg",
+      "tp_count": 1,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-09-22-20-05-58ps5_tile_0007.jpg",
+      "tp_count": 3,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-09-22-20-05-58ps5_tile_0009.jpg",
+      "tp_count": 2,
+      "fp_count": 2,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-09-22-20-07-26ps5_tile_0008.jpg",
+      "tp_count": 1,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-09-22-20-07-38ps5_tile_0008.jpg",
+      "tp_count": 1,
+      "fp_count": 0,
+      "fn_count": 1,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-09-22-20-07-38ps5_tile_0009.jpg",
+      "tp_count": 1,
+      "fp_count": 0,
+      "fn_count": 1,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-09-22-20-49-17ps5_tile_0007.jpg",
+      "tp_count": 1,
+      "fp_count": 1,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-09-22-20-49-45ps5_tile_0007.jpg",
+      "tp_count": 3,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-09-23-03-05-23ps5_NGyuan_tile_0007.jpg",
+      "tp_count": 3,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-09-23-11-39-38ps5_NGyuan_tile_0008.jpg",
+      "tp_count": 1,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-09-23-14-09-28ps5_NGyuan_tile_0009.jpg",
+      "tp_count": 1,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-09-23-18-55-04ps5_NGyuan_tile_0007.jpg",
+      "tp_count": 2,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-09-23-20-17-45ps5_NGyuan_tile_0012.jpg",
+      "tp_count": 1,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-10-09-00-08-24ps5_NGyuan_tile_0012.jpg",
+      "tp_count": 1,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-10-11-16-14-28ps5_NGyuan_tile_0000.jpg",
+      "tp_count": 1,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-10-11-18-25-22ps5_NGyuan_tile_0007.jpg",
+      "tp_count": 2,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-10-13-07-13-32ps5_NGyuan_tile_0005.jpg",
+      "tp_count": 1,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-10-13-17-37-26ps5_NGyuan_tile_0007.jpg",
+      "tp_count": 1,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-10-14-05-47-44ps5_NGyuan_tile_0007.jpg",
+      "tp_count": 2,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-10-14-09-04-56ps5_NGyuan_tile_0005.jpg",
+      "tp_count": 0,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-10-14-09-04-56ps5_NGyuan_tile_0012.jpg",
+      "tp_count": 2,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-10-16-09-35-12ps5_NGyuan_tile_0007.jpg",
+      "tp_count": 2,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-10-16-10-36-33ps5_NGyuan_tile_0004.jpg",
+      "tp_count": 0,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-10-16-10-36-33ps5_NGyuan_tile_0007.jpg",
+      "tp_count": 1,
+      "fp_count": 1,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-10-17-10-45-31ps5_NGyuan_tile_0012.jpg",
+      "tp_count": 2,
+      "fp_count": 0,
+      "fn_count": 1,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-10-29-12-57-56ps5_NGyuan_tile_0007.jpg",
+      "tp_count": 4,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-10-29-12-57-56ps5_NGyuan_tile_0010.jpg",
+      "tp_count": 0,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-10-29-12-57-56ps5_NGyuan_tile_0012.jpg",
+      "tp_count": 4,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-11-01-14-42-25ps5_NGyuan_tile_0012.jpg",
+      "tp_count": 3,
+      "fp_count": 1,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-11-02-00-02-16ps5_NGyuan_tile_0006.jpg",
+      "tp_count": 0,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-11-03-13-58-56ps5_NGyuan_tile_0007.jpg",
+      "tp_count": 3,
+      "fp_count": 1,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-11-09-09-21-52ps5_NGyuan_tile_0012.jpg",
+      "tp_count": 2,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-11-09-13-34-16ps5_NGyuan_tile_0008.jpg",
+      "tp_count": 3,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-11-09-17-25-09ps5_NGyuan_tile_0000.jpg",
+      "tp_count": 0,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-11-12-03-45-04ps5_NGyuan_tile_0014.jpg",
+      "tp_count": 1,
+      "fp_count": 1,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-11-12-08-33-11ps5_NGyuan_tile_0012.jpg",
+      "tp_count": 3,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-11-12-08-33-16ps5_NGyuan_tile_0012.jpg",
+      "tp_count": 3,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-11-12-10-29-25ps5_NGyuan_tile_0004.jpg",
+      "tp_count": 1,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-11-12-10-32-12ps5_NGyuan_tile_0007.jpg",
+      "tp_count": 2,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-11-12-12-37-38ps5_NGyuan_tile_0000.jpg",
+      "tp_count": 0,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-11-12-12-52-20ps5_NGyuan_tile_0007.jpg",
+      "tp_count": 3,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-11-12-12-52-20ps5_NGyuan_tile_0012.jpg",
+      "tp_count": 3,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-11-12-13-03-45ps5_NGyuan_tile_0007.jpg",
+      "tp_count": 2,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-11-12-16-30-56ps5_NGyuan_tile_0006.jpg",
+      "tp_count": 0,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-11-12-16-30-56ps5_NGyuan_tile_0011.jpg",
+      "tp_count": 0,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-11-12-18-21-52ps5_NGyuan_tile_0010.jpg",
+      "tp_count": 0,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-11-12-19-03-06ps5_NGyuan_tile_0007.jpg",
+      "tp_count": 1,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-11-12-19-32-17ps5_NGyuan_tile_0014.jpg",
+      "tp_count": 1,
+      "fp_count": 1,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-11-12-19-38-25ps5_NGyuan_tile_0002.jpg",
+      "tp_count": 0,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-11-12-19-48-47ps5_NGyuan_tile_0013.jpg",
+      "tp_count": 1,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2025-11-12-21-27-03ps5_NGyuan_tile_0012.jpg",
+      "tp_count": 3,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\2136ace8-2025-04-13-11-30-00ps5_tile_0012.jpg",
+      "tp_count": 4,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\40b8be6e-2025-04-22-16-46-38ps5_NGyuan_tile_0007.jpg",
+      "tp_count": 2,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\47a044cc-2025-05-08-15-48-54ps5_tile_0005.jpg",
+      "tp_count": 0,
+      "fp_count": 0,
+      "fn_count": 2,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\47a044cc-2025-05-08-15-48-54ps5_tile_0007.jpg",
+      "tp_count": 1,
+      "fp_count": 2,
+      "fn_count": 1,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\4a9e5688-2025-04-13-11-46-04ps5_tile_0007.jpg",
+      "tp_count": 0,
+      "fp_count": 2,
+      "fn_count": 1,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\4a9e5688-2025-04-13-11-46-04ps5_tile_0011.jpg",
+      "tp_count": 2,
+      "fp_count": 0,
+      "fn_count": 1,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\4a9fd9a7-2025-05-09-18-28-42ps5_tile_0007.jpg",
+      "tp_count": 4,
+      "fp_count": 5,
+      "fn_count": 1,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\4a9fd9a7-2025-05-09-18-28-42ps5_tile_0012.jpg",
+      "tp_count": 4,
+      "fp_count": 4,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\814be875-2025-04-13-11-42-34ps5_tile_0011.jpg",
+      "tp_count": 0,
+      "fp_count": 0,
+      "fn_count": 1,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\9eed5dd2-2025-04-13-11-51-02ps5_tile_0012.jpg",
+      "tp_count": 0,
+      "fp_count": 3,
+      "fn_count": 4,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\b39e990b-2025-05-08-15-47-13ps5_tile_0009.jpg",
+      "tp_count": 1,
+      "fp_count": 1,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\b66b20b0-2025-05-09-18-22-39ps5_tile_0007.jpg",
+      "tp_count": 2,
+      "fp_count": 2,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\eacf3bd1-2025-04-13-11-42-19ps5_tile_0004.jpg",
+      "tp_count": 1,
+      "fp_count": 0,
+      "fn_count": 1,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\eacf3bd1-2025-04-13-11-42-19ps5_tile_0008.jpg",
+      "tp_count": 1,
+      "fp_count": 0,
+      "fn_count": 2,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\eacf3bd1-2025-04-13-11-42-19ps5_tile_0011.jpg",
+      "tp_count": 1,
+      "fp_count": 1,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\eacf3bd1-2025-04-13-11-42-19ps5_tile_0014.jpg",
+      "tp_count": 0,
+      "fp_count": 1,
+      "fn_count": 1,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\ed28e120-2025-04-13-11-31-40ps5_tile_0007.jpg",
+      "tp_count": 3,
+      "fp_count": 1,
+      "fn_count": 0,
+      "localization_weak_count": 0
+    },
+    {
+      "image_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\datasets\\tiled\\tiled_1024_ov20_full_safe_no_ok_position_paper_probe\\images\\probe\\ed28e120-2025-04-13-11-31-40ps5_tile_0008.jpg",
+      "tp_count": 2,
+      "fp_count": 0,
+      "fn_count": 0,
+      "localization_weak_count": 1
+    }
+  ],
+  "size_recall": {
+    "tiny": {
+      "gt_count": 93,
+      "tp_count": 63,
+      "fn_count": 29,
+      "recall": 0.6774193548387096,
+      "fn_rate": 0.3118279569892473
+    },
+    "small": {
+      "gt_count": 206,
+      "tp_count": 161,
+      "fn_count": 43,
+      "recall": 0.7815533980582524,
+      "fn_rate": 0.2087378640776699
+    },
+    "medium": {
+      "gt_count": 138,
+      "tp_count": 112,
+      "fn_count": 22,
+      "recall": 0.8115942028985508,
+      "fn_rate": 0.15942028985507245
+    },
+    "large": {
+      "gt_count": 5,
+      "tp_count": 2,
+      "fn_count": 3,
+      "recall": 0.4,
+      "fn_rate": 0.6
+    }
+  },
+  "quality": {
+    "false_negatives": {
+      "count": 97,
+      "brightness_mean": 64.64101137515793,
+      "contrast_std_mean": 24.463887262110784,
+      "low_contrast_count": 55,
+      "dark_count": 51,
+      "bright_count": 0,
+      "low_contrast_rate": 0.5670103092783505,
+      "dark_rate": 0.5257731958762887,
+      "bright_rate": 0.0
+    },
+    "false_positives": {
+      "count": 139,
+      "brightness_mean": 66.97381078429565,
+      "contrast_std_mean": 18.88628386362743,
+      "low_contrast_count": 99,
+      "dark_count": 69,
+      "bright_count": 0,
+      "low_contrast_rate": 0.7122302158273381,
+      "dark_rate": 0.49640287769784175,
+      "bright_rate": 0.0
+    }
+  },
+  "position": {
+    "left": {
+      "gt_count": 113,
+      "tp_count": 83,
+      "fn_count": 26,
+      "recall": 0.7345132743362832,
+      "fn_rate": 0.23008849557522124
+    },
+    "center": {
+      "gt_count": 196,
+      "tp_count": 142,
+      "fn_count": 52,
+      "recall": 0.7244897959183674,
+      "fn_rate": 0.2653061224489796
+    },
+    "right": {
+      "gt_count": 133,
+      "tp_count": 113,
+      "fn_count": 19,
+      "recall": 0.849624060150376,
+      "fn_rate": 0.14285714285714285
+    },
+    "top": {
+      "gt_count": 115,
+      "tp_count": 82,
+      "fn_count": 32,
+      "recall": 0.7130434782608696,
+      "fn_rate": 0.2782608695652174
+    },
+    "middle": {
+      "gt_count": 192,
+      "tp_count": 157,
+      "fn_count": 30,
+      "recall": 0.8177083333333334,
+      "fn_rate": 0.15625
+    },
+    "bottom": {
+      "gt_count": 135,
+      "tp_count": 99,
+      "fn_count": 35,
+      "recall": 0.7333333333333333,
+      "fn_rate": 0.25925925925925924
+    },
+    "edge": {
+      "gt_count": 88,
+      "tp_count": 69,
+      "fn_count": 17,
+      "recall": 0.7840909090909091,
+      "fn_rate": 0.19318181818181818
+    }
+  },
+  "diagnosis_vector": {
+    "small_object_score": {
+      "score": 0.25083612040133785,
+      "basis": {
+        "tiny_gt": 93,
+        "small_gt": 206,
+        "small_total_gt": 299,
+        "small_total_tp": 224,
+        "small_recall": 0.7491638795986622
+      }
+    },
+    "low_contrast_score": {
+      "score": 0.5,
+      "basis": {
+        "fn_low_contrast_rate": 0.5670103092783505,
+        "fn_dark_rate": 0.5257731958762887,
+        "fn_bright_rate": 0.0
+      }
+    },
+    "class_imbalance_score": {
+      "score": 0.9853383458646616,
+      "basis": {
+        "gt_counts": [
+          38,
+          102,
+          6,
+          3,
+          17,
+          14,
+          32,
+          133,
+          28,
+          30,
+          6,
+          12,
+          21
+        ],
+        "recalls": [
+          1.0,
+          0.9803921568627451,
+          1.0,
+          0.0,
+          0.11764705882352941,
+          0.21428571428571427,
+          0.46875,
+          0.7969924812030075,
+          0.21428571428571427,
+          0.9,
+          0.8333333333333334,
+          1.0,
+          0.8571428571428571
+        ],
+        "count_imbalance": 0.9774436090225563,
+        "recall_spread": 1.0
+      }
+    },
+    "localization_score": {
+      "score": 0.01583710407239819,
+      "basis": {
+        "gt": 442,
+        "localization_weak": 7
+      }
+    },
+    "false_positive_score": {
+      "score": 0.2914046121593291,
+      "basis": {
+        "tp": 338,
+        "fp": 139,
+        "precision": 0.7085953878406709
+      }
+    }
+  }
+}

@@ -1,5 +1,102 @@
 # Experiment Log
 
+## 2026-06-12
+
+### CP-CATF Paper-Mode Decision Coverage Audit
+
+Scope:
+
+- Analysis only.
+- No 50ep training was run.
+- No seed1/seed2 execution was started.
+- No multiseed run was started.
+- No clean rerun was started.
+- No causal score, precision gate, augmentation strength, data split, or sampler_only implementation was changed.
+
+Script:
+
+- `scripts/analyze_cp_catf_decision_coverage.py`
+
+Inputs:
+
+- `outputs/experiments/multiseed_cp_catf_paper_mode/`
+- `outputs/experiments/cp_catf_paper_mode_execution_fixed_seed0_only/`
+- `outputs/experiments/cp_catf_precision_gate_dry_run_seed0/`
+- `outputs/experiments/cp_catf_paper_mode_precision_gate_seed0_rerun/`
+- `outputs/datasets/tiled/tiled_1024_ov20_full_safe_no_ok_position_paper_probe/`
+
+Command:
+
+- `python scripts/analyze_cp_catf_decision_coverage.py`
+
+Paper-mode status:
+
+- train_core=2071.
+- probe=230.
+- final val=677.
+- final val leakage=false.
+- final val was not used for policy selection.
+
+Coverage result:
+
+| metric | value |
+|---|---:|
+| total_candidates | 81 |
+| total_image_candidates | 54 |
+| logged original image causal accepts | 8 |
+| current replay image causal accepts | 0 |
+| precision-gate rejects after logged original image accept | 8 |
+| final image accepts | 0 |
+| sampler-only selected | 27 |
+| effective sampler-only | 0 |
+| strict no-op | 27 |
+
+Seed-level coverage:
+
+| seed | total candidates | image candidates | logged original image accepts | precision-gate rejects | final image accepts | sampler selected | strict no-op |
+|---:|---:|---:|---:|---:|---:|---:|---:|
+| 0 | 27 | 18 | 1 | 1 | 0 | 9 | 9 |
+| 1 | 27 | 18 | 2 | 2 | 0 | 9 | 9 |
+| 2 | 27 | 18 | 5 | 5 | 0 | 9 | 9 |
+
+Main rejection buckets:
+
+- no_positive_benefit=54.
+- high_fp_spillover_rate_too_high=40.
+- non_active_regression_too_high=40.
+- estimated_precision_drop_too_high=20.
+- non_active_fp_delta_too_high=20.
+- high_confidence_fp_delta_too_high=20.
+- insufficient_evidence=14.
+- bbox_instability_too_high=5.
+
+Key interpretation:
+
+- Paper-mode leakage control is complete.
+- Accept-to-execution is already proven by seed0 execution-fixed ROI application.
+- The precision-aware gate blocks the known seed0 Precision-risk candidate.
+- Current replay rejects every image candidate, so paper-mode image augmentation becomes sampler-only/strict no-op.
+- `high_confidence_fp_delta > 0.0` is strict but not the sole blocker; relaxing only that condition admits zero candidates.
+- Relaxing only `non_active_fp_delta` or only `estimated_precision_drop` also admits zero candidates.
+- There are 8 legacy `roi_texture` accepts that are reasonable graded-attenuation study candidates, but none is safe at original probability/strength under the current gate.
+- Next implementation should prioritize sampler_only dataloader support. If image augmentation is pursued, use a graded risk/attenuation gate and dry-run before any seed0 training.
+- Do not use current paper-mode CP-CATF as a paper method result; it is leakage-free safety/no-op evidence.
+
+Outputs:
+
+- `outputs/experiments/cp_catf_decision_coverage_audit/reports/decision_coverage_audit.md`
+- `outputs/experiments/cp_catf_decision_coverage_audit/reports/decision_coverage_audit.json`
+- `outputs/experiments/cp_catf_decision_coverage_audit/decision_records.csv`
+- `outputs/experiments/cp_catf_decision_coverage_audit/rejection_reason_summary.csv`
+- `outputs/experiments/cp_catf_decision_coverage_audit/seed_level_coverage.csv`
+
+Verification:
+
+- `python -m py_compile scripts/analyze_cp_catf_decision_coverage.py`
+- `python -m py_compile AutoAugment/catf_v2/causal_probe.py`
+- `python -m py_compile AutoAugment/catf_v2/policy_matrix.py`
+- `python -m py_compile AutoAugment/catf_v2/sample_router.py`
+
 ## 2026-06-11
 
 ### CP-CATF Precision-Aware Accept Gate From Seed0 Audit

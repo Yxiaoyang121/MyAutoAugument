@@ -10,6 +10,60 @@
 
 The project is a diagnosis-driven augmentation pipeline for industrial defect detection. Keep work centered on dataset construction, tiling, validation-error diagnosis, policy generation, proxy safety, short-training validation, and auditable artifacts. Do not reframe this as YOLO backbone, neck, or head redesign.
 
+## Latest CP-CATF Decision Coverage Audit
+
+- Date: `2026-06-12`.
+- Scope: offline audit only. No 50ep training, no seed1/seed2 execution, no multiseed, no clean rerun, no causal-score change, no gate change, no augmentation-strength change, and no sampler_only implementation.
+- Added:
+  - `scripts/analyze_cp_catf_decision_coverage.py`
+- Outputs:
+  - `outputs/experiments/cp_catf_decision_coverage_audit/reports/decision_coverage_audit.md`
+  - `outputs/experiments/cp_catf_decision_coverage_audit/reports/decision_coverage_audit.json`
+  - `outputs/experiments/cp_catf_decision_coverage_audit/decision_records.csv`
+  - `outputs/experiments/cp_catf_decision_coverage_audit/rejection_reason_summary.csv`
+  - `outputs/experiments/cp_catf_decision_coverage_audit/seed_level_coverage.csv`
+- Paper-mode split status remains valid:
+  - train_core=2071, probe=230, final val=677.
+  - final val leakage=false.
+  - final val was not used for policy selection.
+- Accept-to-execution status remains valid:
+  - seed0 execution-fixed confirmed epoch25 `candidate_policy_1_roi_texture` generated executable ROI ops.
+  - ROI applied=312, industrial image augmented=226, router random draw count=1330.
+- Precision-aware gate status:
+  - it blocks the known seed0 Precision-risk image candidate;
+  - seed0 precision-gate rerun had ROI applied=0, industrial image augmented=0, router random draw count=0, and matched clean.
+- Audit coverage:
+  - seeds audited: 0/1/2.
+  - feedback epochs audited: 5/10/15/20/25/30/35/40/45.
+  - total candidates=81.
+  - total image candidates=54.
+  - logged original image causal accepts=8.
+  - precision-gate rejects after logged original image accept=8.
+  - final image accepts=0.
+  - sampler-only selected=27.
+  - effective sampler-only=0.
+  - strict no-op=27.
+- Main current replay rejection buckets:
+  - no_positive_benefit=54.
+  - high_fp_spillover_rate_too_high=40.
+  - non_active_regression_too_high=40.
+  - estimated_precision_drop_too_high=20.
+  - non_active_fp_delta_too_high=20.
+  - high_confidence_fp_delta_too_high=20.
+- Interpretation for the next agent:
+  - The current precision-aware decision stack is over-conservative for image augmentation coverage, but precision thresholds are not sole blockers.
+  - `high_confidence_fp_delta > 0.0` is strict, yet relaxing only that gate admits zero image candidates under current replay.
+  - `non_active_fp_delta > 0.005` and `estimated_precision_drop > 0.005` are also strict, but relaxing either one alone admits zero candidates.
+  - There are 8 legacy roi_texture accept events that could be studied as graded-attenuation candidates, but none should be released at original strength/probability.
+  - The pragmatic next implementation is sampler_only dataloader support first; if image augmentation is pursued, design a graded risk/attenuation gate and dry-run seed0 before any training.
+- Do not claim current CP-CATF paper-mode results as a method improvement. They are leakage-free no-op/safety evidence.
+- Verification run:
+  - `python scripts/analyze_cp_catf_decision_coverage.py`
+  - `python -m py_compile scripts/analyze_cp_catf_decision_coverage.py`
+  - `python -m py_compile AutoAugment/catf_v2/causal_probe.py`
+  - `python -m py_compile AutoAugment/catf_v2/policy_matrix.py`
+  - `python -m py_compile AutoAugment/catf_v2/sample_router.py`
+
 ## Latest CP-CATF Precision-Gate Validation
 
 - Date: `2026-06-12`.

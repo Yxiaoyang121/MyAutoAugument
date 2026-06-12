@@ -1,0 +1,11 @@
+rejection_reason,count
+estimated_precision_drop_too_high,20
+non_active_fp_delta_too_high,20
+high_confidence_fp_delta_too_high,20
+fp_increase_rate_too_high,0
+high_fp_spillover_rate_too_high,40
+non_active_regression_too_high,40
+ok_class_false_activation,0
+bbox_instability_too_high,5
+no_positive_benefit,54
+insufficient_evidence,14

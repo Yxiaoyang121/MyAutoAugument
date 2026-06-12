@@ -1,8 +1,8 @@
 # Project Snapshot
 
-- Generated: 2026-06-12T04:28:44
+- Generated: 2026-06-12T12:38:39
 - Branch: codex/sync-latest
-- Commit: 02ed4f13008eb6660c38cff49f4b148e6d6a0749
+- Commit: 3c40c56e4e7024a984ff48ba21003cb0cdf02e4c
 - Remote: https://github.com/Yxiaoyang121/MyAutoAugument.git
 
 ## Working Tree
@@ -11,13 +11,8 @@
  M CODEX_HANDOFF.md
  M EXPERIMENT_LOG.md
  M PROJECT_STATE.md
- M outputs/project_snapshot_latest.md
- M outputs/snapshots/project_snapshot_latest.md
- M scripts/train_yolo_default_with_inloop_feedback.py
-?? outputs/experiments/cp_catf_paper_mode_precision_gate_seed0_rerun/
-?? outputs/experiments/cp_catf_precision_gate_dry_run_seed0/
-?? scripts/run_cp_catf_precision_gate_dry_run_seed0.py
-?? scripts/summarize_cp_catf_precision_gate_seed0_rerun.py
+?? outputs/experiments/cp_catf_decision_coverage_audit/
+?? scripts/analyze_cp_catf_decision_coverage.py
 ```
 
 ## Key Files
@@ -222,7 +217,7 @@
 
 ## Tracked File Count
 
-- 7794 tracked files
+- 8026 tracked files
 
 ## Notes
 

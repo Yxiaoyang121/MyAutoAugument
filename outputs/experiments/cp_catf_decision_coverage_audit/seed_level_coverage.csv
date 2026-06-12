@@ -1,0 +1,4 @@
+seed,total_candidates,total_image_candidates,feedback_epoch_count,causal_score_accept_count,current_replay_causal_accept_count,causal_or_sampler_accept_count,precision_gate_reject_count,final_image_accept_count,final_sampler_only_count,final_effective_sampler_only_count,final_noop_count,image_accept_rate,sampler_only_rate,effective_sampler_only_rate,noop_rate,attenuation_candidate_count
+0,27,18,9,1,0,10,1,0,9,0,9,0.0,1.0,0.0,1.0,1
+1,27,18,9,2,0,11,2,0,9,0,9,0.0,1.0,0.0,1.0,2
+2,27,18,9,5,0,14,5,0,9,0,9,0.0,1.0,0.0,1.0,5

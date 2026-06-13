@@ -70,6 +70,30 @@ def _sampler_payload(class_id: int = 4) -> dict:
     }
 
 
+def _weak_payload(class_id: int = 4) -> dict:
+    candidate = candidate_policy_catalog()["candidate_policy_1b_weak_roi_texture"]
+    return {
+        "selected_candidate_policy_id": "candidate_policy_1b_weak_roi_texture",
+        "selected_candidate_action": "weak_roi_texture",
+        "original_candidate_policy_id": "candidate_policy_1_roi_texture",
+        "downgraded_to_weak_roi_texture": True,
+        "policy_selection_source": "weak_image_aug_replay",
+        "final_val_used_for_policy_selection": False,
+        "selected_candidate": {
+            "candidate_policy_id": "candidate_policy_1b_weak_roi_texture",
+            "candidate_policy": candidate,
+            "probe_set": {"class_id": class_id},
+            "decision": {
+                "decision": "accept",
+                "image_modification_allowed": True,
+                "sample_weighting_allowed": False,
+                "precision_aware_gate_passed": True,
+                "non_active_regression_gate_passed": True,
+            },
+        },
+    }
+
+
 def _sample(class_id: int = 4) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
     image = np.full((64, 64, 3), 96, dtype=np.uint8)
     labels = np.array([class_id], dtype=np.int64)
@@ -141,3 +165,38 @@ def test_paper_mode_event_keeps_final_val_out_of_policy_selection(tmp_path) -> N
     assert event["policy_selection_source"] == "probe_split"
     assert event["final_val_used_for_policy_selection"] is False
     assert event["riskguard_used_as_final_rule"] is False
+
+
+def test_weak_roi_texture_injects_single_attenuated_op(tmp_path) -> None:
+    policy = initial_policy_matrix({4: "defect"})
+    policy["classes"]["4"]["guards"]["high_fp_guarded"] = True
+
+    filtered, event = apply_offline_probe_decision_to_policy(policy, _weak_payload(4), epoch_num=25, output_dir=tmp_path)
+
+    row = filtered["classes"]["4"]
+    assert event["weak_image_aug"] is True
+    assert event["target_high_fp_guard_overridden_by_weak_gate"] is True
+    assert event["downgraded_to_weak_roi_texture"] is True
+    assert event["retained_op"] == "local_contrast"
+    assert event["weak_prob"] == 0.045
+    assert event["weak_strength"] == 0.05
+    assert row["ops"]["local_contrast"]["prob"] == 0.045
+    assert row["ops"]["local_contrast"]["strength"] == 0.05
+    assert row["ops"]["sharpen_mild"]["prob"] == 0.0
+    assert row["weak_image_aug"]["max_aug_samples_per_interval"] == 16
+
+
+def test_disable_sampler_only_blocks_sample_weighting_payload(tmp_path) -> None:
+    policy = initial_policy_matrix({4: "defect"})
+
+    _, event = apply_offline_probe_decision_to_policy(
+        policy,
+        _sampler_payload(4),
+        epoch_num=5,
+        output_dir=tmp_path,
+        disable_sampler_only=True,
+    )
+
+    assert event["sample_weighting_allowed"] is False
+    assert event["sampler_only_disabled"] is True
+    assert event["sampler_only_blocked_by_image_only_mainline"] is True

@@ -51,6 +51,17 @@ DEFAULT_CANDIDATE_POLICIES: dict[str, dict[str, Any]] = {
         "image_modification": True,
         "sample_weighting": False,
     },
+    "candidate_policy_1b_weak_roi_texture": {
+        "policy_id": "candidate_policy_1b_weak_roi_texture",
+        "action": "roi_image_aug",
+        "op_list": ["local_contrast"],
+        "image_modification": True,
+        "sample_weighting": False,
+        "weak_image_aug": True,
+        "attenuation_ratio": 0.25,
+        "max_aug_samples_per_interval": 16,
+        "derived_from_policy_id": "candidate_policy_1_roi_texture",
+    },
     "candidate_policy_2_roi_low_contrast": {
         "policy_id": "candidate_policy_2_roi_low_contrast",
         "action": "roi_image_aug",

@@ -67,6 +67,45 @@ The repository is centered on diagnosis-driven augmentation for industrial defec
   - `python scripts/replay_weak_image_aug.py`
   - `python -m py_compile scripts/replay_weak_image_aug.py`
 
+## Seed2 Image-Only Weak Augmentation Validation (2026-06-13)
+
+- Scope: ran only seed2 for 50 epochs. Seed0/seed1 and multiseed were not run.
+- Output:
+  - `outputs/experiments/catf_v2_image_only_weak_aug_seed2_50ep/`
+  - `outputs/experiments/catf_v2_image_only_weak_aug_seed2_50ep/reports/seed2_weak_image_aug_report.md`
+  - `outputs/experiments/catf_v2_image_only_weak_aug_seed2_50ep/reports/seed2_weak_image_aug_report.json`
+- Method:
+  - image-only CP-CATF weak ROI texture attenuation;
+  - `candidate_policy_1b_weak_roi_texture`;
+  - attenuation ratio fixed at `0.25`;
+  - retained op: `local_contrast`;
+  - weak prob/strength: `0.045/0.05`;
+  - max augmented samples per feedback interval: `16`;
+  - sampler_only disabled; weighted index list disabled; sampled distribution unchanged.
+- Execution:
+  - 50ep completed=true;
+  - weak image augmentation executed=true;
+  - industrial images augmented=80;
+  - ROI applied=95;
+  - router random draw count=1922;
+  - weak epochs: 20, 25, 30, 35, 45;
+  - strict no-op epochs: 5, 10, 15, 40.
+- Metrics:
+  - clean seed2: P=0.6962, R=0.7286, mAP50=0.7692, mAP50-95=0.5224;
+  - fixed CATF-v2 seed2: P=0.7637, R=0.6863, mAP50=0.7582, mAP50-95=0.4967, constraint_failed=true;
+  - weak image aug seed2: P=0.7533, R=0.6942, mAP50=0.7727, mAP50-95=0.5151, constraint_failed=false.
+- Delta:
+  - vs clean seed2: dP=+0.0570, dR=-0.0344, dM50=+0.0035, dM95=-0.0072;
+  - vs fixed CATF-v2 seed2: dP=-0.0104, dR=+0.0079, dM50=+0.0145, dM95=+0.0185.
+- Interpretation:
+  - weak image augmentation fixes the fixed CATF-v2 seed2 constraint failure under the requested Precision/mAP constraints;
+  - class9 is recovered relative to fixed CATF-v2 but not fully recovered relative to clean;
+  - non-active regression is mitigated relative to fixed CATF-v2;
+  - because seed2 now passes with image-only augmentation, the next validation step is seed0/seed1 sanity, still without sampler_only.
+- Verification:
+  - requested py_compile passed;
+  - requested targeted pytest set passed: `55 passed`.
+
 ## CP-CATF Paper-Mode Sampler-Only Multiseed (2026-06-12)
 
 - Scope: continued from the completed seed0 sampler-only run and ran only seed1/seed2. Clean paper baselines and seed0 CP-CATF results were reused; clean and seed0 were not rerun.
@@ -1215,7 +1254,7 @@ The repository is centered on diagnosis-driven augmentation for industrial defec
 - Current CATF-v2 work is smoke-only; no formal 50 epoch CATF-v2 run should be inferred from it.
 - No-feedback control disables both feedback and industrial augmentation, using Ultralytics YOLO default augmentation as the behavior check.
 - The old YOLO default reference is not the final baseline after parity audit; feedback comparisons should use `clean_native_yolo_default_seed42_50ep`.
-- Output: `outputs/experiments/cp_catf_seed_2/`
+- Output: `outputs/experiments/catf_v2_image_only_weak_aug_seed2_50ep/`
 - Epochs: `50`
 - Feedback enabled: `true`
 - Industrial augmentation enabled: `true`
@@ -1227,12 +1266,12 @@ The repository is centered on diagnosis-driven augmentation for industrial defec
 - Feedback epochs: `[5, 10, 15, 20, 25, 30, 35, 40, 45]`
 - Stage restart count: `0`
 - Epoch continuous: `true`
-- Train image count: `2071`
+- Train image count: `2301`
 - Fixed augmented dataset generated: `false`
 - Constraint baseline: `clean_native_yolo_default`
-- Constraint failed: `True`
-- Report: `outputs/experiments/multiseed_cp_catf_paper_mode_sampler_only/cp_catf_seed_2/reports/final_report.md`
-- Policy history: `outputs/experiments/multiseed_cp_catf_paper_mode_sampler_only/cp_catf_seed_2/reports/policy_history.json`
+- Constraint failed: `False`
+- Report: `outputs/experiments/catf_v2_image_only_weak_aug_seed2_50ep/reports/final_report.md`
+- Policy history: `outputs/experiments/catf_v2_image_only_weak_aug_seed2_50ep/reports/policy_history.json`
 <!-- YOLO_DEFAULT_INLOOP_FEEDBACK_SMOKE_END -->
 <!-- YOLO_DEFAULT_INLOOP_PARITY_AUDIT_START -->
 ## YOLO Default In-Loop Parity Audit

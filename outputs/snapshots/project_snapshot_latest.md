@@ -1,18 +1,38 @@
 # Project Snapshot
 
-- Generated: 2026-06-13T11:45:52
+- Generated: 2026-06-13T22:49:12
 - Branch: codex/sync-latest
-- Commit: d177eef722544b01133e509a414304d44d6549e4
+- Commit: bab36e74280f466dbc96c81e02197ba21e373e4b
 - Remote: https://github.com/Yxiaoyang121/MyAutoAugument.git
+
+## Current Image-Only Weak Augmentation Status
+
+- `sampler_only` remains demoted and did not participate in the seed2 weak augmentation validation.
+- Seed2 image-only weak augmentation 50ep completed under `outputs/experiments/catf_v2_image_only_weak_aug_seed2_50ep/`.
+- Weak ROI texture used `candidate_policy_1b_weak_roi_texture`, attenuation ratio `0.25`, retained op `local_contrast`, weak prob/strength `0.045/0.05`, and cap `16` augmented samples per feedback interval.
+- Weak image augmentation executed: industrial images augmented `80`, ROI applied `95`, router random draws `1922`.
+- Sampling stayed unchanged: `sampler_only_enabled=false`, `weighted_index_list_enabled=false`, `sampled_distribution_changed=false`.
+- Seed2 metrics: P=`0.7533`, R=`0.6942`, mAP50=`0.7727`, mAP50-95=`0.5151`, `constraint_failed=false`.
+- Delta vs clean seed2: dP=`+0.0570`, dR=`-0.0344`, dM50=`+0.0035`, dM95=`-0.0072`.
+- Delta vs fixed CATF-v2 seed2: dP=`-0.0104`, dR=`+0.0079`, dM50=`+0.0145`, dM95=`+0.0185`.
+- Next image-only validation step: run seed0/seed1 sanity only if requested.
 
 ## Working Tree
 
 ```text
+ M AutoAugment/catf_v2/causal_probe.py
+ M AutoAugment/catf_v2/sample_router.py
  M CODEX_HANDOFF.md
  M EXPERIMENT_LOG.md
  M PROJECT_STATE.md
-?? outputs/experiments/catf_v2_image_only_weak_aug_replay/
-?? scripts/replay_weak_image_aug.py
+ M outputs/project_snapshot_latest.md
+ M outputs/snapshots/project_snapshot_latest.md
+ M scripts/train_yolo_default_with_inloop_feedback.py
+ M tests/test_catf_v2_sample_router.py
+ M tests/test_cp_catf_accept_to_execution.py
+?? outputs/experiments/catf_v2_image_only_weak_aug_seed2_50ep/
+?? scripts/build_weak_image_aug_decision_schedule.py
+?? scripts/summarize_weak_image_aug_seed2.py
 ```
 
 ## Key Files
@@ -217,19 +237,7 @@
 
 ## Tracked File Count
 
-- 8891 tracked files
-
-## Current CP-CATF Image-Only Status
-
-- `sampler_only` remains demoted to engineering exploration / ablation only.
-- Current paper mainline remains image augmentation based CATF: fixed CATF-v2 / CP-CATF image-only.
-- Weak image augmentation replay completed with no training run.
-- Replay output: `outputs/experiments/catf_v2_image_only_weak_aug_replay/reports/weak_image_aug_replay.md`.
-- Total image candidates=54; original ROI texture candidates=27; weak ROI texture candidates accepted by replay=8.
-- Seed-level weak epochs: seed0 `[25]`, seed1 `[25, 40]`, seed2 `[20, 25, 30, 35, 45]`.
-- Ratio `0.5` remains too risky; ratio `0.25` passes replay gates for legacy image-evidence rows.
-- `sampler_only` involved=false and final_val_leakage=false.
-- Recommended next validation, if requested: seed2 50ep image-only weak augmentation first, then seed0/seed1 sanity only if seed2 passes.
+- 8896 tracked files
 
 ## Notes
 

@@ -73,6 +73,7 @@ class SampleAwareAugmentationRouter:
         self.riskguard_enabled = bool(riskguard_enabled)
         self.riskguard_sampler_only = bool(riskguard_sampler_only)
         self.riskguard_events: list[dict[str, Any]] = []
+        self.weak_image_aug_counts: dict[str, int] = {}
 
     def set_policy(self, policy_matrix: dict[str, Any]) -> None:
         self.policy_matrix = deepcopy(policy_matrix)
@@ -137,6 +138,16 @@ class SampleAwareAugmentationRouter:
             policy = class_policies.get(str(class_id), {})
             if _is_high_fp_guarded(policy) or _is_no_aug(policy):
                 self.roi_stats.roi_aug_skipped_conflict += 1
+                continue
+            if self._weak_interval_limit_reached(policy, class_id):
+                audit["skipped_ops"].append(
+                    {
+                        "name": "weak_image_aug_interval_cap",
+                        "class_id": int(class_id),
+                        "applied": False,
+                        "skip_reason": "weak_image_aug_interval_cap",
+                    }
+                )
                 continue
             conflict_bboxes = current_bboxes[np.isin(current_labels, list(guarded_or_no_aug_classes - {class_id}))]
             for op_name, op in sorted((policy.get("ops") or {}).items()):
@@ -216,6 +227,7 @@ class SampleAwareAugmentationRouter:
                         op_audit["applied"] = True
                         audit["applied_ops"].append(op_audit)
                         self.stats.record_op(op_name, "applied")
+                        self._record_weak_interval_apply(policy, class_id)
                     else:
                         op_audit["skip_reason"] = "roi_unavailable"
                         audit["skipped_ops"].append(op_audit)
@@ -238,6 +250,7 @@ class SampleAwareAugmentationRouter:
                     if applied:
                         audit["applied_ops"].append(op_audit)
                         self.stats.record_op(op_name, "applied")
+                        self._record_weak_interval_apply(policy, class_id)
                     else:
                         op_audit["skip_reason"] = "cutout_safety"
                         audit["skipped_ops"].append(op_audit)
@@ -252,6 +265,31 @@ class SampleAwareAugmentationRouter:
             audit["router"]["skip_reason"] = audit["router"].get("skip_reason") or "no_operation_applied"
             return self._bypass(original_image, original_labels, original_bboxes, input_bbox_count, audit)
         return self._finish(current_image, current_labels, current_bboxes, input_bbox_count, audit)
+
+    def _weak_interval_key(self, policy: dict[str, Any], class_id: int) -> str | None:
+        weak = policy.get("weak_image_aug") or {}
+        if not bool(weak.get("enabled", False)):
+            return None
+        start_epoch = int(weak.get("interval_start_epoch", self.current_epoch) or self.current_epoch)
+        return f"{int(class_id)}:{start_epoch}"
+
+    def _weak_interval_limit_reached(self, policy: dict[str, Any], class_id: int) -> bool:
+        weak = policy.get("weak_image_aug") or {}
+        if not bool(weak.get("enabled", False)):
+            return False
+        cap = int(weak.get("max_aug_samples_per_interval", 0) or 0)
+        if cap <= 0:
+            return False
+        key = self._weak_interval_key(policy, class_id)
+        if key is None:
+            return False
+        return int(self.weak_image_aug_counts.get(key, 0) or 0) >= cap
+
+    def _record_weak_interval_apply(self, policy: dict[str, Any], class_id: int) -> None:
+        key = self._weak_interval_key(policy, class_id)
+        if key is None:
+            return
+        self.weak_image_aug_counts[key] = int(self.weak_image_aug_counts.get(key, 0) or 0) + 1
 
     def _apply_roi_op(
         self,
@@ -400,6 +438,11 @@ def _is_stable(policy: dict[str, Any]) -> bool:
 
 
 def _is_high_fp_guarded(policy: dict[str, Any]) -> bool:
+    weak = policy.get("weak_image_aug") or {}
+    if bool(weak.get("enabled", False)) and bool(weak.get("precision_aware_gate_passed", False)) and bool(
+        weak.get("non_active_regression_gate_passed", False)
+    ):
+        return False
     guards = policy.get("guards", {}) or {}
     return bool(guards.get("high_fp_guarded") or policy.get("dominant_issue") == "high_fp")
 

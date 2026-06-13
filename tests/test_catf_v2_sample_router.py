@@ -60,3 +60,28 @@ def test_sample_router_high_fp_conflict_halves_photometric_probability() -> None
     op = result.audit["operations"][0]
     assert op["name"] == "gamma"
     assert op["routed_prob"] == 0.5
+
+
+def test_sample_router_respects_weak_image_aug_interval_cap() -> None:
+    policy = initial_policy_matrix({0: "target"})
+    row = policy["classes"]["0"]
+    row["status"] = "active"
+    row["ops"]["local_contrast"]["prob"] = 1.0
+    row["ops"]["local_contrast"]["strength"] = 0.05
+    row["weak_image_aug"] = {
+        "enabled": True,
+        "interval_start_epoch": 25,
+        "max_aug_samples_per_interval": 1,
+        "retained_op": "local_contrast",
+    }
+    router = SampleAwareAugmentationRouter(policy, seed=2, num_classes=1, roi_aware=True)
+    router.set_epoch(25)
+    image, labels, bboxes = sample()
+
+    first = router.apply(image.copy(), labels.copy(), bboxes.copy())
+    second = router.apply(image.copy(), labels.copy(), bboxes.copy())
+
+    assert first.audit["applied_ops"]
+    assert router.weak_image_aug_counts["0:25"] == 1
+    assert second.audit["applied_ops"] == []
+    assert second.audit["skipped_ops"][0]["skip_reason"] == "weak_image_aug_interval_cap"

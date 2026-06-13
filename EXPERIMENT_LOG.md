@@ -2,6 +2,81 @@
 
 ## 2026-06-13
 
+### Seed2 Image-Only Weak Augmentation 50ep
+
+Scope:
+
+- Ran only seed2.
+- Did not run seed0, seed1, or multiseed.
+- Did not use sampler_only or weighted index lists.
+- Did not modify sampling or data splits.
+- Attenuation ratio remained `0.25`.
+
+Code / schedule:
+
+- Added `candidate_policy_1b_weak_roi_texture`.
+- Added image-only weak augmentation CLI support to `scripts/train_yolo_default_with_inloop_feedback.py`.
+- Added weak interval cap support to `AutoAugment/catf_v2/sample_router.py`.
+- Generated epoch-specific schedule:
+  - `outputs/experiments/catf_v2_image_only_weak_aug_seed2_50ep/configs/weak_image_aug_offline_decisions_seed2.json`
+
+Outputs:
+
+- `outputs/experiments/catf_v2_image_only_weak_aug_seed2_50ep/reports/seed2_weak_image_aug_report.md`
+- `outputs/experiments/catf_v2_image_only_weak_aug_seed2_50ep/reports/seed2_weak_image_aug_report.json`
+- `outputs/experiments/catf_v2_image_only_weak_aug_seed2_50ep/reports/final_metrics.json`
+- `outputs/experiments/catf_v2_image_only_weak_aug_seed2_50ep/reports/online_aug_stats.json`
+- `outputs/experiments/catf_v2_image_only_weak_aug_seed2_50ep/reports/roi_aug_stats.json`
+
+Execution:
+
+| item | value |
+|---|---:|
+| 50ep completed | true |
+| weak image augmentation executed | true |
+| industrial images augmented | 80 |
+| ROI applied | 95 |
+| router random draws | 1922 |
+| weak interval cap | 16 |
+| sampler_only_enabled | false |
+| weighted_index_list_enabled | false |
+| sampled_distribution_changed | false |
+
+Weak candidates:
+
+| epoch | op | original prob | original strength | weak prob | weak strength |
+|---:|---|---:|---:|---:|---:|
+| 20 | local_contrast | 0.18 | 0.20 | 0.045 | 0.05 |
+| 25 | local_contrast | 0.18 | 0.20 | 0.045 | 0.05 |
+| 30 | local_contrast | 0.18 | 0.20 | 0.045 | 0.05 |
+| 35 | local_contrast | 0.18 | 0.20 | 0.045 | 0.05 |
+| 45 | local_contrast | 0.18 | 0.20 | 0.045 | 0.05 |
+
+Metrics:
+
+| run | P | R | mAP50 | mAP50-95 | constraint_failed |
+|---|---:|---:|---:|---:|---|
+| clean seed2 | 0.6962 | 0.7286 | 0.7692 | 0.5224 | false |
+| fixed CATF-v2 seed2 | 0.7637 | 0.6863 | 0.7582 | 0.4967 | true |
+| weak image aug seed2 | 0.7533 | 0.6942 | 0.7727 | 0.5151 | false |
+
+Delta:
+
+- vs clean seed2: dP=+0.0570, dR=-0.0344, dM50=+0.0035, dM95=-0.0072.
+- vs fixed CATF-v2 seed2: dP=-0.0104, dR=+0.0079, dM50=+0.0145, dM95=+0.0185.
+
+Interpretation:
+
+- Weak image-only augmentation repairs the seed2 fixed CATF-v2 constraint failure.
+- Class9 recovers relative to fixed CATF-v2 but is not fully recovered relative to clean.
+- Non-active regression is mitigated relative to fixed CATF-v2.
+- Next validation should be seed0/seed1 sanity with the same image-only weak augmentation setup.
+
+Verification:
+
+- Requested py_compile passed.
+- Requested targeted pytest set passed: `55 passed`.
+
 ### Image-Only Weak Augmentation Replay
 
 Scope:
@@ -1924,7 +1999,7 @@ Key conclusions from that archived smoke:
 - Current CATF-v2 work is smoke-only; no formal 50 epoch CATF-v2 run should be inferred from it.
 - No-feedback control disables both feedback and industrial augmentation, using Ultralytics YOLO default augmentation as the behavior check.
 - The old YOLO default reference is not the final baseline after parity audit; feedback comparisons should use `clean_native_yolo_default_seed42_50ep`.
-- Output: `outputs/experiments/cp_catf_seed_2/`
+- Output: `outputs/experiments/catf_v2_image_only_weak_aug_seed2_50ep/`
 - Epochs: `50`
 - Feedback enabled: `true`
 - Industrial augmentation enabled: `true`
@@ -1936,12 +2011,12 @@ Key conclusions from that archived smoke:
 - Feedback epochs: `[5, 10, 15, 20, 25, 30, 35, 40, 45]`
 - Stage restart count: `0`
 - Epoch continuous: `true`
-- Train image count: `2071`
+- Train image count: `2301`
 - Fixed augmented dataset generated: `false`
 - Constraint baseline: `clean_native_yolo_default`
-- Constraint failed: `True`
-- Report: `outputs/experiments/multiseed_cp_catf_paper_mode_sampler_only/cp_catf_seed_2/reports/final_report.md`
-- Policy history: `outputs/experiments/multiseed_cp_catf_paper_mode_sampler_only/cp_catf_seed_2/reports/policy_history.json`
+- Constraint failed: `False`
+- Report: `outputs/experiments/catf_v2_image_only_weak_aug_seed2_50ep/reports/final_report.md`
+- Policy history: `outputs/experiments/catf_v2_image_only_weak_aug_seed2_50ep/reports/policy_history.json`
 <!-- YOLO_DEFAULT_INLOOP_FEEDBACK_SMOKE_END -->
 <!-- YOLO_DEFAULT_INLOOP_PARITY_AUDIT_START -->
 ## YOLO Default In-Loop Parity Audit

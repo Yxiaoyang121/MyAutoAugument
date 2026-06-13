@@ -113,6 +113,7 @@ class InLoopFeedbackState:
     riskguard_events: list[dict[str, Any]] = field(default_factory=list)
     causal_probe_events: list[dict[str, Any]] = field(default_factory=list)
     offline_probe_decision: dict[str, Any] | None = None
+    offline_probe_decision_schedule: dict[int, dict[str, Any]] | None = None
     epoch_records: list[dict[str, Any]] = field(default_factory=list)
     callback_invocations: int = 0
     train_start_time: float = field(default_factory=time.time)
@@ -441,6 +442,10 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--causal-probe-mode", dest="catf_causal_probe", action=argparse.BooleanOptionalAction, default=argparse.SUPPRESS)
     parser.add_argument("--catf-causal-probe-mode", choices=["development", "paper"], default="development")
     parser.add_argument("--precision-aware-accept-gate", action=argparse.BooleanOptionalAction, default=True)
+    parser.add_argument("--image-only-mainline", action=argparse.BooleanOptionalAction, default=False)
+    parser.add_argument("--weak-image-aug-enabled", action=argparse.BooleanOptionalAction, default=False)
+    parser.add_argument("--attenuation-ratio", type=float, default=0.25)
+    parser.add_argument("--disable-sampler-only", action=argparse.BooleanOptionalAction, default=False)
     parser.add_argument("--sampler-only-enabled", action=argparse.BooleanOptionalAction, default=False)
     parser.add_argument("--use-offline-probe-decisions", action=argparse.BooleanOptionalAction, default=False)
     parser.add_argument("--offline-probe-decisions-dir", default=str(PROJECT_ROOT / "outputs/experiments/catf_v2_causal_probe"))
@@ -475,6 +480,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--skip-doc-update", action="store_true")
     args = parser.parse_args(normalize_bool_cli_args(sys.argv[1:]))
     normalize_paper_probe_args(args)
+    normalize_image_only_args(args)
     return args
 
 
@@ -492,6 +498,17 @@ def normalize_paper_probe_args(args: argparse.Namespace) -> None:
         raise ValueError("--train-core-data must match --data in paper probe mode")
 
 
+def normalize_image_only_args(args: argparse.Namespace) -> None:
+    if bool(getattr(args, "disable_sampler_only", False)):
+        args.sampler_only_enabled = False
+    if bool(getattr(args, "weak_image_aug_enabled", False)):
+        ratio = float(getattr(args, "attenuation_ratio", 0.25) or 0.25)
+        if ratio <= 0.0 or ratio > 1.0:
+            raise ValueError("--attenuation-ratio must be in (0, 1]")
+        if not bool(getattr(args, "image_only_mainline", False)):
+            args.image_only_mainline = True
+
+
 def normalize_bool_cli_args(argv: list[str]) -> list[str]:
     """Accept both `--flag` and `--flag true/false` for BooleanOptionalAction flags."""
 
@@ -507,6 +524,9 @@ def normalize_bool_cli_args(argv: list[str]) -> list[str]:
         "--catf-causal-probe",
         "--causal-probe-mode",
         "--precision-aware-accept-gate",
+        "--image-only-mainline",
+        "--weak-image-aug-enabled",
+        "--disable-sampler-only",
         "--sampler-only-enabled",
         "--use-offline-probe-decisions",
         "--paper-probe-mode",
@@ -577,6 +597,10 @@ def build_train_config(args: argparse.Namespace, output_dir: Path) -> dict[str, 
         "catf_causal_probe": bool(getattr(args, "catf_causal_probe", False)),
         "catf_causal_probe_mode": str(getattr(args, "catf_causal_probe_mode", "development")),
         "precision_aware_accept_gate": bool(getattr(args, "precision_aware_accept_gate", True)),
+        "image_only_mainline": bool(getattr(args, "image_only_mainline", False)),
+        "weak_image_aug_enabled": bool(getattr(args, "weak_image_aug_enabled", False)),
+        "attenuation_ratio": float(getattr(args, "attenuation_ratio", 0.25) or 0.25),
+        "disable_sampler_only": bool(getattr(args, "disable_sampler_only", False)),
         "sampler_only_enabled": bool(getattr(args, "sampler_only_enabled", False)),
         "use_offline_probe_decisions": bool(getattr(args, "use_offline_probe_decisions", False)),
         "offline_probe_decisions_dir": str(Path(getattr(args, "offline_probe_decisions_dir", "")).resolve()),
@@ -661,6 +685,10 @@ def build_train_command(args: argparse.Namespace, output_dir: Path) -> str:
         f"catf_causal_probe={bool(getattr(args, 'catf_causal_probe', False))}",
         f"catf_causal_probe_mode={getattr(args, 'catf_causal_probe_mode', 'development')}",
         f"precision_aware_accept_gate={bool(getattr(args, 'precision_aware_accept_gate', True))}",
+        f"image_only_mainline={bool(getattr(args, 'image_only_mainline', False))}",
+        f"weak_image_aug_enabled={bool(getattr(args, 'weak_image_aug_enabled', False))}",
+        f"attenuation_ratio={float(getattr(args, 'attenuation_ratio', 0.25) or 0.25)}",
+        f"disable_sampler_only={bool(getattr(args, 'disable_sampler_only', False))}",
         f"sampler_only_enabled={bool(getattr(args, 'sampler_only_enabled', False))}",
         f"use_offline_probe_decisions={bool(getattr(args, 'use_offline_probe_decisions', False))}",
         f"paper_probe_mode={bool(getattr(args, 'paper_probe_mode', False))}",
@@ -825,13 +853,14 @@ def apply_catf_v2_causal_probe_if_enabled(
 ) -> dict[str, Any]:
     if not bool(getattr(state.args, "catf_causal_probe", False)):
         return policy
-    decision_payload = load_offline_probe_decision_if_requested(state)
+    decision_payload = load_offline_probe_decision_if_requested(state, epoch_num=epoch_num)
     if decision_payload:
         gated_policy, event = apply_offline_probe_decision_to_policy(
             policy,
             decision_payload,
             epoch_num=epoch_num,
             output_dir=state.output_dir,
+            disable_sampler_only=bool(getattr(state.args, "disable_sampler_only", False)),
         )
     elif bool(getattr(state.args, "paper_probe_mode", False)):
         decision_payload = build_paper_probe_decision_payload(state, controller, policy, epoch_num=epoch_num)
@@ -840,6 +869,7 @@ def apply_catf_v2_causal_probe_if_enabled(
             decision_payload,
             epoch_num=epoch_num,
             output_dir=state.output_dir,
+            disable_sampler_only=bool(getattr(state.args, "disable_sampler_only", False)),
         )
         event["source"] = "paper_probe_split_online_decision"
     else:
@@ -1042,17 +1072,51 @@ def activate_sampler_only_weighted_index_list(context: OnlineTrainingContext, ar
     return activation
 
 
-def load_offline_probe_decision_if_requested(state: InLoopFeedbackState) -> dict[str, Any] | None:
+def load_offline_probe_decision_if_requested(state: InLoopFeedbackState, *, epoch_num: int) -> dict[str, Any] | None:
     if not bool(getattr(state.args, "use_offline_probe_decisions", False)):
         return None
+    if state.offline_probe_decision_schedule is not None:
+        payload = state.offline_probe_decision_schedule.get(int(epoch_num))
+        if payload is None:
+            return None
+        return deepcopy(payload)
     if state.offline_probe_decision is not None:
         return deepcopy(state.offline_probe_decision)
     path = resolve_offline_probe_decision_path(state.args)
     if not path.exists():
         raise FileNotFoundError(f"Offline causal probe decision file not found: {path}")
     payload = read_json(path)
+    schedule = offline_decision_schedule_from_payload(payload)
+    if schedule:
+        state.offline_probe_decision_schedule = schedule
+        return deepcopy(schedule.get(int(epoch_num)))
     state.offline_probe_decision = deepcopy(payload)
     return payload
+
+
+def offline_decision_schedule_from_payload(payload: dict[str, Any]) -> dict[int, dict[str, Any]]:
+    raw = payload.get("epoch_decisions") or payload.get("decisions_by_epoch") or {}
+    out: dict[int, dict[str, Any]] = {}
+    if isinstance(raw, dict):
+        for key, value in raw.items():
+            try:
+                epoch = int(key)
+            except (TypeError, ValueError):
+                continue
+            if isinstance(value, dict):
+                item = deepcopy(value)
+                item.setdefault("epoch", epoch)
+                out[epoch] = item
+    elif isinstance(raw, list):
+        for value in raw:
+            if not isinstance(value, dict):
+                continue
+            try:
+                epoch = int(value.get("epoch"))
+            except (TypeError, ValueError):
+                continue
+            out[epoch] = deepcopy(value)
+    return out
 
 
 def build_paper_probe_decision_payload(
@@ -1396,6 +1460,7 @@ def apply_offline_probe_decision_to_policy(
     *,
     epoch_num: int,
     output_dir: Path,
+    disable_sampler_only: bool = False,
 ) -> tuple[dict[str, Any], dict[str, Any]]:
     selected = decision_payload.get("selected_candidate") or {}
     decision = selected.get("decision") or {}
@@ -1404,6 +1469,8 @@ def apply_offline_probe_decision_to_policy(
     op_whitelist = [str(item) for item in (selected_policy.get("op_list") or [])]
     image_allowed = bool(decision.get("image_modification_allowed", False))
     sampler_allowed = bool(decision.get("sample_weighting_allowed", False)) or str(decision.get("decision")) == "sampler_only"
+    if bool(disable_sampler_only):
+        sampler_allowed = False
     probe_set = selected.get("probe_set") or {}
     candidate_class_id = safe_int(probe_set.get("class_id"), default=-1)
     event = {
@@ -1430,7 +1497,15 @@ def apply_offline_probe_decision_to_policy(
         "seed_specific_rule": False,
         "fixed_class_id_specific_rule": False,
         "riskguard_used_as_final_rule": bool((decision_payload.get("riskguard_interpretation") or {}).get("riskguard_used_as_final_rule", False)),
+        "sampler_only_disabled": bool(disable_sampler_only),
+        "original_candidate_policy_id": decision_payload.get("original_candidate_policy_id"),
+        "downgraded_to_weak_roi_texture": bool(decision_payload.get("downgraded_to_weak_roi_texture", False)),
+        "precision_aware_gate_passed": decision_payload.get("precision_aware_gate_passed"),
+        "non_active_regression_gate_passed": decision_payload.get("non_active_regression_gate_passed"),
+        "weak_rejection_reasons": decision_payload.get("weak_rejection_reasons"),
     }
+    if bool(disable_sampler_only) and str(decision.get("decision")) == "sampler_only":
+        event["sampler_only_blocked_by_image_only_mainline"] = True
     if not image_allowed:
         reason = "offline_causal_probe_rejected_image_augmentation"
         if sampler_allowed:
@@ -1459,6 +1534,7 @@ def apply_offline_probe_decision_to_policy(
         policy,
         selected_candidate=selected,
         op_whitelist=op_whitelist,
+        epoch_num=epoch_num,
     )
     event["action"] = "accept_offline_probe_candidate"
     event["reason"] = "offline_causal_probe_candidate_accepted"
@@ -1467,6 +1543,17 @@ def apply_offline_probe_decision_to_policy(
     event["candidate_policy_injected"] = bool(activation.get("candidate_policy_injected", False))
     event["sample_router_allowed"] = bool(activation.get("sample_router_allowed", False))
     event["activation_noop_reason"] = activation.get("noop_reason")
+    event["weak_image_aug"] = bool(activation.get("weak_image_aug", False))
+    event["attenuation_ratio"] = activation.get("attenuation_ratio")
+    event["retained_op"] = activation.get("retained_op")
+    event["original_prob"] = activation.get("original_prob")
+    event["original_strength"] = activation.get("original_strength")
+    event["weak_prob"] = activation.get("weak_prob")
+    event["weak_strength"] = activation.get("weak_strength")
+    event["max_aug_samples_per_interval"] = activation.get("max_aug_samples_per_interval")
+    event["target_high_fp_guard_overridden_by_weak_gate"] = bool(
+        activation.get("target_high_fp_guard_overridden_by_weak_gate", False)
+    )
     if not event["sample_router_allowed"]:
         noop_reason = str(activation.get("noop_reason") or "causal_probe_accept_no_executable_policy")
         gated_policy = force_noop_policy(gated_policy, reason=noop_reason)
@@ -1490,6 +1577,7 @@ def activate_causal_probe_candidate_policy(
     *,
     selected_candidate: dict[str, Any],
     op_whitelist: list[str],
+    epoch_num: int,
 ) -> tuple[dict[str, Any], dict[str, Any]]:
     matrix = restrict_policy_to_causal_probe_ops(policy, op_whitelist)
     probe_set = selected_candidate.get("probe_set") or {}
@@ -1501,6 +1589,9 @@ def activate_causal_probe_candidate_policy(
         "sample_router_allowed": False,
         "noop_reason": None,
     }
+    candidate_policy = selected_candidate.get("candidate_policy") or {}
+    candidate_policy_id = str(selected_candidate.get("candidate_policy_id") or candidate_policy.get("policy_id") or "")
+    weak_image_aug = bool(candidate_policy.get("weak_image_aug", False)) or candidate_policy_id == "candidate_policy_1b_weak_roi_texture"
     if class_id < 0:
         metadata["noop_reason"] = "causal_probe_accept_missing_target_class"
         return matrix, metadata
@@ -1513,9 +1604,11 @@ def activate_causal_probe_candidate_policy(
         metadata["noop_reason"] = "causal_probe_accept_target_no_aug_class"
         return matrix, metadata
     guards = class_policy.get("guards") or {}
-    if bool(guards.get("high_fp_guarded", False)):
+    if bool(guards.get("high_fp_guarded", False)) and not weak_image_aug:
         metadata["noop_reason"] = "causal_probe_accept_target_high_fp_guarded"
         return matrix, metadata
+    if bool(guards.get("high_fp_guarded", False)) and weak_image_aug:
+        metadata["target_high_fp_guard_overridden_by_weak_gate"] = True
 
     class_policy["status"] = "active"
     class_policy["state"] = "accepted"
@@ -1524,6 +1617,32 @@ def activate_causal_probe_candidate_policy(
     class_policy["causal_probe_selected"] = True
     class_policy["causal_probe_candidate_policy_id"] = selected_candidate.get("candidate_policy_id")
     class_policy["causal_probe_execution_source"] = "accepted_candidate_policy"
+    if weak_image_aug:
+        attenuation_ratio = float(candidate_policy.get("attenuation_ratio", 0.25) or 0.25)
+        max_aug_samples = int(candidate_policy.get("max_aug_samples_per_interval", 16) or 16)
+        retained_op = str((op_whitelist or candidate_policy.get("op_list") or [""])[0])
+        op_whitelist = [retained_op] if retained_op else []
+        class_policy["weak_image_aug"] = {
+            "enabled": True,
+            "candidate_policy_id": candidate_policy_id,
+            "derived_from_policy_id": str(candidate_policy.get("derived_from_policy_id", "candidate_policy_1_roi_texture")),
+            "attenuation_ratio": attenuation_ratio,
+            "retained_op": retained_op,
+            "max_aug_samples_per_interval": max_aug_samples,
+            "interval_start_epoch": int(epoch_num),
+            "precision_aware_gate_passed": bool((selected_candidate.get("decision") or {}).get("precision_aware_gate_passed", True)),
+            "non_active_regression_gate_passed": bool(
+                (selected_candidate.get("decision") or {}).get("non_active_regression_gate_passed", True)
+            ),
+        }
+        metadata.update(
+            {
+                "weak_image_aug": True,
+                "attenuation_ratio": attenuation_ratio,
+                "retained_op": retained_op,
+                "max_aug_samples_per_interval": max_aug_samples,
+            }
+        )
     ops = class_policy.setdefault("ops", {})
     for op_name in op_whitelist:
         op = ops.get(str(op_name))
@@ -1532,11 +1651,25 @@ def activate_causal_probe_candidate_policy(
         floor = CAUSAL_PROBE_EXECUTION_FLOORS.get(str(op_name), {"prob": 0.10, "strength": 0.10})
         max_prob = float(op.get("max_prob", floor["prob"]) or floor["prob"])
         max_strength = float(op.get("max_strength", max(floor["strength"], 0.10)) or max(floor["strength"], 0.10))
-        prob = min(max_prob, max(float(op.get("prob", 0.0) or 0.0), float(floor["prob"])))
-        strength = min(max_strength, max(float(op.get("strength", 0.0) or 0.0), float(floor["strength"])))
+        if weak_image_aug:
+            ratio = float(candidate_policy.get("attenuation_ratio", metadata.get("attenuation_ratio", 0.25)) or 0.25)
+            prob = min(max_prob, max(0.0, float(floor["prob"]) * ratio))
+            strength = min(max_strength, max(0.0, float(floor["strength"]) * ratio))
+            metadata["original_prob"] = float(floor["prob"])
+            metadata["original_strength"] = float(floor["strength"])
+            metadata["weak_prob"] = prob
+            metadata["weak_strength"] = strength
+        else:
+            prob = min(max_prob, max(float(op.get("prob", 0.0) or 0.0), float(floor["prob"])))
+            strength = min(max_strength, max(float(op.get("strength", 0.0) or 0.0), float(floor["strength"])))
         op["prob"] = prob
         op["strength"] = strength
         op["causal_probe_selected"] = True
+        if weak_image_aug:
+            op["weak_image_aug"] = True
+            op["attenuation_ratio"] = float(candidate_policy.get("attenuation_ratio", metadata.get("attenuation_ratio", 0.25)) or 0.25)
+            op["original_prob"] = float(floor["prob"])
+            op["original_strength"] = float(floor["strength"])
         metadata["candidate_ops_injected"].append({"op_name": str(op_name), "prob": prob, "strength": strength})
 
     metadata["candidate_policy_injected"] = bool(metadata["candidate_ops_injected"])
@@ -2230,6 +2363,10 @@ def build_payload(
             "catf_riskguard": bool(getattr(args, "catf_riskguard", False)),
             "catf_causal_probe": bool(getattr(args, "catf_causal_probe", False)),
             "catf_causal_probe_mode": str(getattr(args, "catf_causal_probe_mode", "development")),
+            "image_only_mainline": bool(getattr(args, "image_only_mainline", False)),
+            "weak_image_aug_enabled": bool(getattr(args, "weak_image_aug_enabled", False)),
+            "attenuation_ratio": float(getattr(args, "attenuation_ratio", 0.25) or 0.25),
+            "disable_sampler_only": bool(getattr(args, "disable_sampler_only", False)),
             "paper_probe_mode": bool(getattr(args, "paper_probe_mode", False)),
             "probe_data": str(Path(args.probe_data).resolve()) if getattr(args, "probe_data", None) else None,
             "train_core_data": str(Path(args.train_core_data).resolve()) if getattr(args, "train_core_data", None) else str(Path(args.data).resolve()),
@@ -2242,6 +2379,7 @@ def build_payload(
             "adaptive_start_epoch": state.adaptive_burnin_controller.start_epoch if state.adaptive_burnin_controller else None,
             "noop_transform_calls": int(getattr(state.context, "noop_transform_calls", 0) or 0),
             "router_random_draw_count": int(getattr(state.context.augmentor, "random_draw_count", 0) or 0),
+            "weak_image_aug_interval_counts": dict(getattr(state.context.augmentor, "weak_image_aug_counts", {}) or {}),
             "sample_weight_map_generated": bool(getattr(state.context, "sample_weight_map_generated", False)),
             "weighted_train_core_images_count": int(getattr(state.context, "weighted_train_core_images_count", 0) or 0),
             "weighted_sampler_enabled": bool(getattr(state.context, "weighted_sampler_enabled", False)),
@@ -2294,6 +2432,10 @@ def build_payload(
         "catf_riskguard": bool(getattr(args, "catf_riskguard", False)),
         "catf_causal_probe": bool(getattr(args, "catf_causal_probe", False)),
         "catf_causal_probe_mode": str(getattr(args, "catf_causal_probe_mode", "development")),
+        "image_only_mainline": bool(getattr(args, "image_only_mainline", False)),
+        "weak_image_aug_enabled": bool(getattr(args, "weak_image_aug_enabled", False)),
+        "attenuation_ratio": float(getattr(args, "attenuation_ratio", 0.25) or 0.25),
+        "disable_sampler_only": bool(getattr(args, "disable_sampler_only", False)),
         "paper_probe_mode": bool(getattr(args, "paper_probe_mode", False)),
         "probe_data": str(Path(args.probe_data).resolve()) if getattr(args, "probe_data", None) else None,
         "train_core_data": str(Path(args.train_core_data).resolve()) if getattr(args, "train_core_data", None) else str(Path(args.data).resolve()),
@@ -2320,6 +2462,7 @@ def build_payload(
         "yolo_default_augmentation_enabled": True,
         "industrial_aug_enabled": bool(args.industrial_aug_enabled),
         "industrial_aug_dynamic": bool(args.industrial_aug_enabled and int(stats.get("samples_augmented", 0) or 0) > 0),
+        "weak_image_aug_interval_counts": dict(getattr(state.context.augmentor, "weak_image_aug_counts", {}) or {}),
         "sampler_only_enabled": bool(getattr(args, "sampler_only_enabled", False)),
         "sample_weight_map_generated": bool(getattr(state.context, "sample_weight_map_generated", False)),
         "weighted_train_core_images_count": int(getattr(state.context, "weighted_train_core_images_count", 0) or 0),

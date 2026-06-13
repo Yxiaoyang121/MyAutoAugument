@@ -2,6 +2,70 @@
 
 ## 2026-06-13
 
+### Image-Only Weak Augmentation Replay
+
+Scope:
+
+- Offline replay and method design only.
+- No training was run.
+- No seed0/seed1/seed2 run was started.
+- No clean baseline was rerun.
+- No gate, sampler, causal score, data split, or training augmentation logic was changed.
+
+Script:
+
+- `scripts/replay_weak_image_aug.py`
+
+Outputs:
+
+- `outputs/experiments/catf_v2_image_only_weak_aug_replay/reports/weak_image_aug_replay.md`
+- `outputs/experiments/catf_v2_image_only_weak_aug_replay/reports/weak_image_aug_replay.json`
+- `outputs/experiments/catf_v2_image_only_weak_aug_replay/weak_candidate_records.csv`
+- `outputs/experiments/catf_v2_image_only_weak_aug_replay/reports/weak_image_aug_training_plan.md`
+
+Replay design:
+
+- `candidate_policy_3_sampler_only` is disabled for the main path.
+- Added replay candidate `candidate_policy_1b_weak_roi_texture`.
+- Weak ROI texture keeps one lower-risk op, attenuates probability and strength, and caps augmented samples per feedback interval.
+- Tested attenuation ratios: `0.5` and `0.25`.
+- Ratio `0.5` remains too risky.
+- Ratio `0.25` passes replay gates for legacy image-evidence rows.
+- No seed-id, class-id, or dataset-class-name hard rule is used.
+
+Coverage:
+
+| item | count |
+|---|---:|
+| total image candidates | 54 |
+| original ROI texture candidates | 27 |
+| legacy image-evidence candidates | 8 |
+| weak ROI texture accepted by replay | 8 |
+| strict no-op | 19 |
+| ratio 0.5 accepts | 0 |
+| ratio 0.25 accepts | 8 |
+
+Seed-level replay:
+
+| seed | weak epochs | weak count | strict no-op count |
+|---:|---|---:|---:|
+| 0 | [25] | 1 | 8 |
+| 1 | [25, 40] | 2 | 7 |
+| 2 | [20, 25, 30, 35, 45] | 5 | 4 |
+
+Interpretation:
+
+- sampler_only involved=false.
+- final_val_leakage=false.
+- seed0/seed1 legacy image candidates are preserved as weak image candidates.
+- seed2 has offline gate-safe weak image candidates, but this is not a training result.
+- Recommended next validation, if requested: run seed2 50ep image-only weak augmentation first, reuse clean seed2, compare against fixed CATF-v2 seed2, and only then run seed0/seed1 sanity if seed2 passes.
+
+Verification:
+
+- `python scripts/replay_weak_image_aug.py`
+- `python -m py_compile scripts/replay_weak_image_aug.py`
+
 ### Restore Image-Only CATF Mainline and Demote Sampler-Only
 
 Scope:

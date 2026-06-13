@@ -1,0 +1,2379 @@
+{
+  "metadata": {
+    "input_decision_records": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\cp_catf_decision_coverage_audit\\decision_records.csv",
+    "output_root": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\catf_v2_image_only_weak_aug_replay",
+    "no_training_run": true,
+    "image_only_replay": true,
+    "sampler_only_involved": false,
+    "final_val_leakage": false,
+    "candidate_policy_3_sampler_only_disabled_for_main_path": true,
+    "fixed_seed_or_class_rules": false,
+    "op_selection_rule": "single retained op chosen from same-epoch low-risk image proxy when available, otherwise generic op-risk prior",
+    "risk_scaling": "attenuated_risk = proxy_or_original_risk * attenuation_ratio * single_op_risk_factor",
+    "attenuation_ratios_tested": [
+      0.5,
+      0.25
+    ],
+    "gate_thresholds": {
+      "fp_increase_rate": 0.02,
+      "high_fp_spillover_rate": 0.01,
+      "non_active_regression_rate": 0.02,
+      "ok_class_false_activation": 0.0,
+      "bbox_instability_rate": 0.02,
+      "estimated_precision_drop": 0.005,
+      "non_active_fp_delta": 0.005,
+      "high_confidence_fp_delta": 0.0
+    }
+  },
+  "coverage": {
+    "total_records": 81,
+    "total_image_candidates": 54,
+    "original_roi_texture_candidates": 27,
+    "sampler_candidates_seen_but_ignored": 27,
+    "legacy_image_evidence_count": 8,
+    "weak_roi_texture_count": 8,
+    "strict_noop_count": 19,
+    "all_noop": false,
+    "ratio_0_50_accept_count": 0,
+    "ratio_0_25_accept_count": 8
+  },
+  "rejection_reasons_original_roi_texture": [
+    {
+      "reason": "causal_score_not_positive",
+      "count": 27
+    },
+    {
+      "reason": "high_fp_spillover_rate_too_high",
+      "count": 20
+    },
+    {
+      "reason": "non_active_regression_rate_too_high",
+      "count": 20
+    },
+    {
+      "reason": "estimated_precision_drop_too_high",
+      "count": 20
+    },
+    {
+      "reason": "non_active_fp_delta_too_high",
+      "count": 20
+    },
+    {
+      "reason": "high_confidence_fp_delta_too_high",
+      "count": 20
+    },
+    {
+      "reason": "insufficient_active_class_benefit",
+      "count": 14
+    },
+    {
+      "reason": "insufficient_evidence_count",
+      "count": 7
+    },
+    {
+      "reason": "diagnosis_confidence_too_low",
+      "count": 7
+    },
+    {
+      "reason": "bbox_instability_rate_too_high",
+      "count": 5
+    }
+  ],
+  "seed_level": {
+    "0": {
+      "roi_texture_candidates": 9,
+      "weak_roi_texture_count": 1,
+      "strict_noop_count": 8,
+      "weak_epochs": [
+        25
+      ],
+      "strict_noop_epochs": [
+        5,
+        10,
+        15,
+        20,
+        30,
+        35,
+        40,
+        45
+      ],
+      "candidate_decisions": [
+        {
+          "epoch": 5,
+          "active_class": 8,
+          "dominant_issue": "low_recall",
+          "final_decision": "strict_noop",
+          "selected_attenuation_ratio": null,
+          "retained_op": null
+        },
+        {
+          "epoch": 10,
+          "active_class": 8,
+          "dominant_issue": "texture_boundary_weak",
+          "final_decision": "strict_noop",
+          "selected_attenuation_ratio": null,
+          "retained_op": null
+        },
+        {
+          "epoch": 15,
+          "active_class": 12,
+          "dominant_issue": "texture_boundary_weak",
+          "final_decision": "strict_noop",
+          "selected_attenuation_ratio": null,
+          "retained_op": null
+        },
+        {
+          "epoch": 20,
+          "active_class": 9,
+          "dominant_issue": "low_contrast_fn",
+          "final_decision": "strict_noop",
+          "selected_attenuation_ratio": null,
+          "retained_op": null
+        },
+        {
+          "epoch": 25,
+          "active_class": 9,
+          "dominant_issue": "texture_boundary_weak",
+          "final_decision": "weak_roi_texture",
+          "selected_attenuation_ratio": 0.25,
+          "retained_op": "local_contrast"
+        },
+        {
+          "epoch": 30,
+          "active_class": -1,
+          "dominant_issue": "",
+          "final_decision": "strict_noop",
+          "selected_attenuation_ratio": null,
+          "retained_op": null
+        },
+        {
+          "epoch": 35,
+          "active_class": -1,
+          "dominant_issue": "",
+          "final_decision": "strict_noop",
+          "selected_attenuation_ratio": null,
+          "retained_op": null
+        },
+        {
+          "epoch": 40,
+          "active_class": 6,
+          "dominant_issue": "low_contrast_fn",
+          "final_decision": "strict_noop",
+          "selected_attenuation_ratio": null,
+          "retained_op": null
+        },
+        {
+          "epoch": 45,
+          "active_class": -1,
+          "dominant_issue": "",
+          "final_decision": "strict_noop",
+          "selected_attenuation_ratio": null,
+          "retained_op": null
+        }
+      ]
+    },
+    "1": {
+      "roi_texture_candidates": 9,
+      "weak_roi_texture_count": 2,
+      "strict_noop_count": 7,
+      "weak_epochs": [
+        25,
+        40
+      ],
+      "strict_noop_epochs": [
+        5,
+        10,
+        15,
+        20,
+        30,
+        35,
+        45
+      ],
+      "candidate_decisions": [
+        {
+          "epoch": 5,
+          "active_class": 6,
+          "dominant_issue": "texture_boundary_weak",
+          "final_decision": "strict_noop",
+          "selected_attenuation_ratio": null,
+          "retained_op": null
+        },
+        {
+          "epoch": 10,
+          "active_class": 6,
+          "dominant_issue": "texture_boundary_weak",
+          "final_decision": "strict_noop",
+          "selected_attenuation_ratio": null,
+          "retained_op": null
+        },
+        {
+          "epoch": 15,
+          "active_class": 6,
+          "dominant_issue": "low_contrast_fn",
+          "final_decision": "strict_noop",
+          "selected_attenuation_ratio": null,
+          "retained_op": null
+        },
+        {
+          "epoch": 20,
+          "active_class": 9,
+          "dominant_issue": "low_contrast_fn",
+          "final_decision": "strict_noop",
+          "selected_attenuation_ratio": null,
+          "retained_op": null
+        },
+        {
+          "epoch": 25,
+          "active_class": 6,
+          "dominant_issue": "weak_localization",
+          "final_decision": "weak_roi_texture",
+          "selected_attenuation_ratio": 0.25,
+          "retained_op": "local_contrast"
+        },
+        {
+          "epoch": 30,
+          "active_class": 9,
+          "dominant_issue": "low_contrast_fn",
+          "final_decision": "strict_noop",
+          "selected_attenuation_ratio": null,
+          "retained_op": null
+        },
+        {
+          "epoch": 35,
+          "active_class": -1,
+          "dominant_issue": "",
+          "final_decision": "strict_noop",
+          "selected_attenuation_ratio": null,
+          "retained_op": null
+        },
+        {
+          "epoch": 40,
+          "active_class": 9,
+          "dominant_issue": "texture_boundary_weak",
+          "final_decision": "weak_roi_texture",
+          "selected_attenuation_ratio": 0.25,
+          "retained_op": "local_contrast"
+        },
+        {
+          "epoch": 45,
+          "active_class": 6,
+          "dominant_issue": "low_contrast_fn",
+          "final_decision": "strict_noop",
+          "selected_attenuation_ratio": null,
+          "retained_op": null
+        }
+      ]
+    },
+    "2": {
+      "roi_texture_candidates": 9,
+      "weak_roi_texture_count": 5,
+      "strict_noop_count": 4,
+      "weak_epochs": [
+        20,
+        25,
+        30,
+        35,
+        45
+      ],
+      "strict_noop_epochs": [
+        5,
+        10,
+        15,
+        40
+      ],
+      "candidate_decisions": [
+        {
+          "epoch": 5,
+          "active_class": 9,
+          "dominant_issue": "texture_boundary_weak",
+          "final_decision": "strict_noop",
+          "selected_attenuation_ratio": null,
+          "retained_op": null
+        },
+        {
+          "epoch": 10,
+          "active_class": -1,
+          "dominant_issue": "",
+          "final_decision": "strict_noop",
+          "selected_attenuation_ratio": null,
+          "retained_op": null
+        },
+        {
+          "epoch": 15,
+          "active_class": -1,
+          "dominant_issue": "",
+          "final_decision": "strict_noop",
+          "selected_attenuation_ratio": null,
+          "retained_op": null
+        },
+        {
+          "epoch": 20,
+          "active_class": 7,
+          "dominant_issue": "texture_boundary_weak",
+          "final_decision": "weak_roi_texture",
+          "selected_attenuation_ratio": 0.25,
+          "retained_op": "local_contrast"
+        },
+        {
+          "epoch": 25,
+          "active_class": 9,
+          "dominant_issue": "texture_boundary_weak",
+          "final_decision": "weak_roi_texture",
+          "selected_attenuation_ratio": 0.25,
+          "retained_op": "local_contrast"
+        },
+        {
+          "epoch": 30,
+          "active_class": 6,
+          "dominant_issue": "low_contrast_fn",
+          "final_decision": "weak_roi_texture",
+          "selected_attenuation_ratio": 0.25,
+          "retained_op": "local_contrast"
+        },
+        {
+          "epoch": 35,
+          "active_class": 9,
+          "dominant_issue": "texture_boundary_weak",
+          "final_decision": "weak_roi_texture",
+          "selected_attenuation_ratio": 0.25,
+          "retained_op": "local_contrast"
+        },
+        {
+          "epoch": 40,
+          "active_class": -1,
+          "dominant_issue": "",
+          "final_decision": "strict_noop",
+          "selected_attenuation_ratio": null,
+          "retained_op": null
+        },
+        {
+          "epoch": 45,
+          "active_class": 9,
+          "dominant_issue": "texture_boundary_weak",
+          "final_decision": "weak_roi_texture",
+          "selected_attenuation_ratio": 0.25,
+          "retained_op": "local_contrast"
+        }
+      ]
+    }
+  },
+  "answers": {
+    "weak_image_aug_replay_completed": true,
+    "safe_weak_candidate_count": 8,
+    "seed2_has_offline_gate_safe_weak_candidate": true,
+    "seed0_seed1_legacy_image_candidates_preserved": true,
+    "sampler_only_completely_excluded": true,
+    "final_val_leakage_false": true,
+    "weak_augmentation_avoids_fixed_seed_or_class_special_case": true,
+    "recommend_seed2_50ep_image_only_validation": true,
+    "recommend_run_order": "seed2_first_then_seed0_seed1_sanity"
+  },
+  "records": [
+    {
+      "seed": 0,
+      "epoch": 5,
+      "candidate_policy_id": "candidate_policy_1_roi_texture",
+      "weak_candidate_policy_id": "candidate_policy_1b_weak_roi_texture",
+      "active_class": 8,
+      "dominant_issue": "low_recall",
+      "original_ops": [
+        "sharpen_mild",
+        "local_contrast"
+      ],
+      "retained_op": null,
+      "retained_op_source": "same_epoch_low_contrast_proxy",
+      "legacy_image_evidence": false,
+      "original_causal_score": -0.15200000000000002,
+      "current_replay_causal_score": -0.15200000000000002,
+      "original_causal_accept": false,
+      "current_replay_causal_accept": false,
+      "original_rejection_reasons": "causal_score_not_positive;insufficient_active_class_benefit;high_fp_spillover_rate_too_high;non_active_regression_rate_too_high;estimated_precision_drop_too_high;non_active_fp_delta_too_high;high_confidence_fp_delta_too_high",
+      "original_estimated_precision_drop": 0.04,
+      "original_non_active_fp_delta": 0.05,
+      "original_high_confidence_fp_delta": 0.036000000000000004,
+      "original_high_fp_spillover_rate": 0.055,
+      "original_non_active_regression_rate": 0.066,
+      "ratio_0_50_decision": {
+        "attenuation_ratio": 0.5,
+        "retained_op": "local_contrast",
+        "prob_multiplier": 0.5,
+        "strength_multiplier": 0.5,
+        "max_aug_samples_per_interval": 32,
+        "attenuated_risk": {
+          "fp_increase_rate": 0.006999999999999999,
+          "high_fp_spillover_rate": 0.01925,
+          "non_active_regression_rate": 0.0231,
+          "ok_class_false_activation": 0.0,
+          "bbox_instability_rate": 0.0,
+          "estimated_precision_drop": 0.0,
+          "non_active_fp_delta": 0.0,
+          "high_confidence_fp_delta": 0.0
+        },
+        "accepted": false,
+        "rejection_reasons": [
+          "high_fp_spillover_rate_too_high",
+          "non_active_regression_rate_too_high",
+          "no_prior_image_causal_evidence"
+        ]
+      },
+      "ratio_0_25_decision": {
+        "attenuation_ratio": 0.25,
+        "retained_op": "local_contrast",
+        "prob_multiplier": 0.25,
+        "strength_multiplier": 0.25,
+        "max_aug_samples_per_interval": 16,
+        "attenuated_risk": {
+          "fp_increase_rate": 0.0034999999999999996,
+          "high_fp_spillover_rate": 0.009625,
+          "non_active_regression_rate": 0.01155,
+          "ok_class_false_activation": 0.0,
+          "bbox_instability_rate": 0.0,
+          "estimated_precision_drop": 0.0,
+          "non_active_fp_delta": 0.0,
+          "high_confidence_fp_delta": 0.0
+        },
+        "accepted": false,
+        "rejection_reasons": [
+          "no_prior_image_causal_evidence"
+        ]
+      },
+      "selected_attenuation_ratio": null,
+      "selected_prob_multiplier": null,
+      "selected_strength_multiplier": null,
+      "selected_max_aug_samples_per_interval": null,
+      "final_decision": "strict_noop",
+      "sampler_only_involved": false,
+      "final_val_leakage": false
+    },
+    {
+      "seed": 0,
+      "epoch": 10,
+      "candidate_policy_id": "candidate_policy_1_roi_texture",
+      "weak_candidate_policy_id": "candidate_policy_1b_weak_roi_texture",
+      "active_class": 8,
+      "dominant_issue": "texture_boundary_weak",
+      "original_ops": [
+        "sharpen_mild",
+        "local_contrast"
+      ],
+      "retained_op": null,
+      "retained_op_source": "same_epoch_low_contrast_proxy",
+      "legacy_image_evidence": false,
+      "original_causal_score": -0.08850000000000001,
+      "current_replay_causal_score": -0.08850000000000001,
+      "original_causal_accept": false,
+      "current_replay_causal_accept": false,
+      "original_rejection_reasons": "causal_score_not_positive;high_fp_spillover_rate_too_high;non_active_regression_rate_too_high;bbox_instability_rate_too_high;estimated_precision_drop_too_high;non_active_fp_delta_too_high;high_confidence_fp_delta_too_high",
+      "original_estimated_precision_drop": 0.027,
+      "original_non_active_fp_delta": 0.05,
+      "original_high_confidence_fp_delta": 0.036000000000000004,
+      "original_high_fp_spillover_rate": 0.045,
+      "original_non_active_regression_rate": 0.054,
+      "ratio_0_50_decision": {
+        "attenuation_ratio": 0.5,
+        "retained_op": "local_contrast",
+        "prob_multiplier": 0.5,
+        "strength_multiplier": 0.5,
+        "max_aug_samples_per_interval": 32,
+        "attenuated_risk": {
+          "fp_increase_rate": 0.0,
+          "high_fp_spillover_rate": 0.01575,
+          "non_active_regression_rate": 0.0189,
+          "ok_class_false_activation": 0.0,
+          "bbox_instability_rate": 0.0,
+          "estimated_precision_drop": 0.0,
+          "non_active_fp_delta": 0.0,
+          "high_confidence_fp_delta": 0.0
+        },
+        "accepted": false,
+        "rejection_reasons": [
+          "high_fp_spillover_rate_too_high",
+          "no_prior_image_causal_evidence"
+        ]
+      },
+      "ratio_0_25_decision": {
+        "attenuation_ratio": 0.25,
+        "retained_op": "local_contrast",
+        "prob_multiplier": 0.25,
+        "strength_multiplier": 0.25,
+        "max_aug_samples_per_interval": 16,
+        "attenuated_risk": {
+          "fp_increase_rate": 0.0,
+          "high_fp_spillover_rate": 0.007875,
+          "non_active_regression_rate": 0.00945,
+          "ok_class_false_activation": 0.0,
+          "bbox_instability_rate": 0.0,
+          "estimated_precision_drop": 0.0,
+          "non_active_fp_delta": 0.0,
+          "high_confidence_fp_delta": 0.0
+        },
+        "accepted": false,
+        "rejection_reasons": [
+          "no_prior_image_causal_evidence"
+        ]
+      },
+      "selected_attenuation_ratio": null,
+      "selected_prob_multiplier": null,
+      "selected_strength_multiplier": null,
+      "selected_max_aug_samples_per_interval": null,
+      "final_decision": "strict_noop",
+      "sampler_only_involved": false,
+      "final_val_leakage": false
+    },
+    {
+      "seed": 0,
+      "epoch": 15,
+      "candidate_policy_id": "candidate_policy_1_roi_texture",
+      "weak_candidate_policy_id": "candidate_policy_1b_weak_roi_texture",
+      "active_class": 12,
+      "dominant_issue": "texture_boundary_weak",
+      "original_ops": [
+        "sharpen_mild",
+        "local_contrast"
+      ],
+      "retained_op": null,
+      "retained_op_source": "same_epoch_low_contrast_proxy",
+      "legacy_image_evidence": false,
+      "original_causal_score": -0.1125,
+      "current_replay_causal_score": -0.1125,
+      "original_causal_accept": false,
+      "current_replay_causal_accept": false,
+      "original_rejection_reasons": "causal_score_not_positive;high_fp_spillover_rate_too_high;non_active_regression_rate_too_high;bbox_instability_rate_too_high;estimated_precision_drop_too_high;non_active_fp_delta_too_high;high_confidence_fp_delta_too_high",
+      "original_estimated_precision_drop": 0.033,
+      "original_non_active_fp_delta": 0.05,
+      "original_high_confidence_fp_delta": 0.05,
+      "original_high_fp_spillover_rate": 0.055,
+      "original_non_active_regression_rate": 0.066,
+      "ratio_0_50_decision": {
+        "attenuation_ratio": 0.5,
+        "retained_op": "local_contrast",
+        "prob_multiplier": 0.5,
+        "strength_multiplier": 0.5,
+        "max_aug_samples_per_interval": 32,
+        "attenuated_risk": {
+          "fp_increase_rate": 0.0,
+          "high_fp_spillover_rate": 0.01925,
+          "non_active_regression_rate": 0.0231,
+          "ok_class_false_activation": 0.0,
+          "bbox_instability_rate": 0.0,
+          "estimated_precision_drop": 0.0,
+          "non_active_fp_delta": 0.0,
+          "high_confidence_fp_delta": 0.0
+        },
+        "accepted": false,
+        "rejection_reasons": [
+          "high_fp_spillover_rate_too_high",
+          "non_active_regression_rate_too_high",
+          "no_prior_image_causal_evidence"
+        ]
+      },
+      "ratio_0_25_decision": {
+        "attenuation_ratio": 0.25,
+        "retained_op": "local_contrast",
+        "prob_multiplier": 0.25,
+        "strength_multiplier": 0.25,
+        "max_aug_samples_per_interval": 16,
+        "attenuated_risk": {
+          "fp_increase_rate": 0.0,
+          "high_fp_spillover_rate": 0.009625,
+          "non_active_regression_rate": 0.01155,
+          "ok_class_false_activation": 0.0,
+          "bbox_instability_rate": 0.0,
+          "estimated_precision_drop": 0.0,
+          "non_active_fp_delta": 0.0,
+          "high_confidence_fp_delta": 0.0
+        },
+        "accepted": false,
+        "rejection_reasons": [
+          "no_prior_image_causal_evidence"
+        ]
+      },
+      "selected_attenuation_ratio": null,
+      "selected_prob_multiplier": null,
+      "selected_strength_multiplier": null,
+      "selected_max_aug_samples_per_interval": null,
+      "final_decision": "strict_noop",
+      "sampler_only_involved": false,
+      "final_val_leakage": false
+    },
+    {
+      "seed": 0,
+      "epoch": 20,
+      "candidate_policy_id": "candidate_policy_1_roi_texture",
+      "weak_candidate_policy_id": "candidate_policy_1b_weak_roi_texture",
+      "active_class": 9,
+      "dominant_issue": "low_contrast_fn",
+      "original_ops": [
+        "sharpen_mild",
+        "local_contrast"
+      ],
+      "retained_op": null,
+      "retained_op_source": "same_epoch_low_contrast_proxy",
+      "legacy_image_evidence": false,
+      "original_causal_score": -0.09183333333333332,
+      "current_replay_causal_score": -0.09183333333333332,
+      "original_causal_accept": false,
+      "current_replay_causal_accept": false,
+      "original_rejection_reasons": "causal_score_not_positive;insufficient_active_class_benefit;high_fp_spillover_rate_too_high;non_active_regression_rate_too_high;estimated_precision_drop_too_high;non_active_fp_delta_too_high;high_confidence_fp_delta_too_high",
+      "original_estimated_precision_drop": 0.027,
+      "original_non_active_fp_delta": 0.05,
+      "original_high_confidence_fp_delta": 0.05,
+      "original_high_fp_spillover_rate": 0.045,
+      "original_non_active_regression_rate": 0.054,
+      "ratio_0_50_decision": {
+        "attenuation_ratio": 0.5,
+        "retained_op": "local_contrast",
+        "prob_multiplier": 0.5,
+        "strength_multiplier": 0.5,
+        "max_aug_samples_per_interval": 32,
+        "attenuated_risk": {
+          "fp_increase_rate": 0.0011666666666666668,
+          "high_fp_spillover_rate": 0.01575,
+          "non_active_regression_rate": 0.0189,
+          "ok_class_false_activation": 0.0,
+          "bbox_instability_rate": 0.0,
+          "estimated_precision_drop": 0.0,
+          "non_active_fp_delta": 0.0,
+          "high_confidence_fp_delta": 0.0
+        },
+        "accepted": false,
+        "rejection_reasons": [
+          "high_fp_spillover_rate_too_high",
+          "no_prior_image_causal_evidence"
+        ]
+      },
+      "ratio_0_25_decision": {
+        "attenuation_ratio": 0.25,
+        "retained_op": "local_contrast",
+        "prob_multiplier": 0.25,
+        "strength_multiplier": 0.25,
+        "max_aug_samples_per_interval": 16,
+        "attenuated_risk": {
+          "fp_increase_rate": 0.0005833333333333334,
+          "high_fp_spillover_rate": 0.007875,
+          "non_active_regression_rate": 0.00945,
+          "ok_class_false_activation": 0.0,
+          "bbox_instability_rate": 0.0,
+          "estimated_precision_drop": 0.0,
+          "non_active_fp_delta": 0.0,
+          "high_confidence_fp_delta": 0.0
+        },
+        "accepted": false,
+        "rejection_reasons": [
+          "no_prior_image_causal_evidence"
+        ]
+      },
+      "selected_attenuation_ratio": null,
+      "selected_prob_multiplier": null,
+      "selected_strength_multiplier": null,
+      "selected_max_aug_samples_per_interval": null,
+      "final_decision": "strict_noop",
+      "sampler_only_involved": false,
+      "final_val_leakage": false
+    },
+    {
+      "seed": 0,
+      "epoch": 25,
+      "candidate_policy_id": "candidate_policy_1_roi_texture",
+      "weak_candidate_policy_id": "candidate_policy_1b_weak_roi_texture",
+      "active_class": 9,
+      "dominant_issue": "texture_boundary_weak",
+      "original_ops": [
+        "sharpen_mild",
+        "local_contrast"
+      ],
+      "retained_op": "local_contrast",
+      "retained_op_source": "same_epoch_low_contrast_proxy",
+      "legacy_image_evidence": true,
+      "original_causal_score": 0.01726315789473684,
+      "current_replay_causal_score": -0.10273684210526315,
+      "original_causal_accept": true,
+      "current_replay_causal_accept": false,
+      "original_rejection_reasons": "causal_score_not_positive;high_fp_spillover_rate_too_high;non_active_regression_rate_too_high;estimated_precision_drop_too_high;non_active_fp_delta_too_high;high_confidence_fp_delta_too_high",
+      "original_estimated_precision_drop": 0.03,
+      "original_non_active_fp_delta": 0.05,
+      "original_high_confidence_fp_delta": 0.05,
+      "original_high_fp_spillover_rate": 0.05,
+      "original_non_active_regression_rate": 0.06,
+      "ratio_0_50_decision": {
+        "attenuation_ratio": 0.5,
+        "retained_op": "local_contrast",
+        "prob_multiplier": 0.5,
+        "strength_multiplier": 0.5,
+        "max_aug_samples_per_interval": 32,
+        "attenuated_risk": {
+          "fp_increase_rate": 0.001657894736842105,
+          "high_fp_spillover_rate": 0.017499999999999998,
+          "non_active_regression_rate": 0.020999999999999998,
+          "ok_class_false_activation": 0.0,
+          "bbox_instability_rate": 0.0,
+          "estimated_precision_drop": 0.0,
+          "non_active_fp_delta": 0.0,
+          "high_confidence_fp_delta": 0.0
+        },
+        "accepted": false,
+        "rejection_reasons": [
+          "high_fp_spillover_rate_too_high",
+          "non_active_regression_rate_too_high"
+        ]
+      },
+      "ratio_0_25_decision": {
+        "attenuation_ratio": 0.25,
+        "retained_op": "local_contrast",
+        "prob_multiplier": 0.25,
+        "strength_multiplier": 0.25,
+        "max_aug_samples_per_interval": 16,
+        "attenuated_risk": {
+          "fp_increase_rate": 0.0008289473684210525,
+          "high_fp_spillover_rate": 0.008749999999999999,
+          "non_active_regression_rate": 0.010499999999999999,
+          "ok_class_false_activation": 0.0,
+          "bbox_instability_rate": 0.0,
+          "estimated_precision_drop": 0.0,
+          "non_active_fp_delta": 0.0,
+          "high_confidence_fp_delta": 0.0
+        },
+        "accepted": true,
+        "rejection_reasons": []
+      },
+      "selected_attenuation_ratio": 0.25,
+      "selected_prob_multiplier": 0.25,
+      "selected_strength_multiplier": 0.25,
+      "selected_max_aug_samples_per_interval": 16,
+      "final_decision": "weak_roi_texture",
+      "sampler_only_involved": false,
+      "final_val_leakage": false
+    },
+    {
+      "seed": 0,
+      "epoch": 30,
+      "candidate_policy_id": "candidate_policy_1_roi_texture",
+      "weak_candidate_policy_id": "candidate_policy_1b_weak_roi_texture",
+      "active_class": -1,
+      "dominant_issue": "",
+      "original_ops": [
+        "sharpen_mild",
+        "local_contrast"
+      ],
+      "retained_op": null,
+      "retained_op_source": "same_epoch_low_contrast_proxy",
+      "legacy_image_evidence": false,
+      "original_causal_score": 0.0,
+      "current_replay_causal_score": 0.0,
+      "original_causal_accept": false,
+      "current_replay_causal_accept": false,
+      "original_rejection_reasons": "causal_score_not_positive;insufficient_active_class_benefit;insufficient_evidence_count;diagnosis_confidence_too_low",
+      "original_estimated_precision_drop": 0.0,
+      "original_non_active_fp_delta": 0.0,
+      "original_high_confidence_fp_delta": 0.0,
+      "original_high_fp_spillover_rate": 0.0,
+      "original_non_active_regression_rate": 0.0,
+      "ratio_0_50_decision": {
+        "attenuation_ratio": 0.5,
+        "retained_op": "local_contrast",
+        "prob_multiplier": 0.5,
+        "strength_multiplier": 0.5,
+        "max_aug_samples_per_interval": 32,
+        "attenuated_risk": {
+          "fp_increase_rate": 0.0,
+          "high_fp_spillover_rate": 0.0,
+          "non_active_regression_rate": 0.0,
+          "ok_class_false_activation": 0.0,
+          "bbox_instability_rate": 0.0,
+          "estimated_precision_drop": 0.0,
+          "non_active_fp_delta": 0.0,
+          "high_confidence_fp_delta": 0.0
+        },
+        "accepted": false,
+        "rejection_reasons": [
+          "no_prior_image_causal_evidence"
+        ]
+      },
+      "ratio_0_25_decision": {
+        "attenuation_ratio": 0.25,
+        "retained_op": "local_contrast",
+        "prob_multiplier": 0.25,
+        "strength_multiplier": 0.25,
+        "max_aug_samples_per_interval": 16,
+        "attenuated_risk": {
+          "fp_increase_rate": 0.0,
+          "high_fp_spillover_rate": 0.0,
+          "non_active_regression_rate": 0.0,
+          "ok_class_false_activation": 0.0,
+          "bbox_instability_rate": 0.0,
+          "estimated_precision_drop": 0.0,
+          "non_active_fp_delta": 0.0,
+          "high_confidence_fp_delta": 0.0
+        },
+        "accepted": false,
+        "rejection_reasons": [
+          "no_prior_image_causal_evidence"
+        ]
+      },
+      "selected_attenuation_ratio": null,
+      "selected_prob_multiplier": null,
+      "selected_strength_multiplier": null,
+      "selected_max_aug_samples_per_interval": null,
+      "final_decision": "strict_noop",
+      "sampler_only_involved": false,
+      "final_val_leakage": false
+    },
+    {
+      "seed": 0,
+      "epoch": 35,
+      "candidate_policy_id": "candidate_policy_1_roi_texture",
+      "weak_candidate_policy_id": "candidate_policy_1b_weak_roi_texture",
+      "active_class": -1,
+      "dominant_issue": "",
+      "original_ops": [
+        "sharpen_mild",
+        "local_contrast"
+      ],
+      "retained_op": null,
+      "retained_op_source": "same_epoch_low_contrast_proxy",
+      "legacy_image_evidence": false,
+      "original_causal_score": 0.0,
+      "current_replay_causal_score": 0.0,
+      "original_causal_accept": false,
+      "current_replay_causal_accept": false,
+      "original_rejection_reasons": "causal_score_not_positive;insufficient_active_class_benefit;insufficient_evidence_count;diagnosis_confidence_too_low",
+      "original_estimated_precision_drop": 0.0,
+      "original_non_active_fp_delta": 0.0,
+      "original_high_confidence_fp_delta": 0.0,
+      "original_high_fp_spillover_rate": 0.0,
+      "original_non_active_regression_rate": 0.0,
+      "ratio_0_50_decision": {
+        "attenuation_ratio": 0.5,
+        "retained_op": "local_contrast",
+        "prob_multiplier": 0.5,
+        "strength_multiplier": 0.5,
+        "max_aug_samples_per_interval": 32,
+        "attenuated_risk": {
+          "fp_increase_rate": 0.0,
+          "high_fp_spillover_rate": 0.0,
+          "non_active_regression_rate": 0.0,
+          "ok_class_false_activation": 0.0,
+          "bbox_instability_rate": 0.0,
+          "estimated_precision_drop": 0.0,
+          "non_active_fp_delta": 0.0,
+          "high_confidence_fp_delta": 0.0
+        },
+        "accepted": false,
+        "rejection_reasons": [
+          "no_prior_image_causal_evidence"
+        ]
+      },
+      "ratio_0_25_decision": {
+        "attenuation_ratio": 0.25,
+        "retained_op": "local_contrast",
+        "prob_multiplier": 0.25,
+        "strength_multiplier": 0.25,
+        "max_aug_samples_per_interval": 16,
+        "attenuated_risk": {
+          "fp_increase_rate": 0.0,
+          "high_fp_spillover_rate": 0.0,
+          "non_active_regression_rate": 0.0,
+          "ok_class_false_activation": 0.0,
+          "bbox_instability_rate": 0.0,
+          "estimated_precision_drop": 0.0,
+          "non_active_fp_delta": 0.0,
+          "high_confidence_fp_delta": 0.0
+        },
+        "accepted": false,
+        "rejection_reasons": [
+          "no_prior_image_causal_evidence"
+        ]
+      },
+      "selected_attenuation_ratio": null,
+      "selected_prob_multiplier": null,
+      "selected_strength_multiplier": null,
+      "selected_max_aug_samples_per_interval": null,
+      "final_decision": "strict_noop",
+      "sampler_only_involved": false,
+      "final_val_leakage": false
+    },
+    {
+      "seed": 0,
+      "epoch": 40,
+      "candidate_policy_id": "candidate_policy_1_roi_texture",
+      "weak_candidate_policy_id": "candidate_policy_1b_weak_roi_texture",
+      "active_class": 6,
+      "dominant_issue": "low_contrast_fn",
+      "original_ops": [
+        "sharpen_mild",
+        "local_contrast"
+      ],
+      "retained_op": null,
+      "retained_op_source": "same_epoch_low_contrast_proxy",
+      "legacy_image_evidence": false,
+      "original_causal_score": -0.08123684210526316,
+      "current_replay_causal_score": -0.08123684210526316,
+      "original_causal_accept": false,
+      "current_replay_causal_accept": false,
+      "original_rejection_reasons": "causal_score_not_positive;insufficient_active_class_benefit;high_fp_spillover_rate_too_high;non_active_regression_rate_too_high;estimated_precision_drop_too_high;non_active_fp_delta_too_high;high_confidence_fp_delta_too_high",
+      "original_estimated_precision_drop": 0.024,
+      "original_non_active_fp_delta": 0.048,
+      "original_high_confidence_fp_delta": 0.042,
+      "original_high_fp_spillover_rate": 0.04,
+      "original_non_active_regression_rate": 0.048,
+      "ratio_0_50_decision": {
+        "attenuation_ratio": 0.5,
+        "retained_op": "local_contrast",
+        "prob_multiplier": 0.5,
+        "strength_multiplier": 0.5,
+        "max_aug_samples_per_interval": 32,
+        "attenuated_risk": {
+          "fp_increase_rate": 0.001657894736842105,
+          "high_fp_spillover_rate": 0.013999999999999999,
+          "non_active_regression_rate": 0.0168,
+          "ok_class_false_activation": 0.0,
+          "bbox_instability_rate": 0.0,
+          "estimated_precision_drop": 0.0,
+          "non_active_fp_delta": 0.0,
+          "high_confidence_fp_delta": 0.0
+        },
+        "accepted": false,
+        "rejection_reasons": [
+          "high_fp_spillover_rate_too_high",
+          "no_prior_image_causal_evidence"
+        ]
+      },
+      "ratio_0_25_decision": {
+        "attenuation_ratio": 0.25,
+        "retained_op": "local_contrast",
+        "prob_multiplier": 0.25,
+        "strength_multiplier": 0.25,
+        "max_aug_samples_per_interval": 16,
+        "attenuated_risk": {
+          "fp_increase_rate": 0.0008289473684210525,
+          "high_fp_spillover_rate": 0.006999999999999999,
+          "non_active_regression_rate": 0.0084,
+          "ok_class_false_activation": 0.0,
+          "bbox_instability_rate": 0.0,
+          "estimated_precision_drop": 0.0,
+          "non_active_fp_delta": 0.0,
+          "high_confidence_fp_delta": 0.0
+        },
+        "accepted": false,
+        "rejection_reasons": [
+          "no_prior_image_causal_evidence"
+        ]
+      },
+      "selected_attenuation_ratio": null,
+      "selected_prob_multiplier": null,
+      "selected_strength_multiplier": null,
+      "selected_max_aug_samples_per_interval": null,
+      "final_decision": "strict_noop",
+      "sampler_only_involved": false,
+      "final_val_leakage": false
+    },
+    {
+      "seed": 0,
+      "epoch": 45,
+      "candidate_policy_id": "candidate_policy_1_roi_texture",
+      "weak_candidate_policy_id": "candidate_policy_1b_weak_roi_texture",
+      "active_class": -1,
+      "dominant_issue": "",
+      "original_ops": [
+        "sharpen_mild",
+        "local_contrast"
+      ],
+      "retained_op": null,
+      "retained_op_source": "same_epoch_low_contrast_proxy",
+      "legacy_image_evidence": false,
+      "original_causal_score": 0.0,
+      "current_replay_causal_score": 0.0,
+      "original_causal_accept": false,
+      "current_replay_causal_accept": false,
+      "original_rejection_reasons": "causal_score_not_positive;insufficient_active_class_benefit;insufficient_evidence_count;diagnosis_confidence_too_low",
+      "original_estimated_precision_drop": 0.0,
+      "original_non_active_fp_delta": 0.0,
+      "original_high_confidence_fp_delta": 0.0,
+      "original_high_fp_spillover_rate": 0.0,
+      "original_non_active_regression_rate": 0.0,
+      "ratio_0_50_decision": {
+        "attenuation_ratio": 0.5,
+        "retained_op": "local_contrast",
+        "prob_multiplier": 0.5,
+        "strength_multiplier": 0.5,
+        "max_aug_samples_per_interval": 32,
+        "attenuated_risk": {
+          "fp_increase_rate": 0.0,
+          "high_fp_spillover_rate": 0.0,
+          "non_active_regression_rate": 0.0,
+          "ok_class_false_activation": 0.0,
+          "bbox_instability_rate": 0.0,
+          "estimated_precision_drop": 0.0,
+          "non_active_fp_delta": 0.0,
+          "high_confidence_fp_delta": 0.0
+        },
+        "accepted": false,
+        "rejection_reasons": [
+          "no_prior_image_causal_evidence"
+        ]
+      },
+      "ratio_0_25_decision": {
+        "attenuation_ratio": 0.25,
+        "retained_op": "local_contrast",
+        "prob_multiplier": 0.25,
+        "strength_multiplier": 0.25,
+        "max_aug_samples_per_interval": 16,
+        "attenuated_risk": {
+          "fp_increase_rate": 0.0,
+          "high_fp_spillover_rate": 0.0,
+          "non_active_regression_rate": 0.0,
+          "ok_class_false_activation": 0.0,
+          "bbox_instability_rate": 0.0,
+          "estimated_precision_drop": 0.0,
+          "non_active_fp_delta": 0.0,
+          "high_confidence_fp_delta": 0.0
+        },
+        "accepted": false,
+        "rejection_reasons": [
+          "no_prior_image_causal_evidence"
+        ]
+      },
+      "selected_attenuation_ratio": null,
+      "selected_prob_multiplier": null,
+      "selected_strength_multiplier": null,
+      "selected_max_aug_samples_per_interval": null,
+      "final_decision": "strict_noop",
+      "sampler_only_involved": false,
+      "final_val_leakage": false
+    },
+    {
+      "seed": 1,
+      "epoch": 5,
+      "candidate_policy_id": "candidate_policy_1_roi_texture",
+      "weak_candidate_policy_id": "candidate_policy_1b_weak_roi_texture",
+      "active_class": 6,
+      "dominant_issue": "texture_boundary_weak",
+      "original_ops": [
+        "sharpen_mild",
+        "local_contrast"
+      ],
+      "retained_op": null,
+      "retained_op_source": "same_epoch_low_contrast_proxy",
+      "legacy_image_evidence": false,
+      "original_causal_score": -0.11525,
+      "current_replay_causal_score": -0.11525,
+      "original_causal_accept": false,
+      "current_replay_causal_accept": false,
+      "original_rejection_reasons": "causal_score_not_positive;high_fp_spillover_rate_too_high;non_active_regression_rate_too_high;bbox_instability_rate_too_high;estimated_precision_drop_too_high;non_active_fp_delta_too_high;high_confidence_fp_delta_too_high",
+      "original_estimated_precision_drop": 0.033,
+      "original_non_active_fp_delta": 0.05,
+      "original_high_confidence_fp_delta": 0.03,
+      "original_high_fp_spillover_rate": 0.055,
+      "original_non_active_regression_rate": 0.066,
+      "ratio_0_50_decision": {
+        "attenuation_ratio": 0.5,
+        "retained_op": "local_contrast",
+        "prob_multiplier": 0.5,
+        "strength_multiplier": 0.5,
+        "max_aug_samples_per_interval": 32,
+        "attenuated_risk": {
+          "fp_increase_rate": 0.006999999999999999,
+          "high_fp_spillover_rate": 0.017499999999999998,
+          "non_active_regression_rate": 0.020999999999999998,
+          "ok_class_false_activation": 0.0,
+          "bbox_instability_rate": 0.0,
+          "estimated_precision_drop": 0.0,
+          "non_active_fp_delta": 0.0,
+          "high_confidence_fp_delta": 0.0
+        },
+        "accepted": false,
+        "rejection_reasons": [
+          "high_fp_spillover_rate_too_high",
+          "non_active_regression_rate_too_high",
+          "no_prior_image_causal_evidence"
+        ]
+      },
+      "ratio_0_25_decision": {
+        "attenuation_ratio": 0.25,
+        "retained_op": "local_contrast",
+        "prob_multiplier": 0.25,
+        "strength_multiplier": 0.25,
+        "max_aug_samples_per_interval": 16,
+        "attenuated_risk": {
+          "fp_increase_rate": 0.0034999999999999996,
+          "high_fp_spillover_rate": 0.008749999999999999,
+          "non_active_regression_rate": 0.010499999999999999,
+          "ok_class_false_activation": 0.0,
+          "bbox_instability_rate": 0.0,
+          "estimated_precision_drop": 0.0,
+          "non_active_fp_delta": 0.0,
+          "high_confidence_fp_delta": 0.0
+        },
+        "accepted": false,
+        "rejection_reasons": [
+          "no_prior_image_causal_evidence"
+        ]
+      },
+      "selected_attenuation_ratio": null,
+      "selected_prob_multiplier": null,
+      "selected_strength_multiplier": null,
+      "selected_max_aug_samples_per_interval": null,
+      "final_decision": "strict_noop",
+      "sampler_only_involved": false,
+      "final_val_leakage": false
+    },
+    {
+      "seed": 1,
+      "epoch": 10,
+      "candidate_policy_id": "candidate_policy_1_roi_texture",
+      "weak_candidate_policy_id": "candidate_policy_1b_weak_roi_texture",
+      "active_class": 6,
+      "dominant_issue": "texture_boundary_weak",
+      "original_ops": [
+        "sharpen_mild",
+        "local_contrast"
+      ],
+      "retained_op": null,
+      "retained_op_source": "same_epoch_low_contrast_proxy",
+      "legacy_image_evidence": false,
+      "original_causal_score": -0.1125,
+      "current_replay_causal_score": -0.1125,
+      "original_causal_accept": false,
+      "current_replay_causal_accept": false,
+      "original_rejection_reasons": "causal_score_not_positive;high_fp_spillover_rate_too_high;non_active_regression_rate_too_high;bbox_instability_rate_too_high;estimated_precision_drop_too_high;non_active_fp_delta_too_high;high_confidence_fp_delta_too_high",
+      "original_estimated_precision_drop": 0.033,
+      "original_non_active_fp_delta": 0.05,
+      "original_high_confidence_fp_delta": 0.036000000000000004,
+      "original_high_fp_spillover_rate": 0.055,
+      "original_non_active_regression_rate": 0.066,
+      "ratio_0_50_decision": {
+        "attenuation_ratio": 0.5,
+        "retained_op": "local_contrast",
+        "prob_multiplier": 0.5,
+        "strength_multiplier": 0.5,
+        "max_aug_samples_per_interval": 32,
+        "attenuated_risk": {
+          "fp_increase_rate": 0.0,
+          "high_fp_spillover_rate": 0.01925,
+          "non_active_regression_rate": 0.0231,
+          "ok_class_false_activation": 0.0,
+          "bbox_instability_rate": 0.0,
+          "estimated_precision_drop": 0.0,
+          "non_active_fp_delta": 0.0,
+          "high_confidence_fp_delta": 0.0
+        },
+        "accepted": false,
+        "rejection_reasons": [
+          "high_fp_spillover_rate_too_high",
+          "non_active_regression_rate_too_high",
+          "no_prior_image_causal_evidence"
+        ]
+      },
+      "ratio_0_25_decision": {
+        "attenuation_ratio": 0.25,
+        "retained_op": "local_contrast",
+        "prob_multiplier": 0.25,
+        "strength_multiplier": 0.25,
+        "max_aug_samples_per_interval": 16,
+        "attenuated_risk": {
+          "fp_increase_rate": 0.0,
+          "high_fp_spillover_rate": 0.009625,
+          "non_active_regression_rate": 0.01155,
+          "ok_class_false_activation": 0.0,
+          "bbox_instability_rate": 0.0,
+          "estimated_precision_drop": 0.0,
+          "non_active_fp_delta": 0.0,
+          "high_confidence_fp_delta": 0.0
+        },
+        "accepted": false,
+        "rejection_reasons": [
+          "no_prior_image_causal_evidence"
+        ]
+      },
+      "selected_attenuation_ratio": null,
+      "selected_prob_multiplier": null,
+      "selected_strength_multiplier": null,
+      "selected_max_aug_samples_per_interval": null,
+      "final_decision": "strict_noop",
+      "sampler_only_involved": false,
+      "final_val_leakage": false
+    },
+    {
+      "seed": 1,
+      "epoch": 15,
+      "candidate_policy_id": "candidate_policy_1_roi_texture",
+      "weak_candidate_policy_id": "candidate_policy_1b_weak_roi_texture",
+      "active_class": 6,
+      "dominant_issue": "low_contrast_fn",
+      "original_ops": [
+        "sharpen_mild",
+        "local_contrast"
+      ],
+      "retained_op": null,
+      "retained_op_source": "same_epoch_low_contrast_proxy",
+      "legacy_image_evidence": false,
+      "original_causal_score": -0.11701612903225807,
+      "current_replay_causal_score": -0.11701612903225807,
+      "original_causal_accept": false,
+      "current_replay_causal_accept": false,
+      "original_rejection_reasons": "causal_score_not_positive;insufficient_active_class_benefit;high_fp_spillover_rate_too_high;non_active_regression_rate_too_high;estimated_precision_drop_too_high;non_active_fp_delta_too_high;high_confidence_fp_delta_too_high",
+      "original_estimated_precision_drop": 0.033,
+      "original_non_active_fp_delta": 0.05,
+      "original_high_confidence_fp_delta": 0.048,
+      "original_high_fp_spillover_rate": 0.055,
+      "original_non_active_regression_rate": 0.066,
+      "ratio_0_50_decision": {
+        "attenuation_ratio": 0.5,
+        "retained_op": "local_contrast",
+        "prob_multiplier": 0.5,
+        "strength_multiplier": 0.5,
+        "max_aug_samples_per_interval": 32,
+        "attenuated_risk": {
+          "fp_increase_rate": 0.0015806451612903226,
+          "high_fp_spillover_rate": 0.01925,
+          "non_active_regression_rate": 0.0231,
+          "ok_class_false_activation": 0.0,
+          "bbox_instability_rate": 0.0,
+          "estimated_precision_drop": 0.0,
+          "non_active_fp_delta": 0.0,
+          "high_confidence_fp_delta": 0.0
+        },
+        "accepted": false,
+        "rejection_reasons": [
+          "high_fp_spillover_rate_too_high",
+          "non_active_regression_rate_too_high",
+          "no_prior_image_causal_evidence"
+        ]
+      },
+      "ratio_0_25_decision": {
+        "attenuation_ratio": 0.25,
+        "retained_op": "local_contrast",
+        "prob_multiplier": 0.25,
+        "strength_multiplier": 0.25,
+        "max_aug_samples_per_interval": 16,
+        "attenuated_risk": {
+          "fp_increase_rate": 0.0007903225806451613,
+          "high_fp_spillover_rate": 0.009625,
+          "non_active_regression_rate": 0.01155,
+          "ok_class_false_activation": 0.0,
+          "bbox_instability_rate": 0.0,
+          "estimated_precision_drop": 0.0,
+          "non_active_fp_delta": 0.0,
+          "high_confidence_fp_delta": 0.0
+        },
+        "accepted": false,
+        "rejection_reasons": [
+          "no_prior_image_causal_evidence"
+        ]
+      },
+      "selected_attenuation_ratio": null,
+      "selected_prob_multiplier": null,
+      "selected_strength_multiplier": null,
+      "selected_max_aug_samples_per_interval": null,
+      "final_decision": "strict_noop",
+      "sampler_only_involved": false,
+      "final_val_leakage": false
+    },
+    {
+      "seed": 1,
+      "epoch": 20,
+      "candidate_policy_id": "candidate_policy_1_roi_texture",
+      "weak_candidate_policy_id": "candidate_policy_1b_weak_roi_texture",
+      "active_class": 9,
+      "dominant_issue": "low_contrast_fn",
+      "original_ops": [
+        "sharpen_mild",
+        "local_contrast"
+      ],
+      "retained_op": null,
+      "retained_op_source": "same_epoch_low_contrast_proxy",
+      "legacy_image_evidence": false,
+      "original_causal_score": -0.11707142857142858,
+      "current_replay_causal_score": -0.11707142857142858,
+      "original_causal_accept": false,
+      "current_replay_causal_accept": false,
+      "original_rejection_reasons": "causal_score_not_positive;insufficient_active_class_benefit;high_fp_spillover_rate_too_high;non_active_regression_rate_too_high;estimated_precision_drop_too_high;non_active_fp_delta_too_high;high_confidence_fp_delta_too_high",
+      "original_estimated_precision_drop": 0.033,
+      "original_non_active_fp_delta": 0.05,
+      "original_high_confidence_fp_delta": 0.05,
+      "original_high_fp_spillover_rate": 0.055,
+      "original_non_active_regression_rate": 0.066,
+      "ratio_0_50_decision": {
+        "attenuation_ratio": 0.5,
+        "retained_op": "local_contrast",
+        "prob_multiplier": 0.5,
+        "strength_multiplier": 0.5,
+        "max_aug_samples_per_interval": 32,
+        "attenuated_risk": {
+          "fp_increase_rate": 0.0015999999999999994,
+          "high_fp_spillover_rate": 0.01925,
+          "non_active_regression_rate": 0.0231,
+          "ok_class_false_activation": 0.0,
+          "bbox_instability_rate": 0.0,
+          "estimated_precision_drop": 0.0,
+          "non_active_fp_delta": 0.0,
+          "high_confidence_fp_delta": 0.0
+        },
+        "accepted": false,
+        "rejection_reasons": [
+          "high_fp_spillover_rate_too_high",
+          "non_active_regression_rate_too_high",
+          "no_prior_image_causal_evidence"
+        ]
+      },
+      "ratio_0_25_decision": {
+        "attenuation_ratio": 0.25,
+        "retained_op": "local_contrast",
+        "prob_multiplier": 0.25,
+        "strength_multiplier": 0.25,
+        "max_aug_samples_per_interval": 16,
+        "attenuated_risk": {
+          "fp_increase_rate": 0.0007999999999999997,
+          "high_fp_spillover_rate": 0.009625,
+          "non_active_regression_rate": 0.01155,
+          "ok_class_false_activation": 0.0,
+          "bbox_instability_rate": 0.0,
+          "estimated_precision_drop": 0.0,
+          "non_active_fp_delta": 0.0,
+          "high_confidence_fp_delta": 0.0
+        },
+        "accepted": false,
+        "rejection_reasons": [
+          "no_prior_image_causal_evidence"
+        ]
+      },
+      "selected_attenuation_ratio": null,
+      "selected_prob_multiplier": null,
+      "selected_strength_multiplier": null,
+      "selected_max_aug_samples_per_interval": null,
+      "final_decision": "strict_noop",
+      "sampler_only_involved": false,
+      "final_val_leakage": false
+    },
+    {
+      "seed": 1,
+      "epoch": 25,
+      "candidate_policy_id": "candidate_policy_1_roi_texture",
+      "weak_candidate_policy_id": "candidate_policy_1b_weak_roi_texture",
+      "active_class": 6,
+      "dominant_issue": "weak_localization",
+      "original_ops": [
+        "sharpen_mild",
+        "local_contrast"
+      ],
+      "retained_op": "local_contrast",
+      "retained_op_source": "same_epoch_low_contrast_proxy",
+      "legacy_image_evidence": true,
+      "original_causal_score": -0.11585,
+      "current_replay_causal_score": -0.11585,
+      "original_causal_accept": true,
+      "current_replay_causal_accept": false,
+      "original_rejection_reasons": "causal_score_not_positive;high_fp_spillover_rate_too_high;non_active_regression_rate_too_high;estimated_precision_drop_too_high;non_active_fp_delta_too_high;high_confidence_fp_delta_too_high",
+      "original_estimated_precision_drop": 0.03,
+      "original_non_active_fp_delta": 0.05,
+      "original_high_confidence_fp_delta": 0.05,
+      "original_high_fp_spillover_rate": 0.05,
+      "original_non_active_regression_rate": 0.06,
+      "ratio_0_50_decision": {
+        "attenuation_ratio": 0.5,
+        "retained_op": "local_contrast",
+        "prob_multiplier": 0.5,
+        "strength_multiplier": 0.5,
+        "max_aug_samples_per_interval": 32,
+        "attenuated_risk": {
+          "fp_increase_rate": 0.0011200000000000003,
+          "high_fp_spillover_rate": 0.017499999999999998,
+          "non_active_regression_rate": 0.020999999999999998,
+          "ok_class_false_activation": 0.0,
+          "bbox_instability_rate": 0.0,
+          "estimated_precision_drop": 0.0,
+          "non_active_fp_delta": 0.0,
+          "high_confidence_fp_delta": 0.0
+        },
+        "accepted": false,
+        "rejection_reasons": [
+          "high_fp_spillover_rate_too_high",
+          "non_active_regression_rate_too_high"
+        ]
+      },
+      "ratio_0_25_decision": {
+        "attenuation_ratio": 0.25,
+        "retained_op": "local_contrast",
+        "prob_multiplier": 0.25,
+        "strength_multiplier": 0.25,
+        "max_aug_samples_per_interval": 16,
+        "attenuated_risk": {
+          "fp_increase_rate": 0.0005600000000000002,
+          "high_fp_spillover_rate": 0.008749999999999999,
+          "non_active_regression_rate": 0.010499999999999999,
+          "ok_class_false_activation": 0.0,
+          "bbox_instability_rate": 0.0,
+          "estimated_precision_drop": 0.0,
+          "non_active_fp_delta": 0.0,
+          "high_confidence_fp_delta": 0.0
+        },
+        "accepted": true,
+        "rejection_reasons": []
+      },
+      "selected_attenuation_ratio": 0.25,
+      "selected_prob_multiplier": 0.25,
+      "selected_strength_multiplier": 0.25,
+      "selected_max_aug_samples_per_interval": 16,
+      "final_decision": "weak_roi_texture",
+      "sampler_only_involved": false,
+      "final_val_leakage": false
+    },
+    {
+      "seed": 1,
+      "epoch": 30,
+      "candidate_policy_id": "candidate_policy_1_roi_texture",
+      "weak_candidate_policy_id": "candidate_policy_1b_weak_roi_texture",
+      "active_class": 9,
+      "dominant_issue": "low_contrast_fn",
+      "original_ops": [
+        "sharpen_mild",
+        "local_contrast"
+      ],
+      "retained_op": null,
+      "retained_op_source": "same_epoch_low_contrast_proxy",
+      "legacy_image_evidence": false,
+      "original_causal_score": -0.1045,
+      "current_replay_causal_score": -0.1045,
+      "original_causal_accept": false,
+      "current_replay_causal_accept": false,
+      "original_rejection_reasons": "causal_score_not_positive;insufficient_active_class_benefit;high_fp_spillover_rate_too_high;non_active_regression_rate_too_high;estimated_precision_drop_too_high;non_active_fp_delta_too_high;high_confidence_fp_delta_too_high",
+      "original_estimated_precision_drop": 0.03,
+      "original_non_active_fp_delta": 0.05,
+      "original_high_confidence_fp_delta": 0.05,
+      "original_high_fp_spillover_rate": 0.05,
+      "original_non_active_regression_rate": 0.06,
+      "ratio_0_50_decision": {
+        "attenuation_ratio": 0.5,
+        "retained_op": "local_contrast",
+        "prob_multiplier": 0.5,
+        "strength_multiplier": 0.5,
+        "max_aug_samples_per_interval": 32,
+        "attenuated_risk": {
+          "fp_increase_rate": 0.0014,
+          "high_fp_spillover_rate": 0.017499999999999998,
+          "non_active_regression_rate": 0.020999999999999998,
+          "ok_class_false_activation": 0.0,
+          "bbox_instability_rate": 0.0,
+          "estimated_precision_drop": 0.0,
+          "non_active_fp_delta": 0.0,
+          "high_confidence_fp_delta": 0.0
+        },
+        "accepted": false,
+        "rejection_reasons": [
+          "high_fp_spillover_rate_too_high",
+          "non_active_regression_rate_too_high",
+          "no_prior_image_causal_evidence"
+        ]
+      },
+      "ratio_0_25_decision": {
+        "attenuation_ratio": 0.25,
+        "retained_op": "local_contrast",
+        "prob_multiplier": 0.25,
+        "strength_multiplier": 0.25,
+        "max_aug_samples_per_interval": 16,
+        "attenuated_risk": {
+          "fp_increase_rate": 0.0007,
+          "high_fp_spillover_rate": 0.008749999999999999,
+          "non_active_regression_rate": 0.010499999999999999,
+          "ok_class_false_activation": 0.0,
+          "bbox_instability_rate": 0.0,
+          "estimated_precision_drop": 0.0,
+          "non_active_fp_delta": 0.0,
+          "high_confidence_fp_delta": 0.0
+        },
+        "accepted": false,
+        "rejection_reasons": [
+          "no_prior_image_causal_evidence"
+        ]
+      },
+      "selected_attenuation_ratio": null,
+      "selected_prob_multiplier": null,
+      "selected_strength_multiplier": null,
+      "selected_max_aug_samples_per_interval": null,
+      "final_decision": "strict_noop",
+      "sampler_only_involved": false,
+      "final_val_leakage": false
+    },
+    {
+      "seed": 1,
+      "epoch": 35,
+      "candidate_policy_id": "candidate_policy_1_roi_texture",
+      "weak_candidate_policy_id": "candidate_policy_1b_weak_roi_texture",
+      "active_class": -1,
+      "dominant_issue": "",
+      "original_ops": [
+        "sharpen_mild",
+        "local_contrast"
+      ],
+      "retained_op": null,
+      "retained_op_source": "same_epoch_low_contrast_proxy",
+      "legacy_image_evidence": false,
+      "original_causal_score": 0.0,
+      "current_replay_causal_score": 0.0,
+      "original_causal_accept": false,
+      "current_replay_causal_accept": false,
+      "original_rejection_reasons": "causal_score_not_positive;insufficient_active_class_benefit;insufficient_evidence_count;diagnosis_confidence_too_low",
+      "original_estimated_precision_drop": 0.0,
+      "original_non_active_fp_delta": 0.0,
+      "original_high_confidence_fp_delta": 0.0,
+      "original_high_fp_spillover_rate": 0.0,
+      "original_non_active_regression_rate": 0.0,
+      "ratio_0_50_decision": {
+        "attenuation_ratio": 0.5,
+        "retained_op": "local_contrast",
+        "prob_multiplier": 0.5,
+        "strength_multiplier": 0.5,
+        "max_aug_samples_per_interval": 32,
+        "attenuated_risk": {
+          "fp_increase_rate": 0.0,
+          "high_fp_spillover_rate": 0.0,
+          "non_active_regression_rate": 0.0,
+          "ok_class_false_activation": 0.0,
+          "bbox_instability_rate": 0.0,
+          "estimated_precision_drop": 0.0,
+          "non_active_fp_delta": 0.0,
+          "high_confidence_fp_delta": 0.0
+        },
+        "accepted": false,
+        "rejection_reasons": [
+          "no_prior_image_causal_evidence"
+        ]
+      },
+      "ratio_0_25_decision": {
+        "attenuation_ratio": 0.25,
+        "retained_op": "local_contrast",
+        "prob_multiplier": 0.25,
+        "strength_multiplier": 0.25,
+        "max_aug_samples_per_interval": 16,
+        "attenuated_risk": {
+          "fp_increase_rate": 0.0,
+          "high_fp_spillover_rate": 0.0,
+          "non_active_regression_rate": 0.0,
+          "ok_class_false_activation": 0.0,
+          "bbox_instability_rate": 0.0,
+          "estimated_precision_drop": 0.0,
+          "non_active_fp_delta": 0.0,
+          "high_confidence_fp_delta": 0.0
+        },
+        "accepted": false,
+        "rejection_reasons": [
+          "no_prior_image_causal_evidence"
+        ]
+      },
+      "selected_attenuation_ratio": null,
+      "selected_prob_multiplier": null,
+      "selected_strength_multiplier": null,
+      "selected_max_aug_samples_per_interval": null,
+      "final_decision": "strict_noop",
+      "sampler_only_involved": false,
+      "final_val_leakage": false
+    },
+    {
+      "seed": 1,
+      "epoch": 40,
+      "candidate_policy_id": "candidate_policy_1_roi_texture",
+      "weak_candidate_policy_id": "candidate_policy_1b_weak_roi_texture",
+      "active_class": 9,
+      "dominant_issue": "texture_boundary_weak",
+      "original_ops": [
+        "sharpen_mild",
+        "local_contrast"
+      ],
+      "retained_op": "local_contrast",
+      "retained_op_source": "same_epoch_low_contrast_proxy",
+      "legacy_image_evidence": true,
+      "original_causal_score": -0.07886486486486487,
+      "current_replay_causal_score": -0.07886486486486487,
+      "original_causal_accept": true,
+      "current_replay_causal_accept": false,
+      "original_rejection_reasons": "causal_score_not_positive;high_fp_spillover_rate_too_high;non_active_regression_rate_too_high;estimated_precision_drop_too_high;non_active_fp_delta_too_high;high_confidence_fp_delta_too_high",
+      "original_estimated_precision_drop": 0.024,
+      "original_non_active_fp_delta": 0.048,
+      "original_high_confidence_fp_delta": 0.048,
+      "original_high_fp_spillover_rate": 0.04,
+      "original_non_active_regression_rate": 0.048,
+      "ratio_0_50_decision": {
+        "attenuation_ratio": 0.5,
+        "retained_op": "local_contrast",
+        "prob_multiplier": 0.5,
+        "strength_multiplier": 0.5,
+        "max_aug_samples_per_interval": 32,
+        "attenuated_risk": {
+          "fp_increase_rate": 0.0017027027027027022,
+          "high_fp_spillover_rate": 0.013999999999999999,
+          "non_active_regression_rate": 0.0168,
+          "ok_class_false_activation": 0.0,
+          "bbox_instability_rate": 0.0,
+          "estimated_precision_drop": 0.0,
+          "non_active_fp_delta": 0.0,
+          "high_confidence_fp_delta": 0.0
+        },
+        "accepted": false,
+        "rejection_reasons": [
+          "high_fp_spillover_rate_too_high"
+        ]
+      },
+      "ratio_0_25_decision": {
+        "attenuation_ratio": 0.25,
+        "retained_op": "local_contrast",
+        "prob_multiplier": 0.25,
+        "strength_multiplier": 0.25,
+        "max_aug_samples_per_interval": 16,
+        "attenuated_risk": {
+          "fp_increase_rate": 0.0008513513513513511,
+          "high_fp_spillover_rate": 0.006999999999999999,
+          "non_active_regression_rate": 0.0084,
+          "ok_class_false_activation": 0.0,
+          "bbox_instability_rate": 0.0,
+          "estimated_precision_drop": 0.0,
+          "non_active_fp_delta": 0.0,
+          "high_confidence_fp_delta": 0.0
+        },
+        "accepted": true,
+        "rejection_reasons": []
+      },
+      "selected_attenuation_ratio": 0.25,
+      "selected_prob_multiplier": 0.25,
+      "selected_strength_multiplier": 0.25,
+      "selected_max_aug_samples_per_interval": 16,
+      "final_decision": "weak_roi_texture",
+      "sampler_only_involved": false,
+      "final_val_leakage": false
+    },
+    {
+      "seed": 1,
+      "epoch": 45,
+      "candidate_policy_id": "candidate_policy_1_roi_texture",
+      "weak_candidate_policy_id": "candidate_policy_1b_weak_roi_texture",
+      "active_class": 6,
+      "dominant_issue": "low_contrast_fn",
+      "original_ops": [
+        "sharpen_mild",
+        "local_contrast"
+      ],
+      "retained_op": null,
+      "retained_op_source": "same_epoch_low_contrast_proxy",
+      "legacy_image_evidence": false,
+      "original_causal_score": -0.09282432432432433,
+      "current_replay_causal_score": -0.09282432432432433,
+      "original_causal_accept": false,
+      "current_replay_causal_accept": false,
+      "original_rejection_reasons": "causal_score_not_positive;insufficient_active_class_benefit;high_fp_spillover_rate_too_high;non_active_regression_rate_too_high;estimated_precision_drop_too_high;non_active_fp_delta_too_high;high_confidence_fp_delta_too_high",
+      "original_estimated_precision_drop": 0.027,
+      "original_non_active_fp_delta": 0.05,
+      "original_high_confidence_fp_delta": 0.048,
+      "original_high_fp_spillover_rate": 0.045,
+      "original_non_active_regression_rate": 0.054,
+      "ratio_0_50_decision": {
+        "attenuation_ratio": 0.5,
+        "retained_op": "local_contrast",
+        "prob_multiplier": 0.5,
+        "strength_multiplier": 0.5,
+        "max_aug_samples_per_interval": 32,
+        "attenuated_risk": {
+          "fp_increase_rate": 0.0015135135135135138,
+          "high_fp_spillover_rate": 0.01575,
+          "non_active_regression_rate": 0.0189,
+          "ok_class_false_activation": 0.0,
+          "bbox_instability_rate": 0.0,
+          "estimated_precision_drop": 0.0,
+          "non_active_fp_delta": 0.0,
+          "high_confidence_fp_delta": 0.0
+        },
+        "accepted": false,
+        "rejection_reasons": [
+          "high_fp_spillover_rate_too_high",
+          "no_prior_image_causal_evidence"
+        ]
+      },
+      "ratio_0_25_decision": {
+        "attenuation_ratio": 0.25,
+        "retained_op": "local_contrast",
+        "prob_multiplier": 0.25,
+        "strength_multiplier": 0.25,
+        "max_aug_samples_per_interval": 16,
+        "attenuated_risk": {
+          "fp_increase_rate": 0.0007567567567567569,
+          "high_fp_spillover_rate": 0.007875,
+          "non_active_regression_rate": 0.00945,
+          "ok_class_false_activation": 0.0,
+          "bbox_instability_rate": 0.0,
+          "estimated_precision_drop": 0.0,
+          "non_active_fp_delta": 0.0,
+          "high_confidence_fp_delta": 0.0
+        },
+        "accepted": false,
+        "rejection_reasons": [
+          "no_prior_image_causal_evidence"
+        ]
+      },
+      "selected_attenuation_ratio": null,
+      "selected_prob_multiplier": null,
+      "selected_strength_multiplier": null,
+      "selected_max_aug_samples_per_interval": null,
+      "final_decision": "strict_noop",
+      "sampler_only_involved": false,
+      "final_val_leakage": false
+    },
+    {
+      "seed": 2,
+      "epoch": 5,
+      "candidate_policy_id": "candidate_policy_1_roi_texture",
+      "weak_candidate_policy_id": "candidate_policy_1b_weak_roi_texture",
+      "active_class": 9,
+      "dominant_issue": "texture_boundary_weak",
+      "original_ops": [
+        "sharpen_mild",
+        "local_contrast"
+      ],
+      "retained_op": null,
+      "retained_op_source": "same_epoch_low_contrast_proxy",
+      "legacy_image_evidence": false,
+      "original_causal_score": -0.12716666666666668,
+      "current_replay_causal_score": -0.12716666666666668,
+      "original_causal_accept": false,
+      "current_replay_causal_accept": false,
+      "original_rejection_reasons": "causal_score_not_positive;high_fp_spillover_rate_too_high;non_active_regression_rate_too_high;bbox_instability_rate_too_high;estimated_precision_drop_too_high;non_active_fp_delta_too_high;high_confidence_fp_delta_too_high",
+      "original_estimated_precision_drop": 0.036000000000000004,
+      "original_non_active_fp_delta": 0.05,
+      "original_high_confidence_fp_delta": 0.042,
+      "original_high_fp_spillover_rate": 0.06,
+      "original_non_active_regression_rate": 0.07200000000000001,
+      "ratio_0_50_decision": {
+        "attenuation_ratio": 0.5,
+        "retained_op": "local_contrast",
+        "prob_multiplier": 0.5,
+        "strength_multiplier": 0.5,
+        "max_aug_samples_per_interval": 32,
+        "attenuated_risk": {
+          "fp_increase_rate": 0.006999999999999999,
+          "high_fp_spillover_rate": 0.01925,
+          "non_active_regression_rate": 0.0231,
+          "ok_class_false_activation": 0.0,
+          "bbox_instability_rate": 0.0,
+          "estimated_precision_drop": 0.0,
+          "non_active_fp_delta": 0.0,
+          "high_confidence_fp_delta": 0.0
+        },
+        "accepted": false,
+        "rejection_reasons": [
+          "high_fp_spillover_rate_too_high",
+          "non_active_regression_rate_too_high",
+          "no_prior_image_causal_evidence"
+        ]
+      },
+      "ratio_0_25_decision": {
+        "attenuation_ratio": 0.25,
+        "retained_op": "local_contrast",
+        "prob_multiplier": 0.25,
+        "strength_multiplier": 0.25,
+        "max_aug_samples_per_interval": 16,
+        "attenuated_risk": {
+          "fp_increase_rate": 0.0034999999999999996,
+          "high_fp_spillover_rate": 0.009625,
+          "non_active_regression_rate": 0.01155,
+          "ok_class_false_activation": 0.0,
+          "bbox_instability_rate": 0.0,
+          "estimated_precision_drop": 0.0,
+          "non_active_fp_delta": 0.0,
+          "high_confidence_fp_delta": 0.0
+        },
+        "accepted": false,
+        "rejection_reasons": [
+          "no_prior_image_causal_evidence"
+        ]
+      },
+      "selected_attenuation_ratio": null,
+      "selected_prob_multiplier": null,
+      "selected_strength_multiplier": null,
+      "selected_max_aug_samples_per_interval": null,
+      "final_decision": "strict_noop",
+      "sampler_only_involved": false,
+      "final_val_leakage": false
+    },
+    {
+      "seed": 2,
+      "epoch": 10,
+      "candidate_policy_id": "candidate_policy_1_roi_texture",
+      "weak_candidate_policy_id": "candidate_policy_1b_weak_roi_texture",
+      "active_class": -1,
+      "dominant_issue": "",
+      "original_ops": [
+        "sharpen_mild",
+        "local_contrast"
+      ],
+      "retained_op": null,
+      "retained_op_source": "same_epoch_low_contrast_proxy",
+      "legacy_image_evidence": false,
+      "original_causal_score": 0.0,
+      "current_replay_causal_score": 0.0,
+      "original_causal_accept": false,
+      "current_replay_causal_accept": false,
+      "original_rejection_reasons": "causal_score_not_positive;insufficient_active_class_benefit;insufficient_evidence_count;diagnosis_confidence_too_low",
+      "original_estimated_precision_drop": 0.0,
+      "original_non_active_fp_delta": 0.0,
+      "original_high_confidence_fp_delta": 0.0,
+      "original_high_fp_spillover_rate": 0.0,
+      "original_non_active_regression_rate": 0.0,
+      "ratio_0_50_decision": {
+        "attenuation_ratio": 0.5,
+        "retained_op": "local_contrast",
+        "prob_multiplier": 0.5,
+        "strength_multiplier": 0.5,
+        "max_aug_samples_per_interval": 32,
+        "attenuated_risk": {
+          "fp_increase_rate": 0.0,
+          "high_fp_spillover_rate": 0.0,
+          "non_active_regression_rate": 0.0,
+          "ok_class_false_activation": 0.0,
+          "bbox_instability_rate": 0.0,
+          "estimated_precision_drop": 0.0,
+          "non_active_fp_delta": 0.0,
+          "high_confidence_fp_delta": 0.0
+        },
+        "accepted": false,
+        "rejection_reasons": [
+          "no_prior_image_causal_evidence"
+        ]
+      },
+      "ratio_0_25_decision": {
+        "attenuation_ratio": 0.25,
+        "retained_op": "local_contrast",
+        "prob_multiplier": 0.25,
+        "strength_multiplier": 0.25,
+        "max_aug_samples_per_interval": 16,
+        "attenuated_risk": {
+          "fp_increase_rate": 0.0,
+          "high_fp_spillover_rate": 0.0,
+          "non_active_regression_rate": 0.0,
+          "ok_class_false_activation": 0.0,
+          "bbox_instability_rate": 0.0,
+          "estimated_precision_drop": 0.0,
+          "non_active_fp_delta": 0.0,
+          "high_confidence_fp_delta": 0.0
+        },
+        "accepted": false,
+        "rejection_reasons": [
+          "no_prior_image_causal_evidence"
+        ]
+      },
+      "selected_attenuation_ratio": null,
+      "selected_prob_multiplier": null,
+      "selected_strength_multiplier": null,
+      "selected_max_aug_samples_per_interval": null,
+      "final_decision": "strict_noop",
+      "sampler_only_involved": false,
+      "final_val_leakage": false
+    },
+    {
+      "seed": 2,
+      "epoch": 15,
+      "candidate_policy_id": "candidate_policy_1_roi_texture",
+      "weak_candidate_policy_id": "candidate_policy_1b_weak_roi_texture",
+      "active_class": -1,
+      "dominant_issue": "",
+      "original_ops": [
+        "sharpen_mild",
+        "local_contrast"
+      ],
+      "retained_op": null,
+      "retained_op_source": "same_epoch_low_contrast_proxy",
+      "legacy_image_evidence": false,
+      "original_causal_score": 0.0,
+      "current_replay_causal_score": 0.0,
+      "original_causal_accept": false,
+      "current_replay_causal_accept": false,
+      "original_rejection_reasons": "causal_score_not_positive;insufficient_active_class_benefit;insufficient_evidence_count;diagnosis_confidence_too_low",
+      "original_estimated_precision_drop": 0.0,
+      "original_non_active_fp_delta": 0.0,
+      "original_high_confidence_fp_delta": 0.0,
+      "original_high_fp_spillover_rate": 0.0,
+      "original_non_active_regression_rate": 0.0,
+      "ratio_0_50_decision": {
+        "attenuation_ratio": 0.5,
+        "retained_op": "local_contrast",
+        "prob_multiplier": 0.5,
+        "strength_multiplier": 0.5,
+        "max_aug_samples_per_interval": 32,
+        "attenuated_risk": {
+          "fp_increase_rate": 0.0,
+          "high_fp_spillover_rate": 0.0,
+          "non_active_regression_rate": 0.0,
+          "ok_class_false_activation": 0.0,
+          "bbox_instability_rate": 0.0,
+          "estimated_precision_drop": 0.0,
+          "non_active_fp_delta": 0.0,
+          "high_confidence_fp_delta": 0.0
+        },
+        "accepted": false,
+        "rejection_reasons": [
+          "no_prior_image_causal_evidence"
+        ]
+      },
+      "ratio_0_25_decision": {
+        "attenuation_ratio": 0.25,
+        "retained_op": "local_contrast",
+        "prob_multiplier": 0.25,
+        "strength_multiplier": 0.25,
+        "max_aug_samples_per_interval": 16,
+        "attenuated_risk": {
+          "fp_increase_rate": 0.0,
+          "high_fp_spillover_rate": 0.0,
+          "non_active_regression_rate": 0.0,
+          "ok_class_false_activation": 0.0,
+          "bbox_instability_rate": 0.0,
+          "estimated_precision_drop": 0.0,
+          "non_active_fp_delta": 0.0,
+          "high_confidence_fp_delta": 0.0
+        },
+        "accepted": false,
+        "rejection_reasons": [
+          "no_prior_image_causal_evidence"
+        ]
+      },
+      "selected_attenuation_ratio": null,
+      "selected_prob_multiplier": null,
+      "selected_strength_multiplier": null,
+      "selected_max_aug_samples_per_interval": null,
+      "final_decision": "strict_noop",
+      "sampler_only_involved": false,
+      "final_val_leakage": false
+    },
+    {
+      "seed": 2,
+      "epoch": 20,
+      "candidate_policy_id": "candidate_policy_1_roi_texture",
+      "weak_candidate_policy_id": "candidate_policy_1b_weak_roi_texture",
+      "active_class": 7,
+      "dominant_issue": "texture_boundary_weak",
+      "original_ops": [
+        "sharpen_mild",
+        "local_contrast"
+      ],
+      "retained_op": "local_contrast",
+      "retained_op_source": "same_epoch_low_contrast_proxy",
+      "legacy_image_evidence": true,
+      "original_causal_score": -0.10925137844611531,
+      "current_replay_causal_score": -0.10925137844611531,
+      "original_causal_accept": true,
+      "current_replay_causal_accept": false,
+      "original_rejection_reasons": "causal_score_not_positive;high_fp_spillover_rate_too_high;non_active_regression_rate_too_high;estimated_precision_drop_too_high;non_active_fp_delta_too_high;high_confidence_fp_delta_too_high",
+      "original_estimated_precision_drop": 0.033,
+      "original_non_active_fp_delta": 0.05,
+      "original_high_confidence_fp_delta": 0.05,
+      "original_high_fp_spillover_rate": 0.055,
+      "original_non_active_regression_rate": 0.066,
+      "ratio_0_50_decision": {
+        "attenuation_ratio": 0.5,
+        "retained_op": "local_contrast",
+        "prob_multiplier": 0.5,
+        "strength_multiplier": 0.5,
+        "max_aug_samples_per_interval": 32,
+        "attenuated_risk": {
+          "fp_increase_rate": 0.0006533333333333342,
+          "high_fp_spillover_rate": 0.01925,
+          "non_active_regression_rate": 0.0231,
+          "ok_class_false_activation": 0.0,
+          "bbox_instability_rate": 0.0,
+          "estimated_precision_drop": 0.0,
+          "non_active_fp_delta": 0.0,
+          "high_confidence_fp_delta": 0.0
+        },
+        "accepted": false,
+        "rejection_reasons": [
+          "high_fp_spillover_rate_too_high",
+          "non_active_regression_rate_too_high"
+        ]
+      },
+      "ratio_0_25_decision": {
+        "attenuation_ratio": 0.25,
+        "retained_op": "local_contrast",
+        "prob_multiplier": 0.25,
+        "strength_multiplier": 0.25,
+        "max_aug_samples_per_interval": 16,
+        "attenuated_risk": {
+          "fp_increase_rate": 0.0003266666666666671,
+          "high_fp_spillover_rate": 0.009625,
+          "non_active_regression_rate": 0.01155,
+          "ok_class_false_activation": 0.0,
+          "bbox_instability_rate": 0.0,
+          "estimated_precision_drop": 0.0,
+          "non_active_fp_delta": 0.0,
+          "high_confidence_fp_delta": 0.0
+        },
+        "accepted": true,
+        "rejection_reasons": []
+      },
+      "selected_attenuation_ratio": 0.25,
+      "selected_prob_multiplier": 0.25,
+      "selected_strength_multiplier": 0.25,
+      "selected_max_aug_samples_per_interval": 16,
+      "final_decision": "weak_roi_texture",
+      "sampler_only_involved": false,
+      "final_val_leakage": false
+    },
+    {
+      "seed": 2,
+      "epoch": 25,
+      "candidate_policy_id": "candidate_policy_1_roi_texture",
+      "weak_candidate_policy_id": "candidate_policy_1b_weak_roi_texture",
+      "active_class": 9,
+      "dominant_issue": "texture_boundary_weak",
+      "original_ops": [
+        "sharpen_mild",
+        "local_contrast"
+      ],
+      "retained_op": "local_contrast",
+      "retained_op_source": "same_epoch_low_contrast_proxy",
+      "legacy_image_evidence": true,
+      "original_causal_score": -0.07778378378378378,
+      "current_replay_causal_score": -0.07778378378378378,
+      "original_causal_accept": true,
+      "current_replay_causal_accept": false,
+      "original_rejection_reasons": "causal_score_not_positive;high_fp_spillover_rate_too_high;non_active_regression_rate_too_high;estimated_precision_drop_too_high;non_active_fp_delta_too_high;high_confidence_fp_delta_too_high",
+      "original_estimated_precision_drop": 0.024,
+      "original_non_active_fp_delta": 0.048,
+      "original_high_confidence_fp_delta": 0.048,
+      "original_high_fp_spillover_rate": 0.04,
+      "original_non_active_regression_rate": 0.048,
+      "ratio_0_50_decision": {
+        "attenuation_ratio": 0.5,
+        "retained_op": "local_contrast",
+        "prob_multiplier": 0.5,
+        "strength_multiplier": 0.5,
+        "max_aug_samples_per_interval": 32,
+        "attenuated_risk": {
+          "fp_increase_rate": 0.0013243243243243241,
+          "high_fp_spillover_rate": 0.013999999999999999,
+          "non_active_regression_rate": 0.0168,
+          "ok_class_false_activation": 0.0,
+          "bbox_instability_rate": 0.0,
+          "estimated_precision_drop": 0.0,
+          "non_active_fp_delta": 0.0,
+          "high_confidence_fp_delta": 0.0
+        },
+        "accepted": false,
+        "rejection_reasons": [
+          "high_fp_spillover_rate_too_high"
+        ]
+      },
+      "ratio_0_25_decision": {
+        "attenuation_ratio": 0.25,
+        "retained_op": "local_contrast",
+        "prob_multiplier": 0.25,
+        "strength_multiplier": 0.25,
+        "max_aug_samples_per_interval": 16,
+        "attenuated_risk": {
+          "fp_increase_rate": 0.0006621621621621621,
+          "high_fp_spillover_rate": 0.006999999999999999,
+          "non_active_regression_rate": 0.0084,
+          "ok_class_false_activation": 0.0,
+          "bbox_instability_rate": 0.0,
+          "estimated_precision_drop": 0.0,
+          "non_active_fp_delta": 0.0,
+          "high_confidence_fp_delta": 0.0
+        },
+        "accepted": true,
+        "rejection_reasons": []
+      },
+      "selected_attenuation_ratio": 0.25,
+      "selected_prob_multiplier": 0.25,
+      "selected_strength_multiplier": 0.25,
+      "selected_max_aug_samples_per_interval": 16,
+      "final_decision": "weak_roi_texture",
+      "sampler_only_involved": false,
+      "final_val_leakage": false
+    },
+    {
+      "seed": 2,
+      "epoch": 30,
+      "candidate_policy_id": "candidate_policy_1_roi_texture",
+      "weak_candidate_policy_id": "candidate_policy_1b_weak_roi_texture",
+      "active_class": 6,
+      "dominant_issue": "low_contrast_fn",
+      "original_ops": [
+        "sharpen_mild",
+        "local_contrast"
+      ],
+      "retained_op": "local_contrast",
+      "retained_op_source": "same_epoch_low_contrast_proxy",
+      "legacy_image_evidence": true,
+      "original_causal_score": -0.09723076923076923,
+      "current_replay_causal_score": -0.09723076923076923,
+      "original_causal_accept": true,
+      "current_replay_causal_accept": false,
+      "original_rejection_reasons": "causal_score_not_positive;high_fp_spillover_rate_too_high;non_active_regression_rate_too_high;estimated_precision_drop_too_high;non_active_fp_delta_too_high;high_confidence_fp_delta_too_high",
+      "original_estimated_precision_drop": 0.03,
+      "original_non_active_fp_delta": 0.05,
+      "original_high_confidence_fp_delta": 0.048,
+      "original_high_fp_spillover_rate": 0.05,
+      "original_non_active_regression_rate": 0.06,
+      "ratio_0_50_decision": {
+        "attenuation_ratio": 0.5,
+        "retained_op": "local_contrast",
+        "prob_multiplier": 0.5,
+        "strength_multiplier": 0.5,
+        "max_aug_samples_per_interval": 32,
+        "attenuated_risk": {
+          "fp_increase_rate": 0.001076923076923077,
+          "high_fp_spillover_rate": 0.017499999999999998,
+          "non_active_regression_rate": 0.020999999999999998,
+          "ok_class_false_activation": 0.0,
+          "bbox_instability_rate": 0.0,
+          "estimated_precision_drop": 0.0,
+          "non_active_fp_delta": 0.0,
+          "high_confidence_fp_delta": 0.0
+        },
+        "accepted": false,
+        "rejection_reasons": [
+          "high_fp_spillover_rate_too_high",
+          "non_active_regression_rate_too_high"
+        ]
+      },
+      "ratio_0_25_decision": {
+        "attenuation_ratio": 0.25,
+        "retained_op": "local_contrast",
+        "prob_multiplier": 0.25,
+        "strength_multiplier": 0.25,
+        "max_aug_samples_per_interval": 16,
+        "attenuated_risk": {
+          "fp_increase_rate": 0.0005384615384615385,
+          "high_fp_spillover_rate": 0.008749999999999999,
+          "non_active_regression_rate": 0.010499999999999999,
+          "ok_class_false_activation": 0.0,
+          "bbox_instability_rate": 0.0,
+          "estimated_precision_drop": 0.0,
+          "non_active_fp_delta": 0.0,
+          "high_confidence_fp_delta": 0.0
+        },
+        "accepted": true,
+        "rejection_reasons": []
+      },
+      "selected_attenuation_ratio": 0.25,
+      "selected_prob_multiplier": 0.25,
+      "selected_strength_multiplier": 0.25,
+      "selected_max_aug_samples_per_interval": 16,
+      "final_decision": "weak_roi_texture",
+      "sampler_only_involved": false,
+      "final_val_leakage": false
+    },
+    {
+      "seed": 2,
+      "epoch": 35,
+      "candidate_policy_id": "candidate_policy_1_roi_texture",
+      "weak_candidate_policy_id": "candidate_policy_1b_weak_roi_texture",
+      "active_class": 9,
+      "dominant_issue": "texture_boundary_weak",
+      "original_ops": [
+        "sharpen_mild",
+        "local_contrast"
+      ],
+      "retained_op": "local_contrast",
+      "retained_op_source": "same_epoch_low_contrast_proxy",
+      "legacy_image_evidence": true,
+      "original_causal_score": -0.09073684210526316,
+      "current_replay_causal_score": -0.09073684210526316,
+      "original_causal_accept": true,
+      "current_replay_causal_accept": false,
+      "original_rejection_reasons": "causal_score_not_positive;high_fp_spillover_rate_too_high;non_active_regression_rate_too_high;estimated_precision_drop_too_high;non_active_fp_delta_too_high;high_confidence_fp_delta_too_high",
+      "original_estimated_precision_drop": 0.027,
+      "original_non_active_fp_delta": 0.05,
+      "original_high_confidence_fp_delta": 0.048,
+      "original_high_fp_spillover_rate": 0.045,
+      "original_non_active_regression_rate": 0.054,
+      "ratio_0_50_decision": {
+        "attenuation_ratio": 0.5,
+        "retained_op": "local_contrast",
+        "prob_multiplier": 0.5,
+        "strength_multiplier": 0.5,
+        "max_aug_samples_per_interval": 32,
+        "attenuated_risk": {
+          "fp_increase_rate": 0.001657894736842105,
+          "high_fp_spillover_rate": 0.01575,
+          "non_active_regression_rate": 0.0189,
+          "ok_class_false_activation": 0.0,
+          "bbox_instability_rate": 0.0,
+          "estimated_precision_drop": 0.0,
+          "non_active_fp_delta": 0.0,
+          "high_confidence_fp_delta": 0.0
+        },
+        "accepted": false,
+        "rejection_reasons": [
+          "high_fp_spillover_rate_too_high"
+        ]
+      },
+      "ratio_0_25_decision": {
+        "attenuation_ratio": 0.25,
+        "retained_op": "local_contrast",
+        "prob_multiplier": 0.25,
+        "strength_multiplier": 0.25,
+        "max_aug_samples_per_interval": 16,
+        "attenuated_risk": {
+          "fp_increase_rate": 0.0008289473684210525,
+          "high_fp_spillover_rate": 0.007875,
+          "non_active_regression_rate": 0.00945,
+          "ok_class_false_activation": 0.0,
+          "bbox_instability_rate": 0.0,
+          "estimated_precision_drop": 0.0,
+          "non_active_fp_delta": 0.0,
+          "high_confidence_fp_delta": 0.0
+        },
+        "accepted": true,
+        "rejection_reasons": []
+      },
+      "selected_attenuation_ratio": 0.25,
+      "selected_prob_multiplier": 0.25,
+      "selected_strength_multiplier": 0.25,
+      "selected_max_aug_samples_per_interval": 16,
+      "final_decision": "weak_roi_texture",
+      "sampler_only_involved": false,
+      "final_val_leakage": false
+    },
+    {
+      "seed": 2,
+      "epoch": 40,
+      "candidate_policy_id": "candidate_policy_1_roi_texture",
+      "weak_candidate_policy_id": "candidate_policy_1b_weak_roi_texture",
+      "active_class": -1,
+      "dominant_issue": "",
+      "original_ops": [
+        "sharpen_mild",
+        "local_contrast"
+      ],
+      "retained_op": null,
+      "retained_op_source": "same_epoch_low_contrast_proxy",
+      "legacy_image_evidence": false,
+      "original_causal_score": 0.0,
+      "current_replay_causal_score": 0.0,
+      "original_causal_accept": false,
+      "current_replay_causal_accept": false,
+      "original_rejection_reasons": "causal_score_not_positive;insufficient_active_class_benefit;insufficient_evidence_count;diagnosis_confidence_too_low",
+      "original_estimated_precision_drop": 0.0,
+      "original_non_active_fp_delta": 0.0,
+      "original_high_confidence_fp_delta": 0.0,
+      "original_high_fp_spillover_rate": 0.0,
+      "original_non_active_regression_rate": 0.0,
+      "ratio_0_50_decision": {
+        "attenuation_ratio": 0.5,
+        "retained_op": "local_contrast",
+        "prob_multiplier": 0.5,
+        "strength_multiplier": 0.5,
+        "max_aug_samples_per_interval": 32,
+        "attenuated_risk": {
+          "fp_increase_rate": 0.0,
+          "high_fp_spillover_rate": 0.0,
+          "non_active_regression_rate": 0.0,
+          "ok_class_false_activation": 0.0,
+          "bbox_instability_rate": 0.0,
+          "estimated_precision_drop": 0.0,
+          "non_active_fp_delta": 0.0,
+          "high_confidence_fp_delta": 0.0
+        },
+        "accepted": false,
+        "rejection_reasons": [
+          "no_prior_image_causal_evidence"
+        ]
+      },
+      "ratio_0_25_decision": {
+        "attenuation_ratio": 0.25,
+        "retained_op": "local_contrast",
+        "prob_multiplier": 0.25,
+        "strength_multiplier": 0.25,
+        "max_aug_samples_per_interval": 16,
+        "attenuated_risk": {
+          "fp_increase_rate": 0.0,
+          "high_fp_spillover_rate": 0.0,
+          "non_active_regression_rate": 0.0,
+          "ok_class_false_activation": 0.0,
+          "bbox_instability_rate": 0.0,
+          "estimated_precision_drop": 0.0,
+          "non_active_fp_delta": 0.0,
+          "high_confidence_fp_delta": 0.0
+        },
+        "accepted": false,
+        "rejection_reasons": [
+          "no_prior_image_causal_evidence"
+        ]
+      },
+      "selected_attenuation_ratio": null,
+      "selected_prob_multiplier": null,
+      "selected_strength_multiplier": null,
+      "selected_max_aug_samples_per_interval": null,
+      "final_decision": "strict_noop",
+      "sampler_only_involved": false,
+      "final_val_leakage": false
+    },
+    {
+      "seed": 2,
+      "epoch": 45,
+      "candidate_policy_id": "candidate_policy_1_roi_texture",
+      "weak_candidate_policy_id": "candidate_policy_1b_weak_roi_texture",
+      "active_class": 9,
+      "dominant_issue": "texture_boundary_weak",
+      "original_ops": [
+        "sharpen_mild",
+        "local_contrast"
+      ],
+      "retained_op": "local_contrast",
+      "retained_op_source": "same_epoch_low_contrast_proxy",
+      "legacy_image_evidence": true,
+      "original_causal_score": -0.09032432432432433,
+      "current_replay_causal_score": -0.09032432432432433,
+      "original_causal_accept": true,
+      "current_replay_causal_accept": false,
+      "original_rejection_reasons": "causal_score_not_positive;high_fp_spillover_rate_too_high;non_active_regression_rate_too_high;estimated_precision_drop_too_high;non_active_fp_delta_too_high;high_confidence_fp_delta_too_high",
+      "original_estimated_precision_drop": 0.027,
+      "original_non_active_fp_delta": 0.05,
+      "original_high_confidence_fp_delta": 0.048,
+      "original_high_fp_spillover_rate": 0.045,
+      "original_non_active_regression_rate": 0.054,
+      "ratio_0_50_decision": {
+        "attenuation_ratio": 0.5,
+        "retained_op": "local_contrast",
+        "prob_multiplier": 0.5,
+        "strength_multiplier": 0.5,
+        "max_aug_samples_per_interval": 32,
+        "attenuated_risk": {
+          "fp_increase_rate": 0.0015135135135135138,
+          "high_fp_spillover_rate": 0.01575,
+          "non_active_regression_rate": 0.0189,
+          "ok_class_false_activation": 0.0,
+          "bbox_instability_rate": 0.0,
+          "estimated_precision_drop": 0.0,
+          "non_active_fp_delta": 0.0,
+          "high_confidence_fp_delta": 0.0
+        },
+        "accepted": false,
+        "rejection_reasons": [
+          "high_fp_spillover_rate_too_high"
+        ]
+      },
+      "ratio_0_25_decision": {
+        "attenuation_ratio": 0.25,
+        "retained_op": "local_contrast",
+        "prob_multiplier": 0.25,
+        "strength_multiplier": 0.25,
+        "max_aug_samples_per_interval": 16,
+        "attenuated_risk": {
+          "fp_increase_rate": 0.0007567567567567569,
+          "high_fp_spillover_rate": 0.007875,
+          "non_active_regression_rate": 0.00945,
+          "ok_class_false_activation": 0.0,
+          "bbox_instability_rate": 0.0,
+          "estimated_precision_drop": 0.0,
+          "non_active_fp_delta": 0.0,
+          "high_confidence_fp_delta": 0.0
+        },
+        "accepted": true,
+        "rejection_reasons": []
+      },
+      "selected_attenuation_ratio": 0.25,
+      "selected_prob_multiplier": 0.25,
+      "selected_strength_multiplier": 0.25,
+      "selected_max_aug_samples_per_interval": 16,
+      "final_decision": "weak_roi_texture",
+      "sampler_only_involved": false,
+      "final_val_leakage": false
+    }
+  ]
+}

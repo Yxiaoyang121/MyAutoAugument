@@ -29,6 +29,44 @@ The repository is centered on diagnosis-driven augmentation for industrial defec
   - seed2 must be fixed inside the image augmentation mainline through causal probe, weak image augmentation / attenuation, strict no-op safety, and non-active regression constraints;
   - do not use `sampler_only`, weighted index lists, or hard-example mining as the paper main result.
 
+## Image-Only Weak Augmentation Replay (2026-06-13)
+
+- Scope: offline replay and method design only. No training was run, no seed was rerun, no clean baseline was rerun, and no gate/sampler/augmentation training logic was changed.
+- Added `scripts/replay_weak_image_aug.py`.
+- Outputs:
+  - `outputs/experiments/catf_v2_image_only_weak_aug_replay/reports/weak_image_aug_replay.md`
+  - `outputs/experiments/catf_v2_image_only_weak_aug_replay/reports/weak_image_aug_replay.json`
+  - `outputs/experiments/catf_v2_image_only_weak_aug_replay/weak_candidate_records.csv`
+  - `outputs/experiments/catf_v2_image_only_weak_aug_replay/reports/weak_image_aug_training_plan.md`
+- Replay method:
+  - `candidate_policy_3_sampler_only` is disabled and not used;
+  - `candidate_policy_1b_weak_roi_texture` is introduced as an image-only downgrade from original ROI texture;
+  - weak policy keeps one lower-risk op, uses `prob_multiplier=strength_multiplier=attenuation_ratio`, and caps augmented samples per feedback interval;
+  - ratios tested: `0.5` and `0.25`;
+  - `0.5` remains too risky, while `0.25` passes the replay gates for legacy image-evidence rows;
+  - replay uses no seed-id, class-id, or dataset-class-name hard rule.
+- Replay coverage:
+  - total image candidates=54;
+  - original ROI texture candidates=27;
+  - legacy image-evidence candidates=8;
+  - weak ROI texture accepted by replay=8;
+  - strict no-op=19;
+  - all no-op=false;
+  - final_val_leakage=false;
+  - sampler_only involved=false.
+- Seed-level replay:
+  - seed0: 1 weak candidate at epoch25, 8 strict no-op;
+  - seed1: 2 weak candidates at epochs25/40, 7 strict no-op;
+  - seed2: 5 weak candidates at epochs20/25/30/35/45, 4 strict no-op.
+- Interpretation:
+  - seed2 has offline gate-safe weak image candidates, but this is not a training result;
+  - because fixed CATF-v2 seed2 failed through high-risk image augmentation and non-active regression, the next validation should run seed2 image-only weak augmentation 50ep first;
+  - if seed2 passes constraints, then run seed0/seed1 sanity;
+  - continue to avoid `sampler_only`, weighted index lists, and sampling reweighting in the paper mainline.
+- Verification:
+  - `python scripts/replay_weak_image_aug.py`
+  - `python -m py_compile scripts/replay_weak_image_aug.py`
+
 ## CP-CATF Paper-Mode Sampler-Only Multiseed (2026-06-12)
 
 - Scope: continued from the completed seed0 sampler-only run and ran only seed1/seed2. Clean paper baselines and seed0 CP-CATF results were reused; clean and seed0 were not rerun.

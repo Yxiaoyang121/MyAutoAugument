@@ -34,6 +34,45 @@ The project is a diagnosis-driven augmentation pipeline for industrial defect de
   - Seed2 repair must stay inside the image augmentation mainline: causal probe, weak image augmentation / attenuation, strict image no-op, and non-active regression constraints.
   - Do not use `sampler_only`, weighted index lists, or hard-example mining as the paper main result.
 
+## Latest Image-Only Weak Augmentation Replay
+
+- Date: `2026-06-13`.
+- Scope: offline replay and design only. No training was run, no clean baseline was rerun, and no gate/sampler/training augmentation logic was changed.
+- Added:
+  - `scripts/replay_weak_image_aug.py`
+- Outputs:
+  - `outputs/experiments/catf_v2_image_only_weak_aug_replay/reports/weak_image_aug_replay.md`
+  - `outputs/experiments/catf_v2_image_only_weak_aug_replay/reports/weak_image_aug_replay.json`
+  - `outputs/experiments/catf_v2_image_only_weak_aug_replay/weak_candidate_records.csv`
+  - `outputs/experiments/catf_v2_image_only_weak_aug_replay/reports/weak_image_aug_training_plan.md`
+- Candidate design:
+  - keep `candidate_policy_0_noop`;
+  - keep `candidate_policy_1_roi_texture` only for low-risk cases;
+  - add `candidate_policy_1b_weak_roi_texture` as an image-only downgrade from ROI texture;
+  - disable `candidate_policy_3_sampler_only` for the main path.
+- Replay result:
+  - total image candidates=54;
+  - original ROI texture candidates=27;
+  - legacy image-evidence candidates=8;
+  - weak ROI texture accepted by replay=8;
+  - strict no-op=19;
+  - ratio `0.5` accepts=0;
+  - ratio `0.25` accepts=8;
+  - sampler_only involved=false;
+  - final_val_leakage=false.
+- Seed-level replay:
+  - seed0: weak epochs `[25]`;
+  - seed1: weak epochs `[25, 40]`;
+  - seed2: weak epochs `[20, 25, 30, 35, 45]`.
+- Interpretation for the next agent:
+  - seed2 has offline gate-safe weak image candidates, but this is not a training result;
+  - the next validation, if requested, should run seed2 50ep image-only weak augmentation first;
+  - if seed2 passes constraints, then run seed0/seed1 sanity;
+  - do not use sampler_only, weighted index lists, or sampling reweighting to repair the paper main result.
+- Verification:
+  - `python scripts/replay_weak_image_aug.py`
+  - `python -m py_compile scripts/replay_weak_image_aug.py`
+
 ## Latest CP-CATF Paper-Mode Sampler-Only Multiseed
 
 - Date: `2026-06-12`.

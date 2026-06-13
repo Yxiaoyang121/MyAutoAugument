@@ -1,14 +1,38 @@
 ﻿# Project State
 
-Last updated: 2026-06-12
+Last updated: 2026-06-13
 
 ## Current Position
 
 The repository is centered on diagnosis-driven augmentation for industrial defect detection. The active path still keeps YOLO network architecture unchanged and focuses on dataset construction, validation-error diagnosis, policy generation, proxy safety, short training, and auditable reporting.
 
+## Current Mainline: Image Augmentation CATF (2026-06-13)
+
+- The paper mainline is restored to image augmentation based CATF.
+- `sampler_only` has been implemented and verified, but it is demoted from the paper main method.
+- `sampler_only` is a training sampling intervention closer to hard example mining / weighted sampling; it changes the training distribution and is not equivalent to image data augmentation.
+- `sampler_only` results are retained only as engineering exploration and possible ablation evidence.
+- Current image-augmentation mainline baseline: fixed CATF-v2.
+- CP-CATF remains relevant only as an image-only controller: causal probe can accept, attenuate, or reject image-space candidates, but main results must not rely on sampling reweighting.
+- Future main results must come from image augmentation behavior, not weighted index lists or sampler-only gains.
+- Reports:
+  - `outputs/experiments/catf_v2_image_only_mainline/reports/image_only_catf_v2_mainline_summary.md`
+  - `outputs/experiments/catf_v2_image_only_mainline/reports/image_only_catf_v2_mainline_summary.json`
+  - `outputs/experiments/catf_v2_image_only_mainline/reports/sampler_only_demoted_note.md`
+- Fixed CATF-v2 image-only baseline:
+  - seed0: clean `0.7846/0.6765/0.7347/0.4759`, fixed CATF-v2 `0.7785/0.6697/0.7437/0.4895`, delta `-0.0061/-0.0068/+0.0090/+0.0136`, `constraint_failed=false`;
+  - seed1: clean `0.7725/0.6477/0.7542/0.4799`, fixed CATF-v2 `0.7852/0.7005/0.7826/0.5189`, delta `+0.0127/+0.0528/+0.0284/+0.0390`, `constraint_failed=false`;
+  - seed2: clean `0.6962/0.7286/0.7692/0.5224`, fixed CATF-v2 `0.7637/0.6863/0.7582/0.4967`, delta `+0.0675/-0.0423/-0.0110/-0.0257`, `constraint_failed=true`.
+- Interpretation:
+  - seed0/seed1 show CATF image augmentation has real potential;
+  - seed2 remains the blocking case because high-risk image augmentation caused non-active regression and mAP drops;
+  - seed2 must be fixed inside the image augmentation mainline through causal probe, weak image augmentation / attenuation, strict no-op safety, and non-active regression constraints;
+  - do not use `sampler_only`, weighted index lists, or hard-example mining as the paper main result.
+
 ## CP-CATF Paper-Mode Sampler-Only Multiseed (2026-06-12)
 
 - Scope: continued from the completed seed0 sampler-only run and ran only seed1/seed2. Clean paper baselines and seed0 CP-CATF results were reused; clean and seed0 were not rerun.
+- Current positioning: demoted to engineering exploration / ablation only. This run is not a paper main-method candidate because it is a sampling intervention, not image data augmentation.
 - Output root:
   - `outputs/experiments/multiseed_cp_catf_paper_mode_sampler_only/`
 - Report:
@@ -32,9 +56,9 @@ The repository is centered on diagnosis-driven augmentation for industrial defec
   - mean delta: dP=+0.0237, dR=-0.0027, dM50=+0.0034, dM95=-0.0001.
 - Conclusion:
   - 3/3 pass=false; pass_count=2/3.
-  - CP-CATF paper-mode sampler-only is not yet a paper main-method result.
-  - The current result proves sampler_only is an effective dataloader intervention, but the seed1 regression blocks a stable multiseed claim.
-  - Do not continue training as if this is solved; next work should analyze seed1 sampler weighting/failure modes before considering weak_image_aug or attenuation.
+  - CP-CATF paper-mode sampler-only is not a paper main-method result.
+  - The current result proves sampler_only is an effective dataloader intervention, but it is a sampling reweighting method rather than image data augmentation.
+  - Do not continue sampler_only as the CP-CATF main direction; keep it only as engineering exploration / ablation evidence.
 - Verification:
   - `python -m py_compile AutoAugment/catf_v2/causal_probe.py AutoAugment/catf_v2/sample_router.py AutoAugment/catf_v2/policy_matrix.py scripts/train_yolo_default_with_inloop_feedback.py scripts/summarize_cp_catf_sampler_only_multiseed.py`
   - `python -m pytest -q tests/test_cp_catf_sampler_only.py tests/test_cp_catf_accept_to_execution.py tests/test_cp_catf_paper_mode.py tests/test_catf_v2_causal_probe.py tests/test_catf_v2_transform_bypass.py tests/test_catf_v2_sample_router.py tests/test_online_augmentation.py`
@@ -125,7 +149,8 @@ The repository is centered on diagnosis-driven augmentation for industrial defec
   - current precision-aware decision stack is over-conservative for image-augmentation coverage;
   - high_confidence_fp_delta > 0.0 is not the sole blocker, and relaxing any single precision threshold admits zero candidates under current replay;
   - 8 legacy roi_texture accepts are plausible attenuation candidates, but none is safe at original strength/probability under the current gate;
-  - the next safest work is to implement sampler_only first and design a graded attenuation gate before any image-rerun.
+  - sampler_only was later implemented and verified, but is now demoted to engineering exploration / ablation only;
+  - paper-mainline work should design causal-probe image acceptance and graded image-augmentation attenuation before any image-rerun.
 - Reports:
   - `outputs/experiments/cp_catf_decision_coverage_audit/reports/decision_coverage_audit.md`
   - `outputs/experiments/cp_catf_decision_coverage_audit/reports/decision_coverage_audit.json`
@@ -171,8 +196,9 @@ The repository is centered on diagnosis-driven augmentation for industrial defec
   - `constraint_failed=false` against the requested paper clean seed0 baseline.
 - Important interpretation:
   - Precision-aware gate successfully blocks the known seed0 FP-spillover image candidate.
-  - This rerun is not evidence of paper-mode image-augmentation benefit, because all image candidates were rejected and sampler-only is not yet connected to the dataloader.
-  - Do not proceed to formal seed1/seed2 enhancement validation until either an accepted image candidate passes the precision gate or sampler-only is made effective.
+  - This rerun is not evidence of paper-mode image-augmentation benefit, because all image candidates were rejected.
+  - Sampler-only was later connected to the dataloader and verified, but is now demoted from the paper mainline because it is sampling reweighting, not image augmentation.
+  - Do not proceed to formal seed1/seed2 image-augmentation validation until an image candidate can pass the precision gate or be safely attenuated inside the image path.
 - Reports:
   - `outputs/experiments/cp_catf_precision_gate_dry_run_seed0/reports/precision_gate_dry_run_report.md`
   - `outputs/experiments/cp_catf_precision_gate_dry_run_seed0/reports/precision_gate_dry_run_report.json`
@@ -206,7 +232,8 @@ The repository is centered on diagnosis-driven augmentation for industrial defec
 
 ## CP-CATF Multiseed Training Validation (2026-06-09)
 
-- CP-CATF is the current final main-method candidate in development-mode validation.
+- CP-CATF development-mode validation remains feasibility evidence for image-space causal control, not the current paper main result.
+- The current paper mainline is image augmentation based CATF, with fixed CATF-v2 as the image-only baseline and CP-CATF image-only as the repair direction.
 - RiskGuard has been downgraded to an audit/debug prior and is not used as the final accept/reject rule.
 - Added offline probe decision integration to `scripts/train_yolo_default_with_inloop_feedback.py`:
   - `--causal-probe-mode true`
@@ -286,7 +313,7 @@ The repository is centered on diagnosis-driven augmentation for industrial defec
   - active-class-only monitoring cannot prevent non-active class regression;
   - `sharpen_mild` and `local_contrast` are co-enabled, so operator-level risk is not isolated;
   - fallback/gate can fire after weights have already been affected by candidate augmentation;
-  - strong clean-baseline seeds should prefer no-op or sampler-only until causal evidence is positive.
+  - strong clean-baseline seeds should prefer strict image no-op until image-augmentation causal evidence is positive.
 - Minimal next improvements are CP-CATF causal probe, active/non-active dual constraints, and high-risk class-op candidate gating for combinations such as class 9 + ROI texture.
 
 ## Seed2 CATF-v2 Failure Root-Cause Audit (2026-06-07)
@@ -317,7 +344,7 @@ The repository is centered on diagnosis-driven augmentation for industrial defec
   3. missing causal validation for active issue attribution;
   4. non-active class regression;
   5. seed2 clean baseline is strong enough that default no-op is justified unless causal evidence is positive.
-- Recommendation: seed2 should default to no-op or sampler-only until CP-CATF causal probe or a 10ep short ablation proves class-9 texture intervention is safe.
+- Recommendation: seed2 should default to strict image no-op until CP-CATF causal probe or a short image-only ablation proves class-9 texture intervention is safe.
 - Reports:
   - `outputs/experiments/seed2_failure_root_cause/reports/seed2_curve_degradation_analysis.md`
   - `outputs/experiments/seed2_failure_root_cause/reports/seed2_per_class_regression_analysis.md`

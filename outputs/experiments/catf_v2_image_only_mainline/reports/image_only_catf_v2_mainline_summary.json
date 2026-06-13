@@ -1,0 +1,121 @@
+{
+  "mainline_position": {
+    "paper_mainline": "image_augmentation_based_CATF",
+    "current_image_only_candidate": "fixed_CATF_v2",
+    "secondary_candidate": "CP-CATF image-only with causal probe and strict image no-op safety",
+    "sampler_only_demoted": true,
+    "sampler_only_role": "engineering exploration / ablation only",
+    "sampler_only_reason": "Sampler-only is a training sampling intervention and hard-example/weighted-sampling mechanism. It changes the train distribution and is not equivalent to image data augmentation.",
+    "future_main_results_must_use": "image augmentation, not sampling reweighting"
+  },
+  "clean_baseline": {
+    "seed0": {
+      "precision": 0.7846,
+      "recall": 0.6765,
+      "map50": 0.7347,
+      "map50_95": 0.4759
+    },
+    "seed1": {
+      "precision": 0.7725,
+      "recall": 0.6477,
+      "map50": 0.7542,
+      "map50_95": 0.4799
+    },
+    "seed2": {
+      "precision": 0.6962,
+      "recall": 0.7286,
+      "map50": 0.7692,
+      "map50_95": 0.5224
+    }
+  },
+  "fixed_catf_v2": {
+    "seed0": {
+      "precision": 0.7785,
+      "recall": 0.6697,
+      "map50": 0.7437,
+      "map50_95": 0.4895,
+      "constraint_failed": false
+    },
+    "seed1": {
+      "precision": 0.7852,
+      "recall": 0.7005,
+      "map50": 0.7826,
+      "map50_95": 0.5189,
+      "constraint_failed": false
+    },
+    "seed2": {
+      "precision": 0.7637,
+      "recall": 0.6863,
+      "map50": 0.7582,
+      "map50_95": 0.4967,
+      "constraint_failed": true
+    }
+  },
+  "delta_vs_clean": {
+    "seed0": {
+      "precision": -0.0061,
+      "recall": -0.0068,
+      "map50": 0.009,
+      "map50_95": 0.0136
+    },
+    "seed1": {
+      "precision": 0.0127,
+      "recall": 0.0528,
+      "map50": 0.0284,
+      "map50_95": 0.039
+    },
+    "seed2": {
+      "precision": 0.0675,
+      "recall": -0.0423,
+      "map50": -0.011,
+      "map50_95": -0.0257
+    }
+  },
+  "mean_clean": {
+    "precision": 0.7511,
+    "recall": 0.6843,
+    "map50": 0.7527,
+    "map50_95": 0.4927
+  },
+  "mean_fixed_catf_v2": {
+    "precision": 0.7758,
+    "recall": 0.6855,
+    "map50": 0.7615,
+    "map50_95": 0.5017
+  },
+  "mean_delta": {
+    "precision": 0.0247,
+    "recall": 0.0012,
+    "map50": 0.0088,
+    "map50_95": 0.009
+  },
+  "constraint_summary": {
+    "pass_count": 2,
+    "seed_count": 3,
+    "three_seed_pass": false,
+    "passing_seeds": [
+      0,
+      1
+    ],
+    "failing_seeds": [
+      2
+    ]
+  },
+  "seed2_failure_interpretation": {
+    "summary": "Seed2 remains the blocking case for the image-augmentation mainline.",
+    "reason": "High-risk image augmentation improved Precision but reduced Recall and mAP, indicating non-active regression and unsafe class/operation transfer.",
+    "known_risk_pattern": "Earlier root-cause audits localized the fixed CATF-v2 seed2 failure to risky image-space texture/ROI intervention and non-active class regression, including class-9 texture-path risk.",
+    "allowed_repair_direction": [
+      "causal probe before image augmentation",
+      "weak image augmentation / attenuation by reducing prob and strength",
+      "strict image no-op when risk is high",
+      "non-active regression constraint"
+    ],
+    "forbidden_repair_direction": [
+      "sampler_only",
+      "weighted index list as main method",
+      "hard example mining as paper main result"
+    ]
+  },
+  "conclusion": "fixed CATF-v2 is the current image-augmentation mainline baseline. Seed0 and seed1 show that CATF image augmentation has real potential, while seed2 shows the strategy still needs image-space risk control. Sampler-only is demoted to engineering exploration/ablation and must not be used as the paper main method."
+}

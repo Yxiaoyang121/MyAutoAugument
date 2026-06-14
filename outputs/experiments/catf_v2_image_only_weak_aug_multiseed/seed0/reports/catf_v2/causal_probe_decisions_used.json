@@ -1,0 +1,60 @@
+{
+  "epoch": 45,
+  "mode": "image_only_weak_replay",
+  "decision_basis": "offline_weak_image_aug_replay_no_final_val",
+  "policy_selection_source": "weak_image_aug_replay",
+  "policy_selection_data": "outputs/experiments/catf_v2_image_only_weak_aug_replay/weak_candidate_records.csv",
+  "selected_candidate_policy_id": "candidate_policy_0_noop",
+  "selected_candidate_action": "strict_noop",
+  "original_candidate_policy_id": "candidate_policy_1_roi_texture",
+  "downgraded_to_weak_roi_texture": false,
+  "attenuation_ratio": 0.25,
+  "retained_op": null,
+  "precision_aware_gate_passed": false,
+  "non_active_regression_gate_passed": false,
+  "weak_rejection_reasons": "no_prior_image_causal_evidence",
+  "sampler_only_involved": false,
+  "selected_candidate": {
+    "candidate_policy_id": "candidate_policy_0_noop",
+    "candidate_policy": {
+      "policy_id": "candidate_policy_0_noop",
+      "action": "no_op",
+      "op_list": [],
+      "image_modification": false,
+      "sample_weighting": false
+    },
+    "probe_set": {
+      "class_id": -1,
+      "candidate_policy_id": "candidate_policy_0_noop",
+      "mode": "image_only_weak_replay",
+      "development_probe_uses_existing_val_diagnostics": false
+    },
+    "causal_score": 0.0,
+    "decision": {
+      "candidate_policy_id": "candidate_policy_0_noop",
+      "accepted": false,
+      "decision": "no_op",
+      "causal_score": 0.0,
+      "rejection_reasons": [
+        "weak_candidate_not_safe"
+      ],
+      "image_modification_allowed": false,
+      "sample_weighting_allowed": false,
+      "strict_noop": true
+    }
+  },
+  "candidate_evaluations": [],
+  "image_augmentation_rejected": true,
+  "strict_image_noop": true,
+  "paper_probe_mode": false,
+  "development_probe_uses_existing_val_diagnostics": false,
+  "final_val_used_for_policy_selection": false,
+  "forbid_final_val_policy_selection": false,
+  "riskguard_interpretation": {
+    "riskguard_used_as_final_rule": false,
+    "riskguard_role": "audit_debug_prior_only"
+  },
+  "seed_specific_rule": false,
+  "fixed_class_id_specific_rule": false,
+  "dataset_specific_rule": false
+}

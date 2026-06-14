@@ -1,38 +1,19 @@
 # Project Snapshot
 
-- Generated: 2026-06-13T22:49:12
+- Generated: 2026-06-14T08:30:18
 - Branch: codex/sync-latest
-- Commit: bab36e74280f466dbc96c81e02197ba21e373e4b
+- Commit: 98aa89160d3537378a03289acdd861f97624498b
 - Remote: https://github.com/Yxiaoyang121/MyAutoAugument.git
-
-## Current Image-Only Weak Augmentation Status
-
-- `sampler_only` remains demoted and did not participate in the seed2 weak augmentation validation.
-- Seed2 image-only weak augmentation 50ep completed under `outputs/experiments/catf_v2_image_only_weak_aug_seed2_50ep/`.
-- Weak ROI texture used `candidate_policy_1b_weak_roi_texture`, attenuation ratio `0.25`, retained op `local_contrast`, weak prob/strength `0.045/0.05`, and cap `16` augmented samples per feedback interval.
-- Weak image augmentation executed: industrial images augmented `80`, ROI applied `95`, router random draws `1922`.
-- Sampling stayed unchanged: `sampler_only_enabled=false`, `weighted_index_list_enabled=false`, `sampled_distribution_changed=false`.
-- Seed2 metrics: P=`0.7533`, R=`0.6942`, mAP50=`0.7727`, mAP50-95=`0.5151`, `constraint_failed=false`.
-- Delta vs clean seed2: dP=`+0.0570`, dR=`-0.0344`, dM50=`+0.0035`, dM95=`-0.0072`.
-- Delta vs fixed CATF-v2 seed2: dP=`-0.0104`, dR=`+0.0079`, dM50=`+0.0145`, dM95=`+0.0185`.
-- Next image-only validation step: run seed0/seed1 sanity only if requested.
 
 ## Working Tree
 
 ```text
- M AutoAugment/catf_v2/causal_probe.py
- M AutoAugment/catf_v2/sample_router.py
  M CODEX_HANDOFF.md
  M EXPERIMENT_LOG.md
  M PROJECT_STATE.md
  M outputs/project_snapshot_latest.md
  M outputs/snapshots/project_snapshot_latest.md
- M scripts/train_yolo_default_with_inloop_feedback.py
- M tests/test_catf_v2_sample_router.py
- M tests/test_cp_catf_accept_to_execution.py
-?? outputs/experiments/catf_v2_image_only_weak_aug_seed2_50ep/
-?? scripts/build_weak_image_aug_decision_schedule.py
-?? scripts/summarize_weak_image_aug_seed2.py
+?? outputs/experiments/catf_v2_image_only_weak_aug_multiseed/
 ```
 
 ## Key Files
@@ -237,7 +218,37 @@
 
 ## Tracked File Count
 
-- 8896 tracked files
+- 8913 tracked files
+
+## Latest Experiment State
+
+- Date: `2026-06-14`.
+- Latest run group: `outputs/experiments/catf_v2_image_only_weak_aug_multiseed/`.
+- Scope: image-only weak augmentation sanity for seed0/seed1; seed2 reused from `outputs/experiments/catf_v2_image_only_weak_aug_seed2_50ep/`.
+- Sampler-only remains demoted and was not used; weighted index list was not used; sampled distribution did not change.
+- Seed0 weak image augmentation:
+  - P/R/mAP50/mAP50-95 `0.679043/0.711821/0.722170/0.476005`.
+  - Delta vs clean `-0.105511/+0.035364/-0.012525/+0.000111`.
+  - Industrial augmented `16`; ROI applied `18`.
+  - `constraint_failed=true` due Precision and mAP50 drops.
+- Seed1 weak image augmentation:
+  - P/R/mAP50/mAP50-95 `0.765605/0.712074/0.776844/0.506815`.
+  - Delta vs clean `-0.006920/+0.064394/+0.022653/+0.026896`.
+  - Industrial augmented `32`; ROI applied `38`.
+  - `constraint_failed=false`.
+- Seed2 weak image augmentation reused:
+  - P/R/mAP50/mAP50-95 `0.753254/0.694235/0.772718/0.515138`.
+  - Delta vs clean `+0.057015/-0.034395/+0.003515/-0.007233`.
+  - `constraint_failed=false`; Recall warning remains.
+- Multiseed outcome:
+  - Constraint pass count `2/3`; `3/3 pass=false`.
+  - Mean delta vs clean `-0.018472/+0.021788/+0.004548/+0.006591`.
+  - Total industrial augmented `128`; total ROI applied `151`.
+  - Current image-only weak CP-CATF setting is not yet a 3-seed paper main-method candidate.
+- Reports:
+  - `outputs/experiments/catf_v2_image_only_weak_aug_multiseed/seed0/reports/seed0_weak_image_aug_report.md`
+  - `outputs/experiments/catf_v2_image_only_weak_aug_multiseed/seed1/reports/seed1_weak_image_aug_report.md`
+  - `outputs/experiments/catf_v2_image_only_weak_aug_multiseed/reports/weak_image_aug_multiseed_summary.md`
 
 ## Notes
 

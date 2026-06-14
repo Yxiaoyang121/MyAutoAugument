@@ -1,0 +1,17 @@
+epoch,class_id,action,op,field,before,after,reason,guard_triggered
+5,11,accept,sharpen_mild,prob,0.0,0.015,texture_boundary_weak,causal_probe_no_candidate_passed
+5,11,accept,sharpen_mild,strength,0.0,0.02,texture_boundary_weak,causal_probe_no_candidate_passed
+5,11,accept,local_contrast,prob,0.0,0.015,texture_boundary_weak,causal_probe_no_candidate_passed
+5,11,accept,local_contrast,strength,0.0,0.02,texture_boundary_weak,causal_probe_no_candidate_passed
+5,4,accept,sharpen_mild,prob,0.0,0.005,low_recall_domain_prior,causal_probe_no_candidate_passed
+5,4,accept,sharpen_mild,strength,0.0,0.01,low_recall_domain_prior,causal_probe_no_candidate_passed
+5,4,accept,local_contrast,prob,0.0,0.005,low_recall_domain_prior,causal_probe_no_candidate_passed
+5,4,accept,local_contrast,strength,0.0,0.01,low_recall_domain_prior,causal_probe_no_candidate_passed
+10,,observe,,,,,,causal_probe_no_candidate_passed
+15,,observe,,,,,,causal_probe_no_candidate_passed
+20,,observe,,,,,,causal_probe_no_candidate_passed
+25,,observe,,,,,,
+30,,shrink,,,,,,"global_precision_guard,causal_probe_no_candidate_passed"
+35,,shrink,,,,,,"global_precision_guard,causal_probe_no_candidate_passed"
+40,,freeze,,,,,,"epoch_ge_40,causal_probe_no_candidate_passed"
+45,,freeze,,,,,,"epoch_ge_40,causal_probe_no_candidate_passed"

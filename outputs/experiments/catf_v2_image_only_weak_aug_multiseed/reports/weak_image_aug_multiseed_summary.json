@@ -1,0 +1,3210 @@
+{
+  "rows": [
+    {
+      "seed": 0,
+      "clean": {
+        "precision": 0.7845544620314738,
+        "recall": 0.6764566929659848,
+        "map50": 0.7346955158165702,
+        "map50_95": 0.4758941249341509
+      },
+      "fixed_catf_v2": {
+        "precision": 0.7785060827516979,
+        "recall": 0.6696537893735843,
+        "map50": 0.7436574966447125,
+        "map50_95": 0.4895409913055733
+      },
+      "weak_image_aug": {
+        "precision": 0.6790430592807836,
+        "recall": 0.7118209402717776,
+        "map50": 0.7221704786859824,
+        "map50_95": 0.4760047539700647
+      },
+      "delta_vs_clean": {
+        "precision": -0.10551140275069026,
+        "recall": 0.035364247305792795,
+        "map50": -0.012525037130587835,
+        "map50_95": 0.00011062903591380069
+      },
+      "delta_vs_fixed_catf_v2": {
+        "precision": -0.09946302347091429,
+        "recall": 0.04216715089819323,
+        "map50": -0.021487017958730092,
+        "map50_95": -0.013536237335508627
+      },
+      "constraint_failed": true,
+      "recall_warning": false,
+      "weak_image_augmentation_executed": true,
+      "industrial_image_augmented": 16,
+      "roi_aug_applied": 18,
+      "sampler_only_enabled": false,
+      "weighted_index_list_enabled": false,
+      "sampled_distribution_changed": false,
+      "final_val_used_for_policy_selection": false
+    },
+    {
+      "seed": 1,
+      "clean": {
+        "precision": 0.7725246158861973,
+        "recall": 0.6476798989752319,
+        "map50": 0.7541905909810253,
+        "map50_95": 0.4799185559746686
+      },
+      "fixed_catf_v2": {
+        "precision": 0.7851989347944973,
+        "recall": 0.700509393329673,
+        "map50": 0.7826175032103642,
+        "map50_95": 0.5188785833030913
+      },
+      "weak_image_aug": {
+        "precision": 0.7656046490419111,
+        "recall": 0.7120736612318536,
+        "map50": 0.7768440907666676,
+        "map50_95": 0.5068145354450279
+      },
+      "delta_vs_clean": {
+        "precision": -0.006919966844286196,
+        "recall": 0.06439376225662163,
+        "map50": 0.02265349978564235,
+        "map50_95": 0.026895979470359266
+      },
+      "delta_vs_fixed_catf_v2": {
+        "precision": -0.01959428575258626,
+        "recall": 0.01156426790218057,
+        "map50": -0.005773412443696557,
+        "map50_95": -0.012064047858063476
+      },
+      "constraint_failed": false,
+      "recall_warning": false,
+      "weak_image_augmentation_executed": true,
+      "industrial_image_augmented": 32,
+      "roi_aug_applied": 38,
+      "sampler_only_enabled": false,
+      "weighted_index_list_enabled": false,
+      "sampled_distribution_changed": false,
+      "final_val_used_for_policy_selection": false
+    },
+    {
+      "seed": 2,
+      "clean": {
+        "precision": 0.6962390186664107,
+        "recall": 0.728629640010866,
+        "map50": 0.7692030787336794,
+        "map50_95": 0.5223713770570699
+      },
+      "fixed_catf_v2": {
+        "precision": 0.7636577080243924,
+        "recall": 0.6863445827915785,
+        "map50": 0.7582462462317862,
+        "map50_95": 0.4966842829943364
+      },
+      "weak_image_aug": {
+        "precision": 0.7532541449750461,
+        "recall": 0.694234807840439,
+        "map50": 0.772717847114744,
+        "map50_95": 0.515138029007079
+      },
+      "delta_vs_clean": {
+        "precision": 0.05701512630863537,
+        "recall": -0.03439483217042705,
+        "map50": 0.0035147683810645702,
+        "map50_95": -0.007233348049990984
+      },
+      "delta_vs_fixed_catf_v2": {
+        "precision": -0.01040356304934631,
+        "recall": 0.0078902250488605,
+        "map50": 0.014471600882957847,
+        "map50_95": 0.018453746012742522
+      },
+      "constraint_failed": false,
+      "recall_warning": true,
+      "weak_image_augmentation_executed": true,
+      "industrial_image_augmented": 80,
+      "roi_aug_applied": 95,
+      "sampler_only_enabled": false,
+      "weighted_index_list_enabled": false,
+      "sampled_distribution_changed": false,
+      "final_val_used_for_policy_selection": false
+    }
+  ],
+  "seed_reports": [
+    {
+      "seed": 0,
+      "run_root": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\catf_v2_image_only_weak_aug_multiseed\\seed0",
+      "clean": {
+        "precision": 0.7845544620314738,
+        "recall": 0.6764566929659848,
+        "map50": 0.7346955158165702,
+        "map50_95": 0.4758941249341509
+      },
+      "fixed_catf_v2": {
+        "precision": 0.7785060827516979,
+        "recall": 0.6696537893735843,
+        "map50": 0.7436574966447125,
+        "map50_95": 0.4895409913055733
+      },
+      "weak_image_aug": {
+        "precision": 0.6790430592807836,
+        "recall": 0.7118209402717776,
+        "map50": 0.7221704786859824,
+        "map50_95": 0.4760047539700647
+      },
+      "delta_vs_clean": {
+        "precision": -0.10551140275069026,
+        "recall": 0.035364247305792795,
+        "map50": -0.012525037130587835,
+        "map50_95": 0.00011062903591380069
+      },
+      "delta_vs_fixed_catf_v2": {
+        "precision": -0.09946302347091429,
+        "recall": 0.04216715089819323,
+        "map50": -0.021487017958730092,
+        "map50_95": -0.013536237335508627
+      },
+      "constraint_scoring": {
+        "computed_constraint_failed": true,
+        "computed_failure_reasons": [
+          "precision_drop_gt_0.01",
+          "map50_drop_gt_0.01"
+        ],
+        "source_constraint_failed": true,
+        "source_failure_reasons": [
+          "precision_drop_gt_0.01",
+          "map50_drop_gt_0.01"
+        ],
+        "rules": {
+          "precision_drop_gt_0.01": true,
+          "map50_drop_gt_0.01": true,
+          "map50_95_drop_gt_0.01": true,
+          "recall_is_warning_not_hard_constraint": true
+        }
+      },
+      "weak_candidate_events": [
+        {
+          "epoch": 25,
+          "catf_causal_probe": true,
+          "source": "offline_probe_decisions",
+          "selected_candidate_policy_id": "candidate_policy_1b_weak_roi_texture",
+          "selected_candidate_action": "weak_roi_texture",
+          "selected_causal_score": -0.10273684210526315,
+          "candidate_class_id": 9,
+          "op_whitelist": [
+            "local_contrast"
+          ],
+          "image_modification_allowed": true,
+          "sample_weighting_allowed": false,
+          "sample_weighting_effective": false,
+          "sample_weighting_status": "not_requested",
+          "probe_reject_image_aug": false,
+          "development_probe_uses_existing_val_diagnostics": false,
+          "paper_probe_mode": false,
+          "policy_selection_source": "weak_image_aug_replay",
+          "policy_selection_data": "outputs/experiments/catf_v2_image_only_weak_aug_replay/weak_candidate_records.csv",
+          "final_val_used_for_policy_selection": false,
+          "forbid_final_val_policy_selection": false,
+          "decision_basis": "offline_weak_image_aug_replay_no_final_val",
+          "seed_specific_rule": false,
+          "fixed_class_id_specific_rule": false,
+          "riskguard_used_as_final_rule": false,
+          "sampler_only_disabled": true,
+          "original_candidate_policy_id": "candidate_policy_1_roi_texture",
+          "downgraded_to_weak_roi_texture": true,
+          "precision_aware_gate_passed": true,
+          "non_active_regression_gate_passed": true,
+          "weak_rejection_reasons": null,
+          "action": "accept_offline_probe_candidate",
+          "reason": "offline_causal_probe_candidate_accepted",
+          "candidate_ops_injected": [
+            {
+              "op_name": "local_contrast",
+              "prob": 0.045,
+              "strength": 0.05
+            }
+          ],
+          "candidate_policy_injected": true,
+          "sample_router_allowed": true,
+          "activation_noop_reason": null,
+          "weak_image_aug": true,
+          "attenuation_ratio": 0.25,
+          "retained_op": "local_contrast",
+          "original_prob": 0.18,
+          "original_strength": 0.2,
+          "weak_prob": 0.045,
+          "weak_strength": 0.05,
+          "max_aug_samples_per_interval": 16,
+          "target_high_fp_guard_overridden_by_weak_gate": true,
+          "use_offline_probe_decisions": true,
+          "offline_probe_decision_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\catf_v2_image_only_weak_aug_multiseed\\seed0\\configs\\weak_image_aug_offline_decisions_seed0.json"
+        }
+      ],
+      "strict_noop_events": [
+        {
+          "epoch": 5,
+          "catf_causal_probe": true,
+          "source": "offline_probe_decisions",
+          "selected_candidate_policy_id": "candidate_policy_0_noop",
+          "selected_candidate_action": "strict_noop",
+          "selected_causal_score": 0.0,
+          "candidate_class_id": 8,
+          "op_whitelist": [],
+          "image_modification_allowed": false,
+          "sample_weighting_allowed": false,
+          "sample_weighting_effective": false,
+          "sample_weighting_status": "not_requested",
+          "probe_reject_image_aug": true,
+          "development_probe_uses_existing_val_diagnostics": false,
+          "paper_probe_mode": false,
+          "policy_selection_source": "weak_image_aug_replay",
+          "policy_selection_data": "outputs/experiments/catf_v2_image_only_weak_aug_replay/weak_candidate_records.csv",
+          "final_val_used_for_policy_selection": false,
+          "forbid_final_val_policy_selection": false,
+          "decision_basis": "offline_weak_image_aug_replay_no_final_val",
+          "seed_specific_rule": false,
+          "fixed_class_id_specific_rule": false,
+          "riskguard_used_as_final_rule": false,
+          "sampler_only_disabled": true,
+          "original_candidate_policy_id": "candidate_policy_1_roi_texture",
+          "downgraded_to_weak_roi_texture": false,
+          "precision_aware_gate_passed": false,
+          "non_active_regression_gate_passed": false,
+          "weak_rejection_reasons": "no_prior_image_causal_evidence",
+          "action": "strict_no_op",
+          "reason": "offline_causal_probe_rejected_image_augmentation",
+          "use_offline_probe_decisions": true,
+          "offline_probe_decision_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\catf_v2_image_only_weak_aug_multiseed\\seed0\\configs\\weak_image_aug_offline_decisions_seed0.json"
+        },
+        {
+          "epoch": 10,
+          "catf_causal_probe": true,
+          "source": "offline_probe_decisions",
+          "selected_candidate_policy_id": "candidate_policy_0_noop",
+          "selected_candidate_action": "strict_noop",
+          "selected_causal_score": 0.0,
+          "candidate_class_id": 8,
+          "op_whitelist": [],
+          "image_modification_allowed": false,
+          "sample_weighting_allowed": false,
+          "sample_weighting_effective": false,
+          "sample_weighting_status": "not_requested",
+          "probe_reject_image_aug": true,
+          "development_probe_uses_existing_val_diagnostics": false,
+          "paper_probe_mode": false,
+          "policy_selection_source": "weak_image_aug_replay",
+          "policy_selection_data": "outputs/experiments/catf_v2_image_only_weak_aug_replay/weak_candidate_records.csv",
+          "final_val_used_for_policy_selection": false,
+          "forbid_final_val_policy_selection": false,
+          "decision_basis": "offline_weak_image_aug_replay_no_final_val",
+          "seed_specific_rule": false,
+          "fixed_class_id_specific_rule": false,
+          "riskguard_used_as_final_rule": false,
+          "sampler_only_disabled": true,
+          "original_candidate_policy_id": "candidate_policy_1_roi_texture",
+          "downgraded_to_weak_roi_texture": false,
+          "precision_aware_gate_passed": false,
+          "non_active_regression_gate_passed": false,
+          "weak_rejection_reasons": "no_prior_image_causal_evidence",
+          "action": "strict_no_op",
+          "reason": "offline_causal_probe_rejected_image_augmentation",
+          "use_offline_probe_decisions": true,
+          "offline_probe_decision_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\catf_v2_image_only_weak_aug_multiseed\\seed0\\configs\\weak_image_aug_offline_decisions_seed0.json"
+        },
+        {
+          "epoch": 15,
+          "catf_causal_probe": true,
+          "source": "offline_probe_decisions",
+          "selected_candidate_policy_id": "candidate_policy_0_noop",
+          "selected_candidate_action": "strict_noop",
+          "selected_causal_score": 0.0,
+          "candidate_class_id": 12,
+          "op_whitelist": [],
+          "image_modification_allowed": false,
+          "sample_weighting_allowed": false,
+          "sample_weighting_effective": false,
+          "sample_weighting_status": "not_requested",
+          "probe_reject_image_aug": true,
+          "development_probe_uses_existing_val_diagnostics": false,
+          "paper_probe_mode": false,
+          "policy_selection_source": "weak_image_aug_replay",
+          "policy_selection_data": "outputs/experiments/catf_v2_image_only_weak_aug_replay/weak_candidate_records.csv",
+          "final_val_used_for_policy_selection": false,
+          "forbid_final_val_policy_selection": false,
+          "decision_basis": "offline_weak_image_aug_replay_no_final_val",
+          "seed_specific_rule": false,
+          "fixed_class_id_specific_rule": false,
+          "riskguard_used_as_final_rule": false,
+          "sampler_only_disabled": true,
+          "original_candidate_policy_id": "candidate_policy_1_roi_texture",
+          "downgraded_to_weak_roi_texture": false,
+          "precision_aware_gate_passed": false,
+          "non_active_regression_gate_passed": false,
+          "weak_rejection_reasons": "no_prior_image_causal_evidence",
+          "action": "strict_no_op",
+          "reason": "offline_causal_probe_rejected_image_augmentation",
+          "use_offline_probe_decisions": true,
+          "offline_probe_decision_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\catf_v2_image_only_weak_aug_multiseed\\seed0\\configs\\weak_image_aug_offline_decisions_seed0.json"
+        },
+        {
+          "epoch": 20,
+          "catf_causal_probe": true,
+          "source": "offline_probe_decisions",
+          "selected_candidate_policy_id": "candidate_policy_0_noop",
+          "selected_candidate_action": "strict_noop",
+          "selected_causal_score": 0.0,
+          "candidate_class_id": 9,
+          "op_whitelist": [],
+          "image_modification_allowed": false,
+          "sample_weighting_allowed": false,
+          "sample_weighting_effective": false,
+          "sample_weighting_status": "not_requested",
+          "probe_reject_image_aug": true,
+          "development_probe_uses_existing_val_diagnostics": false,
+          "paper_probe_mode": false,
+          "policy_selection_source": "weak_image_aug_replay",
+          "policy_selection_data": "outputs/experiments/catf_v2_image_only_weak_aug_replay/weak_candidate_records.csv",
+          "final_val_used_for_policy_selection": false,
+          "forbid_final_val_policy_selection": false,
+          "decision_basis": "offline_weak_image_aug_replay_no_final_val",
+          "seed_specific_rule": false,
+          "fixed_class_id_specific_rule": false,
+          "riskguard_used_as_final_rule": false,
+          "sampler_only_disabled": true,
+          "original_candidate_policy_id": "candidate_policy_1_roi_texture",
+          "downgraded_to_weak_roi_texture": false,
+          "precision_aware_gate_passed": false,
+          "non_active_regression_gate_passed": false,
+          "weak_rejection_reasons": "no_prior_image_causal_evidence",
+          "action": "strict_no_op",
+          "reason": "offline_causal_probe_rejected_image_augmentation",
+          "use_offline_probe_decisions": true,
+          "offline_probe_decision_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\catf_v2_image_only_weak_aug_multiseed\\seed0\\configs\\weak_image_aug_offline_decisions_seed0.json"
+        },
+        {
+          "epoch": 30,
+          "catf_causal_probe": true,
+          "source": "offline_probe_decisions",
+          "selected_candidate_policy_id": "candidate_policy_0_noop",
+          "selected_candidate_action": "strict_noop",
+          "selected_causal_score": 0.0,
+          "candidate_class_id": -1,
+          "op_whitelist": [],
+          "image_modification_allowed": false,
+          "sample_weighting_allowed": false,
+          "sample_weighting_effective": false,
+          "sample_weighting_status": "not_requested",
+          "probe_reject_image_aug": true,
+          "development_probe_uses_existing_val_diagnostics": false,
+          "paper_probe_mode": false,
+          "policy_selection_source": "weak_image_aug_replay",
+          "policy_selection_data": "outputs/experiments/catf_v2_image_only_weak_aug_replay/weak_candidate_records.csv",
+          "final_val_used_for_policy_selection": false,
+          "forbid_final_val_policy_selection": false,
+          "decision_basis": "offline_weak_image_aug_replay_no_final_val",
+          "seed_specific_rule": false,
+          "fixed_class_id_specific_rule": false,
+          "riskguard_used_as_final_rule": false,
+          "sampler_only_disabled": true,
+          "original_candidate_policy_id": "candidate_policy_1_roi_texture",
+          "downgraded_to_weak_roi_texture": false,
+          "precision_aware_gate_passed": false,
+          "non_active_regression_gate_passed": false,
+          "weak_rejection_reasons": "no_prior_image_causal_evidence",
+          "action": "strict_no_op",
+          "reason": "offline_causal_probe_rejected_image_augmentation",
+          "use_offline_probe_decisions": true,
+          "offline_probe_decision_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\catf_v2_image_only_weak_aug_multiseed\\seed0\\configs\\weak_image_aug_offline_decisions_seed0.json"
+        },
+        {
+          "epoch": 35,
+          "catf_causal_probe": true,
+          "source": "offline_probe_decisions",
+          "selected_candidate_policy_id": "candidate_policy_0_noop",
+          "selected_candidate_action": "strict_noop",
+          "selected_causal_score": 0.0,
+          "candidate_class_id": -1,
+          "op_whitelist": [],
+          "image_modification_allowed": false,
+          "sample_weighting_allowed": false,
+          "sample_weighting_effective": false,
+          "sample_weighting_status": "not_requested",
+          "probe_reject_image_aug": true,
+          "development_probe_uses_existing_val_diagnostics": false,
+          "paper_probe_mode": false,
+          "policy_selection_source": "weak_image_aug_replay",
+          "policy_selection_data": "outputs/experiments/catf_v2_image_only_weak_aug_replay/weak_candidate_records.csv",
+          "final_val_used_for_policy_selection": false,
+          "forbid_final_val_policy_selection": false,
+          "decision_basis": "offline_weak_image_aug_replay_no_final_val",
+          "seed_specific_rule": false,
+          "fixed_class_id_specific_rule": false,
+          "riskguard_used_as_final_rule": false,
+          "sampler_only_disabled": true,
+          "original_candidate_policy_id": "candidate_policy_1_roi_texture",
+          "downgraded_to_weak_roi_texture": false,
+          "precision_aware_gate_passed": false,
+          "non_active_regression_gate_passed": false,
+          "weak_rejection_reasons": "no_prior_image_causal_evidence",
+          "action": "strict_no_op",
+          "reason": "offline_causal_probe_rejected_image_augmentation",
+          "use_offline_probe_decisions": true,
+          "offline_probe_decision_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\catf_v2_image_only_weak_aug_multiseed\\seed0\\configs\\weak_image_aug_offline_decisions_seed0.json"
+        },
+        {
+          "epoch": 40,
+          "catf_causal_probe": true,
+          "source": "offline_probe_decisions",
+          "selected_candidate_policy_id": "candidate_policy_0_noop",
+          "selected_candidate_action": "strict_noop",
+          "selected_causal_score": 0.0,
+          "candidate_class_id": 6,
+          "op_whitelist": [],
+          "image_modification_allowed": false,
+          "sample_weighting_allowed": false,
+          "sample_weighting_effective": false,
+          "sample_weighting_status": "not_requested",
+          "probe_reject_image_aug": true,
+          "development_probe_uses_existing_val_diagnostics": false,
+          "paper_probe_mode": false,
+          "policy_selection_source": "weak_image_aug_replay",
+          "policy_selection_data": "outputs/experiments/catf_v2_image_only_weak_aug_replay/weak_candidate_records.csv",
+          "final_val_used_for_policy_selection": false,
+          "forbid_final_val_policy_selection": false,
+          "decision_basis": "offline_weak_image_aug_replay_no_final_val",
+          "seed_specific_rule": false,
+          "fixed_class_id_specific_rule": false,
+          "riskguard_used_as_final_rule": false,
+          "sampler_only_disabled": true,
+          "original_candidate_policy_id": "candidate_policy_1_roi_texture",
+          "downgraded_to_weak_roi_texture": false,
+          "precision_aware_gate_passed": false,
+          "non_active_regression_gate_passed": false,
+          "weak_rejection_reasons": "no_prior_image_causal_evidence",
+          "action": "strict_no_op",
+          "reason": "offline_causal_probe_rejected_image_augmentation",
+          "use_offline_probe_decisions": true,
+          "offline_probe_decision_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\catf_v2_image_only_weak_aug_multiseed\\seed0\\configs\\weak_image_aug_offline_decisions_seed0.json"
+        },
+        {
+          "epoch": 45,
+          "catf_causal_probe": true,
+          "source": "offline_probe_decisions",
+          "selected_candidate_policy_id": "candidate_policy_0_noop",
+          "selected_candidate_action": "strict_noop",
+          "selected_causal_score": 0.0,
+          "candidate_class_id": -1,
+          "op_whitelist": [],
+          "image_modification_allowed": false,
+          "sample_weighting_allowed": false,
+          "sample_weighting_effective": false,
+          "sample_weighting_status": "not_requested",
+          "probe_reject_image_aug": true,
+          "development_probe_uses_existing_val_diagnostics": false,
+          "paper_probe_mode": false,
+          "policy_selection_source": "weak_image_aug_replay",
+          "policy_selection_data": "outputs/experiments/catf_v2_image_only_weak_aug_replay/weak_candidate_records.csv",
+          "final_val_used_for_policy_selection": false,
+          "forbid_final_val_policy_selection": false,
+          "decision_basis": "offline_weak_image_aug_replay_no_final_val",
+          "seed_specific_rule": false,
+          "fixed_class_id_specific_rule": false,
+          "riskguard_used_as_final_rule": false,
+          "sampler_only_disabled": true,
+          "original_candidate_policy_id": "candidate_policy_1_roi_texture",
+          "downgraded_to_weak_roi_texture": false,
+          "precision_aware_gate_passed": false,
+          "non_active_regression_gate_passed": false,
+          "weak_rejection_reasons": "no_prior_image_causal_evidence",
+          "action": "strict_no_op",
+          "reason": "offline_causal_probe_rejected_image_augmentation",
+          "use_offline_probe_decisions": true,
+          "offline_probe_decision_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\catf_v2_image_only_weak_aug_multiseed\\seed0\\configs\\weak_image_aug_offline_decisions_seed0.json"
+        }
+      ],
+      "weak_candidate_count": 1,
+      "strict_noop_count": 8,
+      "weak_candidate_ops": [
+        {
+          "epoch": 25,
+          "candidate_policy_id": "candidate_policy_1b_weak_roi_texture",
+          "original_candidate_policy_id": "candidate_policy_1_roi_texture",
+          "candidate_class_id": 9,
+          "retained_op": "local_contrast",
+          "op_whitelist": [
+            "local_contrast"
+          ],
+          "original_prob": 0.18,
+          "original_strength": 0.2,
+          "weak_prob": 0.045,
+          "weak_strength": 0.05,
+          "attenuation_ratio": 0.25,
+          "max_aug_samples_per_interval": 16,
+          "precision_aware_gate_passed": true,
+          "non_active_regression_gate_passed": true,
+          "sample_router_allowed": true,
+          "image_modification_allowed": true,
+          "sample_weighting_allowed": false
+        }
+      ],
+      "online_augmentation": {
+        "samples_seen": 115050,
+        "samples_augmented": 16,
+        "router_random_draw_count": 341,
+        "weak_image_aug_interval_counts": {
+          "9:25": 16
+        },
+        "invalid_bbox_count": 0,
+        "bbox_oob_count": 0,
+        "class_id_oob_count": 0,
+        "sample_weight_map_generated": false,
+        "weighted_train_core_images_count": 0,
+        "weighted_index_list_enabled": false,
+        "sampled_distribution_changed": false,
+        "sampler_only_effective": false,
+        "sampler_only_status": "not_requested"
+      },
+      "roi_augmentation": {
+        "roi_aug_applied": 18,
+        "roi_aug_skipped_small_roi": 0,
+        "roi_aug_skipped_conflict": 0,
+        "affected_classes": {
+          "9": 18
+        }
+      },
+      "class_comparison": {
+        "0": {
+          "class_id": 0,
+          "name": "OK2",
+          "clean": {
+            "precision": 0.9215084289014884,
+            "recall": 0.984375,
+            "ap50": 0.9926504481434059,
+            "ap50_95": 0.8174729135139188
+          },
+          "fixed": {
+            "precision": null,
+            "recall": null,
+            "ap50": null,
+            "ap50_95": null
+          },
+          "weak": {
+            "precision": 0.8697541607550191,
+            "recall": 0.96875,
+            "ap50": 0.9891203007518797,
+            "ap50_95": 0.8406529087765209
+          },
+          "delta_weak_vs_clean": {
+            "precision": -0.05175426814646933,
+            "recall": -0.015625,
+            "ap50": -0.0035301473915261283,
+            "ap50_95": 0.02317999526260206
+          },
+          "delta_weak_vs_fixed": {
+            "precision": 0.8697541607550191,
+            "recall": 0.96875,
+            "ap50": 0.9891203007518797,
+            "ap50_95": 0.8406529087765209
+          }
+        },
+        "1": {
+          "class_id": 1,
+          "name": "OK3",
+          "clean": {
+            "precision": 0.9905636740214353,
+            "recall": 0.9671532846715328,
+            "ap50": 0.9941601271104293,
+            "ap50_95": 0.830283416862839
+          },
+          "fixed": {
+            "precision": null,
+            "recall": null,
+            "ap50": null,
+            "ap50_95": null
+          },
+          "weak": {
+            "precision": 0.9852344271694342,
+            "recall": 0.9740903613024697,
+            "ap50": 0.9944170239791045,
+            "ap50_95": 0.834251978805654
+          },
+          "delta_weak_vs_clean": {
+            "precision": -0.0053292468520010905,
+            "recall": 0.0069370766309369,
+            "ap50": 0.0002568968686751383,
+            "ap50_95": 0.00396856194281503
+          },
+          "delta_weak_vs_fixed": {
+            "precision": 0.9852344271694342,
+            "recall": 0.9740903613024697,
+            "ap50": 0.9944170239791045,
+            "ap50_95": 0.834251978805654
+          }
+        },
+        "2": {
+          "class_id": 2,
+          "name": "加强筋打伤",
+          "clean": {
+            "precision": 0.8933318722979623,
+            "recall": 0.875,
+            "ap50": 0.948846153846154,
+            "ap50_95": 0.5755481172161173
+          },
+          "fixed": {
+            "precision": null,
+            "recall": null,
+            "ap50": null,
+            "ap50_95": null
+          },
+          "weak": {
+            "precision": 0.8870341651833845,
+            "recall": 0.875,
+            "ap50": 0.948846153846154,
+            "ap50_95": 0.5671527392607393
+          },
+          "delta_weak_vs_clean": {
+            "precision": -0.006297707114577777,
+            "recall": 0.0,
+            "ap50": 0.0,
+            "ap50_95": -0.008395377955378036
+          },
+          "delta_weak_vs_fixed": {
+            "precision": 0.8870341651833845,
+            "recall": 0.875,
+            "ap50": 0.948846153846154,
+            "ap50_95": 0.5671527392607393
+          }
+        },
+        "3": {
+          "class_id": 3,
+          "name": "开裂",
+          "clean": {
+            "precision": 0.5709133146518821,
+            "recall": 1.0,
+            "ap50": 0.6633333333333333,
+            "ap50_95": 0.4643333333333334
+          },
+          "fixed": {
+            "precision": null,
+            "recall": null,
+            "ap50": null,
+            "ap50_95": null
+          },
+          "weak": {
+            "precision": 0.3432110850430834,
+            "recall": 1.0,
+            "ap50": 0.4975,
+            "ap50_95": 0.3608181818181818
+          },
+          "delta_weak_vs_clean": {
+            "precision": -0.2277022296087987,
+            "recall": 0.0,
+            "ap50": -0.16583333333333333,
+            "ap50_95": -0.10351515151515156
+          },
+          "delta_weak_vs_fixed": {
+            "precision": 0.3432110850430834,
+            "recall": 1.0,
+            "ap50": 0.4975,
+            "ap50_95": 0.3608181818181818
+          }
+        },
+        "4": {
+          "class_id": 4,
+          "name": "油污",
+          "clean": {
+            "precision": 0.5590081918106473,
+            "recall": 0.2777777777777778,
+            "ap50": 0.292380328413851,
+            "ap50_95": 0.189223039952377
+          },
+          "fixed": {
+            "precision": null,
+            "recall": null,
+            "ap50": null,
+            "ap50_95": null
+          },
+          "weak": {
+            "precision": 0.3074420919776595,
+            "recall": 0.2222222222222222,
+            "ap50": 0.22578118010811388,
+            "ap50_95": 0.1530854104930305
+          },
+          "delta_weak_vs_clean": {
+            "precision": -0.25156609983298783,
+            "recall": -0.05555555555555558,
+            "ap50": -0.0665991483057371,
+            "ap50_95": -0.03613762945934648
+          },
+          "delta_weak_vs_fixed": {
+            "precision": 0.3074420919776595,
+            "recall": 0.2222222222222222,
+            "ap50": 0.22578118010811388,
+            "ap50_95": 0.1530854104930305
+          }
+        },
+        "5": {
+          "class_id": 5,
+          "name": "浅划伤",
+          "clean": {
+            "precision": 0.8129070717549678,
+            "recall": 0.46153846153846156,
+            "ap50": 0.5508103214970199,
+            "ap50_95": 0.2982477994345617
+          },
+          "fixed": {
+            "precision": null,
+            "recall": null,
+            "ap50": null,
+            "ap50_95": null
+          },
+          "weak": {
+            "precision": 0.36299394946307084,
+            "recall": 0.5384615384615384,
+            "ap50": 0.4536363901107526,
+            "ap50_95": 0.2674119278778586
+          },
+          "delta_weak_vs_clean": {
+            "precision": -0.44991312229189695,
+            "recall": 0.07692307692307687,
+            "ap50": -0.09717393138626734,
+            "ap50_95": -0.030835871556703087
+          },
+          "delta_weak_vs_fixed": {
+            "precision": 0.36299394946307084,
+            "recall": 0.5384615384615384,
+            "ap50": 0.4536363901107526,
+            "ap50_95": 0.2674119278778586
+          }
+        },
+        "6": {
+          "class_id": 6,
+          "name": "漏背锡",
+          "clean": {
+            "precision": 0.7207013035233835,
+            "recall": 0.5,
+            "ap50": 0.686114128695902,
+            "ap50_95": 0.33772492332418
+          },
+          "fixed": {
+            "precision": null,
+            "recall": null,
+            "ap50": null,
+            "ap50_95": null
+          },
+          "weak": {
+            "precision": 0.6669391645148701,
+            "recall": 0.565928255256183,
+            "ap50": 0.706745802336049,
+            "ap50_95": 0.3442843661884841
+          },
+          "delta_weak_vs_clean": {
+            "precision": -0.05376213900851334,
+            "recall": 0.06592825525618295,
+            "ap50": 0.020631673640146952,
+            "ap50_95": 0.006559442864304099
+          },
+          "delta_weak_vs_fixed": {
+            "precision": 0.6669391645148701,
+            "recall": 0.565928255256183,
+            "ap50": 0.706745802336049,
+            "ap50_95": 0.3442843661884841
+          }
+        },
+        "7": {
+          "class_id": 7,
+          "name": "碰伤",
+          "clean": {
+            "precision": 0.7835307360034848,
+            "recall": 0.5651414182166605,
+            "ap50": 0.7226816045634137,
+            "ap50_95": 0.4359481851933544
+          },
+          "fixed": {
+            "precision": null,
+            "recall": null,
+            "ap50": null,
+            "ap50_95": null
+          },
+          "weak": {
+            "precision": 0.7370653694068117,
+            "recall": 0.6394052044609665,
+            "ap50": 0.7122080583685052,
+            "ap50_95": 0.4420024606345086
+          },
+          "delta_weak_vs_clean": {
+            "precision": -0.04646536659667311,
+            "recall": 0.07426378624430596,
+            "ap50": -0.010473546194908478,
+            "ap50_95": 0.006054275441154222
+          },
+          "delta_weak_vs_fixed": {
+            "precision": 0.7370653694068117,
+            "recall": 0.6394052044609665,
+            "ap50": 0.7122080583685052,
+            "ap50_95": 0.4420024606345086
+          }
+        },
+        "8": {
+          "class_id": 8,
+          "name": "脏污",
+          "clean": {
+            "precision": 0.6317273971718765,
+            "recall": 0.5,
+            "ap50": 0.5166676496298348,
+            "ap50_95": 0.2821765064533168
+          },
+          "fixed": {
+            "precision": null,
+            "recall": null,
+            "ap50": null,
+            "ap50_95": null
+          },
+          "weak": {
+            "precision": 0.6719666687383415,
+            "recall": 0.5366809574121628,
+            "ap50": 0.5858767060807808,
+            "ap50_95": 0.31424779470168274
+          },
+          "delta_weak_vs_clean": {
+            "precision": 0.04023927156646501,
+            "recall": 0.03668095741216282,
+            "ap50": 0.069209056450946,
+            "ap50_95": 0.032071288248365915
+          },
+          "delta_weak_vs_fixed": {
+            "precision": 0.6719666687383415,
+            "recall": 0.5366809574121628,
+            "ap50": 0.5858767060807808,
+            "ap50_95": 0.31424779470168274
+          }
+        },
+        "9": {
+          "class_id": 9,
+          "name": "轮廓划伤",
+          "clean": {
+            "precision": 0.8002780023791246,
+            "recall": 0.5714285714285714,
+            "ap50": 0.7472426778079544,
+            "ap50_95": 0.3947751899763988
+          },
+          "fixed": {
+            "precision": null,
+            "recall": null,
+            "ap50": null,
+            "ap50_95": null
+          },
+          "weak": {
+            "precision": 0.7180930758685395,
+            "recall": 0.5952380952380952,
+            "ap50": 0.749961761373799,
+            "ap50_95": 0.3946353830135628
+          },
+          "delta_weak_vs_clean": {
+            "precision": -0.08218492651058507,
+            "recall": 0.023809523809523836,
+            "ap50": 0.0027190835658446044,
+            "ap50_95": -0.0001398069628359977
+          },
+          "delta_weak_vs_fixed": {
+            "precision": 0.7180930758685395,
+            "recall": 0.5952380952380952,
+            "ap50": 0.749961761373799,
+            "ap50_95": 0.3946353830135628
+          }
+        },
+        "10": {
+          "class_id": 10,
+          "name": "锡丝残留",
+          "clean": {
+            "precision": 0.7955325959387237,
+            "recall": 0.6499139014368807,
+            "ap50": 0.7764285714285716,
+            "ap50_95": 0.47936906339990026
+          },
+          "fixed": {
+            "precision": null,
+            "recall": null,
+            "ap50": null,
+            "ap50_95": null
+          },
+          "weak": {
+            "precision": 0.7938129810344401,
+            "recall": 0.8333333333333334,
+            "ap50": 0.888,
+            "ap50_95": 0.5889661392060587
+          },
+          "delta_weak_vs_clean": {
+            "precision": -0.0017196149042836284,
+            "recall": 0.1834194318964527,
+            "ap50": 0.11157142857142843,
+            "ap50_95": 0.1095970758061584
+          },
+          "delta_weak_vs_fixed": {
+            "precision": 0.7938129810344401,
+            "recall": 0.8333333333333334,
+            "ap50": 0.888,
+            "ap50_95": 0.5889661392060587
+          }
+        },
+        "11": {
+          "class_id": 11,
+          "name": "锡尖",
+          "clean": {
+            "precision": 1.0,
+            "recall": 0.773338693442166,
+            "ap50": 0.950578231292517,
+            "ap50_95": 0.61920497981492
+          },
+          "fixed": {
+            "precision": null,
+            "recall": null,
+            "ap50": null,
+            "ap50_95": null
+          },
+          "weak": {
+            "precision": 0.8012154728977422,
+            "recall": 0.8958666036722236,
+            "ap50": 0.9531359909375339,
+            "ap50_95": 0.6198407601572875
+          },
+          "delta_weak_vs_clean": {
+            "precision": -0.1987845271022578,
+            "recall": 0.1225279102300576,
+            "ap50": 0.0025577596450169215,
+            "ap50_95": 0.0006357803423675534
+          },
+          "delta_weak_vs_fixed": {
+            "precision": 0.8012154728977422,
+            "recall": 0.8958666036722236,
+            "ap50": 0.9531359909375339,
+            "ap50_95": 0.6198407601572875
+          }
+        },
+        "12": {
+          "class_id": 12,
+          "name": "锡膏",
+          "clean": {
+            "precision": 0.719205417954183,
+            "recall": 0.6682699000457512,
+            "ap50": 0.7091481298530268,
+            "ap50_95": 0.4623161556687438
+          },
+          "fixed": {
+            "precision": null,
+            "recall": null,
+            "ap50": null,
+            "ap50_95": null
+          },
+          "weak": {
+            "precision": 0.6827971585977899,
+            "recall": 0.6086956521739131,
+            "ap50": 0.6829868550250989,
+            "ap50_95": 0.4607117506772723
+          },
+          "delta_weak_vs_clean": {
+            "precision": -0.036408259356393136,
+            "recall": -0.05957424787183807,
+            "ap50": -0.02616127482792785,
+            "ap50_95": -0.0016044049914714642
+          },
+          "delta_weak_vs_fixed": {
+            "precision": 0.6827971585977899,
+            "recall": 0.6086956521739131,
+            "ap50": 0.6829868550250989,
+            "ap50_95": 0.4607117506772723
+          }
+        }
+      },
+      "non_active_regression_summary": {
+        "weak_target_class_ids": [
+          9
+        ],
+        "non_active_class_count": 12,
+        "mean_ap50_95_delta_weak_vs_fixed": 0.4827855348831066,
+        "mean_ap50_95_delta_weak_vs_clean": 0.00013149870247638798,
+        "ap50_95_regressed_vs_fixed_gt_0_01_count": 0,
+        "ap50_95_regressed_vs_clean_gt_0_01_count": 3,
+        "regressed_vs_fixed_classes": [],
+        "regressed_vs_clean_classes": [
+          {
+            "class_id": 3,
+            "name": "开裂",
+            "delta_ap50_95": -0.10351515151515156
+          },
+          {
+            "class_id": 4,
+            "name": "油污",
+            "delta_ap50_95": -0.03613762945934648
+          },
+          {
+            "class_id": 5,
+            "name": "浅划伤",
+            "delta_ap50_95": -0.030835871556703087
+          }
+        ]
+      },
+      "summary": {
+        "seed": 0,
+        "completed_50ep": true,
+        "weak_image_augmentation_executed": true,
+        "industrial_image_augmented": 16,
+        "roi_aug_applied": 18,
+        "router_random_draw_count": 341,
+        "sampler_only_enabled": false,
+        "weighted_index_list_enabled": false,
+        "sampled_distribution_changed": false,
+        "final_val_used_for_policy_selection": false,
+        "constraint_failed": true,
+        "failure_reasons": [
+          "precision_drop_gt_0.01",
+          "map50_drop_gt_0.01"
+        ],
+        "recall_warning": false,
+        "recall_warning_threshold": -0.01,
+        "fixed_catf_v2_benefit_retained": false,
+        "new_non_active_regression": false
+      },
+      "paths": {
+        "final_metrics": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\catf_v2_image_only_weak_aug_multiseed\\seed0\\reports\\final_metrics.json",
+        "online_aug_stats": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\catf_v2_image_only_weak_aug_multiseed\\seed0\\reports\\online_aug_stats.json",
+        "roi_aug_stats": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\catf_v2_image_only_weak_aug_multiseed\\seed0\\reports\\roi_aug_stats.json",
+        "causal_probe_events": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\catf_v2_image_only_weak_aug_multiseed\\seed0\\reports\\causal_probe_events.json",
+        "results_csv": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\catf_v2_image_only_weak_aug_multiseed\\seed0\\train\\results.csv"
+      }
+    },
+    {
+      "seed": 1,
+      "run_root": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\catf_v2_image_only_weak_aug_multiseed\\seed1",
+      "clean": {
+        "precision": 0.7725246158861973,
+        "recall": 0.6476798989752319,
+        "map50": 0.7541905909810253,
+        "map50_95": 0.4799185559746686
+      },
+      "fixed_catf_v2": {
+        "precision": 0.7851989347944973,
+        "recall": 0.700509393329673,
+        "map50": 0.7826175032103642,
+        "map50_95": 0.5188785833030913
+      },
+      "weak_image_aug": {
+        "precision": 0.7656046490419111,
+        "recall": 0.7120736612318536,
+        "map50": 0.7768440907666676,
+        "map50_95": 0.5068145354450279
+      },
+      "delta_vs_clean": {
+        "precision": -0.006919966844286196,
+        "recall": 0.06439376225662163,
+        "map50": 0.02265349978564235,
+        "map50_95": 0.026895979470359266
+      },
+      "delta_vs_fixed_catf_v2": {
+        "precision": -0.01959428575258626,
+        "recall": 0.01156426790218057,
+        "map50": -0.005773412443696557,
+        "map50_95": -0.012064047858063476
+      },
+      "constraint_scoring": {
+        "computed_constraint_failed": false,
+        "computed_failure_reasons": [],
+        "source_constraint_failed": false,
+        "source_failure_reasons": [],
+        "rules": {
+          "precision_drop_gt_0.01": true,
+          "map50_drop_gt_0.01": true,
+          "map50_95_drop_gt_0.01": true,
+          "recall_is_warning_not_hard_constraint": true
+        }
+      },
+      "weak_candidate_events": [
+        {
+          "epoch": 25,
+          "catf_causal_probe": true,
+          "source": "offline_probe_decisions",
+          "selected_candidate_policy_id": "candidate_policy_1b_weak_roi_texture",
+          "selected_candidate_action": "weak_roi_texture",
+          "selected_causal_score": -0.11585,
+          "candidate_class_id": 6,
+          "op_whitelist": [
+            "local_contrast"
+          ],
+          "image_modification_allowed": true,
+          "sample_weighting_allowed": false,
+          "sample_weighting_effective": false,
+          "sample_weighting_status": "not_requested",
+          "probe_reject_image_aug": false,
+          "development_probe_uses_existing_val_diagnostics": false,
+          "paper_probe_mode": false,
+          "policy_selection_source": "weak_image_aug_replay",
+          "policy_selection_data": "outputs/experiments/catf_v2_image_only_weak_aug_replay/weak_candidate_records.csv",
+          "final_val_used_for_policy_selection": false,
+          "forbid_final_val_policy_selection": false,
+          "decision_basis": "offline_weak_image_aug_replay_no_final_val",
+          "seed_specific_rule": false,
+          "fixed_class_id_specific_rule": false,
+          "riskguard_used_as_final_rule": false,
+          "sampler_only_disabled": true,
+          "original_candidate_policy_id": "candidate_policy_1_roi_texture",
+          "downgraded_to_weak_roi_texture": true,
+          "precision_aware_gate_passed": true,
+          "non_active_regression_gate_passed": true,
+          "weak_rejection_reasons": null,
+          "action": "accept_offline_probe_candidate",
+          "reason": "offline_causal_probe_candidate_accepted",
+          "candidate_ops_injected": [
+            {
+              "op_name": "local_contrast",
+              "prob": 0.045,
+              "strength": 0.05
+            }
+          ],
+          "candidate_policy_injected": true,
+          "sample_router_allowed": true,
+          "activation_noop_reason": null,
+          "weak_image_aug": true,
+          "attenuation_ratio": 0.25,
+          "retained_op": "local_contrast",
+          "original_prob": 0.18,
+          "original_strength": 0.2,
+          "weak_prob": 0.045,
+          "weak_strength": 0.05,
+          "max_aug_samples_per_interval": 16,
+          "target_high_fp_guard_overridden_by_weak_gate": true,
+          "use_offline_probe_decisions": true,
+          "offline_probe_decision_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\catf_v2_image_only_weak_aug_multiseed\\seed1\\configs\\weak_image_aug_offline_decisions_seed1.json"
+        },
+        {
+          "epoch": 40,
+          "catf_causal_probe": true,
+          "source": "offline_probe_decisions",
+          "selected_candidate_policy_id": "candidate_policy_1b_weak_roi_texture",
+          "selected_candidate_action": "weak_roi_texture",
+          "selected_causal_score": -0.07886486486486487,
+          "candidate_class_id": 9,
+          "op_whitelist": [
+            "local_contrast"
+          ],
+          "image_modification_allowed": true,
+          "sample_weighting_allowed": false,
+          "sample_weighting_effective": false,
+          "sample_weighting_status": "not_requested",
+          "probe_reject_image_aug": false,
+          "development_probe_uses_existing_val_diagnostics": false,
+          "paper_probe_mode": false,
+          "policy_selection_source": "weak_image_aug_replay",
+          "policy_selection_data": "outputs/experiments/catf_v2_image_only_weak_aug_replay/weak_candidate_records.csv",
+          "final_val_used_for_policy_selection": false,
+          "forbid_final_val_policy_selection": false,
+          "decision_basis": "offline_weak_image_aug_replay_no_final_val",
+          "seed_specific_rule": false,
+          "fixed_class_id_specific_rule": false,
+          "riskguard_used_as_final_rule": false,
+          "sampler_only_disabled": true,
+          "original_candidate_policy_id": "candidate_policy_1_roi_texture",
+          "downgraded_to_weak_roi_texture": true,
+          "precision_aware_gate_passed": true,
+          "non_active_regression_gate_passed": true,
+          "weak_rejection_reasons": null,
+          "action": "accept_offline_probe_candidate",
+          "reason": "offline_causal_probe_candidate_accepted",
+          "candidate_ops_injected": [
+            {
+              "op_name": "local_contrast",
+              "prob": 0.045,
+              "strength": 0.05
+            }
+          ],
+          "candidate_policy_injected": true,
+          "sample_router_allowed": true,
+          "activation_noop_reason": null,
+          "weak_image_aug": true,
+          "attenuation_ratio": 0.25,
+          "retained_op": "local_contrast",
+          "original_prob": 0.18,
+          "original_strength": 0.2,
+          "weak_prob": 0.045,
+          "weak_strength": 0.05,
+          "max_aug_samples_per_interval": 16,
+          "target_high_fp_guard_overridden_by_weak_gate": true,
+          "use_offline_probe_decisions": true,
+          "offline_probe_decision_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\catf_v2_image_only_weak_aug_multiseed\\seed1\\configs\\weak_image_aug_offline_decisions_seed1.json"
+        }
+      ],
+      "strict_noop_events": [
+        {
+          "epoch": 5,
+          "catf_causal_probe": true,
+          "source": "offline_probe_decisions",
+          "selected_candidate_policy_id": "candidate_policy_0_noop",
+          "selected_candidate_action": "strict_noop",
+          "selected_causal_score": 0.0,
+          "candidate_class_id": 6,
+          "op_whitelist": [],
+          "image_modification_allowed": false,
+          "sample_weighting_allowed": false,
+          "sample_weighting_effective": false,
+          "sample_weighting_status": "not_requested",
+          "probe_reject_image_aug": true,
+          "development_probe_uses_existing_val_diagnostics": false,
+          "paper_probe_mode": false,
+          "policy_selection_source": "weak_image_aug_replay",
+          "policy_selection_data": "outputs/experiments/catf_v2_image_only_weak_aug_replay/weak_candidate_records.csv",
+          "final_val_used_for_policy_selection": false,
+          "forbid_final_val_policy_selection": false,
+          "decision_basis": "offline_weak_image_aug_replay_no_final_val",
+          "seed_specific_rule": false,
+          "fixed_class_id_specific_rule": false,
+          "riskguard_used_as_final_rule": false,
+          "sampler_only_disabled": true,
+          "original_candidate_policy_id": "candidate_policy_1_roi_texture",
+          "downgraded_to_weak_roi_texture": false,
+          "precision_aware_gate_passed": false,
+          "non_active_regression_gate_passed": false,
+          "weak_rejection_reasons": "no_prior_image_causal_evidence",
+          "action": "strict_no_op",
+          "reason": "offline_causal_probe_rejected_image_augmentation",
+          "use_offline_probe_decisions": true,
+          "offline_probe_decision_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\catf_v2_image_only_weak_aug_multiseed\\seed1\\configs\\weak_image_aug_offline_decisions_seed1.json"
+        },
+        {
+          "epoch": 10,
+          "catf_causal_probe": true,
+          "source": "offline_probe_decisions",
+          "selected_candidate_policy_id": "candidate_policy_0_noop",
+          "selected_candidate_action": "strict_noop",
+          "selected_causal_score": 0.0,
+          "candidate_class_id": 6,
+          "op_whitelist": [],
+          "image_modification_allowed": false,
+          "sample_weighting_allowed": false,
+          "sample_weighting_effective": false,
+          "sample_weighting_status": "not_requested",
+          "probe_reject_image_aug": true,
+          "development_probe_uses_existing_val_diagnostics": false,
+          "paper_probe_mode": false,
+          "policy_selection_source": "weak_image_aug_replay",
+          "policy_selection_data": "outputs/experiments/catf_v2_image_only_weak_aug_replay/weak_candidate_records.csv",
+          "final_val_used_for_policy_selection": false,
+          "forbid_final_val_policy_selection": false,
+          "decision_basis": "offline_weak_image_aug_replay_no_final_val",
+          "seed_specific_rule": false,
+          "fixed_class_id_specific_rule": false,
+          "riskguard_used_as_final_rule": false,
+          "sampler_only_disabled": true,
+          "original_candidate_policy_id": "candidate_policy_1_roi_texture",
+          "downgraded_to_weak_roi_texture": false,
+          "precision_aware_gate_passed": false,
+          "non_active_regression_gate_passed": false,
+          "weak_rejection_reasons": "no_prior_image_causal_evidence",
+          "action": "strict_no_op",
+          "reason": "offline_causal_probe_rejected_image_augmentation",
+          "use_offline_probe_decisions": true,
+          "offline_probe_decision_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\catf_v2_image_only_weak_aug_multiseed\\seed1\\configs\\weak_image_aug_offline_decisions_seed1.json"
+        },
+        {
+          "epoch": 15,
+          "catf_causal_probe": true,
+          "source": "offline_probe_decisions",
+          "selected_candidate_policy_id": "candidate_policy_0_noop",
+          "selected_candidate_action": "strict_noop",
+          "selected_causal_score": 0.0,
+          "candidate_class_id": 6,
+          "op_whitelist": [],
+          "image_modification_allowed": false,
+          "sample_weighting_allowed": false,
+          "sample_weighting_effective": false,
+          "sample_weighting_status": "not_requested",
+          "probe_reject_image_aug": true,
+          "development_probe_uses_existing_val_diagnostics": false,
+          "paper_probe_mode": false,
+          "policy_selection_source": "weak_image_aug_replay",
+          "policy_selection_data": "outputs/experiments/catf_v2_image_only_weak_aug_replay/weak_candidate_records.csv",
+          "final_val_used_for_policy_selection": false,
+          "forbid_final_val_policy_selection": false,
+          "decision_basis": "offline_weak_image_aug_replay_no_final_val",
+          "seed_specific_rule": false,
+          "fixed_class_id_specific_rule": false,
+          "riskguard_used_as_final_rule": false,
+          "sampler_only_disabled": true,
+          "original_candidate_policy_id": "candidate_policy_1_roi_texture",
+          "downgraded_to_weak_roi_texture": false,
+          "precision_aware_gate_passed": false,
+          "non_active_regression_gate_passed": false,
+          "weak_rejection_reasons": "no_prior_image_causal_evidence",
+          "action": "strict_no_op",
+          "reason": "offline_causal_probe_rejected_image_augmentation",
+          "use_offline_probe_decisions": true,
+          "offline_probe_decision_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\catf_v2_image_only_weak_aug_multiseed\\seed1\\configs\\weak_image_aug_offline_decisions_seed1.json"
+        },
+        {
+          "epoch": 20,
+          "catf_causal_probe": true,
+          "source": "offline_probe_decisions",
+          "selected_candidate_policy_id": "candidate_policy_0_noop",
+          "selected_candidate_action": "strict_noop",
+          "selected_causal_score": 0.0,
+          "candidate_class_id": 9,
+          "op_whitelist": [],
+          "image_modification_allowed": false,
+          "sample_weighting_allowed": false,
+          "sample_weighting_effective": false,
+          "sample_weighting_status": "not_requested",
+          "probe_reject_image_aug": true,
+          "development_probe_uses_existing_val_diagnostics": false,
+          "paper_probe_mode": false,
+          "policy_selection_source": "weak_image_aug_replay",
+          "policy_selection_data": "outputs/experiments/catf_v2_image_only_weak_aug_replay/weak_candidate_records.csv",
+          "final_val_used_for_policy_selection": false,
+          "forbid_final_val_policy_selection": false,
+          "decision_basis": "offline_weak_image_aug_replay_no_final_val",
+          "seed_specific_rule": false,
+          "fixed_class_id_specific_rule": false,
+          "riskguard_used_as_final_rule": false,
+          "sampler_only_disabled": true,
+          "original_candidate_policy_id": "candidate_policy_1_roi_texture",
+          "downgraded_to_weak_roi_texture": false,
+          "precision_aware_gate_passed": false,
+          "non_active_regression_gate_passed": false,
+          "weak_rejection_reasons": "no_prior_image_causal_evidence",
+          "action": "strict_no_op",
+          "reason": "offline_causal_probe_rejected_image_augmentation",
+          "use_offline_probe_decisions": true,
+          "offline_probe_decision_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\catf_v2_image_only_weak_aug_multiseed\\seed1\\configs\\weak_image_aug_offline_decisions_seed1.json"
+        },
+        {
+          "epoch": 30,
+          "catf_causal_probe": true,
+          "source": "offline_probe_decisions",
+          "selected_candidate_policy_id": "candidate_policy_0_noop",
+          "selected_candidate_action": "strict_noop",
+          "selected_causal_score": 0.0,
+          "candidate_class_id": 9,
+          "op_whitelist": [],
+          "image_modification_allowed": false,
+          "sample_weighting_allowed": false,
+          "sample_weighting_effective": false,
+          "sample_weighting_status": "not_requested",
+          "probe_reject_image_aug": true,
+          "development_probe_uses_existing_val_diagnostics": false,
+          "paper_probe_mode": false,
+          "policy_selection_source": "weak_image_aug_replay",
+          "policy_selection_data": "outputs/experiments/catf_v2_image_only_weak_aug_replay/weak_candidate_records.csv",
+          "final_val_used_for_policy_selection": false,
+          "forbid_final_val_policy_selection": false,
+          "decision_basis": "offline_weak_image_aug_replay_no_final_val",
+          "seed_specific_rule": false,
+          "fixed_class_id_specific_rule": false,
+          "riskguard_used_as_final_rule": false,
+          "sampler_only_disabled": true,
+          "original_candidate_policy_id": "candidate_policy_1_roi_texture",
+          "downgraded_to_weak_roi_texture": false,
+          "precision_aware_gate_passed": false,
+          "non_active_regression_gate_passed": false,
+          "weak_rejection_reasons": "no_prior_image_causal_evidence",
+          "action": "strict_no_op",
+          "reason": "offline_causal_probe_rejected_image_augmentation",
+          "use_offline_probe_decisions": true,
+          "offline_probe_decision_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\catf_v2_image_only_weak_aug_multiseed\\seed1\\configs\\weak_image_aug_offline_decisions_seed1.json"
+        },
+        {
+          "epoch": 35,
+          "catf_causal_probe": true,
+          "source": "offline_probe_decisions",
+          "selected_candidate_policy_id": "candidate_policy_0_noop",
+          "selected_candidate_action": "strict_noop",
+          "selected_causal_score": 0.0,
+          "candidate_class_id": -1,
+          "op_whitelist": [],
+          "image_modification_allowed": false,
+          "sample_weighting_allowed": false,
+          "sample_weighting_effective": false,
+          "sample_weighting_status": "not_requested",
+          "probe_reject_image_aug": true,
+          "development_probe_uses_existing_val_diagnostics": false,
+          "paper_probe_mode": false,
+          "policy_selection_source": "weak_image_aug_replay",
+          "policy_selection_data": "outputs/experiments/catf_v2_image_only_weak_aug_replay/weak_candidate_records.csv",
+          "final_val_used_for_policy_selection": false,
+          "forbid_final_val_policy_selection": false,
+          "decision_basis": "offline_weak_image_aug_replay_no_final_val",
+          "seed_specific_rule": false,
+          "fixed_class_id_specific_rule": false,
+          "riskguard_used_as_final_rule": false,
+          "sampler_only_disabled": true,
+          "original_candidate_policy_id": "candidate_policy_1_roi_texture",
+          "downgraded_to_weak_roi_texture": false,
+          "precision_aware_gate_passed": false,
+          "non_active_regression_gate_passed": false,
+          "weak_rejection_reasons": "no_prior_image_causal_evidence",
+          "action": "strict_no_op",
+          "reason": "offline_causal_probe_rejected_image_augmentation",
+          "use_offline_probe_decisions": true,
+          "offline_probe_decision_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\catf_v2_image_only_weak_aug_multiseed\\seed1\\configs\\weak_image_aug_offline_decisions_seed1.json"
+        },
+        {
+          "epoch": 45,
+          "catf_causal_probe": true,
+          "source": "offline_probe_decisions",
+          "selected_candidate_policy_id": "candidate_policy_0_noop",
+          "selected_candidate_action": "strict_noop",
+          "selected_causal_score": 0.0,
+          "candidate_class_id": 6,
+          "op_whitelist": [],
+          "image_modification_allowed": false,
+          "sample_weighting_allowed": false,
+          "sample_weighting_effective": false,
+          "sample_weighting_status": "not_requested",
+          "probe_reject_image_aug": true,
+          "development_probe_uses_existing_val_diagnostics": false,
+          "paper_probe_mode": false,
+          "policy_selection_source": "weak_image_aug_replay",
+          "policy_selection_data": "outputs/experiments/catf_v2_image_only_weak_aug_replay/weak_candidate_records.csv",
+          "final_val_used_for_policy_selection": false,
+          "forbid_final_val_policy_selection": false,
+          "decision_basis": "offline_weak_image_aug_replay_no_final_val",
+          "seed_specific_rule": false,
+          "fixed_class_id_specific_rule": false,
+          "riskguard_used_as_final_rule": false,
+          "sampler_only_disabled": true,
+          "original_candidate_policy_id": "candidate_policy_1_roi_texture",
+          "downgraded_to_weak_roi_texture": false,
+          "precision_aware_gate_passed": false,
+          "non_active_regression_gate_passed": false,
+          "weak_rejection_reasons": "no_prior_image_causal_evidence",
+          "action": "strict_no_op",
+          "reason": "offline_causal_probe_rejected_image_augmentation",
+          "use_offline_probe_decisions": true,
+          "offline_probe_decision_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\catf_v2_image_only_weak_aug_multiseed\\seed1\\configs\\weak_image_aug_offline_decisions_seed1.json"
+        }
+      ],
+      "weak_candidate_count": 2,
+      "strict_noop_count": 7,
+      "weak_candidate_ops": [
+        {
+          "epoch": 25,
+          "candidate_policy_id": "candidate_policy_1b_weak_roi_texture",
+          "original_candidate_policy_id": "candidate_policy_1_roi_texture",
+          "candidate_class_id": 6,
+          "retained_op": "local_contrast",
+          "op_whitelist": [
+            "local_contrast"
+          ],
+          "original_prob": 0.18,
+          "original_strength": 0.2,
+          "weak_prob": 0.045,
+          "weak_strength": 0.05,
+          "attenuation_ratio": 0.25,
+          "max_aug_samples_per_interval": 16,
+          "precision_aware_gate_passed": true,
+          "non_active_regression_gate_passed": true,
+          "sample_router_allowed": true,
+          "image_modification_allowed": true,
+          "sample_weighting_allowed": false
+        },
+        {
+          "epoch": 40,
+          "candidate_policy_id": "candidate_policy_1b_weak_roi_texture",
+          "original_candidate_policy_id": "candidate_policy_1_roi_texture",
+          "candidate_class_id": 9,
+          "retained_op": "local_contrast",
+          "op_whitelist": [
+            "local_contrast"
+          ],
+          "original_prob": 0.18,
+          "original_strength": 0.2,
+          "weak_prob": 0.045,
+          "weak_strength": 0.05,
+          "attenuation_ratio": 0.25,
+          "max_aug_samples_per_interval": 16,
+          "precision_aware_gate_passed": true,
+          "non_active_regression_gate_passed": true,
+          "sample_router_allowed": true,
+          "image_modification_allowed": true,
+          "sample_weighting_allowed": false
+        }
+      ],
+      "online_augmentation": {
+        "samples_seen": 115050,
+        "samples_augmented": 32,
+        "router_random_draw_count": 775,
+        "weak_image_aug_interval_counts": {
+          "6:25": 16,
+          "9:40": 16
+        },
+        "invalid_bbox_count": 0,
+        "bbox_oob_count": 0,
+        "class_id_oob_count": 0,
+        "sample_weight_map_generated": false,
+        "weighted_train_core_images_count": 0,
+        "weighted_index_list_enabled": false,
+        "sampled_distribution_changed": false,
+        "sampler_only_effective": false,
+        "sampler_only_status": "not_requested"
+      },
+      "roi_augmentation": {
+        "roi_aug_applied": 38,
+        "roi_aug_skipped_small_roi": 0,
+        "roi_aug_skipped_conflict": 4,
+        "affected_classes": {
+          "6": 18,
+          "9": 20
+        }
+      },
+      "class_comparison": {
+        "0": {
+          "class_id": 0,
+          "name": "OK2",
+          "clean": {
+            "precision": 0.8285387698702414,
+            "recall": 1.0,
+            "ap50": 0.9832259446498047,
+            "ap50_95": 0.8471731999945697
+          },
+          "fixed": {
+            "precision": null,
+            "recall": null,
+            "ap50": null,
+            "ap50_95": null
+          },
+          "weak": {
+            "precision": 0.9123718489546901,
+            "recall": 1.0,
+            "ap50": 0.9940834888059702,
+            "ap50_95": 0.8453133413535638
+          },
+          "delta_weak_vs_clean": {
+            "precision": 0.0838330790844487,
+            "recall": 0.0,
+            "ap50": 0.010857544156165466,
+            "ap50_95": -0.001859858641005907
+          },
+          "delta_weak_vs_fixed": {
+            "precision": 0.9123718489546901,
+            "recall": 1.0,
+            "ap50": 0.9940834888059702,
+            "ap50_95": 0.8453133413535638
+          }
+        },
+        "1": {
+          "class_id": 1,
+          "name": "OK3",
+          "clean": {
+            "precision": 1.0,
+            "recall": 0.9636834621578664,
+            "ap50": 0.9938484848484849,
+            "ap50_95": 0.8259277070927649
+          },
+          "fixed": {
+            "precision": null,
+            "recall": null,
+            "ap50": null,
+            "ap50_95": null
+          },
+          "weak": {
+            "precision": 0.9972990486224809,
+            "recall": 0.9744525547445255,
+            "ap50": 0.9942148003112684,
+            "ap50_95": 0.8321102203192545
+          },
+          "delta_weak_vs_clean": {
+            "precision": -0.002700951377519134,
+            "recall": 0.010769092586659146,
+            "ap50": 0.00036631546278353966,
+            "ap50_95": 0.006182513226489661
+          },
+          "delta_weak_vs_fixed": {
+            "precision": 0.9972990486224809,
+            "recall": 0.9744525547445255,
+            "ap50": 0.9942148003112684,
+            "ap50_95": 0.8321102203192545
+          }
+        },
+        "2": {
+          "class_id": 2,
+          "name": "加强筋打伤",
+          "clean": {
+            "precision": 0.6333325400325596,
+            "recall": 0.6499976200976788,
+            "ap50": 0.7717333333333333,
+            "ap50_95": 0.34848439576995505
+          },
+          "fixed": {
+            "precision": null,
+            "recall": null,
+            "ap50": null,
+            "ap50_95": null
+          },
+          "weak": {
+            "precision": 0.7712986950125607,
+            "recall": 0.875,
+            "ap50": 0.9622727272727274,
+            "ap50_95": 0.5248577892107893
+          },
+          "delta_weak_vs_clean": {
+            "precision": 0.1379661549800011,
+            "recall": 0.2250023799023212,
+            "ap50": 0.19053939393939412,
+            "ap50_95": 0.17637339344083425
+          },
+          "delta_weak_vs_fixed": {
+            "precision": 0.7712986950125607,
+            "recall": 0.875,
+            "ap50": 0.9622727272727274,
+            "ap50_95": 0.5248577892107893
+          }
+        },
+        "3": {
+          "class_id": 3,
+          "name": "开裂",
+          "clean": {
+            "precision": 0.9456405291655224,
+            "recall": 1.0,
+            "ap50": 0.995,
+            "ap50_95": 0.6965
+          },
+          "fixed": {
+            "precision": null,
+            "recall": null,
+            "ap50": null,
+            "ap50_95": null
+          },
+          "weak": {
+            "precision": 0.9273834266232114,
+            "recall": 1.0,
+            "ap50": 0.995,
+            "ap50_95": 0.7214698275862069
+          },
+          "delta_weak_vs_clean": {
+            "precision": -0.018257102542311054,
+            "recall": 0.0,
+            "ap50": 0.0,
+            "ap50_95": 0.024969827586206916
+          },
+          "delta_weak_vs_fixed": {
+            "precision": 0.9273834266232114,
+            "recall": 1.0,
+            "ap50": 0.995,
+            "ap50_95": 0.7214698275862069
+          }
+        },
+        "4": {
+          "class_id": 4,
+          "name": "油污",
+          "clean": {
+            "precision": 0.592558576675847,
+            "recall": 0.16253254259769276,
+            "ap50": 0.23557761979666633,
+            "ap50_95": 0.11251591100259636
+          },
+          "fixed": {
+            "precision": null,
+            "recall": null,
+            "ap50": null,
+            "ap50_95": null
+          },
+          "weak": {
+            "precision": 0.3712379614861204,
+            "recall": 0.3333333333333333,
+            "ap50": 0.22440064461121695,
+            "ap50_95": 0.13825636275170547
+          },
+          "delta_weak_vs_clean": {
+            "precision": -0.22132061518972657,
+            "recall": 0.17080079073564056,
+            "ap50": -0.011176975185449384,
+            "ap50_95": 0.025740451749109106
+          },
+          "delta_weak_vs_fixed": {
+            "precision": 0.3712379614861204,
+            "recall": 0.3333333333333333,
+            "ap50": 0.22440064461121695,
+            "ap50_95": 0.13825636275170547
+          }
+        },
+        "5": {
+          "class_id": 5,
+          "name": "浅划伤",
+          "clean": {
+            "precision": 0.7266396555271051,
+            "recall": 0.46153846153846156,
+            "ap50": 0.5883279805550783,
+            "ap50_95": 0.3346250843258327
+          },
+          "fixed": {
+            "precision": null,
+            "recall": null,
+            "ap50": null,
+            "ap50_95": null
+          },
+          "weak": {
+            "precision": 0.7643328806411251,
+            "recall": 0.46153846153846156,
+            "ap50": 0.649726193317377,
+            "ap50_95": 0.3578456815406537
+          },
+          "delta_weak_vs_clean": {
+            "precision": 0.03769322511402007,
+            "recall": 0.0,
+            "ap50": 0.06139821276229873,
+            "ap50_95": 0.023220597214821004
+          },
+          "delta_weak_vs_fixed": {
+            "precision": 0.7643328806411251,
+            "recall": 0.46153846153846156,
+            "ap50": 0.649726193317377,
+            "ap50_95": 0.3578456815406537
+          }
+        },
+        "6": {
+          "class_id": 6,
+          "name": "漏背锡",
+          "clean": {
+            "precision": 0.6101540165219149,
+            "recall": 0.5869565217391305,
+            "ap50": 0.7133916702112076,
+            "ap50_95": 0.37706594319498893
+          },
+          "fixed": {
+            "precision": null,
+            "recall": null,
+            "ap50": null,
+            "ap50_95": null
+          },
+          "weak": {
+            "precision": 0.5541552910274592,
+            "recall": 0.717391304347826,
+            "ap50": 0.6923301956827318,
+            "ap50_95": 0.35242309810763495
+          },
+          "delta_weak_vs_clean": {
+            "precision": -0.055998725494455726,
+            "recall": 0.13043478260869557,
+            "ap50": -0.021061474528475843,
+            "ap50_95": -0.02464284508735398
+          },
+          "delta_weak_vs_fixed": {
+            "precision": 0.5541552910274592,
+            "recall": 0.717391304347826,
+            "ap50": 0.6923301956827318,
+            "ap50_95": 0.35242309810763495
+          }
+        },
+        "7": {
+          "class_id": 7,
+          "name": "碰伤",
+          "clean": {
+            "precision": 0.830751063761774,
+            "recall": 0.47442901978194435,
+            "ap50": 0.6930307353753415,
+            "ap50_95": 0.4301714369407815
+          },
+          "fixed": {
+            "precision": null,
+            "recall": null,
+            "ap50": null,
+            "ap50_95": null
+          },
+          "weak": {
+            "precision": 0.7359279461177793,
+            "recall": 0.5985130111524164,
+            "ap50": 0.6854970801985687,
+            "ap50_95": 0.42862560261357296
+          },
+          "delta_weak_vs_clean": {
+            "precision": -0.09482311764399465,
+            "recall": 0.12408399137047205,
+            "ap50": -0.007533655176772847,
+            "ap50_95": -0.0015458343272085617
+          },
+          "delta_weak_vs_fixed": {
+            "precision": 0.7359279461177793,
+            "recall": 0.5985130111524164,
+            "ap50": 0.6854970801985687,
+            "ap50_95": 0.42862560261357296
+          }
+        },
+        "8": {
+          "class_id": 8,
+          "name": "脏污",
+          "clean": {
+            "precision": 0.6493427102299412,
+            "recall": 0.40476190476190477,
+            "ap50": 0.5105737138751957,
+            "ap50_95": 0.2393365037214119
+          },
+          "fixed": {
+            "precision": null,
+            "recall": null,
+            "ap50": null,
+            "ap50_95": null
+          },
+          "weak": {
+            "precision": 0.7857401945433569,
+            "recall": 0.5238930078143088,
+            "ap50": 0.6717072515620912,
+            "ap50_95": 0.36646342785440833
+          },
+          "delta_weak_vs_clean": {
+            "precision": 0.1363974843134157,
+            "recall": 0.11913110305240404,
+            "ap50": 0.16113353768689553,
+            "ap50_95": 0.12712692413299642
+          },
+          "delta_weak_vs_fixed": {
+            "precision": 0.7857401945433569,
+            "recall": 0.5238930078143088,
+            "ap50": 0.6717072515620912,
+            "ap50_95": 0.36646342785440833
+          }
+        },
+        "9": {
+          "class_id": 9,
+          "name": "轮廓划伤",
+          "clean": {
+            "precision": 0.8186291039895295,
+            "recall": 0.4836525195427874,
+            "ap50": 0.6977658522172674,
+            "ap50_95": 0.34785936245799387
+          },
+          "fixed": {
+            "precision": null,
+            "recall": null,
+            "ap50": null,
+            "ap50_95": null
+          },
+          "weak": {
+            "precision": 0.7213169374806467,
+            "recall": 0.5,
+            "ap50": 0.6889996032581155,
+            "ap50_95": 0.37036941465685735
+          },
+          "delta_weak_vs_clean": {
+            "precision": -0.09731216650888275,
+            "recall": 0.016347480457212626,
+            "ap50": -0.008766248959151901,
+            "ap50_95": 0.022510052198863484
+          },
+          "delta_weak_vs_fixed": {
+            "precision": 0.7213169374806467,
+            "recall": 0.5,
+            "ap50": 0.6889996032581155,
+            "ap50_95": 0.37036941465685735
+          }
+        },
+        "10": {
+          "class_id": 10,
+          "name": "锡丝残留",
+          "clean": {
+            "precision": 0.7140491655638611,
+            "recall": 0.75,
+            "ap50": 0.9035767359575408,
+            "ap50_95": 0.6122865936497883
+          },
+          "fixed": {
+            "precision": null,
+            "recall": null,
+            "ap50": null,
+            "ap50_95": null
+          },
+          "weak": {
+            "precision": 0.7806047245807772,
+            "recall": 0.8908349964917072,
+            "ap50": 0.863,
+            "ap50_95": 0.5222221515852569
+          },
+          "delta_weak_vs_clean": {
+            "precision": 0.06655555901691612,
+            "recall": 0.14083499649170717,
+            "ap50": -0.040576735957540855,
+            "ap50_95": -0.09006444206453146
+          },
+          "delta_weak_vs_fixed": {
+            "precision": 0.7806047245807772,
+            "recall": 0.8908349964917072,
+            "ap50": 0.863,
+            "ap50_95": 0.5222221515852569
+          }
+        },
+        "11": {
+          "class_id": 11,
+          "name": "锡尖",
+          "clean": {
+            "precision": 0.8621363341009329,
+            "recall": 0.8518518518518519,
+            "ap50": 0.9417550125313284,
+            "ap50_95": 0.5776446788367253
+          },
+          "fixed": {
+            "precision": null,
+            "recall": null,
+            "ap50": null,
+            "ap50_95": null
+          },
+          "weak": {
+            "precision": 0.8773309946550722,
+            "recall": 0.7950444048523871,
+            "ap50": 0.9518734888300107,
+            "ap50_95": 0.6507799654577624
+          },
+          "delta_weak_vs_clean": {
+            "precision": 0.015194660554139316,
+            "recall": -0.05680744699946472,
+            "ap50": 0.010118476298682233,
+            "ap50_95": 0.07313528662103708
+          },
+          "delta_weak_vs_fixed": {
+            "precision": 0.8773309946550722,
+            "recall": 0.7950444048523871,
+            "ap50": 0.9518734888300107,
+            "ap50_95": 0.6507799654577624
+          }
+        },
+        "12": {
+          "class_id": 12,
+          "name": "锡膏",
+          "clean": {
+            "precision": 0.8310475410813367,
+            "recall": 0.6304347826086957,
+            "ap50": 0.776670599402079,
+            "ap50_95": 0.4893504106832829
+          },
+          "fixed": {
+            "precision": null,
+            "recall": null,
+            "ap50": null,
+            "ap50_95": null
+          },
+          "weak": {
+            "precision": 0.7538604877995633,
+            "recall": 0.5869565217391305,
+            "ap50": 0.7258677061166008,
+            "ap50_95": 0.4778520777476961
+          },
+          "delta_weak_vs_clean": {
+            "precision": -0.07718705328177344,
+            "recall": -0.04347826086956519,
+            "ap50": -0.05080289328547827,
+            "ap50_95": -0.011498332935586775
+          },
+          "delta_weak_vs_fixed": {
+            "precision": 0.7538604877995633,
+            "recall": 0.5869565217391305,
+            "ap50": 0.7258677061166008,
+            "ap50_95": 0.4778520777476961
+          }
+        }
+      },
+      "non_active_regression_summary": {
+        "weak_target_class_ids": [
+          6,
+          9
+        ],
+        "non_active_class_count": 11,
+        "mean_ap50_95_delta_weak_vs_fixed": 0.5332542225473519,
+        "mean_ap50_95_delta_weak_vs_clean": 0.03198004781846925,
+        "ap50_95_regressed_vs_fixed_gt_0_01_count": 0,
+        "ap50_95_regressed_vs_clean_gt_0_01_count": 2,
+        "regressed_vs_fixed_classes": [],
+        "regressed_vs_clean_classes": [
+          {
+            "class_id": 10,
+            "name": "锡丝残留",
+            "delta_ap50_95": -0.09006444206453146
+          },
+          {
+            "class_id": 12,
+            "name": "锡膏",
+            "delta_ap50_95": -0.011498332935586775
+          }
+        ]
+      },
+      "summary": {
+        "seed": 1,
+        "completed_50ep": true,
+        "weak_image_augmentation_executed": true,
+        "industrial_image_augmented": 32,
+        "roi_aug_applied": 38,
+        "router_random_draw_count": 775,
+        "sampler_only_enabled": false,
+        "weighted_index_list_enabled": false,
+        "sampled_distribution_changed": false,
+        "final_val_used_for_policy_selection": false,
+        "constraint_failed": false,
+        "failure_reasons": [],
+        "recall_warning": false,
+        "recall_warning_threshold": -0.01,
+        "fixed_catf_v2_benefit_retained": false,
+        "new_non_active_regression": false
+      },
+      "paths": {
+        "final_metrics": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\catf_v2_image_only_weak_aug_multiseed\\seed1\\reports\\final_metrics.json",
+        "online_aug_stats": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\catf_v2_image_only_weak_aug_multiseed\\seed1\\reports\\online_aug_stats.json",
+        "roi_aug_stats": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\catf_v2_image_only_weak_aug_multiseed\\seed1\\reports\\roi_aug_stats.json",
+        "causal_probe_events": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\catf_v2_image_only_weak_aug_multiseed\\seed1\\reports\\causal_probe_events.json",
+        "results_csv": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\catf_v2_image_only_weak_aug_multiseed\\seed1\\train\\results.csv"
+      }
+    },
+    {
+      "seed": 2,
+      "run_root": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\catf_v2_image_only_weak_aug_seed2_50ep",
+      "clean": {
+        "precision": 0.6962390186664107,
+        "recall": 0.728629640010866,
+        "map50": 0.7692030787336794,
+        "map50_95": 0.5223713770570699
+      },
+      "fixed_catf_v2": {
+        "precision": 0.7636577080243924,
+        "recall": 0.6863445827915785,
+        "map50": 0.7582462462317862,
+        "map50_95": 0.4966842829943364
+      },
+      "weak_image_aug": {
+        "precision": 0.7532541449750461,
+        "recall": 0.694234807840439,
+        "map50": 0.772717847114744,
+        "map50_95": 0.515138029007079
+      },
+      "delta_vs_clean": {
+        "precision": 0.05701512630863537,
+        "recall": -0.03439483217042705,
+        "map50": 0.0035147683810645702,
+        "map50_95": -0.007233348049990984
+      },
+      "delta_vs_fixed_catf_v2": {
+        "precision": -0.01040356304934631,
+        "recall": 0.0078902250488605,
+        "map50": 0.014471600882957847,
+        "map50_95": 0.018453746012742522
+      },
+      "constraint_scoring": {
+        "computed_constraint_failed": false,
+        "computed_failure_reasons": [],
+        "source_constraint_failed": false,
+        "source_failure_reasons": [],
+        "rules": {
+          "precision_drop_gt_0.01": true,
+          "map50_drop_gt_0.01": true,
+          "map50_95_drop_gt_0.01": true,
+          "recall_is_warning_not_hard_constraint": true
+        }
+      },
+      "weak_candidate_events": [
+        {
+          "epoch": 20,
+          "catf_causal_probe": true,
+          "source": "offline_probe_decisions",
+          "selected_candidate_policy_id": "candidate_policy_1b_weak_roi_texture",
+          "selected_candidate_action": "weak_roi_texture",
+          "selected_causal_score": -0.10925137844611531,
+          "candidate_class_id": 7,
+          "op_whitelist": [
+            "local_contrast"
+          ],
+          "image_modification_allowed": true,
+          "sample_weighting_allowed": false,
+          "sample_weighting_effective": false,
+          "sample_weighting_status": "not_requested",
+          "probe_reject_image_aug": false,
+          "development_probe_uses_existing_val_diagnostics": false,
+          "paper_probe_mode": false,
+          "policy_selection_source": "weak_image_aug_replay",
+          "policy_selection_data": "outputs/experiments/catf_v2_image_only_weak_aug_replay/weak_candidate_records.csv",
+          "final_val_used_for_policy_selection": false,
+          "forbid_final_val_policy_selection": false,
+          "decision_basis": "offline_weak_image_aug_replay_no_final_val",
+          "seed_specific_rule": false,
+          "fixed_class_id_specific_rule": false,
+          "riskguard_used_as_final_rule": false,
+          "sampler_only_disabled": true,
+          "original_candidate_policy_id": "candidate_policy_1_roi_texture",
+          "downgraded_to_weak_roi_texture": true,
+          "precision_aware_gate_passed": true,
+          "non_active_regression_gate_passed": true,
+          "weak_rejection_reasons": null,
+          "action": "accept_offline_probe_candidate",
+          "reason": "offline_causal_probe_candidate_accepted",
+          "candidate_ops_injected": [
+            {
+              "op_name": "local_contrast",
+              "prob": 0.045,
+              "strength": 0.05
+            }
+          ],
+          "candidate_policy_injected": true,
+          "sample_router_allowed": true,
+          "activation_noop_reason": null,
+          "weak_image_aug": true,
+          "attenuation_ratio": 0.25,
+          "retained_op": "local_contrast",
+          "original_prob": 0.18,
+          "original_strength": 0.2,
+          "weak_prob": 0.045,
+          "weak_strength": 0.05,
+          "max_aug_samples_per_interval": 16,
+          "target_high_fp_guard_overridden_by_weak_gate": true,
+          "use_offline_probe_decisions": true,
+          "offline_probe_decision_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\catf_v2_image_only_weak_aug_seed2_50ep\\configs\\weak_image_aug_offline_decisions_seed2.json"
+        },
+        {
+          "epoch": 25,
+          "catf_causal_probe": true,
+          "source": "offline_probe_decisions",
+          "selected_candidate_policy_id": "candidate_policy_1b_weak_roi_texture",
+          "selected_candidate_action": "weak_roi_texture",
+          "selected_causal_score": -0.07778378378378378,
+          "candidate_class_id": 9,
+          "op_whitelist": [
+            "local_contrast"
+          ],
+          "image_modification_allowed": true,
+          "sample_weighting_allowed": false,
+          "sample_weighting_effective": false,
+          "sample_weighting_status": "not_requested",
+          "probe_reject_image_aug": false,
+          "development_probe_uses_existing_val_diagnostics": false,
+          "paper_probe_mode": false,
+          "policy_selection_source": "weak_image_aug_replay",
+          "policy_selection_data": "outputs/experiments/catf_v2_image_only_weak_aug_replay/weak_candidate_records.csv",
+          "final_val_used_for_policy_selection": false,
+          "forbid_final_val_policy_selection": false,
+          "decision_basis": "offline_weak_image_aug_replay_no_final_val",
+          "seed_specific_rule": false,
+          "fixed_class_id_specific_rule": false,
+          "riskguard_used_as_final_rule": false,
+          "sampler_only_disabled": true,
+          "original_candidate_policy_id": "candidate_policy_1_roi_texture",
+          "downgraded_to_weak_roi_texture": true,
+          "precision_aware_gate_passed": true,
+          "non_active_regression_gate_passed": true,
+          "weak_rejection_reasons": null,
+          "action": "accept_offline_probe_candidate",
+          "reason": "offline_causal_probe_candidate_accepted",
+          "candidate_ops_injected": [
+            {
+              "op_name": "local_contrast",
+              "prob": 0.045,
+              "strength": 0.05
+            }
+          ],
+          "candidate_policy_injected": true,
+          "sample_router_allowed": true,
+          "activation_noop_reason": null,
+          "weak_image_aug": true,
+          "attenuation_ratio": 0.25,
+          "retained_op": "local_contrast",
+          "original_prob": 0.18,
+          "original_strength": 0.2,
+          "weak_prob": 0.045,
+          "weak_strength": 0.05,
+          "max_aug_samples_per_interval": 16,
+          "target_high_fp_guard_overridden_by_weak_gate": true,
+          "use_offline_probe_decisions": true,
+          "offline_probe_decision_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\catf_v2_image_only_weak_aug_seed2_50ep\\configs\\weak_image_aug_offline_decisions_seed2.json"
+        },
+        {
+          "epoch": 30,
+          "catf_causal_probe": true,
+          "source": "offline_probe_decisions",
+          "selected_candidate_policy_id": "candidate_policy_1b_weak_roi_texture",
+          "selected_candidate_action": "weak_roi_texture",
+          "selected_causal_score": -0.09723076923076923,
+          "candidate_class_id": 6,
+          "op_whitelist": [
+            "local_contrast"
+          ],
+          "image_modification_allowed": true,
+          "sample_weighting_allowed": false,
+          "sample_weighting_effective": false,
+          "sample_weighting_status": "not_requested",
+          "probe_reject_image_aug": false,
+          "development_probe_uses_existing_val_diagnostics": false,
+          "paper_probe_mode": false,
+          "policy_selection_source": "weak_image_aug_replay",
+          "policy_selection_data": "outputs/experiments/catf_v2_image_only_weak_aug_replay/weak_candidate_records.csv",
+          "final_val_used_for_policy_selection": false,
+          "forbid_final_val_policy_selection": false,
+          "decision_basis": "offline_weak_image_aug_replay_no_final_val",
+          "seed_specific_rule": false,
+          "fixed_class_id_specific_rule": false,
+          "riskguard_used_as_final_rule": false,
+          "sampler_only_disabled": true,
+          "original_candidate_policy_id": "candidate_policy_1_roi_texture",
+          "downgraded_to_weak_roi_texture": true,
+          "precision_aware_gate_passed": true,
+          "non_active_regression_gate_passed": true,
+          "weak_rejection_reasons": null,
+          "action": "accept_offline_probe_candidate",
+          "reason": "offline_causal_probe_candidate_accepted",
+          "candidate_ops_injected": [
+            {
+              "op_name": "local_contrast",
+              "prob": 0.045,
+              "strength": 0.05
+            }
+          ],
+          "candidate_policy_injected": true,
+          "sample_router_allowed": true,
+          "activation_noop_reason": null,
+          "weak_image_aug": true,
+          "attenuation_ratio": 0.25,
+          "retained_op": "local_contrast",
+          "original_prob": 0.18,
+          "original_strength": 0.2,
+          "weak_prob": 0.045,
+          "weak_strength": 0.05,
+          "max_aug_samples_per_interval": 16,
+          "target_high_fp_guard_overridden_by_weak_gate": true,
+          "use_offline_probe_decisions": true,
+          "offline_probe_decision_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\catf_v2_image_only_weak_aug_seed2_50ep\\configs\\weak_image_aug_offline_decisions_seed2.json"
+        },
+        {
+          "epoch": 35,
+          "catf_causal_probe": true,
+          "source": "offline_probe_decisions",
+          "selected_candidate_policy_id": "candidate_policy_1b_weak_roi_texture",
+          "selected_candidate_action": "weak_roi_texture",
+          "selected_causal_score": -0.09073684210526316,
+          "candidate_class_id": 9,
+          "op_whitelist": [
+            "local_contrast"
+          ],
+          "image_modification_allowed": true,
+          "sample_weighting_allowed": false,
+          "sample_weighting_effective": false,
+          "sample_weighting_status": "not_requested",
+          "probe_reject_image_aug": false,
+          "development_probe_uses_existing_val_diagnostics": false,
+          "paper_probe_mode": false,
+          "policy_selection_source": "weak_image_aug_replay",
+          "policy_selection_data": "outputs/experiments/catf_v2_image_only_weak_aug_replay/weak_candidate_records.csv",
+          "final_val_used_for_policy_selection": false,
+          "forbid_final_val_policy_selection": false,
+          "decision_basis": "offline_weak_image_aug_replay_no_final_val",
+          "seed_specific_rule": false,
+          "fixed_class_id_specific_rule": false,
+          "riskguard_used_as_final_rule": false,
+          "sampler_only_disabled": true,
+          "original_candidate_policy_id": "candidate_policy_1_roi_texture",
+          "downgraded_to_weak_roi_texture": true,
+          "precision_aware_gate_passed": true,
+          "non_active_regression_gate_passed": true,
+          "weak_rejection_reasons": null,
+          "action": "accept_offline_probe_candidate",
+          "reason": "offline_causal_probe_candidate_accepted",
+          "candidate_ops_injected": [
+            {
+              "op_name": "local_contrast",
+              "prob": 0.045,
+              "strength": 0.05
+            }
+          ],
+          "candidate_policy_injected": true,
+          "sample_router_allowed": true,
+          "activation_noop_reason": null,
+          "weak_image_aug": true,
+          "attenuation_ratio": 0.25,
+          "retained_op": "local_contrast",
+          "original_prob": 0.18,
+          "original_strength": 0.2,
+          "weak_prob": 0.045,
+          "weak_strength": 0.05,
+          "max_aug_samples_per_interval": 16,
+          "target_high_fp_guard_overridden_by_weak_gate": true,
+          "use_offline_probe_decisions": true,
+          "offline_probe_decision_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\catf_v2_image_only_weak_aug_seed2_50ep\\configs\\weak_image_aug_offline_decisions_seed2.json"
+        },
+        {
+          "epoch": 45,
+          "catf_causal_probe": true,
+          "source": "offline_probe_decisions",
+          "selected_candidate_policy_id": "candidate_policy_1b_weak_roi_texture",
+          "selected_candidate_action": "weak_roi_texture",
+          "selected_causal_score": -0.09032432432432433,
+          "candidate_class_id": 9,
+          "op_whitelist": [
+            "local_contrast"
+          ],
+          "image_modification_allowed": true,
+          "sample_weighting_allowed": false,
+          "sample_weighting_effective": false,
+          "sample_weighting_status": "not_requested",
+          "probe_reject_image_aug": false,
+          "development_probe_uses_existing_val_diagnostics": false,
+          "paper_probe_mode": false,
+          "policy_selection_source": "weak_image_aug_replay",
+          "policy_selection_data": "outputs/experiments/catf_v2_image_only_weak_aug_replay/weak_candidate_records.csv",
+          "final_val_used_for_policy_selection": false,
+          "forbid_final_val_policy_selection": false,
+          "decision_basis": "offline_weak_image_aug_replay_no_final_val",
+          "seed_specific_rule": false,
+          "fixed_class_id_specific_rule": false,
+          "riskguard_used_as_final_rule": false,
+          "sampler_only_disabled": true,
+          "original_candidate_policy_id": "candidate_policy_1_roi_texture",
+          "downgraded_to_weak_roi_texture": true,
+          "precision_aware_gate_passed": true,
+          "non_active_regression_gate_passed": true,
+          "weak_rejection_reasons": null,
+          "action": "accept_offline_probe_candidate",
+          "reason": "offline_causal_probe_candidate_accepted",
+          "candidate_ops_injected": [
+            {
+              "op_name": "local_contrast",
+              "prob": 0.045,
+              "strength": 0.05
+            }
+          ],
+          "candidate_policy_injected": true,
+          "sample_router_allowed": true,
+          "activation_noop_reason": null,
+          "weak_image_aug": true,
+          "attenuation_ratio": 0.25,
+          "retained_op": "local_contrast",
+          "original_prob": 0.18,
+          "original_strength": 0.2,
+          "weak_prob": 0.045,
+          "weak_strength": 0.05,
+          "max_aug_samples_per_interval": 16,
+          "target_high_fp_guard_overridden_by_weak_gate": true,
+          "use_offline_probe_decisions": true,
+          "offline_probe_decision_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\catf_v2_image_only_weak_aug_seed2_50ep\\configs\\weak_image_aug_offline_decisions_seed2.json"
+        }
+      ],
+      "strict_noop_events": [
+        {
+          "epoch": 5,
+          "catf_causal_probe": true,
+          "source": "offline_probe_decisions",
+          "selected_candidate_policy_id": "candidate_policy_0_noop",
+          "selected_candidate_action": "strict_noop",
+          "selected_causal_score": 0.0,
+          "candidate_class_id": 9,
+          "op_whitelist": [],
+          "image_modification_allowed": false,
+          "sample_weighting_allowed": false,
+          "sample_weighting_effective": false,
+          "sample_weighting_status": "not_requested",
+          "probe_reject_image_aug": true,
+          "development_probe_uses_existing_val_diagnostics": false,
+          "paper_probe_mode": false,
+          "policy_selection_source": "weak_image_aug_replay",
+          "policy_selection_data": "outputs/experiments/catf_v2_image_only_weak_aug_replay/weak_candidate_records.csv",
+          "final_val_used_for_policy_selection": false,
+          "forbid_final_val_policy_selection": false,
+          "decision_basis": "offline_weak_image_aug_replay_no_final_val",
+          "seed_specific_rule": false,
+          "fixed_class_id_specific_rule": false,
+          "riskguard_used_as_final_rule": false,
+          "sampler_only_disabled": true,
+          "original_candidate_policy_id": "candidate_policy_1_roi_texture",
+          "downgraded_to_weak_roi_texture": false,
+          "precision_aware_gate_passed": false,
+          "non_active_regression_gate_passed": false,
+          "weak_rejection_reasons": "no_prior_image_causal_evidence",
+          "action": "strict_no_op",
+          "reason": "offline_causal_probe_rejected_image_augmentation",
+          "use_offline_probe_decisions": true,
+          "offline_probe_decision_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\catf_v2_image_only_weak_aug_seed2_50ep\\configs\\weak_image_aug_offline_decisions_seed2.json"
+        },
+        {
+          "epoch": 10,
+          "catf_causal_probe": true,
+          "source": "offline_probe_decisions",
+          "selected_candidate_policy_id": "candidate_policy_0_noop",
+          "selected_candidate_action": "strict_noop",
+          "selected_causal_score": 0.0,
+          "candidate_class_id": -1,
+          "op_whitelist": [],
+          "image_modification_allowed": false,
+          "sample_weighting_allowed": false,
+          "sample_weighting_effective": false,
+          "sample_weighting_status": "not_requested",
+          "probe_reject_image_aug": true,
+          "development_probe_uses_existing_val_diagnostics": false,
+          "paper_probe_mode": false,
+          "policy_selection_source": "weak_image_aug_replay",
+          "policy_selection_data": "outputs/experiments/catf_v2_image_only_weak_aug_replay/weak_candidate_records.csv",
+          "final_val_used_for_policy_selection": false,
+          "forbid_final_val_policy_selection": false,
+          "decision_basis": "offline_weak_image_aug_replay_no_final_val",
+          "seed_specific_rule": false,
+          "fixed_class_id_specific_rule": false,
+          "riskguard_used_as_final_rule": false,
+          "sampler_only_disabled": true,
+          "original_candidate_policy_id": "candidate_policy_1_roi_texture",
+          "downgraded_to_weak_roi_texture": false,
+          "precision_aware_gate_passed": false,
+          "non_active_regression_gate_passed": false,
+          "weak_rejection_reasons": "no_prior_image_causal_evidence",
+          "action": "strict_no_op",
+          "reason": "offline_causal_probe_rejected_image_augmentation",
+          "use_offline_probe_decisions": true,
+          "offline_probe_decision_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\catf_v2_image_only_weak_aug_seed2_50ep\\configs\\weak_image_aug_offline_decisions_seed2.json"
+        },
+        {
+          "epoch": 15,
+          "catf_causal_probe": true,
+          "source": "offline_probe_decisions",
+          "selected_candidate_policy_id": "candidate_policy_0_noop",
+          "selected_candidate_action": "strict_noop",
+          "selected_causal_score": 0.0,
+          "candidate_class_id": -1,
+          "op_whitelist": [],
+          "image_modification_allowed": false,
+          "sample_weighting_allowed": false,
+          "sample_weighting_effective": false,
+          "sample_weighting_status": "not_requested",
+          "probe_reject_image_aug": true,
+          "development_probe_uses_existing_val_diagnostics": false,
+          "paper_probe_mode": false,
+          "policy_selection_source": "weak_image_aug_replay",
+          "policy_selection_data": "outputs/experiments/catf_v2_image_only_weak_aug_replay/weak_candidate_records.csv",
+          "final_val_used_for_policy_selection": false,
+          "forbid_final_val_policy_selection": false,
+          "decision_basis": "offline_weak_image_aug_replay_no_final_val",
+          "seed_specific_rule": false,
+          "fixed_class_id_specific_rule": false,
+          "riskguard_used_as_final_rule": false,
+          "sampler_only_disabled": true,
+          "original_candidate_policy_id": "candidate_policy_1_roi_texture",
+          "downgraded_to_weak_roi_texture": false,
+          "precision_aware_gate_passed": false,
+          "non_active_regression_gate_passed": false,
+          "weak_rejection_reasons": "no_prior_image_causal_evidence",
+          "action": "strict_no_op",
+          "reason": "offline_causal_probe_rejected_image_augmentation",
+          "use_offline_probe_decisions": true,
+          "offline_probe_decision_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\catf_v2_image_only_weak_aug_seed2_50ep\\configs\\weak_image_aug_offline_decisions_seed2.json"
+        },
+        {
+          "epoch": 40,
+          "catf_causal_probe": true,
+          "source": "offline_probe_decisions",
+          "selected_candidate_policy_id": "candidate_policy_0_noop",
+          "selected_candidate_action": "strict_noop",
+          "selected_causal_score": 0.0,
+          "candidate_class_id": -1,
+          "op_whitelist": [],
+          "image_modification_allowed": false,
+          "sample_weighting_allowed": false,
+          "sample_weighting_effective": false,
+          "sample_weighting_status": "not_requested",
+          "probe_reject_image_aug": true,
+          "development_probe_uses_existing_val_diagnostics": false,
+          "paper_probe_mode": false,
+          "policy_selection_source": "weak_image_aug_replay",
+          "policy_selection_data": "outputs/experiments/catf_v2_image_only_weak_aug_replay/weak_candidate_records.csv",
+          "final_val_used_for_policy_selection": false,
+          "forbid_final_val_policy_selection": false,
+          "decision_basis": "offline_weak_image_aug_replay_no_final_val",
+          "seed_specific_rule": false,
+          "fixed_class_id_specific_rule": false,
+          "riskguard_used_as_final_rule": false,
+          "sampler_only_disabled": true,
+          "original_candidate_policy_id": "candidate_policy_1_roi_texture",
+          "downgraded_to_weak_roi_texture": false,
+          "precision_aware_gate_passed": false,
+          "non_active_regression_gate_passed": false,
+          "weak_rejection_reasons": "no_prior_image_causal_evidence",
+          "action": "strict_no_op",
+          "reason": "offline_causal_probe_rejected_image_augmentation",
+          "use_offline_probe_decisions": true,
+          "offline_probe_decision_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\catf_v2_image_only_weak_aug_seed2_50ep\\configs\\weak_image_aug_offline_decisions_seed2.json"
+        }
+      ],
+      "weak_candidate_count": 5,
+      "strict_noop_count": 4,
+      "weak_candidate_ops": [
+        {
+          "epoch": 20,
+          "candidate_policy_id": "candidate_policy_1b_weak_roi_texture",
+          "original_candidate_policy_id": "candidate_policy_1_roi_texture",
+          "candidate_class_id": 7,
+          "retained_op": "local_contrast",
+          "op_whitelist": [
+            "local_contrast"
+          ],
+          "original_prob": 0.18,
+          "original_strength": 0.2,
+          "weak_prob": 0.045,
+          "weak_strength": 0.05,
+          "attenuation_ratio": 0.25,
+          "max_aug_samples_per_interval": 16,
+          "precision_aware_gate_passed": true,
+          "non_active_regression_gate_passed": true,
+          "sample_router_allowed": true,
+          "image_modification_allowed": true,
+          "sample_weighting_allowed": false
+        },
+        {
+          "epoch": 25,
+          "candidate_policy_id": "candidate_policy_1b_weak_roi_texture",
+          "original_candidate_policy_id": "candidate_policy_1_roi_texture",
+          "candidate_class_id": 9,
+          "retained_op": "local_contrast",
+          "op_whitelist": [
+            "local_contrast"
+          ],
+          "original_prob": 0.18,
+          "original_strength": 0.2,
+          "weak_prob": 0.045,
+          "weak_strength": 0.05,
+          "attenuation_ratio": 0.25,
+          "max_aug_samples_per_interval": 16,
+          "precision_aware_gate_passed": true,
+          "non_active_regression_gate_passed": true,
+          "sample_router_allowed": true,
+          "image_modification_allowed": true,
+          "sample_weighting_allowed": false
+        },
+        {
+          "epoch": 30,
+          "candidate_policy_id": "candidate_policy_1b_weak_roi_texture",
+          "original_candidate_policy_id": "candidate_policy_1_roi_texture",
+          "candidate_class_id": 6,
+          "retained_op": "local_contrast",
+          "op_whitelist": [
+            "local_contrast"
+          ],
+          "original_prob": 0.18,
+          "original_strength": 0.2,
+          "weak_prob": 0.045,
+          "weak_strength": 0.05,
+          "attenuation_ratio": 0.25,
+          "max_aug_samples_per_interval": 16,
+          "precision_aware_gate_passed": true,
+          "non_active_regression_gate_passed": true,
+          "sample_router_allowed": true,
+          "image_modification_allowed": true,
+          "sample_weighting_allowed": false
+        },
+        {
+          "epoch": 35,
+          "candidate_policy_id": "candidate_policy_1b_weak_roi_texture",
+          "original_candidate_policy_id": "candidate_policy_1_roi_texture",
+          "candidate_class_id": 9,
+          "retained_op": "local_contrast",
+          "op_whitelist": [
+            "local_contrast"
+          ],
+          "original_prob": 0.18,
+          "original_strength": 0.2,
+          "weak_prob": 0.045,
+          "weak_strength": 0.05,
+          "attenuation_ratio": 0.25,
+          "max_aug_samples_per_interval": 16,
+          "precision_aware_gate_passed": true,
+          "non_active_regression_gate_passed": true,
+          "sample_router_allowed": true,
+          "image_modification_allowed": true,
+          "sample_weighting_allowed": false
+        },
+        {
+          "epoch": 45,
+          "candidate_policy_id": "candidate_policy_1b_weak_roi_texture",
+          "original_candidate_policy_id": "candidate_policy_1_roi_texture",
+          "candidate_class_id": 9,
+          "retained_op": "local_contrast",
+          "op_whitelist": [
+            "local_contrast"
+          ],
+          "original_prob": 0.18,
+          "original_strength": 0.2,
+          "weak_prob": 0.045,
+          "weak_strength": 0.05,
+          "attenuation_ratio": 0.25,
+          "max_aug_samples_per_interval": 16,
+          "precision_aware_gate_passed": true,
+          "non_active_regression_gate_passed": true,
+          "sample_router_allowed": true,
+          "image_modification_allowed": true,
+          "sample_weighting_allowed": false
+        }
+      ],
+      "online_augmentation": {
+        "samples_seen": 115050,
+        "samples_augmented": 80,
+        "router_random_draw_count": 1922,
+        "weak_image_aug_interval_counts": {
+          "7:20": 16,
+          "9:25": 16,
+          "6:30": 16,
+          "9:35": 16,
+          "9:45": 16
+        },
+        "invalid_bbox_count": 0,
+        "bbox_oob_count": 0,
+        "class_id_oob_count": 0,
+        "sample_weight_map_generated": false,
+        "weighted_train_core_images_count": 0,
+        "weighted_index_list_enabled": false,
+        "sampled_distribution_changed": false,
+        "sampler_only_effective": false,
+        "sampler_only_status": "not_requested"
+      },
+      "roi_augmentation": {
+        "roi_aug_applied": 95,
+        "roi_aug_skipped_small_roi": 0,
+        "roi_aug_skipped_conflict": 45,
+        "affected_classes": {
+          "6": 16,
+          "7": 17,
+          "9": 62
+        }
+      },
+      "class_comparison": {
+        "0": {
+          "class_id": 0,
+          "name": "OK2",
+          "clean": {
+            "precision": 0.8404225526098167,
+            "recall": 1.0,
+            "ap50": 0.9910881288395519,
+            "ap50_95": 0.8339809181288935
+          },
+          "fixed": {
+            "precision": null,
+            "recall": null,
+            "ap50": null,
+            "ap50_95": null
+          },
+          "weak": {
+            "precision": 0.8663729552305421,
+            "recall": 1.0,
+            "ap50": 0.9945384615384615,
+            "ap50_95": 0.8393767668152625
+          },
+          "delta_weak_vs_clean": {
+            "precision": 0.025950402620725455,
+            "recall": 0.0,
+            "ap50": 0.0034503326989095973,
+            "ap50_95": 0.005395848686368998
+          },
+          "delta_weak_vs_fixed": {
+            "precision": 0.8663729552305421,
+            "recall": 1.0,
+            "ap50": 0.9945384615384615,
+            "ap50_95": 0.8393767668152625
+          }
+        },
+        "1": {
+          "class_id": 1,
+          "name": "OK3",
+          "clean": {
+            "precision": 0.9829592653494514,
+            "recall": 0.9708029197080292,
+            "ap50": 0.9940091770963876,
+            "ap50_95": 0.830517937051533
+          },
+          "fixed": {
+            "precision": null,
+            "recall": null,
+            "ap50": null,
+            "ap50_95": null
+          },
+          "weak": {
+            "precision": 0.9875849752945612,
+            "recall": 0.9744525547445255,
+            "ap50": 0.9931746482384076,
+            "ap50_95": 0.8315730788269124
+          },
+          "delta_weak_vs_clean": {
+            "precision": 0.004625709945109802,
+            "recall": 0.0036496350364962904,
+            "ap50": -0.0008345288579799659,
+            "ap50_95": 0.0010551417753794645
+          },
+          "delta_weak_vs_fixed": {
+            "precision": 0.9875849752945612,
+            "recall": 0.9744525547445255,
+            "ap50": 0.9931746482384076,
+            "ap50_95": 0.8315730788269124
+          }
+        },
+        "2": {
+          "class_id": 2,
+          "name": "加强筋打伤",
+          "clean": {
+            "precision": 0.8700342316436319,
+            "recall": 0.875,
+            "ap50": 0.8942000000000002,
+            "ap50_95": 0.5347205633802818
+          },
+          "fixed": {
+            "precision": null,
+            "recall": null,
+            "ap50": null,
+            "ap50_95": null
+          },
+          "weak": {
+            "precision": 0.9713196696690213,
+            "recall": 0.875,
+            "ap50": 0.9059677419354839,
+            "ap50_95": 0.5021840813852814
+          },
+          "delta_weak_vs_clean": {
+            "precision": 0.10128543802538936,
+            "recall": 0.0,
+            "ap50": 0.011767741935483689,
+            "ap50_95": -0.03253648199500048
+          },
+          "delta_weak_vs_fixed": {
+            "precision": 0.9713196696690213,
+            "recall": 0.875,
+            "ap50": 0.9059677419354839,
+            "ap50_95": 0.5021840813852814
+          }
+        },
+        "3": {
+          "class_id": 3,
+          "name": "开裂",
+          "clean": {
+            "precision": 0.21798965357781958,
+            "recall": 1.0,
+            "ap50": 0.995,
+            "ap50_95": 0.9949999999999999
+          },
+          "fixed": {
+            "precision": null,
+            "recall": null,
+            "ap50": null,
+            "ap50_95": null
+          },
+          "weak": {
+            "precision": 0.35749601587702373,
+            "recall": 1.0,
+            "ap50": 0.995,
+            "ap50_95": 0.8955
+          },
+          "delta_weak_vs_clean": {
+            "precision": 0.13950636229920416,
+            "recall": 0.0,
+            "ap50": 0.0,
+            "ap50_95": -0.09949999999999992
+          },
+          "delta_weak_vs_fixed": {
+            "precision": 0.35749601587702373,
+            "recall": 1.0,
+            "ap50": 0.995,
+            "ap50_95": 0.8955
+          }
+        },
+        "4": {
+          "class_id": 4,
+          "name": "油污",
+          "clean": {
+            "precision": 0.19063874981124218,
+            "recall": 0.20987057266761117,
+            "ap50": 0.2135281021500782,
+            "ap50_95": 0.12461516427606104
+          },
+          "fixed": {
+            "precision": null,
+            "recall": null,
+            "ap50": null,
+            "ap50_95": null
+          },
+          "weak": {
+            "precision": 0.18944021734386304,
+            "recall": 0.16666666666666666,
+            "ap50": 0.18382688713333994,
+            "ap50_95": 0.10257747117255858
+          },
+          "delta_weak_vs_clean": {
+            "precision": -0.0011985324673791375,
+            "recall": -0.04320390600094451,
+            "ap50": -0.029701215016738253,
+            "ap50_95": -0.022037693103502454
+          },
+          "delta_weak_vs_fixed": {
+            "precision": 0.18944021734386304,
+            "recall": 0.16666666666666666,
+            "ap50": 0.18382688713333994,
+            "ap50_95": 0.10257747117255858
+          }
+        },
+        "5": {
+          "class_id": 5,
+          "name": "浅划伤",
+          "clean": {
+            "precision": 0.43487702907226317,
+            "recall": 0.6153846153846154,
+            "ap50": 0.55226615117142,
+            "ap50_95": 0.27202488322077023
+          },
+          "fixed": {
+            "precision": null,
+            "recall": null,
+            "ap50": null,
+            "ap50_95": null
+          },
+          "weak": {
+            "precision": 0.8405552654404279,
+            "recall": 0.46153846153846156,
+            "ap50": 0.5583438710002901,
+            "ap50_95": 0.2248847192366851
+          },
+          "delta_weak_vs_clean": {
+            "precision": 0.40567823636816475,
+            "recall": -0.15384615384615385,
+            "ap50": 0.006077719828870176,
+            "ap50_95": -0.04714016398408513
+          },
+          "delta_weak_vs_fixed": {
+            "precision": 0.8405552654404279,
+            "recall": 0.46153846153846156,
+            "ap50": 0.5583438710002901,
+            "ap50_95": 0.2248847192366851
+          }
+        },
+        "6": {
+          "class_id": 6,
+          "name": "漏背锡",
+          "clean": {
+            "precision": 0.7168963122935798,
+            "recall": 0.6956521739130435,
+            "ap50": 0.736365484530463,
+            "ap50_95": 0.35104832949359377
+          },
+          "fixed": {
+            "precision": null,
+            "recall": null,
+            "ap50": null,
+            "ap50_95": null
+          },
+          "weak": {
+            "precision": 0.7714268423553717,
+            "recall": 0.6304347826086957,
+            "ap50": 0.7251636409761971,
+            "ap50_95": 0.39888428698201855
+          },
+          "delta_weak_vs_clean": {
+            "precision": 0.05453053006179198,
+            "recall": -0.06521739130434778,
+            "ap50": -0.0112018435542659,
+            "ap50_95": 0.047835957488424785
+          },
+          "delta_weak_vs_fixed": {
+            "precision": 0.7714268423553717,
+            "recall": 0.6304347826086957,
+            "ap50": 0.7251636409761971,
+            "ap50_95": 0.39888428698201855
+          }
+        },
+        "7": {
+          "class_id": 7,
+          "name": "碰伤",
+          "clean": {
+            "precision": 0.7607573671296324,
+            "recall": 0.5799256505576208,
+            "ap50": 0.689131123610455,
+            "ap50_95": 0.4138308855038086
+          },
+          "fixed": {
+            "precision": null,
+            "recall": null,
+            "ap50": null,
+            "ap50_95": null
+          },
+          "weak": {
+            "precision": 0.7914113821731714,
+            "recall": 0.5353159851301115,
+            "ap50": 0.6953603477934733,
+            "ap50_95": 0.42124845483119266
+          },
+          "delta_weak_vs_clean": {
+            "precision": 0.03065401504353904,
+            "recall": -0.044609665427509326,
+            "ap50": 0.0062292241830183,
+            "ap50_95": 0.007417569327384077
+          },
+          "delta_weak_vs_fixed": {
+            "precision": 0.7914113821731714,
+            "recall": 0.5353159851301115,
+            "ap50": 0.6953603477934733,
+            "ap50_95": 0.42124845483119266
+          }
+        },
+        "8": {
+          "class_id": 8,
+          "name": "脏污",
+          "clean": {
+            "precision": 0.7331700953307596,
+            "recall": 0.5889334575690799,
+            "ap50": 0.5999748663246259,
+            "ap50_95": 0.33094336001777214
+          },
+          "fixed": {
+            "precision": null,
+            "recall": null,
+            "ap50": null,
+            "ap50_95": null
+          },
+          "weak": {
+            "precision": 0.6240010985404553,
+            "recall": 0.5138485481009922,
+            "ap50": 0.6116812008484422,
+            "ap50_95": 0.33601302757416357
+          },
+          "delta_weak_vs_clean": {
+            "precision": -0.10916899679030434,
+            "recall": -0.07508490946808766,
+            "ap50": 0.011706334523816309,
+            "ap50_95": 0.005069667556391433
+          },
+          "delta_weak_vs_fixed": {
+            "precision": 0.6240010985404553,
+            "recall": 0.5138485481009922,
+            "ap50": 0.6116812008484422,
+            "ap50_95": 0.33601302757416357
+          }
+        },
+        "9": {
+          "class_id": 9,
+          "name": "轮廓划伤",
+          "clean": {
+            "precision": 0.7008432658318305,
+            "recall": 0.6309523809523809,
+            "ap50": 0.743955027931807,
+            "ap50_95": 0.41387027745535854
+          },
+          "fixed": {
+            "precision": null,
+            "recall": null,
+            "ap50": null,
+            "ap50_95": null
+          },
+          "weak": {
+            "precision": 0.7504741018212024,
+            "recall": 0.572896029446579,
+            "ap50": 0.7315487903109388,
+            "ap50_95": 0.3583039994915147
+          },
+          "delta_weak_vs_clean": {
+            "precision": 0.0496308359893719,
+            "recall": -0.058056351505801906,
+            "ap50": -0.012406237620868232,
+            "ap50_95": -0.055566277963843835
+          },
+          "delta_weak_vs_fixed": {
+            "precision": 0.7504741018212024,
+            "recall": 0.572896029446579,
+            "ap50": 0.7315487903109388,
+            "ap50_95": 0.3583039994915147
+          }
+        },
+        "10": {
+          "class_id": 10,
+          "name": "锡丝残留",
+          "clean": {
+            "precision": 0.8054081270393996,
+            "recall": 0.75,
+            "ap50": 0.8102899050905954,
+            "ap50_95": 0.515437069783306
+          },
+          "fixed": {
+            "precision": null,
+            "recall": null,
+            "ap50": null,
+            "ap50_95": null
+          },
+          "weak": {
+            "precision": 0.8331114531247129,
+            "recall": 0.75,
+            "ap50": 0.860967741935484,
+            "ap50_95": 0.5903952063273867
+          },
+          "delta_weak_vs_clean": {
+            "precision": 0.02770332608531334,
+            "recall": 0.0,
+            "ap50": 0.05067783684488858,
+            "ap50_95": 0.07495813654408079
+          },
+          "delta_weak_vs_fixed": {
+            "precision": 0.8331114531247129,
+            "recall": 0.75,
+            "ap50": 0.860967741935484,
+            "ap50_95": 0.5903952063273867
+          }
+        },
+        "11": {
+          "class_id": 11,
+          "name": "锡尖",
+          "clean": {
+            "precision": 0.9597914113697746,
+            "recall": 0.8842535859949932,
+            "ap50": 0.9739256157635466,
+            "ap50_95": 0.6377447624196682
+          },
+          "fixed": {
+            "precision": null,
+            "recall": null,
+            "ap50": null,
+            "ap50_95": null
+          },
+          "weak": {
+            "precision": 0.9891629886205093,
+            "recall": 0.8518518518518519,
+            "ap50": 0.9764461145495629,
+            "ap50_95": 0.6503762130745373
+          },
+          "delta_weak_vs_clean": {
+            "precision": 0.029371577250734693,
+            "recall": -0.03240173414314129,
+            "ap50": 0.0025204987860162342,
+            "ap50_95": 0.012631450654869147
+          },
+          "delta_weak_vs_fixed": {
+            "precision": 0.9891629886205093,
+            "recall": 0.8518518518518519,
+            "ap50": 0.9764461145495629,
+            "ap50_95": 0.6503762130745373
+          }
+        },
+        "12": {
+          "class_id": 12,
+          "name": "锡膏",
+          "clean": {
+            "precision": 0.8373191816041378,
+            "recall": 0.6714099633938825,
+            "ap50": 0.805906441028902,
+            "ap50_95": 0.5370937510108634
+          },
+          "fixed": {
+            "precision": null,
+            "recall": null,
+            "ap50": null,
+            "ap50_95": null
+          },
+          "weak": {
+            "precision": 0.8199469191847365,
+            "recall": 0.6930476218378248,
+            "ap50": 0.8133125662315898,
+            "ap50_95": 0.5454770713745123
+          },
+          "delta_weak_vs_clean": {
+            "precision": -0.017372262419401263,
+            "recall": 0.021637658443942276,
+            "ap50": 0.007406125202687797,
+            "ap50_95": 0.00838332036364886
+          },
+          "delta_weak_vs_fixed": {
+            "precision": 0.8199469191847365,
+            "recall": 0.6930476218378248,
+            "ap50": 0.8133125662315898,
+            "ap50_95": 0.5454770713745123
+          }
+        }
+      },
+      "non_active_regression_summary": {
+        "weak_target_class_ids": [
+          6,
+          7,
+          9
+        ],
+        "non_active_class_count": 10,
+        "mean_ap50_95_delta_weak_vs_fixed": 0.55183576357873,
+        "mean_ap50_95_delta_weak_vs_clean": -0.00937207735018493,
+        "ap50_95_regressed_vs_fixed_gt_0_01_count": 0,
+        "ap50_95_regressed_vs_clean_gt_0_01_count": 4,
+        "regressed_vs_fixed_classes": [],
+        "regressed_vs_clean_classes": [
+          {
+            "class_id": 2,
+            "name": "加强筋打伤",
+            "delta_ap50_95": -0.03253648199500048
+          },
+          {
+            "class_id": 3,
+            "name": "开裂",
+            "delta_ap50_95": -0.09949999999999992
+          },
+          {
+            "class_id": 4,
+            "name": "油污",
+            "delta_ap50_95": -0.022037693103502454
+          },
+          {
+            "class_id": 5,
+            "name": "浅划伤",
+            "delta_ap50_95": -0.04714016398408513
+          }
+        ]
+      },
+      "summary": {
+        "seed": 2,
+        "completed_50ep": true,
+        "weak_image_augmentation_executed": true,
+        "industrial_image_augmented": 80,
+        "roi_aug_applied": 95,
+        "router_random_draw_count": 1922,
+        "sampler_only_enabled": false,
+        "weighted_index_list_enabled": false,
+        "sampled_distribution_changed": false,
+        "final_val_used_for_policy_selection": false,
+        "constraint_failed": false,
+        "failure_reasons": [],
+        "recall_warning": true,
+        "recall_warning_threshold": -0.01,
+        "fixed_catf_v2_benefit_retained": false,
+        "new_non_active_regression": false
+      },
+      "paths": {
+        "final_metrics": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\catf_v2_image_only_weak_aug_seed2_50ep\\reports\\final_metrics.json",
+        "online_aug_stats": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\catf_v2_image_only_weak_aug_seed2_50ep\\reports\\online_aug_stats.json",
+        "roi_aug_stats": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\catf_v2_image_only_weak_aug_seed2_50ep\\reports\\roi_aug_stats.json",
+        "causal_probe_events": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\catf_v2_image_only_weak_aug_seed2_50ep\\reports\\causal_probe_events.json",
+        "results_csv": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\catf_v2_image_only_weak_aug_seed2_50ep\\train\\results.csv"
+      }
+    }
+  ],
+  "summary": {
+    "seed_count": 3,
+    "constraint_pass_count": 2,
+    "three_seed_pass": false,
+    "mean_clean": {
+      "precision": 0.751106032194694,
+      "recall": 0.6842554106506943,
+      "map50": 0.7526963951770916,
+      "map50_95": 0.49272801932196314
+    },
+    "mean_fixed_catf_v2": {
+      "precision": 0.7757875751901958,
+      "recall": 0.6855025884982786,
+      "map50": 0.7615070820289542,
+      "map50_95": 0.501701285867667
+    },
+    "mean_weak_image_aug": {
+      "precision": 0.7326339510992469,
+      "recall": 0.7060431364480234,
+      "map50": 0.757244138855798,
+      "map50_95": 0.49931910614072383
+    },
+    "mean_delta_vs_clean": {
+      "precision": -0.01847208109544703,
+      "recall": 0.021787725797329127,
+      "map50": 0.004547743678706362,
+      "map50_95": 0.006591086818760694
+    },
+    "mean_delta_vs_fixed_catf_v2": {
+      "precision": -0.04315362409094895,
+      "recall": 0.020540547949744765,
+      "map50": -0.004262943173156268,
+      "map50_95": -0.0023821797269431935
+    },
+    "total_industrial_image_augmented": 128,
+    "total_roi_aug_applied": 151,
+    "sampler_only_involved": false,
+    "weighted_index_list_involved": false,
+    "sampled_distribution_changed_any": false,
+    "final_val_used_for_policy_selection_any": false,
+    "recall_warning_any": true,
+    "main_method_candidate": false,
+    "recommend_recall_aware_constraint": true
+  },
+  "interpretation": {
+    "sampler_only": "Sampler-only was demoted and did not participate in these image-only weak augmentation runs.",
+    "seed2_recall": "Seed2 passes the hard constraints but recall remains below clean; this is a recall warning, not a hard-constraint failure.",
+    "mainline": "Image-only weak CP-CATF is a main-method candidate only if all three seeds pass constraints and the mean mAP50-95 delta vs clean is positive."
+  }
+}

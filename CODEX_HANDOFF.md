@@ -1105,7 +1105,7 @@ No training was run after building or auditing these datasets.
 - Current CATF-v2 work is smoke-only; no formal 50 epoch CATF-v2 run should be inferred from it.
 - No-feedback control disables both feedback and industrial augmentation, using Ultralytics YOLO default augmentation as the behavior check.
 - The old YOLO default reference is not the final baseline after parity audit; feedback comparisons should use `clean_native_yolo_default_seed42_50ep`.
-- Output: `outputs/experiments/catf_v2_image_only_weak_aug_seed2_50ep/`
+- Output: `outputs/experiments/seed1/`
 - Epochs: `50`
 - Feedback enabled: `true`
 - Industrial augmentation enabled: `true`
@@ -1121,8 +1121,8 @@ No training was run after building or auditing these datasets.
 - Fixed augmented dataset generated: `false`
 - Constraint baseline: `clean_native_yolo_default`
 - Constraint failed: `False`
-- Report: `outputs/experiments/catf_v2_image_only_weak_aug_seed2_50ep/reports/final_report.md`
-- Policy history: `outputs/experiments/catf_v2_image_only_weak_aug_seed2_50ep/reports/policy_history.json`
+- Report: `outputs/experiments/catf_v2_image_only_weak_aug_multiseed/seed1/reports/final_report.md`
+- Policy history: `outputs/experiments/catf_v2_image_only_weak_aug_multiseed/seed1/reports/policy_history.json`
 <!-- YOLO_DEFAULT_INLOOP_FEEDBACK_SMOKE_END -->
 <!-- YOLO_DEFAULT_INLOOP_PARITY_AUDIT_START -->
 ## YOLO Default In-Loop Parity Audit
@@ -1542,3 +1542,50 @@ No training was run after building or auditing these datasets.
 - Causal probe gap: the accept gate detected local class9 benefit but did not sufficiently penalize non-active FP spillover or estimated operating-point Precision loss.
 - Handoff guidance: do not continue seed1/seed2 performance validation yet. The next method change should be a precision-aware accept gate, not a dataset/class blacklist.
 <!-- CP_CATF_SEED0_PRECISION_RISK_AUDIT_END -->
+
+<!-- IMAGE_ONLY_WEAK_AUG_MULTISEED_SANITY_START -->
+## Image-Only Weak Augmentation Sanity Handoff
+
+- Current task completed: ran only seed0 and seed1 image-only weak augmentation sanity checks; seed2 reused the already completed weak augmentation result.
+- No seed2 rerun, no clean rerun, no sampler_only, no weighted index list, no sampling change, no data split change, no gate change, and no attenuation-ratio change were performed.
+- Method under validation:
+  - `candidate_policy_1b_weak_roi_texture`.
+  - `attenuation_ratio=0.25`.
+  - one retained low-risk ROI texture op for accepted weak candidates.
+  - strict no-op when the weak candidate is not accepted.
+  - sampler_only is explicitly disabled and remains demoted to engineering exploration/ablation.
+- Validation and reporting:
+  - py_compile for requested core modules passed.
+  - Targeted pytest suite passed `55 passed`.
+  - Added summary-only script `scripts/summarize_weak_image_aug_multiseed.py`; py_compile passed.
+- Seed0 result:
+  - Run root: `outputs/experiments/catf_v2_image_only_weak_aug_multiseed/seed0/`.
+  - Weak image augmentation executed with industrial images augmented `16`, ROI applied `18`, router random draws `341`.
+  - sampler_only/weighted index list were disabled and sampled distribution did not change.
+  - Metrics: P=0.679043, R=0.711821, mAP50=0.722170, mAP50-95=0.476005.
+  - Delta vs clean: dP=-0.105511, dR=+0.035364, dmAP50=-0.012525, dmAP50-95=+0.000111.
+  - Delta vs fixed CATF-v2: dP=-0.099463, dR=+0.042167, dmAP50=-0.021487, dmAP50-95=-0.013536.
+  - `constraint_failed=true` due Precision and mAP50 drops vs clean.
+- Seed1 result:
+  - Run root: `outputs/experiments/catf_v2_image_only_weak_aug_multiseed/seed1/`.
+  - Weak image augmentation executed with industrial images augmented `32`, ROI applied `38`, router random draws `775`.
+  - sampler_only/weighted index list were disabled and sampled distribution did not change.
+  - Metrics: P=0.765605, R=0.712074, mAP50=0.776844, mAP50-95=0.506815.
+  - Delta vs clean: dP=-0.006920, dR=+0.064394, dmAP50=+0.022653, dmAP50-95=+0.026896.
+  - Delta vs fixed CATF-v2: dP=-0.019594, dR=+0.011564, dmAP50=-0.005773, dmAP50-95=-0.012064.
+  - `constraint_failed=false`, but it does not fully retain fixed CATF-v2 mAP50-95 within a 0.01 tolerance.
+- Seed2 reused context:
+  - Run root: `outputs/experiments/catf_v2_image_only_weak_aug_seed2_50ep/`.
+  - Metrics: P=0.753254, R=0.694235, mAP50=0.772718, mAP50-95=0.515138.
+  - `constraint_failed=false`, but Recall remains below clean and should stay marked as a warning.
+- Multiseed conclusion:
+  - Constraint pass count `2/3`; `3/3 pass=false`.
+  - Mean delta vs clean: dP=-0.018472, dR=+0.021788, dmAP50=+0.004548, dmAP50-95=+0.006591.
+  - sampler_only involved `false`; weighted index list involved `false`; sampled distribution changed `false`; final val used for policy selection `false`.
+  - This exact image-only weak augmentation setting is not a paper main-method candidate yet.
+- Reports:
+  - `outputs/experiments/catf_v2_image_only_weak_aug_multiseed/seed0/reports/seed0_weak_image_aug_report.md`
+  - `outputs/experiments/catf_v2_image_only_weak_aug_multiseed/seed1/reports/seed1_weak_image_aug_report.md`
+  - `outputs/experiments/catf_v2_image_only_weak_aug_multiseed/reports/weak_image_aug_multiseed_summary.md`
+- Next recommended work only after explicit approval: keep the mainline image-only and add a recall/precision-aware safety rule for weak image augmentation; do not revive sampler_only as a main-method repair.
+<!-- IMAGE_ONLY_WEAK_AUG_MULTISEED_SANITY_END -->

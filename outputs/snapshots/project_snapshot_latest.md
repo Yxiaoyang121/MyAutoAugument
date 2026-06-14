@@ -1,9 +1,21 @@
 # Project Snapshot
 
-- Generated: 2026-06-14T08:30:18
+- Generated: 2026-06-14T22:59:36
 - Branch: codex/sync-latest
-- Commit: 98aa89160d3537378a03289acdd861f97624498b
+- Commit: 0dd12f34bec00615d3f270357f7c4f7b017b84f3
 - Remote: https://github.com/Yxiaoyang121/MyAutoAugument.git
+
+## Current Status
+
+- Mainline remains image-only CATF; sampler_only is demoted to engineering exploration/ablation and is not part of the paper main method.
+- Weak image augmentation repaired seed2 and seed1 passes, but seed0 fails with P=0.679043, mAP50=0.722170.
+- Current task completed a seed0 fixed-vs-weak failure audit only; no training was run.
+- Audit finding: fixed seed0 passed by preserving conservative classes 4/11/12 image policies, while weak seed0 replaced them with an epoch25 class9 weak local-contrast policy.
+- Precision collapse is FP-driven and broad across non-active classes, so the current global weak replacement is not a final main-method candidate.
+- Next image-only direction: preserve-safe-original for low-risk fixed policies, use weak ROI texture only for moderate-risk candidates, and strict no-op high/critical risk candidates.
+- Reports:
+  - `outputs/experiments/catf_v2_image_only_weak_aug_multiseed/reports/seed0_fixed_vs_weak_failure_audit.md`
+  - `outputs/experiments/catf_v2_image_only_weak_aug_multiseed/reports/seed0_fixed_vs_weak_failure_audit.json`
 
 ## Working Tree
 
@@ -11,9 +23,11 @@
  M CODEX_HANDOFF.md
  M EXPERIMENT_LOG.md
  M PROJECT_STATE.md
- M outputs/project_snapshot_latest.md
- M outputs/snapshots/project_snapshot_latest.md
-?? outputs/experiments/catf_v2_image_only_weak_aug_multiseed/
+?? outputs/experiments/catf_v2_image_only_weak_aug_multiseed/reports/seed0_fixed_vs_weak_failure_audit.json
+?? outputs/experiments/catf_v2_image_only_weak_aug_multiseed/reports/seed0_fixed_vs_weak_failure_audit.md
+?? outputs/experiments/catf_v2_image_only_weak_aug_multiseed/seed0_fixed_vs_weak_epoch_policy_diff.csv
+?? outputs/experiments/catf_v2_image_only_weak_aug_multiseed/seed0_fixed_vs_weak_per_class_regression.csv
+?? scripts/analyze_seed0_fixed_vs_weak.py
 ```
 
 ## Key Files
@@ -218,37 +232,7 @@
 
 ## Tracked File Count
 
-- 8913 tracked files
-
-## Latest Experiment State
-
-- Date: `2026-06-14`.
-- Latest run group: `outputs/experiments/catf_v2_image_only_weak_aug_multiseed/`.
-- Scope: image-only weak augmentation sanity for seed0/seed1; seed2 reused from `outputs/experiments/catf_v2_image_only_weak_aug_seed2_50ep/`.
-- Sampler-only remains demoted and was not used; weighted index list was not used; sampled distribution did not change.
-- Seed0 weak image augmentation:
-  - P/R/mAP50/mAP50-95 `0.679043/0.711821/0.722170/0.476005`.
-  - Delta vs clean `-0.105511/+0.035364/-0.012525/+0.000111`.
-  - Industrial augmented `16`; ROI applied `18`.
-  - `constraint_failed=true` due Precision and mAP50 drops.
-- Seed1 weak image augmentation:
-  - P/R/mAP50/mAP50-95 `0.765605/0.712074/0.776844/0.506815`.
-  - Delta vs clean `-0.006920/+0.064394/+0.022653/+0.026896`.
-  - Industrial augmented `32`; ROI applied `38`.
-  - `constraint_failed=false`.
-- Seed2 weak image augmentation reused:
-  - P/R/mAP50/mAP50-95 `0.753254/0.694235/0.772718/0.515138`.
-  - Delta vs clean `+0.057015/-0.034395/+0.003515/-0.007233`.
-  - `constraint_failed=false`; Recall warning remains.
-- Multiseed outcome:
-  - Constraint pass count `2/3`; `3/3 pass=false`.
-  - Mean delta vs clean `-0.018472/+0.021788/+0.004548/+0.006591`.
-  - Total industrial augmented `128`; total ROI applied `151`.
-  - Current image-only weak CP-CATF setting is not yet a 3-seed paper main-method candidate.
-- Reports:
-  - `outputs/experiments/catf_v2_image_only_weak_aug_multiseed/seed0/reports/seed0_weak_image_aug_report.md`
-  - `outputs/experiments/catf_v2_image_only_weak_aug_multiseed/seed1/reports/seed1_weak_image_aug_report.md`
-  - `outputs/experiments/catf_v2_image_only_weak_aug_multiseed/reports/weak_image_aug_multiseed_summary.md`
+- 9218 tracked files
 
 ## Notes
 

@@ -2658,3 +2658,53 @@ Key conclusions from that archived smoke:
   - Added `scripts/summarize_weak_image_aug_multiseed.py`.
   - `python -m py_compile scripts/summarize_weak_image_aug_multiseed.py` passed.
 <!-- IMAGE_ONLY_WEAK_AUG_MULTISEED_SANITY_END -->
+
+<!-- SEED0_FIXED_VS_WEAK_FAILURE_AUDIT_START -->
+## Seed0 Fixed-vs-Weak Image Augmentation Failure Audit
+
+- Date: `2026-06-14`.
+- Scope:
+  - analysis only;
+  - no training run;
+  - no seed1/seed2 run;
+  - no multiseed run;
+  - no sampler_only or weighted index list;
+  - no gate, attenuation-ratio, causal-score, augmentation-strategy, or data-split change.
+- Script:
+  - `scripts/analyze_seed0_fixed_vs_weak.py`
+- Inputs:
+  - fixed seed0: `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/seed_0/catf_v2/`
+  - weak seed0: `outputs/experiments/catf_v2_image_only_weak_aug_multiseed/seed0/`
+  - clean seed0 metrics reused from existing clean run.
+- Outputs:
+  - `outputs/experiments/catf_v2_image_only_weak_aug_multiseed/reports/seed0_fixed_vs_weak_failure_audit.md`
+  - `outputs/experiments/catf_v2_image_only_weak_aug_multiseed/reports/seed0_fixed_vs_weak_failure_audit.json`
+  - `outputs/experiments/catf_v2_image_only_weak_aug_multiseed/seed0_fixed_vs_weak_epoch_policy_diff.csv`
+  - `outputs/experiments/catf_v2_image_only_weak_aug_multiseed/seed0_fixed_vs_weak_per_class_regression.csv`
+- Aggregate metrics:
+  - clean seed0 P/R/mAP50/mAP50-95: `0.784554/0.676457/0.734696/0.475894`;
+  - fixed CATF-v2 seed0: `0.778506/0.669654/0.743657/0.489541`, pass;
+  - weak image augmentation seed0: `0.679043/0.711821/0.722170/0.476005`, fail.
+- Execution contrast:
+  - fixed seed0 augmented classes `4`, `11`, and `12`;
+  - fixed seed0 industrial images augmented `41`, ROI applied `45`;
+  - weak seed0 executed only epoch `25` class `9` weak local-contrast;
+  - weak seed0 industrial images augmented `16`, ROI applied `18`;
+  - sampler_only involved `false`, weighted index list enabled `false`, sampled distribution changed `false`.
+- Main finding:
+  - weak seed0 failed because the weak replay path globally replaced fixed CATF-v2 behavior instead of preserving the seed0 safe original policies;
+  - the weak path suppressed fixed classes `4/11/12` and introduced a class `9` weak candidate;
+  - Precision collapse is FP-driven and broad, not isolated to the active class.
+- Per-class regression:
+  - largest weak precision drops vs clean include classes `5`, `4`, `3`, `11`, `9`, and `7`;
+  - largest estimated FP increases vs fixed are led by classes `7`, `9`, `5`, `12`, and `6`;
+  - this indicates non-active regression/spillover.
+- Interpretation:
+  - weak augmentation is not proven globally harmful, because it repaired seed2 and seed1 passes;
+  - the current global weak replacement is harmful for seed0;
+  - seed0 should preserve fixed original policy when original fixed CATF-v2 policy is low-risk;
+  - next image-only strategy should be `preserve-safe-original + weak-only-for-moderate-risk + strict no-op for high/critical risk`;
+  - do not continue training until that decision logic is replayed offline.
+- Verification:
+  - `D:\Anaconda\envs\pytorch\python.exe -m py_compile scripts\analyze_seed0_fixed_vs_weak.py`
+<!-- SEED0_FIXED_VS_WEAK_FAILURE_AUDIT_END -->

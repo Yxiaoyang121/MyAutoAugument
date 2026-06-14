@@ -118,6 +118,42 @@ The project is a diagnosis-driven augmentation pipeline for industrial defect de
   - requested py_compile passed;
   - requested targeted pytest set passed: `55 passed`.
 
+## Latest Seed0 Fixed-vs-Weak Failure Audit
+
+- Date: `2026-06-14`.
+- Scope: analysis only. No training, no seed1/seed2 run, no multiseed run, no sampler_only, no weighted index list, no gate change, no attenuation-ratio change, and no data-split change.
+- Script:
+  - `scripts/analyze_seed0_fixed_vs_weak.py`
+- Outputs:
+  - `outputs/experiments/catf_v2_image_only_weak_aug_multiseed/reports/seed0_fixed_vs_weak_failure_audit.md`
+  - `outputs/experiments/catf_v2_image_only_weak_aug_multiseed/reports/seed0_fixed_vs_weak_failure_audit.json`
+  - `outputs/experiments/catf_v2_image_only_weak_aug_multiseed/seed0_fixed_vs_weak_epoch_policy_diff.csv`
+  - `outputs/experiments/catf_v2_image_only_weak_aug_multiseed/seed0_fixed_vs_weak_per_class_regression.csv`
+- Context:
+  - weak image augmentation repaired seed2 and seed1 passes;
+  - seed0 weak image augmentation fails hard constraints;
+  - therefore the current global weak image augmentation setting is not a paper main-method candidate.
+- Seed0 audit result:
+  - fixed CATF-v2 seed0 passed by keeping conservative image augmentation on classes `4`, `11`, and `12`;
+  - weak seed0 executed only the epoch25 class `9` weak local-contrast candidate;
+  - fixed execution: `41` industrial images augmented and `45` ROI applications;
+  - weak execution: `16` industrial images augmented and `18` ROI applications;
+  - sampler_only was not involved, weighted index list was disabled, and sampled distribution did not change.
+- Failure diagnosis:
+  - weak replay globally replaced fixed behavior instead of preserving fixed seed0 safe policies;
+  - Precision drop is FP-driven: weak P drops by about `0.1055` vs clean while Recall rises by about `0.0354`;
+  - largest weak precision drops vs clean include classes `5`, `4`, `3`, `11`, `9`, and `7`;
+  - largest estimated FP increases vs fixed are led by classes `7`, `9`, `5`, `12`, and `6`;
+  - this is broad non-active regression/spillover, not only a class9 tradeoff.
+- Handoff guidance:
+  - keep the mainline image-only;
+  - do not use sampler_only to repair this result;
+  - do not continue training immediately;
+  - next method work should implement and replay `preserve-safe-original + weak-only-for-moderate-risk + strict no-op for high/critical risk`;
+  - seed0 should preserve the fixed original policy when the original policy is low-risk.
+- Verification:
+  - `python -m py_compile scripts/analyze_seed0_fixed_vs_weak.py`
+
 ## Latest CP-CATF Paper-Mode Sampler-Only Multiseed
 
 - Date: `2026-06-12`.

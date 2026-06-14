@@ -1,0 +1,346 @@
+{
+  "scope": {
+    "seed": 0,
+    "analysis_only": true,
+    "training_run": false,
+    "sampler_only_involved": false,
+    "weighted_index_list_involved": false,
+    "image_only_mainline": true
+  },
+  "paths": {
+    "clean_metrics": "outputs\\experiments\\multiseed_clean_yolo_default_vs_catf_v2\\seed_0\\clean_native_yolo_default\\reports\\clean_native_yolo_default_metrics.json",
+    "fixed_metrics": "outputs\\experiments\\multiseed_clean_yolo_default_vs_catf_v2_fixed\\seed_0\\catf_v2\\reports\\final_metrics.json",
+    "weak_metrics": "outputs\\experiments\\catf_v2_image_only_weak_aug_multiseed\\seed0\\reports\\final_metrics.json",
+    "epoch_policy_diff_csv": "outputs\\experiments\\catf_v2_image_only_weak_aug_multiseed\\seed0_fixed_vs_weak_epoch_policy_diff.csv",
+    "per_class_regression_csv": "outputs\\experiments\\catf_v2_image_only_weak_aug_multiseed\\seed0_fixed_vs_weak_per_class_regression.csv"
+  },
+  "metrics": {
+    "clean": {
+      "precision": 0.7845544620314738,
+      "recall": 0.6764566929659848,
+      "map50": 0.7346955158165702,
+      "map50_95": 0.4758941249341509
+    },
+    "fixed": {
+      "precision": 0.7785060827516979,
+      "recall": 0.6696537893735843,
+      "map50": 0.7436574966447125,
+      "map50_95": 0.4895409913055733
+    },
+    "weak": {
+      "precision": 0.6790430592807836,
+      "recall": 0.7118209402717776,
+      "map50": 0.7221704786859824,
+      "map50_95": 0.4760047539700647
+    }
+  },
+  "deltas": {
+    "fixed_vs_clean": {
+      "precision": -0.006048379279775973,
+      "recall": -0.006802903592400433,
+      "map50": 0.008961980828142257,
+      "map50_95": 0.013646866371422428
+    },
+    "weak_vs_clean": {
+      "precision": -0.10551140275069026,
+      "recall": 0.035364247305792795,
+      "map50": -0.012525037130587835,
+      "map50_95": 0.00011062903591380069
+    },
+    "weak_vs_fixed": {
+      "precision": -0.09946302347091429,
+      "recall": 0.04216715089819323,
+      "map50": -0.021487017958730092,
+      "map50_95": -0.013536237335508627
+    }
+  },
+  "fixed_execution": {
+    "industrial_augmented": 41,
+    "roi_applied": 45,
+    "router_random_draw_count": 3050,
+    "ops": {
+      "local_contrast": {
+        "seen": 1590,
+        "skipped_probability": 1502,
+        "applied": 23,
+        "skipped_roi_unavailable": 65
+      },
+      "sharpen_mild": {
+        "seen": 1590,
+        "skipped_probability": 1507,
+        "applied": 18,
+        "skipped_roi_unavailable": 65
+      }
+    },
+    "affected_classes": {
+      "4": 9,
+      "11": 22,
+      "12": 14
+    },
+    "effective_policy_classes": [
+      4,
+      11,
+      12
+    ]
+  },
+  "weak_execution": {
+    "industrial_augmented": 16,
+    "roi_applied": 18,
+    "router_random_draw_count": 341,
+    "ops": {
+      "local_contrast": {
+        "seen": 341,
+        "skipped_probability": 325,
+        "applied": 16
+      }
+    },
+    "affected_classes": {
+      "9": 18
+    },
+    "weak_interval_counts": {
+      "9:25": 16
+    },
+    "sampler_only_effective": false,
+    "weighted_index_list_enabled": false,
+    "sampled_distribution_changed": false,
+    "effective_policy_classes": [
+      9
+    ]
+  },
+  "top_regressions": {
+    "precision_drop_vs_clean": [
+      {
+        "class_id": 5,
+        "name": "浅划伤",
+        "delta_weak_vs_clean_precision": -0.44991312229189695,
+        "delta_weak_vs_fixed_fp_est": 10.25937772955462,
+        "delta_weak_vs_clean_ap50": -0.09717393138626734,
+        "delta_weak_vs_clean_ap50_95": -0.030835871556703087
+      },
+      {
+        "class_id": 4,
+        "name": "油污",
+        "delta_weak_vs_clean_precision": -0.25156609983298783,
+        "delta_weak_vs_fixed_fp_est": -0.9919203765658775,
+        "delta_weak_vs_clean_ap50": -0.0665991483057371,
+        "delta_weak_vs_clean_ap50_95": -0.03613762945934648
+      },
+      {
+        "class_id": 3,
+        "name": "开裂",
+        "delta_weak_vs_clean_precision": -0.2277022296087987,
+        "delta_weak_vs_fixed_fp_est": 2.474972885014048,
+        "delta_weak_vs_clean_ap50": -0.16583333333333333,
+        "delta_weak_vs_clean_ap50_95": -0.10351515151515156
+      },
+      {
+        "class_id": 11,
+        "name": "锡尖",
+        "delta_weak_vs_clean_precision": -0.1987845271022578,
+        "delta_weak_vs_fixed_fp_est": 1.6315443753278833,
+        "delta_weak_vs_clean_ap50": 0.0025577596450169215,
+        "delta_weak_vs_clean_ap50_95": 0.0006357803423675534
+      },
+      {
+        "class_id": 9,
+        "name": "轮廓划伤",
+        "delta_weak_vs_clean_precision": -0.08218492651058507,
+        "delta_weak_vs_fixed_fp_est": 11.627821408985737,
+        "delta_weak_vs_clean_ap50": 0.0027190835658446044,
+        "delta_weak_vs_clean_ap50_95": -0.0001398069628359977
+      }
+    ],
+    "fp_increase_vs_fixed": [
+      {
+        "class_id": 7,
+        "name": "碰伤",
+        "delta_weak_vs_fixed_fp_est": 32.35757469667371,
+        "delta_weak_vs_clean_precision": -0.04646536659667311,
+        "delta_weak_vs_clean_ap50": -0.010473546194908478,
+        "delta_weak_vs_clean_ap50_95": 0.006054275441154222
+      },
+      {
+        "class_id": 9,
+        "name": "轮廓划伤",
+        "delta_weak_vs_fixed_fp_est": 11.627821408985737,
+        "delta_weak_vs_clean_precision": -0.08218492651058507,
+        "delta_weak_vs_clean_ap50": 0.0027190835658446044,
+        "delta_weak_vs_clean_ap50_95": -0.0001398069628359977
+      },
+      {
+        "class_id": 5,
+        "name": "浅划伤",
+        "delta_weak_vs_fixed_fp_est": 10.25937772955462,
+        "delta_weak_vs_clean_precision": -0.44991312229189695,
+        "delta_weak_vs_clean_ap50": -0.09717393138626734,
+        "delta_weak_vs_clean_ap50_95": -0.030835871556703087
+      },
+      {
+        "class_id": 12,
+        "name": "锡膏",
+        "delta_weak_vs_fixed_fp_est": 6.0056893697000655,
+        "delta_weak_vs_clean_precision": -0.036408259356393136,
+        "delta_weak_vs_clean_ap50": -0.02616127482792785,
+        "delta_weak_vs_clean_ap50_95": -0.0016044049914714642
+      },
+      {
+        "class_id": 6,
+        "name": "漏背锡",
+        "delta_weak_vs_fixed_fp_est": 4.998723793556984,
+        "delta_weak_vs_clean_precision": -0.05376213900851334,
+        "delta_weak_vs_clean_ap50": 0.020631673640146952,
+        "delta_weak_vs_clean_ap50_95": 0.006559442864304099
+      }
+    ],
+    "fp_increase_vs_clean": [
+      {
+        "class_id": 7,
+        "name": "碰伤",
+        "delta_weak_vs_clean_fp_est": 19.357831787130294,
+        "delta_weak_vs_clean_precision": -0.04646536659667311,
+        "delta_weak_vs_fixed_fp_est": 32.35757469667371,
+        "delta_weak_vs_clean_ap50": -0.010473546194908478,
+        "delta_weak_vs_clean_ap50_95": 0.006054275441154222
+      },
+      {
+        "class_id": 5,
+        "name": "浅划伤",
+        "delta_weak_vs_clean_fp_est": 10.903150525237397,
+        "delta_weak_vs_clean_precision": -0.44991312229189695,
+        "delta_weak_vs_fixed_fp_est": 10.25937772955462,
+        "delta_weak_vs_clean_ap50": -0.09717393138626734,
+        "delta_weak_vs_clean_ap50_95": -0.030835871556703087
+      },
+      {
+        "class_id": 9,
+        "name": "轮廓划伤",
+        "delta_weak_vs_clean_fp_est": 7.6496998068607525,
+        "delta_weak_vs_clean_precision": -0.08218492651058507,
+        "delta_weak_vs_fixed_fp_est": 11.627821408985737,
+        "delta_weak_vs_clean_ap50": 0.0027190835658446044,
+        "delta_weak_vs_clean_ap50_95": -0.0001398069628359977
+      },
+      {
+        "class_id": 11,
+        "name": "锡尖",
+        "delta_weak_vs_clean_fp_est": 6.001231229181805,
+        "delta_weak_vs_clean_precision": -0.1987845271022578,
+        "delta_weak_vs_fixed_fp_est": 1.6315443753278833,
+        "delta_weak_vs_clean_ap50": 0.0025577596450169215,
+        "delta_weak_vs_clean_ap50_95": 0.0006357803423675534
+      },
+      {
+        "class_id": 4,
+        "name": "油污",
+        "delta_weak_vs_clean_fp_est": 5.066167464542591,
+        "delta_weak_vs_clean_precision": -0.25156609983298783,
+        "delta_weak_vs_fixed_fp_est": -0.9919203765658775,
+        "delta_weak_vs_clean_ap50": -0.0665991483057371,
+        "delta_weak_vs_clean_ap50_95": -0.03613762945934648
+      }
+    ],
+    "ap50_drop_vs_clean": [
+      {
+        "class_id": 3,
+        "name": "开裂",
+        "delta_weak_vs_clean_ap50": -0.16583333333333333,
+        "delta_weak_vs_clean_precision": -0.2277022296087987,
+        "delta_weak_vs_fixed_fp_est": 2.474972885014048,
+        "delta_weak_vs_clean_ap50_95": -0.10351515151515156
+      },
+      {
+        "class_id": 5,
+        "name": "浅划伤",
+        "delta_weak_vs_clean_ap50": -0.09717393138626734,
+        "delta_weak_vs_clean_precision": -0.44991312229189695,
+        "delta_weak_vs_fixed_fp_est": 10.25937772955462,
+        "delta_weak_vs_clean_ap50_95": -0.030835871556703087
+      },
+      {
+        "class_id": 4,
+        "name": "油污",
+        "delta_weak_vs_clean_ap50": -0.0665991483057371,
+        "delta_weak_vs_clean_precision": -0.25156609983298783,
+        "delta_weak_vs_fixed_fp_est": -0.9919203765658775,
+        "delta_weak_vs_clean_ap50_95": -0.03613762945934648
+      },
+      {
+        "class_id": 12,
+        "name": "锡膏",
+        "delta_weak_vs_clean_ap50": -0.02616127482792785,
+        "delta_weak_vs_clean_precision": -0.036408259356393136,
+        "delta_weak_vs_fixed_fp_est": 6.0056893697000655,
+        "delta_weak_vs_clean_ap50_95": -0.0016044049914714642
+      },
+      {
+        "class_id": 7,
+        "name": "碰伤",
+        "delta_weak_vs_clean_ap50": -0.010473546194908478,
+        "delta_weak_vs_clean_precision": -0.04646536659667311,
+        "delta_weak_vs_fixed_fp_est": 32.35757469667371,
+        "delta_weak_vs_clean_ap50_95": 0.006054275441154222
+      }
+    ],
+    "ap50_95_drop_vs_clean": [
+      {
+        "class_id": 3,
+        "name": "开裂",
+        "delta_weak_vs_clean_ap50_95": -0.10351515151515156,
+        "delta_weak_vs_clean_precision": -0.2277022296087987,
+        "delta_weak_vs_fixed_fp_est": 2.474972885014048,
+        "delta_weak_vs_clean_ap50": -0.16583333333333333
+      },
+      {
+        "class_id": 4,
+        "name": "油污",
+        "delta_weak_vs_clean_ap50_95": -0.03613762945934648,
+        "delta_weak_vs_clean_precision": -0.25156609983298783,
+        "delta_weak_vs_fixed_fp_est": -0.9919203765658775,
+        "delta_weak_vs_clean_ap50": -0.0665991483057371
+      },
+      {
+        "class_id": 5,
+        "name": "浅划伤",
+        "delta_weak_vs_clean_ap50_95": -0.030835871556703087,
+        "delta_weak_vs_clean_precision": -0.44991312229189695,
+        "delta_weak_vs_fixed_fp_est": 10.25937772955462,
+        "delta_weak_vs_clean_ap50": -0.09717393138626734
+      },
+      {
+        "class_id": 2,
+        "name": "加强筋打伤",
+        "delta_weak_vs_clean_ap50_95": -0.008395377955378036,
+        "delta_weak_vs_clean_precision": -0.006297707114577777,
+        "delta_weak_vs_fixed_fp_est": 0.5153252054919417,
+        "delta_weak_vs_clean_ap50": 0.0
+      },
+      {
+        "class_id": 12,
+        "name": "锡膏",
+        "delta_weak_vs_clean_ap50_95": -0.0016044049914714642,
+        "delta_weak_vs_clean_precision": -0.036408259356393136,
+        "delta_weak_vs_fixed_fp_est": 6.0056893697000655,
+        "delta_weak_vs_clean_ap50": -0.02616127482792785
+      }
+    ]
+  },
+  "mechanism_assessment": {
+    "weak_augmentation_intrinsically_harmful": "not proven globally; harmful in seed0 execution context",
+    "weak_replaced_fixed_effective_policy": true,
+    "weak_executed_on_new_class_not_in_fixed_seed0": true,
+    "attenuation_0_25_still_fp_risky_on_seed0": true,
+    "probe_gate_underestimated_seed0_precision_risk": true,
+    "seed0_should_preserve_fixed_original_policy": true,
+    "non_active_regression_detected": true,
+    "high_confidence_fp_note": "Replay metadata flagged high_confidence_fp_delta=0.05 for the original epoch25 candidate; final metrics lack raw confidence-level FP tables."
+  },
+  "recommendation": {
+    "do_not_global_replace_fixed_catf_v2": true,
+    "candidate_policy_preserve_original": "Use when original fixed CATF-v2 policy is low-risk in probe.",
+    "candidate_policy_weak_roi_texture": "Use only for moderate-risk image candidates after preserving safe originals.",
+    "candidate_policy_noop": "Use for high-risk or critical-risk image candidates.",
+    "continue_training_now": false,
+    "next_step": "Offline replay and implement preserve-safe-original + weak-only-for-moderate-risk before any new training.",
+    "sampler_only": "Do not reintroduce for the paper main method."
+  }
+}

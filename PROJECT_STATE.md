@@ -1,6 +1,6 @@
 ﻿# Project State
 
-Last updated: 2026-06-13
+Last updated: 2026-06-14
 
 ## Current Position
 
@@ -105,6 +105,39 @@ The repository is centered on diagnosis-driven augmentation for industrial defec
 - Verification:
   - requested py_compile passed;
   - requested targeted pytest set passed: `55 passed`.
+
+## Seed0 Fixed-vs-Weak Failure Audit (2026-06-14)
+
+- Scope: analysis only. No training, seed1/seed2 run, multiseed run, sampler change, gate change, attenuation-ratio change, or data-split change was performed.
+- Script:
+  - `scripts/analyze_seed0_fixed_vs_weak.py`
+- Reports:
+  - `outputs/experiments/catf_v2_image_only_weak_aug_multiseed/reports/seed0_fixed_vs_weak_failure_audit.md`
+  - `outputs/experiments/catf_v2_image_only_weak_aug_multiseed/reports/seed0_fixed_vs_weak_failure_audit.json`
+  - `outputs/experiments/catf_v2_image_only_weak_aug_multiseed/seed0_fixed_vs_weak_epoch_policy_diff.csv`
+  - `outputs/experiments/catf_v2_image_only_weak_aug_multiseed/seed0_fixed_vs_weak_per_class_regression.csv`
+- Current weak image augmentation status:
+  - seed2 was repaired by image-only weak augmentation;
+  - seed1 passes constraints;
+  - seed0 fails constraints, so the current global weak replacement is not a final main-method candidate.
+- Seed0 mechanism:
+  - fixed CATF-v2 seed0 passed with conservative image augmentation on classes `4`, `11`, and `12`, totaling `41` industrial images augmented and `45` ROI applications;
+  - weak seed0 executed image augmentation only at epoch `25` on class `9`, totaling `16` industrial images augmented and `18` ROI applications;
+  - sampler_only remained disabled, weighted index list remained disabled, and sampled distribution did not change.
+- Failure interpretation:
+  - weak seed0 did not preserve the original fixed CATF-v2 safe policies for classes `4/11/12`;
+  - it introduced a new class `9` weak local-contrast policy instead;
+  - Precision collapse is FP-driven and broad, not isolated to class `9`;
+  - largest weak precision drops vs clean include classes `5`, `4`, `3`, `11`, `9`, and `7`;
+  - largest estimated FP increases vs fixed are led by classes `7`, `9`, `5`, `12`, and `6`;
+  - this is non-active regression/spillover and indicates attenuation `0.25` is not automatically safe for seed0.
+- Mainline direction:
+  - keep the project image-only;
+  - do not restore sampler_only as a main-method repair;
+  - next design should be `preserve-safe-original + weak-only-for-moderate-risk + strict no-op for high/critical risk`;
+  - do not continue training until that image-only decision logic is replayed and reviewed offline.
+- Verification:
+  - `python -m py_compile scripts/analyze_seed0_fixed_vs_weak.py`
 
 ## CP-CATF Paper-Mode Sampler-Only Multiseed (2026-06-12)
 

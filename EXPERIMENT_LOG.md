@@ -1999,7 +1999,7 @@ Key conclusions from that archived smoke:
 - Current CATF-v2 work is smoke-only; no formal 50 epoch CATF-v2 run should be inferred from it.
 - No-feedback control disables both feedback and industrial augmentation, using Ultralytics YOLO default augmentation as the behavior check.
 - The old YOLO default reference is not the final baseline after parity audit; feedback comparisons should use `clean_native_yolo_default_seed42_50ep`.
-- Output: `outputs/experiments/seed1/`
+- Output: `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity/`
 - Epochs: `50`
 - Feedback enabled: `true`
 - Industrial augmentation enabled: `true`
@@ -2014,9 +2014,9 @@ Key conclusions from that archived smoke:
 - Train image count: `2301`
 - Fixed augmented dataset generated: `false`
 - Constraint baseline: `clean_native_yolo_default`
-- Constraint failed: `False`
-- Report: `outputs/experiments/catf_v2_image_only_weak_aug_multiseed/seed1/reports/final_report.md`
-- Policy history: `outputs/experiments/catf_v2_image_only_weak_aug_multiseed/seed1/reports/policy_history.json`
+- Constraint failed: `True`
+- Report: `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity/reports/final_report.md`
+- Policy history: `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity/reports/policy_history.json`
 <!-- YOLO_DEFAULT_INLOOP_FEEDBACK_SMOKE_END -->
 <!-- YOLO_DEFAULT_INLOOP_PARITY_AUDIT_START -->
 ## YOLO Default In-Loop Parity Audit
@@ -2757,3 +2757,60 @@ Key conclusions from that archived smoke:
 - Verification:
   - `D:\Anaconda\envs\pytorch\python.exe -m py_compile scripts\replay_preserve_weak_image_catf.py`
 <!-- PRESERVE_WEAK_IMAGE_CATF_REPLAY_END -->
+
+<!-- PRESERVE_WEAK_SEED0_SANITY_START -->
+## Seed0 Preserve-Weak Image CATF Sanity
+
+- Date: `2026-06-15`.
+- Scope:
+  - ran seed0 only for 50 epochs;
+  - no seed1, no seed2, no multiseed;
+  - no clean rerun;
+  - no sampler_only or weighted index list;
+  - no sampling, data split, gate, causal score, or attenuation-ratio change.
+- Run root:
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity/`
+- Reports:
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity/reports/seed0_preserve_weak_sanity_report.md`
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity/reports/seed0_preserve_weak_sanity_report.json`
+- New support scripts / CLI:
+  - added `--preserve-original-enabled`;
+  - added `--weak-only-for-moderate-risk`;
+  - added `scripts/build_preserve_weak_decision_schedule.py`;
+  - added `scripts/summarize_preserve_weak_seed0_sanity.py`.
+- Validation before run:
+  - requested py_compile checks passed;
+  - requested targeted pytest suite passed: `55 passed`.
+- Offline schedule:
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity/configs/preserve_weak_offline_decisions_seed0.json`;
+  - preserve_original=`9`, weak_roi_texture=`0`, strict_noop=`0`;
+  - sampler_only_involved=`false`.
+- Actual event counts:
+  - preserve_original=`9`;
+  - weak_roi_texture=`0`;
+  - strict_noop=`0`;
+  - risk_level low=`9`.
+- Actual execution:
+  - image augmentation executed=`true`;
+  - industrial images augmented=`20`;
+  - ROI applied=`20`;
+  - ROI affected classes=`{"11": 20}`;
+  - router random draw count=`1080`;
+  - weak class9 replacement avoided=`true`;
+  - fixed class `4/11/12` retained=`false`;
+  - sampler_only_enabled=`false`;
+  - weighted_index_list_enabled=`false`;
+  - sampled_distribution_changed=`false`.
+- Metrics:
+  - P/R/mAP50/mAP50-95: `0.666585/0.730019/0.699934/0.466744`;
+  - delta vs requested clean seed0: `-0.118015/+0.053519/-0.034766/-0.009156`;
+  - delta vs fixed CATF-v2 seed0: `-0.111915/+0.060319/-0.043766/-0.022756`;
+  - delta vs previous weak global seed0: `-0.012458/+0.018198/-0.022236/-0.009261`;
+  - constraint_failed=`true`, reasons `precision_drop_gt_0.01` and `map50_drop_gt_0.01`.
+- Interpretation:
+  - event-level preserve selection worked and weak class9 was avoided;
+  - preserve_original did not actually reproduce fixed seed0 executable class `4/11/12` policy;
+  - only class11 was augmented, so the run is not close to fixed CATF-v2 seed0;
+  - seed0 sanity failed;
+  - do not run seed2 or seed1 until preserve_original execution is fixed and seed0 passes.
+<!-- PRESERVE_WEAK_SEED0_SANITY_END -->

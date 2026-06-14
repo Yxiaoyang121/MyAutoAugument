@@ -171,6 +171,46 @@ The repository is centered on diagnosis-driven augmentation for industrial defec
 - Verification:
   - `python -m py_compile scripts/replay_preserve_weak_image_catf.py`
 
+## Seed0 Preserve-Weak Sanity (2026-06-15)
+
+- Scope: ran seed0 only for 50 epochs. Seed1/seed2 and multiseed were not run; clean was not rerun; sampler_only and weighted index list were disabled.
+- Output:
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity/`
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity/reports/seed0_preserve_weak_sanity_report.md`
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity/reports/seed0_preserve_weak_sanity_report.json`
+- Implementation note:
+  - added CLI support for `--preserve-original-enabled` and `--weak-only-for-moderate-risk`;
+  - added `scripts/build_preserve_weak_decision_schedule.py`;
+  - added `scripts/summarize_preserve_weak_seed0_sanity.py`.
+- Decision outcome:
+  - preserve_original=`9`;
+  - weak_roi_texture=`0`;
+  - strict_noop=`0`;
+  - weak class9 replacement avoided=`true`;
+  - sampler_only_enabled=`false`;
+  - weighted_index_list_enabled=`false`;
+  - sampled_distribution_changed=`false`.
+- Execution outcome:
+  - image augmentation executed=`true`;
+  - industrial images augmented=`20`;
+  - ROI applied=`20`;
+  - ROI affected classes=`{"11": 20}`;
+  - fixed class `4/11/12` executable strategy retained=`false`.
+- Metrics:
+  - preserve-weak seed0: P/R/mAP50/mAP50-95 `0.666585/0.730019/0.699934/0.466744`;
+  - delta vs requested clean seed0: `-0.118015/+0.053519/-0.034766/-0.009156`;
+  - delta vs fixed CATF-v2 seed0: `-0.111915/+0.060319/-0.043766/-0.022756`;
+  - delta vs previous weak global seed0: `-0.012458/+0.018198/-0.022236/-0.009261`;
+  - constraint_failed=`true` with `precision_drop_gt_0.01` and `map50_drop_gt_0.01`.
+- Interpretation:
+  - event-level replay selection worked, but preserve_original did not replay/install the fixed seed0 class `4/11/12` policy exactly;
+  - the run avoided the weak class9 replacement, but only class11 received ROI augmentation;
+  - this seed0 sanity failed and does not validate the three-stage strategy;
+  - do not proceed to seed2 until preserve_original execution can reproduce the fixed original class-op policy and seed0 passes.
+- Verification:
+  - requested py_compile checks passed;
+  - requested targeted pytest suite passed before the run: `55 passed`.
+
 ## CP-CATF Paper-Mode Sampler-Only Multiseed (2026-06-12)
 
 - Scope: continued from the completed seed0 sampler-only run and ran only seed1/seed2. Clean paper baselines and seed0 CP-CATF results were reused; clean and seed0 were not rerun.
@@ -1319,7 +1359,7 @@ The repository is centered on diagnosis-driven augmentation for industrial defec
 - Current CATF-v2 work is smoke-only; no formal 50 epoch CATF-v2 run should be inferred from it.
 - No-feedback control disables both feedback and industrial augmentation, using Ultralytics YOLO default augmentation as the behavior check.
 - The old YOLO default reference is not the final baseline after parity audit; feedback comparisons should use `clean_native_yolo_default_seed42_50ep`.
-- Output: `outputs/experiments/seed1/`
+- Output: `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity/`
 - Epochs: `50`
 - Feedback enabled: `true`
 - Industrial augmentation enabled: `true`
@@ -1334,9 +1374,9 @@ The repository is centered on diagnosis-driven augmentation for industrial defec
 - Train image count: `2301`
 - Fixed augmented dataset generated: `false`
 - Constraint baseline: `clean_native_yolo_default`
-- Constraint failed: `False`
-- Report: `outputs/experiments/catf_v2_image_only_weak_aug_multiseed/seed1/reports/final_report.md`
-- Policy history: `outputs/experiments/catf_v2_image_only_weak_aug_multiseed/seed1/reports/policy_history.json`
+- Constraint failed: `True`
+- Report: `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity/reports/final_report.md`
+- Policy history: `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity/reports/policy_history.json`
 <!-- YOLO_DEFAULT_INLOOP_FEEDBACK_SMOKE_END -->
 <!-- YOLO_DEFAULT_INLOOP_PARITY_AUDIT_START -->
 ## YOLO Default In-Loop Parity Audit

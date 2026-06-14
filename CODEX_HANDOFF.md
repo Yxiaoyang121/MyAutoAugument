@@ -187,6 +187,48 @@ The project is a diagnosis-driven augmentation pipeline for industrial defect de
 - Verification:
   - `python -m py_compile scripts/replay_preserve_weak_image_catf.py`
 
+## Latest Seed0 Preserve-Weak Sanity
+
+- Date: `2026-06-15`.
+- Scope: ran seed0 only for 50 epochs. Did not run seed1, seed2, multiseed, or clean. sampler_only and weighted index list stayed disabled.
+- Run root:
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity/`
+- Reports:
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity/reports/seed0_preserve_weak_sanity_report.md`
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity/reports/seed0_preserve_weak_sanity_report.json`
+- Code additions:
+  - `--preserve-original-enabled`;
+  - `--weak-only-for-moderate-risk`;
+  - `scripts/build_preserve_weak_decision_schedule.py`;
+  - `scripts/summarize_preserve_weak_seed0_sanity.py`.
+- Actual decisions:
+  - preserve_original=`9`;
+  - weak_roi_texture=`0`;
+  - strict_noop=`0`;
+  - risk_level low=`9`;
+  - weak class9 replacement avoided=`true`.
+- Actual execution:
+  - image augmentation executed=`true`;
+  - industrial images augmented=`20`;
+  - ROI applied=`20`;
+  - ROI affected classes=`{"11": 20}`;
+  - fixed class `4/11/12` retained=`false`;
+  - sampler_only_enabled=`false`, weighted_index_list_enabled=`false`, sampled_distribution_changed=`false`.
+- Metrics:
+  - seed0 preserve-weak: P=0.666585, R=0.730019, mAP50=0.699934, mAP50-95=0.466744;
+  - vs clean seed0: dP=-0.118015, dR=+0.053519, dmAP50=-0.034766, dmAP50-95=-0.009156;
+  - vs fixed CATF-v2 seed0: dP=-0.111915, dR=+0.060319, dmAP50=-0.043766, dmAP50-95=-0.022756;
+  - constraint_failed=`true`.
+- Handoff guidance:
+  - do not run seed2 yet;
+  - do not run seed1 yet;
+  - first fix preserve_original execution so it installs/replays the fixed original class-op policy exactly, including class4/11/12 for seed0;
+  - then rerun seed0 sanity before any seed2 repair validation;
+  - sampler_only remains out of the main method.
+- Verification:
+  - requested py_compile checks passed;
+  - requested targeted pytest suite passed before training: `55 passed`.
+
 ## Latest CP-CATF Paper-Mode Sampler-Only Multiseed
 
 - Date: `2026-06-12`.
@@ -1174,7 +1216,7 @@ No training was run after building or auditing these datasets.
 - Current CATF-v2 work is smoke-only; no formal 50 epoch CATF-v2 run should be inferred from it.
 - No-feedback control disables both feedback and industrial augmentation, using Ultralytics YOLO default augmentation as the behavior check.
 - The old YOLO default reference is not the final baseline after parity audit; feedback comparisons should use `clean_native_yolo_default_seed42_50ep`.
-- Output: `outputs/experiments/seed1/`
+- Output: `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity/`
 - Epochs: `50`
 - Feedback enabled: `true`
 - Industrial augmentation enabled: `true`
@@ -1189,9 +1231,9 @@ No training was run after building or auditing these datasets.
 - Train image count: `2301`
 - Fixed augmented dataset generated: `false`
 - Constraint baseline: `clean_native_yolo_default`
-- Constraint failed: `False`
-- Report: `outputs/experiments/catf_v2_image_only_weak_aug_multiseed/seed1/reports/final_report.md`
-- Policy history: `outputs/experiments/catf_v2_image_only_weak_aug_multiseed/seed1/reports/policy_history.json`
+- Constraint failed: `True`
+- Report: `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity/reports/final_report.md`
+- Policy history: `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity/reports/policy_history.json`
 <!-- YOLO_DEFAULT_INLOOP_FEEDBACK_SMOKE_END -->
 <!-- YOLO_DEFAULT_INLOOP_PARITY_AUDIT_START -->
 ## YOLO Default In-Loop Parity Audit

@@ -1,0 +1,40 @@
+{
+  "history": [
+    {
+      "epoch": 5,
+      "class_id": 11,
+      "action": "observe",
+      "adjustment_count": 0,
+      "before_status": "inactive",
+      "after_status": "inactive",
+      "dominant_issue": "texture_boundary_weak"
+    },
+    {
+      "epoch": 5,
+      "class_id": 4,
+      "action": "observe",
+      "adjustment_count": 0,
+      "before_status": "inactive",
+      "after_status": "inactive",
+      "dominant_issue": "low_recall"
+    },
+    {
+      "epoch": 10,
+      "class_id": 11,
+      "action": "propose",
+      "adjustment_count": 4,
+      "before_status": "inactive",
+      "after_status": "active",
+      "dominant_issue": "texture_boundary_weak"
+    },
+    {
+      "epoch": 15,
+      "class_id": 12,
+      "action": "observe",
+      "adjustment_count": 0,
+      "before_status": "inactive",
+      "after_status": "inactive",
+      "dominant_issue": "low_contrast_fn"
+    }
+  ]
+}

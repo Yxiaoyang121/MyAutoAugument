@@ -1,25 +1,22 @@
 # Project Snapshot
 
-- Generated: 2026-06-14T23:59:59
+- Generated: 2026-06-15T05:16:39
 - Branch: codex/sync-latest
-- Commit: 6b8c422c844143a5b9a461e1ae01db4c9912b4ad
+- Commit: 09cc530d2c2ed0630cbaa014e86a414ac6c6287d
 - Remote: https://github.com/Yxiaoyang121/MyAutoAugument.git
 
 ## Current Status
 
 - Mainline remains image-only CATF; sampler_only is not part of the paper main method.
-- Global weak image augmentation repaired seed2 but failed seed0 by replacing fixed CATF-v2 safe behavior.
-- Current task completed an offline preserve-original + weak-only replay; no training was run.
-- Replay counts:
-  - seed0: preserve_original=9, weak_roi_texture=0, strict_noop=0.
-  - seed1: preserve_original=9, weak_roi_texture=0, strict_noop=0.
-  - seed2: preserve_original=0, weak_roi_texture=5, strict_noop=4.
-- Seed0 preserves fixed class 4/11/12 and avoids weak class9 replacement.
-- Seed2 converts failed fixed behavior to weak/no-op and retains previous weak-safe candidates.
-- Recommended next validation order, not executed: seed0 sanity, seed2, then seed1.
+- Seed0 preserve-weak sanity was run for 50 epochs only; seed1/seed2/multiseed were not run.
+- Event decisions were preserve_original=9, weak_roi_texture=0, strict_noop=0, and weak class9 replacement was avoided.
+- The run failed because preserve_original did not reproduce fixed seed0 class4/11/12 executable policy; actual ROI augmentation affected only class11.
+- Metrics: P=0.666585, R=0.730019, mAP50=0.699934, mAP50-95=0.466744.
+- Constraint failed vs requested clean seed0 due Precision and mAP50 drops.
+- Do not proceed to seed2 yet; first fix preserve_original execution to install/replay the fixed original class-op policy exactly, then rerun seed0 sanity.
 - Reports:
-  - `outputs/experiments/catf_v2_image_only_preserve_weak_replay/reports/preserve_weak_replay.md`
-  - `outputs/experiments/catf_v2_image_only_preserve_weak_replay/reports/preserve_weak_replay.json`
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity/reports/seed0_preserve_weak_sanity_report.md`
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity/reports/seed0_preserve_weak_sanity_report.json`
 
 ## Working Tree
 
@@ -27,8 +24,12 @@
  M CODEX_HANDOFF.md
  M EXPERIMENT_LOG.md
  M PROJECT_STATE.md
-?? outputs/experiments/catf_v2_image_only_preserve_weak_replay/
-?? scripts/replay_preserve_weak_image_catf.py
+ M outputs/project_snapshot_latest.md
+ M outputs/snapshots/project_snapshot_latest.md
+ M scripts/train_yolo_default_with_inloop_feedback.py
+?? outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity/
+?? scripts/build_preserve_weak_decision_schedule.py
+?? scripts/summarize_preserve_weak_seed0_sanity.py
 ```
 
 ## Key Files
@@ -233,7 +234,7 @@
 
 ## Tracked File Count
 
-- 9223 tracked files
+- 9228 tracked files
 
 ## Notes
 

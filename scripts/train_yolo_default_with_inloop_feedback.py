@@ -443,7 +443,9 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--catf-causal-probe-mode", choices=["development", "paper"], default="development")
     parser.add_argument("--precision-aware-accept-gate", action=argparse.BooleanOptionalAction, default=True)
     parser.add_argument("--image-only-mainline", action=argparse.BooleanOptionalAction, default=False)
+    parser.add_argument("--preserve-original-enabled", action=argparse.BooleanOptionalAction, default=False)
     parser.add_argument("--weak-image-aug-enabled", action=argparse.BooleanOptionalAction, default=False)
+    parser.add_argument("--weak-only-for-moderate-risk", action=argparse.BooleanOptionalAction, default=False)
     parser.add_argument("--attenuation-ratio", type=float, default=0.25)
     parser.add_argument("--disable-sampler-only", action=argparse.BooleanOptionalAction, default=False)
     parser.add_argument("--sampler-only-enabled", action=argparse.BooleanOptionalAction, default=False)
@@ -507,6 +509,10 @@ def normalize_image_only_args(args: argparse.Namespace) -> None:
             raise ValueError("--attenuation-ratio must be in (0, 1]")
         if not bool(getattr(args, "image_only_mainline", False)):
             args.image_only_mainline = True
+    if bool(getattr(args, "preserve_original_enabled", False)) or bool(getattr(args, "weak_only_for_moderate_risk", False)):
+        args.image_only_mainline = True
+        args.catf_causal_probe = True
+        args.use_offline_probe_decisions = True
 
 
 def normalize_bool_cli_args(argv: list[str]) -> list[str]:
@@ -525,7 +531,9 @@ def normalize_bool_cli_args(argv: list[str]) -> list[str]:
         "--causal-probe-mode",
         "--precision-aware-accept-gate",
         "--image-only-mainline",
+        "--preserve-original-enabled",
         "--weak-image-aug-enabled",
+        "--weak-only-for-moderate-risk",
         "--disable-sampler-only",
         "--sampler-only-enabled",
         "--use-offline-probe-decisions",
@@ -598,7 +606,9 @@ def build_train_config(args: argparse.Namespace, output_dir: Path) -> dict[str, 
         "catf_causal_probe_mode": str(getattr(args, "catf_causal_probe_mode", "development")),
         "precision_aware_accept_gate": bool(getattr(args, "precision_aware_accept_gate", True)),
         "image_only_mainline": bool(getattr(args, "image_only_mainline", False)),
+        "preserve_original_enabled": bool(getattr(args, "preserve_original_enabled", False)),
         "weak_image_aug_enabled": bool(getattr(args, "weak_image_aug_enabled", False)),
+        "weak_only_for_moderate_risk": bool(getattr(args, "weak_only_for_moderate_risk", False)),
         "attenuation_ratio": float(getattr(args, "attenuation_ratio", 0.25) or 0.25),
         "disable_sampler_only": bool(getattr(args, "disable_sampler_only", False)),
         "sampler_only_enabled": bool(getattr(args, "sampler_only_enabled", False)),
@@ -686,7 +696,9 @@ def build_train_command(args: argparse.Namespace, output_dir: Path) -> str:
         f"catf_causal_probe_mode={getattr(args, 'catf_causal_probe_mode', 'development')}",
         f"precision_aware_accept_gate={bool(getattr(args, 'precision_aware_accept_gate', True))}",
         f"image_only_mainline={bool(getattr(args, 'image_only_mainline', False))}",
+        f"preserve_original_enabled={bool(getattr(args, 'preserve_original_enabled', False))}",
         f"weak_image_aug_enabled={bool(getattr(args, 'weak_image_aug_enabled', False))}",
+        f"weak_only_for_moderate_risk={bool(getattr(args, 'weak_only_for_moderate_risk', False))}",
         f"attenuation_ratio={float(getattr(args, 'attenuation_ratio', 0.25) or 0.25)}",
         f"disable_sampler_only={bool(getattr(args, 'disable_sampler_only', False))}",
         f"sampler_only_enabled={bool(getattr(args, 'sampler_only_enabled', False))}",
@@ -1466,6 +1478,7 @@ def apply_offline_probe_decision_to_policy(
     decision = selected.get("decision") or {}
     selected_policy = selected.get("candidate_policy") or {}
     selected_policy_id = str(decision_payload.get("selected_candidate_policy_id") or selected.get("candidate_policy_id") or "unknown")
+    selected_action = str(decision_payload.get("selected_candidate_action") or decision.get("decision") or "unknown")
     op_whitelist = [str(item) for item in (selected_policy.get("op_list") or [])]
     image_allowed = bool(decision.get("image_modification_allowed", False))
     sampler_allowed = bool(decision.get("sample_weighting_allowed", False)) or str(decision.get("decision")) == "sampler_only"
@@ -1478,7 +1491,7 @@ def apply_offline_probe_decision_to_policy(
         "catf_causal_probe": True,
         "source": "offline_probe_decisions",
         "selected_candidate_policy_id": selected_policy_id,
-        "selected_candidate_action": str(decision_payload.get("selected_candidate_action") or decision.get("decision") or "unknown"),
+        "selected_candidate_action": selected_action,
         "selected_causal_score": selected.get("causal_score"),
         "candidate_class_id": candidate_class_id,
         "op_whitelist": op_whitelist,
@@ -1503,7 +1516,28 @@ def apply_offline_probe_decision_to_policy(
         "precision_aware_gate_passed": decision_payload.get("precision_aware_gate_passed"),
         "non_active_regression_gate_passed": decision_payload.get("non_active_regression_gate_passed"),
         "weak_rejection_reasons": decision_payload.get("weak_rejection_reasons"),
+        "final_replay_action": decision_payload.get("final_replay_action"),
+        "risk_level": decision_payload.get("risk_level"),
+        "preserve_original": bool(decision_payload.get("preserve_original", False)),
+        "weak_only_for_moderate_risk": bool(decision_payload.get("weak_only_for_moderate_risk", False)),
     }
+    preserve_requested = bool(decision_payload.get("preserve_original", False)) or selected_policy_id == "candidate_policy_preserve_original" or selected_action == "preserve_original"
+    if preserve_requested:
+        gated_policy = deepcopy(policy)
+        event["action"] = "preserve_original"
+        event["reason"] = str(decision_payload.get("decision_reason") or "preserve_fixed_original_policy")
+        event["image_modification_allowed"] = True
+        event["probe_reject_image_aug"] = False
+        event["sample_weighting_allowed"] = False
+        event["sample_weighting_effective"] = False
+        event["sample_weighting_status"] = "not_requested"
+        event["sample_router_allowed"] = bool(active_class_ids(gated_policy))
+        event["preserved_active_classes"] = active_class_ids(gated_policy)
+        event["preserved_original_fixed_op_list"] = decision_payload.get("original_fixed_op_list")
+        event["preserved_original_fixed_prob_strength"] = decision_payload.get("original_fixed_prob_strength")
+        event["candidate_policy_injected"] = False
+        event["candidate_ops_injected"] = []
+        return gated_policy, event
     if bool(disable_sampler_only) and str(decision.get("decision")) == "sampler_only":
         event["sampler_only_blocked_by_image_only_mainline"] = True
     if not image_allowed:
@@ -2364,7 +2398,9 @@ def build_payload(
             "catf_causal_probe": bool(getattr(args, "catf_causal_probe", False)),
             "catf_causal_probe_mode": str(getattr(args, "catf_causal_probe_mode", "development")),
             "image_only_mainline": bool(getattr(args, "image_only_mainline", False)),
+            "preserve_original_enabled": bool(getattr(args, "preserve_original_enabled", False)),
             "weak_image_aug_enabled": bool(getattr(args, "weak_image_aug_enabled", False)),
+            "weak_only_for_moderate_risk": bool(getattr(args, "weak_only_for_moderate_risk", False)),
             "attenuation_ratio": float(getattr(args, "attenuation_ratio", 0.25) or 0.25),
             "disable_sampler_only": bool(getattr(args, "disable_sampler_only", False)),
             "paper_probe_mode": bool(getattr(args, "paper_probe_mode", False)),
@@ -2433,7 +2469,9 @@ def build_payload(
         "catf_causal_probe": bool(getattr(args, "catf_causal_probe", False)),
         "catf_causal_probe_mode": str(getattr(args, "catf_causal_probe_mode", "development")),
         "image_only_mainline": bool(getattr(args, "image_only_mainline", False)),
+        "preserve_original_enabled": bool(getattr(args, "preserve_original_enabled", False)),
         "weak_image_aug_enabled": bool(getattr(args, "weak_image_aug_enabled", False)),
+        "weak_only_for_moderate_risk": bool(getattr(args, "weak_only_for_moderate_risk", False)),
         "attenuation_ratio": float(getattr(args, "attenuation_ratio", 0.25) or 0.25),
         "disable_sampler_only": bool(getattr(args, "disable_sampler_only", False)),
         "paper_probe_mode": bool(getattr(args, "paper_probe_mode", False)),

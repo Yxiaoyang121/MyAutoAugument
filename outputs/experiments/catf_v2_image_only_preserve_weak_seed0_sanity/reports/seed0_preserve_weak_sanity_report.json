@@ -1,0 +1,92 @@
+{
+  "generated_at": "2026-06-15T05:14:56",
+  "run_root": "outputs\\experiments\\catf_v2_image_only_preserve_weak_seed0_sanity",
+  "completed_50ep": true,
+  "preserve_original_count": 9,
+  "weak_roi_texture_count": 0,
+  "strict_noop_count": 0,
+  "risk_levels": {
+    "low": 9
+  },
+  "replay_requested_fixed_classes": [
+    4,
+    11,
+    12
+  ],
+  "event_preserved_active_classes": [
+    11
+  ],
+  "executable_policy_classes": [
+    11
+  ],
+  "roi_affected_classes": [
+    11
+  ],
+  "fixed_class_4_11_12_retained": false,
+  "weak_class9_replacement_avoided": true,
+  "image_augmentation_executed": true,
+  "industrial_images_augmented": 20,
+  "roi_applied": 20,
+  "roi_affected_class_counts": {
+    "11": 20
+  },
+  "router_random_draw_count": 1080,
+  "sampler_only_enabled": false,
+  "sampler_only_effective": false,
+  "weighted_index_list_enabled": false,
+  "sampled_distribution_changed": false,
+  "metrics": {
+    "precision": 0.6665845856514329,
+    "recall": 0.7300194435303583,
+    "map50": 0.6999344792396978,
+    "map50_95": 0.4667435067714014
+  },
+  "baseline_clean": {
+    "precision": 0.7846,
+    "recall": 0.6765,
+    "map50": 0.7347,
+    "map50_95": 0.4759
+  },
+  "baseline_fixed_catf_v2": {
+    "precision": 0.7785,
+    "recall": 0.6697,
+    "map50": 0.7437,
+    "map50_95": 0.4895
+  },
+  "baseline_weak_global": {
+    "precision": 0.679043,
+    "recall": 0.711821,
+    "map50": 0.72217,
+    "map50_95": 0.476005
+  },
+  "delta_vs_clean": {
+    "precision": -0.1180154143485671,
+    "recall": 0.05351944353035831,
+    "map50": -0.03476552076030226,
+    "map50_95": -0.009156493228598572
+  },
+  "delta_vs_fixed_catf_v2": {
+    "precision": -0.11191541434856711,
+    "recall": 0.06031944353035834,
+    "map50": -0.04376552076030227,
+    "map50_95": -0.022756493228598573
+  },
+  "delta_vs_weak_global": {
+    "precision": -0.012458414348567093,
+    "recall": 0.018198443530358266,
+    "map50": -0.02223552076030222,
+    "map50_95": -0.009261493228598594
+  },
+  "constraint_failed": true,
+  "failure_reasons": [
+    "precision_drop_gt_0.01",
+    "map50_drop_gt_0.01"
+  ],
+  "interpretation": {
+    "sanity_passed": false,
+    "main_issue": "preserve_original events were selected, but the executable policy did not reproduce fixed seed0 class4/11/12; only class11 received ROI augmentation.",
+    "recommend_seed2_next": false,
+    "recommend_seed1_final_sanity": false,
+    "next_step": "Fix preserve_original execution to install/replay the fixed original class-op policy exactly, then rerun seed0 sanity before seed2."
+  }
+}

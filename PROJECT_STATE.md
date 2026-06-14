@@ -139,6 +139,38 @@ The repository is centered on diagnosis-driven augmentation for industrial defec
 - Verification:
   - `python -m py_compile scripts/analyze_seed0_fixed_vs_weak.py`
 
+## Preserve-Original + Weak-Only Replay (2026-06-14)
+
+- Scope: offline replay and training-plan generation only. No training, seed rerun, sampler change, gate change, attenuation-ratio change, causal-score change, augmentation-strategy change, or data-split change was performed.
+- Script:
+  - `scripts/replay_preserve_weak_image_catf.py`
+- Outputs:
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_replay/reports/preserve_weak_replay.md`
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_replay/reports/preserve_weak_replay.json`
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_replay/preserve_weak_decision_records.csv`
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_replay/reports/preserve_weak_training_plan.md`
+- Decision policy:
+  - `preserve_original` when fixed CATF-v2 already passed constraints and has an executable conservative image policy;
+  - `weak_roi_texture` only when the fixed path is not preservable and attenuation `0.25` passes the secondary replay gate;
+  - `strict_noop` for high/critical image risk;
+  - `sampler_only` remains absent from the main method.
+- Replay counts:
+  - seed0: `preserve_original=9`, `weak_roi_texture=0`, `strict_noop=0`;
+  - seed1: `preserve_original=9`, `weak_roi_texture=0`, `strict_noop=0`;
+  - seed2: `preserve_original=0`, `weak_roi_texture=5`, `strict_noop=4`.
+- Checks:
+  - seed0 preserves fixed class `4/11/12` strategy and avoids weak class `9` replacement;
+  - seed1 preserves the fixed gain path;
+  - seed2 converts the failed fixed path to weak/no-op and retains the previously weak-safe candidates;
+  - sampler_only and weighted index list are not involved.
+- Next training plan, not executed:
+  - run seed0 sanity first because fixed seed0 passed and global weak seed0 failed;
+  - then run seed2 to confirm the failed fixed seed2 path is still repaired by image-only weak/no-op;
+  - run seed1 sanity last;
+  - only then consider a three-seed validation.
+- Verification:
+  - `python -m py_compile scripts/replay_preserve_weak_image_catf.py`
+
 ## CP-CATF Paper-Mode Sampler-Only Multiseed (2026-06-12)
 
 - Scope: continued from the completed seed0 sampler-only run and ran only seed1/seed2. Clean paper baselines and seed0 CP-CATF results were reused; clean and seed0 were not rerun.

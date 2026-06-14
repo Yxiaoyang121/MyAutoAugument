@@ -154,6 +154,39 @@ The project is a diagnosis-driven augmentation pipeline for industrial defect de
 - Verification:
   - `python -m py_compile scripts/analyze_seed0_fixed_vs_weak.py`
 
+## Latest Preserve-Original + Weak-Only Replay
+
+- Date: `2026-06-14`.
+- Scope: offline replay only. No training, no seed0/seed1/seed2 rerun, no sampler_only, no weighted index list, no data-split change, no gate change, no attenuation-ratio change, and no augmentation-strategy change.
+- Script:
+  - `scripts/replay_preserve_weak_image_catf.py`
+- Outputs:
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_replay/reports/preserve_weak_replay.md`
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_replay/reports/preserve_weak_replay.json`
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_replay/preserve_weak_decision_records.csv`
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_replay/reports/preserve_weak_training_plan.md`
+- Replay rule:
+  - preserve fixed CATF-v2 original image policy first when the fixed seed already passed constraints and has an executable conservative image policy;
+  - downgrade to weak ROI texture only when the fixed path is not preservable and attenuation `0.25` passes the replay secondary gate;
+  - strict no-op for high/critical image risk;
+  - sampler_only is not a fallback.
+- Counts:
+  - seed0: `preserve_original=9`, `weak_roi_texture=0`, `strict_noop=0`;
+  - seed1: `preserve_original=9`, `weak_roi_texture=0`, `strict_noop=0`;
+  - seed2: `preserve_original=0`, `weak_roi_texture=5`, `strict_noop=4`.
+- Interpretation:
+  - seed0 keeps fixed classes `4/11/12` and avoids the epoch25 weak class `9` replacement that caused the seed0 weak failure;
+  - seed1 keeps the fixed gain path;
+  - seed2 no longer preserves the failed fixed image policy and instead uses the previously weak-safe candidates plus strict no-op;
+  - sampler_only remains absent.
+- Next recommended validation order:
+  - run seed0 sanity first;
+  - then seed2;
+  - then seed1;
+  - three-seed training only after seed0 and seed2 single-seed checks pass.
+- Verification:
+  - `python -m py_compile scripts/replay_preserve_weak_image_catf.py`
+
 ## Latest CP-CATF Paper-Mode Sampler-Only Multiseed
 
 - Date: `2026-06-12`.

@@ -1,21 +1,25 @@
 # Project Snapshot
 
-- Generated: 2026-06-14T22:59:36
+- Generated: 2026-06-14T23:59:59
 - Branch: codex/sync-latest
-- Commit: 0dd12f34bec00615d3f270357f7c4f7b017b84f3
+- Commit: 6b8c422c844143a5b9a461e1ae01db4c9912b4ad
 - Remote: https://github.com/Yxiaoyang121/MyAutoAugument.git
 
 ## Current Status
 
-- Mainline remains image-only CATF; sampler_only is demoted to engineering exploration/ablation and is not part of the paper main method.
-- Weak image augmentation repaired seed2 and seed1 passes, but seed0 fails with P=0.679043, mAP50=0.722170.
-- Current task completed a seed0 fixed-vs-weak failure audit only; no training was run.
-- Audit finding: fixed seed0 passed by preserving conservative classes 4/11/12 image policies, while weak seed0 replaced them with an epoch25 class9 weak local-contrast policy.
-- Precision collapse is FP-driven and broad across non-active classes, so the current global weak replacement is not a final main-method candidate.
-- Next image-only direction: preserve-safe-original for low-risk fixed policies, use weak ROI texture only for moderate-risk candidates, and strict no-op high/critical risk candidates.
+- Mainline remains image-only CATF; sampler_only is not part of the paper main method.
+- Global weak image augmentation repaired seed2 but failed seed0 by replacing fixed CATF-v2 safe behavior.
+- Current task completed an offline preserve-original + weak-only replay; no training was run.
+- Replay counts:
+  - seed0: preserve_original=9, weak_roi_texture=0, strict_noop=0.
+  - seed1: preserve_original=9, weak_roi_texture=0, strict_noop=0.
+  - seed2: preserve_original=0, weak_roi_texture=5, strict_noop=4.
+- Seed0 preserves fixed class 4/11/12 and avoids weak class9 replacement.
+- Seed2 converts failed fixed behavior to weak/no-op and retains previous weak-safe candidates.
+- Recommended next validation order, not executed: seed0 sanity, seed2, then seed1.
 - Reports:
-  - `outputs/experiments/catf_v2_image_only_weak_aug_multiseed/reports/seed0_fixed_vs_weak_failure_audit.md`
-  - `outputs/experiments/catf_v2_image_only_weak_aug_multiseed/reports/seed0_fixed_vs_weak_failure_audit.json`
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_replay/reports/preserve_weak_replay.md`
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_replay/reports/preserve_weak_replay.json`
 
 ## Working Tree
 
@@ -23,11 +27,8 @@
  M CODEX_HANDOFF.md
  M EXPERIMENT_LOG.md
  M PROJECT_STATE.md
-?? outputs/experiments/catf_v2_image_only_weak_aug_multiseed/reports/seed0_fixed_vs_weak_failure_audit.json
-?? outputs/experiments/catf_v2_image_only_weak_aug_multiseed/reports/seed0_fixed_vs_weak_failure_audit.md
-?? outputs/experiments/catf_v2_image_only_weak_aug_multiseed/seed0_fixed_vs_weak_epoch_policy_diff.csv
-?? outputs/experiments/catf_v2_image_only_weak_aug_multiseed/seed0_fixed_vs_weak_per_class_regression.csv
-?? scripts/analyze_seed0_fixed_vs_weak.py
+?? outputs/experiments/catf_v2_image_only_preserve_weak_replay/
+?? scripts/replay_preserve_weak_image_catf.py
 ```
 
 ## Key Files
@@ -232,7 +233,7 @@
 
 ## Tracked File Count
 
-- 9218 tracked files
+- 9223 tracked files
 
 ## Notes
 

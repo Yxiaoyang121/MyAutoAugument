@@ -2708,3 +2708,52 @@ Key conclusions from that archived smoke:
 - Verification:
   - `D:\Anaconda\envs\pytorch\python.exe -m py_compile scripts\analyze_seed0_fixed_vs_weak.py`
 <!-- SEED0_FIXED_VS_WEAK_FAILURE_AUDIT_END -->
+
+<!-- PRESERVE_WEAK_IMAGE_CATF_REPLAY_START -->
+## Preserve-Original + Weak-Only Image CATF Replay
+
+- Date: `2026-06-14`.
+- Scope:
+  - offline replay only;
+  - no training;
+  - no seed0/seed1/seed2 rerun;
+  - no multiseed training;
+  - no sampler_only or weighted index list;
+  - no gate, attenuation-ratio, causal-score, augmentation-strategy, or data-split change.
+- Script:
+  - `scripts/replay_preserve_weak_image_catf.py`
+- Inputs:
+  - fixed CATF-v2 multiseed summary: `outputs/experiments/multiseed_clean_yolo_default_vs_catf_v2_fixed/reports/multiseed_catf_v2_fixed_summary.json`;
+  - weak image replay table: `outputs/experiments/catf_v2_image_only_weak_aug_replay/weak_candidate_records.csv`;
+  - seed0 fixed-vs-weak audit: `outputs/experiments/catf_v2_image_only_weak_aug_multiseed/reports/seed0_fixed_vs_weak_failure_audit.json`;
+  - weak multiseed summary: `outputs/experiments/catf_v2_image_only_weak_aug_multiseed/reports/weak_image_aug_multiseed_summary.json`.
+- Outputs:
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_replay/reports/preserve_weak_replay.md`;
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_replay/reports/preserve_weak_replay.json`;
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_replay/preserve_weak_decision_records.csv`;
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_replay/reports/preserve_weak_training_plan.md`.
+- Decision logic:
+  - `preserve_original` first if fixed CATF-v2 already passed constraints and has executable conservative image policy;
+  - `weak_roi_texture` only if fixed original is not preservable and attenuation `0.25` passes the secondary replay gate;
+  - `strict_noop` for high/critical image risk;
+  - `sampler_only_used=false` for every replay record.
+- Replay counts:
+  - seed0: `preserve_original=9`, `weak_roi_texture=0`, `strict_noop=0`;
+  - seed1: `preserve_original=9`, `weak_roi_texture=0`, `strict_noop=0`;
+  - seed2: `preserve_original=0`, `weak_roi_texture=5`, `strict_noop=4`.
+- Expected-behavior checks:
+  - seed0 preserves fixed class `4/11/12` strategy: `true`;
+  - seed0 avoids weak class `9` replacement: `true`;
+  - seed1 preserves fixed gain policy: `true`;
+  - seed2 converts failed fixed policy to weak/no-op: `true`;
+  - seed2 contains previous weak-safe candidates: `true`;
+  - sampler_only absent: `true`.
+- Interpretation:
+  - weak global replacement failed because it could override safe fixed behavior;
+  - the new replay restores the image-only mainline as preserve-safe-original plus weak-only-for-moderate-risk;
+  - seed0 should be the first training sanity target if this policy is implemented, because it is the regression case;
+  - seed2 should be second to verify the failed fixed path remains repaired without sampler_only;
+  - seed1 sanity should be last.
+- Verification:
+  - `D:\Anaconda\envs\pytorch\python.exe -m py_compile scripts\replay_preserve_weak_image_catf.py`
+<!-- PRESERVE_WEAK_IMAGE_CATF_REPLAY_END -->

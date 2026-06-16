@@ -1,10 +1,39 @@
 ﻿# Project State
 
-Last updated: 2026-06-14
+Last updated: 2026-06-16
 
 ## Current Position
 
 The repository is centered on diagnosis-driven augmentation for industrial defect detection. The active path still keeps YOLO network architecture unchanged and focuses on dataset construction, validation-error diagnosis, policy generation, proxy safety, short training, and auditable reporting.
+
+## Preserve-Original Execution Parity Fix (2026-06-16)
+
+- Scope: audit, dry-run, and code/test fix only. No seed0/seed1/seed2 50ep training, multiseed run, sampler_only run, weighted sampling, data split change, gate change, or attenuation change was performed.
+- The seed0 preserve-weak sanity failure was traced to an execution parity bug, not to the three-stage image-only decision policy itself.
+- Root cause: `preserve_original` recorded the replay decision but returned the current runtime controller policy via `deepcopy(policy)`; it did not install the replayed fixed CATF-v2 class/op policy into the executable `policy_matrix`.
+- Failure symptom:
+  - replay expected seed0 preserve classes `4/11/12`;
+  - failed runtime executed only class `11`;
+  - fixed seed0 had ROI affected classes `{4:9, 11:22, 12:14}`, while preserve sanity had `{11:20}`.
+- Fix:
+  - `preserve_original` now parses `original_fixed_active_class`, `original_fixed_op_list`, and `original_fixed_prob_strength`;
+  - it overlays the fixed class list, op list, op probability, and op strength into the runtime policy matrix;
+  - it clears stale active ops from non-preserved classes, preventing weak class9 replacement;
+  - it bypasses weak attenuation and sampler-only paths.
+- Dry-run after the fix:
+  - expected class union=`[4, 11, 12]`;
+  - runtime policy_matrix class union=`[4, 11, 12]`;
+  - sample_router eligible class union=`[4, 11, 12]`;
+  - final executable class union=`[4, 11, 12]`;
+  - weak class9 replacement=false;
+  - sampler_only=false; weighted_index_list=false.
+- Reports:
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity/reports/preserve_original_execution_audit.md`
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity/reports/preserve_original_execution_audit.json`
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity/reports/preserve_execution_dryrun.md`
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity/reports/preserve_execution_dryrun.json`
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity/preserve_execution_parity_epoch_diff.csv`
+- Next step: rerun seed0 preserve-weak sanity first. Do not proceed to seed2 until seed0 confirms execution parity and avoids the prior Precision collapse.
 
 ## Current Mainline: Image Augmentation CATF (2026-06-13)
 

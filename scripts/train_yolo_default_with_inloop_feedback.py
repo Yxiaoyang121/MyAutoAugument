@@ -4,6 +4,7 @@ import argparse
 import csv
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -1523,7 +1524,7 @@ def apply_offline_probe_decision_to_policy(
     }
     preserve_requested = bool(decision_payload.get("preserve_original", False)) or selected_policy_id == "candidate_policy_preserve_original" or selected_action == "preserve_original"
     if preserve_requested:
-        gated_policy = deepcopy(policy)
+        gated_policy, preserve_meta = apply_preserve_original_policy(policy, decision_payload, epoch_num=epoch_num)
         event["action"] = "preserve_original"
         event["reason"] = str(decision_payload.get("decision_reason") or "preserve_fixed_original_policy")
         event["image_modification_allowed"] = True
@@ -1531,12 +1532,19 @@ def apply_offline_probe_decision_to_policy(
         event["sample_weighting_allowed"] = False
         event["sample_weighting_effective"] = False
         event["sample_weighting_status"] = "not_requested"
-        event["sample_router_allowed"] = bool(active_class_ids(gated_policy))
+        event["sample_router_allowed"] = bool(preserve_meta.get("installed_ops", []))
         event["preserved_active_classes"] = active_class_ids(gated_policy)
+        event["preserve_expected_active_classes"] = preserve_meta.get("expected_active_classes", [])
+        event["preserve_installed_active_classes"] = preserve_meta.get("installed_active_classes", [])
+        event["preserve_installed_ops"] = preserve_meta.get("installed_ops", [])
+        event["preserve_cleared_classes"] = preserve_meta.get("cleared_classes", [])
+        event["preserve_missing_classes"] = preserve_meta.get("missing_classes", [])
+        event["preserve_no_aug_blocked_classes"] = preserve_meta.get("no_aug_blocked_classes", [])
+        event["preserve_source"] = preserve_meta.get("source", "offline_replay_expected_fixed_policy")
         event["preserved_original_fixed_op_list"] = decision_payload.get("original_fixed_op_list")
         event["preserved_original_fixed_prob_strength"] = decision_payload.get("original_fixed_prob_strength")
-        event["candidate_policy_injected"] = False
-        event["candidate_ops_injected"] = []
+        event["candidate_policy_injected"] = bool(preserve_meta.get("installed_ops", []))
+        event["candidate_ops_injected"] = preserve_meta.get("installed_ops", [])
         return gated_policy, event
     if bool(disable_sampler_only) and str(decision.get("decision")) == "sampler_only":
         event["sampler_only_blocked_by_image_only_mainline"] = True
@@ -1596,6 +1604,189 @@ def apply_offline_probe_decision_to_policy(
         event["image_modification_allowed"] = False
         event["probe_reject_image_aug"] = True
     return gated_policy, event
+
+
+PRESERVE_CLASS_OP_RE = re.compile(r"^\s*c(?P<class_id>\d+):(?P<issue>[^:;]+):(?P<ops>.+?)\s*$")
+PRESERVE_OP_RE = re.compile(r"^\s*(?P<op>[A-Za-z0-9_]+)@p=(?P<prob>[-+0-9.eE]+)\/s=(?P<strength>[-+0-9.eE]+)\s*$")
+PRESERVE_PROB_STRENGTH_RE = re.compile(
+    r"^\s*c(?P<class_id>\d+):(?P<op>[A-Za-z0-9_]+):(?P<prob>[-+0-9.eE]+)\/(?P<strength>[-+0-9.eE]+)\s*$"
+)
+
+
+def apply_preserve_original_policy(
+    policy: dict[str, Any],
+    decision_payload: dict[str, Any],
+    *,
+    epoch_num: int,
+) -> tuple[dict[str, Any], dict[str, Any]]:
+    """Install replayed fixed CATF-v2 image policy into the runtime matrix.
+
+    Preserve-original is an execution action, not a candidate-selection label:
+    it must not keep whatever the current online controller happened to propose
+    for this epoch.  The replay payload carries the fixed CATF-v2 class/op
+    policy that should be executable; this helper overlays that policy onto the
+    matrix and clears stale active ops from non-preserved classes.
+    """
+
+    matrix = deepcopy(policy)
+    expected_classes = parse_preserve_expected_classes(decision_payload)
+    specs = parse_preserve_policy_specs(decision_payload)
+    expected_classes.update(specs.keys())
+    classes = matrix.setdefault("classes", {})
+    installed_ops: list[dict[str, Any]] = []
+    cleared_classes: list[int] = []
+    missing_classes: list[int] = []
+    no_aug_blocked_classes: list[int] = []
+
+    for cid_text, class_policy in sorted(classes.items(), key=lambda item: int(item[0])):
+        class_id = int(cid_text)
+        if class_id in expected_classes:
+            continue
+        had_active_ops = bool(active_ops_from_policy(class_policy))
+        if had_active_ops or class_policy.get("status") in {"active", "pending", "accepted"}:
+            clear_class_policy_ops(class_policy)
+            if class_policy.get("status") in {"active", "pending", "accepted"} and not bool(class_policy.get("no_aug_class", False)):
+                class_policy["status"] = "observe"
+                class_policy["state"] = "accepted"
+                class_policy["preserve_original_cleared"] = True
+                class_policy["preserve_original_clear_epoch"] = int(epoch_num)
+            if had_active_ops:
+                cleared_classes.append(class_id)
+
+    for class_id in sorted(expected_classes):
+        class_policy = classes.get(str(class_id))
+        if not isinstance(class_policy, dict):
+            missing_classes.append(int(class_id))
+            continue
+        if bool(class_policy.get("no_aug_class", False)):
+            clear_class_policy_ops(class_policy)
+            class_policy["status"] = "frozen"
+            class_policy["state"] = "frozen"
+            class_policy["frozen_reason"] = class_policy.get("frozen_reason") or "no_aug_class"
+            no_aug_blocked_classes.append(int(class_id))
+            continue
+
+        class_spec = specs.get(class_id, {})
+        clear_class_policy_ops(class_policy)
+        class_policy["status"] = "active"
+        class_policy["state"] = "accepted"
+        class_policy["dominant_issue"] = class_spec.get("dominant_issue") or class_policy.get("dominant_issue") or "preserve_original"
+        class_policy["secondary_issues"] = list(class_policy.get("secondary_issues") or [])
+        class_policy["pending_since_epoch"] = None
+        class_policy["frozen_reason"] = None
+        class_policy["preserve_original"] = {
+            "enabled": True,
+            "epoch": int(epoch_num),
+            "source": "offline_replay_expected_fixed_policy",
+            "decision_reason": decision_payload.get("decision_reason"),
+        }
+        class_policy.pop("weak_image_aug", None)
+        class_policy["causal_probe_selected"] = False
+        class_policy["causal_probe_execution_source"] = "preserve_original_fixed_policy"
+        guards = class_policy.setdefault("guards", {})
+        # The replay already classified this candidate as low risk.  Preserve
+        # should not be blocked by a newly generated weak/probe gate.
+        guards["high_fp_guarded"] = False
+        guards["precision_guard"] = False
+
+        for op_name, values in sorted((class_spec.get("ops") or {}).items()):
+            ops = class_policy.setdefault("ops", {})
+            op = ops.get(str(op_name))
+            if not isinstance(op, dict):
+                continue
+            prob = float(values.get("prob", 0.0) or 0.0)
+            strength = float(values.get("strength", 0.0) or 0.0)
+            op["prob"] = prob
+            op["strength"] = strength
+            op["preserve_original"] = True
+            op["preserve_original_epoch"] = int(epoch_num)
+            op.pop("weak_image_aug", None)
+            op.pop("attenuation_ratio", None)
+            installed_ops.append({"class_id": int(class_id), "op_name": str(op_name), "prob": prob, "strength": strength})
+
+    metadata = {
+        "source": "offline_replay_expected_fixed_policy",
+        "expected_active_classes": sorted(int(cid) for cid in expected_classes),
+        "installed_active_classes": active_class_ids(matrix),
+        "installed_ops": installed_ops,
+        "cleared_classes": sorted(cleared_classes),
+        "missing_classes": sorted(missing_classes),
+        "no_aug_blocked_classes": sorted(no_aug_blocked_classes),
+    }
+    return matrix, metadata
+
+
+def parse_preserve_expected_classes(decision_payload: dict[str, Any]) -> set[int]:
+    selected = decision_payload.get("selected_candidate") or {}
+    probe_set = selected.get("probe_set") or {}
+    out: set[int] = set()
+    active = probe_set.get("active_classes")
+    if isinstance(active, list):
+        for value in active:
+            parsed = safe_int(value, default=-1)
+            if parsed >= 0:
+                out.add(parsed)
+    elif active not in (None, ""):
+        out.update(parse_class_id_list(active))
+    out.update(parse_class_id_list(decision_payload.get("original_fixed_active_class")))
+    class_id = safe_int(probe_set.get("class_id"), default=-1)
+    if not out and class_id >= 0:
+        out.add(class_id)
+    return out
+
+
+def parse_class_id_list(value: Any) -> set[int]:
+    out: set[int] = set()
+    if value in (None, ""):
+        return out
+    for part in re.split(r"[;,|\s]+", str(value)):
+        part = part.strip()
+        if not part:
+            continue
+        if part.startswith("c") and part[1:].isdigit():
+            part = part[1:]
+        if part.isdigit():
+            out.add(int(part))
+    return out
+
+
+def parse_preserve_policy_specs(decision_payload: dict[str, Any]) -> dict[int, dict[str, Any]]:
+    specs: dict[int, dict[str, Any]] = {}
+    op_list = str(decision_payload.get("original_fixed_op_list") or "")
+    for chunk in [item.strip() for item in op_list.split(";") if item.strip()]:
+        match = PRESERVE_CLASS_OP_RE.match(chunk)
+        if not match:
+            continue
+        class_id = int(match.group("class_id"))
+        class_spec = specs.setdefault(class_id, {"dominant_issue": match.group("issue").strip(), "ops": {}})
+        class_spec["dominant_issue"] = match.group("issue").strip()
+        for op_chunk in [item.strip() for item in match.group("ops").split(",") if item.strip()]:
+            op_match = PRESERVE_OP_RE.match(op_chunk)
+            if not op_match:
+                continue
+            class_spec["ops"][op_match.group("op")] = {
+                "prob": float(op_match.group("prob")),
+                "strength": float(op_match.group("strength")),
+            }
+
+    prob_strength = str(decision_payload.get("original_fixed_prob_strength") or "")
+    for chunk in [item.strip() for item in prob_strength.split(";") if item.strip()]:
+        match = PRESERVE_PROB_STRENGTH_RE.match(chunk)
+        if not match:
+            continue
+        class_id = int(match.group("class_id"))
+        class_spec = specs.setdefault(class_id, {"dominant_issue": None, "ops": {}})
+        class_spec["ops"][match.group("op")] = {
+            "prob": float(match.group("prob")),
+            "strength": float(match.group("strength")),
+        }
+    return specs
+
+
+def clear_class_policy_ops(class_policy: dict[str, Any]) -> None:
+    for op in (class_policy.get("ops") or {}).values():
+        op["prob"] = 0.0
+        op["strength"] = 0.0
 
 
 CAUSAL_PROBE_EXECUTION_FLOORS: dict[str, dict[str, float]] = {

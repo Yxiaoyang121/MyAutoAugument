@@ -1,35 +1,28 @@
 # Project Snapshot
 
-- Generated: 2026-06-15T05:16:39
+- Generated: 2026-06-16T00:00:00
 - Branch: codex/sync-latest
-- Commit: 09cc530d2c2ed0630cbaa014e86a414ac6c6287d
+- Commit: pending-preserve-original-execution-parity-fix
 - Remote: https://github.com/Yxiaoyang121/MyAutoAugument.git
 
 ## Current Status
 
 - Mainline remains image-only CATF; sampler_only is not part of the paper main method.
-- Seed0 preserve-weak sanity was run for 50 epochs only; seed1/seed2/multiseed were not run.
-- Event decisions were preserve_original=9, weak_roi_texture=0, strict_noop=0, and weak class9 replacement was avoided.
-- The run failed because preserve_original did not reproduce fixed seed0 class4/11/12 executable policy; actual ROI augmentation affected only class11.
-- Metrics: P=0.666585, R=0.730019, mAP50=0.699934, mAP50-95=0.466744.
-- Constraint failed vs requested clean seed0 due Precision and mAP50 drops.
-- Do not proceed to seed2 yet; first fix preserve_original execution to install/replay the fixed original class-op policy exactly, then rerun seed0 sanity.
+- Seed0 preserve-weak sanity previously failed because preserve_original did not reproduce fixed seed0 class4/11/12 executable policy; actual ROI augmentation affected only class11.
+- Current work fixed the preserve_original execution path without training.
+- preserve_original now parses replay fixed fields and installs active classes, op list, prob, and strength into the runtime policy_matrix.
+- Dry-run after the fix: expected union `[4, 11, 12]`, runtime policy_matrix union `[4, 11, 12]`, sample_router eligible union `[4, 11, 12]`, final executable union `[4, 11, 12]`.
+- weak class9 replacement=false; sampler_only=false; weighted_index_list=false.
+- Do not proceed to seed2 yet; rerun seed0 preserve-weak sanity first to confirm execution parity.
 - Reports:
-  - `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity/reports/seed0_preserve_weak_sanity_report.md`
-  - `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity/reports/seed0_preserve_weak_sanity_report.json`
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity/reports/preserve_original_execution_audit.md`
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity/reports/preserve_execution_dryrun.md`
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity/preserve_execution_parity_epoch_diff.csv`
 
 ## Working Tree
 
 ```text
- M CODEX_HANDOFF.md
- M EXPERIMENT_LOG.md
- M PROJECT_STATE.md
- M outputs/project_snapshot_latest.md
- M outputs/snapshots/project_snapshot_latest.md
- M scripts/train_yolo_default_with_inloop_feedback.py
-?? outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity/
-?? scripts/build_preserve_weak_decision_schedule.py
-?? scripts/summarize_preserve_weak_seed0_sanity.py
+pending commit: preserve-original execution parity fix, audit reports, dry-run, and targeted tests
 ```
 
 ## Key Files

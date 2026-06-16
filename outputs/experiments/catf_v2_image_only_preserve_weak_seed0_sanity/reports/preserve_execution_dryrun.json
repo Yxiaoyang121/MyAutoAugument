@@ -1,0 +1,261 @@
+{
+  "seed": 0,
+  "dryrun_only_no_training": true,
+  "sampler_only": false,
+  "weighted_index_list": false,
+  "expected_class_union": [
+    4,
+    11,
+    12
+  ],
+  "runtime_policy_matrix_class_union": [
+    4,
+    11,
+    12
+  ],
+  "sample_router_eligible_class_union": [
+    4,
+    11,
+    12
+  ],
+  "final_executable_class_union": [
+    4,
+    11,
+    12
+  ],
+  "required_classes": [
+    4,
+    11,
+    12
+  ],
+  "expected_contains_class4_11_12": true,
+  "runtime_policy_matrix_contains_class4_11_12": true,
+  "sample_router_contains_class4_11_12": true,
+  "final_executable_contains_class4_11_12": true,
+  "fixed_prob_strength_inherited": true,
+  "fixed_op_list_inherited": true,
+  "weak_class9_replaced": false,
+  "rows": [
+    {
+      "epoch": 5,
+      "expected_classes": [
+        4,
+        11
+      ],
+      "runtime_policy_matrix_classes": [
+        4,
+        11
+      ],
+      "sample_router_eligible_classes": [
+        4,
+        11
+      ],
+      "final_executable_classes": [
+        4,
+        11
+      ],
+      "expected_op_list": "c4:low_recall:local_contrast@p=0.005/s=0.01,sharpen_mild@p=0.005/s=0.01; c11:texture_boundary_weak:local_contrast@p=0.015/s=0.02,sharpen_mild@p=0.015/s=0.02",
+      "runtime_op_list": "c4:local_contrast@p=0.005/s=0.01,sharpen_mild@p=0.005/s=0.01; c11:local_contrast@p=0.015/s=0.02,sharpen_mild@p=0.015/s=0.02",
+      "sample_router_allowed": true,
+      "sampler_only": false,
+      "weighted_index_list": false,
+      "weak_class9_replaced": false
+    },
+    {
+      "epoch": 10,
+      "expected_classes": [
+        4
+      ],
+      "runtime_policy_matrix_classes": [
+        4
+      ],
+      "sample_router_eligible_classes": [
+        4
+      ],
+      "final_executable_classes": [
+        4
+      ],
+      "expected_op_list": "c4:low_recall:local_contrast@p=0.005/s=0.01,sharpen_mild@p=0.005/s=0.01",
+      "runtime_op_list": "c4:local_contrast@p=0.005/s=0.01,sharpen_mild@p=0.005/s=0.01",
+      "sample_router_allowed": true,
+      "sampler_only": false,
+      "weighted_index_list": false,
+      "weak_class9_replaced": false
+    },
+    {
+      "epoch": 15,
+      "expected_classes": [
+        4,
+        12
+      ],
+      "runtime_policy_matrix_classes": [
+        4,
+        12
+      ],
+      "sample_router_eligible_classes": [
+        4,
+        12
+      ],
+      "final_executable_classes": [
+        4,
+        12
+      ],
+      "expected_op_list": "c4:low_recall:local_contrast@p=0.005/s=0.01,sharpen_mild@p=0.005/s=0.01; c12:weak_localization:local_contrast@p=0.015/s=0.02,sharpen_mild@p=0.015/s=0.02",
+      "runtime_op_list": "c4:local_contrast@p=0.005/s=0.01,sharpen_mild@p=0.005/s=0.01; c12:local_contrast@p=0.015/s=0.02,sharpen_mild@p=0.015/s=0.02",
+      "sample_router_allowed": true,
+      "sampler_only": false,
+      "weighted_index_list": false,
+      "weak_class9_replaced": false
+    },
+    {
+      "epoch": 20,
+      "expected_classes": [
+        4,
+        12
+      ],
+      "runtime_policy_matrix_classes": [
+        4,
+        12
+      ],
+      "sample_router_eligible_classes": [
+        4,
+        12
+      ],
+      "final_executable_classes": [
+        4,
+        12
+      ],
+      "expected_op_list": "c4:low_recall:local_contrast@p=0.005/s=0.01,sharpen_mild@p=0.005/s=0.01; c12:weak_localization:local_contrast@p=0.015/s=0.02,sharpen_mild@p=0.015/s=0.02",
+      "runtime_op_list": "c4:local_contrast@p=0.005/s=0.01,sharpen_mild@p=0.005/s=0.01; c12:local_contrast@p=0.015/s=0.02,sharpen_mild@p=0.015/s=0.02",
+      "sample_router_allowed": true,
+      "sampler_only": false,
+      "weighted_index_list": false,
+      "weak_class9_replaced": false
+    },
+    {
+      "epoch": 25,
+      "expected_classes": [
+        4,
+        12
+      ],
+      "runtime_policy_matrix_classes": [
+        4,
+        12
+      ],
+      "sample_router_eligible_classes": [
+        4,
+        12
+      ],
+      "final_executable_classes": [
+        4,
+        12
+      ],
+      "expected_op_list": "c4:low_recall:local_contrast@p=0.005/s=0.01,sharpen_mild@p=0.005/s=0.01; c12:weak_localization:local_contrast@p=0.015/s=0.02,sharpen_mild@p=0.015/s=0.02",
+      "runtime_op_list": "c4:local_contrast@p=0.005/s=0.01,sharpen_mild@p=0.005/s=0.01; c12:local_contrast@p=0.015/s=0.02,sharpen_mild@p=0.015/s=0.02",
+      "sample_router_allowed": true,
+      "sampler_only": false,
+      "weighted_index_list": false,
+      "weak_class9_replaced": false
+    },
+    {
+      "epoch": 30,
+      "expected_classes": [
+        4,
+        12
+      ],
+      "runtime_policy_matrix_classes": [
+        4,
+        12
+      ],
+      "sample_router_eligible_classes": [
+        4,
+        12
+      ],
+      "final_executable_classes": [
+        4,
+        12
+      ],
+      "expected_op_list": "c4:low_recall:local_contrast@p=0.005/s=0.01,sharpen_mild@p=0.005/s=0.01; c12:weak_localization:local_contrast@p=0.015/s=0.02,sharpen_mild@p=0.015/s=0.02",
+      "runtime_op_list": "c4:local_contrast@p=0.005/s=0.01,sharpen_mild@p=0.005/s=0.01; c12:local_contrast@p=0.015/s=0.02,sharpen_mild@p=0.015/s=0.02",
+      "sample_router_allowed": true,
+      "sampler_only": false,
+      "weighted_index_list": false,
+      "weak_class9_replaced": false
+    },
+    {
+      "epoch": 35,
+      "expected_classes": [
+        4,
+        12
+      ],
+      "runtime_policy_matrix_classes": [
+        4,
+        12
+      ],
+      "sample_router_eligible_classes": [
+        4,
+        12
+      ],
+      "final_executable_classes": [
+        4,
+        12
+      ],
+      "expected_op_list": "c4:low_recall:local_contrast@p=0.005/s=0.01,sharpen_mild@p=0.005/s=0.01; c12:weak_localization:local_contrast@p=0.015/s=0.02,sharpen_mild@p=0.015/s=0.02",
+      "runtime_op_list": "c4:local_contrast@p=0.005/s=0.01,sharpen_mild@p=0.005/s=0.01; c12:local_contrast@p=0.015/s=0.02,sharpen_mild@p=0.015/s=0.02",
+      "sample_router_allowed": true,
+      "sampler_only": false,
+      "weighted_index_list": false,
+      "weak_class9_replaced": false
+    },
+    {
+      "epoch": 40,
+      "expected_classes": [
+        4,
+        12
+      ],
+      "runtime_policy_matrix_classes": [
+        4,
+        12
+      ],
+      "sample_router_eligible_classes": [
+        4,
+        12
+      ],
+      "final_executable_classes": [
+        4,
+        12
+      ],
+      "expected_op_list": "c4:low_recall:local_contrast@p=0.005/s=0.01,sharpen_mild@p=0.005/s=0.01; c12:weak_localization:local_contrast@p=0.015/s=0.02,sharpen_mild@p=0.015/s=0.02",
+      "runtime_op_list": "c4:local_contrast@p=0.005/s=0.01,sharpen_mild@p=0.005/s=0.01; c12:local_contrast@p=0.015/s=0.02,sharpen_mild@p=0.015/s=0.02",
+      "sample_router_allowed": true,
+      "sampler_only": false,
+      "weighted_index_list": false,
+      "weak_class9_replaced": false
+    },
+    {
+      "epoch": 45,
+      "expected_classes": [
+        4,
+        12
+      ],
+      "runtime_policy_matrix_classes": [
+        4,
+        12
+      ],
+      "sample_router_eligible_classes": [
+        4,
+        12
+      ],
+      "final_executable_classes": [
+        4,
+        12
+      ],
+      "expected_op_list": "c4:low_recall:local_contrast@p=0.005/s=0.01,sharpen_mild@p=0.005/s=0.01; c12:weak_localization:local_contrast@p=0.015/s=0.02,sharpen_mild@p=0.015/s=0.02",
+      "runtime_op_list": "c4:local_contrast@p=0.005/s=0.01,sharpen_mild@p=0.005/s=0.01; c12:local_contrast@p=0.015/s=0.02,sharpen_mild@p=0.015/s=0.02",
+      "sample_router_allowed": true,
+      "sampler_only": false,
+      "weighted_index_list": false,
+      "weak_class9_replaced": false
+    }
+  ]
+}

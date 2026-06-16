@@ -10,6 +10,39 @@
 
 The project is a diagnosis-driven augmentation pipeline for industrial defect detection. Keep work centered on dataset construction, tiling, validation-error diagnosis, policy generation, proxy safety, short-training validation, and auditable artifacts. Do not reframe this as YOLO backbone, neck, or head redesign.
 
+## Latest Preserve-Original Execution Parity Fix
+
+- Date: `2026-06-16`.
+- Scope: audit, dry-run, and code/test fix only. No training was run.
+- User constraint remains active: do not run seed1, seed2, or multiseed; do not use sampler_only or weighted index lists.
+- The previous seed0 preserve-weak sanity failed because `preserve_original` did not install the fixed CATF-v2 policy into the executable policy matrix.
+- Root cause:
+  - replay expected class `4/11/12`;
+  - runtime executed only class `11`;
+  - `apply_offline_probe_decision_to_policy()` returned `deepcopy(policy)` for preserve, which kept the newly generated runtime controller policy instead of replaying fixed class/op/prob/strength.
+- Fix:
+  - added preserve-original overlay parsing `original_fixed_active_class`, `original_fixed_op_list`, and `original_fixed_prob_strength`;
+  - preserve now writes active classes, ops, probability, and strength into the runtime `policy_matrix`;
+  - stale non-preserve active ops are cleared so weak class9 cannot replace preserved fixed policy;
+  - sampler_only remains disabled.
+- Dry-run result after fix:
+  - expected union `[4, 11, 12]`;
+  - runtime policy_matrix union `[4, 11, 12]`;
+  - sample_router eligible union `[4, 11, 12]`;
+  - final executable union `[4, 11, 12]`;
+  - weak class9 replacement=false;
+  - sampler_only=false; weighted_index_list=false.
+- New files:
+  - `scripts/audit_preserve_original_execution.py`
+  - `tests/test_catf_v2_preserve_original_execution.py`
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity/reports/preserve_original_execution_audit.md`
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity/reports/preserve_execution_dryrun.md`
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity/preserve_execution_parity_epoch_diff.csv`
+- Verification:
+  - requested py_compile passed;
+  - targeted pytest set passed: `38 passed`.
+- Next recommended action: rerun seed0 preserve-weak sanity first. Do not run seed2 until seed0 validates execution parity.
+
 ## Current Mainline: Image Augmentation CATF
 
 - Date: `2026-06-13`.

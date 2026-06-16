@@ -1,5 +1,68 @@
 # Experiment Log
 
+## 2026-06-16
+
+### Preserve-Original Execution Parity Audit And Fix
+
+Scope:
+
+- No training was run.
+- Did not run seed0 50ep, seed1, seed2, or multiseed.
+- Did not use sampler_only, weighted index lists, or any sampling intervention.
+- Did not modify data split, attenuation ratio, causal score, or gate thresholds.
+
+Problem:
+
+- Seed0 preserve-weak sanity selected `preserve_original=9`, `weak=0`, `noop=0`, but execution only augmented class11.
+- Replay expected fixed CATF-v2 seed0 class `4/11/12`.
+- Fixed seed0 ROI affected classes were `{4:9, 11:22, 12:14}`; preserve sanity ROI affected classes were `{11:20}`.
+
+Root cause:
+
+- `apply_offline_probe_decision_to_policy()` handled `preserve_original` by returning `deepcopy(policy)`.
+- That preserved the current runtime controller policy generated in the new run, not the fixed CATF-v2 replay policy.
+- The replay schedule had the fixed class/op fields, but execution ignored `original_fixed_active_class`, `original_fixed_op_list`, and `original_fixed_prob_strength`.
+
+Fix:
+
+- Added preserve-original overlay in `scripts/train_yolo_default_with_inloop_feedback.py`.
+- The overlay installs replayed fixed active classes, op list, op probability, and op strength into the runtime `policy_matrix`.
+- It clears stale active ops from non-preserved classes and prevents weak class9 replacement.
+- It does not invoke sampler_only or weighted sampling.
+
+Outputs:
+
+- `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity/preserve_execution_parity_epoch_diff.csv`
+- `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity/reports/preserve_original_execution_audit.md`
+- `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity/reports/preserve_original_execution_audit.json`
+- `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity/reports/preserve_execution_dryrun.md`
+- `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity/reports/preserve_execution_dryrun.json`
+
+Dry-run:
+
+| item | value |
+|---|---|
+| expected class union | `[4, 11, 12]` |
+| runtime policy_matrix union | `[4, 11, 12]` |
+| sample_router eligible union | `[4, 11, 12]` |
+| final executable union | `[4, 11, 12]` |
+| fixed op list inherited | true |
+| fixed prob/strength inherited | true |
+| weak class9 replacement | false |
+| sampler_only | false |
+| weighted_index_list | false |
+
+Verification:
+
+- `python -m py_compile scripts/replay_preserve_weak_image_catf.py scripts/train_yolo_default_with_inloop_feedback.py scripts/audit_preserve_original_execution.py AutoAugment/catf_v2/policy_matrix.py AutoAugment/catf_v2/sample_router.py`
+- `pytest -q tests/test_catf_v2_preserve_original_execution.py tests/test_catf_v2_policy_matrix.py tests/test_catf_v2_sample_router.py tests/test_cp_catf_accept_to_execution.py tests/test_catf_v2_transform_bypass.py tests/test_online_augmentation.py`
+- Result: `38 passed`.
+
+Next:
+
+- Rerun seed0 preserve-weak sanity first.
+- Do not proceed to seed2 until seed0 confirms preserve-original execution parity.
+
 ## 2026-06-13
 
 ### Seed2 Image-Only Weak Augmentation 50ep

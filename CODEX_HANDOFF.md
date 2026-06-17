@@ -114,6 +114,45 @@ The project is a diagnosis-driven augmentation pipeline for industrial defect de
   - `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity_rerun/fixed_vs_preserve_volume_parity_by_class.csv`
 - Next recommended action: rerun seed0 preserve-weak sanity. Do not run seed2 until seed0 confirms both execution and volume/lifetime parity.
 
+## Latest Seed0 Preserve-Weak Volume-Fixed Sanity Rerun
+
+- Date: `2026-06-17`.
+- Scope: ran only seed0 50ep. Did not run seed1, seed2, or multiseed. Did not use sampler_only, weighted index lists, sampling changes, data split changes, gate changes, causal-score changes, or attenuation-ratio changes.
+- Important environment note:
+  - base `python` currently has Ultralytics `8.4.48` and is blocked by the API guard;
+  - successful training used `D:\Anaconda\envs\pytorch\python.exe`, which has Ultralytics `8.3.221`, torch `2.4.1`, CUDA available.
+- Output:
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity_volume_fixed/`
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity_volume_fixed/reports/seed0_preserve_weak_volume_fixed_report.md`
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity_volume_fixed/reports/seed0_preserve_weak_volume_fixed_report.json`
+- Execution:
+  - completed_50ep=true;
+  - preserve_original / weak_roi_texture / strict_noop = `9 / 0 / 0`;
+  - epoch5 executable `[4, 11]`;
+  - epoch15 executable `[12]`;
+  - epochs10/20/25/30/35/40/45 executable `[]`;
+  - stale ops cleared=true;
+  - seed-level union avoided=true;
+  - weak class9 replacement=false;
+  - sampler_only=false; weighted_index_list=false; sampled_distribution_changed=false.
+- Volume:
+  - industrial images augmented=41;
+  - ROI applied=45;
+  - ROI affected classes `{4:9, 11:22, 12:14}`;
+  - router_random_draw_count=3050;
+  - volume matches fixed CATF-v2 seed0 exactly.
+- Metrics:
+  - P=0.778506, R=0.669654, mAP50=0.743657, mAP50-95=0.489541;
+  - vs requested clean seed0: dP=-0.006094, dR=-0.006846, dM50=+0.008957, dM95=+0.013641;
+  - vs fixed CATF-v2 seed0: effectively identical within rounding;
+  - vs pre-fix preserve rerun: dP=+0.077992, dR=+0.046109, dM50=+0.031176, dM95=+0.032931;
+  - constraint_failed=false under requested clean seed0 thresholds.
+- Interpretation:
+  - training-side preserve volume/lifetime parity is fixed;
+  - prior seed0 collapse was caused by over-extended preserve policy lifetime/router eligibility;
+  - seed0 now passes and reproduces fixed CATF-v2 behavior.
+- Next recommended action: run seed2 validation with the same image-only preserve/weak path. Do not introduce sampler_only.
+
 ## Current Mainline: Image Augmentation CATF
 
 - Date: `2026-06-13`.

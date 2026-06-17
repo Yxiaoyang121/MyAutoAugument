@@ -184,6 +184,87 @@ Next:
 
 - Rerun seed0 preserve-weak sanity before seed2.
 - Mainline remains image-only CATF; sampler_only remains excluded from the main method.
+
+### Seed0 Preserve-Weak Sanity Rerun After Volume Parity Fix
+
+Scope:
+
+- Ran only seed0 for 50 epochs.
+- Did not run seed1, seed2, or multiseed.
+- Did not use sampler_only or weighted index lists.
+- Did not modify sampling, data split, attenuation ratio, gate thresholds, or causal score.
+
+Environment:
+
+- The first launch with base `python` stopped at the Ultralytics API guard because base had `8.4.48`.
+- The completed run used `D:\Anaconda\envs\pytorch\python.exe`.
+- That environment has Ultralytics `8.3.221`, torch `2.4.1`, CUDA available.
+
+Command/config:
+
+- Output: `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity_volume_fixed/`
+- Offline decisions: `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity_volume_fixed/configs/preserve_weak_offline_decisions_seed0.json`
+- `preserve-original-enabled=true`
+- `weak-image-aug-enabled=true`
+- `weak-only-for-moderate-risk=true`
+- `attenuation-ratio=0.25`
+- `disable-sampler-only=true`
+
+Execution:
+
+| item | value |
+|---|---|
+| 50ep completed | true |
+| preserve_original / weak / noop | `9 / 0 / 0` |
+| epoch5 executable classes | `[4, 11]` |
+| epoch15 executable classes | `[12]` |
+| other feedback epoch executable classes | `[]` |
+| stale ops cleared | true |
+| seed-level union avoided | true |
+| weak class9 replacement | false |
+| sampler_only_enabled | false |
+| weighted_index_list_enabled | false |
+| sampled_distribution_changed | false |
+
+Augmentation:
+
+| run | industrial images augmented | ROI applied | ROI by class |
+|---|---:|---:|---|
+| fixed CATF-v2 seed0 reference | 41 | 45 | `{4:9, 11:22, 12:14}` |
+| pre-fix preserve seed0 rerun | 155 | 187 | over-applied class4/class12 |
+| volume-fixed preserve seed0 | 41 | 45 | `{4:9, 11:22, 12:14}` |
+
+Metrics:
+
+| run | P | R | mAP50 | mAP50-95 | constraint_failed |
+|---|---:|---:|---:|---:|---|
+| clean seed0 | 0.784600 | 0.676500 | 0.734700 | 0.475900 | false |
+| fixed CATF-v2 seed0 | 0.778500 | 0.669700 | 0.743700 | 0.489500 | false |
+| pre-fix preserve seed0 | 0.700514 | 0.623545 | 0.712481 | 0.456610 | true |
+| volume-fixed preserve seed0 | 0.778506 | 0.669654 | 0.743657 | 0.489541 | false |
+
+Delta:
+
+- vs clean seed0: dP=-0.006094, dR=-0.006846, dM50=+0.008957, dM95=+0.013641.
+- vs fixed CATF-v2 seed0: dP=+0.000006, dR=-0.000046, dM50=-0.000043, dM95=+0.000041.
+- vs pre-fix preserve seed0: dP=+0.077992, dR=+0.046109, dM50=+0.031176, dM95=+0.032931.
+
+Reports:
+
+- `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity_volume_fixed/reports/seed0_preserve_weak_volume_fixed_report.md`
+- `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity_volume_fixed/reports/seed0_preserve_weak_volume_fixed_report.json`
+
+Verification:
+
+- Requested py_compile commands passed.
+- `pytest -q tests/test_catf_v2_preserve_original_execution.py tests/test_catf_v2_preserve_volume_parity.py tests/test_catf_v2_policy_matrix.py tests/test_catf_v2_sample_router.py tests/test_cp_catf_accept_to_execution.py tests/test_catf_v2_transform_bypass.py tests/test_online_augmentation.py`
+- Result: `42 passed`.
+
+Next:
+
+- Seed0 now confirms training-side volume parity and constraint pass.
+- Next image-only step can be seed2 validation.
+- Do not reintroduce sampler_only for the main method.
 - vs fixed CATF-v2 seed0: dP=-0.077986, dR=-0.046155, dM50=-0.031219, dM95=-0.032890.
 - vs pre-fix preserve seed0: dP=+0.033930, dR=-0.106474, dM50=+0.012547, dM95=-0.010134.
 

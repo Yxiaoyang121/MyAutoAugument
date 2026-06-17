@@ -1,0 +1,70 @@
+{
+  "epoch": 45,
+  "mode": "image_only_preserve_weak_replay",
+  "decision_basis": "offline_preserve_weak_replay_no_final_val",
+  "policy_selection_source": "preserve_weak_image_catf_replay",
+  "policy_selection_data": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\catf_v2_image_only_preserve_weak_replay\\preserve_weak_decision_records.csv",
+  "risk_level": "low",
+  "decision_reason": "fixed_seed_constraint_passed_preserve_safe_original_precedence",
+  "risk_basis": "fixed outcome pass + executable conservative fixed image policy; alternate weak candidate not allowed to replace it",
+  "original_fixed_candidate": "fixed_catf_v2_roi_texture",
+  "original_fixed_active_class": "4;12",
+  "original_fixed_op_list": "c4:low_recall:local_contrast@p=0.005/s=0.01,sharpen_mild@p=0.005/s=0.01; c12:weak_localization:local_contrast@p=0.015/s=0.02,sharpen_mild@p=0.015/s=0.02",
+  "original_fixed_prob_strength": "c4:local_contrast:0.005/0.01; c4:sharpen_mild:0.005/0.01; c12:local_contrast:0.015/0.02; c12:sharpen_mild:0.015/0.02",
+  "sampler_only_involved": false,
+  "sample_weighting_allowed": false,
+  "weighted_index_list_allowed": false,
+  "paper_probe_mode": false,
+  "development_probe_uses_existing_val_diagnostics": false,
+  "final_val_used_for_policy_selection": false,
+  "forbid_final_val_policy_selection": false,
+  "weak_only_for_moderate_risk": true,
+  "riskguard_interpretation": {
+    "riskguard_used_as_final_rule": false,
+    "riskguard_role": "audit_debug_prior_only"
+  },
+  "seed_specific_rule": false,
+  "fixed_class_id_specific_rule": false,
+  "dataset_specific_rule": false,
+  "selected_candidate_policy_id": "candidate_policy_preserve_original",
+  "selected_candidate_action": "preserve_original",
+  "final_replay_action": "preserve_original",
+  "preserve_original": true,
+  "image_augmentation_rejected": false,
+  "strict_image_noop": false,
+  "selected_candidate": {
+    "candidate_policy_id": "candidate_policy_preserve_original",
+    "candidate_policy": {
+      "policy_id": "candidate_policy_preserve_original",
+      "action": "preserve_original",
+      "op_list": [],
+      "image_modification": true,
+      "sample_weighting": false,
+      "preserve_original": true
+    },
+    "probe_set": {
+      "class_id": -1,
+      "active_classes": [],
+      "candidate_policy_id": "candidate_policy_preserve_original",
+      "mode": "image_only_preserve_weak_replay",
+      "development_probe_uses_existing_val_diagnostics": false
+    },
+    "causal_score": 0.0,
+    "decision": {
+      "candidate_policy_id": "candidate_policy_preserve_original",
+      "accepted": true,
+      "decision": "preserve_original",
+      "causal_score": 0.0,
+      "rejection_reasons": [],
+      "image_modification_allowed": true,
+      "sample_weighting_allowed": false,
+      "strict_noop": false,
+      "preserve_original": true
+    }
+  },
+  "epoch_exact_fixed_active_class": "",
+  "epoch_exact_fixed_op_list": "",
+  "epoch_exact_fixed_prob_strength": "",
+  "epoch_exact_fixed_policy_empty": true,
+  "epoch_exact_fixed_policy_source": "fixed_catf_v2_policy_history"
+}

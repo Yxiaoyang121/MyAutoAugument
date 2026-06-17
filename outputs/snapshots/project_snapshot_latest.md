@@ -1,23 +1,25 @@
 # Project Snapshot
 
-- Generated: 2026-06-17T17:40:00
+- Generated: 2026-06-17T23:20:00
 - Branch: codex/sync-latest
-- Commit: pending current preserve volume parity fix
+- Commit: pending seed0 volume-fixed sanity rerun
 - Remote: https://github.com/Yxiaoyang121/MyAutoAugument.git
 
 ## Current Status
 
 - Mainline remains image-only CATF; sampler_only is not part of the paper main method.
-- Preserve-original execution class parity was fixed earlier, but the seed0 rerun still failed due augmentation volume/lifetime mismatch.
-- This round did not train. It audited and fixed preserve-original volume parity.
-- Root cause: the preserve schedule used cumulative replay active classes and treated fixed guarded/frozen rows with old nonzero ops as executable.
-- Fixed CATF-v2 seed0 router-executable policy exists only at epoch5 `[4, 11]` and epoch15 `[12]`; old preserve kept class4 active for 9 feedback epochs and class12 for 7.
-- Volume before fix: fixed `41 industrial / 45 ROI`, old preserve `155 industrial / 187 ROI`.
-- Class-level overactivation: class4 ROI ratio `7.33x`, class12 ROI ratio `7.07x`; op prob/strength were not numerically amplified.
-- Fix: schedule generation now emits epoch-exact fixed router-executable fields, and runtime preserve prefers `epoch_exact_fixed_*` while explicit empty epochs clear stale ops without fallback.
-- Dry-run after fix: preserve expected volume `41 industrial / 45 ROI`; volume ratio `1.0 / 1.0`; stale accumulation after fix=false.
-- sampler_only=false; weighted_index_list=false; sampled_distribution_changed remains outside this dry-run.
-- Recommendation: rerun seed0 preserve-weak sanity before seed2.
+- Preserve volume/lifetime parity has been fixed and validated in a seed0 50ep rerun.
+- This run used only seed0; seed1/seed2/multiseed were not run.
+- Training used `D:\Anaconda\envs\pytorch\python.exe` because base Python has Ultralytics `8.4.48`; the guarded training path requires `8.3.221`.
+- Execution: preserve_original/weak/noop=`9/0/0`.
+- Epoch-exact executable classes: epoch5 `[4, 11]`, epoch15 `[12]`, epochs10/20/25/30/35/40/45 `[]`.
+- stale ops cleared=true; seed-level union avoided=true; weak class9 replacement=false.
+- sampler_only=false; weighted_index_list=false; sampled_distribution_changed=false.
+- Volume: fixed expected `41 industrial / 45 ROI`; volume-fixed preserve got `41 industrial / 45 ROI`, ROI by class `{4:9, 11:22, 12:14}`.
+- Metrics: P=0.778506, R=0.669654, mAP50=0.743657, mAP50-95=0.489541.
+- Delta vs requested clean seed0: dP=-0.006094, dR=-0.006846, dM50=+0.008957, dM95=+0.013641.
+- Constraint failed=false.
+- Recommendation: seed0 now passes; next image-only step can be seed2 validation.
 - Reports:
   - `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity_rerun/reports/seed0_preserve_weak_sanity_rerun_report.md`
   - `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity_rerun/reports/seed0_preserve_weak_sanity_rerun_report.json`
@@ -25,6 +27,8 @@
   - `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity_rerun/reports/preserve_volume_parity_dryrun.md`
   - `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity_rerun/fixed_vs_preserve_volume_parity_epoch.csv`
   - `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity_rerun/fixed_vs_preserve_volume_parity_by_class.csv`
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity_volume_fixed/reports/seed0_preserve_weak_volume_fixed_report.md`
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity_volume_fixed/reports/seed0_preserve_weak_volume_fixed_report.json`
 
 ## Working Tree
 
@@ -32,11 +36,9 @@
  M CODEX_HANDOFF.md
  M EXPERIMENT_LOG.md
  M PROJECT_STATE.md
- M scripts/build_preserve_weak_decision_schedule.py
- M scripts/train_yolo_default_with_inloop_feedback.py
- A scripts/audit_preserve_volume_lifetime.py
- A tests/test_catf_v2_preserve_volume_parity.py
- M outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity_rerun/
+ M outputs/project_snapshot_latest.md
+ M outputs/snapshots/project_snapshot_latest.md
+ A outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity_volume_fixed/
 ```
 
 ## Key Files

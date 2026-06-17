@@ -1,0 +1,305 @@
+{
+  "summary": {
+    "completed_50ep": true,
+    "preserve_original_count": 9,
+    "weak_roi_texture_count": 0,
+    "strict_noop_count": 0,
+    "used_epoch_exact_fixed_fields": true,
+    "epoch5_executable_classes": [
+      4,
+      11
+    ],
+    "epoch15_executable_classes": [
+      12
+    ],
+    "other_feedback_epochs_empty": true,
+    "stale_ops_cleared": true,
+    "seed_level_union_avoided": true,
+    "weak_class9_replacement": false,
+    "image_augmentation_executed": true,
+    "sampler_only_enabled": false,
+    "weighted_index_list_enabled": false,
+    "sampled_distribution_changed": false,
+    "metrics": {
+      "precision": 0.7785060827516979,
+      "recall": 0.6696537893735843,
+      "map50": 0.7436574966447125,
+      "map50_95": 0.4895409913055733
+    },
+    "delta_vs_clean_seed0": {
+      "precision": -0.006094,
+      "recall": -0.006846,
+      "map50": 0.008957,
+      "map50_95": 0.013641
+    },
+    "delta_vs_fixed_catf_v2_seed0": {
+      "precision": 6e-06,
+      "recall": -4.6e-05,
+      "map50": -4.3e-05,
+      "map50_95": 4.1e-05
+    },
+    "delta_vs_prefix_preserve_rerun": {
+      "precision": 0.077992,
+      "recall": 0.046109,
+      "map50": 0.031176,
+      "map50_95": 0.032931
+    },
+    "constraint_failed": false,
+    "failure_interpretation": "pass; volume parity matches fixed and metrics reproduce fixed CATF-v2 seed0",
+    "recommend_continue_seed2": true
+  },
+  "clean_seed0": {
+    "precision": 0.7846,
+    "recall": 0.6765,
+    "map50": 0.7347,
+    "map50_95": 0.4759
+  },
+  "fixed_catf_v2_seed0": {
+    "precision": 0.7785,
+    "recall": 0.6697,
+    "map50": 0.7437,
+    "map50_95": 0.4895,
+    "industrial": 41,
+    "roi": 45
+  },
+  "prefix_preserve_seed0": {
+    "precision": 0.700514,
+    "recall": 0.623545,
+    "map50": 0.712481,
+    "map50_95": 0.45661,
+    "industrial": 155,
+    "roi": 187
+  },
+  "volume": {
+    "fixed_expected_industrial": 41,
+    "fixed_expected_roi": 45,
+    "runtime_industrial": 41,
+    "runtime_roi": 45,
+    "runtime_roi_by_class": {
+      "4": 9,
+      "11": 22,
+      "12": 14
+    },
+    "industrial_delta_vs_fixed": 0,
+    "roi_delta_vs_fixed": 0,
+    "close_to_fixed": true
+  },
+  "epoch_records": [
+    {
+      "epoch": 5,
+      "replay_decision": "preserve_original",
+      "risk_level": "low",
+      "final_action": "preserve_original",
+      "from_epoch_exact_fixed_fields": true,
+      "expected_active_classes": [
+        4,
+        11
+      ],
+      "runtime_policy_matrix_classes": [
+        4,
+        11
+      ],
+      "sample_router_eligible_classes": [
+        4,
+        11
+      ],
+      "final_executable_classes": [
+        4,
+        11
+      ],
+      "original_fixed_op_list": "c4:low_recall:local_contrast@p=0.005/s=0.01,sharpen_mild@p=0.005/s=0.01; c11:texture_boundary_weak:local_contrast@p=0.015/s=0.02,sharpen_mild@p=0.015/s=0.02",
+      "final_op_list": "c4:low_recall:local_contrast@p=0.005/s=0.01,sharpen_mild@p=0.005/s=0.01; c11:texture_boundary_weak:local_contrast@p=0.015/s=0.02,sharpen_mild@p=0.015/s=0.02",
+      "original_fixed_prob_strength": "c4:local_contrast:0.005/0.01; c4:sharpen_mild:0.005/0.01; c11:local_contrast:0.015/0.02; c11:sharpen_mild:0.015/0.02",
+      "final_prob_strength": "c4:local_contrast:0.005/0.01; c4:sharpen_mild:0.005/0.01; c11:local_contrast:0.015/0.02; c11:sharpen_mild:0.015/0.02",
+      "stale_policy_cleared": false,
+      "empty_epoch_cleared": false,
+      "cleared_classes": [],
+      "sample_router_allowed": true,
+      "sampler_only_enabled": false,
+      "weighted_index_list_enabled": false
+    },
+    {
+      "epoch": 10,
+      "replay_decision": "preserve_original",
+      "risk_level": "low",
+      "final_action": "preserve_original",
+      "from_epoch_exact_fixed_fields": true,
+      "expected_active_classes": [],
+      "runtime_policy_matrix_classes": [],
+      "sample_router_eligible_classes": [],
+      "final_executable_classes": [],
+      "original_fixed_op_list": "c4:low_recall:local_contrast@p=0.005/s=0.01,sharpen_mild@p=0.005/s=0.01",
+      "final_op_list": "",
+      "original_fixed_prob_strength": "c4:local_contrast:0.005/0.01; c4:sharpen_mild:0.005/0.01",
+      "final_prob_strength": "",
+      "stale_policy_cleared": true,
+      "empty_epoch_cleared": true,
+      "cleared_classes": [
+        4,
+        11
+      ],
+      "sample_router_allowed": false,
+      "sampler_only_enabled": false,
+      "weighted_index_list_enabled": false
+    },
+    {
+      "epoch": 15,
+      "replay_decision": "preserve_original",
+      "risk_level": "low",
+      "final_action": "preserve_original",
+      "from_epoch_exact_fixed_fields": true,
+      "expected_active_classes": [
+        12
+      ],
+      "runtime_policy_matrix_classes": [
+        12
+      ],
+      "sample_router_eligible_classes": [
+        12
+      ],
+      "final_executable_classes": [
+        12
+      ],
+      "original_fixed_op_list": "c4:low_recall:local_contrast@p=0.005/s=0.01,sharpen_mild@p=0.005/s=0.01; c12:weak_localization:local_contrast@p=0.015/s=0.02,sharpen_mild@p=0.015/s=0.02",
+      "final_op_list": "c12:weak_localization:local_contrast@p=0.015/s=0.02,sharpen_mild@p=0.015/s=0.02",
+      "original_fixed_prob_strength": "c4:local_contrast:0.005/0.01; c4:sharpen_mild:0.005/0.01; c12:local_contrast:0.015/0.02; c12:sharpen_mild:0.015/0.02",
+      "final_prob_strength": "c12:local_contrast:0.015/0.02; c12:sharpen_mild:0.015/0.02",
+      "stale_policy_cleared": false,
+      "empty_epoch_cleared": false,
+      "cleared_classes": [],
+      "sample_router_allowed": true,
+      "sampler_only_enabled": false,
+      "weighted_index_list_enabled": false
+    },
+    {
+      "epoch": 20,
+      "replay_decision": "preserve_original",
+      "risk_level": "low",
+      "final_action": "preserve_original",
+      "from_epoch_exact_fixed_fields": true,
+      "expected_active_classes": [],
+      "runtime_policy_matrix_classes": [],
+      "sample_router_eligible_classes": [],
+      "final_executable_classes": [],
+      "original_fixed_op_list": "c4:low_recall:local_contrast@p=0.005/s=0.01,sharpen_mild@p=0.005/s=0.01; c12:weak_localization:local_contrast@p=0.015/s=0.02,sharpen_mild@p=0.015/s=0.02",
+      "final_op_list": "",
+      "original_fixed_prob_strength": "c4:local_contrast:0.005/0.01; c4:sharpen_mild:0.005/0.01; c12:local_contrast:0.015/0.02; c12:sharpen_mild:0.015/0.02",
+      "final_prob_strength": "",
+      "stale_policy_cleared": true,
+      "empty_epoch_cleared": true,
+      "cleared_classes": [
+        12
+      ],
+      "sample_router_allowed": false,
+      "sampler_only_enabled": false,
+      "weighted_index_list_enabled": false
+    },
+    {
+      "epoch": 25,
+      "replay_decision": "preserve_original",
+      "risk_level": "low",
+      "final_action": "preserve_original",
+      "from_epoch_exact_fixed_fields": true,
+      "expected_active_classes": [],
+      "runtime_policy_matrix_classes": [],
+      "sample_router_eligible_classes": [],
+      "final_executable_classes": [],
+      "original_fixed_op_list": "c4:low_recall:local_contrast@p=0.005/s=0.01,sharpen_mild@p=0.005/s=0.01; c12:weak_localization:local_contrast@p=0.015/s=0.02,sharpen_mild@p=0.015/s=0.02",
+      "final_op_list": "",
+      "original_fixed_prob_strength": "c4:local_contrast:0.005/0.01; c4:sharpen_mild:0.005/0.01; c12:local_contrast:0.015/0.02; c12:sharpen_mild:0.015/0.02",
+      "final_prob_strength": "",
+      "stale_policy_cleared": false,
+      "empty_epoch_cleared": true,
+      "cleared_classes": [],
+      "sample_router_allowed": false,
+      "sampler_only_enabled": false,
+      "weighted_index_list_enabled": false
+    },
+    {
+      "epoch": 30,
+      "replay_decision": "preserve_original",
+      "risk_level": "low",
+      "final_action": "preserve_original",
+      "from_epoch_exact_fixed_fields": true,
+      "expected_active_classes": [],
+      "runtime_policy_matrix_classes": [],
+      "sample_router_eligible_classes": [],
+      "final_executable_classes": [],
+      "original_fixed_op_list": "c4:low_recall:local_contrast@p=0.005/s=0.01,sharpen_mild@p=0.005/s=0.01; c12:weak_localization:local_contrast@p=0.015/s=0.02,sharpen_mild@p=0.015/s=0.02",
+      "final_op_list": "",
+      "original_fixed_prob_strength": "c4:local_contrast:0.005/0.01; c4:sharpen_mild:0.005/0.01; c12:local_contrast:0.015/0.02; c12:sharpen_mild:0.015/0.02",
+      "final_prob_strength": "",
+      "stale_policy_cleared": false,
+      "empty_epoch_cleared": true,
+      "cleared_classes": [],
+      "sample_router_allowed": false,
+      "sampler_only_enabled": false,
+      "weighted_index_list_enabled": false
+    },
+    {
+      "epoch": 35,
+      "replay_decision": "preserve_original",
+      "risk_level": "low",
+      "final_action": "preserve_original",
+      "from_epoch_exact_fixed_fields": true,
+      "expected_active_classes": [],
+      "runtime_policy_matrix_classes": [],
+      "sample_router_eligible_classes": [],
+      "final_executable_classes": [],
+      "original_fixed_op_list": "c4:low_recall:local_contrast@p=0.005/s=0.01,sharpen_mild@p=0.005/s=0.01; c12:weak_localization:local_contrast@p=0.015/s=0.02,sharpen_mild@p=0.015/s=0.02",
+      "final_op_list": "",
+      "original_fixed_prob_strength": "c4:local_contrast:0.005/0.01; c4:sharpen_mild:0.005/0.01; c12:local_contrast:0.015/0.02; c12:sharpen_mild:0.015/0.02",
+      "final_prob_strength": "",
+      "stale_policy_cleared": false,
+      "empty_epoch_cleared": true,
+      "cleared_classes": [],
+      "sample_router_allowed": false,
+      "sampler_only_enabled": false,
+      "weighted_index_list_enabled": false
+    },
+    {
+      "epoch": 40,
+      "replay_decision": "preserve_original",
+      "risk_level": "low",
+      "final_action": "preserve_original",
+      "from_epoch_exact_fixed_fields": true,
+      "expected_active_classes": [],
+      "runtime_policy_matrix_classes": [],
+      "sample_router_eligible_classes": [],
+      "final_executable_classes": [],
+      "original_fixed_op_list": "c4:low_recall:local_contrast@p=0.005/s=0.01,sharpen_mild@p=0.005/s=0.01; c12:weak_localization:local_contrast@p=0.015/s=0.02,sharpen_mild@p=0.015/s=0.02",
+      "final_op_list": "",
+      "original_fixed_prob_strength": "c4:local_contrast:0.005/0.01; c4:sharpen_mild:0.005/0.01; c12:local_contrast:0.015/0.02; c12:sharpen_mild:0.015/0.02",
+      "final_prob_strength": "",
+      "stale_policy_cleared": false,
+      "empty_epoch_cleared": true,
+      "cleared_classes": [],
+      "sample_router_allowed": false,
+      "sampler_only_enabled": false,
+      "weighted_index_list_enabled": false
+    },
+    {
+      "epoch": 45,
+      "replay_decision": "preserve_original",
+      "risk_level": "low",
+      "final_action": "preserve_original",
+      "from_epoch_exact_fixed_fields": true,
+      "expected_active_classes": [],
+      "runtime_policy_matrix_classes": [],
+      "sample_router_eligible_classes": [],
+      "final_executable_classes": [],
+      "original_fixed_op_list": "c4:low_recall:local_contrast@p=0.005/s=0.01,sharpen_mild@p=0.005/s=0.01; c12:weak_localization:local_contrast@p=0.015/s=0.02,sharpen_mild@p=0.015/s=0.02",
+      "final_op_list": "",
+      "original_fixed_prob_strength": "c4:local_contrast:0.005/0.01; c4:sharpen_mild:0.005/0.01; c12:local_contrast:0.015/0.02; c12:sharpen_mild:0.015/0.02",
+      "final_prob_strength": "",
+      "stale_policy_cleared": false,
+      "empty_epoch_cleared": true,
+      "cleared_classes": [],
+      "sample_router_allowed": false,
+      "sampler_only_enabled": false,
+      "weighted_index_list_enabled": false
+    }
+  ],
+  "online_aug_stats_path": "outputs\\experiments\\catf_v2_image_only_preserve_weak_seed0_sanity_volume_fixed\\reports\\online_aug_stats.json",
+  "roi_aug_stats_path": "outputs\\experiments\\catf_v2_image_only_preserve_weak_seed0_sanity_volume_fixed\\reports\\roi_aug_stats.json"
+}

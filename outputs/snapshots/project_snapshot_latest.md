@@ -1,28 +1,33 @@
 # Project Snapshot
 
-- Generated: 2026-06-16T00:00:00
+- Generated: 2026-06-17T16:42:52
 - Branch: codex/sync-latest
-- Commit: pending-preserve-original-execution-parity-fix
+- Commit: a18a9e2aec9adedf6b59f6bfd56c6ed5cd85a365
 - Remote: https://github.com/Yxiaoyang121/MyAutoAugument.git
 
 ## Current Status
 
 - Mainline remains image-only CATF; sampler_only is not part of the paper main method.
-- Seed0 preserve-weak sanity previously failed because preserve_original did not reproduce fixed seed0 class4/11/12 executable policy; actual ROI augmentation affected only class11.
-- Current work fixed the preserve_original execution path without training.
-- preserve_original now parses replay fixed fields and installs active classes, op list, prob, and strength into the runtime policy_matrix.
-- Dry-run after the fix: expected union `[4, 11, 12]`, runtime policy_matrix union `[4, 11, 12]`, sample_router eligible union `[4, 11, 12]`, final executable union `[4, 11, 12]`.
-- weak class9 replacement=false; sampler_only=false; weighted_index_list=false.
-- Do not proceed to seed2 yet; rerun seed0 preserve-weak sanity first to confirm execution parity.
+- Seed0 preserve-weak sanity was rerun after the preserve_original execution parity fix.
+- Completed 50ep=true; preserve_original=9, weak=0, noop=0.
+- Expected/runtime/router/executable class union all contain `[4, 11, 12]`; weak class9 replacement=false.
+- sampler_only=false; weighted_index_list=false; sampled_distribution_changed=false.
+- Metrics: P=0.700514, R=0.623545, mAP50=0.712481, mAP50-95=0.456610.
+- Constraint failed vs requested clean seed0: dP=-0.084086, dM50=-0.022219, dM95=-0.019290.
+- Fixed CATF-v2 seed0 reference augmented 41 industrial / 45 ROI; rerun augmented 155 industrial / 187 ROI.
+- Interpretation: class4/class12 missing bug is fixed, but preserve now over-applies replayed fixed classes. Remaining issue is policy lifetime / augmentation-volume parity, not sampler_only and not weak class9 replacement.
+- Do not proceed to seed2 yet; first audit fixed-vs-preserve policy lifetime and application-volume parity.
 - Reports:
-  - `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity/reports/preserve_original_execution_audit.md`
-  - `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity/reports/preserve_execution_dryrun.md`
-  - `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity/preserve_execution_parity_epoch_diff.csv`
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity_rerun/reports/seed0_preserve_weak_sanity_rerun_report.md`
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity_rerun/reports/seed0_preserve_weak_sanity_rerun_report.json`
 
 ## Working Tree
 
 ```text
-pending commit: preserve-original execution parity fix, audit reports, dry-run, and targeted tests
+ M CODEX_HANDOFF.md
+ M EXPERIMENT_LOG.md
+ M PROJECT_STATE.md
+?? outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity_rerun/
 ```
 
 ## Key Files
@@ -227,7 +232,7 @@ pending commit: preserve-original execution parity fix, audit reports, dry-run, 
 
 ## Tracked File Count
 
-- 9228 tracked files
+- 9442 tracked files
 
 ## Notes
 

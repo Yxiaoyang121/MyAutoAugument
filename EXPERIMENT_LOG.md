@@ -63,6 +63,71 @@ Next:
 - Rerun seed0 preserve-weak sanity first.
 - Do not proceed to seed2 until seed0 confirms preserve-original execution parity.
 
+## 2026-06-17
+
+### Seed0 Preserve-Weak Sanity Rerun After Preserve Parity Fix
+
+Scope:
+
+- Ran only seed0 for 50 epochs.
+- Did not run seed1, seed2, or multiseed.
+- Did not use sampler_only or weighted index lists.
+- Did not modify sampling, data split, attenuation ratio, gate thresholds, or causal score.
+
+Command/config:
+
+- Output: `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity_rerun/`
+- Offline decisions: `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity_rerun/configs/preserve_weak_offline_decisions_seed0.json`
+- `preserve-original-enabled=true`
+- `weak-image-aug-enabled=true`
+- `weak-only-for-moderate-risk=true`
+- `attenuation-ratio=0.25`
+- `disable-sampler-only=true`
+
+Execution:
+
+| item | value |
+|---|---|
+| 50ep completed | true |
+| preserve_original / weak / noop | `9 / 0 / 0` |
+| expected class union | `[4, 11, 12]` |
+| runtime policy_matrix union | `[4, 11, 12]` |
+| sample_router eligible union | `[4, 11, 12]` |
+| final executable union | `[4, 11, 12]` |
+| weak class9 replacement | false |
+| sampler_only_enabled | false |
+| weighted_index_list_enabled | false |
+| sampled_distribution_changed | false |
+
+Augmentation:
+
+| run | industrial images augmented | ROI applied | ROI by class |
+|---|---:|---:|---|
+| fixed CATF-v2 seed0 reference | 41 | 45 | `{4:9, 11:22, 12:14}` |
+| preserve-weak seed0 rerun | 155 | 187 | `{4:66, 11:22, 12:99}` |
+
+Metrics:
+
+| run | P | R | mAP50 | mAP50-95 | constraint_failed |
+|---|---:|---:|---:|---:|---|
+| clean seed0 | 0.784600 | 0.676500 | 0.734700 | 0.475900 | false |
+| fixed CATF-v2 seed0 | 0.778500 | 0.669700 | 0.743700 | 0.489500 | false |
+| pre-fix preserve seed0 | 0.666585 | 0.730019 | 0.699934 | 0.466744 | true |
+| preserve-weak seed0 rerun | 0.700514 | 0.623545 | 0.712481 | 0.456610 | true |
+
+Delta:
+
+- vs clean seed0: dP=-0.084086, dR=-0.052955, dM50=-0.022219, dM95=-0.019290.
+- vs fixed CATF-v2 seed0: dP=-0.077986, dR=-0.046155, dM50=-0.031219, dM95=-0.032890.
+- vs pre-fix preserve seed0: dP=+0.033930, dR=-0.106474, dM50=+0.012547, dM95=-0.010134.
+
+Interpretation:
+
+- The original class4/class12 missing execution bug is fixed.
+- Seed0 still fails because preserve over-applies replayed fixed classes compared with fixed CATF-v2 application volume.
+- This is not sampler_only, not weighted sampling, and not weak class9 replacement.
+- Do not run seed2 yet; first audit fixed-vs-preserve policy lifetime and augmentation-volume parity.
+
 ## 2026-06-13
 
 ### Seed2 Image-Only Weak Augmentation 50ep
@@ -2062,7 +2127,7 @@ Key conclusions from that archived smoke:
 - Current CATF-v2 work is smoke-only; no formal 50 epoch CATF-v2 run should be inferred from it.
 - No-feedback control disables both feedback and industrial augmentation, using Ultralytics YOLO default augmentation as the behavior check.
 - The old YOLO default reference is not the final baseline after parity audit; feedback comparisons should use `clean_native_yolo_default_seed42_50ep`.
-- Output: `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity/`
+- Output: `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity_rerun/`
 - Epochs: `50`
 - Feedback enabled: `true`
 - Industrial augmentation enabled: `true`
@@ -2078,8 +2143,8 @@ Key conclusions from that archived smoke:
 - Fixed augmented dataset generated: `false`
 - Constraint baseline: `clean_native_yolo_default`
 - Constraint failed: `True`
-- Report: `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity/reports/final_report.md`
-- Policy history: `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity/reports/policy_history.json`
+- Report: `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity_rerun/reports/final_report.md`
+- Policy history: `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity_rerun/reports/policy_history.json`
 <!-- YOLO_DEFAULT_INLOOP_FEEDBACK_SMOKE_END -->
 <!-- YOLO_DEFAULT_INLOOP_PARITY_AUDIT_START -->
 ## YOLO Default In-Loop Parity Audit

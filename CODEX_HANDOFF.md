@@ -43,6 +43,41 @@ The project is a diagnosis-driven augmentation pipeline for industrial defect de
   - targeted pytest set passed: `38 passed`.
 - Next recommended action: rerun seed0 preserve-weak sanity first. Do not run seed2 until seed0 validates execution parity.
 
+## Latest Seed0 Preserve-Weak Sanity Rerun
+
+- Date: `2026-06-17`.
+- Scope: ran only seed0 50ep after the preserve execution parity fix.
+- Did not run seed1, seed2, or multiseed.
+- Did not use sampler_only, weighted index list, sampling changes, data split changes, gate changes, causal score changes, or attenuation-ratio changes.
+- Output:
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity_rerun/`
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity_rerun/reports/seed0_preserve_weak_sanity_rerun_report.md`
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity_rerun/reports/seed0_preserve_weak_sanity_rerun_report.json`
+- Execution result:
+  - completed_50ep=true;
+  - preserve_original=9, weak_roi_texture=0, strict_noop=0;
+  - expected class union `[4, 11, 12]`;
+  - runtime policy_matrix union `[4, 11, 12]`;
+  - sample_router eligible union `[4, 11, 12]`;
+  - final executable union `[4, 11, 12]`;
+  - weak class9 replacement=false;
+  - sampler_only=false; weighted_index_list=false; sampled_distribution_changed=false.
+- Augmentation result:
+  - industrial images augmented=155;
+  - ROI applied=187;
+  - ROI affected classes `{4:66, 11:22, 12:99}`;
+  - fixed CATF-v2 seed0 reference was industrial=41, ROI=45, affected `{4:9, 11:22, 12:14}`.
+- Metrics:
+  - P=0.700514, R=0.623545, mAP50=0.712481, mAP50-95=0.456610;
+  - vs clean seed0: dP=-0.084086, dR=-0.052955, dM50=-0.022219, dM95=-0.019290;
+  - vs fixed CATF-v2 seed0: dP=-0.077986, dR=-0.046155, dM50=-0.031219, dM95=-0.032890;
+  - constraint_failed=true.
+- Interpretation for next agent:
+  - the class4/class12 missing execution bug is fixed;
+  - seed0 still fails because preserve now over-applies fixed replay classes compared with fixed CATF-v2;
+  - this is a remaining policy lifetime / augmentation-volume parity issue, not sampler_only and not weak class9 replacement;
+  - do not run seed2 yet. First audit fixed-vs-preserve policy lifetime and applied augmentation volume.
+
 ## Current Mainline: Image Augmentation CATF
 
 - Date: `2026-06-13`.
@@ -1249,7 +1284,7 @@ No training was run after building or auditing these datasets.
 - Current CATF-v2 work is smoke-only; no formal 50 epoch CATF-v2 run should be inferred from it.
 - No-feedback control disables both feedback and industrial augmentation, using Ultralytics YOLO default augmentation as the behavior check.
 - The old YOLO default reference is not the final baseline after parity audit; feedback comparisons should use `clean_native_yolo_default_seed42_50ep`.
-- Output: `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity/`
+- Output: `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity_rerun/`
 - Epochs: `50`
 - Feedback enabled: `true`
 - Industrial augmentation enabled: `true`
@@ -1265,8 +1300,8 @@ No training was run after building or auditing these datasets.
 - Fixed augmented dataset generated: `false`
 - Constraint baseline: `clean_native_yolo_default`
 - Constraint failed: `True`
-- Report: `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity/reports/final_report.md`
-- Policy history: `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity/reports/policy_history.json`
+- Report: `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity_rerun/reports/final_report.md`
+- Policy history: `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity_rerun/reports/policy_history.json`
 <!-- YOLO_DEFAULT_INLOOP_FEEDBACK_SMOKE_END -->
 <!-- YOLO_DEFAULT_INLOOP_PARITY_AUDIT_START -->
 ## YOLO Default In-Loop Parity Audit

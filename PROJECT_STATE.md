@@ -1983,3 +1983,59 @@ The repository is centered on diagnosis-driven augmentation for industrial defec
   - Requested targeted pytest suite passed `55 passed`.
   - New summary script `scripts/summarize_weak_image_aug_multiseed.py` passed py_compile.
 <!-- IMAGE_ONLY_WEAK_AUG_MULTISEED_SANITY_END -->
+
+<!-- PRESERVE_WEAK_SEED2_VALIDATION_START -->
+## Seed2 Preserve-Weak Image CATF Validation
+
+- Date: `2026-06-18`.
+- Scope:
+  - ran seed2 only for 50 epochs;
+  - no seed0 rerun, no seed1 run, no multiseed run;
+  - no clean or fixed CATF-v2 rerun;
+  - no sampler_only, no weighted index list, no sampling change;
+  - no gate, causal-score, attenuation-ratio, augmentation-strategy, or data-split change.
+- Run root:
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_seed2/`
+- Reports:
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_seed2/reports/seed2_preserve_weak_report.md`
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_seed2/reports/seed2_preserve_weak_report.json`
+- Context:
+  - seed0 preserve_original sanity with volume parity already passed and reproduced fixed CATF-v2 seed0: P/R/mAP50/mAP50-95 `0.778506/0.669654/0.743657/0.489541`.
+  - This run validates the seed2 weak/no-op side of the same image-only three-stage policy.
+- Decisions:
+  - preserve_original=`0`;
+  - weak_roi_texture=`5`;
+  - strict_noop=`4`;
+  - attenuation_ratio=`0.25`;
+  - strict no-op epochs: `5`, `10`, `15`, `40`;
+  - weak epochs/classes: `20:c7`, `25:c9`, `30:c6`, `35:c9`, `45:c9`;
+  - selected weak op: `local_contrast` with prob/strength `0.045/0.05`.
+- Execution:
+  - weak image augmentation executed=`true`;
+  - industrial images augmented=`80`;
+  - ROI applied=`95`;
+  - ROI affected classes=`{"6":16,"7":17,"9":62}`;
+  - router random draw count=`1922`;
+  - bbox/class legality checks stayed clean.
+- Sampling and leakage:
+  - sampler_only_enabled=`false`;
+  - weighted_index_list_enabled=`false`;
+  - sampled_distribution_changed=`false`;
+  - final_val_used_for_policy_selection=`false` in the offline decision schedule and all causal-probe events.
+- Metrics:
+  - preserve-weak seed2 P/R/mAP50/mAP50-95: `0.753254/0.694235/0.772718/0.515138`;
+  - delta vs clean seed2: `+0.057054/-0.034365/+0.003518/-0.007262`;
+  - delta vs fixed CATF-v2 seed2: `-0.010446/+0.007935/+0.014518/+0.018438`;
+  - delta vs weak-only seed2: approximately `0` on all four metrics.
+- Constraint:
+  - `constraint_failed=false`;
+  - `recall_warning=true` because Recall remains below clean seed2 by `0.034365`, but Recall is not the hard constraint.
+- Class-level interpretation:
+  - class9 recovered relative to fixed CATF-v2 seed2: Recall `+0.108610`, AP50 `+0.034223`, AP50-95 `+0.009864`;
+  - non-active mean AP50-95 delta vs fixed, excluding weak-active classes `{6,7,9}`, is `+0.018671`.
+- Current interpretation:
+  - seed0 validates preserve_original execution and volume parity;
+  - seed2 validates weak/no-op repair of the fixed CATF-v2 seed2 failure;
+  - sampler_only remains demoted and absent from the image-only mainline;
+  - next step, if approved, is seed1 sanity before a final 3-seed summary.
+<!-- PRESERVE_WEAK_SEED2_VALIDATION_END -->

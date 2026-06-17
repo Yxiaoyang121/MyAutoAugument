@@ -1843,3 +1843,43 @@ No training was run after building or auditing these datasets.
   - `outputs/experiments/catf_v2_image_only_weak_aug_multiseed/reports/weak_image_aug_multiseed_summary.md`
 - Next recommended work only after explicit approval: keep the mainline image-only and add a recall/precision-aware safety rule for weak image augmentation; do not revive sampler_only as a main-method repair.
 <!-- IMAGE_ONLY_WEAK_AUG_MULTISEED_SANITY_END -->
+
+<!-- PRESERVE_WEAK_SEED2_VALIDATION_START -->
+## Seed2 Preserve-Weak Image CATF Handoff
+
+- Current task completed: ran seed2 only for the image-only three-stage CATF policy.
+- No seed0/seed1/multiseed run was started in this task.
+- No sampler_only, weighted index list, sampling change, data split change, gate change, attenuation-ratio change, or causal-score change was made.
+- Run root: `outputs/experiments/catf_v2_image_only_preserve_weak_seed2/`.
+- Dedicated reports:
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_seed2/reports/seed2_preserve_weak_report.md`
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_seed2/reports/seed2_preserve_weak_report.json`
+- Decision execution:
+  - preserve_original=`0`;
+  - weak_roi_texture=`5`;
+  - strict_noop=`4`;
+  - weak epochs/classes: `20:c7`, `25:c9`, `30:c6`, `35:c9`, `45:c9`;
+  - strict no-op epochs: `5`, `10`, `15`, `40`;
+  - weak op: `local_contrast`, prob/strength `0.045/0.05`, attenuation_ratio `0.25`.
+- Execution stats:
+  - industrial images augmented=`80`;
+  - ROI applied=`95`;
+  - router random draw count=`1922`;
+  - sampler_only_enabled=`false`;
+  - weighted_index_list_enabled=`false`;
+  - sampled_distribution_changed=`false`;
+  - final_val_used_for_policy_selection=`false`.
+- Metrics:
+  - P/R/mAP50/mAP50-95=`0.753254/0.694235/0.772718/0.515138`;
+  - delta vs clean seed2=`+0.057054/-0.034365/+0.003518/-0.007262`;
+  - delta vs fixed CATF-v2 seed2=`-0.010446/+0.007935/+0.014518/+0.018438`;
+  - `constraint_failed=false`;
+  - recall_warning=`true`.
+- Class-level checks:
+  - class9 recovered vs fixed: Recall `+0.108610`, AP50 `+0.034223`, AP50-95 `+0.009864`;
+  - non-active AP50-95 mean improved vs fixed by `+0.018671` when excluding weak-active classes `{6,7,9}`.
+- Handoff guidance:
+  - seed0 preserve_original and seed2 weak/no-op are now both validated;
+  - do not revive sampler_only for the main method;
+  - the next training step should be seed1 sanity only, then a 3-seed summary if seed1 passes.
+<!-- PRESERVE_WEAK_SEED2_VALIDATION_END -->

@@ -1,0 +1,173 @@
+{
+  "run_root": "outputs/experiments/catf_v2_image_only_preserve_weak_seed2/",
+  "seed": 2,
+  "epochs_completed": 50,
+  "method": "image_only_preserve_safe_original_weak_only_for_moderate_risk_strict_noop",
+  "sampler_only_enabled": false,
+  "weighted_index_list_enabled": false,
+  "sampled_distribution_changed": false,
+  "final_val_used_for_policy_selection": false,
+  "decision_counts": {
+    "preserve_original": 0,
+    "weak_roi_texture": 5,
+    "strict_noop": 4
+  },
+  "attenuation_ratio": 0.25,
+  "weak_candidates": [
+    {
+      "epoch": 20,
+      "risk_level": "moderate",
+      "class_id": 7,
+      "selected_op": "local_contrast",
+      "original_prob": 0.18,
+      "original_strength": 0.2,
+      "weak_prob": 0.045,
+      "weak_strength": 0.05
+    },
+    {
+      "epoch": 25,
+      "risk_level": "moderate",
+      "class_id": 9,
+      "selected_op": "local_contrast",
+      "original_prob": 0.18,
+      "original_strength": 0.2,
+      "weak_prob": 0.045,
+      "weak_strength": 0.05
+    },
+    {
+      "epoch": 30,
+      "risk_level": "moderate",
+      "class_id": 6,
+      "selected_op": "local_contrast",
+      "original_prob": 0.18,
+      "original_strength": 0.2,
+      "weak_prob": 0.045,
+      "weak_strength": 0.05
+    },
+    {
+      "epoch": 35,
+      "risk_level": "moderate",
+      "class_id": 9,
+      "selected_op": "local_contrast",
+      "original_prob": 0.18,
+      "original_strength": 0.2,
+      "weak_prob": 0.045,
+      "weak_strength": 0.05
+    },
+    {
+      "epoch": 45,
+      "risk_level": "moderate",
+      "class_id": 9,
+      "selected_op": "local_contrast",
+      "original_prob": 0.18,
+      "original_strength": 0.2,
+      "weak_prob": 0.045,
+      "weak_strength": 0.05
+    }
+  ],
+  "strict_noop_epochs": [
+    {
+      "epoch": 5,
+      "risk_level": "critical",
+      "class_id": 9
+    },
+    {
+      "epoch": 10,
+      "risk_level": "high",
+      "class_id": -1
+    },
+    {
+      "epoch": 15,
+      "risk_level": "high",
+      "class_id": -1
+    },
+    {
+      "epoch": 40,
+      "risk_level": "high",
+      "class_id": -1
+    }
+  ],
+  "augmentation": {
+    "weak_image_augmentation_executed": true,
+    "industrial_images_augmented": 80,
+    "roi_applied": 95,
+    "roi_affected_classes": {
+      "6": 16,
+      "7": 17,
+      "9": 62
+    },
+    "router_random_draw_count": 1922,
+    "ops": {
+      "local_contrast": {
+        "seen": 1952,
+        "applied": 80,
+        "skipped_probability": 1842,
+        "skipped_roi_unavailable": 30
+      }
+    },
+    "invalid_bbox_count": 0,
+    "bbox_oob_count": 0,
+    "class_id_oob_count": 0
+  },
+  "metrics": {
+    "precision": 0.7532541449750461,
+    "recall": 0.694234807840439,
+    "map50": 0.772717847114744,
+    "map50_95": 0.515138029007079
+  },
+  "baselines": {
+    "clean_seed2": {
+      "precision": 0.6962,
+      "recall": 0.7286,
+      "map50": 0.7692,
+      "map50_95": 0.5224
+    },
+    "fixed_catf_v2_seed2": {
+      "precision": 0.7637,
+      "recall": 0.6863,
+      "map50": 0.7582,
+      "map50_95": 0.4967
+    },
+    "weak_only_seed2": {
+      "precision": 0.7533,
+      "recall": 0.6942,
+      "map50": 0.7727,
+      "map50_95": 0.5151
+    }
+  },
+  "delta_vs_clean_seed2": {
+    "precision": 0.05705414497504602,
+    "recall": -0.03436519215956102,
+    "map50": 0.0035178471147440105,
+    "map50_95": -0.00726197099292103
+  },
+  "delta_vs_fixed_catf_v2_seed2": {
+    "precision": -0.010445855024953987,
+    "recall": 0.007934807840438984,
+    "map50": 0.01451784711474402,
+    "map50_95": 0.01843802900707897
+  },
+  "delta_vs_weak_only_seed2": {
+    "precision": -0.00004585502495391136,
+    "recall": 0.00003480784043896623,
+    "map50": 0.000017847114743951842,
+    "map50_95": 0.00003802900707894352
+  },
+  "constraint_failed": false,
+  "recall_warning": true,
+  "class9_delta_vs_fixed": {
+    "precision": 0.0020758176609239065,
+    "recall": 0.10861031516086472,
+    "ap50": 0.03422316538111958,
+    "ap50_95": 0.009863670844973582
+  },
+  "non_active_delta_vs_fixed_excluding_6_7_9": {
+    "mean_ap50": 0.00976113309157155,
+    "mean_ap50_95": 0.018671372523013974
+  },
+  "stale_policy_accumulation_avoided": true,
+  "seed_level_union_avoided": true,
+  "high_critical_risk_noop": true,
+  "recommend_seed1_sanity": true,
+  "ready_for_three_seed_summary_after_seed1": true
+}

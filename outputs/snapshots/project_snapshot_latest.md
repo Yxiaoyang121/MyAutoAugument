@@ -249,3 +249,15 @@
 
 - This snapshot reflects the current local repository state.
 - It does not invent benchmark results.
+
+## Latest Experiment State
+
+- Seed0 preserve-weak image CATF sanity has passed after execution and volume parity fixes.
+- Seed2 preserve-weak image CATF completed at `outputs/experiments/catf_v2_image_only_preserve_weak_seed2/`.
+- Seed2 decisions: preserve_original=`0`, weak_roi_texture=`5`, strict_noop=`4`.
+- Seed2 execution: industrial images augmented=`80`, ROI applied=`95`, sampler_only=`false`, weighted index list=`false`, sampled distribution changed=`false`.
+- Seed2 metrics: P/R/mAP50/mAP50-95=`0.753254/0.694235/0.772718/0.515138`, `constraint_failed=false`.
+- Delta vs clean seed2: `+0.057054/-0.034365/+0.003518/-0.007262`.
+- Delta vs fixed CATF-v2 seed2: `-0.010446/+0.007935/+0.014518/+0.018438`.
+- Current image-only mainline status: seed0 and seed2 are validated; seed1 sanity is the next run before a final 3-seed summary.
+- Sampler_only remains demoted to engineering exploration/ablation and is not part of the main method.

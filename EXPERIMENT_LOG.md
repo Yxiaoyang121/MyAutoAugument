@@ -3089,3 +3089,55 @@ Key conclusions from that archived smoke:
   - seed0 sanity failed;
   - do not run seed2 or seed1 until preserve_original execution is fixed and seed0 passes.
 <!-- PRESERVE_WEAK_SEED0_SANITY_END -->
+
+<!-- PRESERVE_WEAK_SEED2_VALIDATION_START -->
+## Seed2 Preserve-Weak Image CATF Validation
+
+- Date: `2026-06-18`.
+- Command intent:
+  - seed2 only;
+  - image-only CATF;
+  - preserve-safe-original + weak-only-for-moderate-risk + strict no-op;
+  - attenuation_ratio=`0.25`;
+  - sampler_only disabled.
+- Run root:
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_seed2/`
+- Output reports:
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_seed2/reports/seed2_preserve_weak_report.md`
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_seed2/reports/seed2_preserve_weak_report.json`
+- Schedule:
+  - preserve_original=`0`;
+  - weak_roi_texture=`5`;
+  - strict_noop=`4`;
+  - strict no-op epochs `5/10/15/40`;
+  - weak epochs/classes `20:c7`, `25:c9`, `30:c6`, `35:c9`, `45:c9`.
+- Augmentation:
+  - weak image augmentation executed=`true`;
+  - selected op=`local_contrast`;
+  - final weak prob/strength=`0.045/0.05`;
+  - industrial images augmented=`80`;
+  - ROI applied=`95`;
+  - router random draw count=`1922`;
+  - bbox/class valid=`true`.
+- Sampling and leakage:
+  - sampler_only_enabled=`false`;
+  - weighted_index_list_enabled=`false`;
+  - sampled_distribution_changed=`false`;
+  - final_val_used_for_policy_selection=`false`.
+- Metrics:
+  - P=`0.753254`;
+  - R=`0.694235`;
+  - mAP50=`0.772718`;
+  - mAP50-95=`0.515138`.
+- Deltas:
+  - vs clean seed2: `+0.057054/-0.034365/+0.003518/-0.007262`;
+  - vs fixed CATF-v2 seed2: `-0.010446/+0.007935/+0.014518/+0.018438`;
+  - vs weak-only seed2: approximately unchanged.
+- Constraint:
+  - `constraint_failed=false`;
+  - `recall_warning=true`.
+- Interpretation:
+  - seed2 fixed CATF-v2 failure is repaired by image augmentation risk control, not by sampling;
+  - seed0 already validates the preserve_original side of the policy;
+  - next recommended run is seed1 sanity only.
+<!-- PRESERVE_WEAK_SEED2_VALIDATION_END -->

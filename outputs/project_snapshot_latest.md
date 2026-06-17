@@ -1,25 +1,30 @@
 # Project Snapshot
 
-- Generated: 2026-06-17T16:42:52
+- Generated: 2026-06-17T17:40:00
 - Branch: codex/sync-latest
-- Commit: a18a9e2aec9adedf6b59f6bfd56c6ed5cd85a365
+- Commit: pending current preserve volume parity fix
 - Remote: https://github.com/Yxiaoyang121/MyAutoAugument.git
 
 ## Current Status
 
 - Mainline remains image-only CATF; sampler_only is not part of the paper main method.
-- Seed0 preserve-weak sanity was rerun after the preserve_original execution parity fix.
-- Completed 50ep=true; preserve_original=9, weak=0, noop=0.
-- Expected/runtime/router/executable class union all contain `[4, 11, 12]`; weak class9 replacement=false.
-- sampler_only=false; weighted_index_list=false; sampled_distribution_changed=false.
-- Metrics: P=0.700514, R=0.623545, mAP50=0.712481, mAP50-95=0.456610.
-- Constraint failed vs requested clean seed0: dP=-0.084086, dM50=-0.022219, dM95=-0.019290.
-- Fixed CATF-v2 seed0 reference augmented 41 industrial / 45 ROI; rerun augmented 155 industrial / 187 ROI.
-- Interpretation: class4/class12 missing bug is fixed, but preserve now over-applies replayed fixed classes. Remaining issue is policy lifetime / augmentation-volume parity, not sampler_only and not weak class9 replacement.
-- Do not proceed to seed2 yet; first audit fixed-vs-preserve policy lifetime and application-volume parity.
+- Preserve-original execution class parity was fixed earlier, but the seed0 rerun still failed due augmentation volume/lifetime mismatch.
+- This round did not train. It audited and fixed preserve-original volume parity.
+- Root cause: the preserve schedule used cumulative replay active classes and treated fixed guarded/frozen rows with old nonzero ops as executable.
+- Fixed CATF-v2 seed0 router-executable policy exists only at epoch5 `[4, 11]` and epoch15 `[12]`; old preserve kept class4 active for 9 feedback epochs and class12 for 7.
+- Volume before fix: fixed `41 industrial / 45 ROI`, old preserve `155 industrial / 187 ROI`.
+- Class-level overactivation: class4 ROI ratio `7.33x`, class12 ROI ratio `7.07x`; op prob/strength were not numerically amplified.
+- Fix: schedule generation now emits epoch-exact fixed router-executable fields, and runtime preserve prefers `epoch_exact_fixed_*` while explicit empty epochs clear stale ops without fallback.
+- Dry-run after fix: preserve expected volume `41 industrial / 45 ROI`; volume ratio `1.0 / 1.0`; stale accumulation after fix=false.
+- sampler_only=false; weighted_index_list=false; sampled_distribution_changed remains outside this dry-run.
+- Recommendation: rerun seed0 preserve-weak sanity before seed2.
 - Reports:
   - `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity_rerun/reports/seed0_preserve_weak_sanity_rerun_report.md`
   - `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity_rerun/reports/seed0_preserve_weak_sanity_rerun_report.json`
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity_rerun/reports/preserve_volume_lifetime_audit.md`
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity_rerun/reports/preserve_volume_parity_dryrun.md`
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity_rerun/fixed_vs_preserve_volume_parity_epoch.csv`
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity_rerun/fixed_vs_preserve_volume_parity_by_class.csv`
 
 ## Working Tree
 
@@ -27,7 +32,11 @@
  M CODEX_HANDOFF.md
  M EXPERIMENT_LOG.md
  M PROJECT_STATE.md
-?? outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity_rerun/
+ M scripts/build_preserve_weak_decision_schedule.py
+ M scripts/train_yolo_default_with_inloop_feedback.py
+ A scripts/audit_preserve_volume_lifetime.py
+ A tests/test_catf_v2_preserve_volume_parity.py
+ M outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity_rerun/
 ```
 
 ## Key Files

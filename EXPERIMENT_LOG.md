@@ -118,6 +118,72 @@ Metrics:
 Delta:
 
 - vs clean seed0: dP=-0.084086, dR=-0.052955, dM50=-0.022219, dM95=-0.019290.
+
+### Preserve-Original Volume / Lifetime Parity Audit And Fix
+
+Scope:
+
+- No training was run.
+- Did not run seed0 50ep, seed1, seed2, or multiseed.
+- Did not use sampler_only, weighted index lists, or any sampling intervention.
+- Did not modify data split, attenuation ratio, causal score, or gate thresholds.
+
+Problem:
+
+- The seed0 preserve-weak rerun fixed class4/class12 visibility but still failed.
+- Fixed CATF-v2 seed0 volume was 41 industrial images augmented / 45 ROI applied.
+- Preserve rerun seed0 volume was 155 industrial images augmented / 187 ROI applied.
+- Preserve therefore over-applied image augmentation even though preserve/weak/noop remained `9 / 0 / 0`.
+
+Root cause:
+
+- Preserve schedule generation used cumulative replay active classes rather than epoch-exact fixed CATF-v2 router-executable policies.
+- Fixed CATF-v2 retained nonzero old ops in guarded/frozen class policies, but those policies were not router-executable.
+- Preserve cleared guards and installed those historical rows as active:
+  - class4 became active for 9 feedback epochs instead of 1;
+  - class12 became active for 7 feedback epochs instead of 1.
+- Op probability and strength were not numerically amplified; policy lifetime and router eligibility were amplified.
+
+Fix:
+
+- `scripts/build_preserve_weak_decision_schedule.py` now supports fixed `policy_history.json` input and emits epoch-exact fixed executable fields.
+- Guarded/frozen fixed rows are excluded from preserve executable policy.
+- `apply_preserve_original_policy()` prefers `epoch_exact_fixed_active_class`, `epoch_exact_fixed_op_list`, and `epoch_exact_fixed_prob_strength`.
+- Explicit empty epoch-exact policies now clear stale active ops and do not fall back to replay class union or `probe_set.class_id`.
+
+Outputs:
+
+- `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity_rerun/fixed_vs_preserve_volume_parity_epoch.csv`
+- `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity_rerun/fixed_vs_preserve_volume_parity_by_class.csv`
+- `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity_rerun/reports/preserve_volume_lifetime_audit.md`
+- `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity_rerun/reports/preserve_volume_lifetime_audit.json`
+- `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity_rerun/reports/preserve_volume_parity_dryrun.md`
+- `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity_rerun/reports/preserve_volume_parity_dryrun.json`
+
+Dry-run:
+
+| item | value |
+|---|---|
+| epoch5 executable | `[4, 11]` |
+| epoch15 executable | `[12]` |
+| other feedback epochs executable | `[]` |
+| fixed expected industrial / ROI | `41 / 45` |
+| preserve expected industrial / ROI after fix | `41 / 45` |
+| old industrial / ROI volume ratio | `3.780488 / 4.155556` |
+| post-fix industrial / ROI volume ratio | `1.0 / 1.0` |
+| stale policy accumulation after fix | false |
+| sampler_only | false |
+| weighted_index_list | false |
+
+Verification:
+
+- Added `tests/test_catf_v2_preserve_volume_parity.py`.
+- Targeted test for preserve volume parity passed.
+
+Next:
+
+- Rerun seed0 preserve-weak sanity before seed2.
+- Mainline remains image-only CATF; sampler_only remains excluded from the main method.
 - vs fixed CATF-v2 seed0: dP=-0.077986, dR=-0.046155, dM50=-0.031219, dM95=-0.032890.
 - vs pre-fix preserve seed0: dP=+0.033930, dR=-0.106474, dM50=+0.012547, dM95=-0.010134.
 

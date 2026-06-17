@@ -1,0 +1,4 @@
+class_id,fixed_industrial_augmented,preserve_industrial_augmented,fixed_roi_applied,preserve_roi_applied,fixed_active_epoch_count,preserve_active_epoch_count,fixed_router_eligible_count,preserve_router_eligible_count,fixed_mean_prob,preserve_mean_prob,fixed_mean_strength,preserve_mean_strength,volume_ratio,suspected_overactivation
+4,not_recorded_by_class,not_recorded_by_class,9,66,1,9,not_recorded_by_class,not_recorded_by_class,0.005,0.005,0.01,0.01,7.333333,True
+11,not_recorded_by_class,not_recorded_by_class,22,22,1,1,not_recorded_by_class,not_recorded_by_class,0.015,0.015,0.02,0.02,1.0,False
+12,not_recorded_by_class,not_recorded_by_class,14,99,1,7,not_recorded_by_class,not_recorded_by_class,0.015,0.015,0.02,0.02,7.071429,True

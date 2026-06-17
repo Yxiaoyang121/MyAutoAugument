@@ -78,6 +78,42 @@ The project is a diagnosis-driven augmentation pipeline for industrial defect de
   - this is a remaining policy lifetime / augmentation-volume parity issue, not sampler_only and not weak class9 replacement;
   - do not run seed2 yet. First audit fixed-vs-preserve policy lifetime and applied augmentation volume.
 
+## Latest Preserve-Original Volume / Lifetime Parity Fix
+
+- Date: `2026-06-17`.
+- Scope: audit, dry-run, code/test fix, and report generation only. No training was run.
+- User constraint remains active: do not run seed0/seed1/seed2 or multiseed unless explicitly requested; do not use sampler_only, weighted index lists, sampling changes, data split changes, gate changes, causal-score changes, or attenuation-ratio changes.
+- Root cause:
+  - preserve schedule generation used cumulative replay active classes after epoch15;
+  - fixed CATF-v2 kept nonzero old ops in guarded/frozen policies, but those policies were not router-executable;
+  - preserve_original cleared guards and installed those historical rows as active, extending class4 to 9 feedback epochs and class12 to 7 feedback epochs.
+- Before fix:
+  - fixed seed0 volume: industrial=41, ROI=45;
+  - preserve rerun volume: industrial=155, ROI=187;
+  - class4 ROI ratio=7.33x and class12 ROI ratio=7.07x;
+  - op prob/strength were not numerically amplified; policy lifetime and router eligibility were amplified.
+- Fix:
+  - `scripts/build_preserve_weak_decision_schedule.py` loads fixed `policy_history.json` and emits epoch-exact fixed executable fields;
+  - guarded/frozen fixed rows are excluded from preserve executable policy;
+  - `apply_preserve_original_policy()` prefers `epoch_exact_fixed_*` fields and treats explicit empty epochs as no active policy;
+  - stale active ops are cleared every feedback update.
+- Dry-run after fix:
+  - epoch5 executable `[4, 11]`;
+  - epoch15 executable `[12]`;
+  - epochs10/20/25/30/35/40/45 executable `[]`;
+  - fixed expected volume=41 industrial / 45 ROI;
+  - preserve expected volume after fix=41 industrial / 45 ROI;
+  - post-fix dry-run volume ratios=1.0/1.0;
+  - sampler_only=false; weighted_index_list=false.
+- New/updated files:
+  - `scripts/audit_preserve_volume_lifetime.py`
+  - `tests/test_catf_v2_preserve_volume_parity.py`
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity_rerun/reports/preserve_volume_lifetime_audit.md`
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity_rerun/reports/preserve_volume_parity_dryrun.md`
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity_rerun/fixed_vs_preserve_volume_parity_epoch.csv`
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity_rerun/fixed_vs_preserve_volume_parity_by_class.csv`
+- Next recommended action: rerun seed0 preserve-weak sanity. Do not run seed2 until seed0 confirms both execution and volume/lifetime parity.
+
 ## Current Mainline: Image Augmentation CATF
 
 - Date: `2026-06-13`.

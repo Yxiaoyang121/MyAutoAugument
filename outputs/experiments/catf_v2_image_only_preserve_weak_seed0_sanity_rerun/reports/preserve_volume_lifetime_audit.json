@@ -1,0 +1,90 @@
+{
+  "summary": {
+    "root_cause": "preserve_original schedule used cumulative replay active classes after epoch 15 instead of epoch-exact fixed router-executable policy rows.",
+    "seed_level_union_present": true,
+    "stale_policy_accumulation_present": true,
+    "policy_lifetime_too_long": true,
+    "router_eligible_amplified": true,
+    "op_prob_strength_amplified": false,
+    "sampler_only_involved": false,
+    "fixed_industrial": 41,
+    "preserve_industrial_before_fix": 155,
+    "fixed_roi": 45,
+    "preserve_roi_before_fix": 187,
+    "preserve_industrial_expected_after_fix": 41,
+    "preserve_roi_expected_after_fix": 45,
+    "dryrun_volume_close_to_fixed": true,
+    "recommend_rerun_seed0_sanity": true
+  },
+  "fixed_active_epochs": {
+    "4": {
+      "epochs": [
+        5
+      ],
+      "start": 5,
+      "end": 5,
+      "active_epoch_count": 1
+    },
+    "11": {
+      "epochs": [
+        5
+      ],
+      "start": 5,
+      "end": 5,
+      "active_epoch_count": 1
+    },
+    "12": {
+      "epochs": [
+        15
+      ],
+      "start": 15,
+      "end": 15,
+      "active_epoch_count": 1
+    }
+  },
+  "preserve_active_epochs_before_fix": {
+    "4": {
+      "epochs": [
+        5,
+        10,
+        15,
+        20,
+        25,
+        30,
+        35,
+        40,
+        45
+      ],
+      "start": 5,
+      "end": 45,
+      "active_epoch_count": 9
+    },
+    "11": {
+      "epochs": [
+        5
+      ],
+      "start": 5,
+      "end": 5,
+      "active_epoch_count": 1
+    },
+    "12": {
+      "epochs": [
+        15,
+        20,
+        25,
+        30,
+        35,
+        40,
+        45
+      ],
+      "start": 15,
+      "end": 45,
+      "active_epoch_count": 7
+    }
+  },
+  "epoch_csv": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\catf_v2_image_only_preserve_weak_seed0_sanity_rerun\\fixed_vs_preserve_volume_parity_epoch.csv",
+  "class_csv": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\catf_v2_image_only_preserve_weak_seed0_sanity_rerun\\fixed_vs_preserve_volume_parity_by_class.csv",
+  "dryrun_report": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\catf_v2_image_only_preserve_weak_seed0_sanity_rerun\\reports\\preserve_volume_parity_dryrun.md",
+  "corrected_schedule_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\catf_v2_image_only_preserve_weak_seed0_sanity_rerun\\configs\\preserve_weak_offline_decisions_seed0.json",
+  "backup_stale_schedule_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\catf_v2_image_only_preserve_weak_seed0_sanity_rerun\\configs\\preserve_weak_offline_decisions_seed0_stale_union_before_volume_fix.json"
+}

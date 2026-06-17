@@ -67,6 +67,41 @@ The repository is centered on diagnosis-driven augmentation for industrial defec
   - this is no longer weak class9 replacement and not sampler_only, but a remaining preserve policy lifetime / application-volume parity mismatch;
   - do not run seed2 yet. Next step should audit fixed-vs-preserve policy lifetime and applied augmentation volume.
 
+## Preserve-Original Volume / Lifetime Parity Fix (2026-06-17)
+
+- Scope: audit, dry-run, code/test fix, and report generation only. No seed0/seed1/seed2 50ep training, multiseed run, sampler_only run, weighted sampling, data split change, gate change, causal-score change, or attenuation-ratio change was performed.
+- Root cause:
+  - the preserve schedule used cumulative replay active classes after epoch15 instead of epoch-exact fixed CATF-v2 router-executable policy rows;
+  - fixed CATF-v2 retained some nonzero old ops in guarded/frozen class policies, but those rows were not router-executable;
+  - preserve cleared guards and treated those historical rows as active, so class4 stayed active for 9 feedback epochs and class12 for 7 feedback epochs.
+- Volume mismatch before fix:
+  - fixed seed0: industrial=41, ROI=45;
+  - preserve rerun seed0: industrial=155, ROI=187;
+  - class4 ROI ratio=66/9=7.33x;
+  - class12 ROI ratio=99/14=7.07x;
+  - op probabilities and strengths were not numerically amplified; the policy lifetime/router eligibility was too long.
+- Fix:
+  - `scripts/build_preserve_weak_decision_schedule.py` now loads fixed CATF-v2 `policy_history.json` and emits `epoch_exact_fixed_active_class`, `epoch_exact_fixed_op_list`, and `epoch_exact_fixed_prob_strength`;
+  - only router-executable fixed rows are preserved; guarded/frozen rows are not treated as active policy;
+  - `apply_preserve_original_policy()` now prefers explicit epoch-exact fields and treats an explicit empty epoch as no active policy instead of falling back to replay class union or `probe_set.class_id`;
+  - each feedback update clears stale ops before installing only that epoch's fixed executable policy.
+- Dry-run after fix:
+  - epoch5 executable classes=`[4, 11]`;
+  - epoch15 executable classes=`[12]`;
+  - epochs10/20/25/30/35/40/45 executable classes=`[]`;
+  - expected/runtime policy_matrix/sample_router/final executable paths are epoch-exact;
+  - fixed expected volume=41 industrial / 45 ROI;
+  - preserve expected volume after fix=41 industrial / 45 ROI;
+  - old volume ratios were industrial=3.780488 and ROI=4.155556; post-fix dry-run ratios are 1.0/1.0.
+- Reports:
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity_rerun/reports/preserve_volume_lifetime_audit.md`
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity_rerun/reports/preserve_volume_lifetime_audit.json`
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity_rerun/reports/preserve_volume_parity_dryrun.md`
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity_rerun/reports/preserve_volume_parity_dryrun.json`
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity_rerun/fixed_vs_preserve_volume_parity_epoch.csv`
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity_rerun/fixed_vs_preserve_volume_parity_by_class.csv`
+- Next step: rerun seed0 preserve-weak sanity before seed2. The mainline remains image-only CATF; sampler_only remains outside the main method.
+
 ## Current Mainline: Image Augmentation CATF (2026-06-13)
 
 - The paper mainline is restored to image augmentation based CATF.

@@ -1,10 +1,8 @@
 {
-  "schema_version": 2,
+  "schema_version": 1,
   "decision_schedule_type": "image_only_preserve_weak",
   "seed": 0,
   "source_replay": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\catf_v2_image_only_preserve_weak_replay\\preserve_weak_decision_records.csv",
-  "fixed_policy_history": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\multiseed_clean_yolo_default_vs_catf_v2_fixed\\seed_0\\catf_v2\\reports\\policy_history.json",
-  "epoch_exact_preserve_original": true,
   "preserve_original_enabled": true,
   "weak_only_for_moderate_risk": true,
   "sampler_only_involved": false,
@@ -80,12 +78,7 @@
           "strict_noop": false,
           "preserve_original": true
         }
-      },
-      "epoch_exact_fixed_active_class": "4;11",
-      "epoch_exact_fixed_op_list": "c4:low_recall:local_contrast@p=0.005/s=0.01,sharpen_mild@p=0.005/s=0.01; c11:texture_boundary_weak:local_contrast@p=0.015/s=0.02,sharpen_mild@p=0.015/s=0.02",
-      "epoch_exact_fixed_prob_strength": "c4:local_contrast:0.005/0.01; c4:sharpen_mild:0.005/0.01; c11:local_contrast:0.015/0.02; c11:sharpen_mild:0.015/0.02",
-      "epoch_exact_fixed_policy_empty": false,
-      "epoch_exact_fixed_policy_source": "fixed_catf_v2_policy_history"
+      }
     },
     "10": {
       "epoch": 10,
@@ -132,8 +125,10 @@
           "preserve_original": true
         },
         "probe_set": {
-          "class_id": -1,
-          "active_classes": [],
+          "class_id": 4,
+          "active_classes": [
+            4
+          ],
           "candidate_policy_id": "candidate_policy_preserve_original",
           "mode": "image_only_preserve_weak_replay",
           "development_probe_uses_existing_val_diagnostics": false
@@ -150,12 +145,7 @@
           "strict_noop": false,
           "preserve_original": true
         }
-      },
-      "epoch_exact_fixed_active_class": "",
-      "epoch_exact_fixed_op_list": "",
-      "epoch_exact_fixed_prob_strength": "",
-      "epoch_exact_fixed_policy_empty": true,
-      "epoch_exact_fixed_policy_source": "fixed_catf_v2_policy_history"
+      }
     },
     "15": {
       "epoch": 15,
@@ -202,8 +192,9 @@
           "preserve_original": true
         },
         "probe_set": {
-          "class_id": 12,
+          "class_id": 4,
           "active_classes": [
+            4,
             12
           ],
           "candidate_policy_id": "candidate_policy_preserve_original",
@@ -222,12 +213,7 @@
           "strict_noop": false,
           "preserve_original": true
         }
-      },
-      "epoch_exact_fixed_active_class": "12",
-      "epoch_exact_fixed_op_list": "c12:weak_localization:local_contrast@p=0.015/s=0.02,sharpen_mild@p=0.015/s=0.02",
-      "epoch_exact_fixed_prob_strength": "c12:local_contrast:0.015/0.02; c12:sharpen_mild:0.015/0.02",
-      "epoch_exact_fixed_policy_empty": false,
-      "epoch_exact_fixed_policy_source": "fixed_catf_v2_policy_history"
+      }
     },
     "20": {
       "epoch": 20,
@@ -274,8 +260,11 @@
           "preserve_original": true
         },
         "probe_set": {
-          "class_id": -1,
-          "active_classes": [],
+          "class_id": 4,
+          "active_classes": [
+            4,
+            12
+          ],
           "candidate_policy_id": "candidate_policy_preserve_original",
           "mode": "image_only_preserve_weak_replay",
           "development_probe_uses_existing_val_diagnostics": false
@@ -292,12 +281,7 @@
           "strict_noop": false,
           "preserve_original": true
         }
-      },
-      "epoch_exact_fixed_active_class": "",
-      "epoch_exact_fixed_op_list": "",
-      "epoch_exact_fixed_prob_strength": "",
-      "epoch_exact_fixed_policy_empty": true,
-      "epoch_exact_fixed_policy_source": "fixed_catf_v2_policy_history"
+      }
     },
     "25": {
       "epoch": 25,
@@ -344,8 +328,11 @@
           "preserve_original": true
         },
         "probe_set": {
-          "class_id": -1,
-          "active_classes": [],
+          "class_id": 4,
+          "active_classes": [
+            4,
+            12
+          ],
           "candidate_policy_id": "candidate_policy_preserve_original",
           "mode": "image_only_preserve_weak_replay",
           "development_probe_uses_existing_val_diagnostics": false
@@ -362,12 +349,7 @@
           "strict_noop": false,
           "preserve_original": true
         }
-      },
-      "epoch_exact_fixed_active_class": "",
-      "epoch_exact_fixed_op_list": "",
-      "epoch_exact_fixed_prob_strength": "",
-      "epoch_exact_fixed_policy_empty": true,
-      "epoch_exact_fixed_policy_source": "fixed_catf_v2_policy_history"
+      }
     },
     "30": {
       "epoch": 30,
@@ -414,8 +396,11 @@
           "preserve_original": true
         },
         "probe_set": {
-          "class_id": -1,
-          "active_classes": [],
+          "class_id": 4,
+          "active_classes": [
+            4,
+            12
+          ],
           "candidate_policy_id": "candidate_policy_preserve_original",
           "mode": "image_only_preserve_weak_replay",
           "development_probe_uses_existing_val_diagnostics": false
@@ -432,12 +417,7 @@
           "strict_noop": false,
           "preserve_original": true
         }
-      },
-      "epoch_exact_fixed_active_class": "",
-      "epoch_exact_fixed_op_list": "",
-      "epoch_exact_fixed_prob_strength": "",
-      "epoch_exact_fixed_policy_empty": true,
-      "epoch_exact_fixed_policy_source": "fixed_catf_v2_policy_history"
+      }
     },
     "35": {
       "epoch": 35,
@@ -484,8 +464,11 @@
           "preserve_original": true
         },
         "probe_set": {
-          "class_id": -1,
-          "active_classes": [],
+          "class_id": 4,
+          "active_classes": [
+            4,
+            12
+          ],
           "candidate_policy_id": "candidate_policy_preserve_original",
           "mode": "image_only_preserve_weak_replay",
           "development_probe_uses_existing_val_diagnostics": false
@@ -502,12 +485,7 @@
           "strict_noop": false,
           "preserve_original": true
         }
-      },
-      "epoch_exact_fixed_active_class": "",
-      "epoch_exact_fixed_op_list": "",
-      "epoch_exact_fixed_prob_strength": "",
-      "epoch_exact_fixed_policy_empty": true,
-      "epoch_exact_fixed_policy_source": "fixed_catf_v2_policy_history"
+      }
     },
     "40": {
       "epoch": 40,
@@ -554,8 +532,11 @@
           "preserve_original": true
         },
         "probe_set": {
-          "class_id": -1,
-          "active_classes": [],
+          "class_id": 4,
+          "active_classes": [
+            4,
+            12
+          ],
           "candidate_policy_id": "candidate_policy_preserve_original",
           "mode": "image_only_preserve_weak_replay",
           "development_probe_uses_existing_val_diagnostics": false
@@ -572,12 +553,7 @@
           "strict_noop": false,
           "preserve_original": true
         }
-      },
-      "epoch_exact_fixed_active_class": "",
-      "epoch_exact_fixed_op_list": "",
-      "epoch_exact_fixed_prob_strength": "",
-      "epoch_exact_fixed_policy_empty": true,
-      "epoch_exact_fixed_policy_source": "fixed_catf_v2_policy_history"
+      }
     },
     "45": {
       "epoch": 45,
@@ -624,8 +600,11 @@
           "preserve_original": true
         },
         "probe_set": {
-          "class_id": -1,
-          "active_classes": [],
+          "class_id": 4,
+          "active_classes": [
+            4,
+            12
+          ],
           "candidate_policy_id": "candidate_policy_preserve_original",
           "mode": "image_only_preserve_weak_replay",
           "development_probe_uses_existing_val_diagnostics": false
@@ -642,12 +621,7 @@
           "strict_noop": false,
           "preserve_original": true
         }
-      },
-      "epoch_exact_fixed_active_class": "",
-      "epoch_exact_fixed_op_list": "",
-      "epoch_exact_fixed_prob_strength": "",
-      "epoch_exact_fixed_policy_empty": true,
-      "epoch_exact_fixed_policy_source": "fixed_catf_v2_policy_history"
+      }
     }
   },
   "summary": {
@@ -666,7 +640,6 @@
     "weak_roi_texture_count": 0,
     "strict_noop_count": 0,
     "sampler_only_involved": false,
-    "final_val_leakage": false,
-    "epoch_exact_preserve_original": true
+    "final_val_leakage": false
   }
 }

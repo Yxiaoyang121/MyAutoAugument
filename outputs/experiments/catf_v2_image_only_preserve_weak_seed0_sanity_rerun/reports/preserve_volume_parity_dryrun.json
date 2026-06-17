@@ -1,0 +1,169 @@
+{
+  "epoch_rows": [
+    {
+      "epoch": 5,
+      "expected_active_classes": [
+        4,
+        11
+      ],
+      "runtime_policy_matrix_classes": [
+        4,
+        11
+      ],
+      "sample_router_eligible_classes": [
+        4,
+        11
+      ],
+      "final_executable_classes": [
+        4,
+        11
+      ],
+      "sample_router_allowed": true,
+      "preserve_epoch_exact": true,
+      "policy_empty_for_epoch": false,
+      "sampler_only": false,
+      "weighted_index_list": false
+    },
+    {
+      "epoch": 10,
+      "expected_active_classes": [],
+      "runtime_policy_matrix_classes": [],
+      "sample_router_eligible_classes": [],
+      "final_executable_classes": [],
+      "sample_router_allowed": false,
+      "preserve_epoch_exact": true,
+      "policy_empty_for_epoch": true,
+      "sampler_only": false,
+      "weighted_index_list": false
+    },
+    {
+      "epoch": 15,
+      "expected_active_classes": [
+        12
+      ],
+      "runtime_policy_matrix_classes": [
+        12
+      ],
+      "sample_router_eligible_classes": [
+        12
+      ],
+      "final_executable_classes": [
+        12
+      ],
+      "sample_router_allowed": true,
+      "preserve_epoch_exact": true,
+      "policy_empty_for_epoch": false,
+      "sampler_only": false,
+      "weighted_index_list": false
+    },
+    {
+      "epoch": 20,
+      "expected_active_classes": [],
+      "runtime_policy_matrix_classes": [],
+      "sample_router_eligible_classes": [],
+      "final_executable_classes": [],
+      "sample_router_allowed": false,
+      "preserve_epoch_exact": true,
+      "policy_empty_for_epoch": true,
+      "sampler_only": false,
+      "weighted_index_list": false
+    },
+    {
+      "epoch": 25,
+      "expected_active_classes": [],
+      "runtime_policy_matrix_classes": [],
+      "sample_router_eligible_classes": [],
+      "final_executable_classes": [],
+      "sample_router_allowed": false,
+      "preserve_epoch_exact": true,
+      "policy_empty_for_epoch": true,
+      "sampler_only": false,
+      "weighted_index_list": false
+    },
+    {
+      "epoch": 30,
+      "expected_active_classes": [],
+      "runtime_policy_matrix_classes": [],
+      "sample_router_eligible_classes": [],
+      "final_executable_classes": [],
+      "sample_router_allowed": false,
+      "preserve_epoch_exact": true,
+      "policy_empty_for_epoch": true,
+      "sampler_only": false,
+      "weighted_index_list": false
+    },
+    {
+      "epoch": 35,
+      "expected_active_classes": [],
+      "runtime_policy_matrix_classes": [],
+      "sample_router_eligible_classes": [],
+      "final_executable_classes": [],
+      "sample_router_allowed": false,
+      "preserve_epoch_exact": true,
+      "policy_empty_for_epoch": true,
+      "sampler_only": false,
+      "weighted_index_list": false
+    },
+    {
+      "epoch": 40,
+      "expected_active_classes": [],
+      "runtime_policy_matrix_classes": [],
+      "sample_router_eligible_classes": [],
+      "final_executable_classes": [],
+      "sample_router_allowed": false,
+      "preserve_epoch_exact": true,
+      "policy_empty_for_epoch": true,
+      "sampler_only": false,
+      "weighted_index_list": false
+    },
+    {
+      "epoch": 45,
+      "expected_active_classes": [],
+      "runtime_policy_matrix_classes": [],
+      "sample_router_eligible_classes": [],
+      "final_executable_classes": [],
+      "sample_router_allowed": false,
+      "preserve_epoch_exact": true,
+      "policy_empty_for_epoch": true,
+      "sampler_only": false,
+      "weighted_index_list": false
+    }
+  ],
+  "expected_class_union": [
+    4,
+    11,
+    12
+  ],
+  "runtime_policy_matrix_union": [
+    4,
+    11,
+    12
+  ],
+  "sample_router_eligible_union": [
+    4,
+    11,
+    12
+  ],
+  "final_executable_union": [
+    4,
+    11,
+    12
+  ],
+  "stale_policy_accumulation_after_fix": false,
+  "fixed_total_industrial_expected": 41,
+  "preserve_total_industrial_expected": 41,
+  "fixed_total_roi_expected": 45,
+  "preserve_total_roi_expected": 45,
+  "old_preserve_total_industrial_actual": 155,
+  "old_preserve_total_roi_actual": 187,
+  "industrial_volume_ratio_after_fix": 1.0,
+  "roi_volume_ratio_after_fix": 1.0,
+  "old_industrial_volume_ratio": 3.780488,
+  "old_roi_volume_ratio": 4.155556,
+  "stale_policy_accumulation_before_fix": true,
+  "epoch_exact_preserve_after_fix": true,
+  "sampler_only_involved": false,
+  "weighted_index_list_involved": false,
+  "corrected_schedule_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\catf_v2_image_only_preserve_weak_seed0_sanity_rerun\\configs\\preserve_weak_offline_decisions_seed0.json",
+  "backup_stale_schedule_path": "E:\\TJGY\\MinPaper\\MyAutoAugument\\outputs\\experiments\\catf_v2_image_only_preserve_weak_seed0_sanity_rerun\\configs\\preserve_weak_offline_decisions_seed0_stale_union_before_volume_fix.json"
+}

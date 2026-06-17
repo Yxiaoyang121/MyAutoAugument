@@ -1541,8 +1541,12 @@ def apply_offline_probe_decision_to_policy(
         event["preserve_missing_classes"] = preserve_meta.get("missing_classes", [])
         event["preserve_no_aug_blocked_classes"] = preserve_meta.get("no_aug_blocked_classes", [])
         event["preserve_source"] = preserve_meta.get("source", "offline_replay_expected_fixed_policy")
+        event["preserve_epoch_exact"] = bool(preserve_meta.get("epoch_exact", False))
+        event["preserve_policy_empty_for_epoch"] = bool(preserve_meta.get("policy_empty_for_epoch", False))
         event["preserved_original_fixed_op_list"] = decision_payload.get("original_fixed_op_list")
         event["preserved_original_fixed_prob_strength"] = decision_payload.get("original_fixed_prob_strength")
+        event["preserved_epoch_exact_fixed_op_list"] = decision_payload.get("epoch_exact_fixed_op_list")
+        event["preserved_epoch_exact_fixed_prob_strength"] = decision_payload.get("epoch_exact_fixed_prob_strength")
         event["candidate_policy_injected"] = bool(preserve_meta.get("installed_ops", []))
         event["candidate_ops_injected"] = preserve_meta.get("installed_ops", [])
         return gated_policy, event
@@ -1629,6 +1633,7 @@ def apply_preserve_original_policy(
     """
 
     matrix = deepcopy(policy)
+    epoch_exact = preserve_payload_has_epoch_exact_policy(decision_payload)
     expected_classes = parse_preserve_expected_classes(decision_payload)
     specs = parse_preserve_policy_specs(decision_payload)
     expected_classes.update(specs.keys())
@@ -1705,7 +1710,9 @@ def apply_preserve_original_policy(
             installed_ops.append({"class_id": int(class_id), "op_name": str(op_name), "prob": prob, "strength": strength})
 
     metadata = {
-        "source": "offline_replay_expected_fixed_policy",
+        "source": "offline_replay_epoch_exact_fixed_policy" if epoch_exact else "offline_replay_expected_fixed_policy",
+        "epoch_exact": bool(epoch_exact),
+        "policy_empty_for_epoch": bool(epoch_exact and not expected_classes and not installed_ops),
         "expected_active_classes": sorted(int(cid) for cid in expected_classes),
         "installed_active_classes": active_class_ids(matrix),
         "installed_ops": installed_ops,
@@ -1717,6 +1724,10 @@ def apply_preserve_original_policy(
 
 
 def parse_preserve_expected_classes(decision_payload: dict[str, Any]) -> set[int]:
+    if preserve_payload_has_epoch_exact_policy(decision_payload):
+        return parse_class_id_list(
+            decision_payload.get("epoch_exact_fixed_active_class", decision_payload.get("fixed_epoch_active_class", ""))
+        )
     selected = decision_payload.get("selected_candidate") or {}
     probe_set = selected.get("probe_set") or {}
     out: set[int] = set()
@@ -1733,6 +1744,20 @@ def parse_preserve_expected_classes(decision_payload: dict[str, Any]) -> set[int
     if not out and class_id >= 0:
         out.add(class_id)
     return out
+
+
+def preserve_payload_has_epoch_exact_policy(decision_payload: dict[str, Any]) -> bool:
+    return any(
+        key in decision_payload
+        for key in (
+            "epoch_exact_fixed_active_class",
+            "epoch_exact_fixed_op_list",
+            "epoch_exact_fixed_prob_strength",
+            "fixed_epoch_active_class",
+            "fixed_epoch_op_list",
+            "fixed_epoch_prob_strength",
+        )
+    )
 
 
 def parse_class_id_list(value: Any) -> set[int]:
@@ -1752,7 +1777,18 @@ def parse_class_id_list(value: Any) -> set[int]:
 
 def parse_preserve_policy_specs(decision_payload: dict[str, Any]) -> dict[int, dict[str, Any]]:
     specs: dict[int, dict[str, Any]] = {}
-    op_list = str(decision_payload.get("original_fixed_op_list") or "")
+    if preserve_payload_has_epoch_exact_policy(decision_payload):
+        op_list = str(decision_payload.get("epoch_exact_fixed_op_list", decision_payload.get("fixed_epoch_op_list", "")) or "")
+        prob_strength = str(
+            decision_payload.get(
+                "epoch_exact_fixed_prob_strength",
+                decision_payload.get("fixed_epoch_prob_strength", ""),
+            )
+            or ""
+        )
+    else:
+        op_list = str(decision_payload.get("original_fixed_op_list") or "")
+        prob_strength = str(decision_payload.get("original_fixed_prob_strength") or "")
     for chunk in [item.strip() for item in op_list.split(";") if item.strip()]:
         match = PRESERVE_CLASS_OP_RE.match(chunk)
         if not match:
@@ -1769,7 +1805,6 @@ def parse_preserve_policy_specs(decision_payload: dict[str, Any]) -> dict[int, d
                 "strength": float(op_match.group("strength")),
             }
 
-    prob_strength = str(decision_payload.get("original_fixed_prob_strength") or "")
     for chunk in [item.strip() for item in prob_strength.split(";") if item.strip()]:
         match = PRESERVE_PROB_STRENGTH_RE.match(chunk)
         if not match:

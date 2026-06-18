@@ -1,0 +1,69 @@
+{
+  "method": "image_only_preserve_safe_original_weak_only_for_moderate_risk_strict_noop",
+  "inputs": {
+    "seed0": "outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity_volume_fixed/",
+    "seed1": "outputs/experiments/catf_v2_image_only_preserve_weak_seed1_sanity/",
+    "seed2": "outputs/experiments/catf_v2_image_only_preserve_weak_seed2/"
+  },
+  "seeds": {
+    "0": {
+      "clean": {"precision": 0.7846, "recall": 0.6765, "map50": 0.7347, "map50_95": 0.4759},
+      "fixed_catf_v2": {"precision": 0.7785, "recall": 0.6697, "map50": 0.7437, "map50_95": 0.4895, "constraint_failed": false},
+      "preserve_weak": {"precision": 0.778506, "recall": 0.669654, "map50": 0.743657, "map50_95": 0.489541, "constraint_failed": false, "recall_warning": false, "roi_applied": 45, "industrial_images_augmented": 41, "decision_counts": {"preserve_original": 9, "weak_roi_texture": 0, "strict_noop": 0}},
+      "delta_vs_clean": {"precision": -0.006093999999999933, "recall": -0.006846000000000019, "map50": 0.008956999999999993, "map50_95": 0.013641000000000014},
+      "delta_vs_fixed_catf_v2": {"precision": 0.000006000000000061512, "recall": -0.00004599999999999049, "map50": -0.00004300000000001525, "map50_95": 0.00004100000000001325}
+    },
+    "1": {
+      "clean": {"precision": 0.7725, "recall": 0.6477, "map50": 0.7542, "map50_95": 0.4799},
+      "fixed_catf_v2": {"precision": 0.7852, "recall": 0.7005, "map50": 0.7826, "map50_95": 0.5189, "constraint_failed": false},
+      "preserve_weak": {"precision": 0.7997483695409648, "recall": 0.697374912516787, "map50": 0.7787370033874912, "map50_95": 0.5169233445810486, "constraint_failed": false, "recall_warning": false, "roi_applied": 80, "industrial_images_augmented": 78, "decision_counts": {"preserve_original": 9, "weak_roi_texture": 0, "strict_noop": 0}},
+      "delta_vs_clean": {"precision": 0.02724836954096488, "recall": 0.04967491251678691, "map50": 0.024537003387491207, "map50_95": 0.03702334458104861},
+      "delta_vs_fixed_catf_v2": {"precision": 0.014548369540964834, "recall": -0.0031250874832130515, "map50": -0.0038629966125087734, "map50_95": -0.001976655418951423}
+    },
+    "2": {
+      "clean": {"precision": 0.6962, "recall": 0.7286, "map50": 0.7692, "map50_95": 0.5224},
+      "fixed_catf_v2": {"precision": 0.7637, "recall": 0.6863, "map50": 0.7582, "map50_95": 0.4967, "constraint_failed": true},
+      "preserve_weak": {"precision": 0.7532541449750461, "recall": 0.694234807840439, "map50": 0.772717847114744, "map50_95": 0.515138029007079, "constraint_failed": false, "recall_warning": true, "roi_applied": 95, "industrial_images_augmented": 80, "decision_counts": {"preserve_original": 0, "weak_roi_texture": 5, "strict_noop": 4}},
+      "delta_vs_clean": {"precision": 0.05705414497504602, "recall": -0.03436519215956102, "map50": 0.0035178471147440105, "map50_95": -0.00726197099292103},
+      "delta_vs_fixed_catf_v2": {"precision": -0.010445855024953987, "recall": 0.007934807840438984, "map50": 0.01451784711474402, "map50_95": 0.01843802900707897}
+    }
+  },
+  "pass_count": 3,
+  "seed_count": 3,
+  "all_constraints_passed": true,
+  "mean_preserve_weak": {
+    "precision": 0.7771695048386703,
+    "recall": 0.6870879067857419,
+    "map50": 0.7650372835007451,
+    "map50_95": 0.5072007911960426
+  },
+  "mean_delta_vs_clean": {
+    "precision": 0.02606950483867032,
+    "recall": 0.0028212401190752523,
+    "map50": 0.012337283500745144,
+    "map50_95": 0.014467457862709254
+  },
+  "mean_delta_vs_fixed_catf_v2": {
+    "precision": 0.0013695048386703768,
+    "recall": 0.0015879067857420548,
+    "map50": 0.0035372835007451142,
+    "map50_95": 0.00550079119604252
+  },
+  "total_industrial_images_augmented": 199,
+  "total_roi_applied": 220,
+  "sampler_only_involved": false,
+  "weighted_index_list_enabled": false,
+  "sampled_distribution_changed": false,
+  "seed0_reproduces_fixed_original_policy": true,
+  "seed1_preserves_fixed_original_policy": true,
+  "seed2_fixed_failure_repaired_by_weak_noop": true,
+  "image_only_main_method_candidate": true,
+  "limitations": [
+    "Seed2 Recall remains below clean by 0.034365, so a recall-side warning should be reported even though hard constraints pass.",
+    "Seed1 realized augmentation volume is higher than fixed seed1, but constraints pass and metrics remain close to fixed."
+  ],
+  "future_work": [
+    "Consider recall-aware image augmentation constraints.",
+    "Keep sampler_only out of the main method; use it only as ablation or engineering exploration."
+  ]
+}

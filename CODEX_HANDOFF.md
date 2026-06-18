@@ -1883,3 +1883,43 @@ No training was run after building or auditing these datasets.
   - do not revive sampler_only for the main method;
   - the next training step should be seed1 sanity only, then a 3-seed summary if seed1 passes.
 <!-- PRESERVE_WEAK_SEED2_VALIDATION_END -->
+
+<!-- PRESERVE_WEAK_3SEED_SUMMARY_START -->
+## Preserve-Weak Image CATF 3-Seed Handoff
+
+- Current task completed: ran seed1 sanity only and generated the 3-seed preserve-weak image-only summary.
+- No seed0/seed2 rerun and no multiseed training were performed.
+- No sampler_only, weighted index list, sampling change, data split change, gate change, attenuation-ratio change, or causal-score change was made.
+- Seed1 run root: `outputs/experiments/catf_v2_image_only_preserve_weak_seed1_sanity/`.
+- Seed1 reports:
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_seed1_sanity/reports/seed1_preserve_weak_sanity_report.md`
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_seed1_sanity/reports/seed1_preserve_weak_sanity_report.json`
+- 3-seed summary:
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_multiseed_summary/reports/preserve_weak_3seed_summary.md`
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_multiseed_summary/reports/preserve_weak_3seed_summary.json`
+- Seed1 result:
+  - preserve/weak/noop=`9/0/0`;
+  - industrial/ROI=`78/80`;
+  - sampler_only_enabled=`false`;
+  - weighted_index_list_enabled=`false`;
+  - sampled_distribution_changed=`false`;
+  - metrics P/R/mAP50/mAP50-95=`0.799748/0.697375/0.778737/0.516923`;
+  - delta vs clean seed1=`+0.027248/+0.049675/+0.024537/+0.037023`;
+  - delta vs fixed seed1=`+0.014548/-0.003125/-0.003863/-0.001977`;
+  - `constraint_failed=false`;
+  - `recall_warning=false`.
+- Volume note:
+  - seed1 used fixed classes/ops, but realized volume was higher than fixed seed1: industrial `78` vs `55`, ROI `80` vs `56`;
+  - no hard-constraint regression resulted from this.
+- 3-seed status:
+  - hard-constraint pass count=`3/3`;
+  - mean delta vs clean=`+0.026070/+0.002821/+0.012337/+0.014467`;
+  - mean delta vs fixed CATF-v2=`+0.001370/+0.001588/+0.003537/+0.005501`;
+  - sampler_only involved=`false`;
+  - weighted index list involved=`false`;
+  - sampled distribution changed=`false`.
+- Handoff guidance:
+  - preserve-weak image-only CATF is now a viable main-method candidate under the current hard Precision/mAP constraints;
+  - seed2 Recall remains below clean by `0.034365`, so report it as a limitation and consider recall-aware image augmentation constraints as future work;
+  - keep sampler_only out of the main method.
+<!-- PRESERVE_WEAK_3SEED_SUMMARY_END -->

@@ -2039,3 +2039,58 @@ The repository is centered on diagnosis-driven augmentation for industrial defec
   - sampler_only remains demoted and absent from the image-only mainline;
   - next step, if approved, is seed1 sanity before a final 3-seed summary.
 <!-- PRESERVE_WEAK_SEED2_VALIDATION_END -->
+
+<!-- PRESERVE_WEAK_3SEED_SUMMARY_START -->
+## Preserve-Weak Image CATF Seed1 Sanity And 3-Seed Summary
+
+- Date: `2026-06-18`.
+- Scope:
+  - ran seed1 only for 50 epochs;
+  - no seed0 rerun, no seed2 rerun, and no multiseed training;
+  - no clean or fixed CATF-v2 rerun;
+  - no sampler_only, no weighted index list, no sampling change;
+  - no gate, causal-score, attenuation-ratio, augmentation-strategy, or data-split change.
+- Seed1 run root:
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_seed1_sanity/`
+- Seed1 reports:
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_seed1_sanity/reports/seed1_preserve_weak_sanity_report.md`
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_seed1_sanity/reports/seed1_preserve_weak_sanity_report.json`
+- 3-seed summary reports:
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_multiseed_summary/reports/preserve_weak_3seed_summary.md`
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_multiseed_summary/reports/preserve_weak_3seed_summary.json`
+- Seed1 decision/execution:
+  - preserve_original=`9`, weak_roi_texture=`0`, strict_noop=`0`;
+  - weak replacement avoided=`true`;
+  - stale ops cleared=`true`;
+  - seed-level union avoided=`true`;
+  - sampler_only_enabled=`false`;
+  - weighted_index_list_enabled=`false`;
+  - sampled_distribution_changed=`false`;
+  - final_val_used_for_policy_selection=`false`.
+- Seed1 augmentation:
+  - industrial images augmented=`78`;
+  - ROI applied=`80`;
+  - affected classes=`{"4":5,"11":75}`;
+  - fixed seed1 reference volume was industrial=`55`, ROI=`56`, so seed1 preserve volume was higher than fixed even though it kept fixed classes/ops.
+- Seed1 metrics:
+  - P/R/mAP50/mAP50-95=`0.799748/0.697375/0.778737/0.516923`;
+  - delta vs clean seed1=`+0.027248/+0.049675/+0.024537/+0.037023`;
+  - delta vs fixed CATF-v2 seed1=`+0.014548/-0.003125/-0.003863/-0.001977`;
+  - `constraint_failed=false`;
+  - `recall_warning=false`.
+- 3-seed summary:
+  - pass count=`3/3`;
+  - mean preserve-weak P/R/mAP50/mAP50-95=`0.777170/0.687088/0.765037/0.507201`;
+  - mean delta vs clean=`+0.026070/+0.002821/+0.012337/+0.014467`;
+  - mean delta vs fixed CATF-v2=`+0.001370/+0.001588/+0.003537/+0.005501`;
+  - total industrial images augmented=`199`;
+  - total ROI applied=`220`.
+- Interpretation:
+  - seed0 validates preserve_original execution/volume parity;
+  - seed1 preserves fixed CATF-v2 behavior without hard-constraint failure;
+  - seed2 repairs the fixed CATF-v2 failure through weak/no-op image augmentation;
+  - sampler_only remains demoted and absent from the main method.
+- Current candidate status:
+  - image-only preserve-weak CATF is now a viable 3-seed main-method candidate under the hard Precision/mAP constraints;
+  - seed2 Recall remains below clean by `0.034365`, so the paper/result discussion should report a recall-side warning and motivate future recall-aware image augmentation constraints.
+<!-- PRESERVE_WEAK_3SEED_SUMMARY_END -->

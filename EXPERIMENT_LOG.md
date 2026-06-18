@@ -3141,3 +3141,54 @@ Key conclusions from that archived smoke:
   - seed0 already validates the preserve_original side of the policy;
   - next recommended run is seed1 sanity only.
 <!-- PRESERVE_WEAK_SEED2_VALIDATION_END -->
+
+<!-- PRESERVE_WEAK_3SEED_SUMMARY_START -->
+## Seed1 Preserve-Weak Sanity And 3-Seed Summary
+
+- Date: `2026-06-18`.
+- Seed1 run:
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_seed1_sanity/`
+- Summary output:
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_multiseed_summary/reports/preserve_weak_3seed_summary.md`
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_multiseed_summary/reports/preserve_weak_3seed_summary.json`
+- Scope:
+  - seed1 only;
+  - no seed0/seed2 rerun;
+  - no multiseed training;
+  - no sampler_only or weighted index list;
+  - no sampling/data/gate/causal-score/attenuation-ratio changes.
+- Seed1 decisions:
+  - preserve_original=`9`;
+  - weak_roi_texture=`0`;
+  - strict_noop=`0`;
+  - final_val_used_for_policy_selection=`false`.
+- Seed1 execution:
+  - image augmentation executed=`true`;
+  - industrial images augmented=`78`;
+  - ROI applied=`80`;
+  - affected classes=`{"4":5,"11":75}`;
+  - sampler_only_enabled=`false`;
+  - weighted_index_list_enabled=`false`;
+  - sampled_distribution_changed=`false`;
+  - bbox/class valid=`true`.
+- Seed1 metrics:
+  - P=`0.799748`;
+  - R=`0.697375`;
+  - mAP50=`0.778737`;
+  - mAP50-95=`0.516923`;
+  - delta vs clean seed1=`+0.027248/+0.049675/+0.024537/+0.037023`;
+  - delta vs fixed CATF-v2 seed1=`+0.014548/-0.003125/-0.003863/-0.001977`;
+  - `constraint_failed=false`;
+  - `recall_warning=false`.
+- 3-seed aggregate:
+  - pass count=`3/3`;
+  - mean P/R/mAP50/mAP50-95=`0.777170/0.687088/0.765037/0.507201`;
+  - mean delta vs clean=`+0.026070/+0.002821/+0.012337/+0.014467`;
+  - mean delta vs fixed=`+0.001370/+0.001588/+0.003537/+0.005501`;
+  - total industrial images augmented=`199`;
+  - total ROI applied=`220`.
+- Interpretation:
+  - image-only preserve-weak CATF is a viable current main-method candidate;
+  - seed2 Recall warning remains and should be reported as a limitation;
+  - sampler_only remains excluded from the main method.
+<!-- PRESERVE_WEAK_3SEED_SUMMARY_END -->

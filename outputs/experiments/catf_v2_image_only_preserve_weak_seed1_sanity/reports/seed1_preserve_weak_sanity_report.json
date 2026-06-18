@@ -1,0 +1,137 @@
+{
+  "run_root": "outputs/experiments/catf_v2_image_only_preserve_weak_seed1_sanity/",
+  "seed": 1,
+  "epochs_completed": 50,
+  "method": "image_only_preserve_safe_original_weak_only_for_moderate_risk_strict_noop",
+  "sampler_only_enabled": false,
+  "weighted_index_list_enabled": false,
+  "sampled_distribution_changed": false,
+  "final_val_used_for_policy_selection": false,
+  "decision_counts": {
+    "preserve_original": 9,
+    "weak_roi_texture": 0,
+    "strict_noop": 0
+  },
+  "epoch_exact_fixed_policy_used": true,
+  "stale_ops_cleared": true,
+  "seed_level_union_avoided": true,
+  "weak_replacement_avoided": true,
+  "feedback_epochs": [
+    {
+      "epoch": 5,
+      "final_action": "preserve_original",
+      "executable_ops": [
+        {"class_id": 4, "op": "local_contrast", "prob": 0.005, "strength": 0.01},
+        {"class_id": 4, "op": "sharpen_mild", "prob": 0.005, "strength": 0.01},
+        {"class_id": 11, "op": "local_contrast", "prob": 0.015, "strength": 0.02},
+        {"class_id": 11, "op": "sharpen_mild", "prob": 0.015, "strength": 0.02}
+      ]
+    },
+    {
+      "epoch": 10,
+      "final_action": "preserve_original",
+      "executable_ops": [
+        {"class_id": 11, "op": "local_contrast", "prob": 0.015, "strength": 0.02},
+        {"class_id": 11, "op": "sharpen_mild", "prob": 0.015, "strength": 0.02}
+      ]
+    },
+    {
+      "epoch": 15,
+      "final_action": "preserve_original",
+      "executable_ops": [
+        {"class_id": 11, "op": "local_contrast", "prob": 0.015, "strength": 0.02},
+        {"class_id": 11, "op": "sharpen_mild", "prob": 0.015, "strength": 0.02}
+      ]
+    },
+    {"epoch": 20, "final_action": "preserve_original", "executable_ops": []},
+    {
+      "epoch": 25,
+      "final_action": "preserve_original",
+      "executable_ops": [
+        {"class_id": 11, "op": "local_contrast", "prob": 0.015, "strength": 0.02},
+        {"class_id": 11, "op": "sharpen_mild", "prob": 0.015, "strength": 0.02}
+      ]
+    },
+    {"epoch": 30, "final_action": "preserve_original", "executable_ops": []},
+    {
+      "epoch": 35,
+      "final_action": "preserve_original",
+      "executable_ops": [
+        {"class_id": 11, "op": "local_contrast", "prob": 0.015, "strength": 0.02},
+        {"class_id": 11, "op": "sharpen_mild", "prob": 0.015, "strength": 0.02}
+      ]
+    },
+    {"epoch": 40, "final_action": "preserve_original", "executable_ops": []},
+    {"epoch": 45, "final_action": "preserve_original", "executable_ops": []}
+  ],
+  "augmentation": {
+    "image_augmentation_executed": true,
+    "industrial_images_augmented": 78,
+    "roi_applied": 80,
+    "roi_affected_classes": {
+      "4": 5,
+      "11": 75
+    },
+    "router_random_draw_count": 6420,
+    "ops": {
+      "local_contrast": {
+        "seen": 3210,
+        "applied": 42,
+        "skipped_probability": 3168
+      },
+      "sharpen_mild": {
+        "seen": 3210,
+        "applied": 37,
+        "skipped_probability": 3173
+      }
+    },
+    "invalid_bbox_count": 0,
+    "bbox_oob_count": 0,
+    "class_id_oob_count": 0
+  },
+  "fixed_seed1_volume_reference": {
+    "industrial_images_augmented": 55,
+    "roi_applied": 56,
+    "roi_affected_classes": {
+      "4": 5,
+      "11": 51
+    }
+  },
+  "volume_close_to_fixed": false,
+  "volume_note": "Same fixed classes and ops were preserved, but realized augmentation volume was higher than fixed seed1: industrial 78 vs 55, ROI 80 vs 56.",
+  "metrics": {
+    "precision": 0.7997483695409648,
+    "recall": 0.697374912516787,
+    "map50": 0.7787370033874912,
+    "map50_95": 0.5169233445810486
+  },
+  "baselines": {
+    "clean_seed1": {
+      "precision": 0.7725,
+      "recall": 0.6477,
+      "map50": 0.7542,
+      "map50_95": 0.4799
+    },
+    "fixed_catf_v2_seed1": {
+      "precision": 0.7852,
+      "recall": 0.7005,
+      "map50": 0.7826,
+      "map50_95": 0.5189
+    }
+  },
+  "delta_vs_clean_seed1": {
+    "precision": 0.02724836954096488,
+    "recall": 0.04967491251678691,
+    "map50": 0.024537003387491207,
+    "map50_95": 0.03702334458104861
+  },
+  "delta_vs_fixed_catf_v2_seed1": {
+    "precision": 0.014548369540964834,
+    "recall": -0.0031250874832130515,
+    "map50": -0.0038629966125087734,
+    "map50_95": -0.001976655418951423
+  },
+  "constraint_failed": false,
+  "recall_warning": false,
+  "recommend_three_seed_summary": true
+}

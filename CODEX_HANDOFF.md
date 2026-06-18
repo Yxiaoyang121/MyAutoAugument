@@ -1923,3 +1923,37 @@ No training was run after building or auditing these datasets.
   - seed2 Recall remains below clean by `0.034365`, so report it as a limitation and consider recall-aware image augmentation constraints as future work;
   - keep sampler_only out of the main method.
 <!-- PRESERVE_WEAK_3SEED_SUMMARY_END -->
+
+<!-- PRESERVE_WEAK_PAPER_READY_PACKAGE_START -->
+## Preserve-Weak Paper-Ready Package Handoff
+
+- Current task completed: packaged preserve-weak image-only CATF as a paper-ready evidence package.
+- No training or seed rerun was performed.
+- No sampler, weighted index list, gate, attenuation-ratio, causal-score, or data-split change was made.
+- Package root: `outputs/experiments/catf_v2_image_only_preserve_weak_multiseed_summary/`.
+- Main result table paths:
+  - `tables/main_result_table.md`
+  - `tables/main_result_table.csv`
+  - `tables/main_result_table.json`
+- Ablation table paths:
+  - `tables/ablation_table.md`
+  - `tables/ablation_table.csv`
+  - `tables/ablation_table.json`
+- Paper-facing reports:
+  - `reports/method_logic_for_paper.md`
+  - `reports/limitations_and_next_step.md`
+  - `reports/reviewer_risk_check.md`
+  - `reports/preserve_weak_3seed_summary_paper_ready.md`
+  - `reports/preserve_weak_3seed_summary_paper_ready.json`
+- Key statements now documented:
+  - method is image-only data augmentation;
+  - sampler_only is not part of the main method;
+  - weighted index list is not enabled;
+  - sampled distribution is unchanged;
+  - hard-constraint pass count is `3/3`;
+  - seed2 Recall warning remains and should be reported as a limitation.
+- Handoff guidance:
+  - do not continue blind training;
+  - next method work should only be a targeted image-only recall-aware extension if needed;
+  - sampler_only should remain a demoted ablation or engineering exploration, not the main method.
+<!-- PRESERVE_WEAK_PAPER_READY_PACKAGE_END -->

@@ -1,0 +1,39 @@
+{
+  "report_name": "preserve_weak_3seed_summary_paper_ready",
+  "method": "preserve-weak image-only CATF",
+  "method_status": "current_main_method_candidate",
+  "image_only_data_augmentation": true,
+  "sampler_only": false,
+  "weighted_index_list": false,
+  "sampled_distribution_changed": false,
+  "pass_count": 3,
+  "seed_count": 3,
+  "results": {
+    "seed0": {
+      "clean": {"precision": 0.7846, "recall": 0.6765, "map50": 0.7347, "map50_95": 0.4759},
+      "fixed_catf_v2": {"precision": 0.7785, "recall": 0.6697, "map50": 0.7437, "map50_95": 0.4895, "constraint_failed": false},
+      "preserve_weak": {"precision": 0.778506, "recall": 0.669654, "map50": 0.743657, "map50_95": 0.489541, "constraint_failed": false, "recall_warning": false}
+    },
+    "seed1": {
+      "clean": {"precision": 0.7725, "recall": 0.6477, "map50": 0.7542, "map50_95": 0.4799},
+      "fixed_catf_v2": {"precision": 0.7852, "recall": 0.7005, "map50": 0.7826, "map50_95": 0.5189, "constraint_failed": false},
+      "preserve_weak": {"precision": 0.799748, "recall": 0.697375, "map50": 0.778737, "map50_95": 0.516923, "constraint_failed": false, "recall_warning": false}
+    },
+    "seed2": {
+      "clean": {"precision": 0.6962, "recall": 0.7286, "map50": 0.7692, "map50_95": 0.5224},
+      "fixed_catf_v2": {"precision": 0.7637, "recall": 0.6863, "map50": 0.7582, "map50_95": 0.4967, "constraint_failed": true},
+      "preserve_weak": {"precision": 0.753254, "recall": 0.694235, "map50": 0.772718, "map50_95": 0.515138, "constraint_failed": false, "recall_warning": true}
+    }
+  },
+  "mean_preserve_weak": {"precision": 0.77717, "recall": 0.687088, "map50": 0.765037, "map50_95": 0.507201},
+  "mean_delta_vs_clean": {"precision": 0.02607, "recall": 0.002821, "map50": 0.012337, "map50_95": 0.014467},
+  "mean_delta_vs_fixed_catf_v2": {"precision": 0.00137, "recall": 0.001588, "map50": 0.003537, "map50_95": 0.005501},
+  "evidence": {
+    "fixed_catf_v2_problem": "seed2 fails because high-risk image augmentation causes non-active regression and mAP degradation.",
+    "seed0": "preserve_original reproduces the known-safe fixed CATF-v2 policy.",
+    "seed1": "preserve_original keeps the effective fixed CATF-v2 policy without hard-constraint failure.",
+    "seed2": "weak/no-op repairs the fixed CATF-v2 failure without sampler-only."
+  },
+  "limitation": "seed2 Recall remains below clean by 0.034365 and should be reported as recall_warning=true.",
+  "recommended_next_step": "Only pursue targeted image-only recall-aware extensions if needed; do not use sampler-only to repair the main method."
+}

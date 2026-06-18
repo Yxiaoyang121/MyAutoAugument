@@ -1,0 +1,6 @@
+method,image_augmentation,preserve_original,weak_attenuation,strict_noop,sampler_only,sampled_distribution_changed,pass_count,mean_delta_vs_clean_precision,mean_delta_vs_clean_recall,mean_delta_vs_clean_map50,mean_delta_vs_clean_map50_95,main_conclusion
+Clean YOLO default,false,false,false,false,false,false,reference,0,0,0,0,Baseline using YOLO default augmentation only.
+fixed CATF-v2,true,false,false,limited_safety_guards,false,false,2/3,0.024700,0.001233,0.008800,0.008967,Shows image augmentation can help but seed2 fails due high-risk augmentation and non-active regression.
+weak-only image augmentation,true,false,true,true,false,false,2/3,-0.018466,0.021777,0.004544,0.006586,Repairs seed2 but damages seed0 because weak policy globally replaces safe fixed behavior.
+preserve-weak image-only CATF,true,true,true,true,false,false,3/3,0.026070,0.002821,0.012337,0.014467,Preserves safe original policies for seed0/seed1 and applies weak/no-op control to repair seed2.
+sampler_only demoted ablation note,false,n/a,n/a,n/a,true,true,not_main_method,n/a,n/a,n/a,n/a,Excluded from the main method because it is weighted sampling or hard-example mining rather than image data augmentation.

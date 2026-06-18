@@ -3192,3 +3192,33 @@ Key conclusions from that archived smoke:
   - seed2 Recall warning remains and should be reported as a limitation;
   - sampler_only remains excluded from the main method.
 <!-- PRESERVE_WEAK_3SEED_SUMMARY_END -->
+
+<!-- PRESERVE_WEAK_PAPER_READY_PACKAGE_START -->
+## Preserve-Weak Image CATF Paper-Ready Evidence Package
+
+- Date: `2026-06-19`.
+- Action: generated tables and paper-facing reports from completed preserve-weak image-only CATF 3-seed results.
+- No training was run.
+- Outputs:
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_multiseed_summary/tables/main_result_table.md`
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_multiseed_summary/tables/main_result_table.csv`
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_multiseed_summary/tables/main_result_table.json`
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_multiseed_summary/tables/ablation_table.md`
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_multiseed_summary/tables/ablation_table.csv`
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_multiseed_summary/tables/ablation_table.json`
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_multiseed_summary/reports/method_logic_for_paper.md`
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_multiseed_summary/reports/limitations_and_next_step.md`
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_multiseed_summary/reports/reviewer_risk_check.md`
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_multiseed_summary/reports/preserve_weak_3seed_summary_paper_ready.md`
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_multiseed_summary/reports/preserve_weak_3seed_summary_paper_ready.json`
+- Evidence summary:
+  - preserve-weak CATF is image-only;
+  - sampler_only=`false`;
+  - weighted_index_list=`false`;
+  - sampled_distribution_changed=`false`;
+  - hard-constraint pass count=`3/3`;
+  - current status is main-method candidate, not final locked result.
+- Limitation captured:
+  - seed2 Recall remains below clean and is marked `recall_warning=true`;
+  - future work should remain image-only and focus on recall-aware constraints.
+<!-- PRESERVE_WEAK_PAPER_READY_PACKAGE_END -->

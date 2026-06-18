@@ -266,3 +266,7 @@
 - Current image-only mainline status: hard-constraint pass count is `3/3`; image-only preserve-weak CATF is a viable current main-method candidate.
 - Remaining limitation: seed2 Recall remains below clean and should be reported as `recall_warning=true`.
 - Sampler_only remains demoted to engineering exploration/ablation and is not part of the main method.
+- Paper-ready evidence package has been generated under `outputs/experiments/catf_v2_image_only_preserve_weak_multiseed_summary/`.
+- Main result tables are in `tables/main_result_table.*`; ablation tables are in `tables/ablation_table.*`.
+- Paper-facing reports include `method_logic_for_paper.md`, `limitations_and_next_step.md`, `reviewer_risk_check.md`, and `preserve_weak_3seed_summary_paper_ready.*`.
+- Next work should not be blind training; only targeted image-only recall-aware extensions are recommended if needed.

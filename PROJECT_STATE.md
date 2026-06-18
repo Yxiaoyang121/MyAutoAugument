@@ -2094,3 +2094,49 @@ The repository is centered on diagnosis-driven augmentation for industrial defec
   - image-only preserve-weak CATF is now a viable 3-seed main-method candidate under the hard Precision/mAP constraints;
   - seed2 Recall remains below clean by `0.034365`, so the paper/result discussion should report a recall-side warning and motivate future recall-aware image augmentation constraints.
 <!-- PRESERVE_WEAK_3SEED_SUMMARY_END -->
+
+<!-- PRESERVE_WEAK_PAPER_READY_PACKAGE_START -->
+## Preserve-Weak Image CATF Paper-Ready Evidence Package
+
+- Date: `2026-06-19`.
+- Scope:
+  - documentation and result packaging only;
+  - no training;
+  - no seed rerun;
+  - no sampler, gate, attenuation-ratio, causal-score, or data-split change.
+- Package root:
+  - `outputs/experiments/catf_v2_image_only_preserve_weak_multiseed_summary/`
+- Main result tables:
+  - `tables/main_result_table.md`
+  - `tables/main_result_table.csv`
+  - `tables/main_result_table.json`
+- Ablation tables:
+  - `tables/ablation_table.md`
+  - `tables/ablation_table.csv`
+  - `tables/ablation_table.json`
+- Paper-facing reports:
+  - `reports/method_logic_for_paper.md`
+  - `reports/limitations_and_next_step.md`
+  - `reports/reviewer_risk_check.md`
+  - `reports/preserve_weak_3seed_summary_paper_ready.md`
+  - `reports/preserve_weak_3seed_summary_paper_ready.json`
+- Main evidence:
+  - preserve-weak CATF remains image-only data augmentation;
+  - sampler_only=`false`;
+  - weighted_index_list=`false`;
+  - sampled_distribution_changed=`false`;
+  - hard-constraint pass count=`3/3`;
+  - mean delta vs clean=`+0.026070/+0.002821/+0.012337/+0.014467`;
+  - mean delta vs fixed CATF-v2=`+0.001370/+0.001588/+0.003537/+0.005501`.
+- Method narrative:
+  - fixed CATF-v2 proves image augmentation potential but fails seed2 due high-risk augmentation;
+  - preserve-weak CATF preserves safe fixed policies for seed0/seed1;
+  - seed2 is repaired through weak image augmentation and strict no-op, not sampling.
+- Limitation:
+  - seed2 Recall remains below clean by `0.034365`;
+  - this is documented as `recall_warning=true`;
+  - future work should be recall-aware image augmentation constraints, not sampler_only.
+- Current status:
+  - paper-ready evidence package completed;
+  - preserve-weak image-only CATF is a current main-method candidate, not a final locked paper result.
+<!-- PRESERVE_WEAK_PAPER_READY_PACKAGE_END -->

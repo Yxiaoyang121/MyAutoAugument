@@ -1,0 +1,49 @@
+{
+  "policies": [
+    {
+      "trial": 1,
+      "policy": {
+        "horizontal_flip": 0.50,
+        "rotate": [-4, 4],
+        "translate": [-0.03, 0.03]
+      }
+    },
+    {
+      "trial": 2,
+      "policy": {
+        "horizontal_flip": 0.50,
+        "rotate": [-6, 6],
+        "scale": [0.90, 1.10]
+      }
+    },
+    {
+      "trial": 3,
+      "policy": {
+        "horizontal_flip": 0.55,
+        "rotate": [-8, 8],
+        "translate": [-0.05, 0.05],
+        "scale": [0.88, 1.12]
+      }
+    },
+    {
+      "trial": 4,
+      "policy": {
+        "horizontal_flip": 0.60,
+        "rotate": [-7, 7],
+        "translate": [-0.06, 0.06],
+        "scale": [0.86, 1.14],
+        "random_crop": [0.82, 1.00]
+      }
+    },
+    {
+      "trial": 5,
+      "policy": {
+        "horizontal_flip": 0.60,
+        "rotate": [-10, 10],
+        "translate": [-0.06, 0.06],
+        "scale": [0.84, 1.16],
+        "blur": [3, 5]
+      }
+    }
+  ]
+}

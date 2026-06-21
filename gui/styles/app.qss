@@ -1,0 +1,1566 @@
+QMainWindow {
+    background: #F6F8FB;
+}
+
+QWidget {
+    color: #0F172A;
+    font-family: "Microsoft YaHei UI", "Microsoft YaHei", "Segoe UI", Arial, sans-serif;
+    font-size: 13px;
+}
+
+QLabel {
+    background: transparent;
+}
+
+QWidget#contentArea,
+QWidget#dashboardPage,
+QWidget#datasetPage,
+QWidget#policyPage,
+QWidget#previewPage,
+QWidget#experimentPage,
+QWidget#analysisPage,
+QStackedWidget#contentStack {
+    background: #F6F8FB;
+}
+
+#sidebarFrame {
+    background: #FFFFFF;
+    border-right: 1px solid #E2E8F0;
+}
+
+#brand {
+    background: #FFFFFF;
+}
+
+#brandLogo {
+    min-width: 26px;
+    max-width: 26px;
+    min-height: 26px;
+    max-height: 26px;
+    border-radius: 7px;
+    background: #5CC5BA;
+    color: #FFFFFF;
+    font-size: 17px;
+    font-weight: 800;
+    qproperty-alignment: AlignCenter;
+}
+
+#brandText {
+    color: #0F172A;
+    font-size: 14px;
+    font-weight: 800;
+}
+
+#sidebar {
+    background: #FFFFFF;
+    color: #334155;
+    border: none;
+    padding-top: 8px;
+    outline: none;
+}
+
+#sidebar::item {
+    padding: 9px 12px;
+    margin: 3px 10px;
+    border-radius: 8px;
+    border-left: 3px solid transparent;
+}
+
+#sidebar::item:selected {
+    background: #E6F4F1;
+    color: #0F766E;
+    border-left: 3px solid #0F766E;
+    font-weight: 700;
+}
+
+#sidebar::item:hover {
+    background: #F0FDF9;
+    color: #0F766E;
+}
+
+#topbar {
+    background: #FFFFFF;
+    border-bottom: 1px solid #E2E8F0;
+}
+
+#appTitle {
+    color: #0F172A;
+    font-size: 19px;
+    font-weight: 800;
+}
+
+#appSubtitle {
+    color: #64748B;
+    font-size: 12px;
+}
+
+#topbarMeta,
+#footerMeta {
+    color: #64748B;
+    font-size: 12px;
+}
+
+#topbarMetaGroup,
+#footerStatusGroup {
+    background: transparent;
+}
+
+#statusDot {
+    color: #10B981;
+    font-size: 14px;
+    font-weight: 900;
+}
+
+#bottomStatusBar {
+    background: #FFFFFF;
+    border-top: 1px solid #E2E8F0;
+}
+
+#footerSeparator {
+    color: #E2E8F0;
+}
+
+#sectionCard,
+#datasetPathCard,
+#datasetHintCard,
+#previewInputCard,
+#previewParamStrip,
+#policyMiniCard,
+#policyDescCard,
+#analysisSourceCard,
+#analysisTabsCard,
+#statCard,
+#section,
+#metricCard,
+#emptyState,
+#miniChart {
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+}
+
+#sectionCardTitle,
+#sectionTitle {
+    color: #0F172A;
+    font-size: 15px;
+    font-weight: 800;
+}
+
+#statTitle {
+    color: #64748B;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+#statValue {
+    color: #0F172A;
+    font-size: 23px;
+    font-weight: 900;
+}
+
+#statIconBox {
+    min-width: 40px;
+    max-width: 40px;
+    min-height: 40px;
+    max-height: 40px;
+    border-radius: 10px;
+    font-size: 27px;
+    font-weight: 800;
+}
+
+#statIconBox[tone="green"],
+#quickIconBox[tone="green"] {
+    background: #ECFDF5;
+    color: #10B981;
+}
+
+#statIconBox[tone="blue"],
+#quickIconBox[tone="blue"] {
+    background: #EFF6FF;
+    color: #2563EB;
+}
+
+#statIconBox[tone="purple"],
+#quickIconBox[tone="purple"] {
+    background: #F5F3FF;
+    color: #7C3AED;
+}
+
+#statIconBox[tone="orange"],
+#quickIconBox[tone="orange"] {
+    background: #FFF7ED;
+    color: #F97316;
+}
+
+#statIconBox[tone="red"],
+#quickIconBox[tone="red"] {
+    background: #FEF2F2;
+    color: #EF4444;
+}
+
+#policyMetaLabel {
+    color: #64748B;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+#policyMetaValue {
+    color: #0F172A;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+#policyOpBadge {
+    background: #ECFDF5;
+    color: #0F766E;
+    border: 1px solid #A7F3D0;
+    border-radius: 7px;
+    padding: 7px 11px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+#quickEntry {
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 10px;
+}
+
+#quickEntry:hover {
+    border: 1px solid #0F766E;
+    background: #F8FFFD;
+}
+
+#quickIconBox {
+    min-width: 34px;
+    max-width: 34px;
+    min-height: 34px;
+    max-height: 34px;
+    border-radius: 9px;
+    font-size: 19px;
+    font-weight: 800;
+}
+
+#quickTitle {
+    color: #0F172A;
+    font-size: 13px;
+    font-weight: 800;
+}
+
+#quickDetail,
+#metricLabel,
+#metricHint,
+#emptyDetail {
+    color: #64748B;
+    font-size: 12px;
+}
+
+#metricValue {
+    color: #0F172A;
+    font-size: 24px;
+    font-weight: 800;
+}
+
+#experimentFormLabel {
+    color: #334155;
+    font-size: 12px;
+    font-weight: 700;
+    min-width: 62px;
+}
+
+QLineEdit#experimentInput,
+QSpinBox#experimentSpin,
+QComboBox#experimentCombo {
+    min-height: 30px;
+    max-height: 30px;
+}
+
+#advancedOptionsBox {
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-radius: 10px;
+}
+
+#advancedOptionsTitle {
+    color: #0F172A;
+    font-size: 13px;
+    font-weight: 900;
+}
+
+QCheckBox#experimentCheck,
+QCheckBox#logAutoScroll {
+    color: #334155;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+QCheckBox#experimentCheck::indicator,
+QCheckBox#logAutoScroll::indicator {
+    width: 14px;
+    height: 14px;
+    border: 1px solid #CBD5E1;
+    border-radius: 3px;
+    background: #FFFFFF;
+}
+
+QCheckBox#experimentCheck::indicator:checked,
+QCheckBox#logAutoScroll::indicator:checked {
+    background: #0F766E;
+    border-color: #0F766E;
+}
+
+#experimentStatusCard {
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 10px;
+    min-height: 56px;
+}
+
+#experimentStatusTitle {
+    color: #64748B;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+#experimentStatusValue {
+    color: #0F172A;
+    font-size: 18px;
+    font-weight: 900;
+}
+
+#experimentStatusValue[tone="success"] {
+    color: #0F766E;
+}
+
+#experimentStatusValue[tone="warning"] {
+    color: #D97706;
+}
+
+#experimentStatusValue[tone="error"] {
+    color: #DC2626;
+}
+
+QProgressBar#experimentProgress {
+    min-height: 12px;
+    max-height: 12px;
+    border: none;
+    border-radius: 6px;
+    background: #E2E8F0;
+}
+
+QProgressBar#experimentProgress::chunk {
+    background: #0F766E;
+    border-radius: 6px;
+}
+
+#experimentProgressLabel {
+    color: #334155;
+    font-size: 13px;
+    font-weight: 800;
+}
+
+#stageProgressCard {
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 10px;
+}
+
+#stageProgressTitle,
+#experimentBlockTitle {
+    color: #0F172A;
+    font-size: 14px;
+    font-weight: 900;
+}
+
+#stageIcon {
+    min-width: 24px;
+    max-width: 24px;
+    min-height: 24px;
+    max-height: 24px;
+    border-radius: 12px;
+    qproperty-alignment: AlignCenter;
+    font-weight: 900;
+}
+
+#stageIcon[status="done"] {
+    background: #0F766E;
+    color: #FFFFFF;
+}
+
+#stageIcon[status="active"] {
+    background: #DBEAFE;
+    color: #2563EB;
+}
+
+#stageIcon[status="wait"] {
+    background: #E2E8F0;
+    color: #64748B;
+}
+
+#stageName {
+    color: #334155;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+#stageStatus {
+    font-size: 12px;
+    font-weight: 800;
+}
+
+#stageStatus[status="done"] {
+    color: #0F766E;
+}
+
+#stageStatus[status="active"] {
+    color: #2563EB;
+}
+
+#stageStatus[status="wait"] {
+    color: #64748B;
+}
+
+#stageProgress {
+    color: #64748B;
+    font-size: 12px;
+}
+
+QTableWidget#trialRecordTable {
+    border-radius: 8px;
+}
+
+QPlainTextEdit#terminalLog {
+    background: #111827;
+    color: #22C55E;
+    border: 1px solid #111827;
+    border-radius: 10px;
+    font-family: Consolas, "Cascadia Mono", monospace;
+    font-size: 12px;
+    padding: 10px;
+    min-height: 120px;
+}
+
+#emptyTitle {
+    color: #0F172A;
+    font-size: 16px;
+    font-weight: 800;
+}
+
+#statusBadge {
+    border-radius: 11px;
+    padding: 5px 10px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+#statusBadge[tone="success"] {
+    background: #ECFDF5;
+    color: #047857;
+    border: 1px solid #A7F3D0;
+}
+
+#statusBadge[tone="warning"] {
+    background: #FFFBEB;
+    color: #B45309;
+    border: 1px solid #FDE68A;
+}
+
+#statusBadge[tone="error"] {
+    background: #FEF2F2;
+    color: #B91C1C;
+    border: 1px solid #FECACA;
+}
+
+#statusBadge[tone="neutral"] {
+    background: #F8FAFC;
+    color: #475569;
+    border: 1px solid #E2E8F0;
+}
+
+#datasetPathCard {
+    min-height: 86px;
+}
+
+#pathCardLabel {
+    color: #0F172A;
+    font-weight: 800;
+    min-width: 78px;
+}
+
+QLineEdit#datasetPathInput {
+    min-height: 30px;
+    max-height: 30px;
+    font-size: 13px;
+}
+
+#lastChecked {
+    color: #64748B;
+    font-size: 12px;
+}
+
+QProgressBar#datasetProgress {
+    min-height: 8px;
+    max-height: 8px;
+    border: none;
+    border-radius: 4px;
+    background: #E2E8F0;
+}
+
+QProgressBar#datasetProgress::chunk {
+    background: #0F766E;
+    border-radius: 4px;
+}
+
+#datasetProgressLabel {
+    color: #64748B;
+    font-size: 12px;
+    min-width: 180px;
+}
+
+#datasetHealthLabel {
+    color: #0F172A;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+#datasetHealthValue {
+    font-size: 17px;
+    font-weight: 900;
+}
+
+#datasetHealthValue[tone="success"] {
+    color: #0F766E;
+}
+
+#datasetHealthValue[tone="warning"] {
+    color: #B45309;
+}
+
+#datasetHealthValue[tone="error"] {
+    color: #B91C1C;
+}
+
+#datasetHealthDetail {
+    color: #334155;
+    font-size: 13px;
+    line-height: 150%;
+}
+
+#datasetStatsCell {
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+}
+
+#datasetStatsTitle {
+    color: #64748B;
+    font-size: 12px;
+    qproperty-alignment: AlignCenter;
+}
+
+#datasetStatsValue {
+    color: #0F172A;
+    font-size: 20px;
+    font-weight: 900;
+    qproperty-alignment: AlignCenter;
+}
+
+#structureHeader {
+    background: #F1F5F9;
+    border: 1px solid #E2E8F0;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+#structureHeaderText {
+    color: #475569;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+#structureRow {
+    background: #FFFFFF;
+    border-left: 1px solid #E2E8F0;
+    border-right: 1px solid #E2E8F0;
+    border-bottom: 1px solid #E2E8F0;
+    min-height: 30px;
+}
+
+#structureItem {
+    color: #0F172A;
+    font-size: 12px;
+}
+
+#structureStatus {
+    font-size: 12px;
+    font-weight: 700;
+    min-width: 76px;
+}
+
+#structureStatus[tone="success"] {
+    color: #16A34A;
+}
+
+#structureStatus[tone="warning"] {
+    color: #D97706;
+}
+
+#structureStatus[tone="error"] {
+    color: #DC2626;
+}
+
+#datasetHintCard {
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+}
+
+#hintTitle {
+    color: #0F172A;
+    font-size: 15px;
+    font-weight: 900;
+}
+
+#hintDetail {
+    color: #334155;
+    font-size: 13px;
+    line-height: 150%;
+}
+
+#policySummary {
+    background: #F8FAFC;
+    color: #334155;
+    border: 1px solid #E2E8F0;
+    border-radius: 10px;
+    padding: 10px 12px;
+}
+
+#previewInputCard {
+    min-height: 56px;
+}
+
+#previewFieldLabel {
+    color: #0F172A;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+QLineEdit#previewPathInput,
+QSpinBox#previewSeed {
+    min-height: 30px;
+    max-height: 30px;
+}
+
+QCheckBox#fixedSeedCheck {
+    color: #334155;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+QCheckBox#fixedSeedCheck::indicator {
+    width: 14px;
+    height: 14px;
+    border: 1px solid #CBD5E1;
+    border-radius: 3px;
+    background: #FFFFFF;
+}
+
+QCheckBox#fixedSeedCheck::indicator:checked {
+    background: #0F766E;
+    border-color: #0F766E;
+}
+
+#previewImage {
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-radius: 10px;
+    color: #64748B;
+    font-size: 13px;
+}
+
+#qualityMetricRow {
+    background: #FFFFFF;
+    border-bottom: 1px solid #F1F5F9;
+}
+
+#qualityMetricLabel {
+    color: #64748B;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+#qualityMetricValue {
+    color: #0F172A;
+    font-size: 15px;
+    font-weight: 900;
+}
+
+#qualityMetricValue[tone="success"] {
+    color: #0F766E;
+}
+
+#qualityMetricValue[tone="warning"] {
+    color: #D97706;
+}
+
+#qualityMetricValue[tone="error"] {
+    color: #DC2626;
+}
+
+#qualityMetricValue[tone="blue"] {
+    color: #2563EB;
+}
+
+#previewQualityStatus {
+    background: #ECFDF5;
+    color: #0F766E;
+    border: 1px solid #A7F3D0;
+    border-radius: 10px;
+    padding: 5px 9px;
+    font-weight: 900;
+}
+
+#previewQualityStatus[tone="warning"] {
+    background: #FFFBEB;
+    color: #B45309;
+    border-color: #FDE68A;
+}
+
+#previewPolicyBadge {
+    background: #ECFDF5;
+    color: #0F766E;
+    border: 1px solid #A7F3D0;
+    border-radius: 8px;
+    padding: 5px 10px;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+#previewStatus {
+    background: #F8FAFC;
+    color: #334155;
+    border: 1px solid #E2E8F0;
+    border-radius: 10px;
+    padding: 10px 12px;
+}
+
+#qualityDistributionCard {
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 10px;
+}
+
+#qualityDistTitle {
+    color: #334155;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+#qualityDistValue {
+    color: #0F766E;
+    font-size: 20px;
+    font-weight: 900;
+}
+
+QProgressBar#qualityDistProgress {
+    min-height: 6px;
+    max-height: 6px;
+    border: none;
+    border-radius: 3px;
+    background: #E2E8F0;
+}
+
+QProgressBar#qualityDistProgress::chunk {
+    background: #0F766E;
+    border-radius: 3px;
+}
+
+#qualityDistTick {
+    color: #64748B;
+    font-size: 11px;
+}
+
+#previewParamStrip {
+    min-height: 34px;
+}
+
+#previewParamItem {
+    color: #64748B;
+    font-size: 12px;
+}
+
+#previewParamSep {
+    color: #CBD5E1;
+}
+
+QLineEdit#operatorSearch,
+QLineEdit#policyInput {
+    min-height: 32px;
+    max-height: 32px;
+}
+
+#operatorGroupHeader {
+    background: #F8FAFC;
+    border-radius: 8px;
+}
+
+#operatorGroupTitle,
+#operatorGroupArrow {
+    color: #334155;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+#operatorRow {
+    background: #FFFFFF;
+    border-radius: 8px;
+    min-height: 24px;
+}
+
+#operatorRow:hover,
+#operatorRow[selected="true"] {
+    background: #E6F4F1;
+}
+
+#operatorIcon {
+    color: #0F172A;
+    min-width: 18px;
+    font-size: 15px;
+}
+
+#operatorName {
+    color: #0F172A;
+    font-size: 13px;
+}
+
+#operatorHint {
+    background: #F0FDF9;
+    border: 1px solid #A7F3D0;
+    border-radius: 8px;
+    margin-top: 6px;
+}
+
+#operatorHintTitle {
+    color: #0F766E;
+    font-size: 12px;
+    font-weight: 900;
+    qproperty-alignment: AlignCenter;
+}
+
+#operatorHintDetail {
+    color: #64748B;
+    font-size: 12px;
+    qproperty-alignment: AlignCenter;
+}
+
+#operationCard {
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 10px;
+}
+
+#operationCard:hover {
+    border-color: #0F766E;
+}
+
+#operationCard[active="true"] {
+    border: 1px solid #2563EB;
+    background: #F8FBFF;
+}
+
+#operationIndex {
+    min-width: 24px;
+    max-width: 24px;
+    min-height: 24px;
+    max-height: 24px;
+    border-radius: 8px;
+    background: #D1FAE5;
+    color: #0F766E;
+    font-weight: 900;
+    qproperty-alignment: AlignCenter;
+}
+
+#operationIndex[active="true"] {
+    background: #DBEAFE;
+    color: #2563EB;
+}
+
+#operationName {
+    color: #0F172A;
+    font-size: 13px;
+    font-weight: 900;
+}
+
+#operationMeta {
+    color: #334155;
+    font-size: 11px;
+}
+
+#bboxBadge,
+#paramBboxBadge,
+#infoBadge {
+    border-radius: 8px;
+    padding: 3px 7px;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+#bboxBadge[effect="stable"],
+#paramBboxBadge[effect="stable"],
+#infoBadge[tone="green"] {
+    background: #ECFDF5;
+    color: #0F766E;
+    border: 1px solid #A7F3D0;
+}
+
+#bboxBadge[effect="change"],
+#paramBboxBadge[effect="change"],
+#infoBadge[tone="orange"] {
+    background: #FFF7ED;
+    color: #EA580C;
+    border: 1px solid #FED7AA;
+}
+
+#dragHandle {
+    color: #64748B;
+    font-size: 15px;
+}
+
+#pipelineArrow {
+    color: #0F172A;
+    font-size: 28px;
+    font-weight: 900;
+    qproperty-alignment: AlignCenter;
+    max-height: 20px;
+}
+
+#pipelineDropHint {
+    background: #FFFFFF;
+    border: 1px dashed #CBD5E1;
+    border-radius: 10px;
+    color: #64748B;
+    min-height: 34px;
+    qproperty-alignment: AlignCenter;
+}
+
+#paramLabel {
+    color: #334155;
+    font-size: 12px;
+    font-weight: 700;
+    min-width: 108px;
+}
+
+#paramTypeBadge {
+    background: #DBEAFE;
+    color: #2563EB;
+    border: 1px solid #BFDBFE;
+    border-radius: 8px;
+    padding: 5px 10px;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+QDoubleSpinBox#paramSpin {
+    min-width: 60px;
+    max-width: 70px;
+    min-height: 26px;
+    max-height: 26px;
+}
+
+QSlider#paramSlider::groove:horizontal {
+    height: 4px;
+    background: #E2E8F0;
+    border-radius: 2px;
+}
+
+QSlider#paramSlider::sub-page:horizontal {
+    background: #0F766E;
+    border-radius: 2px;
+}
+
+QSlider#paramSlider::handle:horizontal {
+    background: #0F766E;
+    width: 13px;
+    height: 13px;
+    margin: -5px 0;
+    border-radius: 7px;
+}
+
+#sliderTick {
+    color: #64748B;
+    font-size: 11px;
+}
+
+#paramJsonBox {
+    font-family: Consolas, "Microsoft YaHei UI", monospace;
+    font-size: 12px;
+    background: #F8FAFC;
+}
+
+#paramHelpBox {
+    background: #EFF6FF;
+    border: 1px solid #BFDBFE;
+    border-radius: 10px;
+}
+
+#paramHelpTitle {
+    color: #2563EB;
+    font-weight: 900;
+    font-size: 13px;
+}
+
+#paramHelpText,
+#infoBlockText,
+#policyDescText {
+    color: #334155;
+    font-size: 12px;
+}
+
+#infoBlockTitle {
+    color: #0F172A;
+    font-size: 13px;
+    font-weight: 900;
+    margin-top: 6px;
+}
+
+#policyMiniCard,
+#policyDescCard {
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 10px;
+}
+
+#policyMiniTitle {
+    color: #0F172A;
+    font-size: 12px;
+    font-weight: 900;
+}
+
+QPushButton#policySaveButton,
+QPushButton#policyActionButton,
+QPushButton#policyImportButton,
+QPushButton#policyJsonButton,
+QPushButton#policyResetButton {
+    min-height: 30px;
+    font-weight: 800;
+}
+
+QPushButton#policySaveButton {
+    background: #FFFFFF;
+    border: 1px solid #A7F3D0;
+    color: #0F766E;
+}
+
+QPushButton#policySaveButton:hover {
+    background: #ECFDF5;
+}
+
+QPushButton#policyImportButton {
+    color: #7C3AED;
+    border-color: #DDD6FE;
+}
+
+QPushButton#policyJsonButton {
+    color: #2563EB;
+    border-color: #BFDBFE;
+}
+
+QPushButton#policyResetButton {
+    color: #EF4444;
+    border-color: #FECACA;
+}
+
+#analysisSourceCard {
+    min-height: 64px;
+}
+
+#analysisSourceLabel {
+    color: #0F172A;
+    font-size: 13px;
+    font-weight: 900;
+    min-width: 72px;
+}
+
+QLineEdit#analysisSourceInput {
+    min-height: 30px;
+    max-height: 30px;
+}
+
+#analysisSummaryCard {
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+}
+
+#analysisSummaryIcon {
+    min-width: 44px;
+    max-width: 44px;
+    min-height: 44px;
+    max-height: 44px;
+    border-radius: 10px;
+    font-size: 21px;
+    font-weight: 900;
+}
+
+#analysisSummaryIcon[tone="green"] {
+    background: #ECFDF5;
+    color: #0F766E;
+}
+
+#analysisSummaryIcon[tone="blue"] {
+    background: #EFF6FF;
+    color: #2563EB;
+}
+
+#analysisSummaryIcon[tone="purple"] {
+    background: #F5F3FF;
+    color: #7C3AED;
+}
+
+#analysisSummaryIcon[tone="orange"] {
+    background: #FFF7ED;
+    color: #F97316;
+}
+
+#analysisSummaryIcon[tone="neutral"] {
+    background: #F8FAFC;
+    color: #334155;
+}
+
+#analysisSummaryTitle {
+    color: #334155;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+#analysisSummaryValue {
+    color: #0F172A;
+    font-size: 18px;
+    font-weight: 900;
+}
+
+#analysisChartCard {
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+}
+
+#analysisChartTitle,
+#analysisBlockTitle {
+    color: #0F172A;
+    font-size: 15px;
+    font-weight: 900;
+}
+
+#analysisTabsCard {
+    min-height: 300px;
+}
+
+QTabWidget#analysisTabs::pane {
+    border: none;
+    background: #FFFFFF;
+}
+
+QTabWidget#analysisTabs QTabBar::tab {
+    background: #FFFFFF;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: #334155;
+    padding: 7px 14px;
+    margin-right: 10px;
+    border-radius: 0px;
+}
+
+QTabWidget#analysisTabs QTabBar::tab:selected {
+    color: #0F766E;
+    border-bottom: 2px solid #0F766E;
+    font-weight: 900;
+}
+
+QTableWidget#analysisTrialTable {
+    border-radius: 10px;
+}
+
+QPushButton#analysisViewButton {
+    min-width: 34px;
+    max-width: 34px;
+    min-height: 26px;
+    max-height: 26px;
+    padding: 0px;
+    color: #334155;
+}
+
+#analysisPagerText {
+    color: #64748B;
+    font-size: 12px;
+}
+
+#analysisPagerCurrent {
+    color: #0F766E;
+    font-size: 12px;
+    font-weight: 900;
+    min-width: 24px;
+    qproperty-alignment: AlignCenter;
+}
+
+#diagnosisCountBox {
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 10px;
+}
+
+#diagnosisCountTitle {
+    color: #64748B;
+    font-size: 12px;
+    qproperty-alignment: AlignCenter;
+}
+
+#diagnosisCountValue {
+    font-size: 18px;
+    font-weight: 900;
+    qproperty-alignment: AlignCenter;
+}
+
+#diagnosisCountValue[tone="error"] {
+    color: #EF4444;
+}
+
+#diagnosisCountValue[tone="warning"] {
+    color: #F59E0B;
+}
+
+#diagnosisCountValue[tone="success"] {
+    color: #10B981;
+}
+
+#diagnosisCountValue[tone="blue"] {
+    color: #2563EB;
+}
+
+#diagnosisIssueCard {
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 10px;
+}
+
+#diagnosisIssueCard[tone="error"] {
+    border-left: 3px solid #EF4444;
+}
+
+#diagnosisIssueCard[tone="warning"] {
+    border-left: 3px solid #F59E0B;
+}
+
+#diagnosisIssueCard[tone="success"] {
+    border-left: 3px solid #10B981;
+}
+
+#diagnosisIssueIcon {
+    min-width: 28px;
+    max-width: 28px;
+    min-height: 28px;
+    max-height: 28px;
+    border-radius: 14px;
+    font-weight: 900;
+}
+
+#diagnosisIssueIcon[tone="error"] {
+    background: #FEF2F2;
+    color: #EF4444;
+}
+
+#diagnosisIssueIcon[tone="warning"] {
+    background: #FFF7ED;
+    color: #F97316;
+}
+
+#diagnosisIssueIcon[tone="success"] {
+    background: #ECFDF5;
+    color: #0F766E;
+}
+
+#diagnosisIssueTitle {
+    color: #0F172A;
+    font-size: 14px;
+    font-weight: 900;
+}
+
+#diagnosisIssueDescription {
+    color: #334155;
+    font-size: 12px;
+}
+
+#diagnosisIssueMeta {
+    color: #475569;
+    font-size: 12px;
+}
+
+#diagnosisIssueArrow {
+    color: #64748B;
+    font-size: 24px;
+    min-width: 20px;
+}
+
+#diagnosisCategoryList,
+#strategyDetailPanel {
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 10px;
+}
+
+#diagnosisCategoryItem {
+    background: #FFFFFF;
+    border-radius: 8px;
+    padding: 9px 10px;
+    color: #334155;
+    font-weight: 700;
+}
+
+#diagnosisCategoryItem[active="true"] {
+    background: #E6F4F1;
+    color: #0F766E;
+}
+
+#strategySummaryKey {
+    color: #64748B;
+    font-size: 12px;
+}
+
+#strategySummaryValue {
+    color: #0F172A;
+    font-size: 12px;
+    font-weight: 900;
+}
+
+#strategyOpCard {
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-radius: 10px;
+}
+
+#strategyOpIndex {
+    min-width: 28px;
+    max-width: 28px;
+    min-height: 28px;
+    max-height: 28px;
+    border-radius: 8px;
+    background: #ECFDF5;
+    color: #0F766E;
+    font-weight: 900;
+    qproperty-alignment: AlignCenter;
+}
+
+#strategyOpName {
+    color: #0F172A;
+    font-size: 13px;
+    font-weight: 900;
+    min-width: 110px;
+}
+
+#strategyOpMeta,
+#strategyEvalText {
+    color: #334155;
+    font-size: 12px;
+}
+
+QListWidget#analysisFileList {
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 10px;
+    padding: 6px;
+}
+
+QListWidget#analysisFileList::item {
+    padding: 9px 10px;
+    border-radius: 8px;
+}
+
+QListWidget#analysisFileList::item:selected {
+    background: #E6F4F1;
+    color: #0F766E;
+    font-weight: 800;
+}
+
+QPlainTextEdit#analysisLogViewer,
+QPlainTextEdit#jsonTabViewer {
+    background: #F8FAFC;
+    color: #0F172A;
+    border: 1px solid #E2E8F0;
+    border-radius: 10px;
+    font-family: Consolas, "Cascadia Mono", monospace;
+    font-size: 12px;
+}
+
+QPlainTextEdit#analysisTerminalViewer {
+    background: #111827;
+    color: #22C55E;
+    border: 1px solid #111827;
+    border-radius: 10px;
+    font-family: Consolas, "Cascadia Mono", monospace;
+    font-size: 12px;
+}
+
+QPushButton {
+    min-height: 30px;
+    background: #FFFFFF;
+    border: 1px solid #CBD5E1;
+    border-radius: 8px;
+    padding: 5px 12px;
+    color: #334155;
+}
+
+QPushButton:hover {
+    background: #F8FAFC;
+    border-color: #0F766E;
+}
+
+QPushButton#primaryButton {
+    background: #0F766E;
+    border-color: #0F766E;
+    color: #FFFFFF;
+    font-weight: 700;
+}
+
+QPushButton#primaryButton:hover {
+    background: #115E59;
+    border-color: #115E59;
+}
+
+QPushButton#dangerButton {
+    background: #EF4444;
+    border-color: #EF4444;
+    color: #FFFFFF;
+    font-weight: 700;
+}
+
+QPushButton#secondaryButton {
+    background: #FFFFFF;
+    border-color: #CBD5E1;
+    color: #334155;
+    font-weight: 700;
+}
+
+QPushButton#secondaryButton:hover {
+    background: #F8FAFC;
+    border-color: #0F766E;
+}
+
+QPushButton#sideButton {
+    min-height: 32px;
+    margin: 4px 12px;
+    text-align: left;
+    background: #FFFFFF;
+    color: #334155;
+    border: 1px solid #E2E8F0;
+    border-radius: 8px;
+}
+
+QPushButton#sideButton:hover {
+    background: #F8FAFC;
+    border-color: #CBD5E1;
+}
+
+QLineEdit,
+QSpinBox,
+QDoubleSpinBox,
+QTextEdit,
+QPlainTextEdit,
+QComboBox {
+    background: #FFFFFF;
+    border: 1px solid #CBD5E1;
+    border-radius: 8px;
+    padding: 4px 8px;
+}
+
+QLineEdit:focus,
+QSpinBox:focus,
+QDoubleSpinBox:focus,
+QTextEdit:focus,
+QPlainTextEdit:focus,
+QComboBox:focus {
+    border: 1px solid #0F766E;
+}
+
+QPlainTextEdit,
+QTextEdit {
+    font-family: Consolas, "Microsoft YaHei UI", monospace;
+}
+
+QTableWidget {
+    background: #FFFFFF;
+    alternate-background-color: #F8FAFC;
+    selection-background-color: #CCFBF1;
+    selection-color: #0F172A;
+    gridline-color: #E2E8F0;
+    border: 1px solid #E2E8F0;
+    border-radius: 10px;
+}
+
+QTableWidget::item {
+    padding: 6px;
+}
+
+QHeaderView::section {
+    background: #F1F5F9;
+    color: #334155;
+    border: none;
+    border-right: 1px solid #E2E8F0;
+    padding: 5px;
+    font-weight: 700;
+}
+
+QTabWidget::pane {
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    background: #FFFFFF;
+}
+
+QTabBar::tab {
+    background: #F8FAFC;
+    color: #475569;
+    border: 1px solid #E2E8F0;
+    border-bottom: none;
+    padding: 9px 14px;
+    margin-right: 4px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+QTabBar::tab:selected {
+    background: #FFFFFF;
+    color: #0F766E;
+    font-weight: 700;
+}
+
+QScrollBar:vertical {
+    background: transparent;
+    width: 10px;
+    margin: 2px;
+}
+
+QScrollBar::handle:vertical {
+    background: #CBD5E1;
+    border-radius: 5px;
+    min-height: 28px;
+}
+
+QScrollBar::add-line:vertical,
+QScrollBar::sub-line:vertical {
+    height: 0px;
+}
+
+QScrollBar:horizontal {
+    background: transparent;
+    height: 10px;
+    margin: 2px;
+}
+
+QScrollBar::handle:horizontal {
+    background: #CBD5E1;
+    border-radius: 5px;
+    min-width: 28px;
+}
+
+QScrollBar::add-line:horizontal,
+QScrollBar::sub-line:horizontal {
+    width: 0px;
+}

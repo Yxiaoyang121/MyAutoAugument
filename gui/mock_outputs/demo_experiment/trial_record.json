@@ -1,0 +1,52 @@
+[
+  {
+    "trial": 1,
+    "mAP50": 0.742,
+    "mAP50_95": 0.491,
+    "score": 0.604,
+    "epochs": 30,
+    "imgsz": 640,
+    "status": "completed",
+    "policy_id": "policy_001"
+  },
+  {
+    "trial": 2,
+    "mAP50": 0.801,
+    "mAP50_95": 0.544,
+    "score": 0.667,
+    "epochs": 30,
+    "imgsz": 640,
+    "status": "completed",
+    "policy_id": "policy_002"
+  },
+  {
+    "trial": 3,
+    "mAP50": 0.836,
+    "mAP50_95": 0.589,
+    "score": 0.711,
+    "epochs": 30,
+    "imgsz": 640,
+    "status": "completed",
+    "policy_id": "policy_003"
+  },
+  {
+    "trial": 4,
+    "mAP50": 0.872,
+    "mAP50_95": 0.621,
+    "score": 0.748,
+    "epochs": 30,
+    "imgsz": 640,
+    "status": "completed",
+    "policy_id": "policy_004"
+  },
+  {
+    "trial": 5,
+    "mAP50": 0.854,
+    "mAP50_95": 0.607,
+    "score": 0.731,
+    "epochs": 30,
+    "imgsz": 640,
+    "status": "completed",
+    "policy_id": "policy_005"
+  }
+]

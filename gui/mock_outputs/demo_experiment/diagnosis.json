@@ -1,0 +1,13 @@
+{
+  "overall": "Trial 4 produced the best composite score. Trial 5 improved diversity but slightly reduced localization stability.",
+  "findings": [
+    "Moderate rotation and translation improved mAP50 across early trials.",
+    "Adding random crop helped mAP50-95 when crop ratio stayed above 0.82.",
+    "Blur introduced in trial 5 reduced the score for this mock dataset."
+  ],
+  "recommendations": [
+    "Keep rotate range within +/-8 degrees for the next search round.",
+    "Retain random crop with a conservative lower bound.",
+    "Lower blur probability or disable blur for small defect targets."
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "experiment_name": "demo_local_closed_loop",
+  "dataset": "assets demo dataset",
+  "status": "completed",
+  "created_at": "2026-05-13T20:30:00",
+  "total_trials": 5,
+  "best_trial": 4,
+  "best_map50": 0.872,
+  "best_map5095": 0.621,
+  "best_score": 0.748
+}

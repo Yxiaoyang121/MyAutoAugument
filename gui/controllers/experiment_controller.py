@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import json
-import re
 from datetime import datetime
 from pathlib import Path
 
@@ -29,8 +28,8 @@ class ExperimentController(QObject):
         self.runner = LocalExperimentRunner(self.project_root)
         self.repository = ResultRepository(self.project_root)
         self.current_output_dir = ""
-        self.total_trials = 0
-        self._last_trial_count = 0
+        self.total_tasks = 1
+        self._last_record_count = 0
 
         self._poll_timer = QTimer(self)
         self._poll_timer.setInterval(1500)
@@ -51,8 +50,8 @@ class ExperimentController(QObject):
         config.output_dir = str(output_dir)
         config_path = config.save(output_dir / "gui_experiment_config.json")
         self.current_output_dir = str(output_dir)
-        self.total_trials = int(config.trials)
-        self._last_trial_count = 0
+        self.total_tasks = 1
+        self._last_record_count = 0
 
         if self.app_state is not None:
             self.app_state.set_output_dir(str(output_dir))
@@ -86,7 +85,6 @@ class ExperimentController(QObject):
                 self._handle_event_line(line[len("GUI_EVENT ") :])
                 continue
             self.log_received.emit(line)
-            self._handle_legacy_trial_line(line)
 
     def _handle_event_line(self, payload: str) -> None:
         try:
@@ -94,33 +92,34 @@ class ExperimentController(QObject):
         except json.JSONDecodeError:
             self.log_received.emit(f"[GUI] 无法解析后端事件: {payload}")
             return
+
         event_type = str(event.get("type", ""))
+        if event_type == "phase":
+            current = int(event.get("current") or 0)
+            total = int(event.get("total") or self.total_tasks or 1)
+            stage = str(event.get("stage") or "运行中")
+            self.progress_changed.emit(current, total, stage)
+            return
+
         if event_type == "trial_complete":
             current = int(event.get("trial_number") or int(event.get("trial_index", 0)) + 1)
-            total = int(event.get("total_trials") or self.total_trials or current)
+            total = int(event.get("total_trials") or current)
             score = event.get("score")
-            accepted = "已接受" if event.get("accepted") else "拒绝"
-            self.log_received.emit(f"[GUI] Trial {current}/{total} 完成，score={self._fmt(score)}，{accepted}")
+            self.log_received.emit(f"[GUI] 训练记录 {current}/{total} 完成，score={self._fmt(score)}")
             self.trial_event.emit(event)
-            self.progress_changed.emit(current, total, "Trial 完成")
+            self.progress_changed.emit(current, total, "训练记录更新")
             self._poll_results()
-        elif event_type == "experiment_finished":
-            total = int(event.get("total_trials") or self.total_trials)
-            best_score = event.get("best_score")
-            self.log_received.emit(f"[GUI] 实验完成，total={total}，best_score={self._fmt(best_score)}")
-            if total:
-                self.progress_changed.emit(total, total, "实验完成")
-            self._poll_results()
-        else:
-            self.log_received.emit(f"[GUI] 后端事件: {event_type or payload}")
-
-    def _handle_legacy_trial_line(self, line: str) -> None:
-        match = re.search(r"(?:试验|trial)[=： ]+0*(\d+)", line, flags=re.IGNORECASE)
-        if not match:
             return
-        current = int(match.group(1)) + 1
-        total = self.total_trials or current
-        self.progress_changed.emit(min(current, total), total, "Trial 完成")
+
+        if event_type == "experiment_finished":
+            total = int(event.get("total_trials") or self.total_tasks or 1)
+            best_score = event.get("best_score")
+            self.log_received.emit(f"[GUI] 训练任务完成，total={total}，best_score={self._fmt(best_score)}")
+            self.progress_changed.emit(total, total, "训练任务完成")
+            self._poll_results()
+            return
+
+        self.log_received.emit(f"[GUI] 后端事件: {event_type or payload}")
 
     def _poll_results(self) -> None:
         if not self.current_output_dir:
@@ -129,11 +128,11 @@ class ExperimentController(QObject):
             return
         data = self.repository.load(self.current_output_dir)
         records = data.get("trials") if isinstance(data.get("trials"), list) else []
-        if len(records) != self._last_trial_count:
-            self._last_trial_count = len(records)
+        if len(records) != self._last_record_count:
+            self._last_record_count = len(records)
             self.trials_updated.emit(records)
-            if self.total_trials:
-                self.progress_changed.emit(min(len(records), self.total_trials), self.total_trials, "结果文件更新")
+            if self.total_tasks:
+                self.progress_changed.emit(min(len(records), self.total_tasks), self.total_tasks, "结果文件更新")
 
     def _on_started(self) -> None:
         if self.app_state is not None:

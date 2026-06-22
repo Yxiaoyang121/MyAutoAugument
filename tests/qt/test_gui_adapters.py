@@ -8,13 +8,13 @@ from pathlib import Path
 from AutoAugment.augmentations import get_augmentation, list_augmentations
 from AutoAugment.policies import Policy
 from gui.adapters import BackendCapabilityAdapter, PolicyAdapter
+from gui.adapters.gui_experiment_launcher import build_training_command
 from gui.models import ExperimentConfig
 from gui.models.experiment_config import (
+    PRESERVE_WEAK_DATA_DEFAULT,
     TRAINING_MODE_CUSTOM,
-    TRAINING_MODE_FIXED_CATF,
-    TRAINING_MODE_INTELLIGENT,
-    TRAINING_MODE_LEGACY_SEARCH,
-    TRAINING_MODE_NORMAL,
+    TRAINING_MODE_PRESERVE_WEAK,
+    TRAINING_MODE_YOLO_DEFAULT,
 )
 from gui.services import ResultLoader
 
@@ -104,15 +104,14 @@ def test_experiment_config_unifies_dataset_policy_and_run_params() -> None:
         policy=policy,
         params={
             "output_dir": str(tmp_path),
-            "trials": 3,
             "epochs": 5,
             "imgsz": 640,
             "workers": 0,
             "batch": 4,
             "seed": 123,
-            "proxy_prefilter": True,
-            "real_yolo_validation": False,
-            "smoke_test": False,
+            "device": "cpu",
+            "run_mode": TRAINING_MODE_CUSTOM,
+            "yolo_aug_params": {"hsv_h": 0.02, "fliplr": 0.6},
         },
     )
     saved = cfg.save(tmp_path / "gui_experiment_config.json")
@@ -121,59 +120,102 @@ def test_experiment_config_unifies_dataset_policy_and_run_params() -> None:
     assert loaded.policy == policy
     assert loaded.run_mode == TRAINING_MODE_CUSTOM
     assert loaded.proxy_prefilter is False
-    assert loaded.evaluator == "proxy"
+    assert loaded.evaluator == "train_yolo"
+    assert loaded.device == "cpu"
+    assert loaded.yolo_aug_params["fliplr"] == 0.6
 
 
-def test_training_mode_profiles_hide_catf_ablation_by_default() -> None:
+def test_training_modes_are_limited_to_custom_default_and_preserve_weak() -> None:
     cfg = ExperimentConfig.from_gui(
-        dataset_path="dataset",
+        dataset_path=PRESERVE_WEAK_DATA_DEFAULT,
         policy={"name": "gui_policy", "operations": []},
-        params={"run_mode": TRAINING_MODE_INTELLIGENT, "trials": 8, "output_dir": "outputs", "real_yolo_validation": True},
+        params={"run_mode": TRAINING_MODE_PRESERVE_WEAK, "output_dir": "outputs"},
     )
     profile = cfg.training_profile()
-    assert cfg.run_mode == TRAINING_MODE_INTELLIGENT
-    assert cfg.trials == 8
-    assert cfg.proxy_prefilter is True
-    assert cfg.adaptive_policy is True
+    assert cfg.run_mode == TRAINING_MODE_PRESERVE_WEAK
+    assert cfg.model == "yolo11n.pt"
+    assert cfg.epochs == 50
+    assert cfg.imgsz == 1024
+    assert cfg.batch == 2
+    assert cfg.workers == 0
+    assert cfg.device == "0"
+    assert cfg.seed == 0
     assert profile["profile_id"] == "preserve_weak_image_only_catf"
     assert profile["backend_profile"] == "Preserve-Weak Image-only CATF"
     assert profile["image_only"] is True
     assert profile["sampler_only"] is False
     assert profile["weighted_index_list"] is False
     assert profile["sampled_distribution_changed"] is False
+    assert cfg.algorithm_lock["disable_sampler_only"] is True
+    assert cfg.algorithm_lock["sampler_only"] is False
+    assert cfg.algorithm_lock["weighted_index_list"] is False
+    assert cfg.algorithm_lock["sampled_distribution_changed"] is False
 
-    normal = ExperimentConfig.from_gui(
+    yolo_default = ExperimentConfig.from_gui(
         dataset_path="dataset",
         policy={"name": "gui_policy", "operations": []},
-        params={"run_mode": TRAINING_MODE_NORMAL, "trials": 8, "output_dir": "outputs", "real_yolo_validation": True},
+        params={"run_mode": TRAINING_MODE_YOLO_DEFAULT, "output_dir": "outputs", "model": "yolo11n.pt"},
     )
-    assert normal.trials == 1
-    assert normal.proxy_prefilter is False
-    assert normal.adaptive_policy is False
-    assert normal.training_profile()["profile_id"] == "clean_yolo_default"
+    assert yolo_default.proxy_prefilter is False
+    assert yolo_default.adaptive_policy is False
+    assert yolo_default.training_profile()["profile_id"] == "clean_yolo_default"
 
     custom = ExperimentConfig.from_gui(
         dataset_path="dataset",
         policy={"name": "gui_policy", "operations": []},
-        params={"run_mode": TRAINING_MODE_CUSTOM, "trials": 8, "output_dir": "outputs", "real_yolo_validation": True},
+        params={"run_mode": TRAINING_MODE_CUSTOM, "output_dir": "outputs", "yolo_aug_params": {"mosaic": 0.2}},
     )
-    assert custom.trials == 1
     assert custom.proxy_prefilter is False
     assert custom.adaptive_policy is False
+    assert custom.training_profile()["custom_yolo_augment_enabled"] is True
+    assert custom.yolo_aug_params == {"mosaic": 0.2}
 
-    fixed = ExperimentConfig.from_gui(
-        dataset_path="dataset",
-        policy={"name": "gui_policy", "operations": []},
-        params={"run_mode": TRAINING_MODE_FIXED_CATF, "trials": 8, "output_dir": "outputs", "real_yolo_validation": True},
-    )
-    assert fixed.trials == 1
-    assert fixed.training_profile()["hidden_by_default"] is True
 
-    legacy = ExperimentConfig.from_gui(
-        dataset_path="dataset",
-        policy={"name": "gui_policy", "operations": []},
-        params={"run_mode": TRAINING_MODE_LEGACY_SEARCH, "trials": 8, "output_dir": "outputs", "real_yolo_validation": True},
+def test_training_command_generation_matches_three_modes() -> None:
+    output = workspace_tmp("commands")
+    policy = {"name": "gui_policy", "operations": []}
+
+    preserve = ExperimentConfig.from_gui(
+        dataset_path=PRESERVE_WEAK_DATA_DEFAULT,
+        policy=policy,
+        params={"run_mode": TRAINING_MODE_PRESERVE_WEAK, "output_dir": str(output)},
     )
-    assert legacy.trials == 8
-    assert legacy.proxy_prefilter is False
-    assert legacy.adaptive_policy is False
+    preserve_command = build_training_command(preserve, output)
+    preserve_text = " ".join(preserve_command)
+    assert "scripts\\train_yolo_default_with_inloop_feedback.py" in preserve_text or "scripts/train_yolo_default_with_inloop_feedback.py" in preserve_text
+    assert "--catf-version" in preserve_command and "v2" in preserve_command
+    assert "--image-only-mainline" in preserve_command
+    assert "--preserve-original-enabled" in preserve_command
+    assert "--weak-image-aug-enabled" in preserve_command
+    assert "--weak-only-for-moderate-risk" in preserve_command
+    assert "--disable-sampler-only" in preserve_command
+    assert "--industrial-aug-enabled" in preserve_command
+
+    yolo_default = ExperimentConfig.from_gui(
+        dataset_path="dataset/data.yaml",
+        policy=policy,
+        params={"run_mode": TRAINING_MODE_YOLO_DEFAULT, "output_dir": str(output), "model": "yolo11n.pt"},
+    )
+    yolo_command = build_training_command(yolo_default, output)
+    yolo_text = " ".join(yolo_command)
+    assert yolo_command[:3] == ["yolo", "detect", "train"]
+    assert "--catf-version" not in yolo_command
+    assert "mosaic=" not in yolo_text
+
+    custom = ExperimentConfig.from_gui(
+        dataset_path="dataset/data.yaml",
+        policy=policy,
+        params={
+            "run_mode": TRAINING_MODE_CUSTOM,
+            "output_dir": str(output),
+            "model": "yolo11n.pt",
+            "yolo_aug_params": {"hsv_h": 0.02, "mosaic": 0.3, "fliplr": 0.4},
+        },
+    )
+    custom_command = build_training_command(custom, output)
+    custom_text = " ".join(custom_command)
+    assert custom_command[:3] == ["yolo", "detect", "train"]
+    assert "hsv_h=0.02" in custom_text
+    assert "mosaic=0.3" in custom_text
+    assert "fliplr=0.4" in custom_text
+    assert "--catf-version" not in custom_command

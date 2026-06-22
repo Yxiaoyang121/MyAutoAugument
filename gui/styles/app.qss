@@ -270,6 +270,7 @@ QStackedWidget#contentStack {
 
 QLineEdit#experimentInput,
 QSpinBox#experimentSpin,
+QDoubleSpinBox#experimentSpin,
 QComboBox#experimentCombo {
     min-height: 30px;
     max-height: 30px;
@@ -285,6 +286,65 @@ QComboBox#experimentCombo {
     color: #0F172A;
     font-size: 13px;
     font-weight: 900;
+}
+
+#modeSummaryCard {
+    background: #F8FAFC;
+    border: 1px solid #CDEBE4;
+    border-radius: 10px;
+}
+
+#modeSummaryTitle {
+    color: #0F172A;
+    font-size: 14px;
+    font-weight: 900;
+}
+
+#modeSummaryDescription,
+#modeSummaryRoute,
+#modeSummaryMatrix,
+#modeProxyHelp {
+    color: #475569;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+#modeSummaryRoute {
+    color: #0F766E;
+}
+
+#modeSummaryBadge {
+    background: #ECFDF5;
+    border: 1px solid #A7F3D0;
+    border-radius: 8px;
+    color: #0F766E;
+    font-size: 11px;
+    font-weight: 800;
+    padding: 3px 8px;
+}
+
+#lockKey {
+    color: #475569;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+#lockValue {
+    color: #0F766E;
+    font-size: 11px;
+    font-weight: 900;
+}
+
+#modeProxyHelp {
+    background: #FFFFFF;
+    border: 1px dashed #CBD5E1;
+    border-radius: 8px;
+    padding: 6px 8px;
+}
+
+#internalOptionsFrame {
+    background: transparent;
+    border: none;
 }
 
 QCheckBox#experimentCheck,

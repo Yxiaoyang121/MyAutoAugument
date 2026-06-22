@@ -4,15 +4,8 @@ from PySide6.QtWidgets import QCheckBox, QHBoxLayout, QPlainTextEdit, QPushButto
 
 
 MOCK_LOGS = [
-    "[14:28:10] > Experiment started.",
-    r"[14:28:10] > Dataset: D:\AutoAugment\dataset",
-    "[14:28:10] > Trials: 24, Epochs: 50, ImgSize: 640",
-    "[14:28:11] > Trial 7 started.",
-    "[14:28:11] > Augmenting 500 samples ...",
-    "[14:28:13] > Augment completed. Time: 1.82s",
-    "[14:28:13] > Training model (Epoch 32/50) ...",
-    "[14:28:15] > Epoch 32/50 - Loss: 0.8421 - mAP50: 0.8763",
-    "...",
+    "[14:28:10] > Waiting for training task.",
+    "[14:28:10] > Configure mode, data.yaml, model and training parameters.",
 ]
 
 

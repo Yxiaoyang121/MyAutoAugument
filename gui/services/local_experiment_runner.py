@@ -5,7 +5,7 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from PySide6.QtCore import QObject, QProcess, Signal
+from PySide6.QtCore import QObject, QProcess, QProcessEnvironment, Signal
 
 
 class LocalExperimentRunner(QObject):
@@ -28,35 +28,40 @@ class LocalExperimentRunner(QObject):
         self._process.finished.connect(self._on_finished)
         self._process.errorOccurred.connect(self._on_error)
         self._process.stateChanged.connect(self._on_state_changed)
+        self._stop_requested = False
 
     def is_running(self) -> bool:
         return self._process.state() != QProcess.ProcessState.NotRunning
 
     def start(self, config: dict[str, Any]) -> bool:
         if self.is_running():
-            self.error.emit("已有实验正在运行。")
+            self.error.emit("experiment is already running")
             return False
 
+        self._stop_requested = False
         script = self._resolve_backend_script(config.get("entry_script"))
         if script is None:
-            message = "未找到本地后端脚本。请检查 gui/adapters/gui_experiment_launcher.py 是否存在。"
+            message = "backend script not found: gui/adapters/gui_experiment_launcher.py"
             self.log_received.emit(message)
             self.finished.emit(127, "missing backend script")
             return False
 
         args = [str(script), *self._build_cli_args(config, script)]
         self._process.setWorkingDirectory(str(self.project_root))
-        self.log_received.emit(f"[GUI] Launch: {sys.executable} {' '.join(args)}")
-        self._process.start(sys.executable, args)
+        self._process.setProcessEnvironment(self._build_process_environment())
+        python_executable = self._backend_python_executable()
+        self.log_received.emit(f"[GUI] Launch: {python_executable} {' '.join(args)}")
+        self._process.start(str(python_executable), args)
         return True
 
     def stop(self) -> None:
         if not self.is_running():
-            self.log_received.emit("[GUI] 当前没有正在运行的实验。")
+            self.log_received.emit("[GUI] No running experiment.")
             return
 
         pid = int(self._process.processId())
-        self.log_received.emit("[GUI] 正在停止实验进程...")
+        self._stop_requested = True
+        self.log_received.emit("[GUI] Stopping experiment process...")
         if os.name == "nt" and pid > 0:
             killer = QProcess(self)
             killer.start("taskkill", ["/PID", str(pid), "/T", "/F"])
@@ -64,7 +69,7 @@ class LocalExperimentRunner(QObject):
         else:
             self._process.terminate()
         if not self._process.waitForFinished(3000):
-            self.log_received.emit("[GUI] 停止超时，强制结束进程。")
+            self.log_received.emit("[GUI] Stop timed out; killing process.")
             self._process.kill()
 
     def _resolve_backend_script(self, configured: Any) -> Path | None:
@@ -115,6 +120,20 @@ class LocalExperimentRunner(QObject):
         args.extend(["--evaluator", "train_yolo" if config.get("real_yolo_validation") else "proxy"])
         return args
 
+    def _backend_python_executable(self) -> Path:
+        executable = Path(sys.executable)
+        if executable.name.lower() == "pythonw.exe":
+            python_exe = executable.with_name("python.exe")
+            if python_exe.exists():
+                return python_exe
+        return executable
+
+    def _build_process_environment(self) -> QProcessEnvironment:
+        env = QProcessEnvironment.systemEnvironment()
+        env.insert("PYTHONIOENCODING", "utf-8")
+        env.insert("PYTHONUTF8", "1")
+        return env
+
     def _read_stdout(self) -> None:
         data = bytes(self._process.readAllStandardOutput()).decode("utf-8", errors="replace")
         if data:
@@ -127,15 +146,19 @@ class LocalExperimentRunner(QObject):
 
     def _on_started(self) -> None:
         self.started.emit()
-        self.log_received.emit("[GUI] 实验进程已启动。")
+        self.log_received.emit("[GUI] Experiment process started.")
 
     def _on_finished(self, exit_code: int, exit_status: QProcess.ExitStatus) -> None:
-        status = "正常退出" if exit_status == QProcess.ExitStatus.NormalExit else "异常退出"
-        self.log_received.emit(f"[GUI] 实验结束，退出码 {exit_code}（{status}）。")
+        if self._stop_requested:
+            status = "user stopped"
+        else:
+            status = "normal exit" if exit_status == QProcess.ExitStatus.NormalExit else "crashed"
+        self.log_received.emit(f"[GUI] Experiment process finished, exit_code={exit_code}, status={status}")
+        self._stop_requested = False
         self.finished.emit(exit_code, status)
 
     def _on_error(self, process_error: QProcess.ProcessError) -> None:
-        message = f"QProcess 错误: {process_error.name}"
+        message = f"QProcess error: {process_error.name}"
         self.log_received.emit(message)
         self.error.emit(message)
 

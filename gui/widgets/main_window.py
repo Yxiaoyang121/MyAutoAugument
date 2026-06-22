@@ -38,7 +38,7 @@ PAGE_HEADERS = {
     1: ("数据集", "数据集检查与统计", MOCK_DATASET_UPDATED_AT),
     2: ("策略", "管理和编辑数据增强策略", MOCK_UPDATED_AT),
     3: ("预览", "增强效果预览与 bbox 检查", MOCK_UPDATED_AT),
-    4: ("实验", "配置并运行 AutoAugment 自动搜索实验", MOCK_UPDATED_AT),
+    4: ("实验", "配置并运行后端训练任务", MOCK_UPDATED_AT),
     5: ("分析", "分析实验结果、诊断问题并优化策略", MOCK_UPDATED_AT),
 }
 

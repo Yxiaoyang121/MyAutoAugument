@@ -306,6 +306,8 @@ class CommandEvaluator(BaseEvaluator):
             cwd=str(self.cwd) if self.cwd is not None else None,
             capture_output=True,
             text=True,
+            encoding="utf-8",
+            errors="replace",
             timeout=self.timeout,
         )
         output = f"{completed.stdout}\n{completed.stderr}"
@@ -379,6 +381,8 @@ class YoloCommandEvaluator(BaseEvaluator):
             shell=True,
             capture_output=True,
             text=True,
+            encoding="utf-8",
+            errors="replace",
             timeout=self.timeout,
         )
         stdout_path.write_text(completed.stdout, encoding="utf-8", errors="replace")
@@ -587,6 +591,8 @@ class YoloTrainValEvaluator(BaseEvaluator):
             shell=True,
             capture_output=True,
             text=True,
+            encoding="utf-8",
+            errors="replace",
             timeout=self.timeout,
         )
         train_stdout_path.write_text(train_completed.stdout, encoding="utf-8", errors="replace")
@@ -621,6 +627,8 @@ class YoloTrainValEvaluator(BaseEvaluator):
             shell=True,
             capture_output=True,
             text=True,
+            encoding="utf-8",
+            errors="replace",
             timeout=self.timeout,
         )
         val_stdout_path.write_text(val_completed.stdout, encoding="utf-8", errors="replace")
@@ -723,6 +731,8 @@ class YoloTrainValEvaluator(BaseEvaluator):
             shell=True,
             capture_output=True,
             text=True,
+            encoding="utf-8",
+            errors="replace",
             timeout=self.timeout,
         )
         predict_stdout_path.write_text(completed.stdout, encoding="utf-8", errors="replace")

@@ -51,28 +51,28 @@ def test_main_window_resizes_across_pages() -> None:
         window.close()
 
 
-def test_experiment_page_hides_ablation_modes_by_default() -> None:
+def test_experiment_page_exposes_only_three_training_modes() -> None:
     if importlib.util.find_spec("PySide6") is None:
         pytest.skip("PySide6 is not installed")
     os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
     from PySide6.QtWidgets import QApplication
 
-    from gui.models.experiment_config import TRAINING_MODE_FIXED_CATF, TRAINING_MODE_LEGACY_SEARCH
+    from gui.models.experiment_config import (
+        TRAINING_MODE_CUSTOM,
+        TRAINING_MODE_PRESERVE_WEAK,
+        TRAINING_MODE_YOLO_DEFAULT,
+    )
     from gui.widgets.experiment_config_panel import ExperimentConfigPanel
 
     app = QApplication.instance() or QApplication([sys.argv[0]])
     panel = ExperimentConfigPanel()
     try:
-        default_modes = [panel.run_mode.itemData(index) for index in range(panel.run_mode.count())]
-        assert len(default_modes) == 3
-        assert TRAINING_MODE_FIXED_CATF not in default_modes
-        assert TRAINING_MODE_LEGACY_SEARCH not in default_modes
-
-        panel.show_ablation_modes.setChecked(True)
-        app.processEvents()
-        advanced_modes = [panel.run_mode.itemData(index) for index in range(panel.run_mode.count())]
-        assert TRAINING_MODE_FIXED_CATF in advanced_modes
-        assert TRAINING_MODE_LEGACY_SEARCH in advanced_modes
+        modes = [panel.run_mode.itemData(index) for index in range(panel.run_mode.count())]
+        labels = [panel.run_mode.itemText(index) for index in range(panel.run_mode.count())]
+        assert modes == [TRAINING_MODE_CUSTOM, TRAINING_MODE_YOLO_DEFAULT, TRAINING_MODE_PRESERVE_WEAK]
+        assert labels == ["自定义增强策略训练", "YOLO 默认训练", "Preserve-Weak Image-only CATF"]
+        assert panel.run_mode.currentData() == TRAINING_MODE_PRESERVE_WEAK
+        assert not hasattr(panel, "show_ablation_modes")
     finally:
         panel.close()

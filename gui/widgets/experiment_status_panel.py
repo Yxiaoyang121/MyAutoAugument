@@ -37,7 +37,7 @@ class ExperimentStatusPanel(SectionCard):
         self._build_summary()
         self._build_progress()
         self._build_stepper()
-        self._build_trials()
+        self._build_records()
         self._build_logs()
 
     def append_log(self, line: str) -> None:
@@ -48,7 +48,7 @@ class ExperimentStatusPanel(SectionCard):
 
     def set_waiting(self) -> None:
         self.state_card.set_value("等待开始", "neutral")
-        self.trial_card.set_value("-")
+        self.task_card.set_value("-")
         self.stage_card.set_value("-")
         self.set_progress(0)
         self.stepper.set_stages(self._stage_rows("等待中", 0))
@@ -57,26 +57,20 @@ class ExperimentStatusPanel(SectionCard):
         self.state_card.set_value("已停止", "warning")
         self.stage_card.set_value("用户停止")
 
-    def set_process_running(self, total_trials: int) -> None:
+    def set_process_running(self, total_tasks: int = 1) -> None:
         self.state_card.set_value("运行中", "success")
-        self.trial_card.set_value(f"0 / {total_trials}")
-        self.stage_card.set_value("启动后端进程")
+        self.task_card.set_value(f"0 / {max(1, total_tasks)}")
+        self.stage_card.set_value("启动后端训练进程")
         self.set_progress(1)
         self.stepper.set_stages(
             [
-                {"name": "增强", "en": "Augment", "status": "进行中", "progress": 10},
+                {"name": "准备", "en": "Prepare", "status": "进行中", "progress": 10},
                 {"name": "训练", "en": "Train", "status": "等待中", "progress": 0},
                 {"name": "验证", "en": "Val", "status": "等待中", "progress": 0},
-                {"name": "诊断", "en": "Diag", "status": "等待中", "progress": 0},
-                {"name": "策略更新", "en": "Update", "status": "等待中", "progress": 0},
+                {"name": "反馈", "en": "Feedback", "status": "等待中", "progress": 0},
+                {"name": "完成", "en": "Done", "status": "等待中", "progress": 0},
             ]
         )
-
-    def set_running_mock(self) -> None:
-        self.state_card.set_value("运行中", "success")
-        self.trial_card.set_value("7 / 24")
-        self.stage_card.set_value("训练 Epoch 32/50")
-        self.set_progress(29)
 
     def set_progress(self, value: int) -> None:
         value = max(0, min(100, int(value)))
@@ -87,7 +81,8 @@ class ExperimentStatusPanel(SectionCard):
     def set_finished(self, success: bool) -> None:
         if success:
             self.state_card.set_value("已完成", "success")
-            self.stage_card.set_value("实验完成")
+            self.task_card.set_value("1 / 1")
+            self.stage_card.set_value("训练任务完成")
             self.set_progress(100)
             self.stepper.set_stages(self._stage_rows("已完成", 100))
         else:
@@ -95,24 +90,24 @@ class ExperimentStatusPanel(SectionCard):
             self.stage_card.set_value("后端返回错误")
 
     def set_trial_status(self, current: int, total: int, stage: str = "") -> None:
-        self.trial_card.set_value(f"{current} / {total}")
+        self.task_card.set_value(f"{current} / {max(1, total)}")
         if stage:
             self.stage_card.set_value(stage)
         if total > 0:
             self.set_progress(int(current * 100 / total))
 
     def set_trial_records(self, records: list[dict]) -> None:
-        self.trial_table.set_records(records)
+        self.record_table.set_records(records)
 
     def _build_summary(self) -> None:
         grid = QGridLayout()
         grid.setContentsMargins(0, 0, 0, 0)
         grid.setHorizontalSpacing(10)
         self.state_card = ExperimentStatusCard("当前状态", "等待开始", "neutral")
-        self.trial_card = ExperimentStatusCard("当前 Trial", "-")
+        self.task_card = ExperimentStatusCard("训练任务", "-")
         self.stage_card = ExperimentStatusCard("当前阶段", "-")
         self.progress_card = ExperimentStatusCard("总进度", "0%")
-        for index, card in enumerate([self.state_card, self.trial_card, self.stage_card, self.progress_card]):
+        for index, card in enumerate([self.state_card, self.task_card, self.stage_card, self.progress_card]):
             grid.addWidget(card, 0, index)
             grid.setColumnStretch(index, 1)
         self.body.addLayout(grid)
@@ -146,14 +141,14 @@ class ExperimentStatusPanel(SectionCard):
         layout.addWidget(self.stepper)
         self.body.addWidget(card)
 
-    def _build_trials(self) -> None:
-        title = QLabel("最近 Trial 记录")
+    def _build_records(self) -> None:
+        title = QLabel("训练记录")
         title.setObjectName("experimentBlockTitle")
         self.body.addWidget(title)
-        self.trial_table = TrialRecordTable()
-        self.trial_table.setMaximumHeight(152)
-        self.trial_table.set_records([])
-        self.body.addWidget(self.trial_table)
+        self.record_table = TrialRecordTable()
+        self.record_table.setMaximumHeight(152)
+        self.record_table.set_records([])
+        self.body.addWidget(self.record_table)
 
     def _build_logs(self) -> None:
         title = QLabel("实时日志（stdout / stderr）")
@@ -166,9 +161,9 @@ class ExperimentStatusPanel(SectionCard):
 
     def _stage_rows(self, status: str, progress: int) -> list[dict]:
         return [
-            {"name": "增强", "en": "Augment", "status": status, "progress": progress},
+            {"name": "准备", "en": "Prepare", "status": status, "progress": progress},
             {"name": "训练", "en": "Train", "status": status, "progress": progress},
             {"name": "验证", "en": "Val", "status": status, "progress": progress},
-            {"name": "诊断", "en": "Diag", "status": status, "progress": progress},
-            {"name": "策略更新", "en": "Update", "status": status, "progress": progress},
+            {"name": "反馈", "en": "Feedback", "status": status, "progress": progress},
+            {"name": "完成", "en": "Done", "status": status, "progress": progress},
         ]

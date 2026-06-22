@@ -6,11 +6,11 @@ from PySide6.QtWidgets import QHBoxLayout, QLabel, QVBoxLayout, QWidget
 
 
 DEFAULT_STAGES = [
-    {"name": "增强", "en": "Augment", "status": "等待中", "progress": 0},
+    {"name": "准备", "en": "Prepare", "status": "等待中", "progress": 0},
     {"name": "训练", "en": "Train", "status": "等待中", "progress": 0},
     {"name": "验证", "en": "Val", "status": "等待中", "progress": 0},
-    {"name": "诊断", "en": "Diag", "status": "等待中", "progress": 0},
-    {"name": "策略更新", "en": "Update", "status": "等待中", "progress": 0},
+    {"name": "反馈", "en": "Feedback", "status": "等待中", "progress": 0},
+    {"name": "完成", "en": "Done", "status": "等待中", "progress": 0},
 ]
 
 
@@ -57,7 +57,7 @@ class StageNode(QWidget):
         if tone == "done":
             return "✓"
         if tone == "active":
-            return "•"
+            return "●"
         return "○"
 
 

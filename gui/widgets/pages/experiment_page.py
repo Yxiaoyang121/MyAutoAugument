@@ -10,10 +10,8 @@ from gui.controllers import ExperimentController
 from gui.models import ExperimentConfig
 from gui.models.experiment_config import (
     TRAINING_MODE_CUSTOM,
-    TRAINING_MODE_FIXED_CATF,
-    TRAINING_MODE_INTELLIGENT,
-    TRAINING_MODE_LEGACY_SEARCH,
-    TRAINING_MODE_NORMAL,
+    TRAINING_MODE_PRESERVE_WEAK,
+    TRAINING_MODE_YOLO_DEFAULT,
 )
 from gui.services.app_state import AppState
 from gui.widgets.experiment_config_panel import ExperimentConfigPanel
@@ -31,7 +29,6 @@ class ExperimentPage(QWidget):
         self.current_policy: dict = {"name": "gui_policy", "operations": []}
         self._build_ui()
         self._connect_controller()
-        self.config_panel.set_dataset_path(str(self.project_root / "dataset"))
         self.config_panel.set_output_dir(str(self.project_root / "outputs"))
 
     def _build_ui(self) -> None:
@@ -62,7 +59,11 @@ class ExperimentPage(QWidget):
         self.current_policy = policy or {"name": "gui_policy", "operations": []}
 
     def set_dataset_path(self, path: str, inspection: dict | None = None) -> None:
-        self.config_panel.set_dataset_path(path)
+        dataset = Path(path)
+        if dataset.is_dir() and (dataset / "data.yaml").exists():
+            self.config_panel.set_dataset_path(str(dataset / "data.yaml"))
+        else:
+            self.config_panel.set_dataset_path(path)
 
     def _config(self) -> ExperimentConfig:
         values = self.config_panel.values()
@@ -71,22 +72,23 @@ class ExperimentPage(QWidget):
             dataset_path=values["dataset_path"],
             policy=self.current_policy,
             params={
+                "dataset_path": values["dataset_path"],
                 "output_dir": values["output_dir"],
-                "trials": values["trials"],
-                "samples": values["samples_per_trial"],
                 "epochs": values["epochs"],
                 "imgsz": values["imgsz"],
                 "workers": values["workers"],
                 "batch": values["batch"],
                 "seed": values["seed"],
+                "device": values["device"],
                 "model": values["model"],
                 "run_mode": values["run_mode"],
                 "metric": metric,
-                "proxy_prefilter": values["proxy_filter"],
-                "real_yolo_validation": values["real_yolo_train"],
+                "yolo_aug_params": values["yolo_aug_params"],
+                "proxy_prefilter": False,
+                "real_yolo_validation": True,
                 "smoke_test": False,
-                "adaptive_policy": values["adaptive_policy_update"],
-                "diagnose_trial_errors": values["per_trial_diagnosis"],
+                "adaptive_policy": False,
+                "diagnose_trial_errors": False,
             },
         )
 
@@ -96,11 +98,9 @@ class ExperimentPage(QWidget):
         self.status_panel.set_process_running(config.trials)
         self.config_panel.set_running(True)
         mode_text = {
-            TRAINING_MODE_NORMAL: "????",
-            TRAINING_MODE_CUSTOM: "???????",
-            TRAINING_MODE_INTELLIGENT: "????????",
-            TRAINING_MODE_FIXED_CATF: "fixed CATF-v2 ????",
-            TRAINING_MODE_LEGACY_SEARCH: "Legacy AutoAugment Search",
+            TRAINING_MODE_CUSTOM: "custom YOLO augmentation training",
+            TRAINING_MODE_YOLO_DEFAULT: "YOLO default training",
+            TRAINING_MODE_PRESERVE_WEAK: "Preserve-Weak Image-only CATF",
         }.get(config.run_mode, config.run_mode)
         self.status_panel.append_log(f"[GUI] Start requested: {mode_text}.")
         if not self.controller.start(config):
@@ -133,7 +133,10 @@ class ExperimentPage(QWidget):
     def _on_backend_finished(self, exit_code: int, status: str, output_dir: str) -> None:
         self.config_panel.set_running(False)
         self.output_dir_changed.emit(output_dir)
-        self.status_panel.set_finished(exit_code == 0)
+        if status == "user stopped":
+            self.status_panel.set_stopped()
+        else:
+            self.status_panel.set_finished(exit_code == 0)
         self.status_panel.append_log(f"[GUI] Backend finished: exit_code={exit_code}, status={status}")
 
     def _on_backend_error(self, message: str) -> None:

@@ -8,7 +8,7 @@ from pathlib import Path
 from AutoAugment.augmentations import get_augmentation, list_augmentations
 from AutoAugment.policies import Policy
 from gui.adapters import BackendCapabilityAdapter, PolicyAdapter
-from gui.adapters.gui_experiment_launcher import build_training_command
+from gui.adapters.gui_experiment_launcher import build_training_command, write_status
 from gui.models import ExperimentConfig
 from gui.models.experiment_config import (
     PRESERVE_WEAK_DATA_DEFAULT,
@@ -16,6 +16,7 @@ from gui.models.experiment_config import (
     TRAINING_MODE_PRESERVE_WEAK,
     TRAINING_MODE_YOLO_DEFAULT,
 )
+from gui.services.data_yaml_tools import classify_backend_error, generate_ascii_data_yaml, inspect_data_yaml_names
 from gui.services import ResultLoader
 
 
@@ -178,7 +179,7 @@ def test_training_command_generation_matches_three_modes() -> None:
     preserve = ExperimentConfig.from_gui(
         dataset_path=PRESERVE_WEAK_DATA_DEFAULT,
         policy=policy,
-        params={"run_mode": TRAINING_MODE_PRESERVE_WEAK, "output_dir": str(output)},
+        params={"run_mode": TRAINING_MODE_PRESERVE_WEAK, "output_dir": str(output), "seed": 42},
     )
     preserve_command = build_training_command(preserve, output)
     preserve_text = " ".join(preserve_command)
@@ -190,6 +191,8 @@ def test_training_command_generation_matches_three_modes() -> None:
     assert "--weak-only-for-moderate-risk" in preserve_command
     assert "--disable-sampler-only" in preserve_command
     assert "--industrial-aug-enabled" in preserve_command
+    assert "--seed" in preserve_command
+    assert preserve_command[preserve_command.index("--seed") + 1] == "42"
 
     yolo_default = ExperimentConfig.from_gui(
         dataset_path="dataset/data.yaml",
@@ -198,7 +201,8 @@ def test_training_command_generation_matches_three_modes() -> None:
     )
     yolo_command = build_training_command(yolo_default, output)
     yolo_text = " ".join(yolo_command)
-    assert yolo_command[:3] == ["yolo", "detect", "train"]
+    assert Path(str(yolo_command[0])).name.lower() in {"yolo", "yolo.exe"}
+    assert yolo_command[1:3] == ["detect", "train"]
     assert "--catf-version" not in yolo_command
     assert "mosaic=" not in yolo_text
 
@@ -214,8 +218,64 @@ def test_training_command_generation_matches_three_modes() -> None:
     )
     custom_command = build_training_command(custom, output)
     custom_text = " ".join(custom_command)
-    assert custom_command[:3] == ["yolo", "detect", "train"]
+    assert Path(str(custom_command[0])).name.lower() in {"yolo", "yolo.exe"}
+    assert custom_command[1:3] == ["detect", "train"]
     assert "hsv_h=0.02" in custom_text
     assert "mosaic=0.3" in custom_text
     assert "fliplr=0.4" in custom_text
     assert "--catf-version" not in custom_command
+
+
+def test_data_yaml_ascii_copy_preserves_dataset_fields_and_class_ids() -> None:
+    tmp_path = workspace_tmp("data_yaml_ascii")
+    data_yaml = tmp_path / "data.yaml"
+    data_yaml.write_text(
+        "\n".join(
+            [
+                "path: E:/dataset",
+                "train: images/train",
+                "val: images/val",
+                "nc: 3",
+                "names: ['OK', '开裂', '锡膏']",
+            ]
+        ),
+        encoding="utf-8",
+    )
+
+    inspection = inspect_data_yaml_names(data_yaml)
+    assert inspection.has_non_ascii is True
+    assert inspection.ascii_copy_path == tmp_path / "data_ascii.yaml"
+    assert inspection.ascii_copy_exists is False
+
+    ascii_yaml = generate_ascii_data_yaml(data_yaml)
+    generated = ascii_yaml.read_text(encoding="utf-8")
+    assert "path: E:/dataset" in generated
+    assert "train: images/train" in generated
+    assert "val: images/val" in generated
+    assert "nc: 3" in generated
+    assert "class_0" in generated
+    assert "class_1" in generated
+    assert "class_2" in generated
+    assert "开裂" not in generated
+    assert "锡膏" not in generated
+
+    second_inspection = inspect_data_yaml_names(ascii_yaml)
+    assert second_inspection.has_non_ascii is False
+
+
+def test_backend_error_classification_and_status_json() -> None:
+    output = workspace_tmp("status_json")
+    assert classify_backend_error("Download failure for https://ultralytics.com/assets/Arial.Unicode.ttf") == "font_download_failed"
+    assert classify_backend_error("RuntimeError: other failure") == "backend_failed"
+
+    write_status(
+        output,
+        status="failed",
+        exit_code=1,
+        error_type="font_download_failed",
+        error_message="Download failure for Arial.Unicode.ttf",
+    )
+    status = json.loads((output / "status.json").read_text(encoding="utf-8"))
+    assert status["status"] == "failed"
+    assert status["exit_code"] == 1
+    assert status["error_type"] == "font_download_failed"

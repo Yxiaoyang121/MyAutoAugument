@@ -1,34 +1,9 @@
 # Project Snapshot
 
-- Generated: 2026-06-17T23:20:00
-- Branch: codex/sync-latest
-- Commit: pending seed0 volume-fixed sanity rerun
+- Generated: 2026-06-23T22:00:26
+- Branch: codex-sync-latest-integration
+- Commit: 461750864fbf70f7ff8635d4518da2d42d21108e
 - Remote: https://github.com/Yxiaoyang121/MyAutoAugument.git
-
-## Current Status
-
-- Mainline remains image-only CATF; sampler_only is not part of the paper main method.
-- Preserve volume/lifetime parity has been fixed and validated in a seed0 50ep rerun.
-- This run used only seed0; seed1/seed2/multiseed were not run.
-- Training used `D:\Anaconda\envs\pytorch\python.exe` because base Python has Ultralytics `8.4.48`; the guarded training path requires `8.3.221`.
-- Execution: preserve_original/weak/noop=`9/0/0`.
-- Epoch-exact executable classes: epoch5 `[4, 11]`, epoch15 `[12]`, epochs10/20/25/30/35/40/45 `[]`.
-- stale ops cleared=true; seed-level union avoided=true; weak class9 replacement=false.
-- sampler_only=false; weighted_index_list=false; sampled_distribution_changed=false.
-- Volume: fixed expected `41 industrial / 45 ROI`; volume-fixed preserve got `41 industrial / 45 ROI`, ROI by class `{4:9, 11:22, 12:14}`.
-- Metrics: P=0.778506, R=0.669654, mAP50=0.743657, mAP50-95=0.489541.
-- Delta vs requested clean seed0: dP=-0.006094, dR=-0.006846, dM50=+0.008957, dM95=+0.013641.
-- Constraint failed=false.
-- Recommendation: seed0 now passes; next image-only step can be seed2 validation.
-- Reports:
-  - `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity_rerun/reports/seed0_preserve_weak_sanity_rerun_report.md`
-  - `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity_rerun/reports/seed0_preserve_weak_sanity_rerun_report.json`
-  - `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity_rerun/reports/preserve_volume_lifetime_audit.md`
-  - `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity_rerun/reports/preserve_volume_parity_dryrun.md`
-  - `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity_rerun/fixed_vs_preserve_volume_parity_epoch.csv`
-  - `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity_rerun/fixed_vs_preserve_volume_parity_by_class.csv`
-  - `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity_volume_fixed/reports/seed0_preserve_weak_volume_fixed_report.md`
-  - `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity_volume_fixed/reports/seed0_preserve_weak_volume_fixed_report.json`
 
 ## Working Tree
 
@@ -36,9 +11,12 @@
  M CODEX_HANDOFF.md
  M EXPERIMENT_LOG.md
  M PROJECT_STATE.md
+ M gui/adapters/gui_experiment_launcher.py
+ M gui/widgets/experiment_config_panel.py
  M outputs/project_snapshot_latest.md
  M outputs/snapshots/project_snapshot_latest.md
- A outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity_volume_fixed/
+ M requirements.txt
+ M tests/qt/test_gui_adapters.py
 ```
 
 ## Key Files
@@ -243,30 +221,9 @@
 
 ## Tracked File Count
 
-- 9442 tracked files
+- 10377 tracked files
 
 ## Notes
 
 - This snapshot reflects the current local repository state.
 - It does not invent benchmark results.
-
-## Latest Experiment State
-
-- Seed0 preserve-weak image CATF sanity has passed after execution and volume parity fixes.
-- Seed2 preserve-weak image CATF completed at `outputs/experiments/catf_v2_image_only_preserve_weak_seed2/`.
-- Seed2 decisions: preserve_original=`0`, weak_roi_texture=`5`, strict_noop=`4`.
-- Seed2 execution: industrial images augmented=`80`, ROI applied=`95`, sampler_only=`false`, weighted index list=`false`, sampled distribution changed=`false`.
-- Seed2 metrics: P/R/mAP50/mAP50-95=`0.753254/0.694235/0.772718/0.515138`, `constraint_failed=false`.
-- Delta vs clean seed2: `+0.057054/-0.034365/+0.003518/-0.007262`.
-- Delta vs fixed CATF-v2 seed2: `-0.010446/+0.007935/+0.014518/+0.018438`.
-- Seed1 preserve-weak sanity completed at `outputs/experiments/catf_v2_image_only_preserve_weak_seed1_sanity/`.
-- Seed1 decisions: preserve_original=`9`, weak_roi_texture=`0`, strict_noop=`0`.
-- Seed1 metrics: P/R/mAP50/mAP50-95=`0.799748/0.697375/0.778737/0.516923`, `constraint_failed=false`.
-- 3-seed preserve-weak summary is available at `outputs/experiments/catf_v2_image_only_preserve_weak_multiseed_summary/reports/preserve_weak_3seed_summary.md`.
-- Current image-only mainline status: hard-constraint pass count is `3/3`; image-only preserve-weak CATF is a viable current main-method candidate.
-- Remaining limitation: seed2 Recall remains below clean and should be reported as `recall_warning=true`.
-- Sampler_only remains demoted to engineering exploration/ablation and is not part of the main method.
-- Paper-ready evidence package has been generated under `outputs/experiments/catf_v2_image_only_preserve_weak_multiseed_summary/`.
-- Main result tables are in `tables/main_result_table.*`; ablation tables are in `tables/ablation_table.*`.
-- Paper-facing reports include `method_logic_for_paper.md`, `limitations_and_next_step.md`, `reviewer_risk_check.md`, and `preserve_weak_3seed_summary_paper_ready.*`.
-- Next work should not be blind training; only targeted image-only recall-aware extensions are recommended if needed.

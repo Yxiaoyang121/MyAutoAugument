@@ -1,0 +1,18 @@
+path: E:/TJGY/MinPaper/MyAutoAugument/outputs/datasets/tiled/tiled_1024_ov20_full_safe_no_ok_position
+train: images/train
+val: images/val
+nc: 13
+names:
+- class_0
+- class_1
+- class_2
+- class_3
+- class_4
+- class_5
+- class_6
+- class_7
+- class_8
+- class_9
+- class_10
+- class_11
+- class_12

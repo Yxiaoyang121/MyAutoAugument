@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from pathlib import Path
+
 from PySide6.QtCore import Signal
 from PySide6.QtWidgets import (
     QComboBox,
@@ -24,8 +26,16 @@ from gui.models.experiment_config import (
     TRAINING_MODE_YOLO_DEFAULT,
     YOLO_AUG_DEFAULTS,
 )
+from gui.services.data_yaml_tools import (
+    DataYamlError,
+    NON_ASCII_CLASS_WARNING,
+    generate_ascii_data_yaml,
+    inspect_data_yaml_names,
+)
 from gui.widgets.section_card import SectionCard
 
+
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
 TRAINING_MODE_ITEMS = [
     ("自定义增强策略训练", TRAINING_MODE_CUSTOM),
@@ -111,6 +121,7 @@ class ExperimentConfigPanel(SectionCard):
         self.dataset_path = QLineEdit(PRESERVE_WEAK_DEFAULTS["dataset_path"])
         self.dataset_path.setObjectName("experimentInput")
         self.dataset_path.setSizePolicy(QSizePolicy.Policy.Ignored, QSizePolicy.Policy.Fixed)
+        self.dataset_path.textChanged.connect(self._refresh_data_yaml_warning)
 
         self.output_dir = QLineEdit(r"D:\AutoAugment\outputs")
         self.output_dir.setObjectName("experimentInput")
@@ -152,6 +163,7 @@ class ExperimentConfigPanel(SectionCard):
         form.setColumnStretch(1, 1)
         form.setColumnStretch(3, 1)
         self.body.addLayout(form)
+        self._build_data_yaml_warning()
 
     def _build_mode_summary(self) -> None:
         self.mode_summary = QFrame()
@@ -180,6 +192,35 @@ class ExperimentConfigPanel(SectionCard):
         layout.addWidget(self.mode_description)
         layout.addLayout(self.mode_badges)
         self.body.addWidget(self.mode_summary)
+
+    def _build_data_yaml_warning(self) -> None:
+        self.data_yaml_warning_box = QFrame()
+        self.data_yaml_warning_box.setObjectName("dataYamlWarningBox")
+        layout = QVBoxLayout(self.data_yaml_warning_box)
+        layout.setContentsMargins(10, 8, 10, 8)
+        layout.setSpacing(6)
+
+        self.data_yaml_warning_label = QLabel(NON_ASCII_CLASS_WARNING)
+        self.data_yaml_warning_label.setWordWrap(True)
+        self.data_yaml_warning_label.setObjectName("dataYamlWarningLabel")
+        layout.addWidget(self.data_yaml_warning_label)
+
+        actions = QHBoxLayout()
+        actions.setContentsMargins(0, 0, 0, 0)
+        actions.setSpacing(8)
+        self.generate_ascii_yaml_button = QPushButton("生成 data_ascii.yaml")
+        self.generate_ascii_yaml_button.setObjectName("secondaryButton")
+        self.generate_ascii_yaml_button.clicked.connect(self._generate_ascii_yaml)
+        self.switch_ascii_yaml_button = QPushButton("切换到 data_ascii.yaml")
+        self.switch_ascii_yaml_button.setObjectName("primaryButton")
+        self.switch_ascii_yaml_button.clicked.connect(self._switch_ascii_yaml)
+        actions.addWidget(self.generate_ascii_yaml_button)
+        actions.addWidget(self.switch_ascii_yaml_button)
+        actions.addStretch(1)
+        layout.addLayout(actions)
+
+        self.data_yaml_warning_box.setVisible(False)
+        self.body.addWidget(self.data_yaml_warning_box)
 
     def _build_custom_aug_box(self) -> None:
         self.custom_aug_box = QFrame()
@@ -305,6 +346,65 @@ class ExperimentConfigPanel(SectionCard):
             values[name] = int(spin.value()) if name == "close_mosaic" else float(spin.value())
         return values
 
+    def _refresh_data_yaml_warning(self, *_: object) -> None:
+        if not hasattr(self, "data_yaml_warning_box"):
+            return
+        path = self._resolved_data_yaml_path()
+        if path is None:
+            self.data_yaml_warning_box.setVisible(False)
+            return
+        try:
+            inspection = inspect_data_yaml_names(path)
+        except DataYamlError:
+            self.data_yaml_warning_box.setVisible(False)
+            return
+
+        should_show = inspection.has_non_ascii
+        self.data_yaml_warning_box.setVisible(should_show)
+        if should_show:
+            sample = "、".join(inspection.names[:4])
+            suffix = f"\n当前类别示例：{sample}" if sample else ""
+            self.data_yaml_warning_label.setText(NON_ASCII_CLASS_WARNING + suffix)
+            self.switch_ascii_yaml_button.setEnabled(inspection.ascii_copy_exists)
+
+    def _generate_ascii_yaml(self) -> None:
+        try:
+            ascii_path = generate_ascii_data_yaml(self._resolved_data_yaml_path_required())
+        except DataYamlError as exc:
+            self.data_yaml_warning_label.setText(f"{NON_ASCII_CLASS_WARNING}\n生成失败：{exc}")
+            return
+        self.switch_ascii_yaml_button.setEnabled(True)
+        self.data_yaml_warning_label.setText(
+            f"{NON_ASCII_CLASS_WARNING}\n已生成英文类别名副本：{ascii_path}"
+        )
+
+    def _switch_ascii_yaml(self) -> None:
+        try:
+            inspection = inspect_data_yaml_names(self._resolved_data_yaml_path_required())
+        except DataYamlError as exc:
+            self.data_yaml_warning_label.setText(f"{NON_ASCII_CLASS_WARNING}\n切换失败：{exc}")
+            return
+        if inspection.ascii_copy_path.exists():
+            self.dataset_path.setText(str(inspection.ascii_copy_path))
+            self.data_yaml_warning_box.setVisible(False)
+        else:
+            self.data_yaml_warning_label.setText(
+                f"{NON_ASCII_CLASS_WARNING}\n尚未生成：{inspection.ascii_copy_path}"
+            )
+
+    def _resolved_data_yaml_path(self) -> Path | None:
+        text = self.dataset_path.text().strip()
+        if not text:
+            return None
+        path = Path(text)
+        return path if path.is_absolute() else PROJECT_ROOT / path
+
+    def _resolved_data_yaml_path_required(self) -> Path:
+        path = self._resolved_data_yaml_path()
+        if path is None:
+            raise DataYamlError("data.yaml 路径为空。")
+        return path
+
     def _sync_mode_ui(self) -> None:
         mode = self.run_mode.currentData() or TRAINING_MODE_PRESERVE_WEAK
         if mode == TRAINING_MODE_PRESERVE_WEAK:
@@ -315,7 +415,7 @@ class ExperimentConfigPanel(SectionCard):
             self.batch.setValue(int(PRESERVE_WEAK_DEFAULTS["batch"]))
             self.workers.setValue(int(PRESERVE_WEAK_DEFAULTS["workers"]))
             self.device.setText(str(PRESERVE_WEAK_DEFAULTS["device"]))
-            self.seed.setRange(0, 2)
+            self.seed.setRange(0, 2_147_483_647)
             self.seed.setValue(int(PRESERVE_WEAK_DEFAULTS["seed"]))
         else:
             self.seed.setRange(0, 2_147_483_647)
@@ -329,3 +429,4 @@ class ExperimentConfigPanel(SectionCard):
         self.mode_description.setText(description)
         for badge, text in zip(self.mode_badge_labels, badges):
             badge.setText(text)
+        self._refresh_data_yaml_warning()

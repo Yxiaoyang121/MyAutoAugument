@@ -151,6 +151,8 @@ class LocalExperimentRunner(QObject):
     def _on_finished(self, exit_code: int, exit_status: QProcess.ExitStatus) -> None:
         if self._stop_requested:
             status = "user stopped"
+        elif exit_code != 0:
+            status = "failed"
         else:
             status = "normal exit" if exit_status == QProcess.ExitStatus.NormalExit else "crashed"
         self.log_received.emit(f"[GUI] Experiment process finished, exit_code={exit_code}, status={status}")

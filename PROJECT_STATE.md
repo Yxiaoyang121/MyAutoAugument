@@ -1491,7 +1491,7 @@ The repository is centered on diagnosis-driven augmentation for industrial defec
 - Current CATF-v2 work is smoke-only; no formal 50 epoch CATF-v2 run should be inferred from it.
 - No-feedback control disables both feedback and industrial augmentation, using Ultralytics YOLO default augmentation as the behavior check.
 - The old YOLO default reference is not the final baseline after parity audit; feedback comparisons should use `clean_native_yolo_default_seed42_50ep`.
-- Output: `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity_rerun/`
+- Output: `outputs/experiments/run_20260623_215825/`
 - Epochs: `50`
 - Feedback enabled: `true`
 - Industrial augmentation enabled: `true`
@@ -1500,15 +1500,15 @@ The repository is centered on diagnosis-driven augmentation for industrial defec
 - ROI-aware augmentation: `true`
 - Sample-aware routing: `true`
 - Reference curve loaded: `true`
-- Feedback epochs: `[5, 10, 15, 20, 25, 30, 35, 40, 45]`
+- Feedback epochs: `[]`
 - Stage restart count: `0`
-- Epoch continuous: `true`
+- Epoch continuous: `false`
 - Train image count: `2301`
 - Fixed augmented dataset generated: `false`
 - Constraint baseline: `clean_native_yolo_default`
-- Constraint failed: `True`
-- Report: `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity_rerun/reports/final_report.md`
-- Policy history: `outputs/experiments/catf_v2_image_only_preserve_weak_seed0_sanity_rerun/reports/policy_history.json`
+- Constraint failed: `False`
+- Report: `outputs/run_20260623_215825/reports/final_report.md`
+- Policy history: `outputs/run_20260623_215825/reports/policy_history.json`
 <!-- YOLO_DEFAULT_INLOOP_FEEDBACK_SMOKE_END -->
 <!-- YOLO_DEFAULT_INLOOP_PARITY_AUDIT_START -->
 ## YOLO Default In-Loop Parity Audit
